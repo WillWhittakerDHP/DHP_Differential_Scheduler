@@ -5,14 +5,13 @@
 
 import { computed, type Ref, type WritableComputedRef } from 'vue'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { RuleConfig } from '@shared/types/businessRulesTypes'
+import type { RequiredFieldsRuleConfig, RuleConfig } from '@shared/types/businessRulesTypes'
 import { RULE_CONDITION_VALUES, RULE_TYPE_OPTIONS, RULE_TYPE_VALUES } from '@/constants/businessRulesConstants.js'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import {
   requiredFieldsConfigFromCommaString,
   requiredFieldsConfigWithCondition,
-  type RequiredFieldsRuleConfigShape,
 } from '@/utils/admin/requiredFieldsRuleConfigHelpers'
 
 const DEFAULT_RULE_CONFIG_BY_TYPE: Record<RuleType, RuleConfig> = {
@@ -98,14 +97,14 @@ export function buildRequiredFieldsArrayWritable(
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return ''
       }
-      const config = formData.value.ruleConfig as RequiredFieldsRuleConfigShape
+      const config = formData.value.ruleConfig as RequiredFieldsRuleConfig
       return config.fields?.join(', ') ?? ''
     },
     set: (value: string) => {
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return
       }
-      const prev = formData.value.ruleConfig as RequiredFieldsRuleConfigShape
+      const prev = formData.value.ruleConfig as RequiredFieldsRuleConfig
       formData.value.ruleConfig = requiredFieldsConfigFromCommaString(prev, value)
     },
   })
@@ -119,13 +118,13 @@ export function buildRequiredFieldsConditionWritable(
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return ''
       }
-      return (formData.value.ruleConfig as RequiredFieldsRuleConfigShape).condition ?? ''
+      return (formData.value.ruleConfig as RequiredFieldsRuleConfig).condition ?? ''
     },
     set: (value: string) => {
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return
       }
-      const prev = formData.value.ruleConfig as RequiredFieldsRuleConfigShape
+      const prev = formData.value.ruleConfig as RequiredFieldsRuleConfig
       formData.value.ruleConfig = requiredFieldsConfigWithCondition(prev, value)
     },
   })

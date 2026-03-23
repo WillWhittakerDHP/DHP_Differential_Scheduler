@@ -2,12 +2,14 @@ import { ref, type ComputedRef, type Ref } from 'vue'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
-import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
-import { useMoveablePartsScheduling } from '@/composables/booking/useMoveablePartsScheduling'
-import type { AvailabilityOrchestratorSlotComputeds } from '@/composables/booking/useAvailabilityOrchestratorSlotComputeds'
-import type { AvailabilityOrchestratorMoveableGates } from '@/composables/booking/useAvailabilityOrchestratorMoveableGates'
-import type { UseAvailabilityLogicReturn } from '@/composables/booking/useAvailabilityLogic'
-import type { AvailabilityOrchestratorPostFetchPhaseResult } from '@/composables/booking/useAvailabilityOrchestratorPostFetchPhase'
+import {
+  useAppointmentSlots,
+  useMoveablePartsScheduling,
+  type AvailabilityOrchestratorSlotComputeds,
+  type AvailabilityOrchestratorMoveableGates,
+  type UseAvailabilityLogicReturn,
+  type AvailabilityOrchestratorPostFetchPhaseResult,
+} from '@/composables/booking/availabilityOrchestratorSlotsBundle'
 
 export interface AvailabilityOrchestratorSlotsPhaseResult {
   appointmentSlots: ReturnType<typeof useAppointmentSlots>['appointmentSlots']

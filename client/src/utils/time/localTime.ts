@@ -8,11 +8,15 @@ function rfc3339ToLocalTime(rfc3339: RFC3339DateTime): Date {
   return new Date(rfc3339)
 }
 
-export function rfc3339ToLocalHHmm(rfc3339: RFC3339DateTime): string {
+function rfc3339ToLocalHHmmCore(rfc3339: RFC3339DateTime): string {
   const date = new Date(rfc3339)
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
   return `${hours}:${minutes}`
+}
+
+export function rfc3339ToLocalHHmm(rfc3339: RFC3339DateTime): string {
+  return rfc3339ToLocalHHmmCore(rfc3339)
 }
 
 function localHHmmToRfc3339(hhmm: string, date: Date | ISO8601Date): RFC3339DateTime {
@@ -66,7 +70,7 @@ export function formatTimeRangeForDisplay(range: SlotTimeBounds | TimeSlot): str
 }
 
 function rfc3339ToLocalTimeOfDay(rfc3339: RFC3339DateTime): string {
-  return rfc3339ToLocalHHmm(rfc3339)
+  return rfc3339ToLocalHHmmCore(rfc3339)
 }
 
 function formatDateForDisplay(

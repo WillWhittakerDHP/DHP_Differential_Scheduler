@@ -11,7 +11,7 @@ import type {
   UseFieldContextStateOptions,
 } from '@/types/fieldContext/fieldContextState'
 
-export interface UseFieldContextStateShell<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
+interface UseFieldContextStateShell<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   resolvedOptions: UseFieldContextStateOptions<GE, FieldKey>
   isTempEntity: ComputedRef<boolean>
   adminComp: UseAdminReturn

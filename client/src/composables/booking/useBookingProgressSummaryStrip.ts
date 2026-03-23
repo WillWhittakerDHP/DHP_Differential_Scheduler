@@ -16,16 +16,22 @@ export interface UseBookingProgressSummaryStripParams {
 }
 
 export interface UseBookingProgressSummaryStripReturn {
-  stripVisible: ComputedRef<boolean>
-  showAddress: ComputedRef<boolean>
-  showPrice: ComputedRef<boolean>
-  showSlot: ComputedRef<boolean>
-  showFeeDetails: ComputedRef<boolean>
-  serviceLine: ComputedRef<string>
-  addressLine: ComputedRef<string>
-  feePreviewLabel: ComputedRef<string>
-  slotLines: ComputedRef<string[]>
-  priceData: ComputedRef<PriceData>
+  /** Step gating flags for the strip and rows */
+  visibility: {
+    stripVisible: ComputedRef<boolean>
+    showAddress: ComputedRef<boolean>
+    showPrice: ComputedRef<boolean>
+    showSlot: ComputedRef<boolean>
+    showFeeDetails: ComputedRef<boolean>
+  }
+  /** Text/lines passed to the strip UI */
+  display: {
+    serviceLine: ComputedRef<string>
+    addressLine: ComputedRef<string>
+    feePreviewLabel: ComputedRef<string>
+    slotLines: ComputedRef<string[]>
+    priceData: ComputedRef<PriceData>
+  }
 }
 
 export function useBookingProgressSummaryStrip(
@@ -87,15 +93,19 @@ export function useBookingProgressSummaryStrip(
   })
 
   return {
-    stripVisible,
-    showAddress,
-    showPrice,
-    showSlot,
-    showFeeDetails,
-    serviceLine,
-    addressLine,
-    feePreviewLabel,
-    slotLines,
-    priceData,
+    visibility: {
+      stripVisible,
+      showAddress,
+      showPrice,
+      showSlot,
+      showFeeDetails,
+    },
+    display: {
+      serviceLine,
+      addressLine,
+      feePreviewLabel,
+      slotLines,
+      priceData,
+    },
   }
 }

@@ -4,17 +4,20 @@
  */
 import { computed, inject, provide, reactive, type ComputedRef, type Ref } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY } from '@/views/admin/tabs/businessControlsStateKey'
-import { useAdminAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAdminAvailabilitySettings'
 import { useLocalTime } from '@/utils/time/localTime'
-import { useAdminCalendarSettings } from '@/composables/admin/useAdminCalendarSettings'
-import { useAdminWizardSettings } from '@/composables/admin/useAdminWizardSettings'
-import { useTabNavigation } from '@/composables/admin/useTabNavigation'
-import { useBusinessControlsFormState } from '@/composables/admin/useBusinessControlsFormState'
-import { useWizardSettings } from '@/composables/admin/useWizardSettings'
-import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
-import { useBufferSettings } from '@/composables/admin/useBufferSettings'
-import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
-import { useDifferentialPerspectives } from '@/composables/admin/useDifferentialPerspectives'
+import {
+  useAdminAvailabilitySettings,
+  calculateMaxBusinessHours,
+  useAdminCalendarSettings,
+  useAdminWizardSettings,
+  useTabNavigation,
+  useBusinessControlsFormState,
+  useWizardSettings,
+  useCapacitySettings,
+  useBufferSettings,
+  useDefaultLocation,
+  useDifferentialPerspectives,
+} from '@/composables/admin/businessControlsTabComposablesBundle'
 import type {
   UseBufferSettingsParams,
   UseDefaultLocationParams,

@@ -5,7 +5,7 @@ import { localCalendarDateKeyFromDate } from '@/utils/time/localCalendarDisplay'
  * Parse contingency deadline: `endDate` + `endTime` are **browser-local** wall clock (native date/time inputs).
  * Returns UTC epoch ms for that instant, or null if time not set (no implicit default).
  */
-export function parseContingencyDeadlineLocalWallToUtcMs(
+function parseContingencyDeadlineLocalWallToUtcMsCore(
   endDate: string,
   endTime: string | null
 ): number | null {
@@ -21,14 +21,15 @@ export function parseContingencyDeadlineLocalWallToUtcMs(
   return Number.isNaN(ms) ? null : ms
 }
 
-/** @deprecated Use parseContingencyDeadlineLocalWallToUtcMs — name kept for call-site churn; same behavior. */
-export function parseContingencyDeadlineUtcMs(endDate: string, endTime: string | null): number {
-  const ms = parseContingencyDeadlineLocalWallToUtcMs(endDate, endTime)
-  return ms ?? Number.NaN
+export function parseContingencyDeadlineLocalWallToUtcMs(
+  endDate: string,
+  endTime: string | null
+): number | null {
+  return parseContingencyDeadlineLocalWallToUtcMsCore(endDate, endTime)
 }
 
 /** Convert an instant to local YYYY-MM-DD + HH:mm for native date/time inputs. */
-export function deadlineUtcMsToLocalContingencyFields(ms: number): { endDate: string; endTime: string } {
+function deadlineUtcMsToLocalContingencyFields(ms: number): { endDate: string; endTime: string } {
   const d = new Date(ms)
   const y = d.getFullYear()
   const mo = String(d.getMonth() + 1).padStart(2, '0')
@@ -36,11 +37,6 @@ export function deadlineUtcMsToLocalContingencyFields(ms: number): { endDate: st
   const h = String(d.getHours()).padStart(2, '0')
   const min = String(d.getMinutes()).padStart(2, '0')
   return { endDate: `${y}-${mo}-${day}`, endTime: `${h}:${min}` }
-}
-
-/** @deprecated Use deadlineUtcMsToLocalContingencyFields */
-export function deadlineUtcMsToContingencyFields(ms: number): { endDate: string; endTime: string } {
-  return deadlineUtcMsToLocalContingencyFields(ms)
 }
 
 /**
@@ -56,7 +52,7 @@ export function clampContingencyDeadlineToEarliest(
   if (Number.isNaN(earliestMs)) {
     return { endDate, endTime }
   }
-  const deadlineMs = parseContingencyDeadlineLocalWallToUtcMs(endDate, endTime)
+  const deadlineMs = parseContingencyDeadlineLocalWallToUtcMsCore(endDate, endTime)
   if (deadlineMs === null || Number.isNaN(deadlineMs) || deadlineMs >= earliestMs) {
     return { endDate, endTime }
   }
@@ -64,7 +60,7 @@ export function clampContingencyDeadlineToEarliest(
 }
 
 /** Local calendar YYYY-MM-DD of `earliestStart` (for native date min / comparisons with `endDate`). */
-export function minContingencyLocalDateKeyFromEarliest(earliestStart: RFC3339DateTime): string {
+function minContingencyLocalDateKeyFromEarliest(earliestStart: RFC3339DateTime): string {
   return localCalendarDateKeyFromDate(new Date(earliestStart))
 }
 

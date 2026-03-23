@@ -3,12 +3,14 @@ import type { AppointmentSlots } from '@/types/appointment'
 import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type { UsePerspectiveMappingParams } from '@/types/booking/perspectiveMapping'
-import { useAvailabilityEmptyState } from '@/composables/booking/useAvailabilityEmptyState'
-import { useAvailabilityStepData } from '@/composables/booking/useAvailabilityStepData'
-import { useAvailabilityValidation } from '@/composables/booking/useAvailabilityValidation'
-import type { UseAvailabilityLogicReturn } from '@/composables/booking/useAvailabilityLogic'
-import type { AvailabilityOrchestratorMoveableGates } from '@/composables/booking/useAvailabilityOrchestratorMoveableGates'
-import type { AvailabilityOrchestratorSlotsPhaseResult } from '@/composables/booking/useAvailabilityOrchestratorSlotsPhase'
+import {
+  useAvailabilityEmptyState,
+  useAvailabilityStepData,
+  useAvailabilityValidation,
+  type UseAvailabilityLogicReturn,
+  type AvailabilityOrchestratorMoveableGates,
+  type AvailabilityOrchestratorSlotsPhaseResult,
+} from '@/composables/booking/availabilityOrchestratorFormsBundle'
 
 export interface AvailabilityOrchestratorFormsPhaseResult {
   emptyStateMessage: ReturnType<typeof useAvailabilityEmptyState>['emptyStateMessage']

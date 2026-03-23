@@ -18,7 +18,7 @@ export const TIME_INCREMENT_OPTIONS = [
 /**
  * WHY: Timezone options for availability calculations
  */
-export const TIMEZONE_OPTIONS = [
+const TIMEZONE_OPTIONS_CORE = [
   { title: 'Eastern Time (America/New_York)', value: 'America/New_York' },
   { title: 'Central Time (America/Chicago)', value: 'America/Chicago' },
   { title: 'Mountain Time (America/Denver)', value: 'America/Denver' },
@@ -26,7 +26,9 @@ export const TIMEZONE_OPTIONS = [
   { title: 'Arizona Time (America/Phoenix)', value: 'America/Phoenix' },
   { title: 'Alaska Time (America/Anchorage)', value: 'America/Anchorage' },
   { title: 'Hawaii Time (Pacific/Honolulu)', value: 'Pacific/Honolulu' },
-  { title: 'UTC', value: 'UTC' }
+  { title: 'UTC', value: 'UTC' },
 ] as const
 
-export type TimezoneOption = typeof TIMEZONE_OPTIONS[number]['value']
+export const TIMEZONE_OPTIONS = TIMEZONE_OPTIONS_CORE
+
+export type TimezoneOption = (typeof TIMEZONE_OPTIONS_CORE)[number]['value']

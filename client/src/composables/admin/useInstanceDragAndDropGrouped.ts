@@ -15,9 +15,13 @@ const logger = createLogger('useInstanceDragAndDropGrouped')
 
 const DEFAULT_BOOKING_MODE_STORAGE = DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
 
-export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {
+function isAdminStandaloneSectionCore(instance: GlobalEntity<'blockInstance'>): boolean {
   const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE_STORAGE
   return rawBookingModeIsStandaloneOnly(mode)
+}
+
+export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {
+  return isAdminStandaloneSectionCore(instance)
 }
 
 /** Re-export for callers; canonical impl in utils (instance drag bind helpers). */
@@ -48,7 +52,7 @@ export function createGroupedZoneDragEndHandler(params: {
 
   const syncGroupedFromSource = (): void => {
     const grouped = nilToEmptyArray(
-      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSection(e))
+      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSectionCore(e))
     )
     groupedEntityList.value = [...grouped]
     groupedEntityIds.value = grouped.map((e) => e.id)
@@ -58,7 +62,7 @@ export function createGroupedZoneDragEndHandler(params: {
     try {
       const all = nilToEmptyArray(blockInstancesByShape.value.get(blockShapeId))
       const idToEntity = new Map(all.map((e) => [e.id, e]))
-      const mainOrderedStable = all.filter((e) => isAdminStandaloneSection(e))
+      const mainOrderedStable = all.filter((e) => isAdminStandaloneSectionCore(e))
       const groupedOrdered = groupedEntityIds.value
         .map((id) => idToEntity.get(id as GlobalEntityId))
         .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)

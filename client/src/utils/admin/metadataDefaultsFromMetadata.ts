@@ -8,18 +8,18 @@ import type { EntityMetadataType } from '@/constants/entities'
 import type { AppLogger } from '@/utils/logger'
 
 /** Instance-like metadata entity types where `active` defaults to true (not shapes). */
-export const INSTANCE_TYPES_DEFAULT_ACTIVE_TRUE: ReadonlySet<EntityMetadataType> = new Set([
+const INSTANCE_TYPES_DEFAULT_ACTIVE_TRUE: ReadonlySet<EntityMetadataType> = new Set([
   'blockInstance',
   'partInstance',
   'eventInstance',
   'annotationInstance',
 ])
 
-export type MetadataFieldMerge =
+type MetadataFieldMerge =
   | { action: 'skip' }
   | { action: 'set'; value: ValidAdminValue }
 
-export function resolveMetadataFieldMerge(
+function resolveMetadataFieldMerge(
   fieldKey: string,
   fieldMeta: FieldMetadataEntry,
   entityType: EntityMetadataType

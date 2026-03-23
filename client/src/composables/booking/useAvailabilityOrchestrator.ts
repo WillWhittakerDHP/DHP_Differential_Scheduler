@@ -4,14 +4,14 @@ import type {
 } from '@/types/booking/availabilityOrchestrator'
 import { createAvailabilityOrchestratorTimeSlotsShell } from '@/composables/booking/useAvailabilityOrchestratorTimeSlotsShell'
 import { setupAvailabilityOrchestratorDefaultsPhase } from '@/composables/booking/useAvailabilityOrchestratorDefaultsPhase'
-import { setupAvailabilityOrchestratorLogicPhase } from '@/composables/booking/useAvailabilityOrchestratorLogicPhase'
+import { useAvailabilityOrchestratorLogicPhase } from '@/composables/booking/useAvailabilityOrchestratorLogicPhase'
 import { setupAvailabilityOrchestratorMoveableGates } from '@/composables/booking/useAvailabilityOrchestratorMoveableGates'
 import { createAvailabilityOrchestratorSlotComputeds } from '@/composables/booking/useAvailabilityOrchestratorSlotComputeds'
 import { setupAvailabilityOrchestratorPostFetchPhase } from '@/composables/booking/useAvailabilityOrchestratorPostFetchPhase'
 import { setupAvailabilityOrchestratorSlotsPhase } from '@/composables/booking/useAvailabilityOrchestratorSlotsPhase'
 import { createOriginalInspectionButtonIndexComputed } from '@/composables/booking/useAvailabilityOrchestratorOriginalInspectionIndex'
 import { setupAvailabilityOrchestratorFormsPhase } from '@/composables/booking/useAvailabilityOrchestratorFormsPhase'
-import { setupAvailabilityOrchestratorActionsPhase } from '@/composables/booking/useAvailabilityOrchestratorActionsPhase'
+import { useAvailabilityOrchestratorActionsPhase } from '@/composables/booking/useAvailabilityOrchestratorActionsPhase'
 import { buildAvailabilityOrchestratorReturn } from '@/composables/booking/useAvailabilityOrchestratorReturn'
 
 export function useAvailabilityOrchestrator(
@@ -36,7 +36,7 @@ export function useAvailabilityOrchestrator(
     shell,
   })
 
-  const logic = setupAvailabilityOrchestratorLogicPhase({
+  const logic = useAvailabilityOrchestratorLogicPhase({
     selectedDate: defaults.selectedDate,
     propertyDetailsStepData,
     wizard,
@@ -99,7 +99,7 @@ export function useAvailabilityOrchestrator(
     hasMoveablePartsGated: moveableGates.hasMoveablePartsGated,
   })
 
-  const actionsPhase = setupAvailabilityOrchestratorActionsPhase({
+  const actionsPhase = useAvailabilityOrchestratorActionsPhase({
     logic,
     postFetch,
     slotsPhase,

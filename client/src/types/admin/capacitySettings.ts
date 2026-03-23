@@ -1,6 +1,9 @@
 import type { ComputedRef, Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings, RollingWeekDirection } from '@/configs/availabilitySettings'
 
+/** Shared by max-income and max-work nested computeds (UNIFY: single source for filter keys). */
+export type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
+
 export interface UseCapacitySettingsParams {
   formData: Ref<AvailabilitySettings | null>
   maxBusinessHours: ComputedRef<number>

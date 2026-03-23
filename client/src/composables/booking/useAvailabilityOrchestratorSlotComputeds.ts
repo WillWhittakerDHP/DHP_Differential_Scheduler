@@ -6,7 +6,7 @@ import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import { parseContingencyDeadlineLocalWallToUtcMs } from '@/utils/booking/clampContingencyDeadlineToEarliest'
 import { applyDeadlineConstraintToInspectionSlots } from '@/utils/booking/applyMoveableWindowToComputedSlots'
 
-export interface AvailabilityOrchestratorSlotComputedsInput {
+interface AvailabilityOrchestratorSlotComputedsInput {
   selectedDate: UseAvailabilityUIParams['selectedDate']
   slotsByDay: Ref<Map<string, ComputedSlot[]>>
   hasMoveablePartsGated: ComputedRef<boolean>

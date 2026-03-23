@@ -4,11 +4,11 @@ import { toRFC3339DateTime } from '@/utils/datetime'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
 
-export type MoveableWindowApplicationMode = 'exclude' | 'markUnavailable'
+type MoveableWindowApplicationMode = 'exclude' | 'markUnavailable'
 
-export const MOVEABLE_WINDOW_VIOLATION_BEFORE_ONSITE = 'range.moveableWindow.beforeOnsiteEnd' as const
-export const MOVEABLE_WINDOW_VIOLATION_AFTER_DEADLINE = 'range.moveableWindow.afterDeadline' as const
-export const INSPECTION_DEADLINE_VIOLATION = 'range.inspectionDeadline.noRoomForMoveable' as const
+const MOVEABLE_WINDOW_VIOLATION_BEFORE_ONSITE = 'range.moveableWindow.beforeOnsiteEnd' as const
+const MOVEABLE_WINDOW_VIOLATION_AFTER_DEADLINE = 'range.moveableWindow.afterDeadline' as const
+const INSPECTION_DEADLINE_VIOLATION = 'range.inspectionDeadline.noRoomForMoveable' as const
 
 /**
  * Mark or drop inspection ComputedSlots where onsite end leaves no time for moveable work + buffer before deadline.

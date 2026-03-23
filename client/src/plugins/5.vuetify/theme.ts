@@ -2,7 +2,8 @@ import type { ThemeDefinition } from 'vuetify'
 
 import { buildWizardModePaletteFromAnchors } from '@/utils/theme'
 
-export const staticPrimaryColor = '#7367F0'
+const staticPrimaryColorCore = '#7367F0'
+export const staticPrimaryColor = staticPrimaryColorCore
 export const staticPrimaryDarkenColor = '#675DD8'
 
 export const quoteModeColors = {
@@ -64,11 +65,11 @@ export const dhpPalette: Record<'standard' | 'quote' | 'reschedule', WizardModeP
   }),
 }
 
-export const themes: Record<string, ThemeDefinition> = {
+const themesCore: Record<string, ThemeDefinition> = {
   light: {
     dark: false,
     colors: {
-      'primary': staticPrimaryColor,
+      'primary': staticPrimaryColorCore,
       'on-primary': '#fff',
       'primary-darken-1': '#675DD8',
       'secondary': '#FF9F43', // Changed from gray to orange
@@ -153,7 +154,7 @@ export const themes: Record<string, ThemeDefinition> = {
   dark: {
     dark: true,
     colors: {
-      'primary': staticPrimaryColor,
+      'primary': staticPrimaryColorCore,
       'on-primary': '#fff',
       'primary-darken-1': '#675DD8',
       'secondary': '#FF9F43', // Changed from gray to orange
@@ -235,4 +236,4 @@ export const themes: Record<string, ThemeDefinition> = {
   },
 }
 
-export default themes
+export const themes = themesCore

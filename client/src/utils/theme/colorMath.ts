@@ -25,13 +25,17 @@ function toOklchStrict(parsed: Color): Oklch {
   return converted
 }
 
-export function hexToOklch(hex: string): Oklch {
+function hexToOklchCore(hex: string): Oklch {
   assertValidHex(hex)
   const parsed = parse(hex.trim())
   if (parsed == null) {
     throw new Error(`Could not parse color: ${hex}`)
   }
   return toOklchStrict(parsed)
+}
+
+export function hexToOklch(hex: string): Oklch {
+  return hexToOklchCore(hex)
 }
 
 export function oklchToHex(color: Oklch): string {
@@ -70,6 +74,6 @@ export function mixHueToward(color: Oklch, targetHueDeg: number, t: number): Okl
  * Pick on-surface text for a background using OKLCH lightness (perceptual).
  */
 export function pickOnColorForBackground(bgHex: string): '#000000' | '#FFFFFF' {
-  const o = hexToOklch(bgHex)
+  const o = hexToOklchCore(bgHex)
   return o.l >= 0.55 ? '#000000' : '#FFFFFF'
 }

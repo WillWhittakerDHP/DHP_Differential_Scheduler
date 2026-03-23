@@ -16,11 +16,18 @@ import { distributionValuesForStrategy } from '@/utils/componentEntity/distribut
 
 type GetGlobalData = () => GlobalData | null
 
-export function componentEntityGetComponents(
+function componentEntityGetComponentsCore(
   instanceComponents: InstanceComponent[],
   composerId: GlobalEntityId
 ): InstanceComponent[] {
   return filterActiveComponentsForParent(instanceComponents, composerId)
+}
+
+export function componentEntityGetComponents(
+  instanceComponents: InstanceComponent[],
+  composerId: GlobalEntityId
+): InstanceComponent[] {
+  return componentEntityGetComponentsCore(instanceComponents, composerId)
 }
 
 export function componentEntityCanBeComposed(
@@ -58,7 +65,7 @@ export function componentEntityGetAvailableComponents(
   return availableComposablePeersForComposer(
     globalData,
     composerId,
-    componentEntityGetComponents(instanceComponents, composerId)
+    componentEntityGetComponentsCore(instanceComponents, composerId)
   )
 }
 

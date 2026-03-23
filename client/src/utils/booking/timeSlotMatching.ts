@@ -37,7 +37,7 @@ function extractTimeString(value: string | Date): string | null {
 }
 
 /** Find slot whose startTime matches the given time string. Accepts any array of objects with startTime. */
-export function findMatchingTimeSlot<T extends { startTime: string }>(
+function findMatchingTimeSlotCore<T extends { startTime: string }>(
   timeString: string,
   availableSlots: T[]
 ): T | undefined {
@@ -50,6 +50,13 @@ export function findMatchingTimeSlot<T extends { startTime: string }>(
   })
 }
 
+export function findMatchingTimeSlot<T extends { startTime: string }>(
+  timeString: string,
+  availableSlots: T[]
+): T | undefined {
+  return findMatchingTimeSlotCore(timeString, availableSlots)
+}
+
 /**
  * Match loaded time slots to available slots and return results (pure, no Vue).
  * Algorithm: first loaded slot → inspector, second → client.
@@ -60,11 +67,11 @@ export function matchLoadedTimeSlotsImmutable(
 ): MatchLoadedTimeSlotsResult {
   const inspectorSlot =
     loadedSlots.length > 0
-      ? findMatchingTimeSlot(loadedSlots[0].startTime, availableSlots)
+      ? findMatchingTimeSlotCore(loadedSlots[0].startTime, availableSlots)
       : undefined
   const clientSlot =
     loadedSlots.length > 1
-      ? findMatchingTimeSlot(loadedSlots[1].startTime, availableSlots)
+      ? findMatchingTimeSlotCore(loadedSlots[1].startTime, availableSlots)
       : undefined
   return {
     inspectorSlot: inspectorSlot ?? null,

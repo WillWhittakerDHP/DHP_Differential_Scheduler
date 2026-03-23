@@ -5,11 +5,13 @@
 import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 
 /** Defaults when API omits `driveTimeFee` (aligned with admin load path). */
-export const DEFAULT_DRIVE_TIME_FEE_CONFIG: DriveTimeFeeConfig = {
+const DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE: DriveTimeFeeConfig = {
   complimentaryDriveMinutes: 0,
   drivingRatePerHour: 0,
   driveTimeRoundingMinutes: 15,
 }
+
+export const DEFAULT_DRIVE_TIME_FEE_CONFIG = DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE
 
 /**
  * Merge partial API/config with defaults; coerce invalid rounding increment to default (> 0 required for billing).
@@ -18,7 +20,7 @@ export function mergeDriveTimeFeeConfig(
   raw: DriveTimeFeeConfig | null | undefined
 ): DriveTimeFeeConfig {
   const merged: DriveTimeFeeConfig = {
-    ...DEFAULT_DRIVE_TIME_FEE_CONFIG,
+    ...DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE,
     ...raw,
   }
   if (
@@ -26,13 +28,13 @@ export function mergeDriveTimeFeeConfig(
     !Number.isFinite(merged.driveTimeRoundingMinutes) ||
     merged.driveTimeRoundingMinutes <= 0
   ) {
-    merged.driveTimeRoundingMinutes = DEFAULT_DRIVE_TIME_FEE_CONFIG.driveTimeRoundingMinutes
+    merged.driveTimeRoundingMinutes = DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE.driveTimeRoundingMinutes
   }
   if (typeof merged.complimentaryDriveMinutes !== 'number' || !Number.isFinite(merged.complimentaryDriveMinutes)) {
-    merged.complimentaryDriveMinutes = DEFAULT_DRIVE_TIME_FEE_CONFIG.complimentaryDriveMinutes
+    merged.complimentaryDriveMinutes = DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE.complimentaryDriveMinutes
   }
   if (typeof merged.drivingRatePerHour !== 'number' || !Number.isFinite(merged.drivingRatePerHour)) {
-    merged.drivingRatePerHour = DEFAULT_DRIVE_TIME_FEE_CONFIG.drivingRatePerHour
+    merged.drivingRatePerHour = DEFAULT_DRIVE_TIME_FEE_CONFIG_CORE.drivingRatePerHour
   }
   return merged
 }

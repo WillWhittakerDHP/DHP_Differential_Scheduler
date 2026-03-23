@@ -6,7 +6,7 @@ WHY: Moves date range calculation, prop...
 import { computed, watch, ref, type Ref, type ComputedRef } from 'vue'
 import { matchLoadedTimeSlots as matchLoadedTimeSlotsUtil } from '@/composables/booking/useTimeSlotMatching'
 import type { LoadedTimeSlot } from '@/utils/booking/timeSlotMatching'
-import type { TimeSlot, AppointmentSlots } from '@/types/appointment'
+import type { TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -16,7 +16,10 @@ import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySe
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import { buildRfc3339UtcDayRangeForSelectedDate } from '@/utils/booking/availabilityDateRangeForApi'
 import { buildTimeSlotsPerDayFromSlots } from '@/utils/booking/availabilitySlotGrouping'
-import { buildAppointmentSlotsPerDayRows } from '@/utils/booking/availabilityAppointmentSlotsPerDay'
+import {
+  buildAppointmentSlotsPerDayRows,
+  type AppointmentSlotsPerDayRow,
+} from '@/utils/booking/availabilityAppointmentSlotsPerDay'
 import { selectedBlocksHaveDifferentialOverride } from '@/utils/booking/availabilityDifferentialOverride'
 import { propertyDetailsSliceForAvailability } from '@/utils/booking/availabilityPropertyDetailsSlice'
 import { iso8601DateFromPickerValue } from '@/utils/booking/selectedDatePickerNormalize'
@@ -30,8 +33,12 @@ export type { TimeSlotsPerDay }
  * Single source of truth for "service is differential"; used by useAvailabilityLogic
  * and useAvailabilityOrchestrator so we don't duplicate derivation.
  */
-export function isDifferentialFromSelectedBlocks(blocks: BookingBlockInstance[]): boolean {
+function isDifferentialFromSelectedBlocksCore(blocks: BookingBlockInstance[]): boolean {
   return blocks.some((s) => equals(s.differential, 'true'))
+}
+
+export function isDifferentialFromSelectedBlocks(blocks: BookingBlockInstance[]): boolean {
+  return isDifferentialFromSelectedBlocksCore(blocks)
 }
 
 interface DateRange {
@@ -52,17 +59,12 @@ interface UseAvailabilityLogicParams {
   loadedWizardState: Ref<WizardStateData | null> | null
 }
 
-interface AppointmentSlotsPerDay {
-  date: string
-  appointmentSlots: AppointmentSlots
-}
-
 export interface UseAvailabilityLogicReturn {
   dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
   propertyDetails: ComputedRef<PropertyDetails | null>
   accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
   timeSlotsPerDay: Ref<TimeSlotsPerDay[]>
-  appointmentSlotsPerDay: ComputedRef<AppointmentSlotsPerDay[]>
+  appointmentSlotsPerDay: ComputedRef<AppointmentSlotsPerDayRow[]>
   selectedDateSingle: ComputedRef<string | null>
   currentAppointmentSlots: ComputedRef<TimeSlot[]>
   isDifferentialService: ComputedRef<boolean>
@@ -101,7 +103,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 
-  const appointmentSlotsPerDay = computed<AppointmentSlotsPerDay[]>(() => {
+  const appointmentSlotsPerDay = computed<AppointmentSlotsPerDayRow[]>(() => {
     const slots = timeSlots.value
     const date = selectedDate.value
     const blockInstances = accumulatedBlockInstances.value
@@ -114,7 +116,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
   })
 
   const isDifferentialService = computed(() =>
-    isDifferentialFromSelectedBlocks(wizard.selectedServiceTypeBlocks.value)
+    isDifferentialFromSelectedBlocksCore(wizard.selectedServiceTypeBlocks.value)
   )
 
   const hasDifferentialOverride = computed(() =>

@@ -4,6 +4,31 @@ import type { BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds } from './relationshipTransformers'
 import { isBookingEntityActive } from './globalToBookingEntityActive'
 
+const PERCENTAGE_OFF_ENTITY_KEYS = [
+  'percentageOff',
+  'percentage_off',
+  'discountPercent',
+  'discount_percent',
+  'percentOff',
+  'percent_off',
+] as const
+
+function readPercentageOffFromEntity(entity: Record<string, unknown>): number | undefined {
+  for (const k of PERCENTAGE_OFF_ENTITY_KEYS) {
+    const v = entity[k]
+    if (typeof v === 'number' && !Number.isNaN(v)) {
+      return v
+    }
+    if (typeof v === 'string' && v.trim() !== '') {
+      const n = Number(v)
+      if (!Number.isNaN(n)) {
+        return n
+      }
+    }
+  }
+  return undefined
+}
+
 export function transformPartInstance(
   partInstance: GlobalEntity<'partInstance'>,
   partShapeById: Map<string, GlobalEntity<'partShape'>>,
@@ -23,7 +48,10 @@ export function transformPartInstance(
   }
   const pricingRels = findRelationshipsByParent(partInstance.id, pricingCascadesRelationships)
   const activePartIds = extractChildIds(pricingRels)
-  const percentageOff = partInstanceWithProps.percentageOff ?? partInstanceWithProps.percentage_off
+  const percentageOff =
+    readPercentageOffFromEntity(partInstance as Record<string, unknown>) ??
+    partInstanceWithProps.percentageOff ??
+    partInstanceWithProps.percentage_off
   return {
     id: partInstance.id,
     entityKey: 'partInstance',

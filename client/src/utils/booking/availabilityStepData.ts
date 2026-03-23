@@ -3,7 +3,7 @@ import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
@@ -46,13 +46,25 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
   const overrides = params.selectedSlot.shape.differentialEventRoleOverrides ?? null
-  const majorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'major', overrides)
-  if (!majorEventShape) {
-    logger.error('buildSelectedTimeSlots: no event shape with effective differentialRole=major', {
-      availableRoles: eventShapeEntities.map((es) => ({ name: es.name, differentialRole: es.differentialRole })),
-    })
+  const { hasMajorMinorPair, major: majorEventShape, minor: minorEventShape } =
+    resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities, overrides)
+
+  if (!hasMajorMinorPair) {
+    const total = params.selectedSlot.totalTimeRange
+    if (total) {
+      logger.debug('buildSelectedTimeSlots: no major+minor pair, using totalTimeRange')
+      return [
+        {
+          startTime: total.startTime,
+          endTime: total.endTime,
+          duration: total.duration,
+        },
+      ]
+    }
+    return null
   }
-  const majorEventName = majorEventShape?.name
+
+  const majorEventName = majorEventShape?.name ?? null
   const majorTimeRange = majorEventName ? eventTimeRanges?.[majorEventName] : null
 
   if (majorTimeRange) {
@@ -63,8 +75,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
     })
   }
 
-  const minorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'minor', overrides)
-  const minorEventName = minorEventShape?.name
+  const minorEventName = minorEventShape?.name ?? null
   const minorTimeRange = minorEventName ? eventTimeRanges?.[minorEventName] : null
 
   if (minorTimeRange && minorTimeRange.startTime !== majorTimeRange?.startTime) {
@@ -76,7 +87,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
   }
 
   if (slots.length === 0 && params.selectedSlot.totalTimeRange) {
-    logger.error('buildSelectedTimeSlots: no role-based time ranges found, using totalTimeRange')
+    logger.debug('buildSelectedTimeSlots: no role-based time ranges found, using totalTimeRange')
     slots.push({
       startTime: params.selectedSlot.totalTimeRange.startTime,
       endTime: params.selectedSlot.totalTimeRange.endTime,

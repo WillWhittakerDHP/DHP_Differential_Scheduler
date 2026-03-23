@@ -30,22 +30,22 @@ export function useInstanceDragAndDrop(options: UseInstanceDragAndDropOptions): 
     groupedInstancesByShape,
     blockInstancesByShape,
     patchBlockInstanceOrderIndex,
-    blockInstancesLists: state.blockInstancesLists,
-    blockInstanceIdsMap: state.blockInstanceIdsMap,
-    groupDragHandlers: state.groupDragHandlers,
-    groupDragInstances: state.groupDragInstances,
-    shapeDragBoundNonce: state.shapeDragBoundNonce,
-    dragReinitNonce: state.dragReinitNonce,
+    blockInstancesLists: state.layout.blockInstancesLists,
+    blockInstanceIdsMap: state.layout.blockInstanceIdsMap,
+    groupDragHandlers: state.layout.groupDragHandlers,
+    groupDragInstances: state.layout.groupDragInstances,
+    shapeDragBoundNonce: state.layout.shapeDragBoundNonce,
+    dragReinitNonce: state.layout.dragReinitNonce,
   })
 
   registerInstanceDragFormKitBindWatch({
-    groupContainers: state.groupContainers,
-    dragReinitNonce: state.dragReinitNonce,
+    groupContainers: state.layout.groupContainers,
+    dragReinitNonce: state.layout.dragReinitNonce,
     isMounted: state.isMounted,
-    panelRefSnapshotForWatch: state.panelRefSnapshotForWatch,
-    blockInstanceIdsMap: state.blockInstanceIdsMap,
-    groupPanelsContainers: state.groupPanelsContainers,
-    groupPanelsGroupedContainers: state.groupPanelsGroupedContainers,
+    panelRefSnapshotForWatch: state.layout.panelRefSnapshotForWatch,
+    blockInstanceIdsMap: state.layout.blockInstanceIdsMap,
+    groupPanelsContainers: state.layout.groupPanelsContainers,
+    groupPanelsGroupedContainers: state.layout.groupPanelsGroupedContainers,
     formKitDeps: state.formKitDeps,
   })
 
@@ -59,27 +59,27 @@ export function useInstanceDragAndDrop(options: UseInstanceDragAndDropOptions): 
       formkitTearDown(el)
     })
     state.formKitDeps.formKitParentElByZone.value.clear()
-    state.groupDragInstances.value.clear()
+    state.layout.groupDragInstances.value.clear()
   })
 
   onUnmounted(() => {
-    state.groupContainers.value.clear()
-    state.groupPanelsContainers.value.clear()
-    state.groupPanelsGroupedContainers.value.clear()
-    state.blockInstancesLists.value.clear()
-    state.blockInstanceIdsMap.value.clear()
-    state.groupDragHandlers.value.clear()
+    state.layout.groupContainers.value.clear()
+    state.layout.groupPanelsContainers.value.clear()
+    state.layout.groupPanelsGroupedContainers.value.clear()
+    state.layout.blockInstancesLists.value.clear()
+    state.layout.blockInstanceIdsMap.value.clear()
+    state.layout.groupDragHandlers.value.clear()
     state.formKitDeps.formKitParentElByZone.value.clear()
   })
 
   return {
-    blockInstancesLists: state.blockInstancesLists,
-    blockInstanceIdsMap: state.blockInstanceIdsMap,
-    groupContainers: state.groupContainers,
-    groupPanelsContainers: state.groupPanelsContainers,
-    groupPanelsGroupedContainers: state.groupPanelsGroupedContainers,
-    groupDragHandlers: state.groupDragHandlers,
-    groupDragInstances: state.groupDragInstances,
+    blockInstancesLists: state.layout.blockInstancesLists,
+    blockInstanceIdsMap: state.layout.blockInstanceIdsMap,
+    groupContainers: state.layout.groupContainers,
+    groupPanelsContainers: state.layout.groupPanelsContainers,
+    groupPanelsGroupedContainers: state.layout.groupPanelsGroupedContainers,
+    groupDragHandlers: state.layout.groupDragHandlers,
+    groupDragInstances: state.layout.groupDragInstances,
     isMounted: state.isMounted,
   }
 }

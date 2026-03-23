@@ -12,7 +12,7 @@ import {
   isTernaryStringValue,
 } from '@/utils/admin/statusButtonTogglePayloads'
 
-export interface BooleanInputFormLike {
+interface BooleanInputFormLike {
   setFieldValue: (key: string, value: boolean) => void
 }
 

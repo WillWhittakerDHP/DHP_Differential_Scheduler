@@ -1,16 +1,18 @@
 import { computed, ref, type Ref } from 'vue'
 import type { UseAvailabilityUIParams } from '@/types/booking/availabilityUI'
 import type { UsePerspectiveMappingParams } from '@/types/booking/perspectiveMapping'
-import type { UseAvailabilityLogicReturn } from '@/composables/booking/useAvailabilityLogic'
-import { useAvailabilityUI } from '@/composables/booking/useAvailabilityUI'
 import { useAvailabilityStepHandlers } from '@/utils/booking/availabilityStepHandlers'
-import { useAvailabilityDevPanel } from '@/composables/booking/useAvailabilityDevPanel'
-import type { AvailabilityOrchestratorPostFetchPhaseResult } from '@/composables/booking/useAvailabilityOrchestratorPostFetchPhase'
-import type { AvailabilityOrchestratorSlotsPhaseResult } from '@/composables/booking/useAvailabilityOrchestratorSlotsPhase'
-import type { AvailabilityOrchestratorFormsPhaseResult } from '@/composables/booking/useAvailabilityOrchestratorFormsPhase'
-import type { AvailabilityOrchestratorMoveableGates } from '@/composables/booking/useAvailabilityOrchestratorMoveableGates'
+import {
+  useAvailabilityUI,
+  useAvailabilityDevPanel,
+  type UseAvailabilityLogicReturn,
+  type AvailabilityOrchestratorPostFetchPhaseResult,
+  type AvailabilityOrchestratorSlotsPhaseResult,
+  type AvailabilityOrchestratorFormsPhaseResult,
+  type AvailabilityOrchestratorMoveableGates,
+} from '@/composables/booking/availabilityOrchestratorActionsBundle'
 
-export interface AvailabilityOrchestratorActionsPhaseResult {
+interface AvailabilityOrchestratorActionsPhaseResult {
   userHasChosenTimeBasisFromGraph: Ref<boolean>
   handleDateChange: (value: string | Date | string[] | Date[] | null) => void
   handleTimeBasisChange: (type: 'major' | 'minor') => void
@@ -20,7 +22,7 @@ export interface AvailabilityOrchestratorActionsPhaseResult {
   handleMoveableCancel: ReturnType<typeof useAvailabilityStepHandlers>['handleMoveableCancel']
 }
 
-export function setupAvailabilityOrchestratorActionsPhase(input: {
+export function useAvailabilityOrchestratorActionsPhase(input: {
   logic: Pick<UseAvailabilityLogicReturn, 'accumulatedBlockInstances' | 'dateRangeForApi' | 'isEffectivelyDifferential'>
   postFetch: Pick<AvailabilityOrchestratorPostFetchPhaseResult, 'mockRefreshKey'>
   slotsPhase: Pick<

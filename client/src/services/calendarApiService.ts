@@ -10,32 +10,12 @@ import type {
   ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
 } from '@shared/types/availabilityTypes'
+import { CalendarApiError } from '@/services/calendarApiError'
 
 const logger = createLogger('calendarApiService')
 const { recordApiCall } = useApiCallStatus()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
-
-/** Error types for calendar API operations (internal use). */
-type CalendarApiErrorType =
-  | 'not_authenticated'
-  | 'rate_limit'
-  | 'network_error'
-  | 'invalid_response'
-  | 'calendar_not_found'
-  | 'unknown'
-
-export class CalendarApiError extends Error {
-  constructor(
-    public type: CalendarApiErrorType,
-    message: string,
-    public authUrl?: string
-  ) {
-    super(message)
-    this.name = 'CalendarApiError'
-  }
-}
-
 
 function handleApiError(error: unknown): CalendarApiError {
   if (axios.isAxiosError(error)) {

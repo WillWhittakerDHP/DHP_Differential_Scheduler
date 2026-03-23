@@ -5,13 +5,13 @@ export function blockShapeAllowsParts(blockShapeEntity: GlobalEntity<'blockShape
   return blockShapeEntity?.canHaveParts === true
 }
 
-export interface RelationshipLike {
+interface RelationshipLike {
   parentId: unknown
   childId: unknown
   disabled?: boolean
 }
 
-export interface ActiveChildIdsResult {
+interface ActiveChildIdsResult {
   childIds: string[]
   hadDuplicates: boolean
   beforeDedup: string[]

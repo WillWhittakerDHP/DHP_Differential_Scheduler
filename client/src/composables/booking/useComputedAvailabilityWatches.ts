@@ -4,7 +4,7 @@ import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import { getPrefetchDateRange, perDayRangeAroundUtcDate } from '@/composables/booking/computedAvailabilityFetchCore'
 
-export interface ComputedAvailabilityPrefetchWatchDeps {
+interface ComputedAvailabilityPrefetchWatchDeps {
   activeStep: Ref<number>
   placeId: ComputedRef<string | undefined>
   durationRef: Ref<number | null>
@@ -59,7 +59,7 @@ export function setupComputedAvailabilityPrefetchWatch(deps: ComputedAvailabilit
   )
 }
 
-export interface ComputedAvailabilityMonthPrefetchWatchDeps {
+interface ComputedAvailabilityMonthPrefetchWatchDeps {
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
   canFetchAvailability: ComputedRef<boolean>
   slotsByDay: Ref<Map<string, ComputedSlot[]>>
@@ -81,7 +81,7 @@ export function setupComputedAvailabilityMonthPrefetchWatch(deps: ComputedAvaila
   })
 }
 
-export interface ComputedAvailabilityPerDayWatchDeps {
+interface ComputedAvailabilityPerDayWatchDeps {
   selectedDate: Ref<string | null>
   canFetchAvailability: ComputedRef<boolean>
   slotsByDay: Ref<Map<string, ComputedSlot[]>>

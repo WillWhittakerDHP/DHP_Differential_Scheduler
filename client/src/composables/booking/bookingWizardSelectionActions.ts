@@ -72,7 +72,7 @@ export function bookingWizardToggleLineItemBlock(refs: BookingWizardSelectionRef
   }
 }
 
-export function syncAvailabilityOptionSelectionFromAvailable(
+function syncAvailabilityOptionSelectionFromAvailableCore(
   selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>,
   available: BookingBlockInstance[]
 ): void {
@@ -80,6 +80,13 @@ export function syncAvailabilityOptionSelectionFromAvailable(
   if (next !== undefined) {
     selectedOptionTypeBlocks.value = next
   }
+}
+
+export function syncAvailabilityOptionSelectionFromAvailable(
+  selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>,
+  available: BookingBlockInstance[]
+): void {
+  syncAvailabilityOptionSelectionFromAvailableCore(selectedOptionTypeBlocks, available)
 }
 
 export function bookingWizardBatchUpdate(
@@ -92,6 +99,6 @@ export function bookingWizardBatchUpdate(
     fn()
   } finally {
     refs._inBatch.value = false
-    syncAvailabilityOptionSelectionFromAvailable(refs.selectedOptionTypeBlocks, availableOptionTypeBlocks.value)
+    syncAvailabilityOptionSelectionFromAvailableCore(refs.selectedOptionTypeBlocks, availableOptionTypeBlocks.value)
   }
 }

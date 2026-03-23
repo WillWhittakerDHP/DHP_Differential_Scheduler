@@ -36,7 +36,7 @@ function getActiveComponentsFromRelationships<GE extends GlobalEntityKey>(
     )
 }
 
-export function getComponentsRecursive(
+function getComponentsRecursiveCore(
   composerId: string,
   entityKind: GlobalEntityKey,
   instanceComponents: InstanceComponent[],
@@ -62,11 +62,20 @@ export function getComponentsRecursive(
     )
     
     if (isComponentAlsoComposer) {
-      return getComponentsRecursive(componentId, entityKind, instanceComponents, visited)
+      return getComponentsRecursiveCore(componentId, entityKind, instanceComponents, visited)
     } else {
       return [componentId]
     }
   })
+}
+
+export function getComponentsRecursive(
+  composerId: string,
+  entityKind: GlobalEntityKey,
+  instanceComponents: InstanceComponent[],
+  visited?: Set<string>
+): string[] {
+  return getComponentsRecursiveCore(composerId, entityKind, instanceComponents, visited)
 }
 
 export function composePartInstances(
@@ -104,7 +113,7 @@ function composeProperties<GE extends GlobalEntityKey>(
 ): Partial<GlobalEntity<GE>> {
   const instanceComponents = getActiveComponentsFromRelationships(entityKind, globalData)
   
-  const componentIds = getComponentsRecursive(composerId, entityKind, instanceComponents)
+  const componentIds = getComponentsRecursiveCore(composerId, entityKind, instanceComponents)
   
   if (componentIds.length === 0) {
     return {}
@@ -153,7 +162,7 @@ export function getComposedEntity<GE extends GlobalEntityKey>(
     ...composer,
     ...composed,
     isComposer: true,
-    instanceComponents: getComponentsRecursive(
+    instanceComponents: getComponentsRecursiveCore(
       composerId,
       entityKind,
       getActiveComponentsFromRelationships(entityKind, globalData)

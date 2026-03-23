@@ -1,5 +1,5 @@
 /**
- * Early exits for field-context persist (temp entity, placeholder UUID, not dirty).
+ * Early exits for field-context persist (unsaved/new entity id, placeholder UUID, not dirty).
  */
 export function shouldSkipFieldContextPersist(
   isDirty: boolean,

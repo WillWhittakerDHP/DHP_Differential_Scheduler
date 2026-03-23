@@ -14,24 +14,15 @@ import type {
   RouteMatrixResult,
   RouteMatrixStatus
 } from '@shared/types/mapsTypes'
+import { MapsApiError } from '@/services/mapsApiError'
 
 export type { AddressComponents, AutocompletePrediction, Coordinates, MapsApiErrorType, PlaceDetails, RouteLocation, RouteMatrixResult, RouteMatrixStatus }
+export { MapsApiError }
 
 const logger = createLogger('mapsApiService')
 const { recordApiCall } = useApiCallStatus()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
-
-export class MapsApiError extends Error {
-  constructor(
-    public type: MapsApiErrorType,
-    message: string,
-    public retryable: boolean = false
-  ) {
-    super(message)
-    this.name = 'MapsApiError'
-  }
-}
 
 export function getErrorMessage(type: MapsApiErrorType): string {
   return MAPS_ERROR_MESSAGES[type] ?? MAPS_ERROR_MESSAGES.unknown

@@ -5,9 +5,11 @@
 import type { Ref } from 'vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-const PERSIST_KEY_APPOINTMENT_ID = 'booking-wizard-appointment-id'
+const PERSIST_KEY_APPOINTMENT_ID_CORE = 'booking-wizard-appointment-id'
 
-export function isRescheduleOrQuoteMode(mode: string): mode is 'reschedule' | 'quote' {
+export const PERSIST_KEY_APPOINTMENT_ID = PERSIST_KEY_APPOINTMENT_ID_CORE
+
+function isRescheduleOrQuoteMode(mode: string): mode is 'reschedule' | 'quote' {
   return mode === 'reschedule' || mode === 'quote'
 }
 
@@ -27,10 +29,9 @@ export function scheduleInitialAppointmentLoadFromRouteAndStorage(
   if (typeof localStorage === 'undefined') {
     return
   }
-  const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID)
+  const persistedId = localStorage.getItem(PERSIST_KEY_APPOINTMENT_ID_CORE)
   if (persistedId && !loadedAppointmentId.value) {
     void load(persistedId)
   }
 }
 
-export { PERSIST_KEY_APPOINTMENT_ID }

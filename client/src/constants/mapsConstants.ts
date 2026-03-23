@@ -1,16 +1,18 @@
 
 import type { MapsApiErrorType } from '@shared/types/mapsTypes'
 
-export const GOOGLE_API_STATUS = {
+const GOOGLE_API_STATUS_CORE = {
   OK: 'OK',
   NOT_FOUND: 'NOT_FOUND',
   ZERO_RESULTS: 'ZERO_RESULTS',
 } as const
 
+export const GOOGLE_API_STATUS = GOOGLE_API_STATUS_CORE
+
 export type RouteMatrixStatus =
-  | typeof GOOGLE_API_STATUS.OK
-  | typeof GOOGLE_API_STATUS.NOT_FOUND
-  | typeof GOOGLE_API_STATUS.ZERO_RESULTS
+  | typeof GOOGLE_API_STATUS_CORE.OK
+  | typeof GOOGLE_API_STATUS_CORE.NOT_FOUND
+  | typeof GOOGLE_API_STATUS_CORE.ZERO_RESULTS
 
 export const MAPS_ERROR_MESSAGES: Record<MapsApiErrorType, string> = {
   auth: 'Address lookup is not configured.',

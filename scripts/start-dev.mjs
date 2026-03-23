@@ -4,8 +4,8 @@
  * or APP_STAGE=staging, runs server + client + test:watch. Otherwise server + client only.
  *
  * Modes:
- *   npm run start:dev   → skips startup if server already listening (avoids EADDRINUSE)
- *   npm run restart:dev  → kills ports and restarts even if already running (--restart flag)
+ *   npm run start:dev   → if dev port is already in use, clears ports and starts (same as restart)
+ *   npm run restart:dev  → always kills dev ports first, then starts (--restart flag; explicit restart)
  */
 
 import fs from 'node:fs'
@@ -66,15 +66,16 @@ const testsEnabled = process.env.TEST_ENABLED === 'true' || process.env.APP_STAG
 
 const serverAlreadyUp = await isPortInUse(SERVER_PORT)
 
-if (serverAlreadyUp && !isRestart) {
-  console.log('\n✅ App already running on port', SERVER_PORT)
-  console.log('   Skipping startup to avoid EADDRINUSE.')
-  console.log('   To force restart, run: npm run restart:dev\n')
-  process.exit(0)
-}
-
-if (serverAlreadyUp && isRestart) {
-  console.log('\n🔄 Restart requested — killing existing processes on dev ports...')
+if (serverAlreadyUp) {
+  if (isRestart) {
+    console.log('\n🔄 Restart requested — killing existing processes on dev ports...')
+  } else {
+    console.log(
+      '\n🔄 Port',
+      SERVER_PORT,
+      'is in use — clearing dev ports and starting fresh (same as npm run restart:dev).\n',
+    )
+  }
 }
 
 console.log('\n🔌 Killing open dev ports before starting...')

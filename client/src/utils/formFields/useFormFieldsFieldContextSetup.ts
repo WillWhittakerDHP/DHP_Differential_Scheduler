@@ -51,7 +51,8 @@ export interface UseFormFieldsFieldContextSetupReturn<GE extends GlobalEntityKey
 
 /**
  * Field context cache + watchEffect bootstrap for useFormFields.
- * Lives under utils so import-graph composable depth does not chain through this module from useFormFields.
+ * PATTERN: Stays under `utils/` (not `composables/`) so import-graph composable depth does not chain
+ * through this module from useFormFields — intentional despite inventory “composable in disguise” heuristics.
  */
 export function useFormFieldsFieldContextSetup<GE extends GlobalEntityKey>(
   options: UseFormFieldsFieldContextSetupOptions<GE>,

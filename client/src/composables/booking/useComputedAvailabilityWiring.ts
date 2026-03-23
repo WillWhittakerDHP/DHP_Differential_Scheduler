@@ -7,7 +7,7 @@ import {
   setupComputedAvailabilityPrefetchWatch,
 } from '@/composables/booking/useComputedAvailabilityWatches'
 
-export interface WireComputedAvailabilityWatchersInput {
+interface WireComputedAvailabilityWatchersInput {
   activeStep: Ref<number>
   placeId: ComputedRef<string | undefined>
   durationRef: Ref<number | null>

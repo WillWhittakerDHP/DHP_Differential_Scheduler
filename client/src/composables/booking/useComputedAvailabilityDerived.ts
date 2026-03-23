@@ -3,7 +3,7 @@ import type { ComputedRef } from 'vue'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { UseComputedAvailabilityParams } from '@/types/booking/computedAvailability'
 
-export interface ComputedAvailabilityDerived {
+interface ComputedAvailabilityDerived {
   dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
   placeId: ComputedRef<string | undefined>
   canFetchAvailability: ComputedRef<boolean>

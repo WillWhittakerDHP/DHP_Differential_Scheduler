@@ -9,18 +9,17 @@ import {
   localCalendarDateKeyFromDate,
 } from '@/utils/time/localCalendarDisplay'
 
-export interface MoveableStepperDayLabelCopy {
+/** Today/tomorrow strings for local-calendar relative headings (shared by stepper + slot row). */
+export interface MoveableRelativeDayLabelCopy {
+  today: string
+  tomorrow: string
+}
+
+export interface MoveableStepperDayLabelCopy extends MoveableRelativeDayLabelCopy {
   noSelection: string
-  today: string
-  tomorrow: string
 }
 
-export interface MoveableSlotRowDayLabelCopy {
-  today: string
-  tomorrow: string
-}
-
-export function resolveMoveableStepperAnchorDate(
+function resolveMoveableStepperAnchorDate(
   selectedUtcDayKey: string,
   slots: readonly { startTime: string }[]
 ): Date {
@@ -39,10 +38,7 @@ export function resolveMoveableStepperAnchorDate(
   return new Date(bestStart)
 }
 
-function formatLocalRelativeDayHeading(
-  anchor: Date,
-  copy: MoveableSlotRowDayLabelCopy
-): string {
+function formatLocalRelativeDayHeading(anchor: Date, copy: MoveableRelativeDayLabelCopy): string {
   const anchorLocal = localCalendarDateKeyFromDate(anchor)
   const todayLocal = localCalendarDateKeyFromDate(new Date())
   const tomorrowLocal = addLocalCalendarDays(todayLocal, 1)
@@ -63,7 +59,7 @@ export function computeMoveableStepperDayLabel(
 
 export function computeMoveableSlotRowDayLabel(
   slotStartIso: RFC3339DateTime,
-  copy: MoveableSlotRowDayLabelCopy
+  copy: MoveableRelativeDayLabelCopy
 ): string {
   return formatLocalRelativeDayHeading(new Date(slotStartIso), copy)
 }

@@ -4,18 +4,22 @@
  * UTC YYYY-MM-DD keys stay authoritative for API/range; this module is UI-relative labels only.
  */
 
-export function localCalendarDateKeyFromDate(d: Date): string {
+function localCalendarDateKeyFromDateCore(d: Date): string {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
   return `${y}-${m}-${day}`
 }
 
+export function localCalendarDateKeyFromDate(d: Date): string {
+  return localCalendarDateKeyFromDateCore(d)
+}
+
 export function addLocalCalendarDays(ymd: string, deltaDays: number): string {
   const [y, mo, d] = ymd.split('-').map(Number)
   const dt = new Date(y, (mo ?? 1) - 1, d ?? 1)
   dt.setDate(dt.getDate() + deltaDays)
-  return localCalendarDateKeyFromDate(dt)
+  return localCalendarDateKeyFromDateCore(dt)
 }
 
 /** Weekday + month + day for a local calendar YYYY-MM-DD (interpreted in browser local TZ). */

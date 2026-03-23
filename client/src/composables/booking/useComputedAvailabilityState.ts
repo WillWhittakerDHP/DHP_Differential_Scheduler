@@ -1,30 +1,23 @@
 import { ref } from 'vue'
-import type { Ref } from 'vue'
 import type { CalendarEvent } from '@/services/calendarApiService'
 import type {
-  Constraint,
   ComputedSlot,
   ComputedSlotAvailabilityData,
+  Constraint,
   DurationRoundingConfig,
 } from '@shared/types/availabilityTypes'
 import type { ComputedAvailabilityFetchRefs } from '@/composables/booking/computedAvailabilityFetchCore'
 
+/** Same ref bundle as fetch core; split name documents role in composable return (UNIFY with ComputedAvailabilityFetchRefs). */
+type ComputedAvailabilityMutableRefs = ComputedAvailabilityFetchRefs
+
 export interface ComputedAvailabilityMutableBundle {
-  calendarEvents: Ref<CalendarEvent[]>
-  slotsByDay: Ref<Map<string, ComputedSlot[]>>
-  constraints: Ref<Constraint[]>
-  minuteIncrement: Ref<number>
-  timezone: Ref<string | undefined>
-  durationRounding: Ref<DurationRoundingConfig | undefined>
-  outOfOfficeEvents: Ref<CalendarEvent[]>
-  computedDataMeta: Ref<ComputedSlotAvailabilityData['_meta'] | null>
-  isLoading: Ref<boolean>
-  error: Ref<Error | null>
+  refs: ComputedAvailabilityMutableRefs
   fetchRefs: ComputedAvailabilityFetchRefs
   clearSlotsCache: () => void
 }
 
-export function createComputedAvailabilityMutableState(): ComputedAvailabilityMutableBundle {
+export function useComputedAvailabilityMutableState(): ComputedAvailabilityMutableBundle {
   const calendarEvents = ref<CalendarEvent[]>([])
   const slotsByDay = ref<Map<string, ComputedSlot[]>>(new Map())
   const constraints = ref<Constraint[]>([])
@@ -53,7 +46,7 @@ export function createComputedAvailabilityMutableState(): ComputedAvailabilityMu
     slotsByDay.value = new Map()
   }
 
-  return {
+  const refs: ComputedAvailabilityMutableRefs = {
     calendarEvents,
     slotsByDay,
     constraints,
@@ -64,6 +57,10 @@ export function createComputedAvailabilityMutableState(): ComputedAvailabilityMu
     computedDataMeta,
     isLoading,
     error,
+  }
+
+  return {
+    refs,
     fetchRefs,
     clearSlotsCache,
   }

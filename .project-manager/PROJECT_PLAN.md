@@ -574,6 +574,12 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
 
 ---
+### Open Questions 
+Should we include some sort of ast scan on the client folder, mermaid modeling, check for the function of all the block and part instance and shape primitives and relationships when viewed by the client code, and any other reasonable means to discover all the possible E2E ui behaviors?
+since all of our errors and fallbacks and escapes and empty arrays and whatnot return logger readouts, can we build them to always be loaded into the feedbacker? even if the website fails or blocks and the tester relaods the page? are these other behvaiors we can send to the database? like traces for errors and warns?
+i am sending this to some of my friends who are devs. can we give them read-only access to the code? can we create some texts they would get to see to speak robustly about the build?
+
+---
 
 ## Feature 10: Testing & Quality Validation
 

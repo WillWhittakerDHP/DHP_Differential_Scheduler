@@ -366,7 +366,15 @@
       ]
     },
     "dual-role-export": {
-      "patterns": [],
+      "patterns": [
+        {
+          "glob": "server/src/**/*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Server-only: dual-role (export + in-file use) is accepted; does not affect client test builds or Vue governance baseline."
+        }
+      ],
       "specific": []
     },
     "import-hygiene": {
@@ -561,6 +569,62 @@
             "composableFileName"
           ],
           "reason": "Composable utility; factory name is intentional"
+        },
+        {
+          "glob": "client/src/composables/**/*Bundle.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Orchestration bundle modules aggregate phase composables; not a single useX entry file"
+        },
+        {
+          "glob": "client/src/composables/**/register*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Side-effect registration helpers (watchers); co-located with composable domains"
+        },
+        {
+          "glob": "client/src/composables/**/build*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Pure builder/factory modules extracted from composables for governance"
+        },
+        {
+          "glob": "client/src/composables/**/computed*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Extracted computed-availability core; not a primary use-prefixed entry"
+        },
+        {
+          "glob": "client/src/composables/**/run*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Mutation runner helper co-located with entity CRUD composables"
+        },
+        {
+          "glob": "client/src/composables/**/entityCard*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Entity card persistence/helper module; not a standalone composable entry"
+        },
+        {
+          "glob": "client/src/composables/**/bookingWizard*.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Wizard selection action helpers bundled alongside booking composables"
+        },
+        {
+          "glob": "client/src/composables/**/layoutTypes.ts",
+          "ruleIds": [
+            "composableFileName"
+          ],
+          "reason": "Shared layout types co-located with form field composables (like types.ts barrels)"
         }
       ],
       "specific": [
@@ -1476,6 +1540,22 @@
             "orphaned-injection-key"
           ],
           "reason": "Injects use variable keys (updateDisplayedMonthKey etc) — consumed from useWizardDateAvailability"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityStepInjections.ts",
+          "ruleIds": [
+            "orphaned-injection-key",
+            "provide-inject-depth"
+          ],
+          "reason": "Central inject site for availability step; keys provided by BookingWizard / useBookingWizardSetup / useWizardDateAvailability — graph cannot link all symbol provides; wizard DI depth is intentional."
+        },
+        {
+          "file": "client/src/composables/admin/useBusinessControlsTab.ts",
+          "ruleIds": [
+            "provide-inject-depth",
+            "bidirectional-data-channel"
+          ],
+          "reason": "Tab composable injects adminCurrentTabKey; importing the InjectionKey symbol is required for typed inject — not a second runtime data source."
         },
         {
           "file": "client/src/views/admin/tabs/PropertyMappingsTab.vue",

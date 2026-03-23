@@ -9,7 +9,7 @@ import {
   PROPERTY_SOURCE_VALUES,
 } from '../routes/internal/properties/propertyConstants.js'
 
-export type CoercePatchPropertyFieldResult =
+type CoercePatchPropertyFieldResult =
   | { ok: true; patch: Record<string, unknown> }
   | { ok: false; error: string; details?: Record<string, unknown> }
 

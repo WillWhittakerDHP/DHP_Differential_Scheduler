@@ -9,7 +9,7 @@ import {
 } from '@/composables/booking/useAvailabilityLogic'
 import type { AvailabilityOrchestratorTimeSlotsShell } from '@/composables/booking/useAvailabilityOrchestratorTimeSlotsShell'
 
-export function setupAvailabilityOrchestratorLogicPhase(input: {
+export function useAvailabilityOrchestratorLogicPhase(input: {
   selectedDate: UseAvailabilityUIParams['selectedDate']
   propertyDetailsStepData: Ref<PropertyDetailsData | null>
   wizard: UseBookingWizardReturn
@@ -34,5 +34,7 @@ export function setupAvailabilityOrchestratorLogicPhase(input: {
     loadedWizardState,
   })
 
-  return { ...logic, vDatePickerDisplayDate }
+  return Object.assign({}, logic, { vDatePickerDisplayDate }) as UseAvailabilityLogicReturn & {
+    vDatePickerDisplayDate: Ref<Date>
+  }
 }

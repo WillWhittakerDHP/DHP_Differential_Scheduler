@@ -9,7 +9,7 @@ import { transformAppointmentToWizard } from '@/utils/transformers/appointmentTo
 import { fetchAppointmentForWizardLoad } from '@/utils/booking/wizardAppointmentLoadSteps'
 import type { AppLogger } from '@/utils/logger'
 
-export type WizardAppointmentResolveOutcome =
+type WizardAppointmentResolveOutcome =
   | { ok: true; appointment: AppointmentResponse; wizardState: WizardStateData }
   | { ok: false; message: string }
 

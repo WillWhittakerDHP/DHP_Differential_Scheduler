@@ -5,7 +5,7 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 
-export interface BuildNewRelationshipChildParams {
+interface BuildNewRelationshipChildParams {
   shapeId: string
   childEntityKey: GlobalEntityKey
   shapeRefProperty: string

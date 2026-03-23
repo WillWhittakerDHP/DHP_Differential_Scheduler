@@ -5,11 +5,11 @@
 import type { AppointmentResponse } from '@/types/appointment'
 import { APPOINTMENT_NOT_FOUND } from '@/constants/errorMessages'
 
-export type FetchAppointmentForWizardLoadResult =
+type FetchAppointmentForWizardLoadResult =
   | { ok: true; appointment: AppointmentResponse }
   | { ok: false; message: string }
 
-export interface WizardAppointmentLoadLogger {
+interface WizardAppointmentLoadLogger {
   error: (message: string, context?: Record<string, unknown>) => void
 }
 

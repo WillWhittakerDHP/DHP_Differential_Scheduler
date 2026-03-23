@@ -20,7 +20,7 @@ import type { UseFieldContextStateReturn } from '@/types/fieldContext/fieldConte
 
 const logger = createLogger('fieldContextSaveOrchestration')
 
-export async function verifyEntityExistsOnServerForFieldContext(
+async function verifyEntityExistsOnServerForFieldContextCore(
   entityKey: GlobalEntityKey,
   entityIdString: string,
   entityId: GlobalEntityId,
@@ -44,7 +44,16 @@ export async function verifyEntityExistsOnServerForFieldContext(
   }
 }
 
-export async function runFieldContextPersistDispatch<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+export async function verifyEntityExistsOnServerForFieldContext(
+  entityKey: GlobalEntityKey,
+  entityIdString: string,
+  entityId: GlobalEntityId,
+  queryClient: QueryClient
+): Promise<void> {
+  await verifyEntityExistsOnServerForFieldContextCore(entityKey, entityIdString, entityId, queryClient)
+}
+
+async function runFieldContextPersistDispatchCore<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: {
     state: UseFieldContextStateReturn<GE, FieldKey>
     currentEntity: { id?: string; name?: string; entityKey?: string }
@@ -87,6 +96,18 @@ export async function runFieldContextPersistDispatch<GE extends GlobalEntityKey,
   }
 }
 
+export async function runFieldContextPersistDispatch<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
+  params: {
+    state: UseFieldContextStateReturn<GE, FieldKey>
+    currentEntity: { id?: string; name?: string; entityKey?: string }
+    fieldKey: FieldKey
+    validate: () => Promise<boolean>
+    queryClient: QueryClient
+  }
+): Promise<void> {
+  await runFieldContextPersistDispatchCore(params)
+}
+
 export async function persistFieldContextAfterServerChecks<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: {
     entityKey: GlobalEntityKey
@@ -114,7 +135,7 @@ export async function persistFieldContextAfterServerChecks<GE extends GlobalEnti
     handleChange,
   } = params
 
-  await verifyEntityExistsOnServerForFieldContext(entityKey, entityIdString, entityId, queryClient)
+  await verifyEntityExistsOnServerForFieldContextCore(entityKey, entityIdString, entityId, queryClient)
 
   if (!currentEntity) {
     throw new Error(
@@ -127,7 +148,7 @@ export async function persistFieldContextAfterServerChecks<GE extends GlobalEnti
   }
 
   try {
-    await runFieldContextPersistDispatch({
+    await runFieldContextPersistDispatchCore({
       state,
       currentEntity,
       fieldKey,
@@ -136,11 +157,11 @@ export async function persistFieldContextAfterServerChecks<GE extends GlobalEnti
     })
   } catch (error: unknown) {
     logger.debug('Field context persist failed; delegating to recovery handler', { error })
-    handleFieldContextPersistCatch(error, entityKey, queryClient, entityValue, handleChange)
+    handleFieldContextPersistCatchCore(error, entityKey, queryClient, entityValue, handleChange)
   }
 }
 
-export function handleFieldContextPersistCatch(
+function handleFieldContextPersistCatchCore(
   error: unknown,
   entityKey: GlobalEntityKey,
   queryClient: QueryClient,
@@ -161,4 +182,14 @@ export function handleFieldContextPersistCatch(
     throw new Error(`This ${entityKey} was deleted or no longer exists. The page will refresh automatically.`)
   }
   throw error
+}
+
+export function handleFieldContextPersistCatch(
+  error: unknown,
+  entityKey: GlobalEntityKey,
+  queryClient: QueryClient,
+  entityValue: ValidAdminValue,
+  handleChange: (value: ValidAdminValue) => void
+): never {
+  return handleFieldContextPersistCatchCore(error, entityKey, queryClient, entityValue, handleChange)
 }

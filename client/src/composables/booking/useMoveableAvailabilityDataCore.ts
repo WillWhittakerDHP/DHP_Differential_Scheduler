@@ -21,7 +21,7 @@ const logger = createLogger('useMoveableAvailabilityDataCore')
 
 type MoveableFallbackLabelRef = ComputedRef<string>
 
-export function resetMoveableOptionsAndSlots(
+function resetMoveableOptionsAndSlots(
   moveableOptions: Ref<MoveableSchedulingOptions | null>,
   selectedMoveableDay: Ref<string | null>,
   moveableSlotsByDay: Ref<Map<string, ComputedSlot[]>>

@@ -9,7 +9,7 @@ import type { WizardCopyLabelFields } from '@shared/types/wizardSettingsTypes'
 
 export type DifferentialLabelKey = keyof WizardCopyLabelFields
 
-export function ensureDifferentialPerspectivesBucket(
+function ensureDifferentialPerspectivesBucketCore(
   formData: Ref<AvailabilitySettings | null>
 ): NonNullable<AvailabilitySettings['differentialPerspectives']> | undefined {
   if (!formData.value) {
@@ -19,6 +19,12 @@ export function ensureDifferentialPerspectivesBucket(
     formData.value.differentialPerspectives = {}
   }
   return formData.value.differentialPerspectives
+}
+
+export function ensureDifferentialPerspectivesBucket(
+  formData: Ref<AvailabilitySettings | null>
+): NonNullable<AvailabilitySettings['differentialPerspectives']> | undefined {
+  return ensureDifferentialPerspectivesBucketCore(formData)
 }
 
 export function readWizardOrFormLabel(
@@ -40,7 +46,7 @@ export function writeWizardOrFormLabel(
     wizardFormData.value[key] = value
     return
   }
-  const dp = ensureDifferentialPerspectivesBucket(formData)
+  const dp = ensureDifferentialPerspectivesBucketCore(formData)
   if (!dp) {
     return
   }

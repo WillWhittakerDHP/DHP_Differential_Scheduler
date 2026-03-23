@@ -25,7 +25,7 @@ export function getPrefetchDateRange(): { start: RFC3339DateTime; end: RFC3339Da
   }
 }
 
-export function mergeSlotsIntoMap(
+function mergeSlotsIntoMap(
   existing: Map<string, ComputedSlot[]>,
   newSlotsByDay: Record<string, ComputedSlot[]>
 ): Map<string, ComputedSlot[]> {

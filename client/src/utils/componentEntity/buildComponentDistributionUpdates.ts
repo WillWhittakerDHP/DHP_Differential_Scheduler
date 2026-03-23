@@ -7,7 +7,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { DistributionPreview, DistributionStrategy } from '@/types/component'
 import apiClient from '@/utils/api'
 
-export type CalculateDistributionPreviewFn = (
+type CalculateDistributionPreviewFn = (
   composerId: GlobalEntityId,
   propertyKey: string,
   newValue: number,

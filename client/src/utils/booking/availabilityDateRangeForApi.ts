@@ -2,20 +2,16 @@
  * WHY: RFC3339 UTC day window for availability API — pure date math isolated from composable.
  */
 
-import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
+import type { ISO8601Date } from '@shared/types/primitiveBrands'
+import type { TimeRangeBounds } from '@shared/types/availabilityTypes'
 import { parseUTCDate } from '@/utils/booking/dateUtils'
 import { toRFC3339DateTime } from '@/utils/datetime'
-
-export interface Rfc3339DayRange {
-  start: RFC3339DateTime
-  end: RFC3339DateTime
-}
 
 /**
  * Builds [start of UTC day, end of same UTC day] for the given calendar date string.
  * Returns null if the date is invalid or strictly before today's UTC calendar date.
  */
-export function buildRfc3339UtcDayRangeForSelectedDate(startValue: ISO8601Date): Rfc3339DayRange | null {
+export function buildRfc3339UtcDayRangeForSelectedDate(startValue: ISO8601Date): TimeRangeBounds | null {
   const startDate = parseUTCDate(startValue)
   if (!startDate) {
     return null

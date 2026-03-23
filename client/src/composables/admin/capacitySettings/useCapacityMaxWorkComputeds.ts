@@ -6,11 +6,14 @@ import type { Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createNestedComputed } from '@/composables/admin/utils/nestedComputedFactory'
 import { ROLLING_WEEK_DIRECTION_VALUES } from '@/constants/businessControlsOptions'
-import type { UseCapacitySettingsParams, UseCapacitySettingsReturn } from '@/types/admin/capacitySettings'
+import type {
+  CapacityFilterKey,
+  UseCapacitySettingsParams,
+  UseCapacitySettingsReturn,
+} from '@/types/admin/capacitySettings'
 import { buildMaxWorkNestedEnsurers } from '@/composables/admin/capacitySettings/useCapacityMaxWorkEnsures'
 
 type MaxWorkHours = NonNullable<AvailabilitySettings['maxWorkHours']>
-type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
 
 function createMaxWorkHoursComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxWorkHours[F]>>(
   formData: Ref<AvailabilitySettings | null>,

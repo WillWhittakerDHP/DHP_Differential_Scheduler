@@ -1,7 +1,7 @@
 /**
  * WHY: useBlockInstanceSelection Composable
  */
-import { computed } from 'vue'
+import { computed, type ComputedRef, type Ref } from 'vue'
 import { findById } from '@/utils/collections/findById'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 import type {
@@ -10,6 +10,22 @@ import type {
   UseBlockInstanceSelectionReturnMultiple,
 } from '@/types/booking/blockInstanceSelection'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+
+function applySelectedBlocksForSingleId(
+  id: string | null,
+  availableBlocks: ComputedRef<BookingBlockInstance[]>,
+  selectedBlocks: Ref<BookingBlockInstance[]>
+): void {
+  if (!id) {
+    selectedBlocks.value = []
+    return
+  }
+  const selected = findById(availableBlocks.value, id)
+  if (selected) {
+    selectedBlocks.value = [selected]
+  }
+  // WHY: Cascade list can be empty briefly on remount; do not clear a valid in-memory selection.
+}
 
 function applyResolvedBlocksToMultipleSelection(
   blocks: BookingBlockInstance[],
@@ -34,15 +50,7 @@ function useBlockInstanceSelectionSingle(
   const selectedBlockId = computed({
     get: () => (selectedBlocks.value.length > 0 ? selectedBlocks.value[0].id : null),
     set: (id: string | null) => {
-      if (id) {
-        const selected = findById(availableBlocks.value, id)
-        if (selected) {
-          selectedBlocks.value = [selected]
-        }
-        // WHY: Cascade list can be empty briefly on remount; do not clear a valid in-memory selection.
-        return
-      }
-      selectedBlocks.value = []
+      applySelectedBlocksForSingleId(id, availableBlocks, selectedBlocks)
     },
   })
 

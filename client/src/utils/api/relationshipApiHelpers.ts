@@ -5,7 +5,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 
 const logger = createLogger('relationshipApiHelpers')
 
-export async function createRelationshipWithConflictHandling(
+async function createRelationshipWithConflictHandlingCore(
   endpoint: string,
   parentId: GlobalEntityId,
   childId: GlobalEntityId,
@@ -27,6 +27,15 @@ export async function createRelationshipWithConflictHandling(
   }
 }
 
+export async function createRelationshipWithConflictHandling(
+  endpoint: string,
+  parentId: GlobalEntityId,
+  childId: GlobalEntityId,
+  orderIndex: number
+): Promise<{ data: { parent_id: GlobalEntityId; child_id: GlobalEntityId } }> {
+  return createRelationshipWithConflictHandlingCore(endpoint, parentId, childId, orderIndex)
+}
+
 export async function createMultipleRelationships(
   endpoint: string,
   parentId: GlobalEntityId,
@@ -35,7 +44,7 @@ export async function createMultipleRelationships(
   // WHY: Functional approach avoids mutations, aligns with workspace rules
   // PATTERN: Map componentIds to promises, then await all
   const promises = componentIds.map(async (componentId, index) => {
-    return createRelationshipWithConflictHandling(endpoint, parentId, componentId, index)
+    return createRelationshipWithConflictHandlingCore(endpoint, parentId, componentId, index)
   })
   await Promise.all(promises)
 }

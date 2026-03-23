@@ -7,24 +7,28 @@ import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { panelRefSnapshot, type InstanceDragFormKitBinderDeps } from '@/utils/admin/instanceDragAndDropFormKitBind'
 import type { GlobalEntity } from '@/types/entities'
-import type { UseInstanceDragAndDropReturn } from '@/types/admin/instanceDragAndDrop'
 
-export function useInstanceDragAndDropState(): Pick<
-  UseInstanceDragAndDropReturn,
-  | 'blockInstancesLists'
-  | 'blockInstanceIdsMap'
-  | 'groupContainers'
-  | 'groupPanelsContainers'
-  | 'groupPanelsGroupedContainers'
-  | 'groupDragHandlers'
-  | 'groupDragInstances'
-  | 'isMounted'
-> & {
-  formKitDeps: InstanceDragFormKitBinderDeps
+/** Grouped refs for layout + FormKit watches (keeps composable return surface small). */
+interface UseInstanceDragAndDropLayoutState {
+  blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>
+  blockInstanceIdsMap: Ref<Map<string, Ref<string[]>>>
+  groupContainers: Ref<Map<string, HTMLElement | null>>
+  groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
+  groupPanelsGroupedContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
+  groupDragHandlers: Ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>
+  groupDragInstances: Ref<Map<string, ReturnType<typeof dragAndDrop>>>
   dragReinitNonce: Ref<number>
   shapeDragBoundNonce: Ref<Map<string, number>>
   panelRefSnapshotForWatch: () => Array<string | ComponentPublicInstance | HTMLElement | null>
-} {
+}
+
+export interface UseInstanceDragAndDropStateReturn {
+  layout: UseInstanceDragAndDropLayoutState
+  formKitDeps: InstanceDragFormKitBinderDeps
+  isMounted: Ref<boolean>
+}
+
+export function useInstanceDragAndDropState(): UseInstanceDragAndDropStateReturn {
   const blockInstancesLists = ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>(new Map())
   const blockInstanceIdsMap = ref<Map<string, Ref<string[]>>>(new Map())
   const groupContainers = ref<Map<string, HTMLElement | null>>(new Map())
@@ -53,7 +57,7 @@ export function useInstanceDragAndDropState(): Pick<
     ...panelRefSnapshot(groupPanelsGroupedContainers.value),
   ]
 
-  return {
+  const layout: UseInstanceDragAndDropLayoutState = {
     blockInstancesLists,
     blockInstanceIdsMap,
     groupContainers,
@@ -61,10 +65,14 @@ export function useInstanceDragAndDropState(): Pick<
     groupPanelsGroupedContainers,
     groupDragHandlers,
     groupDragInstances,
-    isMounted,
-    formKitDeps,
     dragReinitNonce,
     shapeDragBoundNonce,
     panelRefSnapshotForWatch,
+  }
+
+  return {
+    layout,
+    formKitDeps,
+    isMounted,
   }
 }

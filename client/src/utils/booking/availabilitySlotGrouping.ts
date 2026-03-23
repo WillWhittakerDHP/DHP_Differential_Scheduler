@@ -6,7 +6,7 @@ import type { TimeSlot } from '@/types/appointment'
 import type { TimeSlotsPerDay } from '@/types/booking/availabilityLogic'
 import { utcDateKeyFromSlotStartTime } from '@/utils/booking/utcSlotDateKey'
 
-export function groupTimeSlotsByUtcDate(slots: TimeSlot[]): Map<string, TimeSlot[]> {
+function groupTimeSlotsByUtcDateCore(slots: TimeSlot[]): Map<string, TimeSlot[]> {
   const slotsByDate = new Map<string, TimeSlot[]>()
   for (const slot of slots) {
     const slotDate = utcDateKeyFromSlotStartTime(slot.startTime)
@@ -20,8 +20,12 @@ export function groupTimeSlotsByUtcDate(slots: TimeSlot[]): Map<string, TimeSlot
   return slotsByDate
 }
 
+export function groupTimeSlotsByUtcDate(slots: TimeSlot[]): Map<string, TimeSlot[]> {
+  return groupTimeSlotsByUtcDateCore(slots)
+}
+
 export function buildTimeSlotsPerDayFromSlots(slots: TimeSlot[]): TimeSlotsPerDay[] {
-  const grouped = groupTimeSlotsByUtcDate(slots)
+  const grouped = groupTimeSlotsByUtcDateCore(slots)
   return Array.from(grouped.entries()).map(([date, daySlots]) => ({
     date,
     inspectorTimeSlots: daySlots,

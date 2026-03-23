@@ -3,18 +3,12 @@
   PATTERN: Syncs `text` + `contentRows` on the vee-validate form (see resolveAnnotationTextForAssignment on server).
 -->
 <script setup lang="ts">
-import type { FormContext } from 'vee-validate'
-import type { GlobalEntity } from '@/types/entities'
-import type { GlobalEntityKey } from '@/constants/entities'
-import { useAnnotationContentEditor } from '@/composables/admin/useAnnotationContentEditor'
+import {
+  useAnnotationContentEditor,
+  type UseAnnotationContentEditorProps,
+} from '@/composables/admin/useAnnotationContentEditor'
 
-interface Props {
-  /** Caller guarantees annotationInstance when this component is shown. */
-  entity: GlobalEntity<GlobalEntityKey>
-  form: FormContext
-}
-
-const props = defineProps<Props>()
+const props = defineProps<UseAnnotationContentEditorProps>()
 
 const { userTypeBlockInstances, perUserTexts, defaultUserTypeInstanceId, setPerUserText } =
   useAnnotationContentEditor(props)

@@ -4,7 +4,7 @@
 
 import type { PropertyDetailsData, PropertyFormData, PropertySource } from '@/types/propertyForm'
 
-export interface PropertyDetailsFormValues {
+interface PropertyDetailsFormValues {
   address: string
   unit: string
   city: string

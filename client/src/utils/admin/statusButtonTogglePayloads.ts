@@ -18,7 +18,7 @@ export function isTernaryStringValue(raw: unknown): raw is TernaryBoolean {
   return raw === 'true' || raw === 'false' || raw === 'override'
 }
 
-export function cycleTernaryBoolean(current: TernaryBoolean): TernaryBoolean {
+function cycleTernaryBooleanCore(current: TernaryBoolean): TernaryBoolean {
   if (current === 'false') {
     return 'true'
   }
@@ -28,7 +28,11 @@ export function cycleTernaryBoolean(current: TernaryBoolean): TernaryBoolean {
   return 'false'
 }
 
-export function isBooleanLikeAdminValue(raw: unknown): boolean {
+export function cycleTernaryBoolean(current: TernaryBoolean): TernaryBoolean {
+  return cycleTernaryBooleanCore(current)
+}
+
+function isBooleanLikeAdminValueCore(raw: unknown): boolean {
   const normalized = raw === '' ? false : raw
   return (
     normalized === true ||
@@ -38,6 +42,10 @@ export function isBooleanLikeAdminValue(raw: unknown): boolean {
   )
 }
 
+export function isBooleanLikeAdminValue(raw: unknown): boolean {
+  return isBooleanLikeAdminValueCore(raw)
+}
+
 export function buildTernaryTogglePayloads(
   entityId: string,
   fieldKey: string,
@@ -45,7 +53,7 @@ export function buildTernaryTogglePayloads(
 ): StatusToggleMutationPayload[] {
   return [
     {
-      admin: { key: fieldKey, value: cycleTernaryBoolean(current) },
+      admin: { key: fieldKey, value: cycleTernaryBooleanCore(current) },
       dynamicId: entityId,
     },
   ]
@@ -58,7 +66,7 @@ export function buildBooleanTogglePayloads<GE extends GlobalEntityKey>(
   currentRaw: unknown
 ): StatusToggleMutationPayload[] | null {
   const normalizedRaw = currentRaw === '' ? false : currentRaw
-  if (!isBooleanLikeAdminValue(normalizedRaw)) {
+  if (!isBooleanLikeAdminValueCore(normalizedRaw)) {
     return null
   }
 

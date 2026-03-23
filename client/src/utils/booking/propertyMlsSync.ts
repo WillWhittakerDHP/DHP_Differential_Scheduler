@@ -7,7 +7,7 @@ import type { PropertyEnrichmentResponse } from '@shared/types/propertyEnrichmen
 import type { PropertyFormData } from '@/types/propertyForm'
 import type { AppLogger } from '@/utils/logger'
 
-export interface PropertyMlsSyncDeps {
+interface PropertyMlsSyncDeps {
   resolveGate: () => { placeId: string; address: string } | null
   getCityStateZip: () => { city?: string; state?: string; zip?: string }
   setLoading: (loading: boolean) => void
@@ -21,7 +21,7 @@ export interface PropertyMlsSyncDeps {
   onEnrichmentLoaded: (enrichment: PropertyEnrichmentResponse) => void
 }
 
-/** Builds the callback bag for {@link runPropertyMlsEnrichmentFlow} (flattens composable nesting). */
+/** Builds the callback bag for runPropertyMlsEnrichmentFlow (flattens composable nesting). */
 export function buildMlsSyncDeps(input: {
   formData: PropertyFormData
   isEnrichmentLoading: Ref<boolean>

@@ -4,21 +4,21 @@ import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 import type { UsePerspectiveMappingParams } from '@/types/booking/perspectiveMapping'
 import type { UseBookingWizardReturn } from '@/types/wizard'
-import { useOptionTypeBlockSelection } from '@/composables/booking/useOptionTypeBlockSelection'
-import { useAppointmentDuration } from '@/composables/booking/useAppointmentDuration'
-import { useMockCalendarRefresh } from '@/composables/booking/useMockCalendarRefresh'
-import { usePerspectiveMapping } from '@/composables/booking/usePerspectiveMapping'
-import { useAvailabilitySlotColor } from '@/composables/booking/useAvailabilitySlotColor'
+import type { UseAppointmentShapeParams } from '@/types/booking/appointmentShape'
 import {
+  useOptionTypeBlockSelection,
+  useAppointmentDuration,
+  useMockCalendarRefresh,
+  usePerspectiveMapping,
+  useAvailabilitySlotColor,
   wireAppointmentDurationToRef,
   wireDisplayedMonthToVDatePicker,
   wireSelectedDateToDisplayedMonth,
   wireVDatePickerToDisplayedMonth,
-} from '@/composables/booking/useAvailabilityOrchestratorCalendarWatches'
-import { wireFirstAvailableDateNotice } from '@/composables/booking/useAvailabilityOrchestratorFirstAvailableWatch'
-import type { AvailabilityOrchestratorTimeSlotsShell } from '@/composables/booking/useAvailabilityOrchestratorTimeSlotsShell'
-import type { AvailabilityOrchestratorSlotComputeds } from '@/composables/booking/useAvailabilityOrchestratorSlotComputeds'
-import type { UseAppointmentShapeParams } from '@/types/booking/appointmentShape'
+  wireFirstAvailableDateNotice,
+  type AvailabilityOrchestratorTimeSlotsShell,
+  type AvailabilityOrchestratorSlotComputeds,
+} from '@/composables/booking/availabilityOrchestratorPostFetchBundle'
 
 export interface AvailabilityOrchestratorPostFetchPhaseResult {
   availabilityMinuteIncrement: ComputedRef<number>

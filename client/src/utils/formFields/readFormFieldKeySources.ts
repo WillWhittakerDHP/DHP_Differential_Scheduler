@@ -4,11 +4,15 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 /**
  * Normalizes optional field-key arrays from form options (refs / configs).
  */
-export function readGlobalFieldKeyArray<GE extends GlobalEntityKey>(value: unknown): GlobalFieldKey<GE>[] {
+function readGlobalFieldKeyArrayCore<GE extends GlobalEntityKey>(value: unknown): GlobalFieldKey<GE>[] {
   if (!Array.isArray(value)) {
     return []
   }
   return value as GlobalFieldKey<GE>[]
+}
+
+export function readGlobalFieldKeyArray<GE extends GlobalEntityKey>(value: unknown): GlobalFieldKey<GE>[] {
+  return readGlobalFieldKeyArrayCore(value)
 }
 
 /**
@@ -20,5 +24,5 @@ export function readFieldKeysFromOptionalConfigRef<GE extends GlobalEntityKey>(
   if (cfg === undefined) {
     return []
   }
-  return readGlobalFieldKeyArray<GE>(cfg.value)
+  return readGlobalFieldKeyArrayCore<GE>(cfg.value)
 }

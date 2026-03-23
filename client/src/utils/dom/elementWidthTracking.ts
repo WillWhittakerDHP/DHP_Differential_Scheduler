@@ -4,7 +4,7 @@
 
 import { getContentWidth } from '@/utils/dom/elementMeasure'
 
-export function scheduleDoubleRaf(callback: () => void): void {
+function scheduleDoubleRaf(callback: () => void): void {
   requestAnimationFrame(() => {
     requestAnimationFrame(callback)
   })
@@ -36,7 +36,9 @@ export function startContentWidthTracking(
   let resizeObserver: ResizeObserver | null = null
 
   const onResize = (): void => {
-    measureAndPublish(getElement, onPositiveWidth)
+    requestAnimationFrame(() => {
+      measureAndPublish(getElement, onPositiveWidth)
+    })
   }
 
   scheduleDoubleRaf(() => {

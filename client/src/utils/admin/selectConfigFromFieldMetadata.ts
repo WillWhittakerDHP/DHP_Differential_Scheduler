@@ -21,7 +21,7 @@ import {
 } from '@shared/utils/selectInputConfigCodec'
 import type { SelectOption } from '@/types/selectOptions'
 
-export interface SelectConfigLogger {
+interface SelectConfigLogger {
   warn: (message: string, meta?: Record<string, unknown>) => void
   error: (message: string, meta?: Record<string, unknown>) => void
   debug: (message: string, meta?: Record<string, unknown>) => void
@@ -111,7 +111,7 @@ export function mapOptionsSelectToSelectOptions(config: OptionsSelectConfigLike 
   }))
 }
 
-export function resolveRelationshipOrVirtualSelectConfig(
+function resolveRelationshipOrVirtualSelectConfig(
   meta: FieldMetadataEntry,
   isEnumSelect: boolean,
   isOptionsSelect: boolean,

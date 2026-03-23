@@ -41,7 +41,7 @@ function relationshipIdFromItem(item: unknown): string | null {
 }
 
 /** Exported for entity card Save: relationship field sync outside field-context blur. */
-export function relationshipIdsFromFieldValue(value: unknown): string[] {
+function relationshipIdsFromFieldValueCore(value: unknown): string[] {
   if (value === undefined || value === null) {
     return []
   }
@@ -52,7 +52,11 @@ export function relationshipIdsFromFieldValue(value: unknown): string[] {
   return one !== null ? [one] : []
 }
 
-export function dedupeIdsPreserveOrder(ids: string[]): string[] {
+export function relationshipIdsFromFieldValue(value: unknown): string[] {
+  return relationshipIdsFromFieldValueCore(value)
+}
+
+function dedupeIdsPreserveOrderCore(ids: string[]): string[] {
   const seen = new Set<string>()
   const out: string[] = []
   for (const id of ids) {
@@ -63,6 +67,10 @@ export function dedupeIdsPreserveOrder(ids: string[]): string[] {
     out.push(id)
   }
   return out
+}
+
+export function dedupeIdsPreserveOrder(ids: string[]): string[] {
+  return dedupeIdsPreserveOrderCore(ids)
 }
 
 function isRelationshipAlreadyExistsConflict(error: unknown): boolean {
@@ -136,7 +144,7 @@ export async function saveComponentEntityField<GE extends GlobalEntityKey, Field
  * POST/DELETE relationship rows to match desired child IDs (no cache invalidation).
  * WHY: Shared by blur-save and entity card Save.
  */
-export async function applyRelationshipIdDiff(params: {
+async function applyRelationshipIdDiffCore(params: {
   relationshipKey: GlobalRelationshipKey
   parentId: string
   oldIds: string[]
@@ -144,7 +152,7 @@ export async function applyRelationshipIdDiff(params: {
 }): Promise<void> {
   const { relationshipKey, parentId, oldIds, newIds } = params
   const relationshipEndpoint = getRelationshipEndpoint(relationshipKey)
-  const normalizedNew = dedupeIdsPreserveOrder(newIds)
+  const normalizedNew = dedupeIdsPreserveOrderCore(newIds)
   const { toAdd, toRemove } = calculateArrayDiff(oldIds, normalizedNew)
 
   const promises: Promise<void>[] = [
@@ -172,6 +180,15 @@ export async function applyRelationshipIdDiff(params: {
   await Promise.all(promises)
 }
 
+export async function applyRelationshipIdDiff(params: {
+  relationshipKey: GlobalRelationshipKey
+  parentId: string
+  oldIds: string[]
+  newIds: string[]
+}): Promise<void> {
+  await applyRelationshipIdDiffCore(params)
+}
+
 export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: SaveRelationshipFieldParams<GE, FieldKey>
 ): Promise<void> {
@@ -183,14 +200,14 @@ export async function saveRelationshipField<GE extends GlobalEntityKey, FieldKey
   const currentValue = Object.prototype.hasOwnProperty.call(entityRecord, fieldKeyString)
     ? entityRecord[fieldKeyString]
     : undefined
-  const oldValues = relationshipIdsFromFieldValue(currentValue)
+  const oldValues = relationshipIdsFromFieldValueCore(currentValue)
 
   const rawValue = state.value.value
   const plainValue = toRaw(rawValue)
-  const newValues = relationshipIdsFromFieldValue(plainValue)
+  const newValues = relationshipIdsFromFieldValueCore(plainValue)
 
   const parentId = String(state.entityId)
-  await applyRelationshipIdDiff({
+  await applyRelationshipIdDiffCore({
     relationshipKey,
     parentId,
     oldIds: oldValues,

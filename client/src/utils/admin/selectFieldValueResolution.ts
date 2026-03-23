@@ -13,7 +13,7 @@ export function collectSelectableOptionValues(options: SelectOptionOrHeader[]): 
   )
 }
 
-export function normalizeMultipleSelectFieldValue(
+function normalizeMultipleSelectFieldValue(
   value: unknown,
   optionValues: Set<string>
 ): string[] {

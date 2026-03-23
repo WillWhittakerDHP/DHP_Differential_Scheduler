@@ -45,16 +45,16 @@ const currentStepComponent = computed(() => getStepContent(activeStep.value))
 
 /** Plain object for child props — unwraps ComputedRefs for vue-tsc. */
 const progressSummaryStripDisplay = computed(() => ({
-  stripVisible: progressSummaryStrip.stripVisible.value,
-  showAddress: progressSummaryStrip.showAddress.value,
-  showPrice: progressSummaryStrip.showPrice.value,
-  showSlot: progressSummaryStrip.showSlot.value,
-  showFeeDetails: progressSummaryStrip.showFeeDetails.value,
-  serviceLine: progressSummaryStrip.serviceLine.value,
-  addressLine: progressSummaryStrip.addressLine.value,
-  feePreviewLabel: progressSummaryStrip.feePreviewLabel.value,
-  slotLines: progressSummaryStrip.slotLines.value,
-  priceData: progressSummaryStrip.priceData.value,
+  stripVisible: progressSummaryStrip.visibility.stripVisible.value,
+  showAddress: progressSummaryStrip.visibility.showAddress.value,
+  showPrice: progressSummaryStrip.visibility.showPrice.value,
+  showSlot: progressSummaryStrip.visibility.showSlot.value,
+  showFeeDetails: progressSummaryStrip.visibility.showFeeDetails.value,
+  serviceLine: progressSummaryStrip.display.serviceLine.value,
+  addressLine: progressSummaryStrip.display.addressLine.value,
+  feePreviewLabel: progressSummaryStrip.display.feePreviewLabel.value,
+  slotLines: progressSummaryStrip.display.slotLines.value,
+  priceData: progressSummaryStrip.display.priceData.value,
 }))
 
 const { success, error: showError } = useNotification()

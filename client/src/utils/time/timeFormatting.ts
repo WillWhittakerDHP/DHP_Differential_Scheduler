@@ -24,9 +24,13 @@ export function formatDuration(minutes: number): string {
   return `${mins}m`
 }
 
-export function getTodayDate(): ISO8601Date {
+function getTodayDateCore(): ISO8601Date {
   const today = new Date()
   return today.toISOString().split('T')[0] as ISO8601Date
+}
+
+export function getTodayDate(): ISO8601Date {
+  return getTodayDateCore()
 }
 
 export function getFirstAvailabilityDate(
@@ -50,7 +54,7 @@ export function getFirstAvailabilityDate(
     }
   }
 
-  return getTodayDate()
+  return getTodayDateCore()
 }
 
 

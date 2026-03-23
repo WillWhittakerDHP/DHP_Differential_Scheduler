@@ -4,7 +4,7 @@
 
 import type { Ref } from 'vue'
 
-export interface WizardStepValidationResetRefs {
+interface WizardStepValidationResetRefs {
   propertyDetailsStepData: Ref<unknown>
   contactsStepData: Ref<unknown>
   availabilityStepData: Ref<unknown>

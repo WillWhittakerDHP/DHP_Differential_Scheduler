@@ -1,6 +1,6 @@
 import type { SelectionCardConfig, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 
-export function getVisibleSelectionCardChildren(params: {
+function getVisibleSelectionCardChildrenCore(params: {
   item: SelectionCardItem
   config: SelectionCardConfig
 }): SelectionCardItem[] {
@@ -27,6 +27,13 @@ export function getVisibleSelectionCardChildren(params: {
   return []
 }
 
+export function getVisibleSelectionCardChildren(params: {
+  item: SelectionCardItem
+  config: SelectionCardConfig
+}): SelectionCardItem[] {
+  return getVisibleSelectionCardChildrenCore(params)
+}
+
 export function shouldSelectionCardExpand(params: {
   item: SelectionCardItem
   config: SelectionCardConfig
@@ -37,7 +44,7 @@ export function shouldSelectionCardExpand(params: {
   const composite = item.composite === true
   if (!composite) return false
 
-  return getVisibleSelectionCardChildren({ item, config }).length > 0
+  return getVisibleSelectionCardChildrenCore({ item, config }).length > 0
 }
 
 

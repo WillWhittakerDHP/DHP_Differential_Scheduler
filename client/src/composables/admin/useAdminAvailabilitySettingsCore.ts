@@ -33,7 +33,7 @@ export async function loadAdminAvailabilitySettingsIntoRefs(
   }
 }
 
-export function validateAdminAvailabilityBusinessHours(
+function validateAdminAvailabilityBusinessHoursCore(
   formData: Ref<AvailabilitySettings | null>,
   error: Ref<string | null>,
   rfc3339ToBusinessHoursHHmm: (rfc: RFC3339DateTime) => string
@@ -47,6 +47,14 @@ export function validateAdminAvailabilityBusinessHours(
     error.value = result.errorMessage ?? 'Invalid business hours'
   }
   return result.valid
+}
+
+export function validateAdminAvailabilityBusinessHours(
+  formData: Ref<AvailabilitySettings | null>,
+  error: Ref<string | null>,
+  rfc3339ToBusinessHoursHHmm: (rfc: RFC3339DateTime) => string
+): boolean {
+  return validateAdminAvailabilityBusinessHoursCore(formData, error, rfc3339ToBusinessHoursHHmm)
 }
 
 export async function saveAdminAvailabilitySettingsFromRefs(
@@ -64,7 +72,7 @@ export async function saveAdminAvailabilitySettingsFromRefs(
     return
   }
 
-  if (!validateAdminAvailabilityBusinessHours(formData, error, rfc3339ToBusinessHoursHHmm)) {
+  if (!validateAdminAvailabilityBusinessHoursCore(formData, error, rfc3339ToBusinessHoursHHmm)) {
     return
   }
 

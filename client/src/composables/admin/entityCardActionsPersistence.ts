@@ -21,7 +21,7 @@ import {
 
 const logger = createLogger('entityCardActionsPersistence')
 
-export interface EntityCardSaveDeps<GE extends GlobalEntityKey> {
+interface EntityCardSaveDeps<GE extends GlobalEntityKey> {
   entityKey: GE
   isNew: boolean
   validateForm: () => Promise<boolean>
@@ -112,7 +112,7 @@ export async function executeEntityCardSave<GE extends GlobalEntityKey>(
   }
 }
 
-export interface EntityCardDeleteDeps<GE extends GlobalEntityKey> {
+interface EntityCardDeleteDeps<GE extends GlobalEntityKey> {
   entityKey: GE
   entity: Ref<GlobalEntity<GE>>
   showError: (message: string) => void

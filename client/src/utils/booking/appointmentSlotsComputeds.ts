@@ -4,17 +4,28 @@
  */
 
 import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { ComputedSlot, SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { AppointmentShape, AppointmentSlot, PerspectiveKey } from '@/types/appointment'
+
+function serverSlotDurationFallback(serverSlot: ComputedSlot): number | undefined {
+  const d = serverSlot.duration
+  return typeof d === 'number' && Number.isFinite(d) && d > 0 ? d : undefined
+}
 
 export function buildAppointmentSlotsWithServerMeta(
   shape: AppointmentShape,
   serverSlots: ComputedSlot[]
 ): AppointmentSlot[] {
   return serverSlots.map((serverSlot, index) => {
-    const slot = applyShapeToTime(shape, serverSlot.startTime, index, undefined, true)
+    const slot = applyShapeToTime(
+      shape,
+      serverSlot.startTime,
+      index,
+      serverSlotDurationFallback(serverSlot),
+      true,
+    )
     return {
       ...slot,
       isAvailable: serverSlot.isAvailable,
@@ -48,7 +59,7 @@ export function displayTimeForButtonIndex(
   return derivePerspective(slot, perspective)
 }
 
-export interface GraphBarsResult {
+interface GraphBarsResult {
   major: SlotTimeBounds | null
   minor: SlotTimeBounds | null
 }
@@ -67,30 +78,27 @@ export function resolveAppointmentGraphBars(
   }
 
   const eventShapeEntities = shape.slotShape.eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
-
-  const majorEventShape = getEventShapeByRoleWithOverrides(
+  const resolved = resolveDifferentialMajorMinorFromEventShapes(
     eventShapeEntities,
-    'major',
-    shape.differentialEventRoleOverrides ?? null
+    shape.differentialEventRoleOverrides ?? null,
   )
-  if (!majorEventShape) {
-    logGraphBarsError('graphBars: no event shape with effective differentialRole=major')
-    return { major: null, minor: null }
+
+  if (!isDifferentialService || !resolved.hasMajorMinorPair) {
+    return {
+      major: slot.totalTimeRange ?? null,
+      minor: null,
+    }
   }
 
-  const minorEventShape = isDifferentialService
-    ? getEventShapeByRoleWithOverrides(
-        eventShapeEntities,
-        'minor',
-        shape.differentialEventRoleOverrides ?? null
-      )
-    : null
+  const majorShape = resolved.major
+  const minorShape = resolved.minor
+  if (majorShape === null || minorShape === null) {
+    logGraphBarsError('graphBars: hasMajorMinorPair true but major or minor is null')
+    return { major: slot.totalTimeRange ?? null, minor: null }
+  }
 
   return {
-    major: slot.eventTimeRanges?.[majorEventShape.name] ?? null,
-    minor:
-      isDifferentialService && minorEventShape
-        ? (slot.eventTimeRanges?.[minorEventShape.name] ?? null)
-        : null,
+    major: slot.eventTimeRanges?.[majorShape.name] ?? null,
+    minor: slot.eventTimeRanges?.[minorShape.name] ?? null,
   }
 }

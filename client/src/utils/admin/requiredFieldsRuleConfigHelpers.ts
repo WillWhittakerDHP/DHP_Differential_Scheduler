@@ -2,12 +2,9 @@
  * WHY: Pure helpers for required-fields rule config in business rule form (low nesting in computeds).
  */
 
-export interface RequiredFieldsRuleConfigShape {
-  fields: string[]
-  condition?: string
-}
+import type { RequiredFieldsRuleConfig } from '@shared/types/businessRulesTypes'
 
-export function commaStringToFieldArray(value: string): string[] {
+function commaStringToFieldArray(value: string): string[] {
   return value
     .split(',')
     .map((f) => f.trim())
@@ -15,9 +12,9 @@ export function commaStringToFieldArray(value: string): string[] {
 }
 
 export function requiredFieldsConfigFromCommaString(
-  prev: RequiredFieldsRuleConfigShape,
+  prev: RequiredFieldsRuleConfig,
   commaString: string
-): RequiredFieldsRuleConfigShape {
+): RequiredFieldsRuleConfig {
   return {
     fields: commaStringToFieldArray(commaString),
     condition: prev.condition,
@@ -25,9 +22,9 @@ export function requiredFieldsConfigFromCommaString(
 }
 
 export function requiredFieldsConfigWithCondition(
-  prev: RequiredFieldsRuleConfigShape,
+  prev: RequiredFieldsRuleConfig,
   condition: string
-): RequiredFieldsRuleConfigShape {
+): RequiredFieldsRuleConfig {
   return {
     ...prev,
     condition: condition || undefined,

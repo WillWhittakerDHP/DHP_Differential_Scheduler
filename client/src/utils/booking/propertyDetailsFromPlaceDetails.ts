@@ -4,7 +4,7 @@
 
 import type { AddressComponents, Coordinates } from '@shared/types/mapsTypes'
 
-export interface PlaceAddressFormPatch {
+interface PlaceAddressFormPatch {
   address: string
   city: string
   state: string

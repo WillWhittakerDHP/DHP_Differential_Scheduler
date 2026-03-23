@@ -6,7 +6,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardFieldConfig, WizardInstance } from '@/types/wizardStateFieldConfig'
 import { shouldToggleWizardMultiSelectArray } from '@/utils/booking/wizardStateSetValue'
 
-export interface WizardPluginSelectionContext {
+interface WizardPluginSelectionContext {
   fieldConfig: WizardFieldConfig
   wizard: WizardInstance
 }

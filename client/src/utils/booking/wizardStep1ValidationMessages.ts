@@ -2,13 +2,13 @@ import type { Ref } from 'vue'
 import type { PropertyDetailsStepData } from '@/types/wizard'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
-export function formatFieldErrorsMessage(fieldErrors: Record<string, string>): string {
+function formatFieldErrorsMessage(fieldErrors: Record<string, string>): string {
   const errors = Object.entries(fieldErrors)
   const errorMessages = errors.map(([field, error]) => `${field}: ${error}`).join(', ')
   return `Please fix the following: ${errorMessages}`
 }
 
-export function collectMissingPropertyDetailsFields(
+function collectMissingPropertyDetailsFields(
   data: PropertyDetailsStepData | null | undefined,
   selectedBlocks: BookingBlockInstance[]
 ): string[] {

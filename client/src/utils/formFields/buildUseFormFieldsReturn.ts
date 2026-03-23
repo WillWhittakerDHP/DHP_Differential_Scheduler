@@ -6,7 +6,7 @@ import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { UseFormFieldsReturn } from '@/composables/formFields/types'
 import type { UseFormFieldsStandardLayoutReturn } from '@/composables/formFields/layoutTypes'
 
-export interface BuildUseFormFieldsReturnParts<GE extends GlobalEntityKey> {
+interface BuildUseFormFieldsReturnParts<GE extends GlobalEntityKey> {
   fieldContextCache: Ref<Map<string, FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>>> | ShallowRef<Map<string, FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>>>
   isFormReady: ComputedRef<boolean>
   fieldsNeedingContexts: ComputedRef<GlobalFieldKey<GE>[]>

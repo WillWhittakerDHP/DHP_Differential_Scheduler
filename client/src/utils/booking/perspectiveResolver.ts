@@ -3,49 +3,47 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
-import { createLogger } from '@/utils/logger'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 import type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
 export type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
-const logger = createLogger('perspectiveResolver')
+function resolvedShapesFromMajorMinorPair(
+  pair: ReturnType<typeof resolveDifferentialMajorMinorFromEventShapes>
+): ResolvedEventShapes {
+  if (!pair.hasMajorMinorPair || pair.major === null || pair.minor === null) {
+    return {
+      majorEventShape: null,
+      minorEventShape: null,
+      majorEventName: null,
+      minorEventName: null,
+    }
+  }
+  return {
+    majorEventShape: pair.major,
+    minorEventShape: pair.minor,
+    majorEventName: pair.major.name ?? null,
+    minorEventName: pair.minor.name ?? null,
+  }
+}
+
+function resolveEventShapesCore(
+  eventFinals: SlotShape['eventFinals'],
+  overrides?: Record<string, DifferentialRole> | null
+): ResolvedEventShapes {
+  const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
+  const pair = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities, overrides)
+  return resolvedShapesFromMajorMinorPair(pair)
+}
 
 export function resolveEventShapes(
   eventFinals: SlotShape['eventFinals'],
   overrides?: Record<string, DifferentialRole> | null
 ): ResolvedEventShapes {
-  const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-
-  const majorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'major', overrides)
-  if (!majorEventShape) {
-    logger.error('resolveEventShapes: no event shape with effective differentialRole=major', {
-      availableRoles: eventShapeEntities.map((es) => ({
-        name: es.name,
-        differentialRole: es.differentialRole,
-      })),
-    })
-  }
-
-  const minorEventShape = getEventShapeByRoleWithOverrides(eventShapeEntities, 'minor', overrides)
-  if (!minorEventShape) {
-    logger.error('resolveEventShapes: no event shape with effective differentialRole=minor', {
-      availableRoles: eventShapeEntities.map((es) => ({
-        name: es.name,
-        differentialRole: es.differentialRole,
-      })),
-    })
-  }
-
-  return {
-    majorEventShape,
-    minorEventShape,
-    majorEventName: majorEventShape?.name ?? null,
-    minorEventName: minorEventShape?.name ?? null
-  }
+  return resolveEventShapesCore(eventFinals, overrides)
 }
 
 export function adjustMinorTimeRange(
@@ -130,6 +128,20 @@ export function derivePerspective(
   if (!eventFinals?.length) {
     return derivePerspectiveNoEventFinals(slot, perspective)
   }
-  const resolved = resolveEventShapes(eventFinals, slot.shape.differentialEventRoleOverrides ?? null)
-  return derivePerspectiveWithResolved(slot, perspective, resolved)
+  const eventShapeEntities = eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
+  const pair = resolveDifferentialMajorMinorFromEventShapes(
+    eventShapeEntities,
+    slot.shape.differentialEventRoleOverrides ?? null,
+  )
+  // WHY: Without a major+minor pair, role-based ranges are not defined; use total for every
+  // perspective (including minor). Reusing derivePerspectiveNoEventFinals would return null
+  // for minor and show "Unavailable" while totalTimeRange is valid.
+  if (!pair.hasMajorMinorPair) {
+    return slot.totalTimeRange ?? derivePerspectiveNoEventFinals(slot, perspective)
+  }
+  return derivePerspectiveWithResolved(
+    slot,
+    perspective,
+    resolvedShapesFromMajorMinorPair(pair),
+  )
 }

@@ -1,62 +1,10 @@
-import type { Ref, ComputedRef, WritableComputedRef } from 'vue'
 import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { AppointmentSlots } from '@/types/appointment'
-import type { MoveableSchedulingOptions, ContingencyPeriod } from '@/types/moveableScheduling'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
-import type { PerspectiveKey } from '@/types/appointment'
-import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type { UseAvailabilityOrchestratorReturn } from '@/types/booking/availabilityOrchestrator'
 import { getTodayDate } from '@/utils/time/timeFormatting'
 
-export interface AvailabilityOrchestratorReturnBundle {
-  firstAvailableNotice: Ref<string | null>
-  selectedDateSingle: ComputedRef<string | null>
-  vDatePickerDisplayDate: Ref<Date>
-  allowedDates: ComputedRef<(date: string) => boolean>
-  fieldErrors: Ref<Record<string, string>>
-  isEffectivelyDifferential: ComputedRef<boolean>
-  hasMoveablePartsGated: ComputedRef<boolean>
-  userHasChosenTimeBasisFromGraph: Ref<boolean>
-  graphBars: ComputedRef<{ major: SlotTimeBounds | null; minor: SlotTimeBounds | null }>
-  perspective: ComputedRef<PerspectiveKey>
-  selectedDate: Ref<{ start: string | null; end: string | null }>
-  appointmentSlots: ComputedRef<AppointmentSlots>
-  emptyStateMessage: ComputedRef<string | null>
-  selectedButtonIndex: ComputedRef<number | null>
-  originalInspectionButtonIndex: ComputedRef<number | null>
-  selectedOptionTypeBlockId: WritableComputedRef<string | null>
-  showMoveableModal: Ref<boolean>
-  moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
-  moveableAppointmentSlots: ComputedRef<AppointmentSlots>
-  moveableStepperDayLabel: ComputedRef<string>
-  moveablePartShapeName: ComputedRef<string>
-  selectedMoveableDay: Ref<string | null>
-  setSelectedMoveableDay: (date: string | null) => void
-  allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
-  availableMoveableDayKeys: ComputedRef<string[]>
-  moveableFirstDayKey: ComputedRef<string | null>
-  moveableLastDayKey: ComputedRef<string | null>
-  moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
-  isLoadingMoveableDaySlots: Ref<boolean>
-  selectedMoveableSlotIndex: Ref<number | null>
-  contingencyPeriod: Ref<ContingencyPeriod>
-  isLoadingOptions: Ref<boolean>
-  stepData: ComputedRef<AvailabilityStepData>
-  isFormValid: ComputedRef<boolean>
-  slotColor: ComputedRef<'primary' | 'secondary'>
-  availabilityMinuteIncrement: ComputedRef<number>
-  setVDatePickerDisplayDate: (val: Date) => void
-  handleDateChange: (value: string | Date | string[] | Date[] | null) => void
-  handleTimeBasisChange: (type: 'major' | 'minor') => void
-  handleAppointmentSlotClick: (index: number) => void
-  selectMoveableSlot: (index: number) => void
-  handleMoveableConfirm: () => void
-  handleMoveableCancel: () => void
-  validateForm: () => boolean
-  clearFirstAvailableNotice: () => void
-  wizard: UseBookingWizardReturn
-}
+/** Flat bundle passed into buildAvailabilityOrchestratorReturn; getTodayDate is injected in the builder, not passed on the bundle. */
+type AvailabilityOrchestratorReturnBundle = UseAvailabilityOrchestratorReturn['data'] &
+  Omit<UseAvailabilityOrchestratorReturn['actions'], 'getTodayDate'> & { wizard: UseBookingWizardReturn }
 
 export function buildAvailabilityOrchestratorReturn(bundle: AvailabilityOrchestratorReturnBundle): UseAvailabilityOrchestratorReturn {
   return {

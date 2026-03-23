@@ -16,12 +16,19 @@ import type { AppointmentVersionsResponse, VersionBlockInstance } from '@/types/
 
 export type { AppointmentVersionsResponse } from '@/types/transformers/appointmentToWizardHelpers'
 
-export function findBlockInstanceById(
+function findBlockInstanceByIdCore(
   bookingData: BookingData,
   id: string | null | undefined
 ): BookingBlockInstance | null {
   if (!id || !bookingData) return null
   return findById(bookingData.blockInstances, id)
+}
+
+export function findBlockInstanceById(
+  bookingData: BookingData,
+  id: string | null | undefined
+): BookingBlockInstance | null {
+  return findBlockInstanceByIdCore(bookingData, id)
 }
 
 function findBlockInstancesByIds(
@@ -123,7 +130,7 @@ function logMissingAndWrongShapeIds(
     return
   }
   const wrongShapeIds = ids.filter(id => {
-    const instance = findBlockInstanceById(bookingData, id)
+    const instance = findBlockInstanceByIdCore(bookingData, id)
     return instance !== null && instance.blockShapeRef !== blockShapeId
   })
   if (wrongShapeIds.length > 0) {

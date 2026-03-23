@@ -22,7 +22,7 @@ export async function runEntityUpdateWithComponentCheck<GE extends GlobalEntityK
 
   const computedChanges = Object.entries(entity).reduce<Record<string, unknown>>((acc, [key, value]) => {
     if (isComputedEntityPropertyKey(key)) {
-      return { ...acc, [key]: value }
+      acc[key] = value
     }
     return acc
   }, {})

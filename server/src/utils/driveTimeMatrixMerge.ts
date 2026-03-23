@@ -5,9 +5,9 @@
 import type { RouteLocation, RouteMatrixResult } from '../services/google/maps/mapsTypes.js'
 import { getCachedDriveTime, cacheDriveTime } from '../services/driveTimeCache.js'
 
-export type DriveLegsPerPlace = Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>
+type DriveLegsPerPlace = Record<string, { driveToCandidate?: number; driveFromCandidate?: number }>
 
-export type DriveTimeCacheAccumulator = {
+type DriveTimeCacheAccumulator = {
   results: DriveLegsPerPlace
   uncachedTo: string[]
   uncachedFrom: string[]

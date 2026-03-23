@@ -5,7 +5,7 @@
 import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import {
-  mountDragAndDropOnPanelsIfReady,
+  useMountDragAndDropOnPanelsIfReady,
   type MountDragAndDropOnPanelsParams,
 } from '@/composables/admin/useDragAndDropInstance'
 import type { UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
@@ -15,7 +15,7 @@ function scheduleMountWhenReady(params: MountDragAndDropOnPanelsParams): void {
     if (!params.isMounted.value) {
       return
     }
-    mountDragAndDropOnPanelsIfReady(params)
+    useMountDragAndDropOnPanelsIfReady(params)
   })
 }
 

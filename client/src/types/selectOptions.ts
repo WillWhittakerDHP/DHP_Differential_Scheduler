@@ -6,7 +6,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
 
 /** Sentinel value for option-list group headers (non-selectable row showing block shape name). */
-export const SELECT_OPTION_GROUP_HEADER_VALUE = '__select_group_header__'
+const SELECT_OPTION_GROUP_HEADER_VALUE_CORE = '__select_group_header__'
+
+export const SELECT_OPTION_GROUP_HEADER_VALUE = SELECT_OPTION_GROUP_HEADER_VALUE_CORE
 
 export interface SelectOptionBase {
   title: string
@@ -21,7 +23,7 @@ export interface SelectOption extends SelectOptionBase {
 export interface SelectOptionGroupHeader {
   header: string
   title: string
-  value: typeof SELECT_OPTION_GROUP_HEADER_VALUE
+  value: typeof SELECT_OPTION_GROUP_HEADER_VALUE_CORE
 }
 
 export type SelectOptionOrHeader = SelectOption | SelectOptionGroupHeader
@@ -29,7 +31,7 @@ export type SelectOptionOrHeader = SelectOption | SelectOptionGroupHeader
 export function isSelectOptionGroupHeader(
   item: SelectOptionOrHeader
 ): item is SelectOptionGroupHeader {
-  return (item as SelectOptionGroupHeader).value === SELECT_OPTION_GROUP_HEADER_VALUE
+  return (item as SelectOptionGroupHeader).value === SELECT_OPTION_GROUP_HEADER_VALUE_CORE
 }
 
 export interface GroupedEntities extends SelectGroup {

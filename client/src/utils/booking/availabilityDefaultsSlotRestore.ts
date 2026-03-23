@@ -5,7 +5,7 @@
 import type { TimeSlot } from '@/types/appointment'
 import { findMatchingTimeSlot } from '@/utils/booking/timeSlotMatching'
 
-export interface WizardRestoreCandidateSlot {
+interface WizardRestoreCandidateSlot {
   startTime?: string
   time?: string
 }

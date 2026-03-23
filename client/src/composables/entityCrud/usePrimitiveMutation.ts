@@ -3,12 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import type { AxiosError } from 'axios'
 import apiClient, { getEntityByIdEndpoint } from '@/utils/api'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { ValidAdminValue } from '@/constants/primitives'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { GlobalEntity } from '@/types/entities'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { createLogger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
+import type { StatusToggleMutationPayload } from '@/utils/admin/statusButtonTogglePayloads'
 
 const logger = createLogger('usePrimitiveMutation')
 
@@ -17,11 +17,6 @@ const BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS = {
   canHaveParts: 'canHaveParts',
   isStateControl: 'isStateControl',
 } as const
-
-type PrimitiveMutationVariables = {
-  admin: { key: string; value: ValidAdminValue }
-  dynamicId: string
-}
 
 /**
  * Primitive mutation for updating a single field on an entity.
@@ -33,22 +28,21 @@ type PrimitiveMutationVariables = {
  */
 export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey>(
   entityKey: GlobalEntityTypeKey
-): UseMutationReturnType<{ success: boolean }, AxiosError<{ error?: string; id?: string }>, PrimitiveMutationVariables, { previousData?: GlobalData }> {
+): UseMutationReturnType<
+  { success: boolean },
+  AxiosError<{ error?: string; id?: string }>,
+  StatusToggleMutationPayload,
+  { previousData?: GlobalData }
+> {
   const queryClient = useQueryClient()
 
   const mutation = useMutation<
     { success: boolean },
     AxiosError<{ error?: string; id?: string }> | Error,
-    PrimitiveMutationVariables,
+    StatusToggleMutationPayload,
     { previousData?: GlobalData }
   >({
-    mutationFn: async ({
-      admin,
-      dynamicId,
-    }: {
-      admin: { key: string; value: ValidAdminValue }
-      dynamicId: string
-    }) => {
+    mutationFn: async ({ admin, dynamicId }: StatusToggleMutationPayload) => {
       if (!dynamicId) throw new Error('Missing dynamicId for primitive mutation')
 
       const endpoint = getEntityByIdEndpoint(entityKey, dynamicId)
@@ -207,7 +201,7 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
   return mutation as UseMutationReturnType<
     { success: boolean },
     AxiosError<{ error?: string; id?: string }>,
-    PrimitiveMutationVariables,
+    StatusToggleMutationPayload,
     { previousData?: GlobalData }
   >
 }

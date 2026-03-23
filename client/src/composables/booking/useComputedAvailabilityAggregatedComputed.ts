@@ -9,14 +9,14 @@ export function createComputedAvailabilityAggregatedComputed(
 ): ComputedRef<ComputedSlotAvailabilityData | null> {
   return computed<ComputedSlotAvailabilityData | null>(() =>
     buildComputedSlotAvailabilityData(
-      state.slotsByDay.value,
-      state.constraints.value,
-      state.minuteIncrement.value,
-      state.timezone.value,
-      state.durationRounding.value,
-      state.calendarEvents.value,
-      state.outOfOfficeEvents.value,
-      state.computedDataMeta.value
+      state.refs.slotsByDay.value,
+      state.refs.constraints.value,
+      state.refs.minuteIncrement.value,
+      state.refs.timezone.value,
+      state.refs.durationRounding.value,
+      state.refs.calendarEvents.value,
+      state.refs.outOfOfficeEvents.value,
+      state.refs.computedDataMeta.value
     )
   )
 }

@@ -2,13 +2,17 @@
  * Pure / imperative step flow helpers for useWizardNavigation (function-governance extraction).
  */
 
-export function arePreviousStepsCompleted(completedSteps: Set<number>, targetStep: number): boolean {
+function arePreviousStepsCompletedCore(completedSteps: Set<number>, targetStep: number): boolean {
   for (let i = 0; i < targetStep; i++) {
     if (!completedSteps.has(i)) {
       return false
     }
   }
   return true
+}
+
+export function arePreviousStepsCompleted(completedSteps: Set<number>, targetStep: number): boolean {
+  return arePreviousStepsCompletedCore(completedSteps, targetStep)
 }
 
 export function computeWizardStepState(
@@ -36,10 +40,10 @@ export function isWizardStepAccessible(
   if (index === activeIndex + 1) {
     return true
   }
-  return arePreviousStepsCompleted(completedSteps, index)
+  return arePreviousStepsCompletedCore(completedSteps, index)
 }
 
-export interface TryForwardWizardJumpParams {
+interface TryForwardWizardJumpParams {
   activeIndex: number
   targetIndex: number
   completedSteps: Set<number>

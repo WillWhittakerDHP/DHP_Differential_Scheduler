@@ -9,7 +9,7 @@ import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { DistributionPreview, DistributionStrategy } from '@/types/component'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 
-export function readDistributionNumericField(
+function readDistributionNumericFieldCore(
   globalData: GlobalData | null | undefined,
   entityKey: GlobalEntityKey,
   componentId: GlobalEntityId,
@@ -26,6 +26,15 @@ export function readDistributionNumericField(
 
   const value = getEntityFieldValue(component, propertyKey)
   return typeof value === 'number' ? value : 0
+}
+
+export function readDistributionNumericField(
+  globalData: GlobalData | null | undefined,
+  entityKey: GlobalEntityKey,
+  componentId: GlobalEntityId,
+  propertyKey: string
+): number {
+  return readDistributionNumericFieldCore(globalData, entityKey, componentId, propertyKey)
 }
 
 export function readDistributionComponentLabel(
@@ -48,7 +57,7 @@ export function formatDistributionDecimal(value: number): string {
   return value.toFixed(2)
 }
 
-export function buildManualDistributionPreviewRows(
+function buildManualDistributionPreviewRows(
   globalData: GlobalData | null | undefined,
   entityKey: GlobalEntityKey,
   componentIds: GlobalEntityId[],
@@ -60,7 +69,7 @@ export function buildManualDistributionPreviewRows(
   }
 
   return componentIds.map((componentId) => {
-    const currentValue = readDistributionNumericField(globalData, entityKey, componentId, propertyKey)
+    const currentValue = readDistributionNumericFieldCore(globalData, entityKey, componentId, propertyKey)
     const manualValue = manualValues[componentId] ?? currentValue
     return {
       componentId,
@@ -84,7 +93,7 @@ export function mergeManualValuesForStrategySwitch(
 
   return componentIds.reduce<Record<GlobalEntityId, number>>((acc, componentId) => {
     if (!(componentId in existingManual)) {
-      acc[componentId] = readDistributionNumericField(globalData, entityKey, componentId, propertyKey)
+      acc[componentId] = readDistributionNumericFieldCore(globalData, entityKey, componentId, propertyKey)
     } else {
       acc[componentId] = existingManual[componentId]
     }

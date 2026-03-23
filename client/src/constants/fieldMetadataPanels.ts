@@ -6,14 +6,16 @@ import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes'
 /** Re-export for consumers that import from fieldMetadata. */
 export type { EntityMetadataType }
 
-export const SUB_PANEL_KEYS = ['parts', 'relationships', FIELD_NAMES.ANNOTATIONS, 'events', 'composition'] as const
+const SUB_PANEL_KEYS_CORE = ['parts', 'relationships', FIELD_NAMES.ANNOTATIONS, 'events', 'composition'] as const
 
-export type SubPanelKey = (typeof SUB_PANEL_KEYS)[number]
+export const SUB_PANEL_KEYS = SUB_PANEL_KEYS_CORE
+
+export type SubPanelKey = (typeof SUB_PANEL_KEYS_CORE)[number]
 
 export type SubPanelRecord<T> = Record<SubPanelKey, T>
 
 export function createEmptySubPanelRecord<T>(factory: () => T): SubPanelRecord<T> {
-  return Object.fromEntries(SUB_PANEL_KEYS.map(key => [key, factory()])) as SubPanelRecord<T>
+  return Object.fromEntries(SUB_PANEL_KEYS_CORE.map((key) => [key, factory()])) as SubPanelRecord<T>
 }
 
 export interface FieldMetadataEntry extends MetadataEntryBase {

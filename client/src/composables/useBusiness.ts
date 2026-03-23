@@ -9,13 +9,15 @@ import { businessTransformer, type BusinessData } from '@/utils/transformers/fet
 import type { UseBusinessReturn } from '@/types/business'
 
 
-export const BUSINESS_DATA_QUERY_KEY = ['businessData'] as const
+const BUSINESS_DATA_QUERY_KEY_CORE = ['businessData'] as const
+
+export const BUSINESS_DATA_QUERY_KEY = BUSINESS_DATA_QUERY_KEY_CORE
 
 export function useBusiness(): UseBusinessReturn {
   const queryClient = useQueryClient()
 
   const businessQuery = useQuery<BusinessData>({
-    queryKey: BUSINESS_DATA_QUERY_KEY,
+    queryKey: BUSINESS_DATA_QUERY_KEY_CORE,
     queryFn: () => businessTransformer.fetchAll(),
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
@@ -26,7 +28,7 @@ export function useBusiness(): UseBusinessReturn {
     isLoading: computed(() => businessQuery.isLoading.value),
     error: computed(() => businessQuery.error.value),
     refetch: async () => {
-      await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
+      await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY_CORE })
     },
   }
 }

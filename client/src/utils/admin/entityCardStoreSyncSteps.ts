@@ -10,7 +10,7 @@ import {
   shouldResetFormOnStoreChange,
 } from '@/utils/admin/entityCardStoreSyncActions'
 
-export type EntityCardStoreSyncStep<GE extends GlobalEntityKey> =
+type EntityCardStoreSyncStep<GE extends GlobalEntityKey> =
   | { kind: 'skip' }
   | { kind: 'reset'; nextLastId: string; values: GlobalEntity<GE> }
   | { kind: 'patch'; changedFields: (keyof GlobalEntity<GE>)[]; values: GlobalEntity<GE> }

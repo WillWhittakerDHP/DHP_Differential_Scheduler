@@ -1,6 +1,6 @@
 
 import {
-  RULE_TYPE_VALUES as SHARED_RULE_TYPE_VALUES,
+  RULE_TYPE_VALUES as RULE_TYPE_VALUES_CORE,
   BUSINESS_RULES_ROUTE,
 } from '@shared/constants/businessRulesConstants'
 
@@ -22,7 +22,7 @@ export const BUSINESS_RULES_MESSAGES = {
 } as const
 
 /** Rule type value constants (re-exported from shared for switch/case and form defaults) */
-export const RULE_TYPE_VALUES = SHARED_RULE_TYPE_VALUES
+export const RULE_TYPE_VALUES = RULE_TYPE_VALUES_CORE
 
 /** Condition/operator values for conditional validation configs. */
 export const RULE_CONDITION_VALUES = {
@@ -31,10 +31,10 @@ export const RULE_CONDITION_VALUES = {
 
 /** Rule type options for selects (title, value, description) */
 export const RULE_TYPE_OPTIONS = [
-  { title: 'Required Fields', value: RULE_TYPE_VALUES.REQUIRED_FIELDS, description: 'Additional required fields based on block selection' },
-  { title: 'Requires Agent', value: RULE_TYPE_VALUES.REQUIRES_AGENT, description: 'Service requires agent/client contact information' },
-  { title: 'Conditional Validation', value: RULE_TYPE_VALUES.CONDITIONAL_VALIDATION, description: 'Field validation depends on other field values' },
-  { title: 'Validation Message', value: RULE_TYPE_VALUES.VALIDATION_MESSAGE, description: 'Custom validation messages for fields/blocks' },
+  { title: 'Required Fields', value: RULE_TYPE_VALUES_CORE.REQUIRED_FIELDS, description: 'Additional required fields based on block selection' },
+  { title: 'Requires Agent', value: RULE_TYPE_VALUES_CORE.REQUIRES_AGENT, description: 'Service requires agent/client contact information' },
+  { title: 'Conditional Validation', value: RULE_TYPE_VALUES_CORE.CONDITIONAL_VALIDATION, description: 'Field validation depends on other field values' },
+  { title: 'Validation Message', value: RULE_TYPE_VALUES_CORE.VALIDATION_MESSAGE, description: 'Custom validation messages for fields/blocks' },
 ] as const
 
 export const BUSINESS_RULES_UI = {

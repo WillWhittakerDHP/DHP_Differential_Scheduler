@@ -2,7 +2,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 
 const MAX_DISPLAY_ITEMS = 2
 
-export function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
+function formatTruncatedListCore(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
   if (items.length === 0) return ''
   const displayItems = items.slice(0, maxDisplay)
   const remaining = items.length - maxDisplay
@@ -10,7 +10,11 @@ export function formatTruncatedList(items: string[], maxDisplay: number = MAX_DI
   return `${displayItems.join(', ')} +${remaining} more`
 }
 
-export interface PartsSummaryResolvers {
+export function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
+  return formatTruncatedListCore(items, maxDisplay)
+}
+
+interface PartsSummaryResolvers {
   namesForPartInstanceIds: (ids: unknown[]) => string[]
   namesForPartShapeIds: (ids: unknown[]) => string[]
 }
@@ -23,12 +27,12 @@ export function buildPartsSummaryForSubPanel(
   if (entityKey === 'blockInstance') {
     const partAssignments = values.partAssignments
     if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
-    return formatTruncatedList(resolvers.namesForPartInstanceIds(partAssignments))
+    return formatTruncatedListCore(resolvers.namesForPartInstanceIds(partAssignments))
   }
   if (entityKey === 'blockShape') {
     const validParts = values.validParts
     if (!Array.isArray(validParts) || validParts.length === 0) return ''
-    return formatTruncatedList(resolvers.namesForPartShapeIds(validParts))
+    return formatTruncatedListCore(resolvers.namesForPartShapeIds(validParts))
   }
   return ''
 }

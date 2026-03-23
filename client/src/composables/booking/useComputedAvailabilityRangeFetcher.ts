@@ -5,7 +5,7 @@ import {
   type ComputedAvailabilityFetchRefs,
 } from '@/composables/booking/computedAvailabilityFetchCore'
 
-export interface ComputedAvailabilityRangeFetcherDeps {
+interface ComputedAvailabilityRangeFetcherDeps {
   fetchRefs: ComputedAvailabilityFetchRefs
   placeId: ComputedRef<string | undefined>
   appointmentIdForRequest: ComputedRef<string | null>

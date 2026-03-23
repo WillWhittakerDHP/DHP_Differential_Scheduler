@@ -6,10 +6,13 @@ import type { Ref, WritableComputedRef } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import { createNestedComputed, createEnsureNested } from '@/composables/admin/utils/nestedComputedFactory'
 import { ROLLING_WEEK_DIRECTION_VALUES } from '@/constants/businessControlsOptions'
-import type { UseCapacitySettingsParams, UseCapacitySettingsReturn } from '@/types/admin/capacitySettings'
+import type {
+  CapacityFilterKey,
+  UseCapacitySettingsParams,
+  UseCapacitySettingsReturn,
+} from '@/types/admin/capacitySettings'
 
 type MaxIncome = NonNullable<AvailabilitySettings['maxIncome']>
-type CapacityFilterKey = 'day' | 'calendarWeek' | 'rollingWeek'
 
 function createMaxIncomeComputed<F extends CapacityFilterKey, P extends keyof NonNullable<MaxIncome[F]>>(
   formData: Ref<AvailabilitySettings | null>,

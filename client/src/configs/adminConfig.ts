@@ -79,8 +79,12 @@ function buildFormFieldConfig(): FormFieldConfigMap {
   }
 }
 
-export function buildDisplayFieldConfig() {
+function buildDisplayFieldConfigCore() {
   return buildDynamicDisplayFieldConfig()
+}
+
+export function buildDisplayFieldConfig() {
+  return buildDisplayFieldConfigCore()
 }
 
 export type InstanceConfig = {
@@ -100,7 +104,7 @@ export interface AdminConfig {
 
 function buildAdminConfig(): AdminConfig {
   const formFieldConfig = buildFormFieldConfig()
-  const displayFieldConfig = buildDisplayFieldConfig()
+  const displayFieldConfig = buildDisplayFieldConfigCore()
   const instanceConfig = buildInstanceConfig()
   
   return {

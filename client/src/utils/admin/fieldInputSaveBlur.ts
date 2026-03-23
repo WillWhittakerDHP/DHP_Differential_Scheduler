@@ -5,7 +5,7 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 
 const logger = createLogger('fieldInputSaveBlur')
 
-export function blurActiveTarget(target: EventTarget | null): void {
+function blurActiveTarget(target: EventTarget | null): void {
   const el = target as HTMLElement
   if (el && 'blur' in el && typeof el.blur === 'function') {
     el.blur()

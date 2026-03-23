@@ -1,6 +1,6 @@
 import type { WizardStepConfig } from '@/configs/wizardSteps'
 
-export interface ServiceBlockLike {
+interface ServiceBlockLike {
   name: string
 }
 
@@ -21,7 +21,7 @@ export function buildWizardStepSubtitles(
   return baseSubtitles
 }
 
-export function formatServiceSelectionLabel(services: ServiceBlockLike[]): string | null {
+function formatServiceSelectionLabel(services: ServiceBlockLike[]): string | null {
   if (services.length === 0) return null
   const first = services[0]
   if (services.length === 1) return first.name

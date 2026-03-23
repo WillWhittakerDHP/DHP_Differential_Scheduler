@@ -21,7 +21,7 @@ export function driveTimeFeeScalarsForRow(
   return { driveTimeFeeComplimentaryMinutes, driveTimeFeeRatePerHour, driveTimeFeeRoundingMinutes }
 }
 
-export interface SanitizedDifferentialAttendees {
+interface SanitizedDifferentialAttendees {
   majorSanitized: string[]
   minorSanitized: string[]
   droppedMajor: string[]

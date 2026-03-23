@@ -33,3 +33,23 @@ export function getEventShapeByRoleWithOverrides(
     }) ?? null
   )
 }
+
+/** Both roles resolved — differential scheduling bar/offset path. No logging. */
+export type DifferentialMajorMinorFromEventShapes = {
+  hasMajorMinorPair: boolean
+  major: EventShapeEntity | null
+  minor: EventShapeEntity | null
+}
+
+export function resolveDifferentialMajorMinorFromEventShapes(
+  eventShapes: EventShapeEntity[],
+  overrides?: Record<string, DifferentialRole> | null
+): DifferentialMajorMinorFromEventShapes {
+  const major = getEventShapeByRoleWithOverrides(eventShapes, 'major', overrides)
+  const minor = getEventShapeByRoleWithOverrides(eventShapes, 'minor', overrides)
+  return {
+    hasMajorMinorPair: major !== null && minor !== null,
+    major,
+    minor,
+  }
+}
