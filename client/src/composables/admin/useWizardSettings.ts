@@ -155,6 +155,14 @@ function buildWizardSettingsFlags(
     return String(raw).trim()
   })
 
+  const logoUrl = computed<string | null>(() => {
+    const raw = wizardData.value?.logoUrl
+    if (raw == null || String(raw).trim() === '') {
+      return null
+    }
+    return String(raw).trim()
+  })
+
   function setUseBrandColors(value: boolean): void {
     if (brandColorsBinding) brandColorsBinding.value = value
   }
@@ -166,6 +174,7 @@ function buildWizardSettingsFlags(
     setUseBrandColors,
     brandPrimaryHex,
     brandSecondaryHex,
+    logoUrl,
   }
 }
 

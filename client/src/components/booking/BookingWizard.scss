@@ -31,6 +31,16 @@
     min-height: 0;
   }
 
+  .booking-wizard-logo-wrap {
+    width: 100%;
+  }
+
+  .booking-wizard-logo {
+    max-height: 56px;
+    max-width: min(280px, 100%);
+    object-fit: contain;
+  }
+
   .stepper-column {
     display: flex;
     flex-direction: column;
