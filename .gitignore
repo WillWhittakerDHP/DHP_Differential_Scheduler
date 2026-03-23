@@ -1,5 +1,8 @@
 node_modules
 dist
+
+# Wizard logo uploads (session 6.15.1 — local disk; configurable via WIZARD_LOGO_UPLOAD_DIR)
+uploads/
 .env
 .env.*
 # Allow .env.example templates to be committed (no secrets)
