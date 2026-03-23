@@ -1,6 +1,6 @@
 # Security middleware stubs
 
-In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. **`csrfProtection`** (validation) and CSRF **issuance** are **active** (Phase 8.6.1.x) — see below. **`checkOwnership`** remains a **stub** (Phase 8.7). None of these are global — routes opt in.
+In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. **`csrfProtection`** (validation) and CSRF **issuance** are **active** (Phase 8.6.1.x) — see below. **`checkOwnership`** is **active** (Phase **8.7.1.2**; documented here in **8.7.2.1**) — registry + enforcement in **`ownershipRegistry.ts`** / **`ownershipEnforcement.ts`**. None of these are global — routes opt in.
 
 ---
 
@@ -326,13 +326,35 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 - **Current (Feature 7 — 7.2.3.2):** Factory `requireRole(...allowedRoles)` returns middleware that runs **after** `requireAuth`. Compares `req.user.role` to allowed strings. **403** `{ code: FORBIDDEN }` when role missing, not allowed, or `requireAuth` was omitted (`req.user` undefined — logged). Empty `allowedRoles` → warn + **403** for every request.
 - **Override usage:** Gate routes with role strings that match `users.user_role` (shared constants), not necessarily literal `'admin'` unless that value exists in your enum.
 
-### checkOwnership
+### checkOwnership (active) — Phase 8.7.1.2
 
-- Extract resource ID from `req.params[paramKey]`.
-- Load resource (e.g. `Model.findByPk(resourceId)`).
-- If no resource, return 404.
-- If `resource[ownerField] !== req.user.id`, return 403.
-- Optionally attach resource to `req` for the route handler.
+**Factory:** `checkOwnership(resourceName, paramKey?, _ownerField?)` in `server/src/middlewares/security.ts`. The third argument is reserved; the **owner column** (or `row_pk_is_user` rule) comes from **`ownershipRegistry.ts`**, not from the route.
+
+**Core implementation:** `runOwnershipCheck` in `server/src/middlewares/ownershipEnforcement.ts` (called by the factory). **Order:** use **`requireAuth`** on the same route **before** `checkOwnership` so `req.user` is set. If `req.user` is missing, the check logs and returns **403**.
+
+**Registry:** `OWNERSHIP_REGISTRY` / `OWNERSHIP_RESOURCE_NAMES` in `ownershipRegistry.ts`. Every `resourceName` passed to `checkOwnership(...)` must be registered. **Unknown `resourceName`:** fail closed — **403** `FORBIDDEN` + log (`warn`).
+
+**Response shapes (ownership middleware only):**
+
+| Outcome | Status | Body |
+|--------|--------|------|
+| Allowed | — | (middleware calls `next()`) |
+| Denied (policy / unknown resource / missing user / null owner column / non-staff where required) | **403** | `{ code: FORBIDDEN, message: "Access denied" }` (same `code` as `requireRole`) |
+| Missing or empty `req.params[paramKey]`, or row not found | **404** | `{ error: "Resource not found" }` |
+
+**Registry entry kinds:**
+
+1. **`sequelize`** — Load row with `Model.findByPk(id)` from `req.params[paramKey]`.
+   - **`owner.mode: 'column'`** — Compare `req.user.id` to `row[owner.field]` (string-normalized). **Null/undefined owner value → 403** (no silent allow).
+   - **`owner.mode: 'row_pk_is_user'`** — Compare `req.user.id` to the row primary key (e.g. **`user`** resource).
+2. **`dynamic_entity`** — Used for **`entity`** CRUD: requires `req.entityConfig` (from entity route setup) and **`findByPk`** on the configured model. **Mutations are allowed only for internal staff roles** (see below); others get **403**.
+3. **`special`** — Custom logic in `ownershipEnforcement.ts` (e.g. **`businessSetting`** keyed by `key` param + availability constant; **`calendarSetting`** / **`wizardSetting`** singleton admin paths; **`appointmentFeeSummary`** via parent **`Appointment.scheduledById`**; **`property`** / **`propertyType`** / staff-scoped integration models). See registry `reason` / `notes` for intent; behavior is defined in code.
+
+**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`seller`** (`isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
+
+**Logging:** Denials and misconfiguration (e.g. `req.user` missing, unknown `resourceName`, unhandled special resource) are logged at **warn** or **error** with stable messages — see `ownershipLogger` / `checkOwnership:` prefixes in code.
+
+**Manual IDOR / smoke checklist:** Session **8.7.2.2** (same doc or companion notes).
 
 ## Stub → real implementation mapping
 
@@ -340,6 +362,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 |------|----------|------------------------|
 | `requireAuth` | `server/src/middlewares/security.ts` | **Done (7.2.3.1):** session cookie + DB; attach `req.user`. Optional: extend with JWT/header in later tasks. |
 | `requireRole` | `server/src/middlewares/security.ts` | **Done (7.2.3.2):** variadic factory; 403 `FORBIDDEN`; order after `requireAuth`. |
+| `checkOwnership` | `security.ts` + `ownershipRegistry.ts` + `ownershipEnforcement.ts` | **Done (8.7.1.2; docs 8.7.2.1):** registry-driven ownership; **403**/**404** shapes above; extend registry when adding new protected resources. |
 | Appointment hold `heldBy` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Replace `appointmentFields.heldBy = null` with `appointmentFields.heldBy = req.user?.id ?? null` (or require auth on PATCH and use `req.user.id`). |
 | Appointment `overrideConstraints` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Apply `requireRole('admin')` middleware to PATCH route (or the override-specific branch) so only admins can set `overrideConstraints`. |
 | Client "Hold Slot" button | Client booking wizard | Remove `disabled` and tooltip; wire button to `holdSlot()` when auth is present. |

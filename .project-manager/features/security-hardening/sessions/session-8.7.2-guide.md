@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.7.2.1: SECURITY_STUBS — active checkOwnership
+- [x] #### Task 8.7.2.1: SECURITY_STUBS — active checkOwnership
 **Goal:** Replace stub language with accurate behavior, file pointers, registry kinds, and staff vs row-level ownership rules.
 **Files:**
 - `server/docs/SECURITY_STUBS.md`
