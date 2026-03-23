@@ -50,12 +50,13 @@ These sections contain session-specific content:
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 8.6.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 8.6.2.2: Internal API bypasses and smoke verification
+**Goal:** Ensure no Vue code performs mutating requests to `/api/v1/internal` outside the shared `apiClientCore` (CSRF + credentials). Fix `calendarApiService` computed-availability POST; grep confirms no other bypasses; note manual smoke steps.
+**Files:**
+- `client/src/services/calendarApiService.ts`
+- `server/docs/SECURITY_STUBS.md` (checklist only if needed)
+**Approach:** Grep internal paths and `axios.create`; route `fetchComputedAvailabilityData` through default `@/utils/api` client; lint.
+**Checkpoint:** Internal mutating calls use shared client; lint clean; manual smoke documented or performed.
 
 ---
 

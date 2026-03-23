@@ -6,6 +6,7 @@ import axios, { AxiosError } from 'axios'
 import { UNKNOWN_ERROR_MESSAGE } from '@/constants/errorMessages'
 import { createLogger } from '@/utils/logger'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
+import apiClient from '@/utils/api'
 import type {
   ComputedSlotAvailabilityData,
   ComputedAvailabilityRequest,
@@ -14,8 +15,6 @@ import { CalendarApiError } from '@/services/calendarApiError'
 
 const logger = createLogger('calendarApiService')
 const { recordApiCall } = useApiCallStatus()
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
 function handleApiError(error: unknown): CalendarApiError {
   if (axios.isAxiosError(error)) {
@@ -85,8 +84,8 @@ export async function fetchComputedAvailabilityData(
   logger.debug('[fetchComputedAvailabilityData] Request:', request)
 
   try {
-    const response = await axios.post<ComputedSlotAvailabilityData>(
-      `${API_BASE_URL}/api/v1/internal/availability/computed-data`,
+    const response = await apiClient.post<ComputedSlotAvailabilityData>(
+      '/availability/computed-data',
       request
     )
 

@@ -80,10 +80,10 @@ For **axios**, use `withCredentials: true` and set `headers['X-CSRF-Token']` the
 
 ### Session 8.6.2 implementation checklist
 
-- [ ] Wire the **shared API layer** (`client/src/api` or equivalent) so **mutating** methods always attach **`X-CSRF-Token`** when the app expects an authenticated session.
-- [ ] Use **`credentials: 'include'`** (fetch) or **`withCredentials: true`** (axios) for same-site API calls so both session and **`csrf_token`** cookies are sent.
-- [ ] After login or app load, ensure at least one **GET** (or other safe) internal request runs **before** the first mutating call so **`csrf_token`** exists.
-- [ ] Smoke-test admin or booking CRUD after wiring.
+- [x] Wire the **shared API layer** (`client/src/utils/api` default axios instance + **`calendarApiService`** internal POST) so **mutating** methods attach **`X-CSRF-Token`** when a **`csrf_token`** cookie is present.
+- [x] Use **`credentials: 'include'`** (fetch) or **`withCredentials: true`** (axios) for same-site API calls so both session and **`csrf_token`** cookies are sent.
+- [x] After login or app load, ensure at least one **GET** (or other safe) internal request runs **before** the first mutating call so **`csrf_token`** exists (normal admin/entity loads and booking reads satisfy this).
+- [ ] Smoke-test admin or booking CRUD after wiring (manual — run before closing session **8.6.2**).
 
 ### Breaking change (until 8.6.2 ships)
 
