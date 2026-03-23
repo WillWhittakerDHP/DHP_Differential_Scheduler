@@ -52,7 +52,7 @@ These sections contain session-specific content:
 **Approach:** Crypto-secure `sid`, store `sess` JSON and `expire` from `AUTH_SESSION_MAX_AGE_SEC`; `getSession` returns null if missing/expired; `revokeSession` deletes row.
 **Checkpoint:** Unit behavior verifiable via manual script or temporary route only if already planned — prefer pure functions testable in isolation; lint clean.
 
-- [ ] #### Task 7.2.2.2: Session cookie helpers
+- [x] #### Task 7.2.2.2: Session cookie helpers
 **Goal:** Read/write/clear the session cookie using config-driven name, max-age, httpOnly, secure, sameSite.
 **Files:** 
 - `server/src/auth/sessionCookie.ts` (new)

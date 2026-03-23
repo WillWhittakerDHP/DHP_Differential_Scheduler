@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 import routes from './routes/index.js'
 import { getCorsOrigin } from './config/envConfig.js'
 import { notFound, errorHandler } from './middlewares/index.js'
@@ -56,6 +57,9 @@ app.use((req, _res, next) => {
   if (req.body === undefined) req.body = {}
   next()
 })
+
+// WHY: Populates `req.cookies` for Feature 7 session id read helpers (`sessionCookie.ts`).
+app.use(cookieParser())
 
 app.use(ROUTE_PATHS.API, routes)
 

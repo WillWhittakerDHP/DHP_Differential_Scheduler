@@ -21,3 +21,8 @@ export {
   revokeAuthSession,
   type CreatedAuthSession,
 } from './sessionManager.js'
+export {
+  clearSessionCookie,
+  getSessionIdFromRequest,
+  setSessionCookie,
+} from './sessionCookie.js'
