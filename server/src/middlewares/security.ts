@@ -3,10 +3,12 @@ import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { resolveAuthenticatedUserForRequest } from '../auth/resolveAuthenticatedUser.js'
 import { createLogger } from '../utils/logger.js'
 
-const logger = createLogger('middleware.requireAuth')
+const authLogger = createLogger('middleware.requireAuth')
+const roleLogger = createLogger('middleware.requireRole')
 
 const AUTH_401_MESSAGE = 'Authentication required'
 const AUTH_500_MESSAGE = 'Authentication check failed'
+const ROLE_403_MESSAGE = 'Insufficient permissions'
 
 /**
  * WHY: CSRF Protection Middleware (Stub)
@@ -41,27 +43,52 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
     req.user = result.user
     next()
   })().catch((error: unknown) => {
-    logger.error('requireAuth async failure:', error)
+    authLogger.error('requireAuth async failure:', error)
     next(error)
   })
 }
 
 /**
- * Require Role Middleware Factory (Stub)
- *
- * ENACTMENT(Feature 7): Replace stub with real role verification.
- * Currently passes all requests through. When enacted, should:
- *   1. Read user role from req.user.role (set by requireAuth)
- *   2. Check if user's role is in the allowed roles list
- *   3. Return 403 if user lacks the required role
- *
- * Usage: router.patch('/appointments/:id', requireRole('admin'), handler)
- *
- * @param _roles - Role names that are allowed access (e.g. 'admin', 'manager')
- * @see docs/SECURITY_STUBS.md
+ * Run **after** `requireAuth` on the same route. Returns 403 when `req.user.role` is not in `allowedRoles`.
+ * Pass role strings that match `User.userRole` (e.g. shared `USER_ROLE_*` constants).
  */
-export function requireRole(..._roles: string[]) {
+export function requireRole(
+  ...allowedRoles: string[]
+): (req: Request, res: Response, next: NextFunction) => void {
+  if (allowedRoles.length === 0) {
+    roleLogger.warn('requireRole invoked with empty role list; requests will receive 403')
+  }
   return (req: Request, res: Response, next: NextFunction): void => {
+    if (allowedRoles.length === 0) {
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: ROLE_403_MESSAGE,
+      })
+      return
+    }
+    if (req.user === undefined) {
+      roleLogger.warn('requireRole used without requireAuth; req.user is missing')
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: ROLE_403_MESSAGE,
+      })
+      return
+    }
+    const role = req.user.role
+    if (role === undefined || role === '') {
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: ROLE_403_MESSAGE,
+      })
+      return
+    }
+    if (!allowedRoles.includes(role)) {
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: ROLE_403_MESSAGE,
+      })
+      return
+    }
     next()
   }
 }

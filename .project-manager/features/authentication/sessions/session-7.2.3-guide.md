@@ -54,7 +54,7 @@ These sections contain session-specific content:
 **Approach:** Async Express middleware; use `createLogger` in catch paths; do not leak session secrets in responses.
 **Checkpoint:** Calls without valid logged-in session get 401; valid session with user gets `req.user` populated.
 
-- [ ] #### Task 7.2.3.2: requireRole factory
+- [x] #### Task 7.2.3.2: requireRole factory
 **Goal:** After `requireAuth`, enforce allowed roles using `req.user.role`; 403 when role missing or not allowed.
 **Files:** 
 - `server/src/middlewares/security.ts`
