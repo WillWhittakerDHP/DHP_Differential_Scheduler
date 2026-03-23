@@ -46,7 +46,7 @@
 **Approach:** Thin components; composable for extraction + form state; use `buildWizardModePaletteFromAnchors` for preview; explicit save/load.  
 **Checkpoint:** Round-trip save/load; preview matches saved anchors; no placeholder UX.
 
-- [ ] ### Session 6.15.3: Wizard theme wiring and BookingWizard logo integration  
+- [x] ### Session 6.15.3: Wizard theme wiring and BookingWizard logo integration  
 **Goal:** Replace hardcoded anchor constants with values from loaded wizard settings; render logo in the wizard header; verify combinations.  
 **Files:** `theme.ts`, `useThemeMode`, `BookingWizard.vue`, wizard data loaders that already fetch `wizard_settings`.  
 **Approach:** Single source of truth from API; fallbacks only where explicitly documented (no silent hides); manual verification matrix for mode × theme.  
