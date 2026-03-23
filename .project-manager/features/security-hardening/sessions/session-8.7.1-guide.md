@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Grep routes; document each resource in the registry; export a single lookup API; unknown keys should be detectable at runtime.
 **Checkpoint:** Registry covers all current `resourceName` strings from grep; `npm run lint` (server) passes on new/edited files.
 
-- [ ] #### Task 8.7.1.2: Implement `checkOwnership` middleware
+- [x] #### Task 8.7.1.2: Implement `checkOwnership` middleware
 **Goal:** Load row by param id, 404 if missing, 403 if `req.user` missing or owner mismatch, else `next()`; log failures with `createLogger`.
 **Files:**
 - `server/src/middlewares/security.ts`

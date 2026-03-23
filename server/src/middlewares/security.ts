@@ -6,10 +6,12 @@ import { getAuthSessionBySid } from '../auth/sessionManager.js'
 import { getSessionIdFromRequest } from '../auth/sessionCookie.js'
 import { createLogger } from '../utils/logger.js'
 import { CSRF_HEADER_NAME, readStoredCsrfToken } from './csrfIssuance.js'
+import { runOwnershipCheck } from './ownershipEnforcement.js'
 
 const authLogger = createLogger('middleware.requireAuth')
 const roleLogger = createLogger('middleware.requireRole')
 const csrfLogger = createLogger('middleware.csrfProtection')
+const ownershipLogger = createLogger('middleware.checkOwnership')
 
 const AUTH_401_MESSAGE = 'Authentication required'
 const AUTH_500_MESSAGE = 'Authentication check failed'
@@ -163,19 +165,28 @@ export function requireRole(
 /**
  * Check Resource Ownership Middleware Factory
  *
+ * Uses `ownershipRegistry.ts` + `ownershipEnforcement.ts` (Phase 8.7.1.2).
  *
- * @param modelName - Name of the model/resource (for error messages and logging)
- * @param _paramKey - Parameter key to extract ID from (defaults to 'id')
- * @param _ownerField - Field name in model that stores owner ID (defaults to 'userId')
+ * @param resourceName - Registry key (same string as `checkOwnership('…')` call sites)
+ * @param paramKey - `req.params` key for the row id (e.g. `id`, `key`, `typeId`)
+ * @param _ownerField - Reserved; owner column comes from the registry (not per-route yet)
  * @see docs/SECURITY_STUBS.md
  */
 export function checkOwnership(
-  modelName: string,
-  _paramKey: string = 'id',
+  resourceName: string,
+  paramKey: string = 'id',
   _ownerField: string = 'userId'
-) {
+): (req: Request, res: Response, next: NextFunction) => Promise<void> {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    // Stub: see docs/SECURITY_STUBS.md
-    next()
+    try {
+      const allowed = await runOwnershipCheck(resourceName, paramKey, req, res, ownershipLogger)
+      if (allowed) {
+        next()
+      }
+    } catch (error: unknown) {
+      const logger = ownershipLogger
+      logger.error('checkOwnership failed:', error)
+      next(error)
+    }
   }
 }
