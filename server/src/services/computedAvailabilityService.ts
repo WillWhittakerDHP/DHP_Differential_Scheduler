@@ -33,6 +33,7 @@ import {
   enrichCapacityConstraintsWithHours,
   buildComputedAvailabilityResponse,
 } from './computedAvailabilityResponseHelpers.js'
+import { resolveNumericPolicyForAvailabilityAndCalendar } from './organizationNumericPolicyService.js'
 
 const logger = createLogger('ComputedAvailabilityService')
 
@@ -114,13 +115,23 @@ export async function computeAvailabilityData(
 
   const settings = await fetchAvailabilitySettings()
   const calendarSettings = await getCalendarSettings()
+  const resolvedPolicy = await resolveNumericPolicyForAvailabilityAndCalendar(
+    settings,
+    calendarSettings
+  )
+  const settingsWithResolvedNumericPolicy: AvailabilitySettingsData = {
+    ...settings,
+    minuteIncrement: resolvedPolicy.timeAndRounding.minuteIncrement,
+    durationRounding: resolvedPolicy.timeAndRounding.durationRounding,
+    driveTimeFee: resolvedPolicy.driveTimeFee,
+  }
 
   if (dataSource === 'none') {
     logger.info(`[dataSource=none] Returning empty response with settings metadata`)
     return buildComputedAvailabilityResponse(
       {},
       [],
-      settings,
+      settingsWithResolvedNumericPolicy,
       [],
       [],
       [],
@@ -204,7 +215,7 @@ export async function computeAvailabilityData(
     ? computeSlotsForDateRange(
         request.dateRange,
         request.duration,
-        settings.minuteIncrement,
+        settingsWithResolvedNumericPolicy.minuteIncrement,
         constraintsForSlots,
         overlapRegularEvents,
         effectiveOutOfOfficeEvents,
@@ -220,7 +231,7 @@ export async function computeAvailabilityData(
   const computedData = buildComputedAvailabilityResponse(
     slotsByDay,
     constraintsForSlots,
-    settings,
+    settingsWithResolvedNumericPolicy,
     regularEvents,
     outOfOfficeEvents,
     eventsResponses,

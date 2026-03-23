@@ -9,6 +9,7 @@ import type { UseCapacitySettingsReturn } from '@/types/admin/capacitySettings'
 import type { UseBufferSettingsReturn } from '@/types/availabilitySettingsParams'
 import type { UseDefaultLocationReturn } from '@/composables/admin/useDefaultLocation'
 import type { UseDifferentialPerspectivesReturn } from '@/composables/admin/useDifferentialPerspectives'
+import type { UseAdminOrganizationDefaultsReturn } from '@/composables/admin/useAdminOrganizationDefaults'
 
 /** Merged form slice for range, capacity, overlap, calendar, grid, and rounding panels. */
 export type BusinessControlsFormState = UseBusinessControlsFormStateReturn['businessHours'] &
@@ -39,6 +40,7 @@ export interface BusinessControlsStateSource {
   constraintsSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
   calendarSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
   wizardSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
+  organizationDefaults: UseAdminOrganizationDefaultsReturn
 }
 
 export type BusinessControlsState = UnwrapNestedRefs<BusinessControlsStateSource>

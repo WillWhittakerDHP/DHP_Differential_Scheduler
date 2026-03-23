@@ -101,6 +101,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   },
   buttons: {
     saveSettings: 'Save Settings',
+    saveOrganizationDefaults: 'Save organization defaults',
     resetToDefaults: 'Reset to Defaults'
   },
   tabs: {
@@ -118,7 +119,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     timezone: 'Timezone',
     places: 'Places',
     grid: 'Grid',
-    wizard: 'Wizard'
+    wizard: 'Wizard',
+    organization: 'Organization defaults'
   },
   calendar: {
     integrationTitle: 'Calendar Integration',
@@ -238,6 +240,10 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelPickTime: 'Pick a time',
     subStepLabelConfirmMoveable: 'Confirm moveable details',
     moveableNoFeasibleCompletionSlotsMessage: DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
+  },
+  orgDefaultBadges: {
+    orgDefault: 'Org default',
+    override: 'Override',
   },
   sections: {
     durationRoundingTitle: 'Rounding',
