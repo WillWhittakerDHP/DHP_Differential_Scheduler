@@ -52,7 +52,7 @@ These sections contain session-specific content:
 **Approach:** Define explicit auth strategy contracts for request/verify/authenticate-style flows, add typed result shapes, and align the current auth router with those contracts without implementing magic-link behavior yet.
 **Checkpoint:** Strategy types are explicit, reusable, and narrow enough that future strategies can implement them without changing router signatures.
 
-- [ ] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
+- [x] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
 **Goal:** Centralize auth environment decisions and create clean server module seams for config-driven auth behavior.
 **Files:** 
 - `server/src/config/authConfig.ts`

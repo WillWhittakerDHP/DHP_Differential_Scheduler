@@ -9,6 +9,7 @@ import Joi from 'joi'
 import { validateRequest } from '../../../middlewares/validateRequest.js'
 import { csrfProtection } from '../../../middlewares/security.js'
 import { buildAuthPlaceholder501Body } from '../../../auth/strategies/strategyTypes.js'
+import { getAuthConfig } from '../../../config/authConfig.js'
 
 const router = Router()
 
@@ -20,7 +21,14 @@ const loginBodySchema = Joi.object({
 }).unknown(true)
 
 function sendAuthNotImplemented(res: Response): void {
-  res.status(501).json(buildAuthPlaceholder501Body(PLACEHOLDER_MESSAGE))
+  const auth = getAuthConfig()
+  res.status(501).json(
+    buildAuthPlaceholder501Body(PLACEHOLDER_MESSAGE, {
+      strategy: auth.strategy,
+      sessionCookieName: auth.sessionCookieName,
+      sessionMaxAgeSec: auth.sessionMaxAgeSec,
+    })
+  )
 }
 
 /** Placeholder: Auth routes coming in Feature 7 */

@@ -41,15 +41,26 @@ export interface AuthStrategy {
   verifyToken?(ctx: AuthRequestContext, input: VerifyTokenInput): Promise<AuthOpResult>
 }
 
+/** Read-only auth env surfaced on 501 responses for observability until real auth ships. */
+export interface AuthPlaceholder501Meta {
+  strategy: AuthStrategyName
+  sessionCookieName: string
+  sessionMaxAgeSec: number
+}
+
 /** JSON body for 501 placeholder responses from auth routes (aligned with failure shape). */
-export interface AuthPlaceholder501Json {
+export interface AuthPlaceholder501Json extends AuthPlaceholder501Meta {
   code: typeof AUTH_FAILURE_CODES.NOT_IMPLEMENTED
   message: string
 }
 
-export function buildAuthPlaceholder501Body(message: string): AuthPlaceholder501Json {
+export function buildAuthPlaceholder501Body(
+  message: string,
+  meta: AuthPlaceholder501Meta
+): AuthPlaceholder501Json {
   return {
     code: AUTH_FAILURE_CODES.NOT_IMPLEMENTED,
     message,
+    ...meta,
   }
 }
