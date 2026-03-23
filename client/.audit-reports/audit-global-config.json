@@ -1818,6 +1818,48 @@
             "unused-function"
           ],
           "reason": "Server modules nest route handlers and shared helpers; same-file and dynamic registration patterns are undercounted by the static scanner."
+        },
+        {
+          "glob": "server/src/auth/**/*.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Auth module symbols are consumed via server/src/auth/index.ts and routes; unused-export scan does not attribute imports through the barrel."
+        },
+        {
+          "glob": "server/src/config/authConfig.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "AuthRuntimeConfig and related types are part of the public auth config surface; type-only imports via getAuthConfig and re-exports are undercounted."
+        },
+        {
+          "glob": "server/src/services/partShapes/countPartShapeDeleteDependencies.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "PartShapeDeleteDependencyCounts is referenced across part-shape services; cross-file type-only usage is undercounted by the static scan."
+        },
+        {
+          "glob": "client/src/utils/booking/**/*.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Booking helpers export types for composables and the slot pipeline; path-alias and indirect imports undercount named consumers."
+        },
+        {
+          "glob": "client/src/composables/booking/buildAvailabilitySubStepContext.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "BuildAvailabilitySubStepContextParams and related exports wire useAvailabilitySubStepContent; static scan misses indirect composition."
+        },
+        {
+          "glob": "client/src/utils/eventAttendeeUtils.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Shared event/attendee types feed booking and scheduling utils; import graph undercounts."
         }
       ],
       "linePatterns": [
