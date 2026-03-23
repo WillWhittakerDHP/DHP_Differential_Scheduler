@@ -37,7 +37,7 @@
 
 ### Sessions Breakdown
 
-- [ ] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar)
+- [x] ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar)
 **Description:** Canonical defaults object + merge at read for numeric policy (minuteIncrement, durationRounding, driveTimeFee, holds, adminEntryTimeout, lead time, buffers, capacity baselines). Deliverables: shared `OrganizationDefaults` types, resolver, persistence strategy, admin tab, wiring. Full scope: `sessions/session-6.14.1-planning.md`.
 **Tasks:** Types; merge/resolve; persistence; admin UI; wire booking read paths (or documented follow-up).
 **Focus:**
