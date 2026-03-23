@@ -69,7 +69,7 @@ Continue with next step. [Fill in.]
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `security-hardening` · **Source:** phase · **Derived:** 2026-03-23T20:27:37.034Z
+- **Feature:** `security-hardening` · **Source:** phase · **Derived:** 2026-03-23T20:49:45.247Z
 - **Phases on disk (6):** 8.1, 8.2, 8.3, 8.4, 8.5, 8.6
 - **Focus phase:** `8.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Manifest:** `.project-manager/features/security-hardening/across-ladder.json`
