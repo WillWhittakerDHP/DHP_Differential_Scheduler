@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 8.7.2: Edge cases, docs, and IDOR smoke ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Edge routes, global/system rows, SECURITY_STUBS update, manual IDOR smoke notes
+
+
+
 ### Session 8.7.1: Ownership registry and middleware implementation ✅
 **Completed:** 2026-03-23
 **Tasks Completed:** 8.7.1.1, 8.7.1.2
