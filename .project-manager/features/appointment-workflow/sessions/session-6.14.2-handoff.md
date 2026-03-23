@@ -12,26 +12,25 @@
 
 ## Current Status
 
-**Session:** 6.14.2  
-**Git Branch:** `session-6.14.2` (per workflow)  
-**Tasks:** 6.14.2.1 ✅ · 6.14.2.2 ✅ · 6.14.2.3 ✅  
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `session-6.14.2`
+**Last Updated:** 2026-03-23
 
 ## Next Action
 
-Run **`/session-end 6.14.2`** in the Cursor UI to complete the session tier and merge per harness rules.
+Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
 
 **Where we left off:**
+Completed Task 
 
-Session **6.14.2** delivered server hold/admin-timeout merge (**6.14.2.1**), client merged duration rounding for appointment slot shape (**6.14.2.2**), and phase/session documentation + lint gate (**6.14.2.3**). Optional Calendar “org default” badges were **deferred** (see `phases/phase-6.14-handoff.md`).
+**What you need to start:**
+- Begin Session 
 
-**What you need for `/phase-end 6.14`:**
+<!-- end excerpt session -->
 
-- Confirm `phases/phase-6.14-guide.md` success criteria match your product bar (optional badge row may stay unchecked).
-- Run **`/phase-end 6.14`** after **`/session-end 6.14.2`** succeeds.
-
-<!-- harness-across-ladder:start -->
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
@@ -43,5 +42,3 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 - **Tasks in session (detected):** 3 · **Next task across:** `6.14.2.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
-
-<!-- end excerpt session -->

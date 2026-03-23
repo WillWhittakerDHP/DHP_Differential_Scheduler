@@ -75,3 +75,5 @@
 - **Planning (authoritative scope):** `sessions/session-6.14.2-planning.md`
 - **Prior session outcome:** `sessions/session-6.14.1-planning.md` → section *Outcome: delivered vs deferred*
 - **Phase:** `phases/phase-6.14-guide.md`
+
+<!-- end excerpt session -->

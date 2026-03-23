@@ -19,6 +19,14 @@
 
 ## Completed Sessions
 
+### Session 6.14.2: Resolver breadth, validation parity, and org-default UX ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Resolver breadth, validation parity, and org-default UX
+
+
+
 ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) ✅
 **Completed:** 2026-03-23  
 **Key Accomplishments:** Shared `OrganizationDefaults` types; resolver; JSONB persistence; admin surface; merge-at-read on computed availability server path.
