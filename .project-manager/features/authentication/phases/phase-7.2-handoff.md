@@ -63,3 +63,16 @@
 ## Next Action
 
 Continue with next step. [Fill in.]
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-23T17:59:27.478Z
+- **Phases on disk (2):** 7.1, 7.2
+- **Focus phase:** `7.2` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus session:** `7.2.1` · **Session 1/3 in phase** · **Next session across:** `7.2.2` → `/session-start 7.2.2`
+- **Tasks in session (detected):** 2 · **Next task across:** `7.2.1.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/authentication/across-ladder.json`
+<!-- harness-across-ladder:end -->
