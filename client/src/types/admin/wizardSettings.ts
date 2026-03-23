@@ -23,6 +23,9 @@ export interface UseWizardSettingsFlagsReturn {
   setShowApplyCoupon: (value: boolean) => void
   useBrandColors: ComputedRef<boolean>
   setUseBrandColors: (value: boolean) => void
+  /** From GET /wizard-settings; null when unset. Used by booking theme when Brand colors is on. */
+  brandPrimaryHex: ComputedRef<string | null>
+  brandSecondaryHex: ComputedRef<string | null>
 }
 
 /** Wizard copy from /wizard-settings (labels, sub-step strings, moveable fallback). */

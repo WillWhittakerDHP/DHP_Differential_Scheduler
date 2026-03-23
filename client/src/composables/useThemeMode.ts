@@ -14,6 +14,8 @@ import {
 import type { WizardModePalette } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardMode } from '@/types/wizard'
+import { buildWizardModePaletteFromAnchors, type WizardBrandMode } from '@/utils/theme'
+import { normalizeBrandHex } from '@/utils/wizardBrand/normalizeBrandHex'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
 /** Named constants instead of inline nullish coalescing (deprecation audit). */
@@ -63,6 +65,37 @@ interface UseThemeModeOptions {
   wizard?: UseBookingWizardReturn
   /** When true, use DHP palette. Can be Ref (wizard local) or ComputedRef (from useWizardSettings().flags/API). */
   useDhpColors?: Ref<boolean> | ComputedRef<boolean>
+  /** Admin-configured anchors from GET /wizard-settings; when missing or invalid, `dhpPalette` defaults apply. */
+  brandPrimaryHex?: Ref<string | null> | ComputedRef<string | null>
+  brandSecondaryHex?: Ref<string | null> | ComputedRef<string | null>
+}
+
+const HEX6_ANCHOR = /^#[0-9A-Fa-f]{6}$/
+
+function isUsableAnchorHex(raw: string | null | undefined): boolean {
+  if (raw == null || raw.trim() === '') {
+    return false
+  }
+  const n = normalizeBrandHex(raw)
+  return HEX6_ANCHOR.test(n)
+}
+
+/**
+ * DHP path: API anchors when both valid hex; else static `dhpPalette` for the mode (session 6.15.3.1).
+ */
+function resolveDhpPaletteForMode(
+  modeKey: WizardBrandMode,
+  primaryRaw: string | null | undefined,
+  secondaryRaw: string | null | undefined
+): WizardModePalette {
+  if (isUsableAnchorHex(primaryRaw) && isUsableAnchorHex(secondaryRaw)) {
+    return buildWizardModePaletteFromAnchors({
+      primary: normalizeBrandHex(primaryRaw!),
+      secondary: normalizeBrandHex(secondaryRaw!),
+      mode: modeKey,
+    })
+  }
+  return dhpPalette[modeKey]
 }
 
 /**
@@ -71,13 +104,15 @@ interface UseThemeModeOptions {
 function resolvePalette(
   wizardMode: WizardMode,
   useDhp: boolean,
+  primaryAnchor: string | null | undefined,
+  secondaryAnchor: string | null | undefined,
   _themePrimary: string,
   _themeSecondary: string,
   _themeWarning: string
 ): WizardModePalette | null {
   if (useDhp) {
-    const key = wizardMode === 'new' ? 'standard' : wizardMode
-    return dhpPalette[key]
+    const key: WizardBrandMode = wizardMode === 'new' ? 'standard' : wizardMode
+    return resolveDhpPaletteForMode(key, primaryAnchor, secondaryAnchor)
   }
   if (wizardMode === 'quote') return quoteModeColors
   if (wizardMode === 'reschedule') return rescheduleModeColors
@@ -92,10 +127,14 @@ function resolvePalette(
 export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn {
   const wizard = options?.wizard
   const useDhpColorsRef = options?.useDhpColors
+  const brandPrimaryRef = options?.brandPrimaryHex
+  const brandSecondaryRef = options?.brandSecondaryHex
 
   const theme = useTheme()
   const wizardMode = computed<WizardMode>(() => wizard?.wizardMode.value ?? 'new')
   const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
+  const brandPrimaryHex = computed(() => brandPrimaryRef?.value ?? null)
+  const brandSecondaryHex = computed(() => brandSecondaryRef?.value ?? null)
 
   const isQuoteMode = computed(() => wizardMode.value === 'quote')
   const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
@@ -107,7 +146,15 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
     const primary = String(themeColors.primary ?? FALLBACK_STR)
     const secondary = String(themeColors.secondary ?? FALLBACK_STR)
     const warning = String(themeColors.warning ?? FALLBACK_STR)
-    return resolvePalette(mode, useDhp, primary, secondary, warning)
+    return resolvePalette(
+      mode,
+      useDhp,
+      brandPrimaryHex.value,
+      brandSecondaryHex.value,
+      primary,
+      secondary,
+      warning
+    )
   })
 
   const currentPrimary = computed(() => {

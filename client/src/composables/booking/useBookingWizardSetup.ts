@@ -216,9 +216,18 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   const { getStepContent } = useWizardStepContent()
 
   const {
-    flags: { useBrandColors: useDhpBrandColors },
+    flags: {
+      useBrandColors: useDhpBrandColors,
+      brandPrimaryHex,
+      brandSecondaryHex,
+    },
   } = bookingFlow.wizardSettings
-  useThemeMode({ wizard, useDhpColors: useDhpBrandColors })
+  useThemeMode({
+    wizard,
+    useDhpColors: useDhpBrandColors,
+    brandPrimaryHex,
+    brandSecondaryHex,
+  })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)
   const toggleQuoteMode = (): void => {

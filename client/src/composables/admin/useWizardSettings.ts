@@ -139,6 +139,22 @@ function buildWizardSettingsFlags(
     return wizardData.value?.useBrandColors ?? false
   })
 
+  const brandPrimaryHex = computed<string | null>(() => {
+    const raw = wizardData.value?.brandPrimaryHex
+    if (raw == null || String(raw).trim() === '') {
+      return null
+    }
+    return String(raw).trim()
+  })
+
+  const brandSecondaryHex = computed<string | null>(() => {
+    const raw = wizardData.value?.brandSecondaryHex
+    if (raw == null || String(raw).trim() === '') {
+      return null
+    }
+    return String(raw).trim()
+  })
+
   function setUseBrandColors(value: boolean): void {
     if (brandColorsBinding) brandColorsBinding.value = value
   }
@@ -148,6 +164,8 @@ function buildWizardSettingsFlags(
     setShowApplyCoupon,
     useBrandColors,
     setUseBrandColors,
+    brandPrimaryHex,
+    brandSecondaryHex,
   }
 }
 
