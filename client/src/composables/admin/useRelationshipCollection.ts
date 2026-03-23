@@ -15,6 +15,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { createLogger } from '@/utils/logger'
 import type { RelationshipCollectionModel, UseRelationshipCollectionOptions } from '@/types/admin/relationshipCollection'
+import { childEntityKeyToShapeEntityKey, shapeRefPropertyForChild } from '@/utils/admin/relationshipCollectionShape'
+import { buildNewRelationshipChildEntity } from '@/utils/admin/relationshipCollectionNewChild'
+import { appendEntityToGlobalDataEntities } from '@/utils/admin/globalDataAppendChildEntity'
 
 const logger = createLogger('useRelationshipCollection')
 
@@ -37,22 +40,13 @@ export function useRelationshipCollection(
   
   // WHY: Pattern: partInstance → partShape, annotationInstance → annotationShape, eventInstance → eventShape
   // PATTERN: Replace 'Instance' with 'Shape' in entity key
-  const shapeEntityKey = computed<GlobalEntityKey>(() => {
-    const childKey = String(childEntityKey.value)
-    if (childKey.endsWith('Instance')) {
-      return childKey.replace('Instance', 'Shape') as GlobalEntityKey
-    }
-    return childKey.replace('instance', 'shape').replace('Instance', 'Shape') as GlobalEntityKey
-  })
-  
-  // WHY: partInstance uses partShapeRef; eventInstance uses eventShapeRef; annotationInstance uses `type` (FK to annotation shape), not annotationShapeRef.
-  // PATTERN: Lowercase first letter + 'Ref' suffix except annotationInstance → type
-  const shapeRefProperty = computed<string>(() => {
-    if (childEntityKey.value === 'annotationInstance') return 'type'
-    const shapeKey = String(shapeEntityKey.value)
-    const firstLower = shapeKey.charAt(0).toLowerCase() + shapeKey.slice(1)
-    return `${firstLower}Ref`
-  })
+  const shapeEntityKey = computed<GlobalEntityKey>(() =>
+    childEntityKeyToShapeEntityKey(String(childEntityKey.value))
+  )
+
+  const shapeRefProperty = computed<string>(() =>
+    shapeRefPropertyForChild(String(childEntityKey.value), String(shapeEntityKey.value))
+  )
   
   const parentEntityId = computed(() => fieldContext.state.entityId)
   
@@ -98,47 +92,17 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
       logger.warn('getDefaultEntityValues failed, using fallback', { childEntityKey: childEntityKey.value, error: err })
       defaults = { orderIndex: 0 }
     }
-    
-    // PATTERN: Computed property derives from shape entity key
-    const shapeRefProp = shapeRefProperty.value
-    
-    // PATTERN: Spread defaults first, then set shape reference explicitly
-    const baseEntity = {
-      id: `new-${shapeId}`,
-      entityKey: childEntityKey.value,
-      ...defaults,
-      [shapeRefProp]: shapeId, // Set shape reference after defaults to ensure correct value
-    } as GlobalEntity<GlobalEntityKey>
-    
-    if (!parentEntity.value) {
-      return baseEntity
-    }
-    
-    if (nameGenerator) {
-      const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
-      const shapeName = getShapeName(shapeId)
-      const children = existingChildren.value.filter(
-        (c): c is GlobalEntity<GlobalEntityKey> => c != null
-      )
-      const name = nameGenerator(
-        parentName,
-        shapeName,
-        parentEntity.value.id,
-        shapeId,
-        children
-      )
-      return {
-        ...baseEntity,
-        name,
-      } as GlobalEntity<GlobalEntityKey>
-    }
-    
-    const parentName = (parentEntity.value as { name?: string }).name || 'Parent'
-    const shapeName = getShapeName(shapeId)
-    return {
-      ...baseEntity,
-      name: `${parentName}-${shapeName}`,
-    } as GlobalEntity<GlobalEntityKey>
+    const children = existingChildren.value.filter((c): c is GlobalEntity<GlobalEntityKey> => c != null)
+    return buildNewRelationshipChildEntity({
+      shapeId,
+      childEntityKey: childEntityKey.value,
+      shapeRefProperty: shapeRefProperty.value,
+      defaults,
+      parentEntity: parentEntity.value,
+      getShapeName,
+      nameGenerator,
+      existingChildren: children,
+    })
   }
   
   /**
@@ -152,25 +116,9 @@ PATTERN: Set shape reference property explicitly, matching usePartI...
     
     try {
       // PATTERN: Manually update cache to include the new entity, then create relationship
-      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) => {
-        if (!old) return old
-        
-        const rawEntities = old.entities[childEntityKey.value]
-        const currentEntities = rawEntities !== undefined && rawEntities !== null ? rawEntities : []
-        const entityExists = currentEntities.some(e => String(e.id) === String(createdEntity.id))
-        
-        if (!entityExists) {
-          return {
-            ...old,
-            entities: {
-              ...old.entities,
-              [childEntityKey.value]: [...currentEntities, createdEntity],
-            },
-          }
-        }
-        
-        return old
-      })
+      queryClient.setQueryData<GlobalData>(['globalData'], (old: GlobalData | undefined) =>
+        appendEntityToGlobalDataEntities(old, childEntityKey.value, createdEntity)
+      )
       
       await new Promise(resolve => setTimeout(resolve, 0))
       

@@ -9,6 +9,13 @@ import type {
   UseWizardNavigationParams,
   UseWizardNavigationReturn,
 } from '@/types/booking/wizardNavigation'
+import {
+  arePreviousStepsCompleted as arePreviousStepsCompletedSet,
+  computeWizardStepState,
+  isWizardStepAccessible,
+  tryForwardWizardJump,
+} from '@/utils/booking/wizardNavigationStepFlow'
+import { buildWizardNavigationReturn } from '@/utils/booking/buildWizardNavigationReturn'
 
 export type { WizardStepConfig }
 
@@ -20,39 +27,29 @@ WHY: Extracts navigation from component ...
 export function useWizardNavigation(params: UseWizardNavigationParams): UseWizardNavigationReturn {
   const { steps, validateStep, showError } = params
 
-  /**
-   */
   const activeStep = ref(0)
 
   const completedSteps = ref<Set<number>>(new Set())
 
   const isLastStep = computed(() => activeStep.value === steps.length - 1)
 
-  /**
-   */
   const markStepCompleted = (stepIndex: number): void => {
     completedSteps.value.add(stepIndex)
   }
 
   const arePreviousStepsCompleted = (targetStep: number): boolean => {
-    for (let i = 0; i < targetStep; i++) {
-      if (!completedSteps.value.has(i)) {
-        return false
-      }
-    }
-    return true
+    return arePreviousStepsCompletedSet(completedSteps.value, targetStep)
   }
 
   const handleNext = (): void => {
-    // Validate current step before allowing navigation
     const isValid = validateStep(activeStep.value)
-    
+
     if (!isValid) {
       return
     }
-    
+
     markStepCompleted(activeStep.value)
-    
+
     if (activeStep.value < steps.length - 1) {
       activeStep.value++
     }
@@ -69,59 +66,33 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
       activeStep.value = index
       return
     }
-    
-    // For forward navigation, validate current step and check intermediate steps
+
     if (index > activeStep.value) {
-      const currentStepValid = validateStep(activeStep.value)
-      if (!currentStepValid) {
-        showError?.('Please complete all required fields before continuing')
+      const ok = tryForwardWizardJump({
+        activeIndex: activeStep.value,
+        targetIndex: index,
+        completedSteps: completedSteps.value,
+        validateStep,
+        showError,
+        markStepCompleted,
+      })
+      if (!ok) {
         return
       }
-      
-      markStepCompleted(activeStep.value)
-      
-      // If jumping multiple steps forward, validate all intermediate steps
-      for (let i = activeStep.value + 1; i < index; i++) {
-        if (!completedSteps.value.has(i)) {
-          // Validate intermediate step
-          const intermediateValid = validateStep(i)
-          if (!intermediateValid) {
-            showError?.(`Please complete step ${i + 1} before proceeding`)
-            return
-          }
-          markStepCompleted(i)
-        }
-      }
     }
-    
+
     activeStep.value = index
   }
 
-  /**
-   */
   const getStepState = (index: number): string => {
-    if (completedSteps.value.has(index)) {
-      return 'step-completed'
-    }
-    if (index === activeStep.value) {
-      return 'step-active'
-    }
-    return 'step-pending'
+    return computeWizardStepState(completedSteps.value, index, activeStep.value)
   }
 
   const isStepAccessible = (index: number): boolean => {
-    if (index <= activeStep.value) {
-      return true
-    }
-    
-    if (index === activeStep.value + 1) {
-      return true
-    }
-    
-    return arePreviousStepsCompleted(index)
+    return isWizardStepAccessible(index, activeStep.value, completedSteps.value)
   }
 
-  return {
+  return buildWizardNavigationReturn({
     activeStep,
     completedSteps,
     isLastStep,
@@ -131,6 +102,6 @@ export function useWizardNavigation(params: UseWizardNavigationParams): UseWizar
     handlePrev,
     handleStepClick,
     getStepState,
-    isStepAccessible
-  }
+    isStepAccessible,
+  })
 }

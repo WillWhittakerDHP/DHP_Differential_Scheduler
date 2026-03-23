@@ -26,13 +26,11 @@ export type BusinessDataCollectionUpdater<CollectionItem> = (
   updatedCollection: readonly CollectionItem[]
 ) => BusinessData
 
-export type BusinessDataCollectionEndpoints = CollectionEndpoints
-
 export type BusinessDataCollectionCrudConfig<CollectionItem extends WithId> = {
   collectionName: keyof BusinessData
   selectCollection: BusinessDataCollectionSelector<CollectionItem>
   updateCollection: BusinessDataCollectionUpdater<CollectionItem>
-  endpoints: BusinessDataCollectionEndpoints
+  endpoints: CollectionEndpoints
   patchOptimistically?: (current: CollectionItem, patch: Partial<unknown>) => CollectionItem
 } & { readonly __brand?: 'BusinessDataCollectionCrudConfig' }
 

@@ -118,10 +118,6 @@ export function invalidateEventsCache(
   }
 }
 
-export function clearEventsCache(): void {
-  cache.clear();
-}
-
 export function getEventsCacheStats() {
   cleanExpiredEntries();
   

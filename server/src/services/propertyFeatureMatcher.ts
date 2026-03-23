@@ -3,7 +3,7 @@ import type { PropertyFeatureMapping } from '../db/models/mappings/property_feat
 import { normalizeToArray } from '../utils/arrayNormalize.js'
 import { PROPERTY_MATCH_TYPE } from './propertyMatchConstants.js'
 
-export interface FeatureMatchResult {
+interface FeatureMatchResult {
   blockInstanceId: string;
   confidence: number;
 }
@@ -22,39 +22,66 @@ function getSourceValue(
   return arr
 }
 
+function matchesNumericFeatureRaw(
+  raw: number,
+  matchType: string,
+  matchValue: string | null
+): boolean {
+  if (matchType === 'greater_than' && matchValue != null) {
+    const threshold = Number(matchValue)
+    return !Number.isNaN(threshold) && raw > threshold
+  }
+  if (matchType === PROPERTY_MATCH_TYPE.EQUALS && matchValue != null) {
+    return raw === Number(matchValue)
+  }
+  return matchType === PROPERTY_MATCH_TYPE.EXISTS
+}
+
+function stringArrayMatchExists(arr: string[]): boolean {
+  return arr.length > 0
+}
+
+function stringArrayMatchContains(lower: string[], matchValue: string | null): boolean {
+  if (!matchValue) return false
+  return lower.some((s) => s.includes(matchValue.toLowerCase()))
+}
+
+function stringArrayMatchEquals(lower: string[], matchValue: string | null): boolean {
+  if (!matchValue) return false
+  return lower.includes(matchValue.toLowerCase())
+}
+
+const STRING_ARRAY_MATCHERS: Record<
+  string,
+  (arr: string[], lower: string[], matchValue: string | null) => boolean
+> = {
+  [PROPERTY_MATCH_TYPE.EXISTS]: (arr) => stringArrayMatchExists(arr),
+  [PROPERTY_MATCH_TYPE.CONTAINS]: (_arr, lower, mv) => stringArrayMatchContains(lower, mv),
+  [PROPERTY_MATCH_TYPE.EQUALS]: (_arr, lower, mv) => stringArrayMatchEquals(lower, mv),
+}
+
+function matchesStringArrayFeatureRaw(
+  arr: string[],
+  matchType: string,
+  matchValue: string | null
+): boolean {
+  const lower = arr.map((s) => s.toLowerCase())
+  const run = STRING_ARRAY_MATCHERS[matchType]
+  return run ? run(arr, lower, matchValue) : false
+}
+
 function matches(
   raw: string[] | number | null,
   matchType: string,
   matchValue: string | null
 ): boolean {
-  if (raw == null) return matchType === PROPERTY_MATCH_TYPE.EXISTS && false;
-
+  if (raw == null) {
+    return false
+  }
   if (typeof raw === 'number') {
-    if (matchType === 'greater_than' && matchValue != null) {
-      const threshold = Number(matchValue);
-      return !Number.isNaN(threshold) && raw > threshold;
-    }
-    if (matchType === PROPERTY_MATCH_TYPE.EQUALS && matchValue != null) {
-      return raw === Number(matchValue);
-    }
-    return matchType === PROPERTY_MATCH_TYPE.EXISTS;
+    return matchesNumericFeatureRaw(raw, matchType, matchValue)
   }
-
-  const arr = raw as string[];
-  const lower = arr.map((s) => s.toLowerCase());
-
-  switch (matchType) {
-    case PROPERTY_MATCH_TYPE.EXISTS:
-      return arr.length > 0;
-    case PROPERTY_MATCH_TYPE.CONTAINS:
-      if (!matchValue) return false;
-      return lower.some((s) => s.includes(matchValue.toLowerCase()));
-    case PROPERTY_MATCH_TYPE.EQUALS:
-      if (!matchValue) return false;
-      return lower.includes(matchValue.toLowerCase());
-    default:
-      return false;
-  }
+  return matchesStringArrayFeatureRaw(raw, matchType, matchValue)
 }
 
 export function matchFeaturesToBlocks(

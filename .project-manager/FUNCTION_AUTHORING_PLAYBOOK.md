@@ -25,10 +25,23 @@ Thresholds are defined in `client/.audit-reports/function-complexity-audit-confi
 | Function length (when branchy) | ≤ 50 lines                    | length-when-branchy         |
 | Script setup length            | ≤ 100 lines                   | script-setup-length         |
 | Params / returns               | ≤ 4 each                      | params, returns             |
+| Pure helpers (utils path only) | Relaxed caps in `pureThresholds` when `thresholdProfile` is `pure` | same signals, higher thresholds |
 | Return type                    | Explicit on exported/boundary  | explicit-return-types rule  |
 | Error handling                 | No silent catch                | explicit-error-handling.mdc |
 
 **Priority bands:** P0 = score ≥ 12; P1 = score ≥ 5; P2 &lt; 5. Route handlers and other permissible contexts may be allowlisted in `client/.audit-reports/audit-global-config.json` under `allowlists.function-complexity`.
+
+### Purity axis (audit output)
+
+The function-complexity JSON/MD report attaches **`purityAxis`** (`pure` | `mixed` | `impure`) and **`suggestedRemediation`** to each finding. Templates live in `function-complexity-audit-config.json` under `purityAxis.remediationTemplates`.
+
+| Axis | Meaning (heuristic) | Remediation emphasis |
+| ---- | ------------------- | --------------------- |
+| `pure` | Under `pathGlobsPure`, function body has no Vue/reactivity/side-effect signals matched by config patterns; **`thresholdProfile` may be `pure`** (relaxed caps from `pureThresholds`). | Split oversized pure helpers; keep them testable and named. |
+| `mixed` | Default thresholds; path matches composable roots, or other `client/src/` surfaces that are not classified impure. | **First:** extract deterministic logic to `client/src/utils/<domain>/` (or `server/src/utils/<domain>/`), keep composables thin; re-run audit. |
+| `impure` | Default thresholds; body matches side-effect or Vue wiring patterns in config. | **First:** isolate pure transforms in utils; keep I/O and Vue wiring in composables/handlers; re-run audit. |
+
+**Anti-gaming:** Do not move Vue setup (`ref`, `computed`, `watch`, `inject`, …) into `utils/` to get relaxed thresholds. File-level `fileDowngradePatterns` (e.g. `from 'vue'`) and per-function body patterns disqualify `pure` thresholds. Heuristics are conservative; tune patterns in config when false positives appear.
 
 ---
 

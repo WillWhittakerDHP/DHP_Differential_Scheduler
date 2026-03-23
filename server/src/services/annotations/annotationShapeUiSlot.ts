@@ -3,7 +3,7 @@ import {
   parseAnnotationUiSlotInput,
 } from '@shared/constants/annotationSlots.js'
 
-export type AnnotationShapeWriteNormalizeResult =
+type AnnotationShapeWriteNormalizeResult =
   | { ok: true; data: Record<string, unknown> }
   | { ok: false; message: string }
 

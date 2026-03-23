@@ -3,12 +3,14 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, shallowReactive } from 'vue'
 import type { Ref } from 'vue'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import { usePropertiesTableModel } from '@/composables/admin/tables/usePropertiesTableModel'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
+import type { PropertiesTableDataGridContext } from '@/types/admin/tables/propertiesTableDataGrid'
 import PropertyCreateForm from './PropertyCreateForm.vue'
+import PropertiesTableDataGrid from './PropertiesTableDataGrid.vue'
 
 const {
   items: properties,
@@ -47,6 +49,19 @@ const headers = [
 ]
 
 const tableItems = computed(() => ensureItemsArray<PropertyResponse>(properties.value))
+
+const gridContext = shallowReactive<PropertiesTableDataGridContext>({
+  headers,
+  tableItems,
+  editingId,
+  editedData,
+  isLoading,
+  formatNullValue,
+  startEdit,
+  cancelEdit,
+  saveEdit,
+  openDeleteDialog,
+})
 </script>
 
 <template>
@@ -101,220 +116,8 @@ const tableItems = computed(() => ensureItemsArray<PropertyResponse>(properties.
       No properties found. Click "Create Property" to add one.
     </VAlert>
     
-    <!-- Data table -->
-    <VDataTable
-      v-if="!isLoading && !propertiesError"
-      :headers="headers"
-      :items="tableItems"
-      :loading="isLoading"
-      item-value="id"
-      class="elevation-1"
-    >
-      <template #item.address="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.address }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.address"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.unit="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.unit) }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.unit"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.city="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.city }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.city"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.state="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.state }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.state"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.zipCode="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.zipCode }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.zipCode"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.mlsNumber="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.mlsNumber) }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.mlsNumber"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.squareFootage="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.squareFootage) }}
-          </span>
-          <VTextField
-            v-else
-            v-model.number="editedData.squareFootage"
-            type="number"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.bedrooms="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.bedrooms) }}
-          </span>
-          <VTextField
-            v-else
-            v-model.number="editedData.bedrooms"
-            type="number"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.bathrooms="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.bathrooms) }}
-          </span>
-          <VTextField
-            v-else
-            v-model.number="editedData.bathrooms"
-            type="number"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.foundationAccess="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.foundationAccess) }}
-          </span>
-          <VSelect
-            v-else
-            v-model="editedData.foundationAccess"
-            :items="['basement', 'crawlspace', 'slab']"
-            density="compact"
-            hide-details
-            clearable
-          />
-        </template>
-      </template>
-      
-      <template #item.additionalUnits="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.additionalUnits) }}
-          </span>
-          <VTextField
-            v-else
-            v-model.number="editedData.additionalUnits"
-            type="number"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.actions="{ item }">
-        <template v-if="item">
-          <div v-if="editingId === item.id" class="d-flex gap-2">
-            <VBtn
-              prepend-icon="tabler-check"
-              size="small"
-              color="success"
-              variant="text"
-              @click="saveEdit"
-            >
-              Save
-            </VBtn>
-            <VBtn
-              prepend-icon="tabler-x"
-              size="small"
-              color="error"
-              variant="text"
-              @click="cancelEdit"
-            >
-              Cancel
-            </VBtn>
-          </div>
-          <div v-else class="d-flex gap-2">
-            <VBtn
-              prepend-icon="tabler-pencil"
-              size="small"
-              variant="text"
-              @click="startEdit(item)"
-            >
-              Edit
-            </VBtn>
-            <VBtn
-              prepend-icon="tabler-trash"
-              size="small"
-              color="error"
-              variant="text"
-              @click="openDeleteDialog(item.id)"
-            >
-              Delete
-            </VBtn>
-          </div>
-        </template>
-      </template>
-    </VDataTable>
-    
+    <PropertiesTableDataGrid v-if="!isLoading && !propertiesError" :grid="gridContext" />
+
     <!-- Delete Confirmation Dialog -->
     <VDialog v-model="showDeleteDialog" max-width="500">
       <VCard>

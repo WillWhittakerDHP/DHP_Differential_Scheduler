@@ -1,0 +1,1082 @@
+{
+  "generatedAt": "2026-03-23T01:30:44.441Z",
+  "totalScanned": 662,
+  "totalAllowed": 0,
+  "tierModel": "tier1",
+  "tier1Rules": [
+    "nesting",
+    "branches",
+    "length-when-branchy"
+  ],
+  "thresholds": {
+    "maxNesting": 3,
+    "maxBranches": 8,
+    "maxFunctionLines": 50,
+    "maxScriptSetupLines": 100,
+    "maxParams": 4,
+    "maxReturns": 4
+  },
+  "pureThresholds": {
+    "maxNesting": 4,
+    "maxBranches": 15,
+    "maxFunctionLines": 110,
+    "maxScriptSetupLines": 100,
+    "maxParams": 6,
+    "maxReturns": 8
+  },
+  "purityAxis": {
+    "pathGlobsPure": [],
+    "pathGlobsMixed": [],
+    "note": "purityAxis and suggestedRemediation on each function; relaxed thresholds only when thresholdProfile is pure."
+  },
+  "files": [
+    {
+      "repoPath": "server/src/utils/driveTimeMatrixMerge.ts",
+      "functions": [
+        {
+          "name": "applyMatrixToResultsToLeg",
+          "startLine": 54,
+          "endLine": 87,
+          "length": 34,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        },
+        {
+          "name": "applyMatrixToResultsFromLeg",
+          "startLine": 89,
+          "endLine": 122,
+          "length": 34,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/driveTimeMatrixMerge.ts",
+      "functions": [
+        {
+          "name": "applyMatrixToResultsToLeg",
+          "startLine": 54,
+          "endLine": 87,
+          "length": 34,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        },
+        {
+          "name": "applyMatrixToResultsFromLeg",
+          "startLine": 89,
+          "endLine": 122,
+          "length": 34,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 10,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "functions": [
+        {
+          "name": "BlockShapeFactory",
+          "startLine": 35,
+          "endLine": 109,
+          "length": 75,
+          "maxNesting": 4,
+          "branches": 1,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 75,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/db/models/admin/block_shape.ts",
+      "functions": [
+        {
+          "name": "BlockShapeFactory",
+          "startLine": 35,
+          "endLine": 109,
+          "length": 75,
+          "maxNesting": 4,
+          "branches": 1,
+          "params": 1,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 75,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 7,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+      "functions": [
+        {
+          "name": "syncPropertyDetailsFromWizardBlob",
+          "startLine": 26,
+          "endLine": 98,
+          "length": 73,
+          "maxNesting": 2,
+          "branches": 14,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 73,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/appointmentPropertyDetailsSync.ts",
+      "functions": [
+        {
+          "name": "syncPropertyDetailsFromWizardBlob",
+          "startLine": 26,
+          "endLine": 98,
+          "length": 73,
+          "maxNesting": 2,
+          "branches": 14,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 14,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 73,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "functions": [
+        {
+          "name": "assembleAvailabilityDocument",
+          "startLine": 272,
+          "endLine": 329,
+          "length": 58,
+          "maxNesting": 2,
+          "branches": 11,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 11,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 58,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/availabilityRelationalCodec.ts",
+      "functions": [
+        {
+          "name": "assembleAvailabilityDocument",
+          "startLine": 272,
+          "endLine": 329,
+          "length": 58,
+          "maxNesting": 2,
+          "branches": 11,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 11,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 58,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "functions": [
+        {
+          "name": "createPostHandler",
+          "startLine": 103,
+          "endLine": 155,
+          "length": 53,
+          "maxNesting": 2,
+          "branches": 5,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 53,
+              "threshold": 50,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        },
+        {
+          "name": "createMutationHandler",
+          "startLine": 157,
+          "endLine": 224,
+          "length": 68,
+          "maxNesting": 2,
+          "branches": 9,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 68,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/helpers/crudRouteHandlers.ts",
+      "functions": [
+        {
+          "name": "createPostHandler",
+          "startLine": 103,
+          "endLine": 155,
+          "length": 53,
+          "maxNesting": 2,
+          "branches": 5,
+          "params": 0,
+          "returns": 4,
+          "violations": [
+            {
+              "rule": "length",
+              "value": 53,
+              "threshold": 50,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        },
+        {
+          "name": "createMutationHandler",
+          "startLine": 157,
+          "endLine": 224,
+          "length": 68,
+          "maxNesting": 2,
+          "branches": 9,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 68,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
+      "functions": [
+        {
+          "name": "handleSequelizeValidationError",
+          "startLine": 22,
+          "endLine": 92,
+          "length": 71,
+          "maxNesting": 3,
+          "branches": 9,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/routes/helpers/routerErrorHandler.ts",
+      "functions": [
+        {
+          "name": "handleSequelizeValidationError",
+          "startLine": 22,
+          "endLine": 92,
+          "length": 71,
+          "maxNesting": 3,
+          "branches": 9,
+          "params": 0,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 71,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "functions": [
+        {
+          "name": "classifyError",
+          "startLine": 72,
+          "endLine": 124,
+          "length": 53,
+          "maxNesting": 2,
+          "branches": 10,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 53,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/calendarErrorHandler.ts",
+      "functions": [
+        {
+          "name": "classifyError",
+          "startLine": 72,
+          "endLine": 124,
+          "length": 53,
+          "maxNesting": 2,
+          "branches": 10,
+          "params": 1,
+          "returns": 6,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 10,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 53,
+              "threshold": 50,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 6,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/buildCalendarEventResource.ts",
+      "functions": [
+        {
+          "name": "buildCalendarEventResource",
+          "startLine": 7,
+          "endLine": 101,
+          "length": 95,
+          "maxNesting": 3,
+          "branches": 12,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 95,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/google/calendar/buildCalendarEventResource.ts",
+      "functions": [
+        {
+          "name": "buildCalendarEventResource",
+          "startLine": 7,
+          "endLine": 101,
+          "length": 95,
+          "maxNesting": 3,
+          "branches": 12,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 12,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 95,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
+      "functions": [
+        {
+          "name": "mapFieldsToModel",
+          "startLine": 12,
+          "endLine": 79,
+          "length": 68,
+          "maxNesting": 2,
+          "branches": 15,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 15,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 68,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/services/propertyFieldMapper.ts",
+      "functions": [
+        {
+          "name": "mapFieldsToModel",
+          "startLine": 12,
+          "endLine": 79,
+          "length": 68,
+          "maxNesting": 2,
+          "branches": 15,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 15,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "length",
+              "value": 68,
+              "threshold": 50,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminMetadataInputConfigCodec.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 117,
+          "endLine": 136,
+          "length": 20,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminMetadataInputConfigCodec.ts",
+      "functions": [
+        {
+          "name": "if",
+          "startLine": 117,
+          "endLine": 136,
+          "length": 20,
+          "maxNesting": 4,
+          "branches": 3,
+          "params": 1,
+          "returns": 2,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminPrimitiveMetadata",
+          "startLine": 18,
+          "endLine": 64,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminPrimitiveMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminPrimitiveMetadata",
+          "startLine": 18,
+          "endLine": 64,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminRelationshipMetadata",
+          "startLine": 23,
+          "endLine": 69,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/utils/adminRelationshipMetadataComposer.ts",
+      "functions": [
+        {
+          "name": "getAdminRelationshipMetadata",
+          "startLine": 23,
+          "endLine": 69,
+          "length": 47,
+          "maxNesting": 4,
+          "branches": 4,
+          "params": 0,
+          "returns": 5,
+          "violations": [
+            {
+              "rule": "nesting",
+              "value": 4,
+              "threshold": 3,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 5,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 5,
+      "priority": "P1"
+    },
+    {
+      "repoPath": "server/src/repositories/availabilityPersistenceChunks.ts",
+      "functions": [
+        {
+          "name": "persistRangeConstraintsChunk",
+          "startLine": 169,
+          "endLine": 213,
+          "length": 45,
+          "maxNesting": 3,
+          "branches": 9,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/repositories/availabilityPersistenceChunks.ts",
+      "functions": [
+        {
+          "name": "persistRangeConstraintsChunk",
+          "startLine": 169,
+          "endLine": 213,
+          "length": 45,
+          "maxNesting": 3,
+          "branches": 9,
+          "params": 0,
+          "returns": 1,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 9,
+              "threshold": 8,
+              "tier": 1
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/utils/propertyDetailsPatchCoercion.ts",
+      "functions": [
+        {
+          "name": "coercePatchPropertyField",
+          "startLine": 16,
+          "endLine": 65,
+          "length": 50,
+          "maxNesting": 3,
+          "branches": 16,
+          "params": 2,
+          "returns": 11,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 11,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    },
+    {
+      "repoPath": "server/src/utils/propertyDetailsPatchCoercion.ts",
+      "functions": [
+        {
+          "name": "coercePatchPropertyField",
+          "startLine": 16,
+          "endLine": 65,
+          "length": 50,
+          "maxNesting": 3,
+          "branches": 16,
+          "params": 2,
+          "returns": 11,
+          "violations": [
+            {
+              "rule": "branches",
+              "value": 16,
+              "threshold": 8,
+              "tier": 1
+            },
+            {
+              "rule": "returns",
+              "value": 11,
+              "threshold": 4,
+              "tier": 2
+            }
+          ],
+          "thresholdProfile": "default",
+          "purityAxis": "mixed",
+          "suggestedRemediation": "First: extract deterministic logic (no ref/watch/inject) to client/src/utils/<domain>/ (or server/src/utils/<domain>/) with named helpers; keep the composable as thin orchestration. Re-run this audit. Then address remaining branches/length in the composable if needed."
+        }
+      ],
+      "score": 3,
+      "priority": "P2"
+    }
+  ]
+}

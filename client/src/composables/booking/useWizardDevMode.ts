@@ -8,7 +8,7 @@ import type {
   UseWizardDevModeOptions,
   UseWizardDevModeReturn,
 } from '@/types/booking/wizardDevMode'
-import { devPanelButtonsKey, resetMocksSignalKey } from '@/composables/booking/injectionKeys'
+import { devPanelButtonsKey, resetMocksSignalKey } from '@/keys/bookingInjectionKeys'
 
 
 export function useWizardDevMode(

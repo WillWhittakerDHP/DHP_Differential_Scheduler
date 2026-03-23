@@ -8,11 +8,11 @@ const MIN_PROPERTY_TYPE_WIDTH_PX = 160
 const SELECT_PADDING_PX = 56
 
 /** Minimal shape needed for label extraction. */
-export interface PropertyTypeLike {
+interface PropertyTypeLike {
   name?: string | null
 }
 
-export interface UsePropertyTypeSelectWidthParams {
+interface UsePropertyTypeSelectWidthParams {
   /** List of property types (or any items with name); reactive. */
   availablePropertyTypes: Ref<PropertyTypeLike[]> | ComputedRef<PropertyTypeLike[]>
 }

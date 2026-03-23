@@ -10,7 +10,7 @@ import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from './inviteConsta
 const logger = createLogger('InviteAttendeeHelpers')
 
 /** Minimal appointment shape needed for attendee operations (avoids circular dep on orchestration types). */
-export interface AppointmentForAttendeeOps {
+interface AppointmentForAttendeeOps {
   attendees: Array<{
     id: string
     shouldReceiveInvitation: boolean
@@ -24,7 +24,7 @@ export interface AppointmentForAttendeeOps {
   }>
 }
 
-export function buildAllAttendees(appointment: AppointmentForAttendeeOps): EventAttendee[] {
+function buildAllAttendees(appointment: AppointmentForAttendeeOps): EventAttendee[] {
   return appointment.attendees
     .filter((att) => att.shouldReceiveInvitation && att.user?.email)
     .map((att) => ({

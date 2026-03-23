@@ -11,11 +11,8 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
-import type {
-  BlockInstanceFormData,
-  UseBlockInstanceFormOptions,
-  UseBlockInstanceFormReturn,
-} from '@/types/admin/blockInstanceForm'
+import type { UseEntityFormRedirectOptions } from '@/types/admin/entityFormRedirectOptions'
+import type { BlockInstanceFormData, UseBlockInstanceFormReturn } from '@/types/admin/blockInstanceForm'
 
 const logger = createLogger('useBlockInstanceForm')
 
@@ -25,7 +22,7 @@ const logger = createLogger('useBlockInstanceForm')
 WHY: Moves business logic out of compone...
  */
 export function useBlockInstanceForm(
-  options: UseBlockInstanceFormOptions = {}
+  options: UseEntityFormRedirectOptions = {}
 ): UseBlockInstanceFormReturn {
   const {
     redirectRouteName = 'block-instances-list'

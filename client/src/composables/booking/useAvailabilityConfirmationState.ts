@@ -5,7 +5,7 @@
  */
 import { reactive } from 'vue'
 
-export interface AvailabilityConfirmationState {
+interface AvailabilityConfirmationState {
   dateConfirmed: boolean
   optionConfirmed: boolean
   perspectiveConfirmed: boolean
@@ -32,33 +32,40 @@ const INITIAL_STATE: AvailabilityConfirmationState = {
   moveableConfirmed: false,
 }
 
+const STEP_FLAG_KEYS: (keyof AvailabilityConfirmationState)[] = [
+  'dateConfirmed',
+  'optionConfirmed',
+  'perspectiveConfirmed',
+  'slotConfirmed',
+  'moveableConfirmed',
+]
+
+function setConfirmationForStep(state: AvailabilityConfirmationState, stepIndex: number): void {
+  const key = STEP_FLAG_KEYS[stepIndex]
+  if (key !== undefined) {
+    state[key] = true
+  }
+}
+
+function getConfirmationForStep(state: AvailabilityConfirmationState, stepIndex: number): boolean {
+  const key = STEP_FLAG_KEYS[stepIndex]
+  return key !== undefined ? state[key] : false
+}
+
+function resetConfirmationState(state: AvailabilityConfirmationState): void {
+  for (const key of STEP_FLAG_KEYS) {
+    state[key] = false
+  }
+}
+
 export function useAvailabilityConfirmationState(): UseAvailabilityConfirmationStateReturn {
   const state = reactive<AvailabilityConfirmationState>({ ...INITIAL_STATE })
 
-  const confirm = (stepIndex: number): void => {
-    if (stepIndex === 0) state.dateConfirmed = true
-    else if (stepIndex === 1) state.optionConfirmed = true
-    else if (stepIndex === 2) state.perspectiveConfirmed = true
-    else if (stepIndex === 3) state.slotConfirmed = true
-    else if (stepIndex === 4) state.moveableConfirmed = true
-  }
+  const confirm = (stepIndex: number): void => setConfirmationForStep(state, stepIndex)
 
-  const isConfirmed = (stepIndex: number): boolean => {
-    if (stepIndex === 0) return state.dateConfirmed
-    if (stepIndex === 1) return state.optionConfirmed
-    if (stepIndex === 2) return state.perspectiveConfirmed
-    if (stepIndex === 3) return state.slotConfirmed
-    if (stepIndex === 4) return state.moveableConfirmed
-    return false
-  }
+  const isConfirmed = (stepIndex: number): boolean => getConfirmationForStep(state, stepIndex)
 
-  const reset = (): void => {
-    state.dateConfirmed = false
-    state.optionConfirmed = false
-    state.perspectiveConfirmed = false
-    state.slotConfirmed = false
-    state.moveableConfirmed = false
-  }
+  const reset = (): void => resetConfirmationState(state)
 
   return {
     state,

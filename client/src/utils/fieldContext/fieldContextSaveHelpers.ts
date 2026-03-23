@@ -14,15 +14,13 @@ import { normalizePrimitiveForSave } from '@/utils/transformers/transformerPrimi
 import { calculateArrayDiff } from '@/utils/collections/arrayDiff'
 import { createLogger } from '@/utils/logger'
 import { invalidateEntityQueries } from '@/composables/entityCrud/useSharedMutationHandlers'
+import { RELATIONSHIP_ALREADY_EXISTS } from '@/constants/errorMessages'
 
 import type { SaveComponentEntityParams, SaveRelationshipFieldParams, SaveRegularFieldParams } from '@/types/fieldContext/fieldContextSaveHelpers'
 
 export type { SaveComponentEntityParams, SaveRelationshipFieldParams, SaveRegularFieldParams } from '@/types/fieldContext/fieldContextSaveHelpers'
 
 const logger = createLogger('fieldContextSaveHelpers')
-
-/** Matches server `ERROR_MESSAGES.RELATIONSHIP_ALREADY_EXISTS` (relationshipErrorHandler). */
-const RELATIONSHIP_ALREADY_EXISTS_ERROR = 'Relationship already exists'
 
 function relationshipIdFromItem(item: unknown): string | null {
   if (item === null || item === undefined) {
@@ -74,7 +72,7 @@ function isRelationshipAlreadyExistsConflict(error: unknown): boolean {
   const data = ax.response.data
   if (data && typeof data === 'object' && 'error' in data) {
     const msg = String((data as { error: unknown }).error)
-    return msg === RELATIONSHIP_ALREADY_EXISTS_ERROR || msg.toLowerCase().includes('already exists')
+    return msg === RELATIONSHIP_ALREADY_EXISTS || msg.toLowerCase().includes('already exists')
   }
   return false
 }

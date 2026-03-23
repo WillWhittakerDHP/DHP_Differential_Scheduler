@@ -1,4 +1,5 @@
 import type { ComputedRef, Ref } from 'vue'
+import type { TableModelFormatHelpers } from '@/composables/admin/tables/useTableModelHelpers'
 
 export interface CrudDataTableModelOptions<
   TableItem extends { id: string },
@@ -78,3 +79,10 @@ export interface CrudDataTableModelGrouped<
     confirmDelete: () => Promise<void>
   }
 }
+
+/** CRUD table model plus {@link TableModelFormatHelpers} (shared admin table composable return). */
+export type CrudDataTableModelWithFormatHelpers<
+  TableItem extends { id: string },
+  CreatePayload extends object,
+  UpdatePayload extends object
+> = CrudDataTableModel<TableItem, CreatePayload, UpdatePayload> & TableModelFormatHelpers

@@ -25,7 +25,7 @@ export interface EventWithDrive {
   driveFromMinutes?: number
 }
 
-export function timeRangesOverlap(
+function timeRangesOverlap(
   a: { start: Date; end: Date },
   b: { start: Date; end: Date }
 ): boolean {

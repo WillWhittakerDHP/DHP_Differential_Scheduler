@@ -132,6 +132,12 @@
       "data-flow-health": [
         ".ts",
         ".vue"
+      ],
+      "dual-role-export": [
+        ".ts",
+        ".js",
+        ".vue",
+        ".mjs"
       ]
     }
   },
@@ -358,6 +364,10 @@
           "reason": "Constants file; intentional default (hotspot triage allowlist)"
         }
       ]
+    },
+    "dual-role-export": {
+      "patterns": [],
+      "specific": []
     },
     "import-hygiene": {
       "patterns": [
@@ -597,16 +607,16 @@
             "*"
           ],
           "reason": "Constants files are data definitions"
-        }
-      ],
-      "specific": [
+        },
         {
-          "file": "client/src/composables/usePartInstanceData.ts",
+          "glob": "server/src/db/models/**/*.ts",
           "ruleIds": [
             "*"
           ],
-          "reason": "Borderline; length from many small computed declarations, not deep nesting (hotspot triage allowlist)"
-        },
+          "reason": "Sequelize model files are declarative schema factories (Model.init), not business-logic complexity targets"
+        }
+      ],
+      "specific": [
         {
           "file": "client/src/composables/booking/useSelectionCardState.ts",
           "ruleIds": [
@@ -661,16 +671,16 @@
             "*"
           ],
           "reason": "Composable test wrapper (Wave 4 test policy)"
+        },
+        {
+          "glob": "server/src/db/models/index",
+          "ruleIds": [
+            "fanOut"
+          ],
+          "reason": "Sequelize model bag registers every model factory; high fan-out is structural."
         }
       ],
       "specific": [
-        {
-          "file": "client/src/composables/usePartInstanceData.ts",
-          "ruleIds": [
-            "*"
-          ],
-          "reason": "Structural composable-root to admin dependency for entity data (hotspot triage allowlist)"
-        },
         {
           "file": "client/src/composables/useSelectOptions.ts",
           "ruleIds": [
@@ -1641,6 +1651,111 @@
             "unused-export"
           ],
           "reason": "Barrel files re-export for API surface"
+        },
+        {
+          "glob": "**/src/shims/**/*.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Vite/TS shims mirror package entrypoints; consumers import from the package id, so the shim file gets no named-import hits."
+        },
+        {
+          "glob": "server/src/test/**/*.ts",
+          "ruleIds": [
+            "unused-export",
+            "unused-function"
+          ],
+          "reason": "Jest/test setup modules cross-reference each other; static unused-code scan is incomplete for test-only wiring."
+        },
+        {
+          "glob": "client/**/*.vue",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "SFC script functions are often wired from <template>; the static scan only matches a subset of binding patterns."
+        },
+        {
+          "glob": "client/src/utils/fieldContext/**/*.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Field-context helpers are consumed from composables via @/utils/fieldContext/*; cross-file named-import detection undercounts."
+        },
+        {
+          "glob": "client/src/utils/forms/formFieldsMetadataWarningResolution.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Metadata warning types/helpers are composed across form-field modules; direct symbol hits are incomplete in the static scan."
+        },
+        {
+          "glob": "client/src/main.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "Bootstrapping helpers may be referenced only within main.ts; intra-module calls are not always attributed by the scanner."
+        },
+        {
+          "glob": "server/src/routes/internal/businessSettings/availabilitySettingsValidationCore.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "Validators are composed by runAvailabilitySettingsValidation; nested same-file calls are undercounted."
+        },
+        {
+          "glob": "server/src/services/appointmentSnapshotLoader.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "loadAllAppointmentVersions supports exported loaders in the same module; intra-file references are missed."
+        },
+        {
+          "glob": "client/src/composables/**/*.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "Composable modules expose nested handlers and module-private helpers; not all are attributed when returned, passed to child components, or referenced indirectly."
+        },
+        {
+          "glob": "client/src/utils/**/*.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "Utils use nested helpers, callbacks (e.g. .filter(fn)), and same-file composition; the static unused-function scan misses many intra-module references."
+        },
+        {
+          "glob": "server/src/**/*.ts",
+          "ruleIds": [
+            "unused-function"
+          ],
+          "reason": "Server modules nest route handlers and shared helpers; same-file and dynamic registration patterns are undercounted by the static scanner."
+        }
+      ],
+      "linePatterns": [
+        {
+          "ruleId": "unused-export",
+          "pattern": "^export\\s+(interface|type)\\s+Use\\w+(Return|Params|Options)\\b",
+          "reason": "Composable contracts (return/params/options): inference, Pick/extends in types/, or import paths the static name scan misses; exported per composable-governance."
+        },
+        {
+          "ruleId": "unused-export",
+          "pattern": "^export\\s+(interface|type)\\s+[A-Z]\\w*(Props|Emit)\\b",
+          "reason": "Vue prop/emit types: often wired through defineProps/defineEmits or SFC inference; heuristic import scan misses many consumers."
+        },
+        {
+          "ruleId": "unused-export",
+          "pattern": "^export\\s+(interface|type)\\s+\\w+Slice\\b",
+          "reason": "Typed slices (e.g. modal handler slices) are composed via interface extends; sub-symbols may not appear in direct named imports."
+        },
+        {
+          "ruleId": "unused-export",
+          "pattern": "^export\\s+(type\\s+WizardBrandMode|interface\\s+BuildWizardModePaletteParams)\\b",
+          "reason": "Wizard palette types are re-exported from utils/theme barrel; consumers rarely import these names from the defining module."
+        },
+        {
+          "ruleId": "unused-export",
+          "pattern": "^export\\s+interface\\s+EnvConfig\\b",
+          "reason": "Env schema type is re-exported from config entrypoints; envConfig.ts may show no direct type imports."
         }
       ],
       "specific": []
@@ -1683,6 +1798,10 @@
         {
           "groupId": "sim-subset-481e0eb925e6",
           "reason": "Skip: { id, name } mega-cluster; types serve different domains (UI items, API responses, server models); CoreEntity covers meaningful subset"
+        },
+        {
+          "groupId": "sim-subset-9aff2973b282",
+          "reason": "Heuristic SUBSET mega-group: unrelated types share overlapping fields (id, timestamps, appointment/property shapes). Triaged — no single shared type; see TYPE_AUTHORING_PLAYBOOK type-similarity caveat."
         },
         {
           "groupId": "sim-subset-d190de321156",
@@ -1771,6 +1890,30 @@
         {
           "groupId": "sim-exact-baa832bb53d1",
           "reason": "Resolved: PartPricingFields extracted; PartInstanceBulkEditData and PartWithTotals extend it"
+        },
+        {
+          "groupId": "sim-subset-05c91dff93c9",
+          "reason": "Skip: composable return bundles methods + refs; mutation variable interfaces are payloads only — heuristic overlap on parameter names"
+        },
+        {
+          "groupId": "sim-subset-5c07f0924f37",
+          "reason": "Skip: CalendarEvent / CreateEventParams / EventInstancePreviewResponseBody — cross-layer Google API vs preview; coincidental overlap"
+        },
+        {
+          "groupId": "sim-subset-5962e357e1b2",
+          "reason": "Skip: unrelated Vue SFC Props and composable options clustered by shared entity/form fields"
+        },
+        {
+          "groupId": "sim-subset-e4b5200f800b",
+          "reason": "Skip: PropertyValidationData / WizardStateData / PropertyDetailsStepData — wizard transformer mega-overlap; different composition levels"
+        },
+        {
+          "groupId": "sim-subset-1554fa06fa28",
+          "reason": "Skip: relationship composable return vs mutation variables — same heuristic as primitive metadata cluster"
+        },
+        {
+          "groupId": "sim-subset-2fea3cb5724c",
+          "reason": "Skip: NormalizedAppointmentForInviteFlow vs AppointmentWithRelations — model optional attendees vs normalized required; invite normalization semantics"
         }
       ]
     },

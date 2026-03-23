@@ -1,7 +1,7 @@
 /**
  * WHY: Override state should use complementary color for visual distinction
  */
-export const COMPLEMENTARY_COLOR_MAP: Record<string, string> = {
+const COMPLEMENTARY_COLOR_MAP: Record<string, string> = {
   'secondary': 'info',      // Orange -> Blue
   'info': 'secondary',      // Blue -> Orange
   'yellow': 'purple',       // Yellow -> Purple

@@ -1,7 +1,7 @@
 import type { ContingencyPeriod } from '@/types/moveableScheduling'
 
 export const DEFAULT_CONTINGENCY: ContingencyPeriod = {
-  hasContingency: false,
+  hasContingency: null,
   endDate: null,
   endTime: null,
 }

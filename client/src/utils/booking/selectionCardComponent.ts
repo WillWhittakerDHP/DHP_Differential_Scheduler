@@ -4,7 +4,7 @@ export function getSelectionComponentName(config: SelectionCardConfig): string {
   return config.selectionComponent || 'VRadio'
 }
 
-export function getSelectionControlOrder(controlPosition: SelectionCardConfig['controlPosition']): number {
+function getSelectionControlOrder(controlPosition: SelectionCardConfig['controlPosition']): number {
   return controlPosition === 'top' ? -2 : controlPosition === 'left' ? -1 : 1
 }
 

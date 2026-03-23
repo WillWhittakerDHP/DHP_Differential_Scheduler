@@ -3,7 +3,7 @@ import { filterFieldsInConfigOrder } from '@/utils/forms/layoutFieldCategorizati
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { asEmptyArray } from '@/utils/safeDefaults'
-import type { UseFormFieldsStandardLayoutReturn } from './types'
+import type { UseFormFieldsStandardLayoutReturn } from './layoutTypes'
 
 type UseFormFieldsStandardLayoutOptions<GE extends GlobalEntityKey> = {
   fieldKeys: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>

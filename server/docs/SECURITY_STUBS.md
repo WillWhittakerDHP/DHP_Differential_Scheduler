@@ -122,6 +122,7 @@ Excludes `.env.example` (template only). Any matches warrant manual review. For 
 - **General limiter:** 100 requests per 15 minutes per IP. Excess requests receive **429 Too Many Requests** with `Retry-After` header.
 - **Headers:** `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` (standard); `X-RateLimit-*` (legacy).
 - **Auth-route limiter:** 10 requests per 15 minutes per IP on `/api/v1/internal/auth/*`. Placeholder route returns 501 until Feature 7 (Authentication) adds login routes.
+- **IPv6 (express-rate-limit v8+):** Client keys use IPv6 subnet masking by default so many addresses in the same ISP subnet share one bucket (reduces bypass via address rotation). IPv4 behavior is unchanged.
 
 ### How to verify (general limiter)
 

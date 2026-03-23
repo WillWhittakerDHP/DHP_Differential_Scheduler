@@ -22,7 +22,7 @@ export function handleSequelizeValidationError(
   )
 }
 
-export function handleDatabaseConstraintError(
+function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
   entityId?: string

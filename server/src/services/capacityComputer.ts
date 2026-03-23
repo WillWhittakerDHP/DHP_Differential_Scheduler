@@ -17,7 +17,7 @@ import {
 import { getUniqueDatesInRange } from '../utils/availabilities/availabilityPrimitives.js'
 import { ROLLING_WEEK_DIRECTION } from '../utils/availabilities/availabilityConstants.js'
 
-export interface ScheduledCapacityResult {
+interface ScheduledCapacityResult {
   scheduledHoursByKey: Record<string, number>
   scheduledIncomeByKey: Record<string, number>
 }

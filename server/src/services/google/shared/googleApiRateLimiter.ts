@@ -4,7 +4,7 @@ import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('GoogleApiRateLimiter')
 
-export type GoogleApiName = 'google-calendar' | 'google-maps'
+type GoogleApiName = 'google-calendar' | 'google-maps'
 
 /**
  * Execute an API operation with rate limiting

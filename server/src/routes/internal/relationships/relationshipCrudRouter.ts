@@ -86,7 +86,7 @@ router.get('/:relationshipType', async (req: Request, res: Response): Promise<vo
   }
 })
 
-export async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
+async function handleInstanceComponentCreate(req: Request, res: Response): Promise<void> {
   const relationshipConfig = req.relationshipConfig as RelationshipConfig
   const parentId = req.body.parentId ?? req.body.parent_id
   const childId = req.body.childId ?? req.body.child_id

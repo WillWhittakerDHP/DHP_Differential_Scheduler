@@ -4,7 +4,12 @@
 import type { Ref } from 'vue'
 import { ref, watch, computed } from 'vue'
 import { createLogger } from '@/utils/logger'
-import type { ContactInfo, UseContactsStepDataOptions, UseContactsStepDataReturn } from '@/types/booking/contactsStepData'
+import type {
+  ContactInfo,
+  ContactRefs,
+  UseContactsStepDataOptions,
+  UseContactsStepDataReturn,
+} from '@/types/booking/contactsStepData'
 import type { ContactsStepData } from '@/types/wizard'
 import type { WizardStateData } from '@/types/booking/wizardStateData'
 
@@ -16,17 +21,6 @@ function contactField(value: string | null | undefined, context: string): string
     return ''
   }
   return value
-}
-
-interface ContactRefs {
-  clientInfo: Ref<ContactInfo>
-  agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  showAnotherClient: Ref<boolean>
-  transactionManagerInfo: Ref<ContactInfo>
-  showTransactionManager: Ref<boolean>
-  sellerInfo: Ref<ContactInfo>
-  showSeller: Ref<boolean>
 }
 
 function populateContactFromAdditional(

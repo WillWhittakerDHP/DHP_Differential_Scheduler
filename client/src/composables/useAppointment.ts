@@ -1,20 +1,17 @@
 /**
  * WHY: useAppointment Composable
-
  */
 import { computed, type ComputedRef } from 'vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { getAppointmentByIdEndpoint, getAppointmentEndpoint } from '@/utils/api'
 import type { AppointmentRequest, AppointmentResponse } from '@/types/appointment'
 import type { BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
-import { pickRandomItem } from '@/utils/collections/pickRandomItem'
 import { useBusinessDataCollectionCrud } from '@/composables/businessDataCollections/useBusinessDataCollectionCrud'
 import { useBusiness, BUSINESS_DATA_QUERY_KEY } from './useBusiness'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
-import { createLogger } from '@/utils/logger'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'
-
-const logger = createLogger('useAppointment')
+import { APPOINTMENT_STATUS_HELD, APPOINTMENT_STATUS_STARTED } from '@shared/constants/appointmentStatusLiterals'
+import { fetchRandomAppointment } from '@/utils/appointment/fetchRandomAppointment'
 
 const FALLBACK_HOLD_DURATION_MINUTES = 15
 
@@ -47,7 +44,7 @@ type UseAppointmentReturn = {
 export function useAppointment(): UseAppointmentReturn {
   const queryClient = useQueryClient()
   const { businessData, isLoading, error } = useBusiness()
-  
+
   const { create, update, patch, remove, fetchAll: baseFetchAll, fetchById } = useBusinessDataCollectionCrud<
     AppointmentResponse,
     AppointmentRequest,
@@ -76,42 +73,24 @@ export function useAppointment(): UseAppointmentReturn {
       durationMinutes !== undefined
         ? durationMinutes
         : (await getAvailabilitySettings()).calendarConfig?.holdDurationMinutes ?? FALLBACK_HOLD_DURATION_MINUTES
-    patch.mutate({ id, data: { status: 'held', holdDurationMinutes: minutes } })
+    patch.mutate({ id, data: { status: APPOINTMENT_STATUS_HELD, holdDurationMinutes: minutes } })
   }
 
   const releaseSlot = (id: string): void => {
-    patch.mutate({ id, data: { status: 'started' } })
+    patch.mutate({ id, data: { status: APPOINTMENT_STATUS_STARTED } })
   }
 
-  // ENACTMENT(Feature 7): requireRole('admin') will gate this on the server
   const applyOverrideConstraints = (id: string, constraints: Record<string, boolean> | null): void => {
     patch.mutate({ id, data: { overrideConstraints: constraints } })
   }
 
-  const fetchRandom = async (): Promise<AppointmentResponse | null> => {
-    try {
-      if (isLoading.value) {
-        let attempts = 0
-        const maxAttempts = 50
-        while (isLoading.value && attempts < maxAttempts) {
-          await new Promise(resolve => setTimeout(resolve, 100))
-          attempts++
-        }
-      }
-      
-      if (!businessData.value || businessData.value.appointments.length === 0) {
-        await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
-        await new Promise(resolve => setTimeout(resolve, 500))
-      }
-      
-      const raw = businessData.value?.appointments
-      const appointments = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
-      return pickRandomItem(appointments)
-    } catch (_error) {
-      logger.error('Fetch random appointment failed', { error: _error })
-      return null
-    }
-  }
+  const fetchRandom = async (): Promise<AppointmentResponse | null> =>
+    fetchRandomAppointment({
+      queryClient,
+      businessDataQueryKey: BUSINESS_DATA_QUERY_KEY,
+      isLoading,
+      businessData,
+    })
 
   return {
     create,

@@ -4,7 +4,7 @@
 import type { AppointmentSelectionLine, AppointmentSelectionLineKind } from '../db/models/booking/appointment_selection_line.js'
 
 /** Keys persisted on child rows and mirrored on appointment JSON for API responses. */
-export const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
+const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
   'selectedServiceIds',
   'serviceQuantities',
   'selectedPropertyIds',
@@ -16,7 +16,7 @@ export const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
   'optionSnapshotIds',
 ] as const
 
-export type AppointmentSelectionFlatFields = {
+type AppointmentSelectionFlatFields = {
   selectedServiceIds: string[] | null
   serviceQuantities: Record<string, number> | null
   selectedPropertyIds: string[] | null
@@ -132,6 +132,28 @@ function coerceQuantityMap(value: unknown): Record<string, number> | null {
   return Object.keys(out).length > 0 ? out : null
 }
 
+type FlatSelectionIdKey = 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'
+type FlatSelectionQtyKey = 'serviceQuantities' | 'propertyQuantities' | 'optionQuantities'
+
+function mergeFlatIdArrayFromPatch(
+  next: AppointmentSelectionFlatFields,
+  patch: Record<string, unknown>,
+  key: FlatSelectionIdKey
+): void {
+  if (!(key in patch)) return
+  const arr = coerceIdArray(patch[key])
+  next[key] = arr.length > 0 ? arr : null
+}
+
+function mergeFlatQuantityMapFromPatch(
+  next: AppointmentSelectionFlatFields,
+  patch: Record<string, unknown>,
+  key: FlatSelectionQtyKey
+): void {
+  if (!(key in patch)) return
+  next[key] = coerceQuantityMap(patch[key])
+}
+
 /** Build line rows for bulkCreate from request-style body (create/patch). */
 export function flatSelectionBodyToLineCreates(
   appointmentId: string,
@@ -182,24 +204,12 @@ export function mergeFlatSelectionPatch(
   patch: Record<string, unknown>
 ): AppointmentSelectionFlatFields {
   const next = { ...existing }
-  if ('selectedServiceIds' in patch) {
-    next.selectedServiceIds = coerceIdArray(patch.selectedServiceIds).length > 0 ? coerceIdArray(patch.selectedServiceIds) : null
-  }
-  if ('serviceQuantities' in patch) {
-    next.serviceQuantities = coerceQuantityMap(patch.serviceQuantities)
-  }
-  if ('selectedPropertyIds' in patch) {
-    next.selectedPropertyIds = coerceIdArray(patch.selectedPropertyIds).length > 0 ? coerceIdArray(patch.selectedPropertyIds) : null
-  }
-  if ('propertyQuantities' in patch) {
-    next.propertyQuantities = coerceQuantityMap(patch.propertyQuantities)
-  }
-  if ('selectedOptionIds' in patch) {
-    next.selectedOptionIds = coerceIdArray(patch.selectedOptionIds).length > 0 ? coerceIdArray(patch.selectedOptionIds) : null
-  }
-  if ('optionQuantities' in patch) {
-    next.optionQuantities = coerceQuantityMap(patch.optionQuantities)
-  }
+  mergeFlatIdArrayFromPatch(next, patch, 'selectedServiceIds')
+  mergeFlatIdArrayFromPatch(next, patch, 'selectedPropertyIds')
+  mergeFlatIdArrayFromPatch(next, patch, 'selectedOptionIds')
+  mergeFlatQuantityMapFromPatch(next, patch, 'serviceQuantities')
+  mergeFlatQuantityMapFromPatch(next, patch, 'propertyQuantities')
+  mergeFlatQuantityMapFromPatch(next, patch, 'optionQuantities')
   return next
 }
 

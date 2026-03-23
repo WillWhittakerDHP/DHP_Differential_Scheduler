@@ -13,7 +13,7 @@ function lineSortKey(line: InstanceType<typeof AppointmentSelectionLine>): [numb
   return [rank, line.sortOrder]
 }
 
-export async function replaceSelectionLinesFromBody(
+async function replaceSelectionLinesFromBody(
   appointmentId: string,
   body: Record<string, unknown>,
   transaction?: Transaction
@@ -25,7 +25,7 @@ export async function replaceSelectionLinesFromBody(
   }
 }
 
-export async function fillMissingSnapshotVersionIds(
+async function fillMissingSnapshotVersionIds(
   appointmentId: string,
   transaction?: Transaction
 ): Promise<void> {

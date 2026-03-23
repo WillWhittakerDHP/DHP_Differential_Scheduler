@@ -18,6 +18,21 @@ let userTypeBlockCache: Map<string, string> | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+function readCachedBlockId(blockName: string): string | null {
+  if (!userTypeBlockCache || Date.now() - cacheTimestamp >= CACHE_TTL) {
+    return null;
+  }
+  return userTypeBlockCache.get(blockName) ?? null;
+}
+
+function rememberBlockId(blockName: string, id: string): void {
+  if (!userTypeBlockCache) {
+    userTypeBlockCache = new Map();
+  }
+  userTypeBlockCache.set(blockName, id);
+  cacheTimestamp = Date.now();
+}
+
 export async function getUserTypeBlockIdForRole(role: string): Promise<string | null> {
   const blockName = ROLE_TO_BLOCK_NAME[role];
   if (!blockName) {
@@ -25,29 +40,19 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
     return null;
   }
 
-  if (userTypeBlockCache && (Date.now() - cacheTimestamp < CACHE_TTL)) {
-    const cachedId = userTypeBlockCache.get(blockName);
-    if (cachedId) {
-      return cachedId;
-    }
+  const cached = readCachedBlockId(blockName);
+  if (cached) {
+    return cached;
   }
 
   try {
     const userTypeBlock = await findUserTypeBlockByName(blockName);
-    
-    if (userTypeBlock) {
-      if (!userTypeBlockCache) {
-        userTypeBlockCache = new Map();
-      }
-      userTypeBlockCache.set(blockName, userTypeBlock.id);
-      cacheTimestamp = Date.now();
-      
-      return userTypeBlock.id;
+    if (!userTypeBlock) {
+      logger.warn(`UserTypeBlock not found for name: ${blockName}`);
+      return null;
     }
-    
-    logger.warn(`UserTypeBlock not found for name: ${blockName}`);
-    return null;
-    
+    rememberBlockId(blockName, userTypeBlock.id);
+    return userTypeBlock.id;
   } catch (error) {
     logger.error(`Error looking up UserTypeBlock for role ${role}:`, error);
     return null;

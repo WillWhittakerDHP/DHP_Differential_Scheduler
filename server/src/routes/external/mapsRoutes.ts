@@ -5,10 +5,10 @@ import {
   getPlaceDetails,
   generateSessionToken
 } from '../../services/google/maps/placesApiService.js'
-import { MapsApiError } from '../../services/google/maps/mapsErrorHandler.js'
 import { createLogger } from '../../utils/logger.js'
 import { MapsDebugRouter } from './mapsDebugRoutes.js'
 import { MAPS_ROUTE_MESSAGES } from './mapsRouteConstants.js'
+import { sendMapsRouteErrorResponse } from './mapsRouteErrorResponses.js'
 
 const autocompleteQuerySchema = Joi.object({
   input: Joi.string().required(),
@@ -24,17 +24,6 @@ const logger = createLogger('MapsRoutes')
 
 const router = Router()
 
-function getStatusCodeForError(type: string): number {
-  const statusMap: Record<string, number> = {
-    auth: 401,
-    rate_limit: 429,
-    invalid: 400,
-    not_found: 404,
-    network: 502
-  }
-  return statusMap[type] ?? 500
-}
-
 type AsyncRouteHandler = (req: Request, res: Response) => Promise<void>
 
 function withMapsErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandler {
@@ -43,19 +32,7 @@ function withMapsErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandler {
       await handler(req, res)
     } catch (error) {
       logger.error('Maps route error:', error)
-      if (error instanceof MapsApiError) {
-        const statusCode = getStatusCodeForError(error.type)
-        res.status(statusCode).json({
-          error: error.getUserMessage(),
-          type: error.type,
-          retryable: error.retryable
-        })
-        return
-      }
-      res.status(500).json({
-        error: MAPS_ROUTE_MESSAGES.INTERNAL_SERVER_ERROR,
-        type: 'unknown'
-      })
+      sendMapsRouteErrorResponse(res, error)
     }
   }
 }

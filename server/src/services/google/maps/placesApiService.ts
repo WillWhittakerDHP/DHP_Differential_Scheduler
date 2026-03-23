@@ -23,6 +23,43 @@ const logger = createLogger('PlacesApiService')
 // In-flight deduplication: reuse pending promises for the same address
 const inflightGeocoding = new Map<string, Promise<string | null>>()
 
+async function loadAutocompletePredictionsFromUrl(url: string): Promise<AutocompletePrediction[]> {
+  const response = await fetch(url)
+  validateHttpResponse(response)
+
+  const data = (await response.json()) as {
+    status: string
+    error_message?: string
+    predictions?: Array<{
+      place_id: string
+      description: string
+      structured_formatting?: { main_text?: string; secondary_text?: string }
+    }>
+  }
+  logger.debug('Autocomplete API status', { status: data.status })
+  if (data.error_message) {
+    logger.error('API error_message', { errorMessage: data.error_message })
+  }
+
+  validateGoogleApiResponse(data)
+  if (data.status === GOOGLE_API_STATUS.ZERO_RESULTS || !data.predictions) {
+    return []
+  }
+
+  return transformPredictions(data.predictions)
+}
+
+function rethrowOrWrapAutocompleteError(error: unknown): never {
+  if (error instanceof MapsApiError) {
+    throw error
+  }
+  throw new MapsApiError(
+    'network',
+    error instanceof Error ? error.message : 'Network error',
+    true
+  )
+}
+
 export async function getAutocompleteSuggestions(
   input: string,
   sessionToken?: string
@@ -35,36 +72,40 @@ export async function getAutocompleteSuggestions(
     logger.debug('Fetching autocomplete', { input })
 
     try {
-      const response = await fetch(url)
-      validateHttpResponse(response)
-
-      const data = (await response.json()) as {
-        status: string
-        error_message?: string
-        predictions?: Array<{
-          place_id: string
-          description: string
-          structured_formatting?: { main_text?: string; secondary_text?: string }
-        }>
-      }
-      logger.debug('Autocomplete API status', { status: data.status })
-      if (data.error_message) logger.error('API error_message', { errorMessage: data.error_message })
-
-      validateGoogleApiResponse(data)
-      if (data.status === GOOGLE_API_STATUS.ZERO_RESULTS || !data.predictions) return []
-
-      return transformPredictions(data.predictions)
+      return await loadAutocompletePredictionsFromUrl(url)
     } catch (error) {
-      logger.error(error)
-      if (error instanceof MapsApiError) throw error
-      logger.error('Autocomplete error', { error })
-      throw new MapsApiError(
-        'network',
-        error instanceof Error ? error.message : 'Network error',
-        true
-      )
+      logger.error('Autocomplete request failed', { error })
+      rethrowOrWrapAutocompleteError(error)
     }
   })
+}
+
+async function loadPlaceDetailsFromUrl(url: string, placeId: string): Promise<PlaceDetails> {
+  const response = await fetch(url)
+  validateHttpResponse(response)
+
+  const data = (await response.json()) as {
+    status: string
+    error_message?: string
+    result?: Parameters<typeof transformPlaceResult>[0]
+  }
+  validateGoogleApiResponse(data, { invalidRequestAsNotFound: true })
+  if (!data.result) {
+    throw new MapsApiError('invalid', 'Invalid response from Places API')
+  }
+
+  return transformPlaceResult(data.result, placeId)
+}
+
+function rethrowOrWrapPlaceDetailsError(error: unknown): never {
+  if (error instanceof MapsApiError) {
+    throw error
+  }
+  throw new MapsApiError(
+    'network',
+    error instanceof Error ? error.message : 'Network error',
+    true
+  )
 }
 
 export async function getPlaceDetails(
@@ -79,27 +120,10 @@ export async function getPlaceDetails(
     logger.debug('Fetching place details', { placeId })
 
     try {
-      const response = await fetch(url)
-      validateHttpResponse(response)
-
-      const data = (await response.json()) as {
-        status: string
-        error_message?: string
-        result?: Parameters<typeof transformPlaceResult>[0]
-      }
-      validateGoogleApiResponse(data, { invalidRequestAsNotFound: true })
-      if (!data.result) throw new MapsApiError('invalid', 'Invalid response from Places API')
-
-      return transformPlaceResult(data.result, placeId)
+      return await loadPlaceDetailsFromUrl(url, placeId)
     } catch (error) {
-      logger.error(error)
-      if (error instanceof MapsApiError) throw error
-      logger.error('Place details error', { error })
-      throw new MapsApiError(
-        'network',
-        error instanceof Error ? error.message : 'Network error',
-        true
-      )
+      logger.error('Place details request failed', { error })
+      rethrowOrWrapPlaceDetailsError(error)
     }
   })
 }

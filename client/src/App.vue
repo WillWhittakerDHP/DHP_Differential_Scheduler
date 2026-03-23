@@ -41,7 +41,7 @@
 <script setup lang="ts">
 
 import { useTheme } from 'vuetify'
-import { ref, provide, computed, type Ref } from 'vue'
+import { ref, shallowRef, provide, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import AppNotification from '@/components/AppNotification.vue'
 import DevPanelToggle from '@/components/booking/dev/DevPanelToggle.vue'
@@ -52,7 +52,7 @@ import initCore from '@core/initCore'
 import { initConfigStore, useConfigStore } from '@core/stores/config'
 import { hexToRgb } from '@core/utils/colorConverter'
 import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
-import { devPanelButtonsKey } from '@/composables/booking/injectionKeys'
+import { devPanelButtonsKey } from '@/keys/bookingInjectionKeys'
 
 const { global } = useTheme()
 const route = useRoute()
@@ -91,9 +91,9 @@ const handleApiPanelToggle = (): void => {
   apiDevPanelVisible.value = !apiDevPanelVisible.value
 }
 
-const devPanelButtons = ref<DevPanelButtonsContext | null>(null)
-// WHY: Vue's Ref inference widens when dev mode assigns the shared context; runtime matches DevPanelButtonsContext.
-provide(devPanelButtonsKey, devPanelButtons as Ref<DevPanelButtonsContext | null>)
+// WHY: shallowRef — ref<T>() applies UnwrapRef to T and would unwrap nested Refs inside DevPanelButtonsContext.
+const devPanelButtons = shallowRef<DevPanelButtonsContext | null>(null)
+provide(devPanelButtonsKey, devPanelButtons)
 </script>
 
 <style>

@@ -54,6 +54,10 @@ export default defineConfig({
     },
   },
   build: {
+    // JS output baseline (Vite 8 default): Chrome 111+, Firefox 114+, Safari 16.4+ per Baseline Widely Available 2026-01-01.
+    // Separate from CSS: Rolldown may still log Lightning warnings on Vue `:deep()` in chunk CSS; build still succeeds.
+    target: 'baseline-widely-available',
+    cssMinify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks(id: string): string | undefined {

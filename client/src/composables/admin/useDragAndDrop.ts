@@ -1,100 +1,82 @@
 /**
  * WHY: useDragAndDrop Composable
-
-WHY: Moves drag-and-drop initialization, hand...
+ * WHY: Moves drag-and-drop initialization, hand...
  */
-import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick } from 'vue'
-import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
-import { dragAndDrop } from '@formkit/drag-and-drop/vue'
-import { getPanelsElement, countDraggableNodes, createSingleClassDraggableChecker, createExpansionPanelDraggableChecker } from './useDragAndDropHelpers'
-import { createLogger } from '@/utils/logger'
+import { ref, watch, onMounted, onBeforeUnmount, onUnmounted, nextTick, type Ref } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
+import {
+  mountDragAndDropOnPanelsIfReady,
+  type MountDragAndDropOnPanelsParams,
+} from '@/composables/admin/useDragAndDropInstance'
 import type { UseDragAndDropParams, UseDragAndDropReturn } from '@/types/admin/dragAndDrop'
 
+function scheduleMountWhenReady(params: MountDragAndDropOnPanelsParams): void {
+  nextTick(() => {
+    if (!params.isMounted.value) {
+      return
+    }
+    mountDragAndDropOnPanelsIfReady(params)
+  })
+}
 
-const logger = createLogger('useDragAndDrop')
+type MountDragRest = Pick<
+  MountDragAndDropOnPanelsParams,
+  'entityIds' | 'group' | 'draggableClass' | 'dragHandle' | 'dragEndHandler'
+>
+
+function runContainerPanelsWatchEffect(
+  isMounted: Ref<boolean>,
+  container: unknown,
+  panelsComponentRef: unknown,
+  mountRest: MountDragRest
+): void {
+  if (!isMounted.value || !container) {
+    return
+  }
+  if (!(container instanceof HTMLElement)) {
+    return
+  }
+  scheduleMountWhenReady({
+    container,
+    panelsComponentRef: panelsComponentRef as ComponentPublicInstance | HTMLElement | null,
+    isMounted,
+    ...mountRest,
+  })
+}
 
 /**
  * WHY: useDragAndDrop composable
-
-WHY: Extracts drag-and-drop logic from compon...
+ * WHY: Extracts drag-and-drop logic from compon...
  */
 export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropReturn {
-  const {
-    containerRef,
-    panelsContainerRef,
+  const { containerRef, panelsContainerRef, entityIds, dragEndHandler, group, draggableClass, dragHandle } =
+    params
+
+  const isMounted = ref(false)
+  const watcherStop = ref<(() => void) | null>(null)
+
+  const mountRest: MountDragRest = {
     entityIds,
-    dragEndHandler,
     group,
     draggableClass,
     dragHandle,
-  } = params
-
-  /**
-   * PATTERN: Use ref flag to track component lifecycle state
-   */
-  const isMounted = ref(false)
-
-  const watcherStop = ref<(() => void) | null>(null)
+    dragEndHandler,
+  }
 
   onMounted(() => {
     isMounted.value = true
-    
-    watcherStop.value = watch([containerRef, panelsContainerRef], ([container, panelsComponentRef]) => {
-      // PATTERN: Check mount status before DOM manipulation
-      if (!isMounted.value || !container) return
-      
-      // PATTERN: Check that container is an HTMLElement before proceeding
-      if (!(container instanceof HTMLElement)) return
-      
-      nextTick(() => {
-        if (!isMounted.value) return
-        
-        try {
-          const panelsEl = getPanelsElement(panelsComponentRef, container, isMounted)
-          if (!panelsEl || !(panelsEl instanceof HTMLElement)) return
-          
-          // PATTERN: Count draggable nodes and ensure they match values array length
-          const entityIdsArray = entityIds.value
-          if (!entityIdsArray || entityIdsArray.length === 0) return
-          
-          // PATTERN: Reuse the same checker function for both validation and drag-and-drop config
-          const isDraggableChecker = createSingleClassDraggableChecker(draggableClass)
-          const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
-          
-          if (enabledNodesCount !== entityIdsArray.length) {
-            // PATTERN: Skip initialization and let watcher retry on next update
-            return
-          }
-          
-          const panelsRef = ref(panelsEl)
-          
-          dragAndDrop({
-            parent: panelsRef,
-            values: entityIds,
-            group,
-            ...(dragHandle ? { dragHandle } : {}),
-            // PATTERN: Extract common logic to shared utility
-            draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
-            plugins: [animations()],
-            performTransfer: (arg) => {
-              formkitPerformTransfer(arg)
-            },
-            handleEnd: (state) => {
-              formkitHandleEnd(state)
-              dragEndHandler()
-            },
-          })
-        } catch (error) {
-          logger.error('Failed to initialize drag and drop', { error, group })
-        }
-      })
-    }, { immediate: true })
+
+    watcherStop.value = watch(
+      [containerRef, panelsContainerRef],
+      ([container, panelsComponentRef]) => {
+        runContainerPanelsWatchEffect(isMounted, container, panelsComponentRef, mountRest)
+      },
+      { immediate: true }
+    )
   })
 
   onBeforeUnmount(() => {
-    // Mark as unmounted immediately to prevent any watcher callbacks from running
     isMounted.value = false
-    
     watcherStop.value?.()
   })
 
@@ -104,7 +86,6 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   })
 
   return {
-    isMounted
+    isMounted,
   }
 }
-

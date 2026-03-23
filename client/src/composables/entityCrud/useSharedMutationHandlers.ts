@@ -49,25 +49,3 @@ export async function cancelQueriesBeforeMutate(
   )
 }
 
-/**
- * WHY: Many mutations need to restore previous cache state on error
- */
-export function createRestorePreviousDataHandler(
-  queryClient: QueryClient,
-  queryKeys: readonly (readonly unknown[])[]
-) {
-  return (
-    context: { [key: string]: unknown } | undefined,
-    previousDataKeys: string[]
-  ): void => {
-    if (!context) return
-    
-    queryKeys.forEach((queryKey, index) => {
-      const previousDataKey = previousDataKeys[index]
-      const previousData = context[previousDataKey]
-      if (previousData !== undefined) {
-        queryClient.setQueryData([...queryKey], previousData)
-      }
-    })
-  }
-}

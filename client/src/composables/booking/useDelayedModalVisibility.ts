@@ -5,7 +5,7 @@ import { ref, computed, watch } from 'vue'
 
 const OPEN_DELAY_MS = 400
 
-export interface UseDelayedModalVisibilityParams {
+interface UseDelayedModalVisibilityParams {
   /** Current open state (v-model source). */
   source: Ref<boolean> | ComputedRef<boolean>
   /** When delayed visibility is set to false, call to sync parent (e.g. emit 'update:modelValue', false). */

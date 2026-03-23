@@ -3,7 +3,7 @@
 import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
 
-export interface UseBlockInstanceCreateOptions {
+interface UseBlockInstanceCreateOptions {
   modelValue: () => boolean
   entityCardRef: Ref<{ handleSave: () => Promise<void> } | null>
 }

@@ -10,7 +10,7 @@ const logger = createLogger('timeSlotMatching')
 
 export type { LoadedTimeSlot, MatchLoadedTimeSlotsResult } from '@/types/booking/timeSlotMatching'
 
-export function extractTimeString(value: string | Date): string | null {
+function extractTimeString(value: string | Date): string | null {
   try {
     let rfc3339: RFC3339DateTime
 

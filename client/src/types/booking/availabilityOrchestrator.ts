@@ -4,7 +4,8 @@ import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTr
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { AppointmentSlots } from '@/types/appointment'
 import type { MoveableSchedulingOptions, ContingencyPeriod } from '@/types/moveableScheduling'
-import type { TimeRange } from '@/types/appointment'
+import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PerspectiveKey } from '@/types/appointment'
 
 /** Grouped return for composable-health (oversized-return repair). Consumer may spread to flat. */
@@ -22,7 +23,7 @@ export interface UseAvailabilityOrchestratorReturn {
     isEffectivelyDifferential: ComputedRef<boolean>
     hasMoveablePartsGated: ComputedRef<boolean>
     userHasChosenTimeBasisFromGraph: Ref<boolean>
-    graphBars: ComputedRef<{ major: TimeRange | null; minor: TimeRange | null }>
+    graphBars: ComputedRef<{ major: SlotTimeBounds | null; minor: SlotTimeBounds | null }>
     perspective: ComputedRef<PerspectiveKey>
     selectedDate: Ref<{ start: string | null; end: string | null }>
     appointmentSlots: ComputedRef<AppointmentSlots>
@@ -33,10 +34,15 @@ export interface UseAvailabilityOrchestratorReturn {
     showMoveableModal: Ref<boolean>
     moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
     moveableAppointmentSlots: ComputedRef<AppointmentSlots>
+    moveableStepperDayLabel: ComputedRef<string>
     moveablePartShapeName: ComputedRef<string>
     selectedMoveableDay: Ref<string | null>
     setSelectedMoveableDay: (date: string | null) => void
     allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
+    availableMoveableDayKeys: ComputedRef<string[]>
+    moveableFirstDayKey: ComputedRef<string | null>
+    moveableLastDayKey: ComputedRef<string | null>
+    moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
     isLoadingMoveableDaySlots: Ref<boolean>
     selectedMoveableSlotIndex: Ref<number | null>
     contingencyPeriod: Ref<ContingencyPeriod>
@@ -44,6 +50,8 @@ export interface UseAvailabilityOrchestratorReturn {
     stepData: ComputedRef<AvailabilityStepData>
     isFormValid: ComputedRef<boolean>
     slotColor: ComputedRef<'primary' | 'secondary'>
+    /** Admin slot grid minute increment from computed availability API (native time `step` = minutes × 60 seconds). */
+    availabilityMinuteIncrement: ComputedRef<number>
   }
   actions: {
     getTodayDate: () => string

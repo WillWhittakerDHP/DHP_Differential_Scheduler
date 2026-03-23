@@ -9,9 +9,6 @@ import { templateFieldUnknownWarnings } from '@shared/utils/templateVariableWarn
 import type { UseInstancesTabEventInstanceParams, NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 
 
-/** Re-export for consumers that expect the legacy name. */
-export const EVENT_INSTANCE_TEMPLATE_VARIABLES = EVENT_TEMPLATE_VARIABLES
-
 export interface UseInstancesTabEventInstanceReturn {
   templateVariables: typeof EVENT_TEMPLATE_VARIABLES
   newEventInstanceData: Ref<NewEventInstanceData | null>
@@ -120,7 +117,7 @@ export function useInstancesTabEventInstance(params: UseInstancesTabEventInstanc
   }
 
   return {
-    templateVariables: EVENT_INSTANCE_TEMPLATE_VARIABLES,
+    templateVariables: EVENT_TEMPLATE_VARIABLES,
     newEventInstanceData,
     isCreatingEventInstance,
     isCreatingEventInstanceLoading,

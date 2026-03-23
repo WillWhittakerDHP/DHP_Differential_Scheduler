@@ -48,7 +48,8 @@ app.use(
   })
 )
 const corsOrigin = getCorsOrigin()
-app.use(cors({ origin: Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin] }))
+const corsAllowedOrigins = Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin]
+app.use(cors({ origin: corsAllowedOrigins }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use((req, _res, next) => {

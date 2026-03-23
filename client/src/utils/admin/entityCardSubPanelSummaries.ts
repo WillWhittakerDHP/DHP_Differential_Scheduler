@@ -1,0 +1,74 @@
+import type { GlobalEntityKey } from '@/constants/entities'
+
+const MAX_DISPLAY_ITEMS = 2
+
+export function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
+  if (items.length === 0) return ''
+  const displayItems = items.slice(0, maxDisplay)
+  const remaining = items.length - maxDisplay
+  if (remaining <= 0) return displayItems.join(', ')
+  return `${displayItems.join(', ')} +${remaining} more`
+}
+
+export interface PartsSummaryResolvers {
+  namesForPartInstanceIds: (ids: unknown[]) => string[]
+  namesForPartShapeIds: (ids: unknown[]) => string[]
+}
+
+export function buildPartsSummaryForSubPanel(
+  entityKey: GlobalEntityKey,
+  values: Record<string, unknown>,
+  resolvers: PartsSummaryResolvers
+): string {
+  if (entityKey === 'blockInstance') {
+    const partAssignments = values.partAssignments
+    if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
+    return formatTruncatedList(resolvers.namesForPartInstanceIds(partAssignments))
+  }
+  if (entityKey === 'blockShape') {
+    const validParts = values.validParts
+    if (!Array.isArray(validParts) || validParts.length === 0) return ''
+    return formatTruncatedList(resolvers.namesForPartShapeIds(validParts))
+  }
+  return ''
+}
+
+export function buildRelationshipTypesForSubPanel(
+  entityKey: GlobalEntityKey,
+  formValues: Record<string, unknown>,
+  blockShapeDisplayName: string
+): string[] {
+  const relationshipTypes: string[] = []
+  if (entityKey === 'blockInstance') {
+    appendIfNonEmptyArray(formValues.bookingCascades, relationshipTypes, 'Booking Cascades')
+    appendIfNonEmptyArray(formValues.instanceComponents, relationshipTypes, `${blockShapeDisplayName} Components`)
+    appendIfNonEmptyArray(
+      formValues.dependentInstances,
+      relationshipTypes,
+      `Dependent ${blockShapeDisplayName} Instances`
+    )
+    return relationshipTypes
+  }
+  if (entityKey === 'blockShape') {
+    appendIfNonEmptyArray(formValues.validCascades, relationshipTypes, 'Valid Cascades')
+    return relationshipTypes
+  }
+  if (entityKey === 'partInstance') {
+    appendIfNonEmptyArray(formValues.pricingCascades, relationshipTypes, 'Pricing Cascades')
+    return relationshipTypes
+  }
+  if (entityKey === 'partShape') {
+    appendIfNonEmptyArray(formValues.validPricingCascades, relationshipTypes, 'Valid Pricing Cascades')
+    return relationshipTypes
+  }
+  return relationshipTypes
+}
+
+function appendIfNonEmptyArray(
+  raw: unknown,
+  target: string[],
+  label: string
+): void {
+  const arr = Array.isArray(raw) ? raw : []
+  if (arr.length > 0) target.push(label)
+}

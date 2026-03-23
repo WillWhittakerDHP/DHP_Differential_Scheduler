@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { computed } from 'vue'
-import type { TimeRange } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
@@ -9,8 +9,8 @@ import type { TimeBasisHandlerProps } from '@/utils/booking/timeBasisHandler'
 
 interface Props extends TimeBasisHandlerProps {
   graphBars: {
-    major: TimeRange | null
-    minor: TimeRange | null
+    major: SlotTimeBounds | null
+    minor: SlotTimeBounds | null
   }
   selectedServices: BookingBlockInstance[]
 }

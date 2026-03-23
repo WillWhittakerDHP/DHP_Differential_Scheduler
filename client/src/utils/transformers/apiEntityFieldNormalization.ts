@@ -5,10 +5,35 @@ import { bookingModeToTernary, isTernaryBoolean } from '@shared/utils/ternaryAli
 import type { TernaryBoolean } from '@/types/ternary'
 import { parseDifferentialRole, sanitizeDifferentialEventRoleOverridesInput } from '@shared/utils/differentialRoleUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
+import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
 
 const logger = createLogger('apiEntityFieldNormalization')
 
 const DEFAULT_TERNARY: TernaryBoolean = 'false'
+
+function normalizeTernaryStringValue(
+  raw: string,
+  fieldName: string,
+  defaultValue: TernaryBoolean
+): TernaryBoolean {
+  const bookingAliases = [DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'] as const
+  if ((bookingAliases as readonly string[]).includes(raw)) {
+    const t = bookingModeToTernary(raw)
+    logger.warn(`[apiEntity] coerced domain bookingMode string to ternary for ${fieldName}`, {
+      received: raw,
+      result: t,
+    })
+    return t
+  }
+  if (isTernaryBoolean(raw)) {
+    return raw
+  }
+  logger.warn(`[apiEntity] unknown string for ${fieldName}, using default`, {
+    received: raw,
+    defaultValue,
+  })
+  return defaultValue
+}
 
 function normalizeTernaryBooleanField(
   raw: unknown,
@@ -30,22 +55,7 @@ function normalizeTernaryBooleanField(
     return defaultValue
   }
   if (typeof raw === 'string') {
-    if (raw === 'standalone' || raw === 'addOn' || raw === 'both') {
-      const t = bookingModeToTernary(raw)
-      logger.warn(`[apiEntity] coerced domain bookingMode string to ternary for ${fieldName}`, {
-        received: raw,
-        result: t,
-      })
-      return t
-    }
-    if (isTernaryBoolean(raw)) {
-      return raw
-    }
-    logger.warn(`[apiEntity] unknown string for ${fieldName}, using default`, {
-      received: raw,
-      defaultValue,
-    })
-    return defaultValue
+    return normalizeTernaryStringValue(raw, fieldName, defaultValue)
   }
   logger.warn(`[apiEntity] invalid value for ${fieldName}, using default`, {
     received: raw,
@@ -56,11 +66,11 @@ function normalizeTernaryBooleanField(
 
 /** bookingMode on global blockInstance: always TernaryBoolean after hydration. */
 export function normalizeBlockInstanceBookingModeFromApi(raw: unknown): TernaryBoolean {
-  return normalizeTernaryBooleanField(raw, 'bookingMode', DEFAULT_TERNARY)
+  return normalizeTernaryBooleanField(raw, FIELD_NAMES.BOOKING_MODE, DEFAULT_TERNARY)
 }
 
 export function normalizeBlockInstanceAgentPermissionsFromApi(raw: unknown): TernaryBoolean {
-  return normalizeTernaryBooleanField(raw, 'agentPermissions', DEFAULT_TERNARY)
+  return normalizeTernaryBooleanField(raw, FIELD_NAMES.AGENT_PERMISSIONS, DEFAULT_TERNARY)
 }
 
 export function normalizeBlockInstanceDifferentialFromApi(raw: unknown): TernaryBoolean {

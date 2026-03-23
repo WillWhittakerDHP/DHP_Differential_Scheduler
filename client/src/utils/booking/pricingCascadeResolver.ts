@@ -5,7 +5,7 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 const partInstanceById = (all: BookingPartInstance[]): Map<string, BookingPartInstance> =>
   new Map(all.map((p) => [p.id, p]))
 
-export function resolvePricingCascadeParts(
+function resolvePricingCascadeParts(
   serviceParts: BookingPartInstance[],
   allPartInstances: BookingPartInstance[]
 ): BookingPartInstance[] {

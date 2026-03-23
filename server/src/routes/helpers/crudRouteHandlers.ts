@@ -100,46 +100,52 @@ export function createGetByIdHandler<T extends Model>(
   }
 }
 
-export function createPostHandler<T extends Model>(
-  context: CrudHandlerContext<T>
-): (req: Request, res: Response) => Promise<void> {
+async function runPostCreateRequest<T extends Model>(
+  context: CrudHandlerContext<T>,
+  req: Request,
+  res: Response
+): Promise<void> {
   const {
     model,
-    resourceName,
-    errorMessages,
     validateRequest,
     beforeCreate,
     afterCreate,
     sanitizeInput,
     transformResponse,
-    constraintHandler,
   } = context
+  if (validateRequest && !handleValidationResult(validateRequest(req, 'create'), res)) return
+  if (
+    !(await executeOptionalHook(
+      beforeCreate as (...args: unknown[]) => Promise<void>,
+      res,
+      req,
+      res
+    ))
+  )
+    return
+  const data = sanitizeInput ? sanitizeInput(req.body, 'create') : req.body
+  const record = await createRecord(model, data as MakeNullishOptional<T['_creationAttributes']>)
+  if (
+    !(await executeOptionalHook(
+      afterCreate as (...args: unknown[]) => Promise<void>,
+      res,
+      record,
+      req,
+      res
+    ))
+  )
+    return
+  const transformedRecord = applyOptionalTransform(record, transformResponse)
+  sendCreated(res, transformedRecord)
+}
+
+export function createPostHandler<T extends Model>(
+  context: CrudHandlerContext<T>
+): (req: Request, res: Response) => Promise<void> {
+  const { resourceName, errorMessages, constraintHandler } = context
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      if (validateRequest && !handleValidationResult(validateRequest(req, 'create'), res)) return
-      if (
-        !(await executeOptionalHook(
-          beforeCreate as (...args: unknown[]) => Promise<void>,
-          res,
-          req,
-          res
-        ))
-      )
-        return
-      const data = sanitizeInput ? sanitizeInput(req.body, 'create') : req.body
-      const record = await createRecord(model, data as MakeNullishOptional<T['_creationAttributes']>)
-      if (
-        !(await executeOptionalHook(
-          afterCreate as (...args: unknown[]) => Promise<void>,
-          res,
-          record,
-          req,
-          res
-        ))
-      )
-        return
-      const transformedRecord = applyOptionalTransform(record, transformResponse)
-      sendCreated(res, transformedRecord)
+      await runPostCreateRequest(context, req, res)
     } catch (error) {
       handleRouteError(
         error,
@@ -158,57 +164,20 @@ export function createMutationHandler<T extends Model>(
   context: CrudHandlerContext<T>,
   method: MutationMethod
 ): (req: Request, res: Response) => Promise<void> {
-  const {
-    model,
-    resourceName,
-    errorMessages,
-    paramKey,
-    validateRequest,
-    beforeUpdate,
-    afterUpdate,
-    sanitizeInput,
-    transformResponse,
-    constraintHandler,
-  } = context
+  const { resourceName, errorMessages, paramKey, constraintHandler } = context
   const validationMethod = method === 'update' ? 'update' : 'patch'
   const errorMessage = method === 'patch' ? (errorMessages.PATCH ?? errorMessages.UPDATE) : errorMessages.UPDATE
   const contextVerb = method === 'patch' ? 'patching' : 'updating'
 
   return async (req: Request, res: Response): Promise<void> => {
     try {
-      const id = paramString(req, paramKey)
-      if (!runMutationValidation(req, res, validateRequest, validationMethod, id)) return
-      if (
-        !(await executeOptionalHook(
-          beforeUpdate as (...args: unknown[]) => Promise<void>,
-          res,
-          req,
-          res
-        ))
-      )
-        return
-      const data = sanitizeInput ? sanitizeInput(req.body, validationMethod) : req.body
-      const record = await performUpdateAndFetch(
-        model,
-        id,
-        data as Partial<T['_creationAttributes']>,
+      await runMutationRequest(
+        context,
         method,
-        errorMessages,
+        validationMethod,
+        req,
         res
       )
-      if (!record) return
-      if (
-        !(await executeOptionalHook(
-          afterUpdate as (...args: unknown[]) => Promise<void>,
-          res,
-          record,
-          req,
-          res
-        ))
-      )
-        return
-      const transformedRecord = applyOptionalTransform(record, transformResponse)
-      sendSuccess(res, transformedRecord)
     } catch (error) {
       handleRouteError(
         error,
@@ -221,6 +190,58 @@ export function createMutationHandler<T extends Model>(
       )
     }
   }
+}
+
+async function runMutationRequest<T extends Model>(
+  context: CrudHandlerContext<T>,
+  method: MutationMethod,
+  validationMethod: 'update' | 'patch',
+  req: Request,
+  res: Response
+): Promise<void> {
+  const {
+    model,
+    paramKey,
+    validateRequest,
+    beforeUpdate,
+    afterUpdate,
+    sanitizeInput,
+    transformResponse,
+    errorMessages,
+  } = context
+  const id = paramString(req, paramKey)
+  if (!runMutationValidation(req, res, validateRequest, validationMethod, id)) return
+  if (
+    !(await executeOptionalHook(
+      beforeUpdate as (...args: unknown[]) => Promise<void>,
+      res,
+      req,
+      res
+    ))
+  )
+    return
+  const data = sanitizeInput ? sanitizeInput(req.body, validationMethod) : req.body
+  const record = await performUpdateAndFetch(
+    model,
+    id,
+    data as Partial<T['_creationAttributes']>,
+    method,
+    errorMessages,
+    res
+  )
+  if (!record) return
+  if (
+    !(await executeOptionalHook(
+      afterUpdate as (...args: unknown[]) => Promise<void>,
+      res,
+      record,
+      req,
+      res
+    ))
+  )
+    return
+  const transformedRecord = applyOptionalTransform(record, transformResponse)
+  sendSuccess(res, transformedRecord)
 }
 
 export function createDeleteHandler<T extends Model>(

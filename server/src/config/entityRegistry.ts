@@ -9,7 +9,7 @@ export type EntityType = 'partInstance' | 'blockInstance' | 'partShape' | 'block
 
 export type { ComponentConfig, ComponentStrategy };
 
-export interface EntityConfig {
+interface EntityConfig {
   model: ModelStatic<Model>;
   tableName: string;
   displayName: string;

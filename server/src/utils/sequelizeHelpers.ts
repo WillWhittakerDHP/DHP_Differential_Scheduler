@@ -19,14 +19,6 @@ export function getModelAttributes<T extends Model>(
   });
 }
 
-export function getModelAttributesExcluding<T extends Model>(
-  ModelClass: ModelStatic<T>,
-  exclude: string[]
-): string[] {
-  const allAttributes = getModelAttributes(ModelClass);
-  return allAttributes.filter(attr => !exclude.includes(attr));
-}
-
 export function isModelUnderscored<T extends Model>(
   ModelClass: ModelStatic<T>
 ): boolean {

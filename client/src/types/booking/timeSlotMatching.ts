@@ -1,10 +1,8 @@
 import type { TimeSlot } from '@/types/appointment'
-import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 
-export interface LoadedTimeSlot {
-  startTime: RFC3339DateTime
-  endTime?: RFC3339DateTime
-}
+/** Narrow slot shape for matching (start required; end optional until resolved). */
+export type LoadedTimeSlot = Pick<SlotTimeBounds, 'startTime'> & { endTime?: SlotTimeBounds['endTime'] }
 
 export interface MatchLoadedTimeSlotsResult {
   inspectorSlot: TimeSlot | null

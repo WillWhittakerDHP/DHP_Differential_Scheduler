@@ -15,7 +15,7 @@ export function handleSequelizeValidationError(
   return sharedHandleSequelizeValidationError(error, res, defaultMessage)
 }
 
-export function handleDatabaseConstraintError(
+function handleDatabaseConstraintError(
   error: unknown,
   res: Response,
   _entityId?: string

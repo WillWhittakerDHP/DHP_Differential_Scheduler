@@ -18,6 +18,8 @@
 }
 
 .selection-card {
+  /* WHY: VLabel defaults to white-space: nowrap; allow ui_slot copy (cardDescription) to wrap */
+  white-space: normal;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,6 +87,13 @@
       display: block !important;
       white-space: normal !important;
       word-break: normal !important;
+      width: 100%;
+    }
+
+    p {
+      white-space: normal;
+      overflow-wrap: break-word;
+      word-break: normal;
       width: 100%;
     }
   }

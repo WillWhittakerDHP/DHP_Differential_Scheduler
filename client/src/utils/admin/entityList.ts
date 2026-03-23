@@ -8,7 +8,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('entityList')
 
-export interface EntityListOptions {
+interface EntityListOptions {
   entityKey: GlobalEntityKey
   router: Router
   remove: (id: GlobalEntityId) => Promise<void>

@@ -23,6 +23,7 @@ import type {
   BufferConfig,
   DriveTimeFeeConfig,
 } from '@shared/types/availabilityTypes'
+import type { WizardCopyLabelFields } from '@shared/types/wizardSettingsTypes'
 export type {
   ConstraintEnforcement,
   Coordinates,
@@ -109,18 +110,7 @@ export interface AvailabilitySettings {
 }
 
 /** Optional wizard/display labels on differential perspectives (form state; not in API payload). */
-export interface DifferentialPerspectivesLabels {
-  majorLabel?: string
-  minorLabel?: string
-  differentialGraphDefaultLabel?: string
-  moveableFallbackLabel?: string
-  majorStateLabel?: string
-  minorStateLabel?: string
-  subStepLabelPickDay?: string
-  subStepLabelOptions?: string
-  subStepLabelPickTime?: string
-  subStepLabelConfirmMoveable?: string
-}
+type DifferentialPerspectivesLabels = WizardCopyLabelFields
 
 export interface RawAvailabilitySettings {
   minuteIncrement: number

@@ -1,15 +1,7 @@
+import { APPOINTMENT_STATUS_VALUES } from '@shared/constants/appointmentStatusLiterals'
 import type { AppointmentStatus } from '@/types/appointmentStatus'
 
-export const APPOINTMENT_STATUSES: AppointmentStatus[] = [
-  'started',
-  'held',
-  'rescheduling',
-  'quoted',
-  'submitted',
-  'confirmed',
-  'cancelled',
-  'deleted',
-]
+export const APPOINTMENT_STATUSES: AppointmentStatus[] = [...APPOINTMENT_STATUS_VALUES]
 
 /**
  * State machine: allowed status transitions (mirrors server-side VALID_STATUS_TRANSITIONS).

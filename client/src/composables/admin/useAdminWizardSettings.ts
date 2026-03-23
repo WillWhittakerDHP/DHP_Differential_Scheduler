@@ -5,11 +5,12 @@ import { ref, watch } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { getWizardSettings, buildWizardPayload } from '@/configs/wizardSettings'
 import apiClient from '@/utils/api'
-import type { UseAdminWizardSettingsReturn, UseAdminWizardSettingsOptions } from '@/types/admin/wizardSettings'
+import type { AdminSettingsTabQueryOptions } from '@/types/admin/adminSettingsTabQueryOptions'
+import type { UseAdminWizardSettingsReturn } from '@/types/admin/wizardSettings'
 
 const logger = createLogger('useAdminWizardSettings')
 
-export function useAdminWizardSettings(options?: UseAdminWizardSettingsOptions): UseAdminWizardSettingsReturn {
+export function useAdminWizardSettings(options?: AdminSettingsTabQueryOptions): UseAdminWizardSettingsReturn {
   const formData = ref<import('@/configs/wizardSettings').WizardSettingsData | null>(null)
   const loading = ref(false)
   const saving = ref(false)

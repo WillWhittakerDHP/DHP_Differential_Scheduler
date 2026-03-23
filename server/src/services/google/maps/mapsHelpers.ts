@@ -223,26 +223,30 @@ function parseAddressComponents(components: Array<{
  * WHY: Convert our location format to Routes API waypoint format
 
  */
+function waypointFromCoordinates(lat: number, lng: number): object {
+  return {
+    location: {
+      latLng: {
+        latitude: lat,
+        longitude: lng,
+      },
+    },
+  }
+}
+
 export function toRoutesWaypoint(location: RouteLocation): object {
   if (location.placeId) {
     return { placeId: location.placeId }
   }
-  
+
   if (location.coordinates) {
-    return {
-      location: {
-        latLng: {
-          latitude: location.coordinates.lat,
-          longitude: location.coordinates.lng
-        }
-      }
-    }
+    return waypointFromCoordinates(location.coordinates.lat, location.coordinates.lng)
   }
-  
+
   if (location.address) {
     return { address: location.address }
   }
-  
+
   throw new MapsApiError('invalid', 'Location must have placeId, coordinates, or address')
 }
 

@@ -3,12 +3,14 @@
   PATTERN: VDataTable with custom editable cells and CRUD operations
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, shallowReactive } from 'vue'
 import type { Ref } from 'vue'
 import type { UserRequest, UserResponse } from '@/types/user'
 import { useUsersTableModel } from '@/composables/admin/tables/useUsersTableModel'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
+import type { UsersTableDataGridContext } from '@/types/admin/tables/usersTableDataGrid'
 import UserCreateForm from './UserCreateForm.vue'
+import UsersTableDataGrid from './UsersTableDataGrid.vue'
 
 const {
   items: users,
@@ -42,6 +44,19 @@ const headers = [
 ]
 
 const tableItems = computed(() => ensureItemsArray<UserResponse>(users.value))
+
+const gridContext = shallowReactive<UsersTableDataGridContext>({
+  headers,
+  tableItems,
+  editingId,
+  editedData,
+  isLoading,
+  formatNullValue,
+  startEdit,
+  cancelEdit,
+  saveEdit,
+  openDeleteDialog,
+})
 </script>
 
 <template>
@@ -95,148 +110,8 @@ const tableItems = computed(() => ensureItemsArray<UserResponse>(users.value))
       No users found. Click "Create User" to add one.
     </VAlert>
     
-    <!-- Data table -->
-    <VDataTable
-      v-if="!isLoading && !usersError"
-      :headers="headers"
-      :items="tableItems"
-      :loading="isLoading"
-      item-value="id"
-      class="elevation-1"
-    >
-      <template #item.firstName="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.firstName }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.firstName"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.lastName="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.lastName }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.lastName"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.email="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.email }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.email"
-            type="email"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.phone="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.phone) }}
-          </span>
-          <VTextField
-            v-else
-            v-model="editedData.phone"
-            type="tel"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.userRole="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ item.userRole }}
-          </span>
-          <VSelect
-            v-else
-            v-model="editedData.userRole"
-            :items="['client', 'agent', 'transaction_manager', 'seller', 'inspector']"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.loginId="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            {{ formatNullValue(item.loginId) }}
-          </span>
-          <VTextField
-            v-else
-            v-model.number="editedData.loginId"
-            type="number"
-            density="compact"
-            hide-details
-          />
-        </template>
-      </template>
-      
-      <template #item.actions="{ item }">
-        <template v-if="item">
-          <div v-if="editingId === item.id" class="d-flex gap-2">
-            <VBtn
-              prepend-icon="tabler-check"
-              size="small"
-              color="success"
-              variant="text"
-              @click="saveEdit"
-            >
-              Save
-            </VBtn>
-            <VBtn
-              prepend-icon="tabler-x"
-              size="small"
-              color="error"
-              variant="text"
-              @click="cancelEdit"
-            >
-              Cancel
-            </VBtn>
-          </div>
-          <div v-else class="d-flex gap-2">
-            <VBtn
-              prepend-icon="tabler-pencil"
-              size="small"
-              variant="text"
-              @click="startEdit(item)"
-            >
-              Edit
-            </VBtn>
-            <VBtn
-              prepend-icon="tabler-trash"
-              size="small"
-              color="error"
-              variant="text"
-              @click="openDeleteDialog(item.id)"
-            >
-              Delete
-            </VBtn>
-          </div>
-        </template>
-      </template>
-    </VDataTable>
-    
+    <UsersTableDataGrid v-if="!isLoading && !usersError" :grid="gridContext" />
+
     <!-- Delete Confirmation Dialog -->
     <VDialog v-model="showDeleteDialog" max-width="500">
       <VCard>

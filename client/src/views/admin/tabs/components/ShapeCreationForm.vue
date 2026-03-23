@@ -9,10 +9,18 @@ defineProps<{
   entity: GlobalEntity<GlobalEntityKey>
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'saved'): void
   (e: 'cancelled'): void
 }>()
+
+function notifySaved(): void {
+  emit('saved')
+}
+
+function notifyCancelled(): void {
+  emit('cancelled')
+}
 </script>
 
 <template>
@@ -24,7 +32,7 @@ defineEmits<{
     :expanded="true"
     :use-expansion-panel="false"
     class="new-shape-card"
-    @saved="$emit('saved')"
-    @cancelled="$emit('cancelled')"
+    @saved="notifySaved"
+    @cancelled="notifyCancelled"
   />
 </template>

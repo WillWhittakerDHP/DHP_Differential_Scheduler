@@ -5,16 +5,21 @@
 import { computed, type ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntity } from '@/types/entities'
 import type { EntityCardPrimaryTitleRowModel } from '@/components/admin/generic/EntityCardPrimaryTitleRow.vue'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useAdmin } from '@/composables/admin/useAdmin'
-import { toGlobalEntityId } from '@/utils/globalEntity'
+import {
+  annotationInstanceShapeDisplayTitle,
+  eventInstanceShapeDisplayTitle,
+  expansionFallbackTitleForCard,
+  fieldTreatsAsStaticTitleForCard,
+} from '@/utils/admin/entityCardPrimaryTitleShapeNames'
 
 type AdminStore = ReturnType<typeof useAdmin>
 
-export interface UseEntityCardPrimaryTitleModelsParams {
+interface UseEntityCardPrimaryTitleModelsParams {
   entityKey: ComputedRef<GlobalEntityKey>
   entity: ComputedRef<GlobalEntity<GlobalEntityKey>>
   entityName: ComputedRef<string>
@@ -52,39 +57,22 @@ export function useEntityCardPrimaryTitleModels(
     admin,
   } = params
 
-  const annotationInstanceShapeTitle = computed((): string => {
-    if (entityKey.value !== 'annotationInstance') return ''
-    const ann = entity.value as GlobalEntity<'annotationInstance'>
-    if (ann.type == null || String(ann.type) === '') return ''
-    const shape = admin.getEntity('annotationShape', toGlobalEntityId(String(ann.type)))
-    const n = shape?.name
-    return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
-  })
+  const annotationInstanceShapeTitle = computed((): string =>
+    annotationInstanceShapeDisplayTitle(entityKey.value, entity.value, (id) =>
+      admin.getEntity('annotationShape', id)
+    )
+  )
 
-  const eventInstanceShapeTitle = computed((): string => {
-    if (entityKey.value !== 'eventInstance') return ''
-    const ei = entity.value as GlobalEntity<'eventInstance'>
-    if (ei.eventShapeRef == null || String(ei.eventShapeRef) === '') return ''
-    const shape = admin.getEntity('eventShape', toGlobalEntityId(String(ei.eventShapeRef)))
-    const n = shape?.name
-    return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
-  })
+  const eventInstanceShapeTitle = computed((): string =>
+    eventInstanceShapeDisplayTitle(entityKey.value, entity.value, (id) => admin.getEntity('eventShape', id))
+  )
 
-  const expansionFallbackTitle = computed(() => {
-    if (entityKey.value === 'annotationInstance' && annotationInstanceShapeTitle.value !== '') {
-      return annotationInstanceShapeTitle.value
-    }
-    return entityName.value
-  })
+  const expansionFallbackTitle = computed(() =>
+    expansionFallbackTitleForCard(entityKey.value, annotationInstanceShapeTitle.value, entityName.value)
+  )
 
-  function fieldTreatsAsStaticTitle(fieldKey: string): boolean {
-    const vis = composedFieldMetadata.value[String(fieldKey)]?.visibility
-    if (vis !== FIELD_VISIBILITY.STATIC_AS_TITLE) return false
-    if (entityKey.value === 'annotationInstance' && fieldKey === 'text') {
-      return false
-    }
-    return true
-  }
+  const fieldTreatsAsStaticTitle = (fieldKey: string): boolean =>
+    fieldTreatsAsStaticTitleForCard(fieldKey, entityKey.value, composedFieldMetadata.value)
 
   const primaryTitleRowExpansion = computed((): EntityCardPrimaryTitleRowModel => ({
     titleRowFields: titleRowFields.value,

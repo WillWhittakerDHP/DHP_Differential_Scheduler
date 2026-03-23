@@ -3,7 +3,7 @@
 
 WHY: Centralizes color mappi...
  */
-export const CONSTRAINT_COLORS: Record<string, string> = {
+const CONSTRAINT_COLORS: Record<string, string> = {
   'overlap.event.direct': '#1565C0',          // Dark Blue - regular calendar event
   'overlap.outOfOffice.direct': '#64B5F6',    // Light Blue - out-of-office event
   
@@ -31,7 +31,9 @@ export const CONSTRAINT_COLORS: Record<string, string> = {
   // Range constraints (format: 'range.{type}')
   'range.leadTime': '#FFC107',         // Amber
   'range.dateRange': '#FF5722',        // Deep Orange
-  'range.businessHours': '#E91E63'     // Pink
+  'range.businessHours': '#E91E63',    // Pink
+  'range.moveableWindow.beforeOnsiteEnd': '#795548', // Brown — client virtual window
+  'range.moveableWindow.afterDeadline': '#5D4037',   // Dark brown — client virtual window
 }
 
 export function getColorForViolation(violationType: string): string {
@@ -95,6 +97,15 @@ export function formatViolationTooltip(violationType: string): string {
   }
   
   if (parts[0] === 'range') {
+    if (parts[1] === 'moveableWindow') {
+      if (parts[2] === 'beforeOnsiteEnd') {
+        return 'Moveable window: before onsite work ends (client)'
+      }
+      if (parts[2] === 'afterDeadline') {
+        return 'Moveable window: after contingency deadline (client)'
+      }
+      return 'Moveable window (client)'
+    }
     const rangeType = parts[1] || 'range'
     const typeMap: Record<string, string> = {
       'leadTime': 'Lead Time',

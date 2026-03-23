@@ -15,7 +15,7 @@
       <VWindowItem value="parts">
         <div v-if="finalizedParts.length > 0" class="mb-4">
           <VCardTitle class="text-body-large font-weight-bold pa-2">Finalized Parts</VCardTitle>
-          <VRow dense class="ma-0">
+          <VRow density="comfortable" class="ma-0">
             <VCol
               v-for="(part, index) in finalizedParts"
               :key="index"
@@ -137,7 +137,7 @@
 
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import { instancesPanelContextKey } from '@/composables/booking/injectionKeys'
+import { instancesPanelContextKey } from '@/keys/bookingInjectionKeys'
 
 const injected = inject(instancesPanelContextKey)
 if (!injected) {

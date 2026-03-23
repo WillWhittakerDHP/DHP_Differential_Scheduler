@@ -11,7 +11,7 @@ import { createLogger } from '@/utils/logger'
 const logger = createLogger('usePartInstanceBulkEdit')
 
 
-export type UsePartInstanceBulkEditOptions =
+type UsePartInstanceBulkEditOptions =
   | {
       blockInstanceId: string
       partInstances: Ref<GlobalEntity<'partInstance'>[]>

@@ -17,7 +17,7 @@ import type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, Avai
 export type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
 
 /** Attendee roles used in specs; centralize to satisfy hardcoding audit. */
-export const APPOINTMENT_ATTENDEE_ROLES = {
+const APPOINTMENT_ATTENDEE_ROLES = {
   transactionManager: 'transaction_manager' as const,
   seller: 'seller' as const,
 }
@@ -79,7 +79,7 @@ async function createAttendeeFromSpec(
   }
 }
 
-export function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
+function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
   return [
     { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },

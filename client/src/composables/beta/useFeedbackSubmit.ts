@@ -11,7 +11,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useFeedbackSubmit')
 
-export interface UseFeedbackSubmitOptions {
+interface UseFeedbackSubmitOptions {
   modelValue: () => boolean
   onClose: () => void
 }

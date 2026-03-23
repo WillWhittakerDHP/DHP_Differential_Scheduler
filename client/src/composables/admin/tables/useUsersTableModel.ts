@@ -4,16 +4,15 @@ import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
 import { useCrudDataTableModel } from './useCrudDataTableModel'
-import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
+import { formatNullValue, createItemsSource } from './useTableModelHelpers'
 
-import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
-export interface UsersTableModel extends CrudDataTableModel<
+import type { CrudDataTableModelWithFormatHelpers } from '@/types/admin/tables/crudDataTableModel'
+
+export function useUsersTableModel(): CrudDataTableModelWithFormatHelpers<
   UserResponse,
   UserRequest,
   Partial<UserRequest>
->, TableModelFormatHelpers {}
-
-export function useUsersTableModel(): UsersTableModel {
+> {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useUser()
 
@@ -57,7 +56,7 @@ export function useUsersTableModel(): UsersTableModel {
     ...crud.dialogs,
     ...crud.actions,
     formatNullValue,
-  } as UsersTableModel
+  } as CrudDataTableModelWithFormatHelpers<UserResponse, UserRequest, Partial<UserRequest>>
 }
 
 

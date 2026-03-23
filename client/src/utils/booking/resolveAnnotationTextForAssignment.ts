@@ -1,15 +1,11 @@
 /**
  * WHY: Mirror server `annotationTextResolution` for booking wizard (per-user-type copy from content rows).
  */
-
-export interface AnnotationContentRowPlain {
-  text: string
-  userTypeBlockInstanceId: string | null
-}
+import type { AnnotationContentRow } from '@/types/admin/annotationContentRow'
 
 export interface AnnotationWithContentPlain {
   text: string
-  contentRows?: ReadonlyArray<AnnotationContentRowPlain> | AnnotationContentRowPlain[] | null
+  contentRows?: ReadonlyArray<AnnotationContentRow> | AnnotationContentRow[] | null
 }
 
 export function resolveAnnotationTextForAssignment(

@@ -15,11 +15,15 @@ export interface AvailabilitySubStepDef {
   visible: boolean
 }
 
-export interface UseAvailabilitySubStepsParams {
+interface UseAvailabilitySubStepsParams {
   hasOptions: Ref<boolean>
   hasDateSelected: Ref<boolean>
   isEffectivelyDifferential: Ref<boolean>
   hasMoveablePartsGated: Ref<boolean>
+  /** When false (e.g. contingency "No"), step 4 is skipped — moveable confirms without completion UI. */
+  showMoveableSubstep: Ref<boolean>
+  /** Step 1 tailor: options done (if hasOptions) and contingency+deadline done (if gated). */
+  tailorSubStepComplete: Ref<boolean>
   selectedOptionTypeBlockId: Ref<string | null>
   userHasChosenTimeBasisFromGraph: Ref<boolean>
   hasSlotSelected: Ref<boolean>
@@ -54,11 +58,21 @@ export function useAvailabilitySubSteps(
     const labels = params.subStepLabels?.value
     const label = (i: number) => labels?.[i as 0 | 1 | 2 | 3 | 4] ?? SUB_STEP_LABELS[i]
     const steps: AvailabilitySubStepDef[] = []
-    steps.push({ index: 0, label: label(0), visible: true })
-    steps.push({ index: 1, label: label(1), visible: params.hasOptions.value })
-    steps.push({ index: 2, label: label(2), visible: false })
-    steps.push({ index: 3, label: label(3), visible: true })
-    steps.push({ index: 4, label: label(4), visible: params.hasMoveablePartsGated.value })
+    const push = (i: number, visible: boolean): void => {
+      steps.push({ index: i, label: label(i), visible })
+    }
+    // WHY: Tailor step shows cascade options and/or moveable contingency; same DOM order (1 then 0) when visible.
+    const showTailorStep = params.hasOptions.value || params.hasMoveablePartsGated.value
+    if (showTailorStep) {
+      push(1, true)
+      push(0, true)
+    } else {
+      push(0, true)
+      push(1, false)
+    }
+    push(2, false)
+    push(3, true)
+    push(4, params.showMoveableSubstep.value)
     return steps
   })
 
@@ -75,7 +89,7 @@ export function useAvailabilitySubSteps(
     }
     const completed = new Set<number>()
     if (params.hasDateSelected.value) completed.add(0)
-    if (!params.hasOptions.value || params.selectedOptionTypeBlockId.value !== null) completed.add(1)
+    if (params.tailorSubStepComplete.value) completed.add(1)
     if (!params.isEffectivelyDifferential.value || params.userHasChosenTimeBasisFromGraph.value) completed.add(2)
     if (params.hasSlotSelected.value) completed.add(3)
     if (!params.hasMoveablePartsGated.value || params.hasMoveableConfirmed.value) completed.add(4)

@@ -4,7 +4,6 @@ export {
   type WizardBrandMode,
 } from './wizardPaletteFromAnchors'
 export {
-  assertValidHex,
   darkenOklch,
   hexToOklch,
   mixHueToward,

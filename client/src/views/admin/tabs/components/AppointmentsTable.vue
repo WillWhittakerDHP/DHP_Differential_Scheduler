@@ -3,20 +3,17 @@
   PATTERN: VDataTable with custom cell slots; create/edit convert client/agent IDs to attendees via composable.
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, shallowReactive } from 'vue'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
-import type { AppointmentStatus, AppointmentResponse } from '@/types/appointment'
+import type { AppointmentResponse } from '@/types/appointment'
 import { useAppointmentsTableModel } from '@/composables/admin/tables/useAppointmentsTableModel'
 import { useAppointmentsTableHandlers } from '@/composables/admin/tables/useAppointmentsTableHandlers'
-import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
 import { getStatusColor, getRoleColor } from '@/utils/admin/appointmentHelpers'
-import { APPOINTMENTS_TABLE_HEADERS, APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
+import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
 import AppointmentsCreateForm from './AppointmentsCreateForm.vue'
-import AppointmentUserTooltipContent from './AppointmentUserTooltipContent.vue'
-import AppointmentPropertyTooltipContent from './AppointmentPropertyTooltipContent.vue'
 import AppointmentTableDialogs from './AppointmentTableDialogs.vue'
-import AppointmentStatusCell from './AppointmentStatusCell.vue'
-import AppointmentActionsCell from './AppointmentActionsCell.vue'
+import AppointmentsTableDataGrid from './AppointmentsTableDataGrid.vue'
+import type { AppointmentsTableDataGridContext } from '@/types/admin/tables/appointmentsTableDataGrid'
 
 const emit = defineEmits<{
   (e: 'navigate-to-tab', tab: 'properties' | 'users'): void
@@ -83,6 +80,32 @@ const {
   setFormAgentId,
 } = handlers.actions
 const { formatTimestamp } = handlers
+
+const gridContext = shallowReactive<AppointmentsTableDataGridContext>({
+  tableItems,
+  isLoading,
+  editingId,
+  editedData,
+  editingClientId,
+  editingAgentId,
+  properties,
+  users,
+  getDisplayValue,
+  getPropertyById,
+  getUserById,
+  getPropertyTypeNames,
+  getStatusColor,
+  getRoleColor,
+  formatTimestamp,
+  navigateToProperties,
+  navigateToUsers,
+  handleSaveEdit,
+  handleCancelEdit,
+  handleOpenConfirmDialog,
+  handleStartEdit,
+  markCancelled,
+  openDeleteDialog,
+})
 </script>
 
 <template>
@@ -98,10 +121,6 @@ const { formatTimestamp } = handlers
         {{ APPOINTMENTS_TABLE_UI.CREATE_BUTTON }}
       </VBtn>
     </div>
-
-    <VAlert v-if="isLoading" type="info" variant="tonal" class="mb-4">
-      {{ APPOINTMENTS_TABLE_UI.LOADING }}
-    </VAlert>
 
     <VAlert v-if="appointmentsError" type="error" variant="tonal" class="mb-4">
       {{ APPOINTMENTS_TABLE_UI.ERROR_PREFIX }} {{ appointmentsError }}
@@ -130,202 +149,7 @@ const { formatTimestamp } = handlers
       {{ APPOINTMENTS_TABLE_UI.EMPTY_MESSAGE }}
     </VAlert>
 
-    <VDataTable
-      v-if="!isLoading && !appointmentsError"
-      :headers="APPOINTMENTS_TABLE_HEADERS"
-      :items="tableItems"
-      :loading="isLoading"
-      item-value="id"
-      class="elevation-1"
-      :items-per-page="25"
-    >
-      <template #item.propertyVersionId="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            <VTooltip location="top">
-              <template #activator="{ props: tooltipProps }">
-                <span v-bind="tooltipProps" class="clickable-cell" @click="navigateToProperties">
-                  {{ getDisplayValue(item, 'propertyVersionId') }}
-                </span>
-              </template>
-              <AppointmentPropertyTooltipContent :property="getPropertyById(item.propertyVersionId)" />
-            </VTooltip>
-          </span>
-          <VSelect
-            v-else
-            v-model="editedData.propertyVersionId"
-            :items="properties"
-            item-title="address"
-            item-value="propertyVersionId"
-            item-value-alt="id"
-            :return-object="false"
-            density="compact"
-            hide-details
-          >
-            <template #item="{ props: itemProps, item: propItem }">
-              <VListItem v-bind="itemProps">
-                <VListItemTitle>
-                  {{ propItem.address }}, {{ propItem.city }}, {{ propItem.state }}
-                </VListItemTitle>
-              </VListItem>
-            </template>
-          </VSelect>
-        </template>
-      </template>
-
-      <template #item.propertyTypes="{ item }">
-        <template v-if="item">
-          <span>{{ getPropertyTypeNames(item.propertyVersionId) }}</span>
-        </template>
-      </template>
-
-      <template #item.client="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            <VTooltip location="top">
-              <template #activator="{ props: tooltipProps }">
-                <span v-bind="tooltipProps" class="clickable-cell" @click="navigateToUsers">
-                  {{ getClientAttendee(item)?.user ? `${getClientAttendee(item)?.user?.firstName} ${getClientAttendee(item)?.user?.lastName}` : '—' }}
-                </span>
-              </template>
-              <AppointmentUserTooltipContent :user="getClientAttendee(item)?.user ?? null" />
-            </VTooltip>
-          </span>
-          <VSelect
-            v-else
-            v-model="editingClientId"
-            :items="users.filter((u) => u.userRole === 'client')"
-            item-title="firstName"
-            item-value="id"
-            :return-object="false"
-            density="compact"
-            hide-details
-            clearable
-          >
-            <template #item="{ props: itemProps, item: userItem }">
-              <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }}</VListItemTitle>
-              </VListItem>
-            </template>
-          </VSelect>
-        </template>
-      </template>
-
-      <template #item.agent="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            <VTooltip location="top">
-              <template #activator="{ props: tooltipProps }">
-                <span v-bind="tooltipProps" class="clickable-cell" @click="navigateToUsers">
-                  {{ getDisplayValue(item, 'agent') }}
-                </span>
-              </template>
-              <AppointmentUserTooltipContent :user="getAgentAttendee(item)?.user ?? null" />
-            </VTooltip>
-          </span>
-          <VSelect
-            v-else
-            v-model="editingAgentId"
-            :items="users.filter((u) => u.userRole === 'agent')"
-            item-title="firstName"
-            item-value="id"
-            :return-object="false"
-            density="compact"
-            hide-details
-            clearable
-          >
-            <template #item="{ props: itemProps, item: userItem }">
-              <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }}</VListItemTitle>
-              </VListItem>
-            </template>
-          </VSelect>
-        </template>
-      </template>
-
-      <template #item.scheduledById="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">
-            <VTooltip location="top">
-              <template #activator="{ props: tooltipProps }">
-                <VChip
-                  v-if="getUserById(item.scheduledById)"
-                  v-bind="tooltipProps"
-                  :color="getRoleColor(getUserById(item.scheduledById)?.userRole)"
-                  size="small"
-                  variant="tonal"
-                  class="clickable-chip"
-                  @click="navigateToUsers"
-                >
-                  {{ getDisplayValue(item, 'scheduledById') }}
-                </VChip>
-                <span v-else v-bind="tooltipProps" class="text-disabled">—</span>
-              </template>
-              <AppointmentUserTooltipContent :user="getUserById(item.scheduledById)" />
-            </VTooltip>
-          </span>
-          <VSelect
-            v-else
-            v-model="editedData.scheduledById"
-            :items="users"
-            item-title="firstName"
-            item-value="id"
-            :return-object="false"
-            density="compact"
-            hide-details
-            clearable
-          >
-            <template #item="{ props: itemProps, item: userItem }">
-              <VListItem v-bind="itemProps">
-                <VListItemTitle>{{ userItem.firstName }} {{ userItem.lastName }} ({{ userItem.userRole }})</VListItemTitle>
-              </VListItem>
-            </template>
-          </VSelect>
-        </template>
-      </template>
-
-      <template #item.selectedDate="{ item }">
-        <template v-if="item">
-          <span v-if="editingId !== item.id">{{ getDisplayValue(item, 'selectedDate') }}</span>
-          <VTextField v-else v-model="editedData.selectedDate" type="date" density="compact" hide-details />
-        </template>
-      </template>
-
-      <template #item.status="{ item }">
-        <AppointmentStatusCell
-          :item="item"
-          :editing-id="editingId"
-          :edited-status="editedData.status"
-          :get-status-color="getStatusColor"
-          @update:edited-status="(v: string) => (editedData.status = v as AppointmentStatus)"
-        />
-      </template>
-
-      <template #item.submittedAt="{ item }">
-        <template v-if="item">
-          <span class="text-body-small">{{ formatTimestamp(item.submittedAt) }}</span>
-        </template>
-      </template>
-
-      <template #item.confirmedAt="{ item }">
-        <template v-if="item">
-          <span class="text-body-small">{{ formatTimestamp(item.confirmedAt) }}</span>
-        </template>
-      </template>
-
-      <template #item.actions="{ item }">
-        <AppointmentActionsCell
-          :item="item"
-          :editing-id="editingId"
-          @save="handleSaveEdit"
-          @cancel="handleCancelEdit"
-          @open-confirm="handleOpenConfirmDialog"
-          @start-edit="handleStartEdit"
-          @mark-cancelled="(id: string) => markCancelled(id)"
-          @delete="openDeleteDialog"
-        />
-      </template>
-    </VDataTable>
+    <AppointmentsTableDataGrid v-if="!appointmentsError" :grid="gridContext" />
 
     <AppointmentTableDialogs
       :show-delete-dialog="showDeleteDialog"
@@ -343,18 +167,6 @@ const { formatTimestamp } = handlers
 <style scoped>
 .appointments-table {
   padding: 1rem 0;
-}
-
-.clickable-cell {
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 3px;
-}
-
-.clickable-cell:hover {
-  text-decoration-style: solid;
-  color: rgb(var(--v-theme-primary));
 }
 
 .tooltip-content {
@@ -403,11 +215,4 @@ const { formatTimestamp } = handlers
   margin-bottom: 4px;
 }
 
-.clickable-chip {
-  cursor: pointer;
-}
-
-.clickable-chip:hover {
-  filter: brightness(1.1);
-}
 </style>

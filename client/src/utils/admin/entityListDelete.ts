@@ -5,7 +5,7 @@
 import type { GlobalEntityId } from '@/types/entities'
 import type { AppLogger } from '@/utils/logger'
 
-export interface EntityListDeleteOptions {
+interface EntityListDeleteOptions {
   remove: (id: GlobalEntityId) => Promise<unknown>
   confirmMessage: string
   errorMessage: string

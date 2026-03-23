@@ -15,8 +15,6 @@ export interface FormElementPatchingOptions extends FormElementPatchingOptionsBa
   observerTimeoutMs?: number
 }
 
-export type UseFormElementPatchingOptions = FormElementPatchingOptionsBase
-
 export interface UseFormElementPatchingReturn {
   tryPatchFormImmediately: () => boolean
   patchFormFromRef: () => void

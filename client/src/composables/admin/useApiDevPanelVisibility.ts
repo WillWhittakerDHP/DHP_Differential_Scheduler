@@ -2,7 +2,7 @@
  */
 import { watch } from 'vue'
 
-export interface UseApiDevPanelVisibilityOptions {
+interface UseApiDevPanelVisibilityOptions {
   visible: () => boolean
   isDevMode: boolean
   shouldFetch: () => boolean

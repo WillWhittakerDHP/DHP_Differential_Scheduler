@@ -37,7 +37,7 @@ export function mergeDriveTimeFeeConfig(
   return merged
 }
 
-export interface ComputeDriveTimeFeeResult {
+interface ComputeDriveTimeFeeResult {
   /** Minutes charged after subtracting complimentary (before rounding). */
   billableMinutesRaw: number
   /** Billable minutes after rounding to nearest `driveTimeRoundingMinutes`. */
@@ -56,7 +56,7 @@ function assertFiniteNonNegative(name: string, value: number): void {
  * Round positive `value` to the nearest multiple of `increment` (Phase 6.11 guide).
  * Zero stays zero.
  */
-export function roundBillableDriveMinutesToNearest(value: number, increment: number): number {
+function roundBillableDriveMinutesToNearest(value: number, increment: number): number {
   if (value === 0) {
     return 0
   }

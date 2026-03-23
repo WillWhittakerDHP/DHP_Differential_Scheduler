@@ -4,15 +4,14 @@
  * the component thin and reduce local function count.
  */
 import { computed, type ComputedRef } from 'vue'
+import type { AppointmentConfirmationPanelModel } from '@/types/admin/appointmentConfirmationPanel'
 
-/** Props slice used by the composable (hold duration bounds). */
-export interface ConfirmationAndHoldsPanelProps {
-  holdDurationMin: number
-  holdDurationMax: number
-  holdDurationFallback: number
+/** Props wrapper: composable reads fields from `panelModel`. */
+interface ConfirmationAndHoldsPanelProps {
+  panelModel: AppointmentConfirmationPanelModel
 }
 
-export type ConfirmationAndHoldsPanelEmit = {
+type ConfirmationAndHoldsPanelEmit = {
   (e: 'update:holdDurationMinutes', value: number): void
   (e: 'update:holdDurationMin', value: number): void
   (e: 'update:holdDurationMax', value: number): void
@@ -59,17 +58,15 @@ export function useConfirmationAndHoldsPanel(
 ): UseConfirmationAndHoldsPanelReturn {
   const holdDurationHintText = computed(
     () =>
-      `How long a slot is held before it expires. Allowed range: ${props.holdDurationMin}–${props.holdDurationMax} minutes.`
+      `How long a slot is held before it expires. Allowed range: ${props.panelModel.holdDurationMin}–${props.panelModel.holdDurationMax} minutes.`
   )
 
   function holdDurationRule(value: unknown): true | string {
     const n = Number(value)
-    if (Number.isNaN(n))
-      return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
-    if (n < props.holdDurationMin)
-      return `Hold duration must be at least ${props.holdDurationMin} minute(s).`
-    if (n > props.holdDurationMax)
-      return `Hold duration cannot exceed ${props.holdDurationMax} minutes.`
+    const { holdDurationMin: min, holdDurationMax: max } = props.panelModel
+    if (Number.isNaN(n)) return `Hold duration must be at least ${min} minute(s).`
+    if (n < min) return `Hold duration must be at least ${min} minute(s).`
+    if (n > max) return `Hold duration cannot exceed ${max} minutes.`
     return true
   }
 
@@ -78,14 +75,10 @@ export function useConfirmationAndHoldsPanel(
   }
 
   function handleHoldDurationMinutes(v: string | number): void {
+    const m = props.panelModel
     emit(
       'update:holdDurationMinutes',
-      clampHoldDuration(
-        Number(v),
-        props.holdDurationFallback,
-        props.holdDurationMin,
-        props.holdDurationMax
-      )
+      clampHoldDuration(Number(v), m.holdDurationFallback, m.holdDurationMin, m.holdDurationMax)
     )
   }
 
@@ -98,14 +91,10 @@ export function useConfirmationAndHoldsPanel(
   }
 
   function handleHoldDurationFallback(v: string | number): void {
+    const m = props.panelModel
     emit(
       'update:holdDurationFallback',
-      clampHoldDuration(
-        Number(v),
-        props.holdDurationFallback,
-        props.holdDurationMin,
-        props.holdDurationMax
-      )
+      clampHoldDuration(Number(v), m.holdDurationFallback, m.holdDurationMin, m.holdDurationMax)
     )
   }
 

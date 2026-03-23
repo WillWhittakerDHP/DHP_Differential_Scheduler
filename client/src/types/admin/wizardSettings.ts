@@ -1,5 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { WizardSettingsData } from '@/configs/wizardSettings'
+import type { UseAdminSettingsFormReturnBase } from '@/types/admin/adminSettingsFormReturnBase'
 
 /** Sub-step index → admin-configured label (availability mini-wizard). */
 export interface WizardSubStepLabels {
@@ -33,6 +34,7 @@ export interface UseWizardSettingsLabelsReturn {
   majorStateLabel: ComputedRef<string>
   minorStateLabel: ComputedRef<string>
   moveableFallbackLabel: ComputedRef<string>
+  moveableNoFeasibleCompletionSlotsMessage: ComputedRef<string>
 }
 
 /** Load contract for /wizard-settings (booking singleton or per-instance admin fetch). */
@@ -52,16 +54,4 @@ export interface UseWizardSettingsReturn {
   loadState: UseWizardSettingsLoadState
 }
 
-export interface UseAdminWizardSettingsOptions {
-  enabled?: Ref<boolean>
-}
-
-export interface UseAdminWizardSettingsReturn {
-  formData: Ref<WizardSettingsData | null>
-  loading: Ref<boolean>
-  saving: Ref<boolean>
-  error: Ref<string | null>
-  success: Ref<string | null>
-  loadSettings: () => Promise<void>
-  saveSettings: () => Promise<void>
-}
+export type UseAdminWizardSettingsReturn = UseAdminSettingsFormReturnBase<WizardSettingsData>

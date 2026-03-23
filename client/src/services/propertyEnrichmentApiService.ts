@@ -33,22 +33,29 @@ export async function fetchPropertyEnrichment(
     )
     return response.data
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status
-      if (status === 404) {
-        logger.debug('[fetchPropertyEnrichment] No listing found')
-        return null
-      }
-      if (status === 503) {
-        logger.debug('[fetchPropertyEnrichment] Service not configured')
-        return null
-      }
-      if (status === 429) {
-        logger.warn('[fetchPropertyEnrichment] Rate limited')
-        throw new Error('Property enrichment rate limit exceeded')
-      }
-    }
+    logger.debug('[fetchPropertyEnrichment] caught', { error })
+    return handlePropertyEnrichmentError(error)
+  }
+}
+
+function handlePropertyEnrichmentError(error: unknown): PropertyEnrichmentResponse | null {
+  if (!axios.isAxiosError(error)) {
     logger.warn('[fetchPropertyEnrichment] Request failed', { error })
     return null
   }
+  const status = error.response?.status
+  if (status === 404) {
+    logger.debug('[fetchPropertyEnrichment] No listing found')
+    return null
+  }
+  if (status === 503) {
+    logger.debug('[fetchPropertyEnrichment] Service not configured')
+    return null
+  }
+  if (status === 429) {
+    logger.warn('[fetchPropertyEnrichment] Rate limited')
+    throw new Error('Property enrichment rate limit exceeded')
+  }
+  logger.warn('[fetchPropertyEnrichment] Request failed', { error })
+  return null
 }

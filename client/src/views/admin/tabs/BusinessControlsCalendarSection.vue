@@ -3,7 +3,7 @@
   PATTERN: Injects shared state; owns sub-tab navigation and panel layout.
 -->
 <script setup lang="ts">
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from './businessControlsStateKey'
 import { useTabNavigation } from '@/composables/admin/useTabNavigation'
 import { TIMEZONE_OPTIONS } from '@/constants/availabilitySettings'
@@ -20,6 +20,22 @@ const { currentTab: currentCalendarTab } = useTabNavigation({ initialTab: 'integ
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 const timezoneOptions = TIMEZONE_OPTIONS
+
+const appointmentConfirmationPanelModel = computed(() => {
+  const fs = state.formState
+  if (!fs) {
+    return null
+  }
+  return {
+    holdDurationMinutes: fs.holdDurationMinutes,
+    holdDurationMin: fs.holdDurationMin,
+    holdDurationMax: fs.holdDurationMax,
+    holdDurationFallback: fs.holdDurationFallback,
+    adminEntryTimeoutValue: fs.adminEntryTimeoutValue,
+    adminEntryTimeoutUnit: fs.adminEntryTimeoutUnit,
+    autoConfirmEnabled: state.autoConfirmEnabled,
+  }
+})
 </script>
 
 <template>
@@ -54,22 +70,16 @@ const timezoneOptions = TIMEZONE_OPTIONS
 
       <VWindowItem key="confirmation" value="confirmation">
         <AppointmentConfirmationPanel
-          v-if="state?.formState"
-          :hold-duration-minutes="state.formState.holdDurationMinutes"
-          :hold-duration-min="state.formState.holdDurationMin"
-          :hold-duration-max="state.formState.holdDurationMax"
-          :hold-duration-fallback="state.formState.holdDurationFallback"
-          :admin-entry-timeout-value="state.formState.adminEntryTimeoutValue"
-          :admin-entry-timeout-unit="state.formState.adminEntryTimeoutUnit"
-          :auto-confirm-enabled="state.autoConfirmEnabled"
+          v-if="appointmentConfirmationPanelModel"
+          :panel-model="appointmentConfirmationPanelModel"
           :save-button-props="state.saveButtonProps"
-          @update:hold-duration-minutes="(v: number) => { state.formState.holdDurationMinutes = v }"
-          @update:hold-duration-min="(v: number) => { state.formState.holdDurationMin = v }"
-          @update:hold-duration-max="(v: number) => { state.formState.holdDurationMax = v }"
-          @update:hold-duration-fallback="(v: number) => { state.formState.holdDurationFallback = v }"
-          @update:admin-entry-timeout-value="(v: number) => { state.formState.adminEntryTimeoutValue = v }"
-          @update:admin-entry-timeout-unit="(v: 'days' | 'weeks') => { state.formState.adminEntryTimeoutUnit = v }"
-          @update:auto-confirm-enabled="state.formState.setAutoConfirmEnabled"
+          @update:hold-duration-minutes="(v: number) => { state.formState!.holdDurationMinutes = v }"
+          @update:hold-duration-min="(v: number) => { state.formState!.holdDurationMin = v }"
+          @update:hold-duration-max="(v: number) => { state.formState!.holdDurationMax = v }"
+          @update:hold-duration-fallback="(v: number) => { state.formState!.holdDurationFallback = v }"
+          @update:admin-entry-timeout-value="(v: number) => { state.formState!.adminEntryTimeoutValue = v }"
+          @update:admin-entry-timeout-unit="(v: 'days' | 'weeks') => { state.formState!.adminEntryTimeoutUnit = v }"
+          @update:auto-confirm-enabled="state.formState!.setAutoConfirmEnabled"
         />
       </VWindowItem>
 

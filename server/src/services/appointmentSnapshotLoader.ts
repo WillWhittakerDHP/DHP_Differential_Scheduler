@@ -96,7 +96,7 @@ function snapshotIdsOrEmpty(
   return raw;
 }
 
-export async function loadAllAppointmentVersions(appointment: {
+async function loadAllAppointmentVersions(appointment: {
   serviceSnapshotIds?: string[] | null;
   propertySnapshotIds?: string[] | null;
   optionSnapshotIds?: string[] | null;

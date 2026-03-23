@@ -63,13 +63,11 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'can_have_parts', // Map to snake_case database column
       },
       isStateControl: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'is_state_control', // Map to snake_case database column
         comment: 'If true, acts as state selector in wizard (mutually exclusive with canHaveParts)',
       },
       createdAt: {

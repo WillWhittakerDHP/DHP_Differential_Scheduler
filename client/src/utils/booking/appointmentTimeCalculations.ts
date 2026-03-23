@@ -71,9 +71,3 @@ export function normalizeAppointmentSlotsByOrderIndex(appointmentSlots: Appointm
   }))
 }
 
-export function calculateTotalDurationFromAppointmentSlots(appointmentSlots: AppointmentSlots): number {
-  return appointmentSlots.reduce((sum, appointmentSlot) => {
-    return sum + (appointmentSlot.totalTimeRange?.duration || appointmentSlot.shape.slotShape.roundedDuration || 0)
-  }, 0)
-}
-

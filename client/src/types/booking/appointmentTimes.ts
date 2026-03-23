@@ -1,5 +1,6 @@
 import type { ComputedRef } from 'vue'
-import type { AppointmentSlots, TimeSlot, TimeRange } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { AppointmentSlots, TimeSlot } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 export interface UseAppointmentTimesParams {
@@ -12,6 +13,6 @@ export interface UseAppointmentTimesReturn {
   appointmentSlots: ComputedRef<AppointmentSlots>
   majorTimeSlots: ComputedRef<TimeSlot[]>
   minorTimeSlots: ComputedRef<TimeSlot[]>
-  getMajorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null
-  getMinorTimeSlot: (orderIndex: number) => TimeSlot | TimeRange | null
+  getMajorTimeSlot: (orderIndex: number) => TimeSlot | SlotTimeBounds | null
+  getMinorTimeSlot: (orderIndex: number) => TimeSlot | SlotTimeBounds | null
 }

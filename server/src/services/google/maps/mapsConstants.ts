@@ -1,8 +1,4 @@
 
-import { DEFAULT_RETRY_CONFIG, type RetryConfig } from '../shared/googleApiRetry.js'
-
-export const MAPS_RETRY_CONFIG: RetryConfig = DEFAULT_RETRY_CONFIG
-
 export const GOOGLE_API_STATUS = {
   OK: 'OK',
   REQUEST_DENIED: 'REQUEST_DENIED',

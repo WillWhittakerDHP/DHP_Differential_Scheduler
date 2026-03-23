@@ -1,7 +1,7 @@
 import { APP_STAGE } from '@shared/constants/appStageConstants'
 import type { SelectionCardConfig } from '@/components/booking/types/selectionCardTypes'
 
-export const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
+const DEFAULT_SELECTION_CARD_CONFIG: SelectionCardConfig = {
   selectionType: 'radio',
   selectionComponent: 'VRadio',
   selectionGroup: 'VRadioGroup',
@@ -39,6 +39,18 @@ export function mergeSelectionCardConfigWithDefaults(config: SelectionCardConfig
     controlPosition: userConfig.controlPosition ?? DEFAULT_SELECTION_CARD_CONFIG.controlPosition,
     gridColumns: userConfig.gridColumns ?? DEFAULT_SELECTION_CARD_CONFIG.gridColumns,
     appearance: userConfig.appearance || DEFAULT_SELECTION_CARD_CONFIG.appearance,
-    expansion: userConfig.expansion,
+    expansion: mergeExpansionDefaults(userConfig.expansion),
+  }
+}
+
+function mergeExpansionDefaults(
+  expansion: SelectionCardConfig['expansion']
+): SelectionCardConfig['expansion'] | undefined {
+  if (expansion === undefined || expansion === null) {
+    return undefined
+  }
+  return {
+    ...expansion,
+    autoSelectNested: expansion.autoSelectNested ?? true,
   }
 }

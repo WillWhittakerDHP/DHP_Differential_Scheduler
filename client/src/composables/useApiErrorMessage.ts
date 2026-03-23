@@ -1,28 +1,14 @@
+import { isAxiosLikeError, messageFromAxiosLikeError } from '@/utils/api/axiosErrorMessage'
 
 export function getApiErrorMessage(error: unknown, fallbackMessage?: string): string {
-  const resolvedFallback = fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'
-  // PATTERN: Check for AxiosError and extract response message if available
-  if (error && typeof error === 'object' && 'isAxiosError' in error) {
-    const axiosError = error as {
-      isAxiosError: boolean
-      response?: {
-        data?: {
-          message?: string
-          error?: string
-          details?: string
-        }
-      }
-      message?: string
-    }
+  const resolvedFallback =
+    fallbackMessage !== undefined && fallbackMessage !== null ? fallbackMessage : 'An error occurred'
 
-    if (axiosError.response?.data) {
-      const data = axiosError.response.data
-      // PATTERN: Fall back to 'error' or 'message' fields if 'details' not available
-      return data.details || data.error || data.message || resolvedFallback
-    } else if (axiosError.message) {
-      return axiosError.message
-    }
-  } else if (error instanceof Error) {
+  if (isAxiosLikeError(error)) {
+    return messageFromAxiosLikeError(error, resolvedFallback)
+  }
+
+  if (error instanceof Error) {
     return error.message
   }
 

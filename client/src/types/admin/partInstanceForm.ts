@@ -1,5 +1,4 @@
 import type { Ref } from 'vue'
-import type { UseEntityFormRedirectOptions } from '@/types/admin/entityFormRedirectOptions'
 import type { UseEntityInstanceFormReturn } from '@/types/admin/entityInstanceFormBase'
 
 export interface PartInstanceFormData {
@@ -10,8 +9,6 @@ export interface PartInstanceFormData {
   /** Optional percentage off (e.g. 10 for 10% off) for coupon/discount; flows to fee pipeline. */
   percentageOff?: number
 }
-
-export type UsePartInstanceFormOptions = UseEntityFormRedirectOptions
 
 export interface UsePartInstanceFormReturn
   extends UseEntityInstanceFormReturn<PartInstanceFormData> {

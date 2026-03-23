@@ -1,13 +1,13 @@
 import type { Ref } from 'vue'
 import type { Logger } from '@/utils/logger'
 
-export interface WithAsyncOperationState {
+interface WithAsyncOperationState {
   busyRef: Ref<boolean>
   errorRef: Ref<string | null>
   successRef?: Ref<string | null>
 }
 
-export interface WithAsyncOperationOptions {
+interface WithAsyncOperationOptions {
   successMessage?: string
   /** Override error message shown to user (default: extracted from thrown error) */
   errorMessage?: string

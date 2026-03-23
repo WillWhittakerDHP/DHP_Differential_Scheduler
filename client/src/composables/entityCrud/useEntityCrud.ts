@@ -9,6 +9,8 @@ import { createLogger } from '@/utils/logger'
 import { useGlobal } from '@/composables/useGlobal'
 import { useEntityCrudMutations } from './useEntityCrudMutations'
 import type { OrderIndexUpdate, BulkUpdate } from '@/types/entityCrud/entityCrudTypes'
+import { isComputedEntityPropertyKey } from '@/utils/entityCrud/computedPartPropertyKeys'
+import { runEntityUpdateWithComponentCheck } from '@/composables/entityCrud/runEntityUpdateWithComponentCheck'
 
 export interface UseEntityCrudReturn<GlobalEntityTypeKey extends GlobalEntityKey> {
   entities: ComputedRef<GlobalEntity<GlobalEntityTypeKey>[]>
@@ -33,7 +35,9 @@ export interface UseEntityCrudReturn<GlobalEntityTypeKey extends GlobalEntityKey
  * PATTERN: Entity CRUD composable (facade)
  * Inlines former useEntityCrudQuery (entities from globalData), useEntityCrudState (isLoading, error, refetch), and useEntityCrudActions (mutations).
  */
-export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entityKey: GlobalEntityTypeKey): UseEntityCrudReturn<GlobalEntityTypeKey> {
+export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(
+  entityKey: GlobalEntityTypeKey
+): UseEntityCrudReturn<GlobalEntityTypeKey> {
   const logger = createLogger('useEntityCrud')
   const queryClient = useQueryClient()
   const { globalData } = useGlobal()
@@ -64,34 +68,21 @@ export function useEntityCrud<GlobalEntityTypeKey extends GlobalEntityKey>(entit
   }
 
   function isComputedProperty(propertyKey: string): boolean {
-    const computedProperties = ['baseFee', 'baseTime', 'rateOverBaseFee', 'rateOverBaseTime', 'partAssignments']
-    return computedProperties.includes(propertyKey)
+    return isComputedEntityPropertyKey(propertyKey)
   }
 
   async function updateWithComponentCheck(
     entity: Partial<GlobalEntity<GlobalEntityTypeKey>>,
     id: GlobalEntityId,
     onComputedPropertyChange?: (propertyKey: string, newValue: unknown) => void
-  ) {
-    const isComposerEntity = isComposer(id)
-
-    if (isComposerEntity) {
-      const computedChanges = Object.entries(entity).reduce<Record<string, unknown>>((acc, [key, value]) => {
-        if (isComputedProperty(key)) {
-          return { ...acc, [key]: value }
-        }
-        return acc
-      }, {})
-
-      if (Object.keys(computedChanges).length > 0) {
-        Object.entries(computedChanges).forEach(([key, value]) => {
-          onComputedPropertyChange?.(key, value)
-        })
-        return
-      }
-    }
-
-    return actions.updateMutation.mutateAsync({ entity, id })
+  ): Promise<unknown> {
+    return (await runEntityUpdateWithComponentCheck({
+      entity,
+      id,
+      isComposerEntity: isComposer(id),
+      mutateUpdate: ({ entity: e, id: entityId }) => actions.updateMutation.mutateAsync({ entity: e, id: entityId }),
+      onComputedPropertyChange,
+    })) as unknown
   }
 
   return {

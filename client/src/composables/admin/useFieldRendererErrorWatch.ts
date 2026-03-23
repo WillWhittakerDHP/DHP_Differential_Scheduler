@@ -8,7 +8,7 @@ import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 
 type FieldContextLike = { state?: { fieldKey?: unknown; entityKey?: unknown; entityId?: string } } | undefined
 
-export interface UseFieldRendererErrorWatchParams {
+interface UseFieldRendererErrorWatchParams {
   shouldShowError: ComputedRef<boolean>
   effectiveFieldContext: ComputedRef<FieldContextLike> | Ref<FieldContextLike>
   fieldComponent: { componentType: ComputedRef<FieldComponent>; fieldMetadataEntry: ComputedRef<unknown> }

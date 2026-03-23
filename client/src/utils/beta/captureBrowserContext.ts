@@ -1,6 +1,6 @@
 /**
  */
-export interface BrowserContext {
+interface BrowserContext {
   pageUrl: string
   browserInfo: string
   screenSize: string

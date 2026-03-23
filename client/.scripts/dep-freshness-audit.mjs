@@ -34,9 +34,24 @@ function parseSemver(v) {
   return [parseInt(match[1], 10), parseInt(match[2], 10), parseInt(match[3], 10)]
 }
 
+/** @returns {-1 | 0 | 1} */
+function semverCompare(aStr, bStr) {
+  const [a1, a2, a3] = parseSemver(aStr)
+  const [b1, b2, b3] = parseSemver(bStr)
+  if (a1 !== b1) return a1 < b1 ? -1 : 1
+  if (a2 !== b2) return a2 < b2 ? -1 : 1
+  if (a3 !== b3) return a3 < b3 ? -1 : 1
+  return 0
+}
+
 function classifyBehind(current, wanted, latest) {
-  const [cMaj, cMin, cPatch] = parseSemver(current)
-  const [lMaj, lMin, lPatch] = parseSemver(latest)
+  const safeLatest = latest || wanted || ''
+  const safeCurrent = current || ''
+  if (!safeCurrent || !safeLatest) return 'current'
+  // npm `latest` tag can lag (e.g. Vitest 4 while `latest` is still 3.x) — not "behind" if we're semver-ahead.
+  if (semverCompare(safeCurrent, safeLatest) >= 0) return 'current'
+  const [cMaj, cMin, cPatch] = parseSemver(safeCurrent)
+  const [lMaj, lMin, lPatch] = parseSemver(safeLatest)
   if (cMaj === lMaj && cMin === lMin && cPatch === lPatch) return 'current'
   if (cMaj !== lMaj) return 'major-behind'
   if (cMin !== lMin) return 'minor-behind'
@@ -98,12 +113,14 @@ function main() {
     }
   }
 
+  const stale = packages.filter((p) => p.behind !== 'current')
+
   const byBehind = { 'major-behind': 0, 'minor-behind': 0, 'patch-behind': 0, current: 0 }
-  for (const p of packages) {
+  for (const p of stale) {
     byBehind[p.behind] = (byBehind[p.behind] || 0) + 1
   }
 
-  const files = packages
+  const files = stale
     .filter(p => p.score > 0)
     .map(p => ({
       repoPath: `${p.dependent}:${p.package}`,
@@ -116,9 +133,11 @@ function main() {
   const totalRequiresReview = files.length
   const out = {
     generatedAt: new Date().toISOString(),
-    totalScanned: packages.length,
+    /** Actionable stale deps (excludes semver-ahead-of-npm-latest, e.g. Vitest 4 while `latest` is 3.x). */
+    totalScanned: stale.length,
+    totalNpmOutdatedRows: packages.length,
     byBehind,
-    packages,
+    packages: stale,
     files,
     exceptionSummary: {
       totalAllowed: 0,
@@ -134,14 +153,17 @@ function main() {
   lines.push('')
   lines.push('## Summary')
   lines.push('')
-  lines.push(`- Total outdated: **${packages.length}**`)
+  lines.push(`- Total outdated (actionable): **${stale.length}**`)
+  if (packages.length !== stale.length) {
+    lines.push(`- npm outdated rows (including semver-ahead / ignored): **${packages.length}**`)
+  }
   lines.push(`- Major behind: **${byBehind['major-behind']}** | Minor: **${byBehind['minor-behind']}** | Patch: **${byBehind['patch-behind']}**`)
   lines.push('')
   lines.push('## Major behind (top 20)')
   lines.push('')
   lines.push('| Package | Dependent | Current | Latest |')
   lines.push('| --- | --- | --- | --- |')
-  for (const p of packages.filter(x => x.behind === 'major-behind').slice(0, 20)) {
+  for (const p of stale.filter(x => x.behind === 'major-behind').slice(0, 20)) {
     lines.push(`| ${p.package} | ${p.dependent} | ${p.current} | ${p.latest} |`)
   }
   lines.push('')
@@ -149,7 +171,7 @@ function main() {
   lines.push('')
   lines.push('| Package | Dependent | Current | Latest |')
   lines.push('| --- | --- | --- | --- |')
-  for (const p of packages.filter(x => x.behind === 'minor-behind').slice(0, 20)) {
+  for (const p of stale.filter(x => x.behind === 'minor-behind').slice(0, 20)) {
     lines.push(`| ${p.package} | ${p.dependent} | ${p.current} | ${p.latest} |`)
   }
   lines.push('')
@@ -157,7 +179,7 @@ function main() {
   const { outJson, outMd } = writeAuditReports('dep-freshness', out, lines.join('\n'))
 
   console.log('Wrote:', toRepoPath(outJson, paths.projectRoot), toRepoPath(outMd, paths.projectRoot))
-  console.log(`Outdated: ${packages.length} (major: ${byBehind['major-behind']}, minor: ${byBehind['minor-behind']}, patch: ${byBehind['patch-behind']})`)
+  console.log(`Outdated (actionable): ${stale.length} (major: ${byBehind['major-behind']}, minor: ${byBehind['minor-behind']}, patch: ${byBehind['patch-behind']}); npm rows: ${packages.length}`)
   process.exitCode = 0
 }
 

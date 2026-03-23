@@ -7,7 +7,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { BlockInstanceEntity, EventShapeEntity } from '@/types/entities'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 
-export interface DifferentialRoleMatrixRow {
+interface DifferentialRoleMatrixRow {
   eventShapeId: GlobalEntityId
   name: string
   templateRole: DifferentialRole

@@ -6,7 +6,7 @@ import { defineAsyncComponent } from 'vue'
 import type { UseWizardStepContentReturn } from '@/types/booking/wizardStepContent'
 
 
-export function getBookingWizardStepContent(step: number): Component | null {
+function getBookingWizardStepContent(step: number): Component | null {
   switch (step) {
     case 0:
       return defineAsyncComponent(() => import('@/components/booking/steps/ServiceSelectionStep.vue'))

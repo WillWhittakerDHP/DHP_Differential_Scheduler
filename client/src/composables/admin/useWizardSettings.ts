@@ -15,15 +15,7 @@ import type {
 } from '@/types/admin/wizardSettings'
 import { useBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
 import { createLogger } from '@/utils/logger'
-
-export type {
-  UseWizardSettingsOptions,
-  UseWizardSettingsReturn,
-  UseWizardSettingsFlagsReturn,
-  UseWizardSettingsLabelsReturn,
-  UseWizardSettingsLoadState,
-  WizardSubStepLabels,
-} from '@/types/admin/wizardSettings'
+import { DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
 
 /** First exported composable in file — composable-health skips ref() on lines below this (helpers use ref internally). */
 export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
@@ -109,6 +101,10 @@ function buildWizardSettingsLabels(
   const moveableFallbackLabel = computed(
     () => wizardData.value?.moveableFallbackLabel?.trim() || DEFAULT_MOVEABLE_FALLBACK
   )
+  const moveableNoFeasibleCompletionSlotsMessage = computed(() => {
+    const raw = wizardData.value?.moveableNoFeasibleCompletionSlotsMessage?.trim()
+    return raw && raw.length > 0 ? raw : DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE
+  })
 
   return {
     subStepLabels,
@@ -118,6 +114,7 @@ function buildWizardSettingsLabels(
     majorStateLabel,
     minorStateLabel,
     moveableFallbackLabel,
+    moveableNoFeasibleCompletionSlotsMessage,
   }
 }
 

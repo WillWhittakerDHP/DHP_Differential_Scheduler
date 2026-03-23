@@ -48,6 +48,37 @@ export async function handleBlockInstanceVersioning(
   return oldInstance
 }
 
+async function disableDuplicatesForPartAssignmentRelationship(
+  currentRel: InstanceType<typeof PartAssignment>,
+  updatedPartInstance: InstanceType<typeof PartInstance>,
+  partInstanceId: string
+): Promise<void> {
+  const duplicatePartInstances = await PartInstance.findAll({
+    where: {
+      name: updatedPartInstance.name,
+      partShapeRef: updatedPartInstance.partShapeRef,
+      id: { [Op.ne]: partInstanceId },
+    },
+  })
+
+  if (duplicatePartInstances.length === 0) {
+    return
+  }
+
+  const duplicatePartIds = duplicatePartInstances.map((p) => p.id)
+
+  await PartAssignment.update(
+    { disabled: true },
+    {
+      where: {
+        parentId: currentRel.parentId,
+        childId: { [Op.in]: duplicatePartIds },
+        disabled: false,
+      },
+    }
+  )
+}
+
 export async function handlePartInstanceCleanup(
   partInstanceId: string
 ): Promise<void> {
@@ -56,40 +87,18 @@ export async function handlePartInstanceCleanup(
     if (!updatedPartInstance) {
       return
     }
-    
+
     const currentRelationships = await PartAssignment.findAll({
       where: {
         childId: partInstanceId,
-        disabled: false
-      }
+        disabled: false,
+      },
     })
 
-    // PATTERN: Use map to transform relationships into promises, then await all
     await Promise.all(
-      currentRelationships.map(async (currentRel) => {
-        const duplicatePartInstances = await PartInstance.findAll({
-          where: {
-            name: updatedPartInstance.name,
-            partShapeRef: updatedPartInstance.partShapeRef,
-            id: { [Op.ne]: partInstanceId }
-          }
-        })
-
-        if (duplicatePartInstances.length > 0) {
-          const duplicatePartIds = duplicatePartInstances.map(p => p.id)
-          
-          await PartAssignment.update(
-            { disabled: true },
-            {
-              where: {
-                parentId: currentRel.parentId,
-                childId: { [Op.in]: duplicatePartIds },
-                disabled: false
-              }
-            }
-          )
-        }
-      })
+      currentRelationships.map((currentRel) =>
+        disableDuplicatesForPartAssignmentRelationship(currentRel, updatedPartInstance, partInstanceId)
+      )
     )
   } catch (error) {
     logger.error(ERROR_MESSAGES.PART_ASSIGNMENT_CLEANUP_ERROR, error)

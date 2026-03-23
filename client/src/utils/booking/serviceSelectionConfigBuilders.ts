@@ -44,6 +44,7 @@ export function buildUserTypeBlockRowSelectionConfig(options: SelectionConfigBui
     },
     expansion: {
       enabled: true,
+      autoSelectNested: true,
       componentData: buildExpansionComponentData(),
     },
   }
@@ -78,6 +79,7 @@ export function buildServicesStackSelectionConfig(options: SelectionConfigBuildO
     },
     expansion: {
       enabled: true,
+      autoSelectNested: true,
       componentData: buildExpansionComponentData(),
     },
   }

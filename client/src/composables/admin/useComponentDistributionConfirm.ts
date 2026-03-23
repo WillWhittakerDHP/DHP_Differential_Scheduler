@@ -5,7 +5,7 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DistributionStrategy } from '@/types/component'
 import type { DistributionPreview } from '@/types/component'
 
-export interface UseComponentDistributionConfirmOptions {
+interface UseComponentDistributionConfirmOptions {
   preview: Ref<DistributionPreview[]>
   selectedStrategy: Ref<DistributionStrategy>
   getPropertyKey: () => string

@@ -8,10 +8,11 @@ import {
 } from '@shared/utils/selectInputConfigCodec.js'
 import { nilToEmptyString } from '@shared/utils/nilDefaults.js'
 import { createLogger } from './logger.js'
+import type { AdminSelectOptionRow } from '@shared/types/adminSelectOptionRow.js'
 
 const logger = createLogger('adminMetadataInputConfigCodec')
 
-export interface AdminMetadataIcColumns {
+interface AdminMetadataIcColumns {
   icTargetMode: string | null
   icSelectMode: string | null
   icSelectType: string | null
@@ -28,11 +29,7 @@ export interface AdminMetadataIcColumns {
   icCandidateParentPath: string[] | null
 }
 
-export interface SelectOptionRowInput {
-  displayOrder: number
-  label: string
-  valuePayload: string | null
-}
+type SelectOptionRowInput = AdminSelectOptionRow
 
 function asStringArray(v: unknown): string[] | null {
   if (!Array.isArray(v)) return null

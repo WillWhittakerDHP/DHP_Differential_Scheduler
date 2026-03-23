@@ -3,15 +3,20 @@
  */
 import { computed } from 'vue'
 import { useCalendarEntries } from '@/composables/admin/useCalendarEntries'
-import {
-  isValidCalendarEmail,
-  DEFAULT_CALENDAR_CONFIG,
-  type CalendarProvider,
-  type AdminEntryTimeoutUnit,
-  type CalendarEntry,
-} from '@/configs/calendarSettings'
+import { isValidCalendarEmail, type CalendarProvider, type CalendarEntry } from '@/configs/calendarSettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import type { UseBusinessControlsFormStateParams } from '@/types/admin/businessControlsFormState'
+import {
+  buildAdminEntryTimeoutUnitComputed,
+  buildAdminEntryTimeoutValueComputed,
+  buildAutoConfirmEnabledComputed,
+  buildCalendarEnabledComputed,
+  buildCalendarProviderComputed,
+  buildHoldDurationFallbackComputed,
+  buildHoldDurationMaxComputed,
+  buildHoldDurationMinComputed,
+  buildHoldDurationMinutesComputed,
+} from '@/utils/admin/calendarHoldFormComputeds'
 
 export interface UseCalendarHoldFormStateReturn {
   fields: {
@@ -22,7 +27,7 @@ export interface UseCalendarHoldFormStateReturn {
     holdDurationMax: import('vue').ComputedRef<number>
     holdDurationFallback: import('vue').ComputedRef<number>
     adminEntryTimeoutValue: import('vue').ComputedRef<number>
-    adminEntryTimeoutUnit: import('vue').ComputedRef<AdminEntryTimeoutUnit>
+    adminEntryTimeoutUnit: import('vue').ComputedRef<import('@/configs/calendarSettings').AdminEntryTimeoutUnit>
     autoConfirmEnabled: import('vue').WritableComputedRef<boolean>
     calendarEntries: import('vue').Ref<CalendarEntry[]>
     writeToIndex: import('vue').Ref<number>
@@ -47,78 +52,15 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   const { calendarFormData, calendarSaving, calendarError } = params
   const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-  const calendarEnabled = computed({
-    get: () => calendarFormData.value?.enabled ?? DEFAULT_CALENDAR_CONFIG.enabled,
-    set: (value: boolean) => {
-      if (calendarFormData.value) calendarFormData.value.enabled = value
-    },
-  })
-
-  const calendarProvider = computed({
-    get: () => (calendarFormData.value?.provider ?? DEFAULT_CALENDAR_CONFIG.provider) as CalendarProvider,
-    set: (value: CalendarProvider) => {
-      if (calendarFormData.value) calendarFormData.value.provider = value
-    },
-  })
-
-  const holdDurationMinutes = computed({
-    get: () => calendarFormData.value?.holdDurationMinutes ?? DEFAULT_CALENDAR_CONFIG.holdDurationMinutes ?? 15,
-    set: (value: number) => {
-      if (calendarFormData.value) calendarFormData.value.holdDurationMinutes = value
-    },
-  })
-
-  const holdDurationMin = computed({
-    get: () => calendarFormData.value?.holdDurationMin ?? DEFAULT_CALENDAR_CONFIG.holdDurationMin ?? 1,
-    set: (value: number) => {
-      if (calendarFormData.value) calendarFormData.value.holdDurationMin = value
-    },
-  })
-
-  const holdDurationMax = computed({
-    get: () => calendarFormData.value?.holdDurationMax ?? DEFAULT_CALENDAR_CONFIG.holdDurationMax ?? 60,
-    set: (value: number) => {
-      if (calendarFormData.value) calendarFormData.value.holdDurationMax = value
-    },
-  })
-
-  const holdDurationFallback = computed({
-    get: () => calendarFormData.value?.holdDurationFallback ?? DEFAULT_CALENDAR_CONFIG.holdDurationFallback ?? 15,
-    set: (value: number) => {
-      if (calendarFormData.value) calendarFormData.value.holdDurationFallback = value
-    },
-  })
-
-  const adminEntryTimeoutValue = computed({
-    get: () => calendarFormData.value?.adminEntryTimeout?.value ?? DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.value ?? 30,
-    set: (value: number) => {
-      if (calendarFormData.value) {
-        if (!calendarFormData.value.adminEntryTimeout) {
-          calendarFormData.value.adminEntryTimeout = { value: 30, unit: 'days' }
-        }
-        calendarFormData.value.adminEntryTimeout.value = Math.max(1, Math.min(365, Math.floor(value) || 1))
-      }
-    },
-  })
-
-  const adminEntryTimeoutUnit = computed({
-    get: () => (calendarFormData.value?.adminEntryTimeout?.unit ?? DEFAULT_CALENDAR_CONFIG.adminEntryTimeout?.unit ?? 'days') as AdminEntryTimeoutUnit,
-    set: (value: AdminEntryTimeoutUnit) => {
-      if (calendarFormData.value) {
-        if (!calendarFormData.value.adminEntryTimeout) {
-          calendarFormData.value.adminEntryTimeout = { value: 30, unit: 'days' }
-        }
-        calendarFormData.value.adminEntryTimeout.unit = value
-      }
-    },
-  })
-
-  const autoConfirmEnabled = computed({
-    get: () => calendarFormData.value?.autoConfirmEnabled ?? false,
-    set: (value: boolean) => {
-      if (calendarFormData.value) calendarFormData.value.autoConfirmEnabled = value
-    },
-  })
+  const calendarEnabled = buildCalendarEnabledComputed(calendarFormData)
+  const calendarProvider = buildCalendarProviderComputed(calendarFormData)
+  const holdDurationMinutes = buildHoldDurationMinutesComputed(calendarFormData)
+  const holdDurationMin = buildHoldDurationMinComputed(calendarFormData)
+  const holdDurationMax = buildHoldDurationMaxComputed(calendarFormData)
+  const holdDurationFallback = buildHoldDurationFallbackComputed(calendarFormData)
+  const adminEntryTimeoutValue = buildAdminEntryTimeoutValueComputed(calendarFormData)
+  const adminEntryTimeoutUnit = buildAdminEntryTimeoutUnitComputed(calendarFormData)
+  const autoConfirmEnabled = buildAutoConfirmEnabledComputed(calendarFormData)
 
   const {
     entries: calendarEntries,
@@ -132,7 +74,9 @@ export function useCalendarHoldFormState(params: UseBusinessControlsFormStatePar
   } = useCalendarEntries(calendarFormData, calendarEnabled, calendarProvider)
 
   const emailValidationRule = (value: string): true | string => {
-    if (!value || value.trim() === '') return true
+    if (!value || value.trim() === '') {
+      return true
+    }
     return isValidCalendarEmail(value) ? true : UI_STRINGS.validation.emailInvalid
   }
 

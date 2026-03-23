@@ -9,6 +9,8 @@ export const FIELD_NAMES = {
   ANNOTATIONS: 'annotations',
   /** blockInstance → booking transformer / API field key */
   DIFFERENTIAL_EVENT_ROLE_OVERRIDES: 'differentialEventRoleOverrides',
+  /** Matches server entityConstants FIELD_NAMES.DIFFERENTIAL_ROLE (event shape / API). */
+  DIFFERENTIAL_ROLE: 'differentialRole',
 } as const
 
 export const TEMPORARY_ID_PATTERNS = {

@@ -1,7 +1,5 @@
 import { Router, Request, Response } from 'express'
 import {
-  fetchAll,
-  fetchById,
   createRecord,
   updateRecord,
   patchRecord,
@@ -13,177 +11,39 @@ import { ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
 import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './entitySanitizers.js'
-import { buildFetchOptions, handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
+import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
-import { AnnotationInstance, AnnotationInstanceContent } from '../../../config/app.js'
-import { resolveAnnotationTextForAssignment } from '../../../services/annotations/annotationTextResolution.js'
-import type { AnnotationWithContentPlain } from '../../../services/annotations/annotationTextResolution.js'
+import { AnnotationInstance } from '../../../config/app.js'
 import {
   syncAnnotationInstanceContentFromLegacyColumns,
   syncAnnotationInstanceContentRows,
-  type AnnotationContentRowInput,
 } from '../../../services/annotations/annotationInstanceContentSync.js'
+import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
 import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError } from '../../helpers/routerResponseHelpers.js'
-import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { paramString } from '../../helpers/requestHelpers.js'
+import {
+  pullAnnotationContentRowsFromBody,
+  applyAnnotationShapeUiSlotNormalization,
+} from './entityCrudRouterAnnotationBody.js'
+import { registerEntityCrudReadRoutes } from './entityCrudRouterReads.js'
 import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
+import {
+  reconcileBlockInstanceStateControlEligibility,
+  reconcileBlockShapeStateControlEligibility,
+  removeDifferentialAttendeesForBlockInstanceIds,
+} from '../../../repositories/availabilityDifferentialAttendeeCleanup.js'
 
 const logger = createLogger('EntityRouter')
-
-function pullAnnotationContentRowsFromBody(body: Record<string, unknown>): {
-  rows: AnnotationContentRowInput[] | undefined
-  rest: Record<string, unknown>
-} {
-  const rest = { ...body }
-  const raw = rest.contentRows
-  delete rest.contentRows
-  if (raw === undefined) {
-    return { rows: undefined, rest }
-  }
-  if (!Array.isArray(raw)) {
-    return { rows: undefined, rest }
-  }
-  const rows: AnnotationContentRowInput[] = []
-  for (const item of raw) {
-    if (item === null || typeof item !== 'object') continue
-    const o = item as Record<string, unknown>
-    const idRaw = o.userTypeBlockInstanceId
-    const userTypeBlockInstanceId =
-      idRaw === null || idRaw === undefined || idRaw === '' ? null : String(idRaw)
-    const textVal = o.text
-    rows.push({
-      userTypeBlockInstanceId,
-      text: typeof textVal === 'string' ? textVal : '',
-    })
-  }
-  return { rows, rest }
-}
-
-function applyAnnotationShapeUiSlotNormalization(
-  res: Response,
-  entityType: string,
-  data: Record<string, unknown>
-): boolean {
-  if (entityType !== ENTITY_KEYS.ANNOTATION_SHAPE && entityType !== 'annotationShape') {
-    return true
-  }
-  const normalized = normalizeAnnotationShapeWritePayload(data)
-  if (!normalized.ok) {
-    sendBadRequest(res, 'Invalid annotation shape uiSlot', normalized.message)
-    return false
-  }
-  const next = normalized.data
-  for (const key of Object.keys(data)) {
-    delete data[key]
-  }
-  Object.assign(data, next)
-  return true
-}
 
 const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
-
-router.get('/:entityType', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
-    return
-  }
-  
-  try {
-    // WHY: Consistent pattern with relationships - annotations fetched separately, then attached during hydration
-    // PATTERN: Entities fetched without associations, annotations attached in frontend transformer
-    
-    const entityTypeParam = paramString(req, 'entityType')
-    const base = buildFetchOptions(entityConfig.model)
-    const fetchOpts = {
-      attributes: base.attributes,
-      order: base.order,
-      includes:
-        entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE
-          ? [
-              {
-                model: AnnotationInstanceContent,
-                as: 'contentRows',
-                attributes: ['id', 'text', 'userTypeBlockInstanceId'],
-                required: false,
-              },
-            ]
-          : undefined,
-    }
-    const data = await fetchAll(entityConfig.model, fetchOpts)
-
-    if (entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE) {
-      const formatted = (data as InstanceType<typeof AnnotationInstance>[]).map((row) => {
-        const plain = row.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
-        plain.text = resolveAnnotationTextForAssignment(plain, null)
-        return plain
-      })
-      sendSuccess(res, formatted)
-      return
-    }
-
-    sendSuccess(res, data)
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.FETCH_ENTITIES.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entities')
-  }
-})
-
-router.get('/:entityType/:id', async (req: Request, res: Response): Promise<void> => {
-  const { entityConfig } = req
-  if (!entityConfig) {
-    sendError(res, ERROR_MESSAGES.ENTITY_CONFIG_MISSING, HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
-    return
-  }
-  
-  try {
-    const id = paramString(req, 'id')
-    const entityTypeParam = paramString(req, 'entityType')
-
-    if (entityTypeParam === ENTITY_KEYS.ANNOTATION_INSTANCE) {
-      const record = await AnnotationInstance.findByPk(id, {
-        attributes: getModelAttributes(AnnotationInstance),
-        include: [
-          {
-            model: AnnotationInstanceContent,
-            as: 'contentRows',
-            attributes: ['id', 'text', 'userTypeBlockInstanceId'],
-            required: false,
-          },
-        ],
-      })
-      if (!record) {
-        const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-        sendNotFound(res, errorMessage, id)
-        return
-      }
-      const plain = record.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>
-      plain.text = resolveAnnotationTextForAssignment(plain, null)
-      sendSuccess(res, plain)
-      return
-    }
-
-    const record = await fetchById(entityConfig.model, id)
-
-    if (!record) {
-      const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName)
-      sendNotFound(res, errorMessage, id)
-      return
-    }
-
-    sendSuccess(res, record)
-  } catch (error) {
-    const errorMessage = ERROR_MESSAGES.FETCH_ENTITY.replace('{displayName}', entityConfig.displayName)
-    handleRouteError(error, res, errorMessage, entityConfig.displayName, 'fetching entity', paramString(req, 'id'))
-  }
-})
+registerEntityCrudReadRoutes(router)
 
 router.post(
   '/:entityType',
@@ -199,7 +59,7 @@ router.post(
     try {
       const createEntityType = paramString(req, 'entityType')
       let bodyForCreate: Record<string, unknown> = { ...(req.body as Record<string, unknown>) }
-      let annotationCreateContentRows: AnnotationContentRowInput[] | undefined
+      let annotationCreateContentRows: AnnotationContentRow[] | undefined
       if (createEntityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
         const pulled = pullAnnotationContentRowsFromBody(bodyForCreate)
         annotationCreateContentRows = pulled.rows
@@ -249,7 +109,7 @@ router.put(
     try {
       const putEntityTypeEarly = paramString(req, 'entityType')
       let bodyForPut: Record<string, unknown> = { ...(req.body as Record<string, unknown>) }
-      let annotationPutContentRows: AnnotationContentRowInput[] | undefined
+      let annotationPutContentRows: AnnotationContentRow[] | undefined
       if (putEntityTypeEarly === ENTITY_KEYS.ANNOTATION_INSTANCE) {
         const pulled = pullAnnotationContentRowsFromBody(bodyForPut)
         annotationPutContentRows = pulled.rows
@@ -303,6 +163,13 @@ router.put(
         await handlePartInstanceCleanup(entityId)
       }
 
+      if (putEntityTypeEarly === ENTITY_KEYS.BLOCK_INSTANCE || putEntityTypeEarly === 'blockInstance') {
+        await reconcileBlockInstanceStateControlEligibility(entityId)
+      }
+      if (putEntityTypeEarly === ENTITY_KEYS.BLOCK_SHAPE || putEntityTypeEarly === 'blockShape') {
+        await reconcileBlockShapeStateControlEligibility(entityId)
+      }
+
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
       sendSuccess(res, {
         message: `${successMessage} successfully`,
@@ -349,7 +216,7 @@ router.patch(
       }
 
       const entityType = paramString(req, 'entityType')
-      let annotationPatchContentRows: AnnotationContentRowInput[] | undefined
+      let annotationPatchContentRows: AnnotationContentRow[] | undefined
       if (entityType === ENTITY_KEYS.ANNOTATION_INSTANCE) {
         const pulled = pullAnnotationContentRowsFromBody(updateData)
         annotationPatchContentRows = pulled.rows
@@ -412,6 +279,13 @@ router.patch(
         await handlePartInstanceCleanup(entityId)
       }
 
+      if (patchedEntityType === ENTITY_KEYS.BLOCK_INSTANCE || patchedEntityType === 'blockInstance') {
+        await reconcileBlockInstanceStateControlEligibility(entityId)
+      }
+      if (patchedEntityType === ENTITY_KEYS.BLOCK_SHAPE || patchedEntityType === 'blockShape') {
+        await reconcileBlockShapeStateControlEligibility(entityId)
+      }
+
       sendSuccess(res, { updated: updatedCount })
     } catch (error) {
       const errorMessage = ERROR_MESSAGES.PATCH_ENTITY.replace('{displayName}', entityConfig.displayName)
@@ -472,6 +346,7 @@ router.delete(
           sendNotFound(res, errorMessage, entityId)
           return
         }
+        await removeDifferentialAttendeesForBlockInstanceIds([entityId])
       }
       
       const deletedCount = await deleteRecord(entityConfig.model, entityId)

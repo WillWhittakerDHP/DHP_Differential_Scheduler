@@ -26,10 +26,8 @@ import {
 } from './appointmentHelpers.js'
 import { stripSelectionFieldsFromPlainObject, bodyTouchesSelections } from '../../../repositories/appointmentSelectionCodec.js'
 import { syncSelectionsAndSnapshotsFromBody, applyMergedSelectionPatch } from '../../../repositories/appointmentSelectionRepository.js'
-import {
-  stripPropertyDetailsFromPlainObject,
-  syncPropertyDetailsFromWizardBlob,
-} from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { stripPropertyDetailsFromPlainObject } from '../../../repositories/appointmentPropertyDetailsApiShape.js'
+import { syncPropertyDetailsFromWizardBlob } from '../../../repositories/appointmentPropertyDetailsSync.js'
 import { stripSelectedTimeSlotsFromPlainObject, bodyTouchesTimeSlots } from '../../../repositories/appointmentTimeSlotCodec.js'
 import { replaceTimeSlotsFromBody } from '../../../repositories/appointmentTimeSlotRepository.js'
 import { sendSuccess, sendNotFound } from '../../helpers/routerResponseHelpers.js'
@@ -235,7 +233,12 @@ const router = createCrudRouter({
           confirmedBy: null,
         })
         logger.info(`Auto-confirmed appointment ${record.id} (submitted → confirmed)`)
-        onStatusChange({ appointmentId: record.id, oldStatus: 'submitted', newStatus: 'confirmed' }).catch((err) => {
+        const autoConfirmAppointmentId = record.id
+        onStatusChange({
+          appointmentId: autoConfirmAppointmentId,
+          oldStatus: 'submitted',
+          newStatus: 'confirmed',
+        }).catch((err) => {
           logger.error('Notification hook failed on auto-confirm (non-blocking)', { error: err, appointmentId: record.id })
         })
       }
@@ -311,7 +314,8 @@ const router = createCrudRouter({
     const oldStatus = req.body?._currentStatus as string | undefined
 
     if (newStatus && oldStatus && newStatus !== oldStatus) {
-      onStatusChange({ appointmentId: record.id, oldStatus, newStatus }).catch((err) => {
+      const statusHookAppointmentId = record.id
+      onStatusChange({ appointmentId: statusHookAppointmentId, oldStatus, newStatus }).catch((err) => {
         logger.error('Notification hook failed (non-blocking)', { error: err, appointmentId: record.id })
       })
     }

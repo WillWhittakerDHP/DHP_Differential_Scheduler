@@ -9,6 +9,7 @@ import {
 } from 'sequelize';
 import { NODE_ENV } from '../../../constants/appConstants.js';
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../../../constants/userRoles.js';
+import { manualCreatedUpdatedAtColumns } from '../shared/manualCreatedUpdatedAtColumns.js';
 
 export class User extends Model<
   InferAttributes<User>,
@@ -69,18 +70,7 @@ export function UserFactory(sequelize: Sequelize) {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'updated_at',
-      },
+      ...manualCreatedUpdatedAtColumns,
     },
     {
       sequelize,

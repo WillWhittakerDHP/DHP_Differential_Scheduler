@@ -6,34 +6,24 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('dateUtils')
 
-/**
- * WHY: Parse date string or Date in UTC
- */
-export function parseUTCDate(dateInput: string | Date): Date | null {
-  let dateString: string
+function dateInputToYmdString(dateInput: string | Date): string {
   if (dateInput instanceof Date) {
     if (isNaN(dateInput.getTime())) {
       logger.warn('Invalid Date object passed to parseUTCDate:', dateInput)
-      return null
+      return ''
     }
-    const year = dateInput.getUTCFullYear()
-    const month = String(dateInput.getUTCMonth() + 1).padStart(2, '0')
-    const day = String(dateInput.getUTCDate()).padStart(2, '0')
-    dateString = `${year}-${month}-${day}`
-  } else if (typeof dateInput === 'string') {
-    dateString = dateInput
-  } else {
-    dateString = String(dateInput)
+    const y = dateInput.getUTCFullYear()
+    const m = String(dateInput.getUTCMonth() + 1).padStart(2, '0')
+    const d = String(dateInput.getUTCDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
   }
-
-  const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
-
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
-    logger.warn('Invalid date string format:', datePart)
-    return null
+  if (typeof dateInput === 'string') {
+    return dateInput
   }
+  return String(dateInput)
+}
 
-  const [year, month, day] = datePart.split('-').map(Number)
+function utcDateFromYmdParts(year: number, month: number, day: number, datePart: string): Date | null {
   if (isNaN(year) || isNaN(month) || isNaN(day)) {
     logger.warn('Invalid date components:', { year, month, day, datePart })
     return null
@@ -42,11 +32,27 @@ export function parseUTCDate(dateInput: string | Date): Date | null {
     logger.warn('Invalid date component ranges:', { year, month, day, datePart })
     return null
   }
-
   const date = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0))
   if (isNaN(date.getTime())) {
     logger.warn('Invalid Date object created:', { year, month, day, datePart })
     return null
   }
   return date
+}
+
+/**
+ * WHY: Parse date string or Date in UTC
+ */
+export function parseUTCDate(dateInput: string | Date): Date | null {
+  const dateString = dateInputToYmdString(dateInput)
+  if (dateString === '') {
+    return null
+  }
+  const datePart = dateString.includes('T') ? dateString.split('T')[0] : dateString
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(datePart)) {
+    logger.warn('Invalid date string format:', datePart)
+    return null
+  }
+  const [year, month, day] = datePart.split('-').map(Number)
+  return utcDateFromYmdParts(year, month, day, datePart)
 }

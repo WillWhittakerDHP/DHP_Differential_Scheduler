@@ -10,17 +10,15 @@ import type { EventInstancePreviewResponseBody } from '@shared/types/eventInstan
 import apiClient from '@/utils/api'
 import { getEventInstancePreviewEndpoint } from '@/utils/api/eventInstancePreviewApi'
 import { createLogger } from '@/utils/logger'
+import type { EventInstanceTemplateStrings } from '@/types/admin/eventInstanceTemplateStrings'
 
 const logger = createLogger('useEventTemplatePreview')
 
-export interface EventInstancePreviewDraftSlice {
-  titleTemplate: string
-  descriptionTemplate: string
-  locationTemplate: string
+interface EventInstancePreviewDraftSlice extends EventInstanceTemplateStrings {
   eventShapeRef: string
 }
 
-export interface UseEventTemplatePreviewParams {
+interface UseEventTemplatePreviewParams {
   draft: Ref<EventInstancePreviewDraftSlice>
 }
 

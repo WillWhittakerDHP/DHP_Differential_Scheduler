@@ -7,6 +7,8 @@ import {
   Sequelize,
 } from 'sequelize'
 
+import { AVAILABILITY_SETTINGS_KEY } from '../../../constants/appConstants.js'
+
 export class AvailabilitySetting extends Model<
   InferAttributes<AvailabilitySetting>,
   InferCreationAttributes<AvailabilitySetting>
@@ -15,6 +17,7 @@ export class AvailabilitySetting extends Model<
   declare minuteIncrement: number
   declare timezone: CreationOptional<string | null>
   declare defaultLocationPlaceId: CreationOptional<string | null>
+  declare defaultLocationAddress: CreationOptional<string | null>
   declare defaultLocationLabel: CreationOptional<string | null>
   declare defaultLocationLat: CreationOptional<number | null>
   declare defaultLocationLng: CreationOptional<number | null>
@@ -48,6 +51,11 @@ export function AvailabilitySettingFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         field: 'default_location_place_id',
+      },
+      defaultLocationAddress: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'default_location_address',
       },
       defaultLocationLabel: {
         type: DataTypes.STRING,
@@ -120,8 +128,8 @@ export function AvailabilitySettingFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: false,
       schema: 'public',
-      modelName: 'availability_settings',
-      tableName: 'availability_settings',
+      modelName: AVAILABILITY_SETTINGS_KEY,
+      tableName: AVAILABILITY_SETTINGS_KEY,
       freezeTableName: true,
     }
   )

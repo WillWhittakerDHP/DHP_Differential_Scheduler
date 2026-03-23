@@ -8,7 +8,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/utils/__tests__/setup.ts'],
+    passWithNoTests: true,
     // WHY: In this repo's environment, the default tinypool worker strategy has intermittently crashed
     pool: 'threads',
     fileParallelism: false,

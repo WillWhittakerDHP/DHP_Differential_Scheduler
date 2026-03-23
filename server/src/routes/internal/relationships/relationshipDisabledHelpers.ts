@@ -63,7 +63,7 @@ export async function findOrCreateRelationshipRow(
   return { row, created: true }
 }
 
-export type SoftDeleteRelationshipOutcome =
+type SoftDeleteRelationshipOutcome =
   | { status: 'deleted'; affected: number }
   | { status: 'already_inactive' }
   | { status: 'not_found' }

@@ -39,7 +39,7 @@ export type InstanceDragFormKitBinderDeps = {
   shapeDragBoundNonce: Ref<Map<string, number>>
 }
 
-export function tearDownZoneDrag(dragKey: string, deps: InstanceDragFormKitBinderDeps): void {
+function tearDownZoneDrag(dragKey: string, deps: InstanceDragFormKitBinderDeps): void {
   const el = deps.formKitParentElByZone.value.get(dragKey)
   if (el) {
     formkitTearDown(el)

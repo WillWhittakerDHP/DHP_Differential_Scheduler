@@ -6,7 +6,7 @@ import { Op } from 'sequelize'
 import {
   AdminPrimitiveMetadataSelectOption,
   AdminRelationshipMetadataSelectOption,
-} from '../config/models.js'
+} from '../config/app.js'
 import type { AdminPrimitiveMetadata } from '../db/models/admin/adminPrimitiveMetadata.js'
 import type { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipMetadata.js'
 import { mapMetaFieldsToPayload } from './adminMetadataPayload.js'
@@ -80,6 +80,7 @@ export async function primitiveMetadataToHttpPayload(
   transaction?: Transaction
 ): Promise<Record<string, unknown>> {
   const rows = await AdminPrimitiveMetadataSelectOption.findAll({
+    // @audit-allow:hardcoding:fieldMapping - Sequelize where clause; FK column primitiveMetadataId
     where: { primitiveMetadataId: meta.id },
     order: [['displayOrder', 'ASC']],
     transaction,
@@ -113,6 +114,7 @@ export async function relationshipMetadataToHttpPayload(
   transaction?: Transaction
 ): Promise<Record<string, unknown>> {
   const rows = await AdminRelationshipMetadataSelectOption.findAll({
+    // @audit-allow:hardcoding:fieldMapping - Sequelize where clause; FK column relationshipMetadataId
     where: { relationshipMetadataId: meta.id },
     order: [['displayOrder', 'ASC']],
     transaction,

@@ -3,7 +3,7 @@
  */
 import type { Transaction } from 'sequelize'
 import { Op } from 'sequelize'
-import { AdminMetadataSelectOption } from '../config/models.js'
+import { AdminMetadataSelectOption } from '../config/app.js'
 import type { AdminMetadata } from '../db/models/admin/adminMetadata.js'
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js'
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes'
@@ -12,12 +12,9 @@ import {
   icColumnsFromModel,
 } from './adminMetadataInputConfigCodec.js'
 import { nilToEmptyArray } from '@shared/utils/nilDefaults.js'
+import type { AdminSelectOptionRow } from '@shared/types/adminSelectOptionRow.js'
 
-export type SelectOptionRow = {
-  displayOrder: number
-  label: string
-  valuePayload: string | null
-}
+export type SelectOptionRow = AdminSelectOptionRow
 
 export interface FieldMetadataEntryAssembly extends MetadataEntryBase {
   panel: 'none' | 'parts' | 'relationships' | typeof FIELD_NAMES.ANNOTATIONS | 'events'

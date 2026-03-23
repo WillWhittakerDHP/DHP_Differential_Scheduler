@@ -19,13 +19,11 @@ export type GlobalDataCollectionUpdater<CollectionItem> = (
   updatedCollection: readonly CollectionItem[]
 ) => GlobalData
 
-export type GlobalDataCollectionEndpoints = CollectionEndpoints
-
 export type GlobalDataCollectionCrudConfig<CollectionItem extends WithId> = {
   collectionName: string
   selectCollection: GlobalDataCollectionSelector<CollectionItem>
   updateCollection: GlobalDataCollectionUpdater<CollectionItem>
-  endpoints: GlobalDataCollectionEndpoints
+  endpoints: CollectionEndpoints
 } & { readonly __brand?: 'GlobalDataCollectionCrudConfig' }
 
 export type { UpdateByIdPayload }

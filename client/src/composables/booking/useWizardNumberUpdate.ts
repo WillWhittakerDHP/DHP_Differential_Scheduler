@@ -4,7 +4,7 @@
 WHY: Wizard state stores arrays of Boo...
  */
 import { inject } from 'vue'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import { wizardKey } from '@/keys/bookingInjectionKeys'
 
 export interface UseWizardNumberUpdateReturn {
   updateNumber: (blockInstanceId: string, number: number | null) => void

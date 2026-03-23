@@ -4,43 +4,16 @@
  * Remaining chain repairs: useComponentEntityActions inlined here to reduce depth for all callers.
  */
 import { computed, type ComputedRef } from 'vue'
-import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import apiClient, {
-  getRelationshipEndpoint,
-  getRelationshipByParentChildEndpoint,
-  createMultipleRelationships,
-  createRelationshipWithConflictHandling,
-} from '@/utils/api'
+import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { InstanceComponent } from '@/types/component'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { DistributionStrategy } from '@/types/component'
-import type { GlobalRelationship } from '@/types/relationships'
-import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useGlobal } from '@/composables/useGlobal'
 import { useComponentEntityDomain } from '@/composables/componentEntity/useComponentEntityDomain'
 import { createRefetchGlobalDataHandler } from '@/composables/entityCrud/useSharedMutationHandlers'
+import { useComponentEntityMutations } from '@/composables/componentEntity/useComponentEntityMutations'
+import { transformGlobalRelationshipsToInstanceComponents } from '@/utils/componentEntity/transformGlobalRelationshipsToInstanceComponents'
 import type { UseComponentEntityActionsReturn } from '@/types/componentEntity/componentEntityActions'
 import type { UseComponentEntityDomainReturn } from '@/types/componentEntity/componentEntityDomain'
-
-function transformGlobalRelationshipsToInstanceComponents(relationships: GlobalRelationship[]): InstanceComponent[] {
-  const instanceComponents: InstanceComponent[] = []
-  relationships.forEach((rel) => {
-    if (rel.relationshipKind !== 'instanceComponents') return
-    rel.children.forEach((child, index) => {
-      instanceComponents.push({
-        id: toGlobalEntityId(`${rel.parent.id}-${child.id}`),
-        parentId: rel.parent.id,
-        childId: child.id,
-        orderIndex: index,
-        disabled: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-    })
-  })
-  return instanceComponents
-}
 
 /** Grouped return for composable-health (oversized-return repair). Domain shape from componentEntityDomain. */
 export interface UseComponentEntityReturn<GE extends GlobalEntityKey> {
@@ -59,11 +32,6 @@ export interface UseComponentEntityReturn<GE extends GlobalEntityKey> {
   }
 }
 
-/**
- * PATTERN: useComponentEntity Composable
-
-PATTERN: Composable with Vue Query integr...
- */
 export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE): UseComponentEntityReturn<GE> {
   const { globalData, getGlobalData } = useGlobal()
   const instanceComponents = computed((): InstanceComponent[] => {
@@ -82,96 +50,11 @@ export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE): U
   const queryClient = useQueryClient()
   const refetchGlobalData = createRefetchGlobalDataHandler(queryClient)
 
-  const createComponentMutation = useMutation<void, Error, { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }>({
-    mutationFn: async ({ composerId, componentIds }: { composerId: GlobalEntityId; componentIds: GlobalEntityId[] }) => {
-      const endpoint = getRelationshipEndpoint('instanceComponents')
-      await createMultipleRelationships(endpoint, composerId, componentIds)
-    },
-    onSuccess: refetchGlobalData,
-  })
-
-  const addToComponentMutation = useMutation<void, Error, {
-    composerId: GlobalEntityId
-    componentId: GlobalEntityId
-    orderIndex?: number
-  }>({
-    mutationFn: async ({
-      composerId,
-      componentId,
-      orderIndex,
-    }: {
-      composerId: GlobalEntityId
-      componentId: GlobalEntityId
-      orderIndex?: number
-    }) => {
-      const endpoint = getRelationshipEndpoint('instanceComponents')
-      await createRelationshipWithConflictHandling(endpoint, composerId, componentId, orderIndex ?? 0)
-    },
-    onSuccess: refetchGlobalData,
-  })
-
-  const removeFromComponentMutation = useMutation<void, Error, { composerId: GlobalEntityId; componentId: GlobalEntityId }>({
-    mutationFn: async ({ composerId, componentId }: { composerId: GlobalEntityId; componentId: GlobalEntityId }) => {
-      const deleteEndpoint = getRelationshipByParentChildEndpoint(
-        'instanceComponents',
-        String(composerId),
-        String(componentId)
-      )
-      await apiClient.delete(deleteEndpoint)
-    },
-    onSuccess: refetchGlobalData,
-  })
-
-  const updateComponentWithDistributionMutation = useMutation<void, Error, {
-    composerId: GlobalEntityId
-    changes: Record<string, unknown>
-    distributionStrategy: DistributionStrategy
-    distributionValues?: Record<GlobalEntityId, Record<string, unknown>>
-  }>({
-    mutationFn: async ({
-      composerId,
-      changes,
-      distributionStrategy,
-      distributionValues,
-    }: {
-      composerId: GlobalEntityId
-      changes: Record<string, unknown>
-      distributionStrategy: DistributionStrategy
-      distributionValues?: Record<GlobalEntityId, Record<string, unknown>>
-    }) => {
-      const globalData = getGlobalData()
-      if (!globalData) throw new Error('Global data not available')
-
-      if (distributionStrategy === 'manual' && distributionValues) {
-        const promises = Object.entries(distributionValues).map(([componentId, componentChanges]) =>
-          apiClient.patch(`/api/internal/entities/${entityKey}/${componentId}`, componentChanges)
-        )
-        await Promise.all(promises)
-        return
-      }
-
-      const componentUpdates = Object.entries(changes).reduce((acc, [propertyKey, newValue]) => {
-        if (typeof newValue !== 'number') return acc
-        const preview = domain.calculateDistributionPreview(composerId, propertyKey, newValue, distributionStrategy)
-        return preview.reduce((componentAcc, { componentId, newValue: componentNewValue }) => {
-          const rawExisting = componentAcc[componentId]
-          const existing = rawExisting !== undefined && rawExisting !== null ? rawExisting : {}
-          return {
-            ...componentAcc,
-            [componentId]: {
-              ...existing,
-              [propertyKey]: componentNewValue
-            }
-          }
-        }, acc)
-      }, {} as Record<string, Record<string, unknown>>)
-
-      const promises = Object.entries(componentUpdates).map(([componentId, componentChanges]) =>
-        apiClient.patch(`/api/internal/entities/${entityKey}/${componentId}`, componentChanges)
-      )
-      await Promise.all(promises)
-    },
-    onSuccess: refetchGlobalData,
+  const mutations = useComponentEntityMutations({
+    entityKey,
+    getGlobalData,
+    refetchGlobalData,
+    calculateDistributionPreview: domain.calculateDistributionPreview,
   })
 
   return {
@@ -186,16 +69,14 @@ export function useComponentEntity<GE extends GlobalEntityKey>(entityKey: GE): U
       calculateDistributionPreview: domain.calculateDistributionPreview,
     },
     actions: {
-      createComponent: createComponentMutation.mutateAsync,
-      addToComponent: (args: { composerId: GlobalEntityId; componentId: GlobalEntityId; orderIndex?: number }) =>
-        addToComponentMutation.mutateAsync(args).then(() => undefined),
-      removeFromComponent: removeFromComponentMutation.mutateAsync,
-      updateComponentWithDistribution: updateComponentWithDistributionMutation.mutateAsync,
-      isCreatingComponent: createComponentMutation.isPending,
-      isAddingToComponent: addToComponentMutation.isPending,
-      isRemovingFromComponent: removeFromComponentMutation.isPending,
-      isUpdatingComponent: updateComponentWithDistributionMutation.isPending,
+      createComponent: mutations.createComponent.mutateAsync,
+      addToComponent: mutations.addToComponent.mutateAsync,
+      removeFromComponent: mutations.removeFromComponent.mutateAsync,
+      updateComponentWithDistribution: mutations.updateComponentWithDistribution.mutateAsync,
+      isCreatingComponent: mutations.createComponent.isPending,
+      isAddingToComponent: mutations.addToComponent.isPending,
+      isRemovingFromComponent: mutations.removeFromComponent.isPending,
+      isUpdatingComponent: mutations.updateComponentWithDistribution.isPending,
     },
   }
 }
-

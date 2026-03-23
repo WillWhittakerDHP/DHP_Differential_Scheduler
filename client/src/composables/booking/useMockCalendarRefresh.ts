@@ -4,7 +4,7 @@
 PATTERN: Composable that manages refr...
  */
 import { ref, watch, inject } from 'vue'
-import { resetMocksSignalKey } from '@/composables/booking/injectionKeys'
+import { resetMocksSignalKey } from '@/keys/bookingInjectionKeys'
 import type { UseMockCalendarRefreshReturn } from '@/types/booking/mockCalendarRefresh'
 
 

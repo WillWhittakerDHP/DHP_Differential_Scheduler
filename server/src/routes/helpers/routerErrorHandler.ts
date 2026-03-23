@@ -19,6 +19,71 @@ interface ErrorResponseBody {
   id?: string
 }
 
+function attachEntityId(body: ErrorResponseBody, entityId?: string): void {
+  if (entityId) {
+    body.id = entityId
+  }
+}
+
+function respondUniqueConstraint(
+  res: Response,
+  finalErrorMessage: string,
+  validationError: SequelizeValidationErrorShape,
+  entityId?: string
+): void {
+  const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field'
+  const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : ''
+
+  const response: ErrorResponseBody = {
+    error: finalErrorMessage,
+    details: `${fieldName} "${String(fieldValue)}" already exists. Please use a unique value.`,
+  }
+
+  attachEntityId(response, entityId)
+
+  res.status(400).json(response)
+}
+
+function respondValidationErrorsArray(
+  res: Response,
+  finalErrorMessage: string,
+  errors: Array<{ path?: string; message?: string }>,
+  entityId?: string
+): void {
+  const fieldErrors = errors
+    .map((err) => {
+      const fieldName = err.path || 'field'
+      const message = err.message || 'Validation error'
+      return `${fieldName}: ${message}`
+    })
+    .join('; ')
+
+  const response: ErrorResponseBody = {
+    error: finalErrorMessage,
+    details: fieldErrors,
+  }
+
+  attachEntityId(response, entityId)
+
+  res.status(400).json(response)
+}
+
+function respondValidationFallback(
+  res: Response,
+  finalErrorMessage: string,
+  message: string,
+  entityId?: string
+): void {
+  const response: ErrorResponseBody = {
+    error: finalErrorMessage,
+    details: message,
+  }
+
+  attachEntityId(response, entityId)
+
+  res.status(400).json(response)
+}
+
 export function handleSequelizeValidationError(
   error: unknown,
   res: Response,
@@ -30,61 +95,23 @@ export function handleSequelizeValidationError(
     return false
   }
 
-  const finalErrorMessage = displayName 
-    ? errorMessage.replace('{displayName}', displayName)
-    : errorMessage
+  const finalErrorMessage = displayName ? errorMessage.replace('{displayName}', displayName) : errorMessage
 
   if (error.name === 'SequelizeUniqueConstraintError') {
     const validationError = error as SequelizeValidationErrorShape
-    const fieldName = validationError?.fields ? Object.keys(validationError.fields)[0] : 'field'
-    const fieldValue = validationError?.fields ? Object.values(validationError.fields)[0] : ''
-    
-    const response: ErrorResponseBody = {
-      error: finalErrorMessage,
-      details: `${fieldName} "${String(fieldValue)}" already exists. Please use a unique value.`,
-    }
-    
-    if (entityId) {
-      response.id = entityId
-    }
-    
-    res.status(400).json(response)
+    respondUniqueConstraint(res, finalErrorMessage, validationError, entityId)
     return true
   }
 
   if (error.name === 'SequelizeValidationError') {
     const validationError = error as SequelizeValidationErrorShape
-    
+
     if (validationError.errors && Array.isArray(validationError.errors) && validationError.errors.length > 0) {
-      const fieldErrors = validationError.errors.map((err: { path?: string; message?: string }) => {
-        const fieldName = err.path || 'field'
-        const message = err.message || 'Validation error'
-        return `${fieldName}: ${message}`
-      }).join('; ')
-      
-      const response: ErrorResponseBody = {
-        error: finalErrorMessage,
-        details: fieldErrors,
-      }
-      
-      if (entityId) {
-        response.id = entityId
-      }
-      
-      res.status(400).json(response)
+      respondValidationErrorsArray(res, finalErrorMessage, validationError.errors, entityId)
       return true
     }
-    
-    const response: ErrorResponseBody = {
-      error: finalErrorMessage,
-      details: error.message,
-    }
-    
-    if (entityId) {
-      response.id = entityId
-    }
-    
-    res.status(400).json(response)
+
+    respondValidationFallback(res, finalErrorMessage, error.message, entityId)
     return true
   }
 
@@ -100,21 +127,19 @@ export function handleGeneralError(
   entityId?: string
 ): void {
   logger.error(`Error ${context}:`, error)
-  
-  const finalMessage = displayName 
-    ? errorMessage.replace('{displayName}', displayName)
-    : errorMessage
-  
-  const rawDetails = error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE;
+
+  const finalMessage = displayName ? errorMessage.replace('{displayName}', displayName) : errorMessage
+
+  const rawDetails = error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
   const response: ErrorResponseBody = {
     error: finalMessage,
     details: isProduction() ? UNKNOWN_ERROR_MESSAGE : rawDetails,
-  };
-  
+  }
+
   if (entityId) {
     response.id = entityId
   }
-  
+
   res.status(500).json(response)
 }
 
@@ -131,7 +156,6 @@ export function handleRouteError(
     return
   }
 
-  // Try domain-specific constraint errors if handler provided
   if (constraintHandler && constraintHandler(error, res, entityId)) {
     return
   }

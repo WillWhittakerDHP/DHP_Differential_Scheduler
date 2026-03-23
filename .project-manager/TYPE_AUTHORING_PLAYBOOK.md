@@ -112,6 +112,13 @@ Is this type used by multiple features?
 | Inventory: duplicate type names        | type-constant-inventory | duplicateTypeNames |
 | Inventory: configs with logic          | type-constant-inventory | configsWithLogic |
 | Inventory: cleanup candidates         | type-constant-inventory | cleanupCandidates |
+| Structural duplicate / near-duplicate types (reuse, brand, extend) | type-similarity-audit | (grouped findings: UNIFY, BRAND, EXTEND, REVIEW in `type-similarity-audit.md`) |
+
+**type-similarity-audit caveat:** Output is from heuristic parsing (not the full TS compiler). Large **SUBSET** groups can bucket unrelated types that share a few fields (e.g. `id`, timestamps)—triage before merging; **similarity group** allowlist lives in `client/.audit-reports/audit-global-config.json` → `allowlists.type-similarity.specific` (stable `groupId` from `type-similarity-audit.json`).
+
+**Thin type aliases (reported count):** The audit scans single-line `type X = SingleReference` (no object body, no top-level `|` / `&`). The **reported** list and `thinTypeAliasCount` exclude matches covered by **`client/.audit-reports/type-similarity-audit-config.json`** → `thinTypeAliasExclusions`: Vue SFC `Props`, utility wrappers (`Partial<`, `Pick<`, `Record<`, `Array<{`, etc.), composable settings bases (`UseAdminSettingsFormReturnBase<`, …), and single-identifier RHS whose names end with approved suffixes (`Base`, `Entity`, `Core`, `Row`, `Key`, `Constraint`, `Strings`, …) plus a small `singleIdentifierRhsExact` list. Raw matches excluded by policy appear only as `thinTypeAliasPolicyExcludedCount` in JSON and the audit console line. For aliases **outside** those policies, prefer importing the canonical RHS at use sites instead of re-aliasing.
+
+**Marker extends:** The same audit reports **`markerExtendsInterfaces`**: `interface X extends Y { }` with **no own members** (nominal alias / same intent as many thin `type` lines). Cross-check **ESLint** `@typescript-eslint/no-empty-object-type`. Intentional marker interfaces may be listed under **`markerExtendsExclusions.interfaceNames`** in `type-similarity-audit-config.json`. The scanner only matches when the opening `{` of the body is on the **same line** as the `extends` clause; multiline `extends` is skipped.
 
 ---
 

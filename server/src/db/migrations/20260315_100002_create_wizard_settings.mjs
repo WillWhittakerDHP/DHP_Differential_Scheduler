@@ -6,7 +6,7 @@
 export default {
   async up(queryInterface, _Sequelize) {
     await queryInterface.sequelize.query(`
-      CREATE TABLE public.wizard_settings (
+      CREATE TABLE IF NOT EXISTS public.wizard_settings (
         id uuid DEFAULT gen_random_uuid() NOT NULL,
         setting_value jsonb NOT NULL,
         created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -14,8 +14,22 @@ export default {
       );
     `);
     await queryInterface.sequelize.query(`
-      ALTER TABLE ONLY public.wizard_settings
-        ADD CONSTRAINT wizard_settings_pkey PRIMARY KEY (id);
+      DO $do$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1
+          FROM pg_constraint c
+          JOIN pg_class t ON c.conrelid = t.oid
+          JOIN pg_namespace n ON t.relnamespace = n.oid
+          WHERE n.nspname = 'public'
+            AND t.relname = 'wizard_settings'
+            AND c.contype = 'p'
+        ) THEN
+          ALTER TABLE ONLY public.wizard_settings
+            ADD CONSTRAINT wizard_settings_pkey PRIMARY KEY (id);
+        END IF;
+      END
+      $do$;
     `);
     await queryInterface.sequelize.query(`
       COMMENT ON TABLE public.wizard_settings IS 'Singleton: wizard display config (coupon, brand colors, labels)';

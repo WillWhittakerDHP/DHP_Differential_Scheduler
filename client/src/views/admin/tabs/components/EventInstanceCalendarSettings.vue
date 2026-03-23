@@ -11,7 +11,7 @@ const draft = defineModel<NewEventInstanceData>({ required: true })
     These map to Google Calendar event options (visibility, busy/free, color, guests, notifications, Meet).
   </p>
 
-  <VRow dense>
+  <VRow density="comfortable">
     <VCol cols="12" sm="6" md="4">
       <VSelect
         v-model="draft.visibility"
@@ -76,7 +76,7 @@ const draft = defineModel<NewEventInstanceData>({ required: true })
   </VRow>
 
   <div class="text-label-large text-medium-emphasis mb-2 mt-2">Guest permissions</div>
-  <VRow dense>
+  <VRow density="comfortable">
     <VCol cols="12" sm="6" md="4">
       <VSwitch
         v-model="draft.guestsCanModify"
@@ -107,7 +107,7 @@ const draft = defineModel<NewEventInstanceData>({ required: true })
   </VRow>
 
   <div class="text-label-large text-medium-emphasis mb-2 mt-2">Notifications & conferencing</div>
-  <VRow dense>
+  <VRow density="comfortable">
     <VCol cols="12" sm="6" md="4">
       <VSelect
         v-model="draft.sendUpdates"

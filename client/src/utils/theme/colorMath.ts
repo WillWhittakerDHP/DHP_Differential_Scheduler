@@ -10,7 +10,7 @@ const toOklch = converter('oklch')
 
 const HEX_PATTERN = /^#([0-9a-f]{6}|[0-9a-f]{3})$/i
 
-export function assertValidHex(hex: string): void {
+function assertValidHex(hex: string): void {
   const t = hex.trim()
   if (!HEX_PATTERN.test(t)) {
     throw new Error(`Expected #RGB or #RRGGBB hex, got: ${hex}`)

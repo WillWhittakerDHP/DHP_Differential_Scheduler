@@ -12,7 +12,7 @@ import {
   focusFirstFocusableInContent,
 } from '@/utils/dom/availabilityAccordionFocus'
 
-export interface UseAvailabilityStepAccordionParams {
+interface UseAvailabilityStepAccordionParams {
   /** Current step index (0-based); accordion syncs expanded panel to this. */
   currentStepIndex: ComputedRef<number>
   /** ID prefix for content region (e.g. 'availability-substep-content-'). */

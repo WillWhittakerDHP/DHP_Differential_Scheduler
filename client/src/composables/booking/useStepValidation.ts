@@ -10,7 +10,7 @@ import type {
   UseStepValidationReturn,
 } from '@/types/booking/stepValidation'
 
-export function collectErrors(
+function collectErrors(
   rules: Record<string, ValidationRule[]>,
   formDataValues: Record<string, unknown>,
   customValidators: Record<string, CustomValidator>

@@ -313,6 +313,15 @@ export const DELTA_FINDING_EXTRACTORS = {
       line: f.snippet ?? '',
     }))
   },
+  'dual-role-export'(data) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    return findings.map((f) => ({
+      file: f.file,
+      lineNumber: f.lineNumber,
+      ruleId: f.ruleId ?? 'unknown',
+      line: `${f.symbol ?? ''} (${f.internalRefCount ?? 0} in-file refs)`,
+    }))
+  },
 }
 
 /**
@@ -932,7 +941,7 @@ export function parseInlineExceptions(content, auditType) {
  * @param {string} pattern - The glob pattern
  * @returns {boolean}
  */
-function simpleGlobMatch(filePath, pattern) {
+export function simpleGlobMatch(filePath, pattern) {
   const normalizedPath = filePath.replaceAll('\\', '/')
   const normalizedPattern = pattern.replaceAll('\\', '/')
 

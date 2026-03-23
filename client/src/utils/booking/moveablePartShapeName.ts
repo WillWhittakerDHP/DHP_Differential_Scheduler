@@ -3,7 +3,7 @@
  */
 import type { AppointmentShape } from '@/types/appointment'
 
-export function isGenericMoveableLabel(value: string | null | undefined): boolean {
+function isGenericMoveableLabel(value: string | null | undefined): boolean {
   if (!value) return true
   const normalized = value.trim().toLowerCase().replace(/\s+/g, ' ')
   return (

@@ -6,11 +6,11 @@
 import { computed, type ComputedRef } from 'vue'
 import { formatTimeRange } from '@/utils/time/timeFormatting'
 import { derivePerspective } from '@/utils/booking/perspectiveResolver'
-import type { AvailabilitySubStepOrchestratorState } from '@/composables/booking/injectionKeys'
+import type { AvailabilitySubStepOrchestratorState } from '@/types/booking/injectionContexts'
 import type { UseAvailabilityConfirmationStateReturn } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 
-export interface UseAvailabilityStepUIParams {
+interface UseAvailabilityStepUIParams {
   o: AvailabilitySubStepOrchestratorState
   confirmation: UseAvailabilityConfirmationStateReturn
 }
@@ -52,10 +52,33 @@ export function useAvailabilityStepUI(
       return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
     }
     if (stepIndex === 1) {
+      const parts: string[] = []
       const id = o.selectedOptionTypeBlockId.value
-      if (!id) return null
-      const block = o.wizard.availableOptionTypeBlocks.value.find((b) => b.id === id)
-      return block?.name ?? id
+      if (id) {
+        const block = o.wizard.availableOptionTypeBlocks.value.find((b) => b.id === id)
+        parts.push(block?.name ?? id)
+      }
+      if (o.hasMoveablePartsGated.value) {
+        const c = o.contingencyPeriod.value
+        if (c.hasContingency === false) {
+          parts.push('No deadline')
+        } else if (c.hasContingency === true && c.endDate && c.endTime) {
+          const ms = new Date(
+            `${c.endDate}T${c.endTime.length === 5 ? `${c.endTime}:00` : c.endTime}`
+          ).getTime()
+          const formatted = Number.isNaN(ms)
+            ? `${c.endDate} ${c.endTime}`
+            : new Date(ms).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+              })
+          parts.push(`Deadline ${formatted}`)
+        }
+      }
+      return parts.length > 0 ? parts.join(' · ') : null
     }
     if (stepIndex === 2) {
       if (!o.userHasChosenTimeBasisFromGraph?.value) return null
@@ -108,7 +131,6 @@ export function useAvailabilityStepUI(
   }
   function onOptionIdUpdate(id: string | null): void {
     o.selectedOptionTypeBlockId.value = id
-    confirmation.confirm(1)
   }
   function handleTimeBasisChangeWithConfirm(type: 'major' | 'minor'): void {
     o.handleTimeBasisChange(type)

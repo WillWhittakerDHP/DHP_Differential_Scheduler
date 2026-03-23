@@ -1,4 +1,4 @@
-import type { ComponentStrategy } from '@/types/component'
+import type { ComponentStrategy } from '@shared/types/componentTypes'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import { COMPONENT_STRATEGIES } from '@/constants/component'

@@ -9,7 +9,7 @@ import {
   contactsFormContextKey,
   wizardKey,
   loadedWizardStateKey,
-} from '@/composables/booking/injectionKeys'
+} from '@/keys/bookingInjectionKeys'
 import { useContactsStepData } from '@/composables/booking/useContactsStepData'
 import { useContactsValidation } from '@/composables/booking/useContactsValidation'
 import ContactFormSection from './ContactFormSection.vue'

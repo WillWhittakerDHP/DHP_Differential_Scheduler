@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { AppLogger } from '@/utils/logger'
+import type { EventInstanceTemplateStrings } from '@/types/admin/eventInstanceTemplateStrings'
 
 export interface UseInstancesTabEventInstanceParams {
   expandedInstances: Ref<string[]>
@@ -10,12 +11,9 @@ export interface UseInstancesTabEventInstanceParams {
   logger: AppLogger
 }
 
-export type NewEventInstanceData = {
+export type NewEventInstanceData = EventInstanceTemplateStrings & {
   eventShapeRef: string
   name: string
-  titleTemplate: string
-  descriptionTemplate: string
-  locationTemplate: string
   visibility: 'default' | 'public' | 'private' | 'confidential'
   transparency: 'opaque' | 'transparent'
   guestsCanModify: boolean

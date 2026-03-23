@@ -4,7 +4,7 @@
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { mergeSelectInputConfig } from '@shared/utils/selectInputConfigCodec'
 
-export interface InputConfigFormData {
+interface InputConfigFormData {
   targetMode: string | null
   selectMode: string | null
   targetKey: string | null
@@ -14,14 +14,14 @@ export interface InputConfigFormData {
   options: unknown[] | null
 }
 
-export interface InputConfigEditorOptions {
+interface InputConfigEditorOptions {
   getEffectiveFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
   updateFieldRendering: (fieldKey: string, updates: Partial<FieldMetadataEntry>) => void
   /** Derived renderAs (e.g. from inputConfig); preferred over stored `renderAs` when provided. */
   getEffectiveRenderAs?: (fieldKey: string) => FieldMetadataEntry['renderAs'] | undefined
 }
 
-export interface InputConfigEditorReturn {
+interface InputConfigEditorReturn {
   getInputConfigData: (fieldKey: string) => InputConfigFormData
   updateInputConfigField: (fieldKey: string, fieldName: keyof InputConfigFormData, value: unknown) => void
 }

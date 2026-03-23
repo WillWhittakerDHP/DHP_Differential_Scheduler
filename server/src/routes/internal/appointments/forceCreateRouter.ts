@@ -24,10 +24,8 @@ import {
   validateAppointmentLineSnapshots,
 } from './appointmentHelpers.js'
 import { stripSelectionFieldsFromPlainObject } from '../../../repositories/appointmentSelectionCodec.js'
-import {
-  stripPropertyDetailsFromPlainObject,
-  syncPropertyDetailsFromWizardBlob,
-} from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { stripPropertyDetailsFromPlainObject } from '../../../repositories/appointmentPropertyDetailsApiShape.js'
+import { syncPropertyDetailsFromWizardBlob } from '../../../repositories/appointmentPropertyDetailsSync.js'
 import { stripSelectedTimeSlotsFromPlainObject } from '../../../repositories/appointmentTimeSlotCodec.js'
 import { replaceTimeSlotsFromBody } from '../../../repositories/appointmentTimeSlotRepository.js'
 import { applyOverrideConstraintsFromBodyToPayload } from '../../../repositories/appointmentOverrideConstraintsCodec.js'

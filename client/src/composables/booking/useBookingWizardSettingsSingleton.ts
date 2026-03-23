@@ -35,11 +35,6 @@ function runLoad(): Promise<void> {
   return p
 }
 
-/** Start wizard-settings fetch as early as possible (BookingWizard setup). */
-export function prefetchBookingWizardSettings(): void {
-  void runLoad()
-}
-
 /** Clear cached wizard settings when leaving the booking flow so the next visit loads fresh data. */
 export function resetBookingWizardSettingsSingleton(): void {
   wizardData.value = null

@@ -1,7 +1,7 @@
 import type { Transaction } from 'sequelize'
 import { PropertyDetails } from '../config/app.js'
 import { findOrCreateAddress, getPropertyDetailsFromVersion, getPropertyWithAssociations } from '../routes/internal/properties/propertyHelpers.js'
-import { DEFAULT_VALUES } from '../routes/internal/properties/propertyConstants.js'
+import { DEFAULT_VALUES, PATCH_PROPERTY_FIELD_KEY } from '../routes/internal/properties/propertyConstants.js'
 
 function numOrNull(v: unknown): number | null {
   if (v === null || v === undefined || v === '') return null
@@ -20,6 +20,65 @@ function foundationOrNull(v: unknown): 'basement' | 'crawlspace' | 'slab' | null
   return v
 }
 
+async function syncAddressFromWizardBlobIfComplete(
+  propertyVersion: Awaited<ReturnType<typeof getPropertyWithAssociations>>,
+  b: Record<string, unknown>,
+  transaction?: Transaction
+): Promise<void> {
+  if (!propertyVersion) return
+
+  const street = strOrNull(b.address)
+  const city = strOrNull(b.city)
+  const state = strOrNull(b.state)
+  const zipCode = strOrNull(b.zipCode)
+  if (!street || !city || !state || !zipCode) {
+    return
+  }
+
+  const addressRecord = await findOrCreateAddress({
+    address: street,
+    unit: strOrNull(b.unit),
+    city,
+    state,
+    zipCode,
+    placeId: strOrNull(b.placeId),
+    latitude: numOrNull(b.latitude) ?? numOrNull((b.candidateCoordinates as { lat?: unknown } | undefined)?.lat),
+    longitude: numOrNull(b.longitude) ?? numOrNull((b.candidateCoordinates as { lng?: unknown } | undefined)?.lng),
+  })
+  if (propertyVersion.addressId !== addressRecord.id) {
+    // @audit-allow:hardcoding:fieldMapping - Sequelize update payload; PropertyVersion.addressId FK
+    await propertyVersion.update({ addressId: addressRecord.id }, { transaction })
+  }
+}
+
+function buildPropertyDetailsPatchFromWizardBlob(b: Record<string, unknown>): {
+  mlsNumber?: string | null
+  squareFootage?: number | null
+  bedrooms?: number | null
+  bathrooms?: number | null
+  foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
+  additionalUnits?: number | null
+} {
+  const sq = numOrNull(b.squareFootage) ?? numOrNull(b.propertySize)
+  const patch: {
+    mlsNumber?: string | null
+    squareFootage?: number | null
+    bedrooms?: number | null
+    bathrooms?: number | null
+    foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
+    additionalUnits?: number | null
+  } = {}
+  const PK = PATCH_PROPERTY_FIELD_KEY
+  if (PK.MLS_NUMBER in b) patch.mlsNumber = strOrNull(b.mlsNumber)
+  if (PK.SQUARE_FOOTAGE in b || 'propertySize' in b) patch.squareFootage = sq
+  if (PK.BEDROOMS in b) patch.bedrooms = numOrNull(b.bedrooms)
+  if (PK.BATHROOMS in b) patch.bathrooms = numOrNull(b.bathrooms)
+  if (PK.FOUNDATION_ACCESS in b) patch.foundationAccess = foundationOrNull(b.foundationAccess)
+  if (PK.ADDITIONAL_UNITS in b) patch.additionalUnits = numOrNull(b.additionalUnits)
+  if ('numberOfUnits' in b && !(PK.ADDITIONAL_UNITS in b)) patch.additionalUnits = numOrNull(b.numberOfUnits)
+  return patch
+}
+
 /**
  * Policy A: wizard `propertyDetails` updates PropertyDetails + Address for the appointment's property version.
  */
@@ -35,43 +94,10 @@ export async function syncPropertyDetailsFromWizardBlob(
   const propertyVersion = await getPropertyWithAssociations(propertyVersionId, transaction)
   if (!propertyVersion) return
 
-  const street = strOrNull(b.address)
-  const city = strOrNull(b.city)
-  const state = strOrNull(b.state)
-  const zipCode = strOrNull(b.zipCode)
-  if (street && city && state && zipCode) {
-    const addressRecord = await findOrCreateAddress({
-      address: street,
-      unit: strOrNull(b.unit),
-      city,
-      state,
-      zipCode,
-      placeId: strOrNull(b.placeId),
-      latitude: numOrNull(b.latitude) ?? numOrNull((b.candidateCoordinates as { lat?: unknown } | undefined)?.lat),
-      longitude: numOrNull(b.longitude) ?? numOrNull((b.candidateCoordinates as { lng?: unknown } | undefined)?.lng),
-    })
-    if (propertyVersion.addressId !== addressRecord.id) {
-      await propertyVersion.update({ addressId: addressRecord.id }, { transaction })
-    }
-  }
+  await syncAddressFromWizardBlobIfComplete(propertyVersion, b, transaction)
 
   const details = getPropertyDetailsFromVersion(propertyVersion)
-  const sq = numOrNull(b.squareFootage) ?? numOrNull(b.propertySize)
-  const patch: {
-    mlsNumber?: string | null
-    squareFootage?: number | null
-    bedrooms?: number | null
-    bathrooms?: number | null
-    foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
-    additionalUnits?: number | null
-  } = {}
-  if ('mlsNumber' in b) patch.mlsNumber = strOrNull(b.mlsNumber)
-  if ('squareFootage' in b || 'propertySize' in b) patch.squareFootage = sq
-  if ('bedrooms' in b) patch.bedrooms = numOrNull(b.bedrooms)
-  if ('bathrooms' in b) patch.bathrooms = numOrNull(b.bathrooms)
-  if ('foundationAccess' in b) patch.foundationAccess = foundationOrNull(b.foundationAccess)
-  if ('additionalUnits' in b) patch.additionalUnits = numOrNull(b.additionalUnits)
-  if ('numberOfUnits' in b && !('additionalUnits' in b)) patch.additionalUnits = numOrNull(b.numberOfUnits)
+  const patch = buildPropertyDetailsPatchFromWizardBlob(b)
 
   if (Object.keys(patch).length === 0) return
 
@@ -93,48 +119,4 @@ export async function syncPropertyDetailsFromWizardBlob(
     },
     { transaction }
   )
-}
-
-/** Build legacy `propertyDetails` object for appointment JSON from nested propertyVersion (with address + propertyDetails). */
-export function propertyDetailsApiShapeFromPropertyVersionJson(propertyVersion: unknown): Record<string, unknown> | null {
-  if (propertyVersion === null || propertyVersion === undefined) return null
-  if (typeof propertyVersion !== 'object') return null
-  const pv = propertyVersion as Record<string, unknown>
-  const addrRaw = pv.address
-  const addr = addrRaw !== null && typeof addrRaw === 'object' ? (addrRaw as Record<string, unknown>) : null
-  const detRaw = pv.propertyDetails
-  const detSingle = Array.isArray(detRaw) ? detRaw[0] : detRaw
-  const det = detSingle !== null && typeof detSingle === 'object' ? (detSingle as Record<string, unknown>) : null
-
-  if (!addr && !det) return null
-
-  const street = addr ? strOrNull(addr.address ?? addr.streetAddress) : null
-  const out: Record<string, unknown> = {
-    address: street,
-    unit: addr ? strOrNull(addr.unit) : null,
-    city: addr ? strOrNull(addr.city) : null,
-    state: addr ? strOrNull(addr.state) : null,
-    zipCode: addr ? strOrNull(addr.zipCode ?? addr.zip_code) : null,
-    placeId: addr ? strOrNull(addr.placeId ?? addr.place_id) : null,
-    latitude: addr ? numOrNull(addr.latitude) : null,
-    longitude: addr ? numOrNull(addr.longitude) : null,
-  }
-
-  if (det) {
-    out.mlsNumber = det.mlsNumber ?? null
-    out.squareFootage = det.squareFootage ?? null
-    out.bedrooms = det.bedrooms ?? null
-    out.bathrooms = det.bathrooms ?? null
-    out.foundationAccess = det.foundationAccess ?? null
-    out.additionalUnits = det.additionalUnits ?? null
-    out.propertySize = det.squareFootage ?? null
-    out.numberOfUnits = det.additionalUnits ?? null
-  }
-
-  const hasAny = Object.values(out).some((v) => v !== null && v !== undefined && v !== '')
-  return hasAny ? out : null
-}
-
-export function stripPropertyDetailsFromPlainObject(obj: Record<string, unknown>): void {
-  delete obj.propertyDetails
 }

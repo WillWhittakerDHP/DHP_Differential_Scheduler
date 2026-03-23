@@ -2,79 +2,49 @@
  * PATTERN: useMoveablePartsScheduling Composable
  *
  * Detects moveable parts and provides scheduling options. When user sets a contingency deadline,
- * fetches computed availability for the selected day with moveable duration and builds virtual
+ * fetches computed availability for the inner..outer UTC range (mini useComputedAvailability) and builds virtual
  * appointment slots via useAppointmentSlots (same pipeline as main grid) so the modal uses the
  * same components and constraint semantics.
  */
 import type { Ref } from 'vue'
-import { computed, ref, type ComputedRef } from 'vue'
+import { computed, ref, watch, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MoveableSchedulingOptions, MoveableSlot } from '@/types/moveableScheduling'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import { AVAILABILITY_SUBSTEP_UI } from '@/constants/availabilityStepConstants'
 import { DEFAULT_CONTINGENCY } from '@/constants/moveableScheduling'
 import { createLogger } from '@/utils/logger'
-import { localTime } from '@/utils/time/localTime'
+import { useLocalTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import type { EventShapeEntity } from '@/types/entities'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
-import type { ComputeMoveableSlotsParams } from '@/types/booking/moveablePartsScheduling'
-import { generateSlotsInRange } from '@/utils/booking/minimalSlotGenerator'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { createMinimalAppointmentShapeForDuration } from '@/utils/booking/appointmentSlotBuilder'
 import { useMoveableAvailabilityData } from '@/composables/booking/useMoveableAvailabilityData'
 import { getMoveablePartShapeName } from '@/utils/booking/moveablePartShapeName'
+import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import {
+  applyMoveableWindowToComputedSlots,
+  buildMoveableSchedulingWindow,
+} from '@/utils/booking/applyMoveableWindowToComputedSlots'
+import {
+  computeMoveableSlotRowDayLabel,
+  computeMoveableStepperDayLabel,
+} from '@/utils/booking/moveableDayDisplayLabel'
 
 const logger = createLogger('useMoveablePartsScheduling')
 const DEFAULT_MOVEABLE_FALLBACK_LABEL = 'Post-Appointment Work'
 
-/** Exported for tests. Moveable grid now uses virtual appointment slots from useAppointmentSlots. */
-export function computeMoveableSlots(params: ComputeMoveableSlotsParams): MoveableSlot[] {
-  const {
-    innerBoundary,
-    outerBoundary,
-    duration,
-    minuteIncrement,
-    formatDayLabel,
-    formatTimeLabel,
-  } = params
-  const slots = generateSlotsInRange({
-    startBoundary: innerBoundary,
-    endBoundary: outerBoundary,
-    duration,
-    minuteIncrement,
-    slotKind: 'moveable',
-  })
-  return slots.map((slot) => ({
-    startTime: slot.startTime,
-    endTime: slot.endTime,
-    duration: slot.duration,
-    dayLabel: formatDayLabel(slot.startTime),
-    timeLabel: formatTimeLabel(slot.startTime, slot.endTime),
-  }))
-}
-
 /** Re-export for tests and consumers that import from this module. */
 export { computeOuterBoundary, extractInnerBoundary } from '@/utils/booking/moveableSchedulingBounds'
 
-function formatDayLabel(
-  isoDate: RFC3339DateTime,
-  formatDateForDisplay: (rfc3339: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string
-): string {
-  const date = new Date(isoDate)
-  const now = new Date()
-  const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0, 0))
-  const tomorrow = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() + 1, 0, 0, 0, 0))
-
-  const dateOnly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0))
-
-  if (dateOnly.getTime() === today.getTime()) return AVAILABILITY_SUBSTEP_UI.TODAY
-  if (dateOnly.getTime() === tomorrow.getTime()) return AVAILABILITY_SUBSTEP_UI.TOMORROW
-
-  return formatDateForDisplay(isoDate, { month: 'short', day: 'numeric' })
-}
+const MOVEABLE_DAY_UI_COPY = {
+  noSelection: AVAILABILITY_SUBSTEP_UI.NO_DAY_SELECTED,
+  today: AVAILABILITY_SUBSTEP_UI.TODAY,
+  tomorrow: AVAILABILITY_SUBSTEP_UI.TOMORROW,
+} as const
 
 function formatTimeLabel(
   startIso: RFC3339DateTime,
@@ -98,6 +68,8 @@ function formatTimeLabel(
 interface UseMoveablePartsSchedulingParams {
   appointmentShape: ComputedRef<AppointmentShape | null>
   selectedSlot: ComputedRef<AppointmentSlot | null>
+  /** Owned by orchestrator so contingency + main-grid deadline filter share state. */
+  contingencyPeriod: Ref<ContingencyPeriod>
   /** For fetching moveable-day availability (same API as main grid, duration = moveable). */
   propertyDetailsStepData: Ref<PropertyDetailsData | null>
   /** Server-computed slots by day (legacy; moveable grid uses its own fetch with moveable duration). */
@@ -116,12 +88,21 @@ export interface UseMoveablePartsSchedulingReturn {
   moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
   /** Virtual appointment slots for the selected day (same pipeline as main grid). */
   moveableAppointmentSlots: ComputedRef<AppointmentSlot[]>
+  /** Step 4 day stepper heading: local Today/Tomorrow/weekday aligned with slot times. */
+  moveableStepperDayLabel: ComputedRef<string>
   /** Selected calendar day for moveable grid (YYYY-MM-DD). */
   selectedMoveableDay: Ref<string | null>
   /** Set selected day (e.g. from calendar in modal). */
   setSelectedMoveableDay: (date: string | null) => void
-  /** Predicate for calendar: date allowed when within inner/outer boundary. */
+  /** Predicate: date allowed when it is a canonical UTC day key with ≥1 slot after moveable window filter. */
   allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
+  /** Sorted UTC day keys from fetched map that have at least one slot after window filter. */
+  availableMoveableDayKeys: ComputedRef<string[]>
+  /** First / last of availableMoveableDayKeys (canonical stepper bounds). */
+  moveableFirstDayKey: ComputedRef<string | null>
+  moveableLastDayKey: ComputedRef<string | null>
+  /** Transient client-only window applied to raw moveable day slots (earliest start + optional deadline end). */
+  moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
   /** Current day's slots as MoveableSlot[] for saving to step data on confirm. */
   moveableSlotsForConfirm: ComputedRef<MoveableSlot[]>
   /** Moveable part shape name for modal title (e.g. "Report Writing"). */
@@ -134,13 +115,12 @@ export interface UseMoveablePartsSchedulingReturn {
 }
 
 export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingParams): UseMoveablePartsSchedulingReturn {
-  const { appointmentShape, selectedSlot, propertyDetailsStepData } = params
-  const { formatDateForDisplay, formatTimeForDisplay } = localTime()
+  const { appointmentShape, selectedSlot, contingencyPeriod, propertyDetailsStepData } = params
+  const { formatTimeForDisplay } = useLocalTime()
 
   const placeId = computed(() => propertyDetailsStepData.value?.candidatePlaceId)
 
   const showModal = ref(false)
-  const contingencyPeriod = ref<ContingencyPeriod>({ ...DEFAULT_CONTINGENCY })
   const selectedSlotIndex = ref<number | null>(null)
   const configuredMoveableFallbackLabel = ref<string>(DEFAULT_MOVEABLE_FALLBACK_LABEL)
 
@@ -195,6 +175,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     selectedMoveableDay,
     setSelectedMoveableDay: setSelectedMoveableDayInner,
     afterBufferMinutes,
+    moveableSlotsByDay,
   } = moveableData
 
   const setSelectedMoveableDay = (date: string | null) => {
@@ -202,13 +183,28 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     selectedSlotIndex.value = null
   }
 
+  const hasContingencyClosingDate = computed(
+    () =>
+      contingencyPeriod.value.hasContingency === true &&
+      Boolean(contingencyPeriod.value.endDate && contingencyPeriod.value.endTime)
+  )
+
+  const moveableSchedulingWindow = computed(() =>
+    buildMoveableSchedulingWindow(
+      moveableOptions.value,
+      afterBufferMinutes.value,
+      hasContingencyClosingDate.value
+    )
+  )
+
   const moveableServerSlotsForDay = computed(() => {
     const slots = moveableDaySlots.value
-    const opts = moveableOptions.value
-    if (!opts) return slots
-    const bufferMs = afterBufferMinutes.value * 60_000
-    const earliestMs = new Date(opts.innerBoundary).getTime() + bufferMs
-    return slots.filter(s => new Date(s.startTime).getTime() >= earliestMs)
+    if (!moveableOptions.value) return []
+    return applyMoveableWindowToComputedSlots(
+      slots,
+      moveableSchedulingWindow.value,
+      'exclude'
+    )
   })
   const moveableShapeOverride = computed(() =>
     createMinimalAppointmentShapeForDuration(moveableDuration.value)
@@ -223,16 +219,46 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     appointmentShapeOverride: moveableShapeOverride,
   })
 
-  const allowedMoveableDates = computed(() => {
-    const opts = moveableOptions.value
-    if (!opts) return () => false
-    const inner = opts.innerBoundary.slice(0, 10)
-    const outer = opts.outerBoundary.slice(0, 10)
-    return (date: unknown) => {
-      if (typeof date !== 'string') return false
-      return date >= inner && date <= outer
-    }
+  const moveableStepperDayLabel = computed(() =>
+    computeMoveableStepperDayLabel(
+      selectedMoveableDay.value,
+      moveableAppointmentSlots.value,
+      MOVEABLE_DAY_UI_COPY
+    )
+  )
+
+  const availableMoveableDayKeys = computed<string[]>(() => {
+    const map = moveableSlotsByDay.value
+    const window = moveableSchedulingWindow.value
+    return [...map.keys()]
+      .filter((key) => {
+        const raw = map.get(key) ?? []
+        return applyMoveableWindowToComputedSlots(raw, window, 'exclude').length > 0
+      })
+      .sort()
   })
+
+  const allowedMoveableDates = computed(() => {
+    const keys = new Set(availableMoveableDayKeys.value)
+    return (date: unknown): boolean => typeof date === 'string' && keys.has(date)
+  })
+
+  const moveableFirstDayKey = computed(() => availableMoveableDayKeys.value[0] ?? null)
+
+  const moveableLastDayKey = computed(() => {
+    const keys = availableMoveableDayKeys.value
+    return keys.length > 0 ? keys[keys.length - 1] ?? null : null
+  })
+
+  watch(
+    [availableMoveableDayKeys, selectedMoveableDay],
+    ([keys, day]) => {
+      if (keys.length === 0) return
+      if (day === null || !keys.includes(day)) {
+        setSelectedMoveableDay(keys[0] ?? null)
+      }
+    }
+  )
 
   const moveableSlotsForConfirm = computed<MoveableSlot[]>(() =>
     moveableAppointmentSlots.value.map((s) => {
@@ -242,7 +268,7 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
         startTime,
         endTime,
         duration: s.shape.slotShape.roundedDuration,
-        dayLabel: formatDayLabel(startTime, formatDateForDisplay),
+        dayLabel: computeMoveableSlotRowDayLabel(startTime, MOVEABLE_DAY_UI_COPY),
         timeLabel: formatTimeLabel(startTime, endTime, formatTimeForDisplay),
       }
     })
@@ -270,10 +296,15 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
     moveableDuration,
     moveableOptions: computed(() => moveableOptions.value),
     moveableAppointmentSlots,
+    moveableStepperDayLabel,
     moveablePartShapeName,
     selectedMoveableDay,
     setSelectedMoveableDay,
     allowedMoveableDates,
+    availableMoveableDayKeys,
+    moveableFirstDayKey,
+    moveableLastDayKey,
+    moveableSchedulingWindow,
     moveableSlotsForConfirm,
     selectedMoveableSlot,
     openModal,

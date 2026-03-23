@@ -54,6 +54,8 @@ const handlers = useGridConfigHandlers(state as GridConfigState)
         :model-value="differential.majorAttendees"
         @update:model-value="handlers.handleMajorAttendees"
         :items="differential.availableUserTypeBlocks"
+        item-title="title"
+        item-value="value"
         :label="UI_STRINGS.differential.majorAttendeesLabel"
         :hint="UI_STRINGS.differential.majorAttendeesHint"
         persistent-hint
@@ -76,6 +78,8 @@ const handlers = useGridConfigHandlers(state as GridConfigState)
         :model-value="differential.minorAttendees"
         @update:model-value="handlers.handleMinorAttendees"
         :items="differential.availableUserTypeBlocks"
+        item-title="title"
+        item-value="value"
         :label="UI_STRINGS.differential.minorAttendeesLabel"
         :hint="UI_STRINGS.differential.minorAttendeesHint"
         persistent-hint

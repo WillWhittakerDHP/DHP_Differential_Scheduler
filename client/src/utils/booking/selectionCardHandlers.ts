@@ -1,19 +1,3 @@
-import type { SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
-
-export function toggleSelectionModelValue(params: {
-  itemId: SelectionCardItem['id']
-  modelValue: string | null | string[]
-  isSelected: boolean
-}): string | null | string[] {
-  const current = params.modelValue
-
-  if (Array.isArray(current)) {
-    return params.isSelected ? current.filter((id) => id !== params.itemId) : [...current, params.itemId]
-  }
-
-  return params.isSelected ? null : params.itemId
-}
-
 export function updateNestedChildSelections(params: {
   current: readonly string[]
   childId: string

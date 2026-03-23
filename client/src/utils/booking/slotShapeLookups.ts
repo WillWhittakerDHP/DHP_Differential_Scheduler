@@ -1,5 +1,5 @@
 
-import type { TimeRange } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { SlotShape, EventFinal } from '@/types/appointment'
 import { createTimeRange } from './slotTimeUtils'
 
@@ -14,12 +14,12 @@ export function createTimeRangesFromSlotShape(
   slotShape: SlotShape,
   startTime: string
 ): {
-  totalTimeRange: TimeRange | null
-  eventTimeRanges: Record<string, TimeRange | null>
+  totalTimeRange: SlotTimeBounds | null
+  eventTimeRanges: Record<string, SlotTimeBounds | null>
 } {
   const eventFinals = Array.isArray(slotShape.eventFinals) ? slotShape.eventFinals : []
 
-  const eventTimeRanges = eventFinals.reduce<Record<string, TimeRange | null>>(
+  const eventTimeRanges = eventFinals.reduce<Record<string, SlotTimeBounds | null>>(
     (acc, eventFinal) => {
       const eventName = eventFinal.eventShape.name
       const duration = eventFinal.roundedDuration

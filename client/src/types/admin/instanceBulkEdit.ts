@@ -1,8 +1,4 @@
 import type { ComputedRef, Ref } from 'vue'
-import type { UseInstanceBlockInstancesByShapeOptions } from '@/types/admin/instanceComposableOptions'
-
-export type UseInstanceBulkEditOptions = UseInstanceBlockInstancesByShapeOptions
-
 export interface UseInstanceBulkEditReturn {
   bulkEditMode: Ref<Map<string, boolean>>
   bulkEditData: Ref<Map<string, { baseSqFt?: number }>>

@@ -3,21 +3,15 @@
 import { useQueryClient } from '@tanstack/vue-query'
 import type { EntityMetadataType } from '@/constants/fieldMetadata'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { SaveFieldMetadataMutationVariables } from '@/types/admin/fieldMetadataMutationVariables'
 
-export interface UsePrimitiveMetadataSaveOptions {
+interface UsePrimitiveMetadataSaveOptions {
   getEntityType: () => EntityMetadataType | null
   getEntityId: () => string | null
   getPendingChanges: () => Record<string, Partial<FieldMetadataEntry>>
   getFieldMetadata: (fieldKey: string) => FieldMetadataEntry | undefined
   clearPendingState: () => void
-  saveFieldMetadata: (params: {
-    entityType: EntityMetadataType
-    entityId: string
-    fieldKey: string
-    renderingUpdates: Partial<FieldMetadataEntry>
-    existingMetadata: FieldMetadataEntry | undefined
-    blockShapeRef?: string | null
-  }) => Promise<unknown>
+  saveFieldMetadata: (params: SaveFieldMetadataMutationVariables) => Promise<unknown>
   getBlockShapeRef: () => string | undefined | null
   onSaved: () => void
   logger: { error: (msg: string, ctx?: unknown) => void; debug: (msg: string, ctx?: unknown) => void }

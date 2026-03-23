@@ -5,7 +5,6 @@ import { patchFormElements } from '@/utils/patchFormElements'
 import type {
   FormElementPatchingOptionsBase,
   FormElementPatchingOptions,
-  UseFormElementPatchingOptions,
   UseFormElementPatchingReturn
 } from '@/types/admin/formElementPatching'
 
@@ -25,7 +24,7 @@ function resolveFormElement(formRef: FormElementPatchingOptionsBase['formRef']):
   return el.querySelector?.('form') ?? null
 }
 
-export function tryPatchFormImmediatelyBySelector(formSelector: string): boolean {
+function tryPatchFormImmediatelyBySelector(formSelector: string): boolean {
   if (!formSelector) return false
   const formElement = getFormElementBySelector(formSelector)
   if (!formElement) return false
@@ -33,7 +32,7 @@ export function tryPatchFormImmediatelyBySelector(formSelector: string): boolean
   return true
 }
 
-export async function patchFormFromVFormRef(
+async function patchFormFromVFormRef(
   formRef: FormElementPatchingOptionsBase['formRef'],
   formSelector: string
 ): Promise<void> {
@@ -83,7 +82,7 @@ function handleFormMutations(
   patchAddedFormElements(mutations)
 }
 
-export function setupFormMutationObserver(options: FormElementPatchingOptions): () => void {
+function setupFormMutationObserver(options: FormElementPatchingOptions): () => void {
   const { formSelector, useMutationObserver, observerTimeoutMs = 10_000 } = options
 
   if (!useMutationObserver) return () => {}
@@ -112,7 +111,7 @@ export function setupFormMutationObserver(options: FormElementPatchingOptions): 
 }
 
 export function useFormElementPatching(
-  options: UseFormElementPatchingOptions = {}
+  options: FormElementPatchingOptionsBase = {}
 ): UseFormElementPatchingReturn {
   const {
     formRef,

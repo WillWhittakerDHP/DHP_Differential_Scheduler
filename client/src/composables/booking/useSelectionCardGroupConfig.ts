@@ -10,12 +10,10 @@ import {
   getSelectionGroupComponentName,
   shouldUseSelectionGroupWrapper,
 } from '@/utils/booking/selectionCardGroupConfig'
-import type {
-  UseSelectionCardGroupConfigParams,
-  UseSelectionCardGroupConfigReturn,
-} from '@/types/booking/selectionCardGroupConfig'
+import type { UseSelectionCardConfigParams } from '@/types/booking/selectionCard/selectionCardConfig'
+import type { UseSelectionCardGroupConfigReturn } from '@/types/booking/selectionCardGroupConfig'
 
-export function useSelectionCardGroupConfig(params: UseSelectionCardGroupConfigParams): UseSelectionCardGroupConfigReturn {
+export function useSelectionCardGroupConfig(params: UseSelectionCardConfigParams): UseSelectionCardGroupConfigReturn {
   const { configWithDefaults } = useSelectionCardConfig(params)
 
   const useGroupWrapper = computed(() => {

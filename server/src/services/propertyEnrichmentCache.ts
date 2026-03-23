@@ -6,7 +6,7 @@ import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('PropertyEnrichmentCache');
 
-export interface PropertyEnrichmentCacheEntry {
+interface PropertyEnrichmentCacheEntry {
   data: PropertyEnrichmentResponse;
   timestamp: number;
 }

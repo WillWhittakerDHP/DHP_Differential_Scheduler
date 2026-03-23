@@ -3,10 +3,9 @@
 
 PATTERN: Mirrors useGlobal composable for cons...
  */
-import { computed, type ComputedRef } from 'vue'
+import { computed } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { businessTransformer, type BusinessData } from '@/utils/transformers/fetchToBusinessTransformer'
-import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseBusinessReturn } from '@/types/business'
 
 
@@ -30,20 +29,5 @@ export function useBusiness(): UseBusinessReturn {
       await queryClient.refetchQueries({ queryKey: BUSINESS_DATA_QUERY_KEY })
     },
   }
-}
-
-export function useAppointments(): ComputedRef<BusinessData['appointments']> {
-  const { businessData } = useBusiness()
-  return computed(() => asEmptyArray(businessData.value?.appointments))
-}
-
-export function useProperties(): ComputedRef<BusinessData['properties']> {
-  const { businessData } = useBusiness()
-  return computed(() => asEmptyArray(businessData.value?.properties))
-}
-
-export function useUsers(): ComputedRef<BusinessData['users']> {
-  const { businessData } = useBusiness()
-  return computed(() => asEmptyArray(businessData.value?.users))
 }
 

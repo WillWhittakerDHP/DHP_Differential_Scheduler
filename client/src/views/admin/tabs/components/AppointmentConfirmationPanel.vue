@@ -8,28 +8,15 @@ import type { DriveTimeFeeConfig } from '@shared/types/availabilityTypes'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { useConfirmationAndHoldsPanel } from '@/composables/admin/useConfirmationAndHoldsPanel'
 import { BUSINESS_CONTROLS_STATE_KEY, type BusinessControlsState } from '../businessControlsStateKey'
+import type { AppointmentConfirmationPanelModel } from '@/types/admin/appointmentConfirmationPanel'
 import DriveTimeFeeAdminFields from './DriveTimeFeeAdminFields.vue'
 
 const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
 
-const props = withDefaults(
-  defineProps<{
-    holdDurationMinutes: number
-    autoConfirmEnabled: boolean
-    /** Admin entry dropdown time-out: value (X). Session 6.8.6.1 */
-    adminEntryTimeoutValue?: number
-    /** Admin entry dropdown time-out: unit (days | weeks). Session 6.8.6.1 */
-    adminEntryTimeoutUnit?: 'days' | 'weeks'
-    /** Min allowed (from admin settings). */
-    holdDurationMin?: number
-    /** Max allowed (from admin settings). */
-    holdDurationMax?: number
-    /** Default when value missing/invalid (from admin settings). */
-    holdDurationFallback?: number
-    saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
-  }>(),
-  { holdDurationMin: 1, holdDurationMax: 60, holdDurationFallback: 15, adminEntryTimeoutValue: 30, adminEntryTimeoutUnit: 'days' }
-)
+const props = defineProps<{
+  panelModel: AppointmentConfirmationPanelModel
+  saveButtonProps: { type: 'submit'; color: 'primary'; loading: boolean; disabled: boolean }
+}>()
 
 const emit = defineEmits<{
   'update:holdDurationMinutes': [value: number]
@@ -71,7 +58,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
     </div>
 
     <VSwitch
-      :model-value="autoConfirmEnabled"
+      :model-value="panelModel.autoConfirmEnabled"
       @update:model-value="handleAutoConfirmUpdate"
       :label="UI_STRINGS.calendar.autoConfirmLabel"
       :hint="UI_STRINGS.calendar.autoConfirmHint"
@@ -87,7 +74,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
     </p>
     <div class="d-flex gap-2 align-center flex-wrap mb-4">
       <VTextField
-        :model-value="adminEntryTimeoutValue"
+        :model-value="panelModel.adminEntryTimeoutValue"
         @update:model-value="handleAdminEntryTimeoutValue"
         type="number"
         min="1"
@@ -98,7 +85,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
         hide-details
       />
       <VSelect
-        :model-value="adminEntryTimeoutUnit"
+        :model-value="panelModel.adminEntryTimeoutUnit"
         @update:model-value="handleAdminEntryTimeoutUnit"
         :items="[{ title: 'Days', value: 'days' }, { title: 'Weeks', value: 'weeks' }]"
         density="compact"
@@ -111,11 +98,11 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
 
     <div class="text-label-large mb-2">{{ UI_STRINGS.calendar.appointmentHoldsTitle }}</div>
     <VTextField
-      :model-value="holdDurationMinutes"
+      :model-value="panelModel.holdDurationMinutes"
       @update:model-value="handleHoldDurationMinutes"
       type="number"
-      :min="holdDurationMin"
-      :max="holdDurationMax"
+      :min="panelModel.holdDurationMin"
+      :max="panelModel.holdDurationMax"
       :label="UI_STRINGS.calendar.holdDurationLabel"
       :hint="holdDurationHintText"
       persistent-hint
@@ -124,7 +111,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
       validate-on="blur"
     />
     <VTextField
-      :model-value="holdDurationMin"
+      :model-value="panelModel.holdDurationMin"
       @update:model-value="handleHoldDurationMin"
       type="number"
       min="1"
@@ -134,7 +121,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
       class="mb-4"
     />
     <VTextField
-      :model-value="holdDurationMax"
+      :model-value="panelModel.holdDurationMax"
       @update:model-value="handleHoldDurationMax"
       type="number"
       min="1"
@@ -145,11 +132,11 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
       class="mb-4"
     />
     <VTextField
-      :model-value="holdDurationFallback"
+      :model-value="panelModel.holdDurationFallback"
       @update:model-value="handleHoldDurationFallback"
       type="number"
-      :min="holdDurationMin"
-      :max="holdDurationMax"
+      :min="panelModel.holdDurationMin"
+      :max="panelModel.holdDurationMax"
       label="Default hold duration when missing (minutes)"
       hint="Used when no value is provided or value is invalid."
       persistent-hint
@@ -157,7 +144,7 @@ function onDriveTimeFeeUpdate(value: DriveTimeFeeConfig): void {
     />
 
     <div class="text-body-small mt-2">
-      How long a slot is held before it expires. Allowed range: {{ holdDurationMin }}–{{ holdDurationMax }} minutes.
+      How long a slot is held before it expires. Allowed range: {{ panelModel.holdDurationMin }}–{{ panelModel.holdDurationMax }} minutes.
     </div>
   </div>
 

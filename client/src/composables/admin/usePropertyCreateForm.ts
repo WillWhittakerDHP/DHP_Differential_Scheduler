@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import type { PropertyRequest } from '@/types/property'
 import { asEmptyString } from '@/utils/safeDefaults'
 import type { UsePropertyCreateFormReturn } from '@/types/admin/propertyCreateForm'
+import { createPropertyCreateFormSetters } from '@/utils/admin/propertyCreateFormSetters'
 
 /**
  * Form state and setters for PropertyCreateForm.
@@ -35,41 +36,6 @@ export function usePropertyCreateForm(
     bathrooms,
     foundationAccess,
     additionalUnits,
-    setAddress(v: string): void {
-      if (newProperty.value) newProperty.value.address = v
-    },
-    setUnit(v: string): void {
-      if (newProperty.value) newProperty.value.unit = v
-    },
-    setCity(v: string): void {
-      if (newProperty.value) newProperty.value.city = v
-    },
-    setState(v: string): void {
-      if (newProperty.value) newProperty.value.state = v
-    },
-    setZipCode(v: string): void {
-      if (newProperty.value) newProperty.value.zipCode = v
-    },
-    setSquareFootage(v: number | string | null): void {
-      if (newProperty.value) newProperty.value.squareFootage = v != null ? Number(v) : undefined
-    },
-    setMlsNumber(v: string): void {
-      if (newProperty.value) newProperty.value.mlsNumber = v
-    },
-    setBedrooms(v: number | string | null): void {
-      if (newProperty.value) newProperty.value.bedrooms = v != null ? Number(v) : undefined
-    },
-    setBathrooms(v: number | string | null): void {
-      if (newProperty.value) newProperty.value.bathrooms = v != null ? Number(v) : undefined
-    },
-    setFoundationAccess(v: string | null): void {
-      if (newProperty.value) {
-        newProperty.value.foundationAccess =
-          v === 'basement' || v === 'crawlspace' || v === 'slab' ? v : undefined
-      }
-    },
-    setAdditionalUnits(v: number | string | null): void {
-      if (newProperty.value) newProperty.value.additionalUnits = v != null ? Number(v) : undefined
-    },
+    ...createPropertyCreateFormSetters(newProperty),
   }
 }

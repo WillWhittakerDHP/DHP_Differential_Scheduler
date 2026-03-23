@@ -3,16 +3,15 @@ import { useProperty } from '@/composables/useProperty'
 import { useNotification } from '@/composables/useNotification'
 import type { PropertyRequest, PropertyResponse } from '@/types/property'
 import { useCrudDataTableModel } from './useCrudDataTableModel'
-import { formatNullValue, createItemsSource, type TableModelFormatHelpers } from './useTableModelHelpers'
+import { formatNullValue, createItemsSource } from './useTableModelHelpers'
 
-import type { CrudDataTableModel } from '@/types/admin/tables/crudDataTableModel'
-export interface PropertiesTableModel extends CrudDataTableModel<
+import type { CrudDataTableModelWithFormatHelpers } from '@/types/admin/tables/crudDataTableModel'
+
+export function usePropertiesTableModel(): CrudDataTableModelWithFormatHelpers<
   PropertyResponse,
   PropertyRequest,
   Partial<PropertyRequest>
->, TableModelFormatHelpers {}
-
-export function usePropertiesTableModel(): PropertiesTableModel {
+> {
   const { success, error } = useNotification()
   const { fetchAll, create, update, remove } = useProperty()
 
@@ -66,7 +65,7 @@ export function usePropertiesTableModel(): PropertiesTableModel {
     ...crud.dialogs,
     ...crud.actions,
     formatNullValue,
-  } as PropertiesTableModel
+  } as CrudDataTableModelWithFormatHelpers<PropertyResponse, PropertyRequest, Partial<PropertyRequest>>
 }
 
 

@@ -3,10 +3,8 @@ import { AdminRelationshipMetadata } from '../db/models/admin/adminRelationshipM
 import { GLOBAL_CONFIG_IDS } from '../routes/internal/admin-metadata/adminMetadataConstants.js';
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes';
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js';
-import { mapMetaFieldsToPayload } from './adminMetadataPayload.js';
-import { decodeInputConfig, icColumnsFromModel } from './adminMetadataInputConfigCodec.js';
+import { mapMetaFieldsToPayloadWithDecodedInput } from './adminMetadataPayload.js';
 import { fetchRelationshipSelectOptionsByMetadataIds } from './adminPrimitiveRelationshipAssembly.js';
-import { nilToEmptyArray } from '@shared/utils/nilDefaults.js';
 
 /** Extends shared MetadataEntryBase; relationship entries use relationshipKey (TYPE_SIMILARITY 1.11). */
 export interface RelationshipMetadataEntry extends MetadataEntryBase {
@@ -18,19 +16,7 @@ async function relationshipEntriesFromRows(rows: AdminRelationshipMetadata[]): P
   const optionsMap = await fetchRelationshipSelectOptionsByMetadataIds(rows.map((m) => m.id))
   return rows.map((meta) => ({
     relationshipKey: meta.relationshipKey,
-    ...mapMetaFieldsToPayload({
-      dataType: meta.dataType,
-      label: meta.label,
-      isRequired: meta.isRequired,
-      visibility: meta.visibility,
-      layout: meta.layout,
-      displayOrder: meta.displayOrder,
-      renderAs: meta.renderAs,
-      statusButtonColor: meta.statusButtonColor ?? undefined,
-      panel: meta.panel,
-      bulkEdit: meta.bulkEdit,
-      inputConfig: decodeInputConfig(icColumnsFromModel(meta), nilToEmptyArray(optionsMap.get(meta.id))),
-    }),
+    ...mapMetaFieldsToPayloadWithDecodedInput(meta, optionsMap.get(meta.id)),
   }))
 }
 

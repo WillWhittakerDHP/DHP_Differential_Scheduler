@@ -25,33 +25,6 @@ export interface FieldValidationRules {
   validate?: (value: ValidAdminValue) => boolean | string
 }
 
-/**
-WHY: Single source of truth for field state
- */
-export interface FieldContextType<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
-  fieldKey: FieldKey
-  entityKey: GE
-  entityId: GlobalEntityId
-  formInstance?: FormContext
-  value: Ref<ValidAdminValue>
-  error: Ref<string | undefined>
-  isValidating: Ref<boolean>
-  isDirty: Ref<boolean>
-  isValid: Ref<boolean>
-  isDisabled: Ref<boolean>
-  isFocused: Ref<boolean>
-  displayConfig: FieldDisplayConfig<GE, FieldKey>
-  validationRules: FieldValidationRules
-
-  setFocus: (focused: boolean) => void
-  validate: () => Promise<boolean>
-  clearError: () => void
-  save: () => Promise<void>
-  reset: () => void
-  getValue: () => ValidAdminValue
-  setValue: (value: ValidAdminValue) => void
-}
-
 /** Grouped field context for composable-health (oversized-return repair). Consumers use context.state.* and context.actions.* */
 export interface FieldContextTypeGrouped<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   state: {

@@ -1,12 +1,13 @@
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
+import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
-export type { AvailabilityStepData, SelectedTimeSlot } from '@/types/booking/availabilityStepData'
+export type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 
 const logger = createLogger('availabilityStepData')
 
@@ -33,12 +34,12 @@ type BuildSelectedTimeSlotsParams = {
   selectedSlot: AppointmentSlot | null
 }
 
-export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SelectedTimeSlot[] | null {
+export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SlotTimeBounds[] | null {
   if (!params.selectedSlot || !params.selectedDateStart) {
     return null
   }
 
-  const slots: SelectedTimeSlot[] = []
+  const slots: SlotTimeBounds[] = []
   const eventTimeRanges = params.selectedSlot.eventTimeRanges
 
   const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
@@ -88,7 +89,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Se
 
 export function buildAvailabilityStepData(params: {
   candidateDate: { start: string | null; end: string | null }
-  candidateTimeSlots: SelectedTimeSlot[] | null
+  candidateTimeSlots: SlotTimeBounds[] | null
   moveableScheduling?: MoveableSchedulingOptions | null
   totalDriveMinutes: number | null
 }): AvailabilityStepData {

@@ -60,10 +60,10 @@ WHY: Op...
 
     const availability = availabilityStepData?.value
     const rawDrive = availability?.totalDriveMinutes
+    const clampedDrive =
+      rawDrive != null && Number.isFinite(rawDrive) ? Math.max(0, rawDrive) : null
     const driveContext: ConfirmationDriveContext | null =
-      rawDrive != null && Number.isFinite(rawDrive)
-        ? { totalDriveMinutes: Math.max(0, rawDrive) }
-        : null
+      clampedDrive != null ? { totalDriveMinutes: clampedDrive } : null
 
     return buildConfirmationPriceData(
       {

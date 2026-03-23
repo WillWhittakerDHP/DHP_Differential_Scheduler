@@ -7,7 +7,7 @@ import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('DriveTimeCache');
 
-export interface DriveTimeCacheEntry {
+interface DriveTimeCacheEntry {
   durationSeconds: number;
   distanceMeters: number;
   timestamp: number;

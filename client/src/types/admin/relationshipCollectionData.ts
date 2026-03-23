@@ -24,5 +24,3 @@ export interface UseRelationshipCollectionDataReturnBase {
   getChildForShape: (shapeId: string) => GlobalEntity<GlobalEntityKey> | undefined
   getShapeName: (shapeId: string) => string
 }
-
-export type UseRelationshipCollectionDataReturn = UseRelationshipCollectionDataReturnBase

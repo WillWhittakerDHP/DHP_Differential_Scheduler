@@ -2,13 +2,11 @@
 import {
   BLOCK_SHAPE_NAMES,
   ERROR_MESSAGES,
-  FOUNDATION_ACCESS_VALUES,
   PATCH_PROPERTY_DETAILS_FIELDS,
-  PATCH_PROPERTY_FIELD_KEY,
-  PROPERTY_SOURCE_VALUES,
   REQUIRED_FIELDS,
 } from './propertyConstants.js'
 import { isBlockInstanceWithShape } from './propertyHelpers.js'
+import { coercePatchPropertyField } from '../../../utils/propertyDetailsPatchCoercion.js'
 
 export type ValidationResult = 
   | { valid: true }
@@ -88,40 +86,44 @@ export function validateBlockShape(
  * @param requestedIds - Array of requested block instance IDs
  * @returns ValidationResult indicating if all block instances are valid
  */
+function collectInvalidPropertyShapeIds(blockInstances: unknown[]): string[] {
+  return blockInstances
+    .filter((bi: unknown) => {
+      if (!isBlockInstanceWithShape(bi)) return true
+      const blockShape = bi.block_shape
+      return !blockShape || blockShape.name !== BLOCK_SHAPE_NAMES.PROPERTIES
+    })
+    .map((bi: unknown) => (bi as { id: string }).id)
+}
+
+function collectMissingRequestedBlockIds(blockInstances: unknown[], requestedIds: string[]): string[] {
+  const foundIds = blockInstances.map((bi: unknown) => (bi as { id: string }).id)
+  return requestedIds.filter((id) => !foundIds.includes(id))
+}
+
 export function validateBlockInstancesForPropertyTypes(
   blockInstances: unknown[],
   requestedIds: string[]
 ): ValidationResult {
-  const invalidInstances = blockInstances.filter((bi: unknown) => {
-    if (!isBlockInstanceWithShape(bi)) return true
-    const blockShape = bi.block_shape
-    return !blockShape || blockShape.name !== BLOCK_SHAPE_NAMES.PROPERTIES
-  })
-  
-  if (invalidInstances.length > 0) {
-    return {
+  const invalidIds = collectInvalidPropertyShapeIds(blockInstances)
+  const missingIds =
+    invalidIds.length === 0 ? collectMissingRequestedBlockIds(blockInstances, requestedIds) : []
+
+  let result: ValidationResult = { valid: true }
+  if (invalidIds.length > 0) {
+    result = {
       valid: false,
       error: ERROR_MESSAGES.INVALID_BLOCK_SHAPES_BULK,
-      details: {
-        invalidBlockInstanceIds: invalidInstances.map((bi: unknown) => (bi as { id: string }).id)
-      }
+      details: { invalidBlockInstanceIds: invalidIds },
     }
-  }
-  
-  const foundIds = blockInstances.map((bi: unknown) => (bi as { id: string }).id)
-  const missingIds = requestedIds.filter((id) => !foundIds.includes(id))
-  
-  if (missingIds.length > 0) {
-    return {
+  } else if (missingIds.length > 0) {
+    result = {
       valid: false,
       error: ERROR_MESSAGES.BLOCK_INSTANCES_NOT_FOUND,
-      details: {
-        missingBlockInstanceIds: missingIds
-      }
+      details: { missingBlockInstanceIds: missingIds },
     }
   }
-  
-  return { valid: true }
+  return result
 }
 
 /**
@@ -145,7 +147,7 @@ export function validateRequiredField(
   return { valid: true }
 }
 
-export type PatchPropertyDetailsResult =
+type PatchPropertyDetailsResult =
   | { valid: true; data: Record<string, unknown> }
   | { valid: false; error: string; details?: Record<string, unknown> }
 
@@ -171,57 +173,11 @@ export function validatePropertyDetailsPatchBody(body: unknown): PatchPropertyDe
     const value = raw[key]
     if (value === undefined) continue
 
-    switch (key) {
-      case PATCH_PROPERTY_FIELD_KEY.MLS_NUMBER:
-        data.mlsNumber = value === null ? null : typeof value === 'string' ? value : String(value)
-        break
-      case PATCH_PROPERTY_FIELD_KEY.SQUARE_FOOTAGE:
-      case PATCH_PROPERTY_FIELD_KEY.BEDROOMS:
-      case PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS: {
-        if (value === null) {
-          data[key] = null
-        } else {
-          const n = Number(value)
-          data[key] = Number.isInteger(n) ? n : null
-        }
-        break
-      }
-      case PATCH_PROPERTY_FIELD_KEY.BATHROOMS: {
-        if (value === null) {
-          data.bathrooms = null
-        } else {
-          const n = Number(value)
-          data.bathrooms = Number.isFinite(n) ? n : null
-        }
-        break
-      }
-      case PATCH_PROPERTY_FIELD_KEY.FOUNDATION_ACCESS:
-        if (value === null) {
-          data.foundationAccess = null
-        } else if (typeof value === 'string' && (FOUNDATION_ACCESS_VALUES as readonly string[]).includes(value)) {
-          data.foundationAccess = value
-        } else {
-          return {
-            valid: false,
-            error: ERROR_MESSAGES.INVALID_PATCH_BODY,
-            details: { field: key, allowed: [...FOUNDATION_ACCESS_VALUES] }
-          }
-        }
-        break
-      case PATCH_PROPERTY_FIELD_KEY.SOURCE:
-        if (typeof value === 'string' && (PROPERTY_SOURCE_VALUES as readonly string[]).includes(value)) {
-          data.source = value
-        } else {
-          return {
-            valid: false,
-            error: ERROR_MESSAGES.INVALID_PATCH_BODY,
-            details: { field: key, allowed: [...PROPERTY_SOURCE_VALUES] }
-          }
-        }
-        break
-      default:
-        data[key] = value
+    const coerced = coercePatchPropertyField(key, value)
+    if (!coerced.ok) {
+      return { valid: false, error: coerced.error, details: coerced.details }
     }
+    Object.assign(data, coerced.patch)
   }
 
   return { valid: true, data }

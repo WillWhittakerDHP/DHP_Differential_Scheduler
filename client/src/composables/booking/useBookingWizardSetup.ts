@@ -26,10 +26,15 @@ import { useAppointmentDropdown } from '@/composables/booking/useAppointmentDrop
 import { useWizardDevMode } from '@/composables/booking/useWizardDevMode'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useWizardDateAvailability } from '@/composables/booking/useWizardDateAvailability'
-import { wizardKey, loadedWizardStateKey, bookingFlowReadyKey } from '@/composables/booking/injectionKeys'
+import { wizardKey, loadedWizardStateKey, bookingFlowReadyKey } from '@/keys/bookingInjectionKeys'
 import { resetBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
 import { useBookingFlow } from '@/composables/booking/useBookingFlow'
 import type { UseBookingWizardReturn } from '@/types/wizard'
+import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
+import {
+  useBookingProgressSummaryStrip,
+  type UseBookingProgressSummaryStripReturn,
+} from '@/composables/booking/useBookingProgressSummaryStrip'
 
 export interface UseBookingWizardSetupReturn {
   steps: typeof WIZARD_STEPS
@@ -59,6 +64,7 @@ export interface UseBookingWizardSetupReturn {
   handleUpdateAppointment: ReturnType<typeof useWizardAppointmentManagement>['handleUpdateAppointment']
   stepItemClass: (index: number) => (string | Record<string, boolean>)[]
   stepItemStyle: (index: number) => { cursor: string; opacity: number }
+  progressSummaryStrip: UseBookingProgressSummaryStripReturn
 }
 
 export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
@@ -116,6 +122,26 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   const { bookingData } = bookingFlow
   const { appointmentDropdownItems } = useAppointmentDropdown({ fetchAll })
 
+  const { summaryData, priceData } = useConfirmationStepData({
+    wizard: {
+      selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
+      selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
+      selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
+      selectedLineItemBlocks: wizard.selectedLineItemBlocks,
+      selectedUserTypeBlock: wizard.selectedUserTypeBlock,
+    },
+    propertyDetailsStepData: stepDataRefs.propertyDetailsStepData,
+    availabilityStepData: stepDataRefs.availabilityStepData,
+    bookingData,
+  })
+
+  const progressSummaryStrip = useBookingProgressSummaryStrip({
+    activeStep,
+    summaryData,
+    priceData,
+    selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
+  })
+
   const { collectAppointmentData } = useAppointmentDataCollection({
     wizard: {
       selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
@@ -151,6 +177,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     loadAppointmentById,
     fetchRandom,
     collectAppointmentData,
+    // @audit-allow:hardcoding:fieldMapping - pass TanStack mutation handles into appointment management composable
     updateAppointment: { mutateAsync: update.mutateAsync, isPending: update.isPending },
     activeStep,
     completedSteps,
@@ -195,6 +222,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     collectAppointmentData,
     createAppointment: create,
     currentAppointmentId,
+    // @audit-allow:hardcoding:fieldMapping - pass TanStack mutation handle into submission composable
     updateAppointment: { mutateAsync: update.mutateAsync },
     activeStep,
     completedSteps,
@@ -216,6 +244,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     handleLoadAppointment,
     handleUpdateAppointment,
     handleResetWizard,
+    // @audit-allow:hardcoding:fieldMapping - expose update pending flag for dev mode UI
     updateAppointment: { isPending: update.isPending },
   })
 
@@ -256,5 +285,6 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     handleUpdateAppointment,
     stepItemClass,
     stepItemStyle,
+    progressSummaryStrip,
   }
 }

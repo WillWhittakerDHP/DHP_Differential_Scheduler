@@ -1,8 +1,8 @@
 
-import type { TimeRange } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
-export function createTimeRange(startTime: string, duration: number): TimeRange {
+export function createTimeRange(startTime: string, duration: number): SlotTimeBounds {
   const start = new Date(startTime)
   const end = new Date(start)
   end.setUTCMinutes(end.getUTCMinutes() + duration)

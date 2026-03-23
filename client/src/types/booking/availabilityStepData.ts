@@ -3,12 +3,9 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
 import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
-/** Selected slot time bounds; extends shared SlotTimeBounds (branded startTime/endTime). */
-export type SelectedTimeSlot = SlotTimeBounds
-
 export interface AvailabilityStepData {
   candidateDate: { start: string | null; end: string | null }
-  candidateTimeSlots: SelectedTimeSlot[] | null
+  candidateTimeSlots: SlotTimeBounds[] | null
   moveableScheduling: MoveableSchedulingOptions | null
   /**
    * Sum of drive legs for the selected slot (minutes), when a slot is selected and server provided legs.
@@ -22,6 +19,6 @@ export interface UseAvailabilityStepDataParams extends AvailabilityStepParamsBas
 }
 
 export interface UseAvailabilityStepDataReturn {
-  selectedTimeSlots: ComputedRef<SelectedTimeSlot[] | null>
+  selectedTimeSlots: ComputedRef<SlotTimeBounds[] | null>
   stepData: ComputedRef<AvailabilityStepData>
 }

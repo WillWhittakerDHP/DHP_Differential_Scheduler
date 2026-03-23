@@ -18,7 +18,7 @@
  *      Maintains backward compatibility while using generic collection pattern
  * 
  */
-import type { UseSelectConfigOptions } from '@/types/admin/selectConfig'
+import type { FieldContextGroupedOptions } from '@/types/admin/fieldContextGroupedOptions'
 import { computed, ref } from 'vue'
 import RelationshipCollection from './RelationshipCollection.vue'
 import PartInstanceBulkEditModal from '../../PartInstanceBulkEditModal.vue'
@@ -27,7 +27,7 @@ import type { GlobalEntity, PartInstanceEntity } from '@/types/entities'
 import { usePartInstanceBulkEdit } from '@/composables/admin/usePartInstanceBulkEdit'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 
-const props = defineProps<UseSelectConfigOptions>()
+const props = defineProps<FieldContextGroupedOptions>()
 
 const generatePartInstanceName = (
   blockInstanceName: string,

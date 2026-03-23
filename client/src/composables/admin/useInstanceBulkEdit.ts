@@ -5,12 +5,13 @@
 import { ref, computed, type ComputedRef } from 'vue'
 import { buildBulkEditDataFromForm as buildBulkEditDataFromFormUtil } from '@/utils/admin/instanceBulkEdit'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
-import type { UseInstanceBulkEditOptions, UseInstanceBulkEditReturn } from '@/types/admin/instanceBulkEdit'
+import type { UseInstanceBulkEditReturn } from '@/types/admin/instanceBulkEdit'
+import type { UseInstanceBlockInstancesByShapeOptions } from '@/types/admin/instanceComposableOptions'
 
 export { buildBulkEditDataFromFormUtil as buildBulkEditDataFromForm }
 
 export function useInstanceBulkEdit(
-  options?: UseInstanceBulkEditOptions
+  options?: UseInstanceBlockInstancesByShapeOptions
 ): UseInstanceBulkEditReturn & { buildBulkEditDataFromForm: typeof buildBulkEditDataFromFormUtil } {
   const noArgReturn = {
     buildBulkEditDataFromForm: buildBulkEditDataFromFormUtil,

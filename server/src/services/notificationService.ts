@@ -17,7 +17,7 @@ import { createLogger } from '../utils/logger.js'
 
 const logger = createLogger('NotificationService')
 
-export interface StatusChangeEvent {
+interface StatusChangeEvent {
   appointmentId: string
   oldStatus: string
   newStatus: string

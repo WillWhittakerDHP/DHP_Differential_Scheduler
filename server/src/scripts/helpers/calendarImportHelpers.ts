@@ -21,7 +21,7 @@ type PropertyDetailsUpdateShape = Partial<{
   additionalUnits: number | null;
 }>;
 
-export function buildPropertyDetailsUpdates(property: ParsedProperty): PropertyDetailsUpdateShape {
+function buildPropertyDetailsUpdates(property: ParsedProperty): PropertyDetailsUpdateShape {
   const updates: PropertyDetailsUpdateShape = {};
   if (property.mlsNumber != null) updates.mlsNumber = property.mlsNumber;
   if (property.squareFootage != null) updates.squareFootage = property.squareFootage;
@@ -121,7 +121,7 @@ export async function updatePropertyDetailsIfNeeded(
 }
 
 /** Stats shape for import summary. */
-export interface ImportStats {
+interface ImportStats {
   clientsImported: number;
   propertiesImported: number;
   clientsUpdated: number;

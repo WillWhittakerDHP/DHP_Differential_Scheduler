@@ -1,10 +1,5 @@
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { CreateRelationshipPayloadBase } from './relationships'
-import type { ComponentConfig as SharedComponentConfig, ComponentStrategy as SharedComponentStrategy } from '@shared/types/componentTypes'
-
-export type ComponentStrategy = SharedComponentStrategy
-export type ComponentConfig = SharedComponentConfig
-
 export type DistributionStrategy = 'proportional' | 'equal' | 'manual'
 
 export interface FetchedInstanceComponent {

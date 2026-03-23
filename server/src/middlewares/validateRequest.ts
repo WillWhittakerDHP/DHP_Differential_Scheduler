@@ -7,6 +7,8 @@
 import type { Request, Response, NextFunction } from 'express';
 import type { Schema } from 'joi';
 
+import { ERROR_MESSAGES } from '../routes/internal/users/userConstants.js';
+
 /**
  * Returns Express middleware that validates req.body against the given Joi schema.
  * On validation failure: responds 400 with { error, details } and does not call next().
@@ -26,7 +28,7 @@ export function validateRequest(schema: Schema): (req: Request, res: Response, n
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {
       res.status(400).json({
-        error: 'Validation failed',
+        error: ERROR_MESSAGES.VALIDATION_FAILED,
         details: error.details,
       });
       return;

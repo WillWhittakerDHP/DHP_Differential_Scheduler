@@ -3,100 +3,19 @@
  */
 import { Appointment, BlockInstance, EventShape } from '../../config/app.js'
 import { appointmentIncludes } from '../../routes/internal/appointments/appointmentHelpers.js'
-import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
-import { buildInviteContext, type InviteAppointmentData } from './inviteContextBuilder.js'
+import { buildInviteContext } from './inviteContextBuilder.js'
 import { resolveEventTemplates } from './templateResolver.js'
 import { createLogger } from '../../utils/logger.js'
 import type { EventInstancePreviewRequestBody, EventInstancePreviewResponseBody } from '@shared/types/eventInstancePreview.js'
+import {
+  type AppointmentWithRelations,
+  collectBlockInstanceIds,
+  linkStripSetForEventShape,
+  normalizeAppointmentForInviteFlow,
+  toInviteAppointmentData,
+} from './inviteAppointmentShared.js'
 
 const logger = createLogger('EventInstancePreviewService')
-
-interface AppointmentAttendeeWithUser {
-  id: string
-  userId: string
-  userTypeBlockInstanceId: string | null
-  shouldReceiveInvitation: boolean
-  invitationStatus: string
-}
-
-interface AppointmentWithRelations extends AppointmentType {
-  attendees?: AppointmentAttendeeWithUser[]
-  propertyVersion?: InviteAppointmentData['propertyVersion']
-}
-
-interface NormalizedAppointmentForPreview {
-  id: string
-  selectedDate: Date | null
-  selectedTimeSlots: Array<Record<string, unknown>> | null
-  status: AppointmentType['status']
-  propertyVersion?: InviteAppointmentData['propertyVersion']
-  selectedServiceIds: string[]
-  selectedPropertyIds: string[]
-  selectedOptionIds: string[]
-  attendees: AppointmentAttendeeWithUser[]
-}
-
-function linkStripSetForEventShape(
-  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
-): Set<string> {
-  const strip = new Set<string>()
-  if (shape?.includeRescheduleLink === false) {
-    strip.add('rescheduleLink')
-  }
-  if (shape?.includeCancelLink === false) {
-    strip.add('cancelLink')
-  }
-  return strip
-}
-
-function asArrayOrEmpty<T>(value: T[] | null | undefined): T[] {
-  return Array.isArray(value) ? value : []
-}
-
-function normalizeAppointmentForPreview(raw: AppointmentWithRelations): NormalizedAppointmentForPreview {
-  const j = raw.toJSON() as Record<string, unknown>
-  const id = String(j.id)
-  return {
-    id,
-    selectedDate: (j.selectedDate as Date | null) ?? null,
-    selectedTimeSlots: (j.selectedTimeSlots as Array<Record<string, unknown>> | null) ?? null,
-    status: j.status as NormalizedAppointmentForPreview['status'],
-    propertyVersion: raw.propertyVersion,
-    selectedServiceIds: asArrayOrEmpty(j.selectedServiceIds as string[] | null | undefined),
-    selectedPropertyIds: asArrayOrEmpty(j.selectedPropertyIds as string[] | null | undefined),
-    selectedOptionIds: asArrayOrEmpty(j.selectedOptionIds as string[] | null | undefined),
-    attendees: asArrayOrEmpty(raw.attendees),
-  }
-}
-
-function toInviteAppointmentData(appointment: NormalizedAppointmentForPreview): InviteAppointmentData {
-  const rawSlots = appointment.selectedTimeSlots
-  const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots
-    ? rawSlots
-        .map((s: Record<string, unknown>) => {
-          const start = s.startTime
-          const end = s.endTime
-          if (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }
-          return null
-        })
-        .filter((slot): slot is { startTime: string; endTime: string } => slot !== null)
-    : null
-  return {
-    id: appointment.id,
-    selectedDate: appointment.selectedDate,
-    selectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,
-    status: appointment.status,
-    propertyVersion: appointment.propertyVersion ?? undefined,
-  }
-}
-
-function collectBlockInstanceIds(appointment: NormalizedAppointmentForPreview): string[] {
-  return [
-    ...appointment.selectedServiceIds,
-    ...appointment.selectedPropertyIds,
-    ...appointment.selectedOptionIds,
-  ]
-}
 
 async function resolveServiceName(blockInstanceIds: string[]): Promise<string | undefined> {
   if (blockInstanceIds.length === 0) return undefined
@@ -121,7 +40,7 @@ export async function previewEventInstanceTemplates(
     attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
   })
 
-  const normalized = normalizeAppointmentForPreview(appointment)
+  const normalized = normalizeAppointmentForInviteFlow(appointment, { logEmptyArrays: false })
   const blockIds = collectBlockInstanceIds(normalized)
   const serviceName = await resolveServiceName(blockIds)
   const inviteData = toInviteAppointmentData(normalized)

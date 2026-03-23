@@ -7,10 +7,11 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
-import { localTime } from '@/utils/time/localTime'
+import { useLocalTime } from '@/utils/time/localTime'
 import { formatNullValue } from '@/utils/formatting/nullDisplay'
+import { APPOINTMENT_STATUS_STARTED } from '@shared/constants/appointmentStatusLiterals'
 
-const { formatDateOnlyForDisplay, formatDateForDisplay } = localTime()
+const { formatDateOnlyForDisplay, formatDateForDisplay } = useLocalTime()
 
 type FieldFormatter = (
   appointment: AppointmentResponse,
@@ -113,7 +114,7 @@ const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
   agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),
-  status: (_appointment, value) => String(value || 'started'),
+  status: (_appointment, value) => String(value || APPOINTMENT_STATUS_STARTED),
   selectedDate: (_appointment, value) => formatDateField(value),
   selectedTimeSlots: (_appointment, value) => formatArrayCountField(value, 'slot(s)'),
   selectedOptionIds: (_appointment, value) => formatArrayCountField(value, 'option(s)'),

@@ -1,13 +1,17 @@
 import { computed } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { FIELD_NAMES } from '@/constants/entityFieldConstants'
+import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
-import { asEmptyString } from '@/utils/safeDefaults'
-import type { useComponentEntity } from '@/composables/useComponentEntity'
+import { resolveActualPropertyNameFromFieldMetadata } from '@/utils/fieldContext/fieldMetadataPropertyResolve'
+import { readValidAdminValueFromEntityRecord } from '@/utils/fieldContext/resolveEntityFieldValue'
+import type { ComposedEntityLike } from '@/types/fieldContext/composedEntityLike'
+import type { UseFieldContextEntityDerivedReturn } from '@/types/fieldContext/fieldContextEntityDerivedReturn'
+
+export type { UseFieldContextEntityDerivedReturn } from '@/types/fieldContext/fieldContextEntityDerivedReturn'
 
 export interface UseFieldContextEntityDerivedParams<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
   entityKey: GE
@@ -15,12 +19,9 @@ export interface UseFieldContextEntityDerivedParams<GE extends GlobalEntityKey, 
   entityId: GlobalEntityId
   isTempEntity: ComputedRef<boolean>
   entity: ComputedRef<unknown>
-  composedEntityComposable: ReturnType<typeof useComponentEntity> | null
-}
-
-export interface UseFieldContextEntityDerivedReturn {
-  entityValue: ComputedRef<ValidAdminValue>
-  actualPropertyName: ComputedRef<string>
+  composedEntityComposable: ComposedEntityLike | null
+  /** Threaded from useFormFields → skips cache-shaped resolution inside useEntityMetadata. */
+  fieldMetadata?: ComputedRef<Record<string, FieldMetadataEntry>>
 }
 
 /**
@@ -30,7 +31,8 @@ export interface UseFieldContextEntityDerivedReturn {
 export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   params: UseFieldContextEntityDerivedParams<GE, FieldKey>
 ): UseFieldContextEntityDerivedReturn {
-  const { entityKey, fieldKey, entityId, isTempEntity, entity, composedEntityComposable } = params
+  const { entityKey, fieldKey, entityId, isTempEntity, entity, composedEntityComposable, fieldMetadata: injectedFieldMetadata } =
+    params
 
   const entityForMetadata = computed(() => {
     const entityValue = entity.value
@@ -38,23 +40,20 @@ export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKe
     return entityValue as GlobalEntity<GE>
   })
 
-  const { fieldMetadata } = useEntityMetadata(entityKey, entityForMetadata)
+  const { fieldMetadata } = useEntityMetadata(
+    entityKey,
+    entityForMetadata,
+    injectedFieldMetadata !== undefined ? { fieldMetadataOverride: injectedFieldMetadata } : undefined
+  )
 
   const fieldMetadataEntry = computed(() => {
     if (!fieldMetadata.value) return undefined
     return fieldMetadata.value[String(fieldKey)]
   })
 
-  const actualPropertyName = computed(() => {
-    const metadata = fieldMetadataEntry.value
-    if (metadata?.inputConfig && typeof metadata.inputConfig === 'object') {
-      const inputConfig = metadata.inputConfig as Record<string, unknown>
-      if (inputConfig.globalField && typeof inputConfig.globalField === 'string') {
-        return inputConfig.globalField
-      }
-    }
-    return String(fieldKey)
-  })
+  const actualPropertyName = computed(() =>
+    resolveActualPropertyNameFromFieldMetadata(String(fieldKey), fieldMetadataEntry.value)
+  )
 
   const entityValue = computed<ValidAdminValue>(() => {
     if (isTempEntity.value) return ''
@@ -65,38 +64,7 @@ export function useFieldContextEntityDerived<GE extends GlobalEntityKey, FieldKe
     }
 
     const currentEntity = entity.value as Record<string, unknown> | undefined
-    if (!currentEntity) return ''
-
-    const propertyName = actualPropertyName.value
-
-    const missingDefault = (): ValidAdminValue => {
-      if (entityKey === 'blockInstance' && propertyName === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
-        return {}
-      }
-      return ''
-    }
-
-    if (!Object.prototype.hasOwnProperty.call(currentEntity, propertyName)) {
-      return missingDefault()
-    }
-
-    const propValue = (currentEntity as Record<string, unknown>)[propertyName]
-    if (propValue === null || propValue === undefined) {
-      return missingDefault()
-    }
-    if (Array.isArray(propValue)) {
-      return propValue as ValidAdminValue
-    }
-    if (typeof propValue === 'object') {
-      return propValue as ValidAdminValue
-    }
-    if (typeof propValue === 'boolean' || typeof propValue === 'number') {
-      return propValue as ValidAdminValue
-    }
-    if (typeof propValue === 'string') {
-      return asEmptyString(propValue) as ValidAdminValue
-    }
-    return asEmptyString(String(propValue)) as ValidAdminValue
+    return readValidAdminValueFromEntityRecord(entityKey, actualPropertyName.value, currentEntity)
   })
 
   return { entityValue, actualPropertyName }

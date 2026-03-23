@@ -3,7 +3,7 @@
  */
 import type { SelectOptionBase } from '@/composables/useSelectOptions'
 
-export type USStateOption = SelectOptionBase
+type USStateOption = SelectOptionBase
 
 export const US_STATE_OPTIONS: readonly USStateOption[] = [
   { value: 'AL', title: 'Alabama' },

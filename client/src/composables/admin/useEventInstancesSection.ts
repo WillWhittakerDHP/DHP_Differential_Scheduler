@@ -12,7 +12,7 @@ import type { InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 import type { GlobalEntity } from '@/types/entities'
 
 /** Ref bundle passed into `reactive()`; public shape after reactive is `EventInstancesSectionDisplayReactive`. */
-export type EventInstancesSectionDisplayRefs = {
+type EventInstancesSectionDisplayRefs = {
   eventInstancesDisplay: ComputedRef<GlobalEntity<'eventInstance'>[]>
   eventShapesList: ComputedRef<GlobalEntity<'eventShape'>[]>
   hasEventInstances: ComputedRef<boolean>
@@ -24,9 +24,9 @@ export type EventInstancesSectionDisplayRefs = {
   }>
 }
 
-export type EventInstancesSectionDisplayReactive = UnwrapNestedRefs<EventInstancesSectionDisplayRefs>
+type EventInstancesSectionDisplayReactive = UnwrapNestedRefs<EventInstancesSectionDisplayRefs>
 
-export interface EventInstancesSectionActions {
+interface EventInstancesSectionActions {
   toggleEventInstanceMetadata: () => void
   bindEventInstancesContainer: (el: unknown) => void
   bindEventInstancesPanelsContainer: (el: unknown) => void

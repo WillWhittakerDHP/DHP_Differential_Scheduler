@@ -30,7 +30,7 @@ const CANDIDATE_TYPE_REF_BY_OPTION_ENTITY: Partial<Record<GlobalEntityKey, strin
 /**
  * WHY: eventInstance uses eventShapeRef, not partShapeRef; hardcoding block vs part only broke eventAssignments.
  */
-export function resolveCandidateTypeRefKey(optionEntityKey: GlobalEntityKey): string {
+function resolveCandidateTypeRefKey(optionEntityKey: GlobalEntityKey): string {
   const key = CANDIDATE_TYPE_REF_BY_OPTION_ENTITY[optionEntityKey]
   if (key !== undefined) {
     return key

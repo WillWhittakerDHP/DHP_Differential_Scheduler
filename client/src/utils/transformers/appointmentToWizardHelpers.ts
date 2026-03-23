@@ -192,7 +192,7 @@ export function resolveBlockCategory(params: {
 
 const PROPERTY_DETAILS_CONTEXT = 'propertyDetails'
 
-export function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
+function extractFoundationAccess(value: unknown): 'basement' | 'crawlspace' | 'slab' | null {
   if (typeof value === 'string' && (value === 'basement' || value === 'crawlspace' || value === 'slab')) {
     return value
   }

@@ -3,11 +3,11 @@
 import { ref, inject } from 'vue'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useApiCallStatus } from '@/composables/booking/useApiCallStatus'
-import { localTime } from '@/utils/time/localTime'
+import { useLocalTime } from '@/utils/time/localTime'
 import { useDevPanelTabs } from '@/composables/dev/useDevPanelTabs'
 import { useApiDevPanelData } from '@/composables/dev/useApiDevPanelData'
 import { useApiDevPanelVisibility } from '@/composables/admin/useApiDevPanelVisibility'
-import { computedAvailabilityKey } from '@/composables/booking/injectionKeys'
+import { computedAvailabilityKey } from '@/keys/bookingInjectionKeys'
 import DevPanelButtons from '@/components/dev/DevPanelButtons.vue'
 import ApiDevPanelStatusTab from './ApiDevPanelStatusTab.vue'
 import ApiDevPanelDriveTimeTab from './ApiDevPanelDriveTimeTab.vue'
@@ -35,7 +35,7 @@ const API_BASE_URL = rawApiBase !== undefined && rawApiBase !== null && rawApiBa
 
 const { apiStatus } = useApiCallStatus()
 
-const { formatDateTimeForDisplay, formatTimeForDisplay } = localTime()
+const { formatDateTimeForDisplay, formatTimeForDisplay } = useLocalTime()
 
 const { activeTab } = useDevPanelTabs()
 

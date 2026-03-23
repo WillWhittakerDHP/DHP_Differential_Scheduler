@@ -13,6 +13,27 @@ function isBlobKey(key) {
 
 export default {
   async up(queryInterface, Sequelize) {
+    const calCountRows = await queryInterface.sequelize.query(
+      `SELECT COUNT(*)::int AS cnt FROM public.calendar_settings`,
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+    const existingCalendarRows = Number(calCountRows?.[0]?.cnt ?? 0);
+    if (existingCalendarRows > 0) {
+      await queryInterface.sequelize.query(`
+        DO $do$
+        BEGIN
+          IF to_regclass('public.business_settings') IS NOT NULL THEN
+            ALTER TABLE public.business_settings DROP COLUMN IF EXISTS auto_confirm_enabled;
+          END IF;
+        END
+        $do$;
+      `);
+      console.log(
+        '[split_settings_data] Skipped data split: calendar_settings already has rows (baseline or prior run)'
+      );
+      return;
+    }
+
     let blob = null;
     let autoConfirmEnabled = false;
 

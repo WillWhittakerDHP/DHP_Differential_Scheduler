@@ -276,7 +276,7 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import WizardTextField from '@/components/booking/fields/WizardTextField.vue'
-import { contactsFormContextKey } from '@/composables/booking/injectionKeys'
+import { contactsFormContextKey } from '@/keys/bookingInjectionKeys'
 
 const ctx = inject(contactsFormContextKey)
 if (!ctx) {

@@ -60,7 +60,7 @@ const appointmentSelectItems = computed(() => {
 
 <template>
   <div class="d-flex flex-column gap-2">
-    <VRow dense>
+    <VRow density="comfortable">
       <VCol cols="12" md="6">
         <VSelect
           v-model="draft.eventShapeRef"

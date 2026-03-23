@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { computed, inject } from 'vue'
-import { wizardKey, loadedWizardStateKey } from '@/composables/booking/injectionKeys'
+import { wizardKey, loadedWizardStateKey } from '@/keys/bookingInjectionKeys'
 import SelectionCardGroup from '@/components/booking/SelectionCardGroup.vue'
 import { useInstanceDisplay } from '@/composables/booking/useInstanceDisplay'
 import { useInstanceSelectionConfig } from '@/composables/booking/useInstanceSelectionConfig'

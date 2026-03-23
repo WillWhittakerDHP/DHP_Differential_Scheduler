@@ -4,11 +4,11 @@ import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldLocationDispatcher'
 import { computeRenderAs as computeRenderAsShared } from '@shared/utils/metadataRenderAsUtils'
 
-export interface MetadataFieldUpdatesOptions {
+interface MetadataFieldUpdatesOptions {
   pendingChanges: Record<string, Partial<FieldMetadataEntry>>
 }
 
-export interface MetadataFieldUpdatesReturn {
+interface MetadataFieldUpdatesReturn {
   computeRenderAs: (
     dataType: string | undefined,
     inputConfig: Record<string, unknown> | null | undefined,

@@ -1,4 +1,5 @@
-import type { ComponentStrategy, DistributionStrategy } from '../types/component';
+import type { ComponentStrategy } from '@shared/types/componentTypes'
+import type { DistributionStrategy } from '../types/component'
 
 export const COMPONENT_RELATIONSHIP_KEY = 'instanceComponents' as const;
 

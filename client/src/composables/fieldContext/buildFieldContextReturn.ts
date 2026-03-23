@@ -7,6 +7,8 @@ import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextTypeGrouped } from './types'
 import type { UseFieldContextStateReturnGrouped } from '@/types/fieldContext/fieldContextState'
 
+export type { FieldContextTypeGrouped } from './types'
+
 export function buildFieldContextReturn<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>>(
   stateAndActions: UseFieldContextStateReturnGrouped<GE, FieldKey>
 ): FieldContextTypeGrouped<GE, FieldKey> {

@@ -1,6 +1,6 @@
 /**
  */
-import type { ChartData } from 'chart.js'
+import type { ChartData, ChartOptions } from 'chart.js'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
@@ -53,6 +53,49 @@ export function getServiceFeeTotals(
       totalRateOverBaseFee: totals.totalRateOverBaseFee,
     }
   })
+}
+
+/** Square-footage axis labels for calibration chart (min/max/step clamps). */
+export function buildSqftRangeLabels(sqftMin: number, sqftMax: number, sqftStep: number): number[] {
+  const min = Math.max(0, sqftMin)
+  const max = Math.max(min, sqftMax)
+  const step = Math.max(50, sqftStep)
+  const labels: number[] = []
+  for (let sqft = min; sqft <= max; sqft += step) {
+    labels.push(sqft)
+  }
+  if (labels.length > 0 && labels[labels.length - 1] !== max) {
+    labels.push(max)
+  }
+  return labels
+}
+
+export function buildCalibrationLineChartOptions(
+  baseConfig: ChartOptions<'line'>,
+  chartData: ChartData<'line'>
+): ChartOptions<'line'> {
+  const rawDatasets = chartData.datasets
+  const datasets =
+    rawDatasets !== undefined && rawDatasets !== null && Array.isArray(rawDatasets) ? rawDatasets : []
+  const allValues = datasets.flatMap((d) => (Array.isArray(d.data) ? (d.data as number[]) : []))
+  const maxFee = allValues.length > 0 ? Math.max(...allValues) : 400
+  const yMax = Math.ceil(Math.max(maxFee * 1.1, 100) / 100) * 100
+  return {
+    ...baseConfig,
+    scales: {
+      ...baseConfig.scales,
+      x: {
+        ...baseConfig.scales?.x,
+        title: { display: true, text: 'Square footage' },
+      },
+      y: {
+        ...baseConfig.scales?.y,
+        min: 0,
+        max: yMax,
+        title: { display: true, text: 'Total fee ($)' },
+      },
+    },
+  } as ChartOptions<'line'>
 }
 
 const CHART_WIDTH = 700

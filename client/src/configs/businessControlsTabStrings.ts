@@ -1,3 +1,5 @@
+import { DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
+
 export const BUSINESS_CONTROLS_TAB_STRINGS = {
   loading: 'Loading settings...',
   panels: {
@@ -214,6 +216,9 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelPickTimeHint: 'Card title for time slot selection (e.g., Pick a time)',
     subStepLabelConfirmMoveable: 'Confirm Moveable Details',
     subStepLabelConfirmMoveableHint: 'Card title for moveable confirmation (e.g., Confirm moveable details)',
+    moveableNoFeasibleCompletionSlotsMessage: 'No Feasible Moveable Slots Message',
+    moveableNoFeasibleCompletionSlotsMessageHint:
+      'Shown in booking when the customer chooses a contingency deadline but no completion times fit. Leave empty to use the default text.',
     helpStateLabels: 'State Labels: Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".',
     helpFallback: 'If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.'
   },
@@ -231,7 +236,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelPickDay: 'Pick a day',
     subStepLabelOptions: 'Options',
     subStepLabelPickTime: 'Pick a time',
-    subStepLabelConfirmMoveable: 'Confirm moveable details'
+    subStepLabelConfirmMoveable: 'Confirm moveable details',
+    moveableNoFeasibleCompletionSlotsMessage: DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
   },
   sections: {
     durationRoundingTitle: 'Rounding',

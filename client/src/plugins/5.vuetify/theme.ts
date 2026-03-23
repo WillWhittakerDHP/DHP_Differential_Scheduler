@@ -29,21 +29,6 @@ export const rescheduleModeColors = {
   'warning-darken-1': '#B91C1C',
 }
 
-export const inactiveColors = {
-  normal: {
-    'primary-inactive': '#E8E6FA', // Light purple (muted primary)
-    'secondary-inactive': '#FFF4E6', // Light orange (muted secondary)
-  },
-  quote: {
-    'primary-inactive': '#E6F8F0', // Light green (muted primary-quote)
-    'secondary-inactive': '#F8F0E6', // Light orange-brown (muted secondary-quote)
-  },
-  reschedule: {
-    'primary-inactive': '#CCFBF1', // Light teal (muted primary-reschedule)
-    'secondary-inactive': '#E0F2FE', // Light blue (muted secondary-reschedule)
-  },
-}
-
 /** Shape shared by quote/reschedule/DHP mode palettes for wizard theme resolution */
 export interface WizardModePalette {
   'primary': string

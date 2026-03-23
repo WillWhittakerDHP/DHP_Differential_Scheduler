@@ -8,7 +8,7 @@ import {
 } from '@/utils/api'
 import type { Ref } from 'vue'
 
-export interface PropertyFieldMappingRow {
+interface PropertyFieldMappingRow {
   id: string
   dataSource: string
   sourceField: string
@@ -21,7 +21,7 @@ export interface PropertyFieldMappingRow {
   updatedAt: string
 }
 
-export interface PropertyFeatureMappingRow {
+interface PropertyFeatureMappingRow {
   id: string
   dataSource: string
   sourceField: string

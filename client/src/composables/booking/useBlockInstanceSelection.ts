@@ -1,6 +1,5 @@
 /**
  * WHY: useBlockInstanceSelection Composable
-
  */
 import { computed } from 'vue'
 import { findById } from '@/utils/collections/findById'
@@ -10,6 +9,58 @@ import type {
   UseBlockInstanceSelectionReturnSingle,
   UseBlockInstanceSelectionReturnMultiple,
 } from '@/types/booking/blockInstanceSelection'
+import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
+
+function applyResolvedBlocksToMultipleSelection(
+  blocks: BookingBlockInstance[],
+  selectedBlocks: UseBlockInstanceSelectionParams['selectedBlocks'],
+  toggleBlock: UseBlockInstanceSelectionParams['toggleBlock']
+): void {
+  if (toggleBlock) {
+    selectedBlocks.value = []
+    for (const block of blocks) {
+      toggleBlock(block)
+    }
+    return
+  }
+  selectedBlocks.value = blocks
+}
+
+function useBlockInstanceSelectionSingle(
+  params: UseBlockInstanceSelectionParams
+): UseBlockInstanceSelectionReturnSingle {
+  const { selectedBlocks, availableBlocks } = params
+
+  const selectedBlockId = computed({
+    get: () => (selectedBlocks.value.length > 0 ? selectedBlocks.value[0].id : null),
+    set: (id: string | null) => {
+      if (id) {
+        const selected = findById(availableBlocks.value, id)
+        selectedBlocks.value = selected ? [selected] : []
+        return
+      }
+      selectedBlocks.value = []
+    },
+  })
+
+  return { selectedBlockId }
+}
+
+function useBlockInstanceSelectionMultiple(
+  params: UseBlockInstanceSelectionParams
+): UseBlockInstanceSelectionReturnMultiple {
+  const { selectedBlocks, availableBlocks, toggleBlock } = params
+
+  const selectedBlockIds = computed({
+    get: () => selectedBlocks.value.map((b) => b.id),
+    set: (ids: string[]) => {
+      const { resolved: blocks } = resolveByIds(availableBlocks.value, ids)
+      applyResolvedBlocksToMultipleSelection(blocks, selectedBlocks, toggleBlock)
+    },
+  })
+
+  return { selectedBlockIds }
+}
 
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams & { selectionMode: 'single' }
@@ -20,46 +71,8 @@ export function useBlockInstanceSelection(
 export function useBlockInstanceSelection(
   params: UseBlockInstanceSelectionParams
 ): UseBlockInstanceSelectionReturnSingle | UseBlockInstanceSelectionReturnMultiple {
-  const {
-    selectedBlocks,
-    availableBlocks,
-    toggleBlock,
-    selectionMode
-  } = params
-
-  if (selectionMode === 'single') {
-    const selectedBlockId = computed({
-      get: () => selectedBlocks.value.length > 0
-        ? selectedBlocks.value[0].id
-        : null,
-      set: (id: string | null) => {
-        if (id) {
-          const selected = findById(availableBlocks.value, id)
-          selectedBlocks.value = selected ? [selected] : []
-        } else {
-          selectedBlocks.value = []
-        }
-      }
-    })
-
-    return { selectedBlockId }
-  } else {
-    const selectedBlockIds = computed({
-      get: () => selectedBlocks.value.map(b => b.id),
-      set: (ids: string[]) => {
-        const { resolved: blocks } = resolveByIds(availableBlocks.value, ids)
-
-        if (toggleBlock) {
-          selectedBlocks.value = []
-          for (const block of blocks) {
-            toggleBlock(block)
-          }
-        } else {
-          selectedBlocks.value = blocks
-        }
-      }
-    })
-
-    return { selectedBlockIds }
+  if (params.selectionMode === 'single') {
+    return useBlockInstanceSelectionSingle(params)
   }
+  return useBlockInstanceSelectionMultiple(params)
 }

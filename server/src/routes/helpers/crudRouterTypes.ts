@@ -68,5 +68,3 @@ export interface CrudRouterConfig<T extends Model> {
   /** Middleware to run before GET /:id (e.g. checkOwnership for IDOR protection) */
   getByIdMiddleware?: RequestHandler[]
 }
-
-export type RouteHandler = (req: Request, res: Response) => Promise<void>

@@ -8,7 +8,7 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 
-export type ShapeFormEntityKey = 'blockShape' | 'partShape'
+type ShapeFormEntityKey = 'blockShape' | 'partShape'
 
 export interface BlockShapeFormData {
   name: string
@@ -16,12 +16,10 @@ export interface BlockShapeFormData {
   active: boolean
 }
 
-export interface PartShapeFormData {
+interface PartShapeFormData {
   name: string
   orderIndex: number
 }
-
-export type ShapeFormData = BlockShapeFormData | PartShapeFormData
 
 function useShapeFormBlock(): {
   isEdit: ComputedRef<boolean>

@@ -13,7 +13,7 @@
         :label="displayLabel"
         :color="statusButtonColor"
         :is-active="normalizedValue"
-        :disabled="fieldContext.state.displayConfig.disabled || fieldContext.state.displayConfig.readOnly"
+        :disabled="statusButtonDisabled"
         @click.stop="handleClick"
       />
     </div>
@@ -110,6 +110,10 @@ const statusButtonToggle = useStatusButtonToggle({
 
 const isEditable = computed(
   () => !fieldContext.state.displayConfig.disabled && !fieldContext.state.displayConfig.readOnly
+)
+
+const statusButtonDisabled = computed(
+  () => fieldContext.state.displayConfig.disabled || fieldContext.state.displayConfig.readOnly
 )
 const handleClick = useBooleanInputClick({
   fieldContext,

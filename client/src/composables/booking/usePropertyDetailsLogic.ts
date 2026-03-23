@@ -3,243 +3,170 @@
 
 WHY: Moves property type block logic...
  */
-import { computed, ref } from 'vue'
-import type { BookingBlockInstance } from '@/types/transformers/bookingData'
-import { useGlobal } from '@/composables/useGlobal'
-import { useComponentEntity } from '@/composables/useComponentEntity'
-import { toGlobalEntityId } from '@/utils/globalEntity'
-import type { GlobalEntity } from '@/types/entities'
-import type { PropertyDetailsData } from '@/types/propertyForm'
-import { extractInstanceComponents } from '@/utils/instanceComponentUtils'
-import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
+import { computed, ref, type Ref } from 'vue'
 import type { PlaceDetails } from '@/services/mapsApiService'
+import { fetchPropertyEnrichment } from '@/services/propertyEnrichmentApiService'
 import { createLogger } from '@/utils/logger'
-import { extractOptionalString, safeArray } from '@/utils/transformers/transformerPrimitives'
 import type {
-  ComponentItem,
   UsePropertyDetailsLogicParams,
   UsePropertyDetailsLogicReturn,
 } from '@/types/booking/propertyDetailsLogic'
+import {
+  buildPropertyDetailsStepData,
+  propertyDetailsFormValuesFromRefs,
+} from '@/utils/booking/propertyDetailsStepSnapshot'
+import { placeAddressPatchFromComponents } from '@/utils/booking/propertyDetailsFromPlaceDetails'
+import { applyPropertyEnrichmentToFormFields } from '@/utils/booking/propertyEnrichmentApply'
+import { applyFirstSuggestedBlockFromLists } from '@/utils/booking/suggestedBlockWizardApply'
+import { buildPropertyEnrichmentWritersFromFormData } from '@/utils/booking/propertyFormEnrichmentWriters'
+import { buildMlsSyncDeps, runPropertyMlsEnrichmentFlow } from '@/utils/booking/propertyMlsSync'
+import {
+  mapPropertyTypeBlockToListItem,
+  type PropertyTypeBlockListContext,
+} from '@/utils/booking/propertyTypeBlockListItem'
+import type { PropertyEnrichmentResponse } from '@shared/types/propertyEnrichmentTypes'
+import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { useGlobal } from '@/composables/useGlobal'
+import { useComponentEntity } from '@/composables/useComponentEntity'
+import type { PropertyEnrichmentFormWriters } from '@/utils/booking/propertyEnrichmentApply'
 
 const logger = createLogger('usePropertyDetailsLogic')
 
-function addressField(value: string | undefined | null, fieldName: string): string {
-  if (value === undefined || value === null) {
-    logger.debug('Address component missing', { fieldName })
-    return ''
-  }
-  return value
+function createRequiresUnitNumberComputed(wizard: UsePropertyDetailsLogicParams['wizard']) {
+  return computed(() =>
+    wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
+  )
 }
 
-export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
-  const {
-    wizard,
-    formData,
-    isAddressExpanded
-  } = params
+function createIsMultiFamilyComputed(wizard: UsePropertyDetailsLogicParams['wizard']) {
+  return computed(() =>
+    wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.isMultiFamily === true)
+  )
+}
 
-  const { getGlobalEntityById, getGlobalData } = useGlobal()
-  const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
+function createPropertyBlocksComputed(
+  wizard: UsePropertyDetailsLogicParams['wizard'],
+  listCtx: PropertyTypeBlockListContext
+) {
+  return computed(() =>
+    wizard.availablePropertyTypeBlocks.value.map((adjustment) =>
+      mapPropertyTypeBlockToListItem(adjustment, listCtx)
+    )
+  )
+}
 
-  /**
-   */
-  const requiresUnitNumber = computed(() => {
-    return wizard.selectedPropertyTypeBlocks.value.some((selected) => selected.requiresUnitNumber === true)
-  })
+function createStepDataComputed(formData: UsePropertyDetailsLogicParams['formData']) {
+  return computed(() => buildPropertyDetailsStepData(propertyDetailsFormValuesFromRefs(formData)))
+}
 
-  /**
-   */
-  const isMultiFamily = computed(() => {
-    return wizard.selectedPropertyTypeBlocks.value.some(
-      selected => selected.isMultiFamily === true
+function applyEnrichmentAndSuggestedBlocks(
+  enrichment: PropertyEnrichmentResponse,
+  writers: PropertyEnrichmentFormWriters,
+  wizard: UsePropertyDetailsLogicParams['wizard']
+): void {
+  applyPropertyEnrichmentToFormFields(enrichment, writers)
+  const suggestedIds = enrichment.suggestedBlockInstanceIds ?? []
+  if (suggestedIds.length === 0) {
+    return
+  }
+  wizard.batchUpdate(() => {
+    applyFirstSuggestedBlockFromLists(
+      suggestedIds,
+      wizard.availablePropertyTypeBlocks.value,
+      wizard.availableLineItemBlocks.value,
+      (b) => {
+        wizard.togglePropertyTypeBlock(b)
+      },
+      (b) => {
+        wizard.toggleLineItemBlock(b)
+      }
     )
   })
+}
 
-  const isComposableBlock = (blockInstance: BookingBlockInstance | null): boolean => {
-    if (!blockInstance) return false
-    
-    const globalData = getGlobalData()
-    if (!globalData) return false
-    
-    const globalBlockInstance = getGlobalEntityById('blockInstance', blockInstance.id)
-    if (!globalBlockInstance) return false
-    
-    const blockInstanceWithShapeRef = globalBlockInstance as GlobalEntity<'blockInstance'> & { blockShapeRef: string }
-    const blockShapeRef = blockInstanceWithShapeRef.blockShapeRef
-    
-    const blockShape = getGlobalEntityById('blockShape', blockShapeRef)
-    if (!blockShape) return false
-    
-    const blockShapeWithComposable = blockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-    return blockShapeWithComposable.composable === true
+function createSyncMlsData(
+  formData: UsePropertyDetailsLogicParams['formData'],
+  wizard: UsePropertyDetailsLogicParams['wizard'],
+  writers: PropertyEnrichmentFormWriters,
+  isEnrichmentLoading: Ref<boolean>
+): () => Promise<void> {
+  return async () => {
+    await runPropertyMlsEnrichmentFlow(
+      buildMlsSyncDeps({
+        formData,
+        isEnrichmentLoading,
+        fetchEnrichment: fetchPropertyEnrichment,
+        onEnrichmentLoaded: (e) => applyEnrichmentAndSuggestedBlocks(e, writers, wizard),
+      }),
+      logger
+    )
   }
+}
 
-  /**
-   */
-  const propertyTypeBlocksWithComponents = computed(() => {
-    return wizard.availablePropertyTypeBlocks.value.map(adjustment => {
-      const isComposable = isComposableBlock(adjustment)
-      let instanceComponents: ComponentItem[] = []
-      
-      if (isComposable) {
-        const instanceComponentsRelationships = componentEntity.data.getComponents(toGlobalEntityId(adjustment.id))
-        if (instanceComponentsRelationships && instanceComponentsRelationships.length > 0) {
-          // FIX: Use shared utility function instead of duplicated logic
-          instanceComponents = extractInstanceComponents({
-            serviceId: adjustment.id,
-            instanceComponentsRelationships,
-            getGlobalEntityById: (entityKey: 'blockInstance' | 'blockShape', id: string) => {
-              const entity = getGlobalEntityById(entityKey, id)
-              if (entityKey === 'blockInstance') {
-                return entity as GlobalEntity<'blockInstance'> | null
-              } else {
-                return entity as GlobalEntity<'blockShape'> | null
-              }
-            }
-          })
-        }
-      }
-      
-      return {
-        ...adjustment,
-        composite: isComposable,
-        instanceComponents: instanceComponents.length > 0 ? instanceComponents : undefined
-      }
-    })
-  })
-
-  /**
-   */
-  const stepData = computed<PropertyDetailsData>(() => ({
-    address: formData.address.value,
-    unit: formData.unit.value,
-    city: formData.city.value,
-    state: formData.state.value,
-    zipCode: formData.zipCode.value,
-    candidatePlaceId: formData.candidatePlaceId.value,
-    candidateCoordinates: formData.candidateCoordinates.value,
-    propertySize: formData.propertySize.value,
-    numberOfUnits: formData.numberOfUnits.value,
-    mlsNumber: formData.mlsNumber.value,
-    squareFootage: formData.squareFootage.value,
-    bedrooms: formData.bedrooms.value,
-    bathrooms: formData.bathrooms.value,
-    foundationAccess: formData.foundationAccess.value,
-    additionalUnits: formData.additionalUnits.value,
-    source: formData.source?.value,
-    suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds?.value
-  }))
-
-  const isEnrichmentLoading = ref(false)
-
-  /**
-   */
+function createPlaceHandlers(
+  formData: UsePropertyDetailsLogicParams['formData'],
+  isAddressExpanded: UsePropertyDetailsLogicParams['isAddressExpanded'],
+  syncMLSData: () => Promise<void>
+) {
   const handlePlaceSelected = (details: PlaceDetails): void => {
     const { addressComponents, coordinates, placeId } = details
-
-    const streetNumber = addressField(addressComponents.streetNumber, 'streetNumber')
-    const streetName = addressField(addressComponents.streetName, 'streetName')
-    formData.address.value = `${streetNumber} ${streetName}`.trim()
-    formData.city.value = addressField(addressComponents.city, 'city')
-    formData.state.value = addressField(addressComponents.state, 'state')
-    formData.zipCode.value = addressField(addressComponents.postalCode, 'postalCode')
-    
-    formData.candidatePlaceId.value = placeId
-    formData.candidateCoordinates.value = coordinates
-    
+    const patch = placeAddressPatchFromComponents(addressComponents, placeId, coordinates, (fieldName) => {
+      logger.debug('Address component missing', { fieldName })
+    })
+    formData.address.value = patch.address
+    formData.city.value = patch.city
+    formData.state.value = patch.state
+    formData.zipCode.value = patch.zipCode
+    formData.candidatePlaceId.value = patch.candidatePlaceId
+    formData.candidateCoordinates.value = patch.candidateCoordinates
     isAddressExpanded.value = true
-
-    syncMLSData().catch((err) => {
+    void syncMLSData().catch((err) => {
       logger.warn('MLS enrichment failed', { err })
     })
   }
 
-  /**
-   */
   const handleAutocompleteError = (error: Error): void => {
     logger.warn('Autocomplete error, showing manual fields', { error })
     isAddressExpanded.value = true
   }
 
-  /**
-   */
   const changeAddress = (): void => {
     isAddressExpanded.value = false
   }
 
-  /**
-   */
-  const syncMLSData = async (): Promise<void> => {
-    const placeId = formData.candidatePlaceId?.value
-    const address = formData.address?.value?.trim()
-    if (!placeId || !address) {
-      return
-    }
-    if (placeId.length < 15) {
-      return
-    }
+  return { handlePlaceSelected, handleAutocompleteError, changeAddress }
+}
 
-    isEnrichmentLoading.value = true
-    if (formData.suggestedBlockInstanceIds) formData.suggestedBlockInstanceIds.value = []
+export function usePropertyDetailsLogic(params: UsePropertyDetailsLogicParams): UsePropertyDetailsLogicReturn {
+  const { wizard, formData, isAddressExpanded } = params
+  const { getGlobalEntityById, getGlobalData } = useGlobal()
+  const componentEntity = useComponentEntity<'blockInstance'>('blockInstance')
 
-    try {
-      const enrichment = await fetchPropertyEnrichment(
-        address,
-        formData.city?.value,
-        formData.state?.value,
-        formData.zipCode?.value
-      )
-
-      if (!enrichment) {
-        return
-      }
-
-      formData.mlsNumber.value = extractOptionalString(enrichment.mlsNumber, 'enrichment.mlsNumber')
-      formData.squareFootage.value = enrichment.squareFootage ?? null
-      formData.bedrooms.value = enrichment.bedrooms ?? null
-      formData.bathrooms.value = enrichment.bathrooms ?? null
-      formData.foundationAccess.value = enrichment.foundationAccess ?? null
-      formData.additionalUnits.value = enrichment.additionalUnits ?? null
-      if (formData.source) formData.source.value = 'api'
-      const suggestedIds = safeArray(enrichment.suggestedBlockInstanceIds)
-      if (formData.suggestedBlockInstanceIds) {
-        formData.suggestedBlockInstanceIds.value = suggestedIds
-      }
-
-      if (enrichment.squareFootage != null) {
-        formData.propertySize.value = enrichment.squareFootage
-      }
-      if (suggestedIds.length > 0) {
-        wizard.batchUpdate(() => {
-          const propBlocks = wizard.availablePropertyTypeBlocks.value
-          const lineBlocks = wizard.availableLineItemBlocks.value
-          for (const id of suggestedIds) {
-            const propBlock = propBlocks.find((b) => b.id === id)
-            if (propBlock) {
-              wizard.togglePropertyTypeBlock(propBlock)
-              break
-            }
-            const lineBlock = lineBlocks.find((b) => b.id === id)
-            if (lineBlock) {
-              wizard.toggleLineItemBlock(lineBlock)
-            }
-          }
-        })
-      }
-    } finally {
-      isEnrichmentLoading.value = false
-    }
+  const listCtx: PropertyTypeBlockListContext = {
+    getGlobalData,
+    getGlobalEntityById: (entityKey, id) => getGlobalEntityById(entityKey, id) ?? null,
+    getInstanceComponentRelationships: (globalId: GlobalEntityId) =>
+      componentEntity.data.getComponents(globalId),
   }
 
+  const writers = buildPropertyEnrichmentWritersFromFormData(formData)
+  const isEnrichmentLoading = ref(false)
+  const syncMLSData = createSyncMlsData(formData, wizard, writers, isEnrichmentLoading)
+  const { handlePlaceSelected, handleAutocompleteError, changeAddress } = createPlaceHandlers(
+    formData,
+    isAddressExpanded,
+    syncMLSData
+  )
+
   return {
-    requiresUnitNumber,
-    isMultiFamily,
-    propertyTypeBlocksWithComponents,
-    stepData,
+    requiresUnitNumber: createRequiresUnitNumberComputed(wizard),
+    isMultiFamily: createIsMultiFamilyComputed(wizard),
+    propertyTypeBlocksWithComponents: createPropertyBlocksComputed(wizard, listCtx),
+    stepData: createStepDataComputed(formData),
     syncMLSData,
     isEnrichmentLoading,
     handlePlaceSelected,
     handleAutocompleteError,
-    changeAddress
+    changeAddress,
   }
 }

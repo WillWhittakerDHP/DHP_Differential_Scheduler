@@ -13,7 +13,7 @@ import {
 
 const logger = createLogger('CalendarErrorHandler')
 
-export type CalendarErrorType = keyof typeof CALENDAR_ERROR_MESSAGES
+type CalendarErrorType = keyof typeof CALENDAR_ERROR_MESSAGES
 
 export class CalendarApiError extends Error {
   public readonly type: CalendarErrorType
@@ -69,58 +69,103 @@ function toHttpStatus(value: unknown): number | undefined {
   return undefined
 }
 
-export function classifyError(error: unknown): CalendarApiError {
-  const err = error as { code?: string; message?: string; status?: number; response?: { status?: number } }
+type CalendarErrShape = {
+  code?: string
+  message?: string
+  status?: number
+  response?: { status?: number }
+}
 
-  if (err.code && NETWORK_ERROR_CODES.has(err.code)) {
-    return new CalendarApiError('network', CALENDAR_INTERNAL_MESSAGES.NETWORK_ERROR(err.code), {
-      retryable: true,
-      originalError: err as Error,
-    })
+function classifyNetworkCalendarError(err: CalendarErrShape): CalendarApiError | null {
+  if (!err.code || !NETWORK_ERROR_CODES.has(err.code)) {
+    return null
   }
+  return new CalendarApiError('network', CALENDAR_INTERNAL_MESSAGES.NETWORK_ERROR(err.code), {
+    retryable: true,
+    originalError: err as Error,
+  })
+}
 
-  if (err.code === 'ETIMEDOUT' || (typeof err.message === 'string' && err.message.toLowerCase().includes('timeout'))) {
-    return new CalendarApiError('timeout', CALENDAR_INTERNAL_MESSAGES.REQUEST_TIMED_OUT, {
-      retryable: true,
-      originalError: err as Error,
-    })
+function classifyTimeoutCalendarError(err: CalendarErrShape): CalendarApiError | null {
+  const timedOut =
+    err.code === 'ETIMEDOUT' ||
+    (typeof err.message === 'string' && err.message.toLowerCase().includes('timeout'))
+  if (!timedOut) {
+    return null
   }
+  return new CalendarApiError('timeout', CALENDAR_INTERNAL_MESSAGES.REQUEST_TIMED_OUT, {
+    retryable: true,
+    originalError: err as Error,
+  })
+}
 
-  const statusCode = toHttpStatus(err.code ?? err.status ?? err.response?.status)
-
-  if (statusCode === 403) {
-    const message = typeof err.message === 'string' ? err.message : ''
-    const type = isRateLimitError(message) ? 'rateLimit' : 'permission'
-    const retryable = type === 'rateLimit'
-    return new CalendarApiError(type, retryable ? CALENDAR_INTERNAL_MESSAGES.RATE_LIMIT_EXCEEDED : CALENDAR_INTERNAL_MESSAGES.PERMISSION_DENIED, {
+function classifyForbiddenCalendarError(err: CalendarErrShape, statusCode: number | undefined): CalendarApiError | null {
+  if (statusCode !== 403) {
+    return null
+  }
+  const message = typeof err.message === 'string' ? err.message : ''
+  const type = isRateLimitError(message) ? 'rateLimit' : 'permission'
+  const retryable = type === 'rateLimit'
+  return new CalendarApiError(
+    type,
+    retryable ? CALENDAR_INTERNAL_MESSAGES.RATE_LIMIT_EXCEEDED : CALENDAR_INTERNAL_MESSAGES.PERMISSION_DENIED,
+    {
       statusCode: 403,
       retryable,
       originalError: err as Error,
-    })
-  }
+    }
+  )
+}
 
+function classifyMappedStatusCalendarError(
+  err: CalendarErrShape,
+  statusCode: number | undefined
+): CalendarApiError | null {
   const entry = statusCode !== undefined ? CALENDAR_STATUS_MAP[statusCode] : undefined
-  if (entry) {
-    return new CalendarApiError(entry.type, entry.message, {
-      statusCode,
-      retryable: entry.retryable,
-      originalError: err as Error,
-    })
+  if (!entry) {
+    return null
   }
-
-  if (statusCode !== undefined && statusCode >= 500) {
-    return new CalendarApiError('unknown', `Server error: ${statusCode}`, {
-      statusCode,
-      retryable: true,
-      originalError: err as Error,
-    })
-  }
-
-  return new CalendarApiError('unknown', (typeof err.message === 'string' ? err.message : null) ?? CALENDAR_INTERNAL_MESSAGES.UNKNOWN, {
+  return new CalendarApiError(entry.type, entry.message, {
     statusCode,
-    retryable: false,
+    retryable: entry.retryable,
     originalError: err as Error,
   })
+}
+
+function classifyServerErrorCalendarError(
+  err: CalendarErrShape,
+  statusCode: number | undefined
+): CalendarApiError | null {
+  if (statusCode === undefined || statusCode < 500) {
+    return null
+  }
+  return new CalendarApiError('unknown', `Server error: ${statusCode}`, {
+    statusCode,
+    retryable: true,
+    originalError: err as Error,
+  })
+}
+
+export function classifyError(error: unknown): CalendarApiError {
+  const err = error as CalendarErrShape
+  const statusCode = toHttpStatus(err.code ?? err.status ?? err.response?.status)
+
+  return (
+    classifyNetworkCalendarError(err) ??
+    classifyTimeoutCalendarError(err) ??
+    classifyForbiddenCalendarError(err, statusCode) ??
+    classifyMappedStatusCalendarError(err, statusCode) ??
+    classifyServerErrorCalendarError(err, statusCode) ??
+    new CalendarApiError(
+      'unknown',
+      (typeof err.message === 'string' ? err.message : null) ?? CALENDAR_INTERNAL_MESSAGES.UNKNOWN,
+      {
+        statusCode,
+        retryable: false,
+        originalError: err as Error,
+      }
+    )
+  )
 }
 
 /** Re-export for consumers that pass retry config */

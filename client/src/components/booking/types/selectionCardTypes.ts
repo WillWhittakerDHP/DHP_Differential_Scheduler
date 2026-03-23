@@ -85,6 +85,11 @@ State plugins for reactive updates
   
   expansion?: {
     enabled: boolean
+    /**
+     * When true (default), selecting a composite card auto-checks all active nested components.
+     * Set false to leave nested checkboxes empty until the user selects them.
+     */
+    autoSelectNested?: boolean
     componentData?: (item: SelectionCardItem) => {
       composite: boolean
       visibleComponents: SelectionCardItem[]

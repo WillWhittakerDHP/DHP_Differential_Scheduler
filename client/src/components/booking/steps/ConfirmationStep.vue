@@ -4,7 +4,7 @@
 PATTERN: Uses composable to aggregate wizard...
  */
 import { inject, ref, computed } from 'vue'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import { wizardKey } from '@/keys/bookingInjectionKeys'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { useConfirmationStepData } from '@/composables/booking/useConfirmationStepData'
 import { useBooking } from '@/composables/useBooking'
@@ -15,7 +15,7 @@ import {
   confirmationStepDataKey,
   confirmationStepValidKey,
   confirmationStepValidateKey,
-} from '@/composables/booking/injectionKeys'
+} from '@/keys/bookingInjectionKeys'
 import WizardSelect from '@/components/booking/fields/WizardSelect.vue'
 import { ensureItemsArray } from '@/composables/admin/tables/useTableModelHelpers'
 import type { ConfirmationStepData } from '@/types/wizard'

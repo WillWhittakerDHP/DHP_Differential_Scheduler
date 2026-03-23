@@ -5,7 +5,7 @@
       <VCardTitle class="text-body-large font-weight-bold pa-2">
         SlotShape Totals
       </VCardTitle>
-      <VRow dense class="ma-0 mb-2">
+      <VRow density="comfortable" class="ma-0 mb-2">
         <VCol cols="6">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-body-small text-medium-emphasis font-weight-bold mb-1">Duration</div>
@@ -25,7 +25,7 @@
           </VCard>
         </VCol>
       </VRow>
-      <VRow v-if="slotShapeTotals.eventFinals.length > 0" dense class="ma-0">
+      <VRow v-if="slotShapeTotals.eventFinals.length > 0" density="comfortable" class="ma-0">
         <VCol
           v-for="eventFinal in slotShapeTotals.eventFinals"
           :key="eventFinal.eventShape.id"

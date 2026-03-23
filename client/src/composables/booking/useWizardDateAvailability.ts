@@ -10,7 +10,7 @@ import {
   updateDisplayedMonthKey,
   appointmentDurationKey,
   computedAvailabilityKey,
-} from '@/composables/booking/injectionKeys'
+} from '@/keys/bookingInjectionKeys'
 import type {
   UseWizardDateAvailabilityParams,
   UseWizardDateAvailabilityReturn,

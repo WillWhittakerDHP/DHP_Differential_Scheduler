@@ -16,7 +16,7 @@ import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
 import type {
   UseRelationshipCollectionDataOptions,
-  UseRelationshipCollectionDataReturn
+  UseRelationshipCollectionDataReturnBase,
 } from '@/types/admin/relationshipCollectionData'
 
 /**
@@ -26,7 +26,7 @@ PATTERN: Composable with comput...
  */
 export function useRelationshipCollectionData(
   options: UseRelationshipCollectionDataOptions
-): UseRelationshipCollectionDataReturn {
+): UseRelationshipCollectionDataReturnBase {
   const {
     parentEntityId,
     childEntityKey: childEntityKeyInput,

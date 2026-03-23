@@ -20,13 +20,6 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
   return stateControlBlockInstances.map(instance => instance.id)
 }
 
-export function getEventShapeByRole(
-  eventShapes: EventShapeEntity[],
-  role: DifferentialRoleStorage
-): EventShapeEntity | null {
-  return eventShapes.find(es => es.differentialRole === role) ?? null
-}
-
 /** Major/minor lookup using block-instance overrides when provided. */
 export function getEventShapeByRoleWithOverrides(
   eventShapes: EventShapeEntity[],

@@ -1,6 +1,6 @@
 import { ALLOWED_OVERRIDE_CONSTRAINTS, type OverrideConstraintKey } from '../routes/internal/appointments/appointmentConstants.js'
 
-export const APPOINTMENT_OVERRIDE_BOOLEAN_FIELDS = [
+const APPOINTMENT_OVERRIDE_BOOLEAN_FIELDS = [
   'overrideConstraintCapacity',
   'overrideConstraintBuffer',
   'overrideConstraintBlackout',

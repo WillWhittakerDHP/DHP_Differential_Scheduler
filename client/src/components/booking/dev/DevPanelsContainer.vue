@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, computed, provide } from 'vue'
+import { ref, computed, provide, unref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { createLogger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
@@ -15,7 +15,7 @@ import { useDevPanelButtonsInject } from '@/composables/booking/useDevPanelButto
 import { useEventShapeById } from '@/composables/booking/useEventShapeById'
 import { useDevPanelsAppointmentData } from '@/composables/booking/useDevPanelsAppointmentData'
 import { devPanelsFormatters } from '@/utils/booking/devPanelsFormatters'
-import { instancesPanelContextKey } from '@/composables/booking/injectionKeys'
+import { instancesPanelContextKey } from '@/keys/bookingInjectionKeys'
 import type { DevPanelVisibleProps } from '@/components/admin/dev/devPanelTypes'
 import SlotShapePanel from '@/components/booking/dev/SlotShapePanel.vue'
 import InstancesPanel from '@/components/booking/dev/InstancesPanel.vue'
@@ -42,6 +42,10 @@ const appointmentData = useDevPanelsAppointmentData(devPanelData)
 const { settings: availabilitySettings } = useAvailabilitySettings()
 
 const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
+
+const moveableSchedulingWindowForPanel = computed(() =>
+  unref(devPanelData.value.moveableSchedulingWindow) ?? null
+)
 
 const {
   servicesSummary,
@@ -187,7 +191,10 @@ provide(instancesPanelContextKey, {
             <InstancesPanel />
           </VWindowItem>
           <VWindowItem value="constraints">
-            <ConstraintsPanel :availability-settings-value="availabilitySettingsValue" />
+            <ConstraintsPanel
+              :availability-settings-value="availabilitySettingsValue"
+              :moveable-scheduling-window="moveableSchedulingWindowForPanel"
+            />
           </VWindowItem>
         </VWindow>
       </VCardText>

@@ -4,7 +4,7 @@ import type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/dur
 export type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/durationRounding'
 
 /** Constants for duration rounding method (avoids hardcoded case strings). */
-export const DURATION_ROUNDING_MODE = {
+const DURATION_ROUNDING_MODE = {
   ROUND_UP: 'roundUp',
   ROUND_DOWN: 'roundDown',
   ROUND_NEAREST: 'roundNearest',

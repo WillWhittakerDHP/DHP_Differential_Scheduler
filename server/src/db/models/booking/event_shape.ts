@@ -6,6 +6,7 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
+
 /**
  * EventShape Model
  * 
@@ -70,47 +71,40 @@ export function EventShapeFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'is_ternary',
         comment: 'Indicates if this event shape uses ternary logic (true/false/override)',
       },
       ternaryDefault: {
         type: DataTypes.STRING(10),
         allowNull: true,
-        field: 'ternary_default',
         comment: 'Default ternary value to use when value cannot be determined (null means fail gracefully)',
       },
       differentialRole: {
         type: DataTypes.ENUM('major', 'minor', 'moveable'),
         allowNull: true,
         defaultValue: null,
-        field: 'differential_role',
         comment: 'Direct role declaration: major, minor, moveable, or null (none)',
       },
       includeRescheduleLink: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-        field: 'include_reschedule_link',
         comment: 'Include {rescheduleLink} in calendar invite templates for instances of this shape',
       },
       includeCancelLink: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-        field: 'include_cancel_link',
         comment: 'Include {cancelLink} in calendar invite templates for instances of this shape',
       },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'created_at',
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'updated_at',
       },
     },
     {

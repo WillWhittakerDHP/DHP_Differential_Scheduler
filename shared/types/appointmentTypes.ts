@@ -2,11 +2,10 @@
  * Shared appointment-related types for client and server.
  */
 import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../constants/roleConstants'
+import type { SlotTimeBounds } from './availabilityTypes'
 
 /** Canonical one-slot payload for API and `appointment_time_slots` rows (ISO start/end, optional duration minutes). */
-export interface AppointmentSelectedTimeSlotPayload {
-  startTime: string
-  endTime: string
+export interface AppointmentSelectedTimeSlotPayload extends Omit<SlotTimeBounds, 'duration'> {
   duration?: number
 }
 

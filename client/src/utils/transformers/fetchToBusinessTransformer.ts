@@ -23,7 +23,7 @@ const logger = createLogger('fetchToBusinessTransformer')
 
 PATTERN: Class-based transformer matching Gl...
  */
-export class BusinessTransformer {
+class BusinessTransformer {
   async fetchAll(): Promise<BusinessData> {
     try {
       const [appointmentsResponse, propertiesResponse, usersResponse] = await Promise.all([

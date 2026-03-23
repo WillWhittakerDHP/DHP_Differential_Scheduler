@@ -15,11 +15,11 @@ import type { InstanceConfig } from '@/configs/adminConfig'
 
 const logger = createLogger('entityDisplay')
 
-export interface EntityDisplayConfig {
+interface EntityDisplayConfig {
   getInstanceConfig: (entityKey: GlobalEntityKey) => { value: InstanceConfig[GlobalEntityKey] }
 }
 
-export interface EntityDisplayReturn {
+interface EntityDisplayReturn {
   getEntityDisplayName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
   getEntityName: (entityKey: GlobalEntityKey, entity: GlobalEntity<GlobalEntityKey>) => string
   getEntitySuccessMessage: (entityKey: GlobalEntityKey) => string

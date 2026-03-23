@@ -78,6 +78,22 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
   
   return formatTimeRange(slotData.displayTime)
 }
+
+function slotButtonClass(slotData: SlotDisplayItem): Record<string, boolean> {
+  return {
+    'appointment-slot-btn--inactive':
+      props.selectedButtonIndex !== null && props.selectedButtonIndex !== slotData.buttonIndex,
+    'appointment-slot-btn--busy': !slotData.isAvailable,
+    'appointment-slot-btn--original-inspection':
+      slotData.buttonIndex === props.originalInspectionButtonIndex,
+  }
+}
+
+function slotButtonTitle(slotData: SlotDisplayItem): string | undefined {
+  return slotData.buttonIndex === props.originalInspectionButtonIndex
+    ? 'Current appointment time'
+    : undefined
+}
 </script>
 
 <template>
@@ -94,13 +110,9 @@ const formatSlotTime = (slotData: SlotDisplayItem): string => {
       :variant="selectedButtonIndex === slotData.buttonIndex ? 'flat' : variant"
       :color="color"
       size="small"
-      :class="['appointment-slot-btn', { 
-        'appointment-slot-btn--inactive': selectedButtonIndex !== null && selectedButtonIndex !== slotData.buttonIndex,
-        'appointment-slot-btn--busy': !slotData.isAvailable,
-        'appointment-slot-btn--original-inspection': slotData.buttonIndex === originalInspectionButtonIndex
-      }]"
+      :class="['appointment-slot-btn', slotButtonClass(slotData)]"
       :disabled="loading || !slotData.isAvailable"
-      :title="slotData.buttonIndex === originalInspectionButtonIndex ? 'Current appointment time' : undefined"
+      :title="slotButtonTitle(slotData)"
       @click="handleAppointmentSlotClick(slotData)"
     >
       <span class="slot-button-content">

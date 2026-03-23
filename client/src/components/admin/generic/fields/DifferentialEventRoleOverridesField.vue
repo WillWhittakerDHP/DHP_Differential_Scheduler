@@ -35,7 +35,7 @@
           v-for="row in matrixRows"
           :key="row.eventShapeId"
           class="align-center differential-role-matrix__row"
-          dense
+          density="comfortable"
         >
           <VCol
             cols="12"
@@ -63,7 +63,7 @@
               variant="outlined"
               hide-details="auto"
               class="differential-role-matrix__select"
-              :disabled="fieldContext.state.isDisabled.value || fieldContext.state.displayConfig.readOnly"
+              :disabled="matrixSelectDisabled"
               @update:model-value="(v: unknown) => onRowRoleUpdate(row.eventShapeId, v)"
             />
           </VCol>
@@ -109,6 +109,10 @@ const defaultHelpText =
   '(via part assignments and each part shape’s valid events). Choose Inherit to use the event shape template.'
 
 const displayConfig = computed(() => props.fieldContext.state.displayConfig)
+
+const matrixSelectDisabled = computed(
+  () => props.fieldContext.state.isDisabled.value || props.fieldContext.state.displayConfig.readOnly
+)
 
 const blockInstance = computed((): BlockInstanceEntity | undefined => {
   const id = props.fieldContext.state.entityId

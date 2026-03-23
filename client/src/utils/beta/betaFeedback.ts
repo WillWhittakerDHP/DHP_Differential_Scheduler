@@ -10,11 +10,11 @@ import type {
   BetaFeedback,
   BetaFeedbackSubmission,
   BetaFeedbackStats,
-  BetaFeedbackFilters,
+  BetaFeedbackFiltersBase,
 } from '@/types/betaFeedback'
 
-export interface BetaFeedbackReturn {
-  fetchAllFeedback: (filters?: BetaFeedbackFilters) => Promise<BetaFeedback[]>
+interface BetaFeedbackReturn {
+  fetchAllFeedback: (filters?: BetaFeedbackFiltersBase) => Promise<BetaFeedback[]>
   fetchFeedbackStats: () => Promise<BetaFeedbackStats>
   submitFeedback: (payload: BetaFeedbackSubmission) => Promise<BetaFeedback>
   updateFeedback: (
@@ -25,7 +25,7 @@ export interface BetaFeedbackReturn {
 }
 
 export function betaFeedback(): BetaFeedbackReturn {
-  async function fetchAllFeedback(filters?: BetaFeedbackFilters): Promise<BetaFeedback[]> {
+  async function fetchAllFeedback(filters?: BetaFeedbackFiltersBase): Promise<BetaFeedback[]> {
     const params = new URLSearchParams()
     if (filters?.status) params.set('status', filters.status)
     if (filters?.category) params.set('category', filters.category)

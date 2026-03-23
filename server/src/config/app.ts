@@ -1,7 +1,10 @@
 export type { EnvConfig } from "./envConfig.js";
 export { envConfig } from "./envConfig.js";
 export { sequelize, initializeDatabase } from "./database.js";
-export {
+export { models } from "./models.js";
+import { models } from "./models.js";
+
+export const {
   PartShape,
   PartInstance,
   BlockShape,
@@ -60,4 +63,4 @@ export {
   BetaFeedbackTag,
   PropertyFieldMapping,
   PropertyFeatureMapping,
-} from "./models.js";
+} = models;

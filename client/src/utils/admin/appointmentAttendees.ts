@@ -6,11 +6,11 @@ import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_
 import type { AppointmentResponse, AttendeeResponse } from '@/types/appointment'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
 
-export function isClientAttendee(a: AttendeeResponse): boolean {
+function isClientAttendee(a: AttendeeResponse): boolean {
   return a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT || a.user?.userRole === USER_ROLE_CLIENT
 }
 
-export function isAgentAttendee(a: AttendeeResponse): boolean {
+function isAgentAttendee(a: AttendeeResponse): boolean {
   return a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT || a.user?.userRole === USER_ROLE_AGENT
 }
 

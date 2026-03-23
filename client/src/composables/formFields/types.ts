@@ -7,9 +7,12 @@ import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import type { FieldsByLayout } from '@/utils/forms/layoutFieldCategorization'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
+import type { UseFormFieldsStandardLayoutReturn } from './layoutTypes'
 
-/** Base shared by UseFormFieldsOptions and UseFormFieldsContextOptions (P2 type-similarity). */
-export interface UseFormFieldsOptionsBase<GE extends GlobalEntityKey = GlobalEntityKey> {
+export type { UseFormFieldsStandardLayoutReturn } from './layoutTypes'
+
+/** Base shared by UseFormFieldsOptions (P2 type-similarity). */
+interface UseFormFieldsOptionsBase<GE extends GlobalEntityKey = GlobalEntityKey> {
   entityKey: GE
   entityId: Ref<GlobalEntityId>
   form: Ref<FormContext | undefined>
@@ -22,17 +25,6 @@ export interface UseFormFieldsOptions<GE extends GlobalEntityKey = GlobalEntityK
   extends UseFormFieldsOptionsBase<GE> {
   inlineFieldsConfig?: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
   stackedFieldsConfig?: Ref<GlobalFieldKey<GE>[]> | ComputedRef<GlobalFieldKey<GE>[]>
-}
-
-export type UseFormFieldsContextOptions<GE extends GlobalEntityKey = GlobalEntityKey> =
-  UseFormFieldsOptionsBase<GE>
-
-/** Layout subset shared by UseFormFieldsReturn and UseFormFieldsStandardLayoutReturn (P2 type-similarity). */
-export interface UseFormFieldsStandardLayoutReturn<GE extends GlobalEntityKey = GlobalEntityKey> {
-  inlineFields: ComputedRef<GlobalFieldKey<GE>[]>
-  stackedFields: ComputedRef<GlobalFieldKey<GE>[]>
-  readyInlineFields: ComputedRef<GlobalFieldKey<GE>[]>
-  readyStackedFields: ComputedRef<GlobalFieldKey<GE>[]>
 }
 
 export interface UseFormFieldsReturn<GE extends GlobalEntityKey = GlobalEntityKey>

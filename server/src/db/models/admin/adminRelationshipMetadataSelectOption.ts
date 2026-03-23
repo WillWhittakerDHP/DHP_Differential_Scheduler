@@ -1,11 +1,11 @@
 import {
   Model,
-  DataTypes,
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
   Sequelize,
 } from 'sequelize';
+import { buildAdminMetadataSelectOptionAttributes } from './selectOptionSharedColumns.js';
 
 export class AdminRelationshipMetadataSelectOption extends Model<
   InferAttributes<AdminRelationshipMetadataSelectOption>,
@@ -22,47 +22,10 @@ export class AdminRelationshipMetadataSelectOption extends Model<
 
 export function AdminRelationshipMetadataSelectOptionFactory(sequelize: Sequelize) {
   AdminRelationshipMetadataSelectOption.init(
-    {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-        allowNull: false,
-      },
-      relationshipMetadataId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        field: 'relationship_metadata_id',
-      },
-      displayOrder: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'display_order',
-      },
-      label: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      valuePayload: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-        field: 'value_payload',
-        comment: 'JSON text of option value (null/absent for null option value)',
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'updated_at',
-      },
-    },
+    buildAdminMetadataSelectOptionAttributes(sequelize, {
+      attribute: 'relationshipMetadataId',
+      column: 'relationship_metadata_id',
+    }),
     {
       sequelize,
       indexes: [

@@ -1,11 +1,8 @@
-export interface AnnotationContentRowPlain {
-  text: string
-  userTypeBlockInstanceId: string | null
-}
+import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
 
 export interface AnnotationWithContentPlain {
   text: string
-  contentRows?: AnnotationContentRowPlain[] | null
+  contentRows?: AnnotationContentRow[] | null
 }
 
 /**

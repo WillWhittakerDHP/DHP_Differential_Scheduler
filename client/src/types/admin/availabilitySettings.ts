@@ -1,17 +1,7 @@
-import type { Ref } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { UseAdminSettingsFormReturnBase } from '@/types/admin/adminSettingsFormReturnBase'
 
-export interface UseAvailabilitySettingsOptions {
-  enabled?: Ref<boolean>
-}
-
-export interface UseAdminAvailabilitySettingsReturn {
-  formData: Ref<AvailabilitySettings | null>
-  loading: Ref<boolean>
-  saving: Ref<boolean>
-  error: Ref<string | null>
-  success: Ref<string | null>
-  loadSettings: () => Promise<void>
+export interface UseAdminAvailabilitySettingsReturn
+  extends UseAdminSettingsFormReturnBase<AvailabilitySettings> {
   validateBusinessHours: () => boolean
-  saveSettings: () => Promise<void>
 }

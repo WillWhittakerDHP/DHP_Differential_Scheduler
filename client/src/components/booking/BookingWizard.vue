@@ -1,7 +1,9 @@
 <script setup lang="ts">
 // PATTERN: Thin component; orchestration in useBookingWizardSetup (vue-architecture audit).
 import { computed } from 'vue'
+import { Icon } from '@iconify/vue'
 import { useBookingWizardSetup } from '@/composables/booking/useBookingWizardSetup'
+import BookingProgressSummaryStrip from '@/components/booking/BookingProgressSummaryStrip.vue'
 import { buildQuoteLink } from '@/utils/booking/buildClientLinks'
 import { useNotification } from '@/composables/useNotification'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
@@ -35,7 +37,22 @@ const {
   loadedAppointmentId,
   stepItemClass,
   stepItemStyle,
+  progressSummaryStrip,
 } = useBookingWizardSetup()
+
+/** Plain object for child props — unwraps ComputedRefs for vue-tsc. */
+const progressSummaryStripDisplay = computed(() => ({
+  stripVisible: progressSummaryStrip.stripVisible.value,
+  showAddress: progressSummaryStrip.showAddress.value,
+  showPrice: progressSummaryStrip.showPrice.value,
+  showSlot: progressSummaryStrip.showSlot.value,
+  showFeeDetails: progressSummaryStrip.showFeeDetails.value,
+  serviceLine: progressSummaryStrip.serviceLine.value,
+  addressLine: progressSummaryStrip.addressLine.value,
+  feePreviewLabel: progressSummaryStrip.feePreviewLabel.value,
+  slotLines: progressSummaryStrip.slotLines.value,
+  priceData: progressSummaryStrip.priceData.value,
+}))
 
 const { success, error: showError } = useNotification()
 
@@ -102,7 +119,12 @@ async function handleCopyQuoteLink(): Promise<void> {
                     rounded
                     class="stepper-avatar"
                   >
-                    <span class="step-number">{{ index + 1 }}</span>
+                    <Icon
+                      :icon="step.icon"
+                      width="26"
+                      height="26"
+                      class="stepper-step-icon"
+                    />
                   </VAvatar>
                 </template>
                 
@@ -151,6 +173,7 @@ async function handleCopyQuoteLink(): Promise<void> {
         <!-- Step Content (Below Stepper) -->
         <VCol cols="12" class="content-column">
           <VCardText class="step-content">
+            <BookingProgressSummaryStrip v-bind="progressSummaryStripDisplay" />
             <component :is="getStepContent(activeStep)" v-if="getStepContent(activeStep)" />
             
             <!-- Navigation Footer -->

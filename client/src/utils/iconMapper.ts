@@ -52,7 +52,3 @@ export function getIcon(iconString: string | null | undefined): string {
   // PATTERN: Return default icon when format is unrecognized
   return DEFAULT_ICON
 }
-
-export function mapIcon(iconString: string | null | undefined): string {
-  return getIcon(iconString)
-}

@@ -27,8 +27,7 @@ export function resolveBookingAnnotationSlotText(
     return ''
   }
   const best = matching.reduce((a, b) => (a.orderIndex >= b.orderIndex ? a : b))
-  return resolveAnnotationTextForAssignment(
-    { text: best.text, contentRows: best.contentRows },
-    selectedUt
-  )
+  const text = best.text
+  const contentRows = best.contentRows
+  return resolveAnnotationTextForAssignment({ text, contentRows }, selectedUt)
 }

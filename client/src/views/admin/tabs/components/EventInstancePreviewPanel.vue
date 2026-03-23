@@ -45,7 +45,7 @@ const realBlock = computed(() => {
 
 <template>
   <div class="text-title-small mb-2">Live preview</div>
-  <VRow dense class="mb-3">
+  <VRow density="comfortable" class="mb-3">
     <VCol cols="12" md="6">
       <VCard variant="outlined" class="pa-3 h-100">
         <div class="text-label-large mb-2">{{ sampleBlock.label }}</div>

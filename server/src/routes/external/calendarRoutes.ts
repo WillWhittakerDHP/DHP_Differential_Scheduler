@@ -7,12 +7,12 @@ import type {
   EventAttendee,
 } from '../../services/google/calendar/calendarTypes.js';
 import { getCredentials } from '../../config/googleOAuth.js';
-import { CalendarApiError } from '../../services/calendarErrorHandler.js';
 import { createLogger } from '../../utils/logger.js';
 import { csrfProtection } from '../../middlewares/security.js';
 import { sendBadRequest, sendCreated } from '../helpers/routerResponseHelpers.js';
 import { CalendarDebugRouter } from './calendarDebugRoutes.js';
 import { CALENDAR_ROUTE_MESSAGES } from './calendarRouteConstants.js';
+import { sendCalendarRouteErrorResponse } from './calendarRouteErrorResponses.js';
 
 const createEventBodySchema = Joi.object({
   calendarId: Joi.string().required(),
@@ -38,22 +38,7 @@ function withCalendarErrorHandling(handler: AsyncRouteHandler): AsyncRouteHandle
       await handler(req, res);
     } catch (error) {
       logger.error('Calendar route error:', error);
-      if (error instanceof CalendarApiError) {
-        const statusCode = error.getStatusCode();
-        res.status(statusCode).json({
-          error: error.type,
-          message: error.getUserMessage(),
-          retryable: error.retryable,
-          ...((error.type === 'auth' || error.type === 'permission') && {
-            authUrl: CALENDAR_ROUTE_MESSAGES.AUTH_URL,
-          }),
-        });
-        return;
-      }
-      res.status(500).json({
-        error: 'unknown',
-        message: error instanceof Error ? error.message : CALENDAR_ROUTE_MESSAGES.UNEXPECTED_ERROR,
-      });
+      sendCalendarRouteErrorResponse(res, error);
     }
   };
 }

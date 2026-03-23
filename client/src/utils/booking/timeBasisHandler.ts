@@ -7,7 +7,7 @@ export interface TimeBasisHandlerEmits {
   (e: 'time-basis-change', type: 'major' | 'minor'): void
 }
 
-export interface TimeBasisHandlerReturn {
+interface TimeBasisHandlerReturn {
   handleTimeBasisClick: (type: 'major' | 'minor') => void
 }
 

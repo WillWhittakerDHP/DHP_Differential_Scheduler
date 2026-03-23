@@ -1,12 +1,8 @@
 <template>
   <BulkEditModal
     :model-value="modelValue"
-    entity-key="partInstance"
-    :entity="templateEntity"
-    :field-metadata="filteredMetadata"
-    title="Bulk Edit: Part Instances"
-    description="Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them."
-    :instance-count="instanceCount"
+    :content="bulkEditContent"
+    :labels="bulkEditLabels"
     :persistent="false"
     @update:model-value="updateModelValue"
     @confirm="handleConfirm"
@@ -115,6 +111,19 @@ const filteredMetadata = computed(() => {
     Object.entries(metadata).filter(([_, fieldMeta]) => fieldMeta.bulkEdit === true)
   )
 })
+
+const bulkEditContent = computed(() => ({
+  entityKey: 'partInstance' as const,
+  entity: templateEntity.value,
+  fieldMetadata: filteredMetadata.value,
+}))
+
+const bulkEditLabels = computed(() => ({
+  title: 'Bulk Edit: Part Instances',
+  description:
+    'Apply the same values to all PartInstances for this BlockInstance. Leave fields empty to skip them.',
+  instanceCount: props.instanceCount,
+}))
 
 function updateModelValue(value: boolean) {
   emit('update:modelValue', value)

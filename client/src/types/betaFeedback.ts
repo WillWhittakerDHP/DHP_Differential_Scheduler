@@ -65,5 +65,3 @@ export interface BetaFeedbackFiltersBase {
   category?: FeedbackCategory
   severity?: FeedbackSeverity
 }
-
-export type BetaFeedbackFilters = BetaFeedbackFiltersBase

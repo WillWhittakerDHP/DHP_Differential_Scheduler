@@ -2,11 +2,11 @@
  */
 import type { Ref } from 'vue'
 
-export interface MetadataEditorSaveRef {
+interface MetadataEditorSaveRef {
   save: () => Promise<void>
 }
 
-export interface UseMetadataEditModalOptions {
+interface UseMetadataEditModalOptions {
   editorRef: Ref<MetadataEditorSaveRef | null>
   showError: (message: string) => void
   getErrorMessage: (err: unknown) => string

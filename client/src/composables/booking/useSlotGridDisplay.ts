@@ -2,15 +2,16 @@
  */
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { SlotAvailabilityResult } from '@shared/types/availabilityTypes'
-import type { AppointmentSlot, TimeRange } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { AppointmentSlot } from '@/types/appointment'
 import { derivePerspective } from '@/utils/booking/perspectiveResolver'
 
 export interface SlotDisplayItem extends SlotAvailabilityResult {
   buttonIndex: number
-  displayTime: TimeRange | null
+  displayTime: SlotTimeBounds | null
 }
 
-export interface UseSlotGridDisplayOptions {
+interface UseSlotGridDisplayOptions {
   appointmentSlots: Ref<AppointmentSlot[]>
   timeBasis: Ref<string>
 }

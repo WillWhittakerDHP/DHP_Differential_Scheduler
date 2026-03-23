@@ -1,6 +1,6 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
-import type { SelectableDisplayType } from './selectableDisplayConfig'
+import type { SelectableDisplayType } from './selectableDisplayConfigTypes'
 
 export interface DisplayFieldType<GE extends GlobalEntityKey, _FieldKey extends GlobalFieldKey<GE>> {
   label: string;

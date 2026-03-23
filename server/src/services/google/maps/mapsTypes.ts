@@ -21,11 +21,6 @@ export type {
   RouteMatrixResult
 }
 
-export interface AutocompleteResponse {
-  predictions: AutocompletePrediction[]
-  status: string
-}
-
 export interface DriveTimeResult {
   durationMinutes: number
   durationSeconds: number

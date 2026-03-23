@@ -5,11 +5,12 @@ import { ref, watch } from 'vue'
 import { createLogger } from '@/utils/logger'
 import { getCalendarSettings, buildCalendarPayload } from '@/configs/calendarSettings'
 import apiClient from '@/utils/api'
-import type { UseAdminCalendarSettingsReturn, UseAdminCalendarSettingsOptions } from '@/types/admin/calendarSettings'
+import type { AdminSettingsTabQueryOptions } from '@/types/admin/adminSettingsTabQueryOptions'
+import type { UseAdminCalendarSettingsReturn } from '@/types/admin/calendarSettings'
 
 const logger = createLogger('useAdminCalendarSettings')
 
-export function useAdminCalendarSettings(options?: UseAdminCalendarSettingsOptions): UseAdminCalendarSettingsReturn {
+export function useAdminCalendarSettings(options?: AdminSettingsTabQueryOptions): UseAdminCalendarSettingsReturn {
   const formData = ref<import('@/configs/calendarSettings').CalendarSettingsData | null>(null)
   const loading = ref(false)
   const saving = ref(false)

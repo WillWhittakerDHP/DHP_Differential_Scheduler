@@ -1,9 +1,9 @@
 import type { ComputedRef, Ref } from 'vue'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type {
   AppointmentShape,
   AppointmentSlot,
   AppointmentSlots,
-  TimeRange,
   PerspectiveKey,
 } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
@@ -17,15 +17,17 @@ export interface UseAppointmentSlotsParams {
   isDifferentialService: ComputedRef<boolean>
   /** When set, used instead of shape from blockInstances (e.g. moveable single-duration grid). */
   appointmentShapeOverride?: ComputedRef<AppointmentShape | null>
+  /** When set, replaces built-in useAppointmentShape result (orchestrator shares one shape for filter + slots). */
+  appointmentShapeFromBlocks?: ComputedRef<AppointmentShape | null>
 }
 
 export interface UseAppointmentSlotsReturn {
   appointmentShape: ComputedRef<AppointmentShape | null>
   appointmentSlots: ComputedRef<AppointmentSlots>
   selectedSlot: ComputedRef<AppointmentSlot | null>
-  getDisplayTime: (buttonIndex: number) => TimeRange | null
+  getDisplayTime: (buttonIndex: number) => SlotTimeBounds | null
   graphBars: ComputedRef<{
-    major: TimeRange | null
-    minor: TimeRange | null
+    major: SlotTimeBounds | null
+    minor: SlotTimeBounds | null
   }>
 }

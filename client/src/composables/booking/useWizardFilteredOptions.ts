@@ -39,7 +39,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       currentSelection: selectedAvailabilityOptions.value,
       relationshipName: 'availability options',
       shapeType: BLOCK_SHAPE_TYPES.OPTION,
-      allowFallbackToAllOfShape: true,
+      allowFallbackToAllOfShape: false,
       logShapeMismatch: true
     })
   )

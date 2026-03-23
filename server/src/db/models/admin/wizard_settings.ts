@@ -31,6 +31,7 @@ export class WizardSettings extends Model<
   declare subStepLabelOptions: CreationOptional<string | null>;
   declare subStepLabelPickTime: CreationOptional<string | null>;
   declare subStepLabelConfirmMoveable: CreationOptional<string | null>;
+  declare moveableNoFeasibleCompletionSlotsMessage: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -74,6 +75,11 @@ export function WizardSettingsFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
         field: 'sub_step_label_confirm_moveable',
+      },
+      moveableNoFeasibleCompletionSlotsMessage: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'moveable_no_feasible_completion_slots_message',
       },
       createdAt: {
         type: DataTypes.DATE,

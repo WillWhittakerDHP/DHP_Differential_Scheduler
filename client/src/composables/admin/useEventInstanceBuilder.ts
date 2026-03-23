@@ -4,14 +4,9 @@
  */
 import { ref, nextTick, type Ref } from 'vue'
 import { getActiveElement } from '@/utils/dom/activeElement'
+import type { EventInstanceTemplateStrings } from '@/types/admin/eventInstanceTemplateStrings'
 
 export type EventInstanceTemplateFieldKey = 'titleTemplate' | 'descriptionTemplate' | 'locationTemplate'
-
-export interface EventInstanceTemplateModel {
-  titleTemplate: string
-  descriptionTemplate: string
-  locationTemplate: string
-}
 
 export interface UseEventInstanceBuilderReturn {
   activeTemplateField: Ref<EventInstanceTemplateFieldKey>
@@ -19,7 +14,7 @@ export interface UseEventInstanceBuilderReturn {
   insertVariable: (variableName: string) => void
 }
 
-export function useEventInstanceBuilder(model: Ref<EventInstanceTemplateModel>): UseEventInstanceBuilderReturn {
+export function useEventInstanceBuilder(model: Ref<EventInstanceTemplateStrings>): UseEventInstanceBuilderReturn {
   const activeTemplateField = ref<EventInstanceTemplateFieldKey>('titleTemplate')
 
   function setActiveTemplateField(key: EventInstanceTemplateFieldKey): void {

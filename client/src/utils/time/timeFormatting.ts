@@ -1,24 +1,12 @@
-import type { TimeRange, TimeSlot } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { TimeSlot } from '@/types/appointment'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import { formatTimeRangeForDisplay } from '@/utils/time/localTime'
 
 type MaybeRef<Value> = Value | { value: Value }
 
-export function formatTimeRange(range: TimeRange | TimeSlot): string {
+export function formatTimeRange(range: SlotTimeBounds | TimeSlot): string {
   return formatTimeRangeForDisplay(range)
-}
-
-export function areSlotsEqual(
-  slot1: TimeRange | TimeSlot | null, 
-  slot2: TimeRange | TimeSlot | null
-): boolean {
-  if (!slot1 || !slot2) return false
-  
-  if ('startTime' in slot1 && 'endTime' in slot1 && 'startTime' in slot2 && 'endTime' in slot2) {
-    return slot1.startTime === slot2.startTime && slot1.endTime === slot2.endTime
-  }
-  
-  return false
 }
 
 export function formatDuration(minutes: number): string {
@@ -42,7 +30,7 @@ export function getTodayDate(): ISO8601Date {
 }
 
 export function getFirstAvailabilityDate(
-  timeSlots: MaybeRef<(TimeRange | TimeSlot)[]>
+  timeSlots: MaybeRef<(SlotTimeBounds | TimeSlot)[]>
 ): ISO8601Date {
   const slots = 'value' in timeSlots ? timeSlots.value : timeSlots
 

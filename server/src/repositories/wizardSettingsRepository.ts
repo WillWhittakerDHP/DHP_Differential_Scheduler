@@ -11,6 +11,34 @@ const DEFAULT: WizardSettingsData = {
   useBrandColors: false,
 }
 
+/** Nullable string columns copied onto WizardSettingsData when present (keeps branch count low). */
+const OPTIONAL_LABEL_FIELDS = [
+  'majorLabel',
+  'minorLabel',
+  'moveableFallbackLabel',
+  'differentialGraphDefaultLabel',
+  'majorStateLabel',
+  'minorStateLabel',
+  'selectTimeSlotLabel',
+  'subStepLabelPickDay',
+  'subStepLabelOptions',
+  'subStepLabelPickTime',
+  'subStepLabelConfirmMoveable',
+  'moveableNoFeasibleCompletionSlotsMessage',
+] as const satisfies readonly (keyof WizardSettingsData)[]
+
+/** Read optional label columns from a Sequelize model instance (explicit keys; avoids fragile row casts). */
+function optionalStringFieldsFromWizardRow(row: InstanceType<typeof WizardSettings>): Partial<WizardSettingsData> {
+  const out: Partial<WizardSettingsData> = {}
+  for (const key of OPTIONAL_LABEL_FIELDS) {
+    const v = row[key]
+    if (v != null) {
+      out[key] = v
+    }
+  }
+  return out
+}
+
 export async function getWizardSettingsData(): Promise<WizardSettingsData> {
   const row = await WizardSettings.findOne()
   if (!row) {
@@ -20,21 +48,7 @@ export async function getWizardSettingsData(): Promise<WizardSettingsData> {
     ...DEFAULT,
     showApplyCoupon: row.showApplyCoupon,
     useBrandColors: row.useBrandColors,
-    ...(row.majorLabel != null ? { majorLabel: row.majorLabel } : {}),
-    ...(row.minorLabel != null ? { minorLabel: row.minorLabel } : {}),
-    ...(row.moveableFallbackLabel != null ? { moveableFallbackLabel: row.moveableFallbackLabel } : {}),
-    ...(row.differentialGraphDefaultLabel != null
-      ? { differentialGraphDefaultLabel: row.differentialGraphDefaultLabel }
-      : {}),
-    ...(row.majorStateLabel != null ? { majorStateLabel: row.majorStateLabel } : {}),
-    ...(row.minorStateLabel != null ? { minorStateLabel: row.minorStateLabel } : {}),
-    ...(row.selectTimeSlotLabel != null ? { selectTimeSlotLabel: row.selectTimeSlotLabel } : {}),
-    ...(row.subStepLabelPickDay != null ? { subStepLabelPickDay: row.subStepLabelPickDay } : {}),
-    ...(row.subStepLabelOptions != null ? { subStepLabelOptions: row.subStepLabelOptions } : {}),
-    ...(row.subStepLabelPickTime != null ? { subStepLabelPickTime: row.subStepLabelPickTime } : {}),
-    ...(row.subStepLabelConfirmMoveable != null
-      ? { subStepLabelConfirmMoveable: row.subStepLabelConfirmMoveable }
-      : {}),
+    ...optionalStringFieldsFromWizardRow(row),
   }
 }
 
@@ -57,6 +71,7 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         subStepLabelOptions: merged.subStepLabelOptions ?? null,
         subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
         subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
+        moveableNoFeasibleCompletionSlotsMessage: merged.moveableNoFeasibleCompletionSlotsMessage ?? null,
       },
       { transaction: t }
     )
@@ -76,6 +91,7 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         subStepLabelOptions: merged.subStepLabelOptions ?? null,
         subStepLabelPickTime: merged.subStepLabelPickTime ?? null,
         subStepLabelConfirmMoveable: merged.subStepLabelConfirmMoveable ?? null,
+        moveableNoFeasibleCompletionSlotsMessage: merged.moveableNoFeasibleCompletionSlotsMessage ?? null,
         updatedAt: new Date(),
       },
       { transaction: t }

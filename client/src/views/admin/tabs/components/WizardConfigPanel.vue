@@ -88,6 +88,14 @@ function handleUseBrandColors(value: boolean | null): void {
         persistent-hint
         class="mb-4"
       />
+      <VTextField
+        :model-value="differential.moveableNoFeasibleCompletionSlotsMessage"
+        @update:model-value="handlers.handleMoveableNoFeasibleCompletionSlotsMessage"
+        :label="UI_STRINGS.differential.moveableNoFeasibleCompletionSlotsMessage"
+        :hint="UI_STRINGS.differential.moveableNoFeasibleCompletionSlotsMessageHint"
+        persistent-hint
+        class="mb-4"
+      />
     </div>
 
     <div class="d-flex gap-2 mt-4">

@@ -18,7 +18,7 @@ import {
   availabilityStepValidateKey,
   confirmationStepValidKey,
   confirmationStepValidateKey,
-} from '@/composables/booking/injectionKeys'
+} from '@/keys/bookingInjectionKeys'
 
 
 export function useWizardStepDataRefs(): UseWizardStepDataRefsReturn {

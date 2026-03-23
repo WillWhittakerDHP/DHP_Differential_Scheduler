@@ -2,7 +2,8 @@ import { computed } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { rawBookingModeIsStandaloneOnly } from '@shared/utils/ternaryAliasUtils'
-import type { UseInstanceFilteringOptions, UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
+import type { UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
+import type { UseInstanceBlockInstancesByShapeOptions } from '@/types/admin/instanceComposableOptions'
 
 const DEFAULT_BOOKING_MODE_STORAGE = DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
 
@@ -15,7 +16,7 @@ function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): bool
  *     `rawBookingModeIsStandaloneOnly` (shared with booking transforms), not wizard “main vs line item” lists.
  */
 export function useInstanceFiltering(
-  options: UseInstanceFilteringOptions
+  options: UseInstanceBlockInstancesByShapeOptions
 ): UseInstanceFilteringReturn {
   const { blockInstancesByShape } = options
 

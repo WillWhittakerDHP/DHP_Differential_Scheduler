@@ -9,7 +9,7 @@ const PAD = { left: 32, right: 12, top: 8, bottom: 20 }
 const PLOT_WIDTH = 280 - PAD.left - PAD.right
 const PLOT_HEIGHT = 90 - PAD.top - PAD.bottom
 
-export interface UseFeePreviewOptions {
+interface UseFeePreviewOptions {
   totalBaseFee: Ref<number>
   totalRateOverBaseFee: Ref<number>
   showPreview: Ref<boolean>

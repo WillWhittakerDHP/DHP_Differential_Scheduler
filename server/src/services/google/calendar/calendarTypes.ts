@@ -15,7 +15,7 @@ export interface EventAttendee {
   optional?: boolean  // Whether attendance is optional
 }
 
-export interface ReminderOverride {
+interface ReminderOverride {
   method: 'email' | 'popup'
   minutes: number
 }

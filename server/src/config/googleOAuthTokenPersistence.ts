@@ -5,7 +5,7 @@ import { createLogger } from '../utils/logger.js'
 import { CALENDAR_ROUTE_MESSAGES } from '../routes/external/calendarRouteConstants.js'
 
 /** Token shape for persistence; shared so callers can set credentials. */
-export interface TokenData {
+interface TokenData {
   access_token?: string | null
   refresh_token?: string | null
   expiry_date?: number | null

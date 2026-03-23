@@ -1,6 +1,6 @@
 import { computed, inject, ref, type ComputedRef, type Ref } from 'vue'
 import type { DevPanelButtonsContext } from '@/types/booking/devPanelButtonsContext'
-import { devPanelButtonsKey } from '@/composables/booking/injectionKeys'
+import { devPanelButtonsKey } from '@/keys/bookingInjectionKeys'
 
 /**
  * Shared inject + unwrap for dev panel buttons context.

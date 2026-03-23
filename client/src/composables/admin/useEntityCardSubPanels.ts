@@ -1,6 +1,7 @@
 /**
  */
 import { computed, ref, watch, nextTick } from 'vue'
+import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -9,24 +10,52 @@ import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { SUB_PANEL_KEYS, type SubPanelRecord } from '@/constants/fieldMetadata'
-import { getFieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 import type RelationshipCollection from '@/components/admin/generic/collections/RelationshipCollection.vue'
+import { blockShapeDisplayNameForBlockInstance } from '@/utils/admin/entityCardBlockShapeDisplayName'
+import {
+  buildPartsSummaryForSubPanel,
+  buildRelationshipTypesForSubPanel,
+  formatTruncatedList,
+} from '@/utils/admin/entityCardSubPanelSummaries'
+import {
+  getEntityNamesForCard,
+  getPartShapeNamesForCard,
+} from '@/utils/admin/entityCardSubPanelEntityNames'
+import { isEntityCardRelationshipCollectionField } from '@/utils/admin/entityCardRelationshipCollectionField'
+import {
+  callPartsCollectionToggleBulkEdit,
+  firstPartsCollectionInstance,
+  readBulkEditModeFromPartsCollection,
+} from '@/utils/admin/partsCollectionInstanceHelpers'
 
 type RelationshipCollectionRef = InstanceType<typeof RelationshipCollection>
+type PartsCollectionRefValue = (RelationshipCollectionRef)[] | RelationshipCollectionRef | null
 
-const MAX_DISPLAY_ITEMS = 2
+function togglePartsBulkEditModeForCard(
+  partsCollectionRef: Ref<PartsCollectionRefValue>,
+  expandedPanels: Ref<string[]>,
+  scheduleAfterPaint: (fn: () => void) => void
+): void {
+  const instance = firstPartsCollectionInstance(partsCollectionRef.value)
+  if (!expandedPanels.value.includes('parts')) {
+    expandedPanels.value.push('parts')
+    scheduleAfterPaint(() => {
+      callPartsCollectionToggleBulkEdit(firstPartsCollectionInstance(partsCollectionRef.value))
+    })
+  } else {
+    callPartsCollectionToggleBulkEdit(instance)
+  }
+}
 
-function formatTruncatedList(items: string[], maxDisplay: number = MAX_DISPLAY_ITEMS): string {
-  if (items.length === 0) return ''
-  const displayItems = items.slice(0, maxDisplay)
-  const remaining = items.length - maxDisplay
-  if (remaining <= 0) return displayItems.join(', ')
-  return `${displayItems.join(', ')} +${remaining} more`
+function ensurePartsPanelExpandedWhenBulkEnabled(isEnabled: boolean, expandedPanels: Ref<string[]>): void {
+  if (isEnabled && !expandedPanels.value.includes('parts')) {
+    expandedPanels.value.push('parts')
+  }
 }
 
 export type SubPanelFields = SubPanelRecord<GlobalFieldKey<GlobalEntityKey>[]>
 
-export interface UseEntityCardSubPanelsOptions {
+interface UseEntityCardSubPanelsOptions {
   entityKey: GlobalEntityKey
   entity: GlobalEntity<GlobalEntityKey>
   form: FormContext
@@ -40,7 +69,7 @@ export interface UseEntityCardSubPanelsReturn {
   getEntityNames: (ids: unknown[], entityType: 'blockInstance' | 'partInstance') => string[]
   partsSummary: import('vue').ComputedRef<string>
   isRelationshipCollectionField: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => boolean
-  partsCollectionRef: import('vue').Ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef | null>
+  partsCollectionRef: import('vue').Ref<PartsCollectionRefValue>
   expandedPanels: import('vue').Ref<string[]>
   partsBulkEditMode: import('vue').ComputedRef<boolean>
   togglePartsBulkEditMode: () => void
@@ -61,118 +90,43 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
 
   const blockShapeName = computed((): string => {
     if (entityKey.value !== 'blockInstance') return ''
-    const entityVal = entity.value
-    const blockEntity = entityVal as GlobalEntity<'blockInstance'>
-    const blockShape = blockShapes.value.find((bs) => bs.id === blockEntity.blockShapeRef)
-    const name = blockShape?.name
-    return name !== undefined && name !== null && name !== '' ? name : 'Block'
+    return blockShapeDisplayNameForBlockInstance(entity.value as GlobalEntity<'blockInstance'>, blockShapes.value)
   })
 
-  function getEntityNames(ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] {
-    if (!Array.isArray(ids)) return []
-    const entities = entityType === 'blockInstance' ? blockInstances.value : partInstances.value
-    return ids
-      .map((id) => {
-        const found = entities.find((e) => e.id === id)
-        return found?.name ?? null
-      })
-      .filter((name): name is string => name !== null)
-  }
+  const getEntityNames = (ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] =>
+    getEntityNamesForCard(ids, entityType, blockInstances.value, partInstances.value)
 
-  function getPartShapeNames(ids: unknown[]): string[] {
-    if (!Array.isArray(ids)) return []
-    return ids
-      .map((id) => {
-        const found = partShapes.value.find((e) => e.id === id)
-        return found?.name ?? null
-      })
-      .filter((name): name is string => name !== null)
-  }
+  const partsSummary = computed((): string =>
+    buildPartsSummaryForSubPanel(entityKey.value, form.value.values as Record<string, unknown>, {
+      namesForPartInstanceIds: (ids) => getEntityNamesForCard(ids, 'partInstance', blockInstances.value, partInstances.value),
+      namesForPartShapeIds: (ids) => getPartShapeNamesForCard(ids, partShapes.value),
+    })
+  )
 
-  const partsSummary = computed((): string => {
-    if (entityKey.value === 'blockInstance') {
-      const partAssignments = form.value.values.partAssignments
-      if (!Array.isArray(partAssignments) || partAssignments.length === 0) return ''
-      return formatTruncatedList(getEntityNames(partAssignments, 'partInstance'))
-    }
-    if (entityKey.value === 'blockShape') {
-      const validParts = form.value.values.validParts
-      if (!Array.isArray(validParts) || validParts.length === 0) return ''
-      return formatTruncatedList(getPartShapeNames(validParts))
-    }
-    return ''
-  })
+  const isRelationshipCollectionField = (fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean =>
+    isEntityCardRelationshipCollectionField(entityKey.value, fieldKey, fieldMetadata.value)
 
-  function isRelationshipCollectionField(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
-    const meta = fieldMetadata.value
-    if (!meta) return false
-    const fieldMeta = meta[String(fieldKey)]
-    if (!fieldMeta) return false
-    const componentType = getFieldComponent(entityKey.value, fieldKey, fieldMeta)
-    return componentType.type === 'relationshipCollection'
-  }
-
-  const partsCollectionRef = ref<(RelationshipCollectionRef)[] | RelationshipCollectionRef | null>(null)
+  const partsCollectionRef = ref<PartsCollectionRefValue>(null)
   const expandedPanels = ref<string[]>([])
 
-  const partsBulkEditMode = computed(() => {
-    const refValue = partsCollectionRef.value
-    const instance = Array.isArray(refValue) ? refValue[0] ?? null : refValue
-    if (instance?.bulkEditMode && typeof instance.bulkEditMode === 'object' && 'value' in instance.bulkEditMode) {
-      return (instance.bulkEditMode as { value: boolean }).value
-    }
-    return false
-  })
+  const partsBulkEditMode = computed(() =>
+    readBulkEditModeFromPartsCollection(firstPartsCollectionInstance(partsCollectionRef.value))
+  )
 
-  function togglePartsBulkEditMode(): void {
-    const refValue = partsCollectionRef.value
-    const instance = Array.isArray(refValue) ? refValue[0] ?? null : refValue
-    type WithToggle = { toggleBulkEditMode?: () => void }
-    const callToggle = (target: RelationshipCollectionRef | null): void => {
-      const t = target as WithToggle | null
-      if (t && typeof t.toggleBulkEditMode === 'function') {
-        t.toggleBulkEditMode()
-      }
-    }
-    if (!expandedPanels.value.includes('parts')) {
-      expandedPanels.value.push('parts')
-      nextTick(() => {
-        const inst = Array.isArray(partsCollectionRef.value) ? partsCollectionRef.value[0] ?? null : partsCollectionRef.value
-        callToggle(inst)
-      })
-    } else {
-      callToggle(instance)
-    }
-  }
+  const togglePartsBulkEditMode = (): void =>
+    togglePartsBulkEditModeForCard(partsCollectionRef, expandedPanels, nextTick)
 
-  watch(partsBulkEditMode, (isEnabled) => {
-    if (isEnabled && !expandedPanels.value.includes('parts')) {
-      expandedPanels.value.push('parts')
-    }
-  })
+  watch(partsBulkEditMode, (isEnabled) => ensurePartsPanelExpandedWhenBulkEnabled(isEnabled, expandedPanels))
 
-  const relationshipsSummary = computed((): string => {
-    const formValues = form.value.values
-    const relationshipTypes: string[] = []
-    if (entityKey.value === 'blockInstance') {
-      const cascades = Array.isArray(formValues.bookingCascades) ? formValues.bookingCascades : []
-      const components = Array.isArray(formValues.instanceComponents) ? formValues.instanceComponents : []
-      const dependentInstances = Array.isArray(formValues.dependentInstances) ? formValues.dependentInstances : []
-      if (cascades.length > 0) relationshipTypes.push('Booking Cascades')
-      if (components.length > 0) relationshipTypes.push(`${blockShapeName.value} Components`)
-      if (dependentInstances.length > 0) relationshipTypes.push(`Dependent ${blockShapeName.value} Instances`)
-    } else if (entityKey.value === 'blockShape') {
-      const cascades = Array.isArray(formValues.validCascades) ? formValues.validCascades : []
-      if (cascades.length > 0) relationshipTypes.push('Valid Cascades')
-    } else if (entityKey.value === 'partInstance') {
-      const pricingCascades = Array.isArray(formValues.pricingCascades) ? formValues.pricingCascades : []
-      if (pricingCascades.length > 0) relationshipTypes.push('Pricing Cascades')
-    } else if (entityKey.value === 'partShape') {
-      const validPricingCascades = Array.isArray(formValues.validPricingCascades) ? formValues.validPricingCascades : []
-      if (validPricingCascades.length > 0) relationshipTypes.push('Valid Pricing Cascades')
-    }
-    return formatTruncatedList(relationshipTypes)
-  })
+  const relationshipsSummary = computed((): string =>
+    formatTruncatedList(
+      buildRelationshipTypesForSubPanel(
+        entityKey.value,
+        form.value.values as Record<string, unknown>,
+        blockShapeName.value
+      )
+    )
+  )
 
   const hasAnySubPanelFields = computed(() =>
     SUB_PANEL_KEYS.some((key) => subPanelFields.value[key].length > 0)

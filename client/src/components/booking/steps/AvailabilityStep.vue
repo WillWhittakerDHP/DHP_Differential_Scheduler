@@ -1,69 +1,34 @@
 <script setup lang="ts">
-
-import { inject, computed, onMounted, provide, watch } from 'vue'
-import { nilToEmptyString } from '@shared/utils/nilDefaults'
+import { computed, onMounted, provide, watch } from 'vue'
 import { createLogger } from '@/utils/logger'
-import { wizardKey } from '@/composables/booking/injectionKeys'
+import {
+  availabilityStepDataKey,
+  availabilityStepValidKey,
+  availabilityStepValidateKey,
+  availabilitySubStepContextKey,
+} from '@/keys/bookingInjectionKeys'
 import { useAvailabilityOrchestrator } from '@/composables/booking/useAvailabilityOrchestrator'
-import { useAvailabilityStepFeePreview } from '@/composables/booking/useAvailabilityStepFeePreview'
 import { useWizardStepSync } from '@/composables/booking/useWizardStepSync'
-import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySubSteps } from '@/composables/booking/useAvailabilitySubSteps'
 import { useAvailabilityConfirmationState } from '@/composables/booking/useAvailabilityConfirmationState'
 import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStepUI'
 import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
 import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
-import {
-  computedAvailabilityKey,
-  propertyDetailsStepDataKey,
-  displayedMonthKey,
-  updateDisplayedMonthKey,
-  appointmentDurationKey,
-  availabilityStepDataKey,
-  availabilityStepValidKey,
-  availabilityStepValidateKey,
-  loadedWizardStateKey,
-  bookingFlowReadyKey,
-} from '@/composables/booking/injectionKeys'
+import { useAvailabilityStepInjections } from '@/composables/booking/useAvailabilityStepInjections'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
-import { availabilitySubStepContextKey } from '@/composables/booking/injectionKeys'
 
-const wizard = inject(wizardKey)
-if (!wizard) {
-  throw new Error('Wizard instance not provided. Make sure BookingWizard component provides the wizard instance.')
-}
-
-const loadedWizardState = inject(loadedWizardStateKey)
-if (!loadedWizardState) {
-  throw new Error('loadedWizardState not provided. Make sure BookingWizard provides loadedWizardState.')
-}
-
-const computedAvailability = inject(computedAvailabilityKey)
-if (!computedAvailability) {
-  throw new Error('computedAvailability must be provided by BookingWizard')
-}
-
-const propertyDetailsStepData = inject(propertyDetailsStepDataKey)
-if (!propertyDetailsStepData) {
-  throw new Error('propertyDetailsStepData not provided. Make sure BookingWizard provides propertyDetailsStepData.')
-}
-
-const displayedMonth = inject(displayedMonthKey)
-const updateDisplayedMonth = inject(updateDisplayedMonthKey)
-if (!displayedMonth || !updateDisplayedMonth) {
-  throw new Error('displayedMonth and updateDisplayedMonth must be provided by BookingWizard')
-}
-
-const appointmentDurationRef = inject(appointmentDurationKey)
-if (!appointmentDurationRef) {
-  throw new Error('appointmentDuration must be provided by BookingWizard')
-}
-
-const isBookingFlowReady = inject(bookingFlowReadyKey)
-if (!isBookingFlowReady) {
-  throw new Error('bookingFlowReadyKey must be provided by useBookingWizardSetup / BookingWizard')
-}
+const {
+  wizard,
+  loadedWizardState,
+  computedAvailability,
+  propertyDetailsStepData,
+  displayedMonth,
+  updateDisplayedMonth,
+  appointmentDurationRef,
+  isBookingFlowReady,
+} = useAvailabilityStepInjections()
 
 const orchestrator = useAvailabilityOrchestrator({
   wizard,
@@ -72,7 +37,7 @@ const orchestrator = useAvailabilityOrchestrator({
   propertyDetailsStepData,
   displayedMonth,
   updateDisplayedMonth,
-  appointmentDurationRef
+  appointmentDurationRef,
 })
 const o = {
   ...orchestrator.data,
@@ -90,22 +55,24 @@ useWizardStepSync({
 })
 
 const confirmation = useAvailabilityConfirmationState()
-const { bookingData } = useBooking()
+const { labels: bookingWizardLabels } = useWizardSettings()
+
+/** Yes+deadline moveable: loaded day slots empty — show admin message and keep step invalid until user adjusts. */
+const moveableInfeasible = computed(() => {
+  if (!o.hasMoveablePartsGated.value) return false
+  const c = o.contingencyPeriod.value
+  if (c.hasContingency !== true || !c.endDate || !c.endTime) return false
+  if (!o.moveableOptions.value) return false
+  if (o.isLoadingOptions.value || o.isLoadingMoveableDaySlots.value) return false
+  return o.moveableAppointmentSlots.value.length === 0
+})
+
+const moveableInfeasibleMessage = computed(
+  () => bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage.value
+)
 
 const ui = useAvailabilityStepUI({ o, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o })
-
-const {
-  availabilityStepPriceData,
-  showFeeBar,
-  feePreviewLabel,
-  showApplyCoupon,
-} = useAvailabilityStepFeePreview({
-  wizard: o.wizard,
-  propertyDetailsStepData,
-  availabilityStepData: o.stepData,
-  bookingData,
-})
 
 const logger = createLogger('AvailabilityStep')
 
@@ -125,16 +92,53 @@ watch(
   { immediate: true }
 )
 
-const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 0)
+/** Options substep only when multiple cascade choices; 0–1 options use auto/clear sync in useBookingWizard. */
+const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 1)
+
+/** WHY: error is null when cascade is healthy; nilToEmptyString would warn on every render. */
+const availabilityOptionsCascadeErrorText = computed(() =>
+  (o.wizard.availabilityOptionsCascadeError?.value ?? '').trim()
+)
+
+const showAvailabilityOptionsCascadeError = computed(() => {
+  if (!availabilityOptionsCascadeErrorText.value) return false
+  return !hasOptions.value
+})
 const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
 const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
+
+/** Step 4 panel only when user must pick a completion slot (Yes + deadline). "No" uses silent confirm below. */
+const showMoveableSubstep = computed(
+  () =>
+    o.hasMoveablePartsGated.value && o.contingencyPeriod.value.hasContingency === true
+)
+
+const tailorSubStepComplete = computed(() => {
+  const optsOk = !hasOptions.value || o.selectedOptionTypeBlockId.value !== null
+  const c = o.contingencyPeriod.value
+  const contOk =
+    !o.hasMoveablePartsGated.value ||
+    c.hasContingency === false ||
+    (c.hasContingency === true && Boolean(c.endDate && c.endTime))
+  return optsOk && contOk
+})
+
+watch(
+  tailorSubStepComplete,
+  (v) => {
+    if (v) confirmation.confirm(1)
+  },
+  { immediate: true }
+)
 
 const subSteps = useAvailabilitySubSteps({
   hasOptions,
   hasDateSelected,
   isEffectivelyDifferential: o.isEffectivelyDifferential,
   hasMoveablePartsGated: o.hasMoveablePartsGated,
+  showMoveableSubstep,
+  tailorSubStepComplete,
   selectedOptionTypeBlockId: o.selectedOptionTypeBlockId,
   userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
   hasSlotSelected,
@@ -142,6 +146,22 @@ const subSteps = useAvailabilitySubSteps({
   confirmationState: confirmation,
   subStepLabels: ui.subStepLabels,
 })
+
+/** No-contingency path: no step 4 UI — confirm moveable scheduling once options exist (same as former in-panel auto-confirm). */
+watch(
+  () => ({
+    gated: o.hasMoveablePartsGated.value,
+    noContingency: o.contingencyPeriod.value.hasContingency === false,
+    hasOpts: o.moveableOptions.value != null,
+    loadingOpts: o.isLoadingOptions.value,
+    scheduled: o.stepData.value?.moveableScheduling != null,
+  }),
+  (w) => {
+    if (!w.gated || !w.noContingency || !w.hasOpts || w.loadingOpts || w.scheduled) return
+    ui.handleMoveableConfirmWithConfirm()
+  },
+  { flush: 'post', immediate: true }
+)
 
 /** Visible sub-steps (filter to only visible). */
 const visibleSubStepsFiltered = computed(() =>
@@ -186,12 +206,20 @@ const subStepContext = {
     return overlay.slotGridOverlayError.value
   },
   get emptyStateMessage() {
-    return nilToEmptyString(o.emptyStateMessage.value)
+    // WHY: useAvailabilityEmptyState returns null when slots exist; context still exposes string for templates.
+    return o.emptyStateMessage.value ?? ''
   },
   get firstAvailableNotice() {
     return o.firstAvailableNotice?.value ?? null
   },
   clearFirstAvailableNotice: o.clearFirstAvailableNotice,
+  get moveableInfeasible() {
+    return moveableInfeasible.value
+  },
+  get moveableInfeasibleMessage() {
+    return moveableInfeasibleMessage.value
+  },
+  hasOptions,
 }
 provide(availabilitySubStepContextKey, subStepContext)
 
@@ -204,66 +232,20 @@ onMounted(() => {
 
 <template>
   <div class="availability-step">
-    <div class="d-flex align-center justify-space-between flex-wrap mb-2">
-      <div>
-        <h4 class="text-headline-large mb-2">Appointment Availability</h4>
-        <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
-      </div>
-      <VMenu
-        v-if="showFeeBar"
-        location="bottom"
-        :close-on-content-click="true"
-        transition="scale-transition"
-        max-width="320"
-      >
-        <template #activator="{ props: menuProps }">
-          <div
-            v-bind="menuProps"
-            class="text-body-large text-medium-emphasis fee-preview-bar cursor-pointer"
-          >
-            {{ feePreviewLabel }}
-          </div>
-        </template>
-        <VCard class="fee-popover-card pa-3" min-width="280">
-          <h6 class="text-headline-small mb-3">Price Details</h6>
-          <div class="d-flex flex-column gap-2">
-            <div class="d-flex justify-space-between align-center">
-              <span class="text-body-large">Bag Total</span>
-              <span class="text-body-large text-medium-emphasis">
-                ${{ availabilityStepPriceData.bagTotal.toFixed(2) }}
-              </span>
-            </div>
-            <div v-if="showApplyCoupon" class="d-flex justify-space-between align-center">
-              <span class="text-body-large">Coupon Discount</span>
-              <span class="text-body-large text-medium-emphasis">
-                {{ availabilityStepPriceData.couponDiscount > 0 ? `-$${availabilityStepPriceData.couponDiscount.toFixed(2)}` : '—' }}
-              </span>
-            </div>
-            <div class="d-flex justify-space-between align-center">
-              <span class="text-body-large">Order Total</span>
-              <span class="text-body-large text-medium-emphasis">
-                ${{ availabilityStepPriceData.orderTotal.toFixed(2) }}
-              </span>
-            </div>
-            <template v-for="(lineItem, idx) in availabilityStepPriceData.lineItems" :key="idx">
-              <div class="d-flex justify-space-between align-center">
-                <span class="text-body-large">{{ lineItem.label }}</span>
-                <span class="text-body-large text-medium-emphasis">
-                  ${{ lineItem.amount.toFixed(2) }}
-                </span>
-              </div>
-            </template>
-          </div>
-          <VDivider class="my-2" />
-          <div class="d-flex justify-space-between align-center">
-            <span class="text-body-large font-weight-medium">Total</span>
-            <span class="text-body-large font-weight-medium">
-              ${{ availabilityStepPriceData.finalTotal.toFixed(2) }}
-            </span>
-          </div>
-        </VCard>
-      </VMenu>
+    <div class="mb-2">
+      <h4 class="text-headline-large mb-2">Appointment Availability</h4>
+      <p class="text-body-medium mb-6 mb-sm-4">Select a time that works for everybody</p>
     </div>
+
+    <VAlert
+      v-if="showAvailabilityOptionsCascadeError"
+      type="error"
+      variant="tonal"
+      class="mb-4"
+      role="alert"
+    >
+      {{ availabilityOptionsCascadeErrorText }}
+    </VAlert>
 
     <!-- Expandable panels (accordion). User can expand any panel; watcher auto-expands on confirm.
          LEARNING (Task 6.9.3.1): Vuetify VExpansionPanel/VExpansionPanelTitle provide native keyboard support per

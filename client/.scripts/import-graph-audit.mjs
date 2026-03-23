@@ -428,23 +428,38 @@ function main() {
   const cycles = detectCycles(adjacencyList)
 
   // Find fan-out violations
-  const fanOutViolations = Array.from(fanOut.entries())
+  const importGraphAllowlist = loadCentralAllowlist('import-graph')
+
+  const fanOutViolationsRaw = Array.from(fanOut.entries())
     .filter(([_, count]) => count > thresholds.maxFanOut)
     .map(([file, count]) => ({ file, fanOut: count }))
     .sort((a, b) => b.fanOut - a.fanOut)
 
+  const fanOutViolations = importGraphAllowlist
+    ? fanOutViolationsRaw.filter((v) => {
+        const { allowed } = checkConfigAllowlist(v.file, 'fanOut', 0, importGraphAllowlist)
+        return !allowed
+      })
+    : fanOutViolationsRaw
+
   // Find fan-in violations
-  const fanInViolations = Array.from(fanIn.entries())
+  const fanInViolationsRaw = Array.from(fanIn.entries())
     .filter(([_, count]) => count > thresholds.maxFanIn)
     .map(([file, count]) => ({ file, fanIn: count }))
     .sort((a, b) => b.fanIn - a.fanIn)
+
+  const fanInViolations = importGraphAllowlist
+    ? fanInViolationsRaw.filter((v) => {
+        const { allowed } = checkConfigAllowlist(v.file, 'fanIn', 0, importGraphAllowlist)
+        return !allowed
+      })
+    : fanInViolationsRaw
 
   // Composable chain depth (composable-calls-composable; depth 3+ hurts testability)
   const { violations: composableChainDepthViolationsRaw } = computeComposableChainDepths(
     adjacencyList,
     thresholds.maxComposableChainDepth
   )
-  const importGraphAllowlist = loadCentralAllowlist('import-graph')
   const composableChainDepthViolations = importGraphAllowlist
     ? composableChainDepthViolationsRaw.filter((v) => {
         const { allowed } = checkConfigAllowlist(v.file, 'composableChainDepth', 0, importGraphAllowlist)

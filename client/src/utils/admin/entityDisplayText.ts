@@ -22,7 +22,7 @@ const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   annotationInstance: 'Annotation Instances',
 }
 
-export function getEntityTypeName(entityKey: GlobalEntityKey): string {
+function getEntityTypeName(entityKey: GlobalEntityKey): string {
   return ENTITY_TYPE_NAMES[entityKey] ?? entityKey
 }
 

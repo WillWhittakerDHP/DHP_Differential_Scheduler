@@ -1,16 +1,12 @@
 import { AnnotationInstance, AnnotationInstanceContent } from '../../config/app.js'
+import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
+import { createLogger } from '../../utils/logger.js'
 
 type AnnotationInstanceRow = InstanceType<typeof AnnotationInstance>
-import { createLogger } from '../../utils/logger.js'
 
 const logger = createLogger('AnnotationInstanceContentSync')
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-
-export interface AnnotationContentRowInput {
-  userTypeBlockInstanceId: string | null
-  text: string
-}
 
 function normalizeUserTypeBlockInstanceId(raw: string | null | undefined): string | null {
   if (raw == null || raw === '') {
@@ -63,9 +59,9 @@ function rowKey(userTypeBlockInstanceId: string | null): string {
  */
 export async function syncAnnotationInstanceContentRows(
   annotationInstanceId: string,
-  rows: AnnotationContentRowInput[]
+  rows: AnnotationContentRow[]
 ): Promise<void> {
-  const byKey = new Map<string, AnnotationContentRowInput>()
+  const byKey = new Map<string, AnnotationContentRow>()
   for (const r of rows) {
     const normalizedId = normalizeUserTypeBlockInstanceId(r.userTypeBlockInstanceId)
     const text = typeof r.text === 'string' ? r.text : ''
@@ -90,7 +86,8 @@ export async function syncAnnotationInstanceContentRows(
 
     const found = await AnnotationInstanceContent.findOne({ where: whereClause })
     if (found) {
-      await found.update({ text: row.text })
+      const nextText = row.text
+      await found.update({ text: nextText })
     } else {
       await AnnotationInstanceContent.create({
         annotationInstanceId,

@@ -97,6 +97,16 @@ export default [
   },
   
   {
+    files: [
+      'src/db/models/sequelizeModelAssociationsPartA.ts',
+      'src/db/models/sequelizeModelAssociationsPartB.ts',
+    ],
+    rules: {
+      // Sequelize model bag: destructuring pulls the full SequelizeModelsBag; each associate* file uses a subset.
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+  {
     files: ['**/__tests__/**/*.ts', '**/*.test.ts', '**/*.spec.ts', '**/test/**/*.ts'],
     languageOptions: {
       globals: {

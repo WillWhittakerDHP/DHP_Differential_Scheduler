@@ -15,7 +15,13 @@ import {
   stripOverrideConstraintVirtualKeysFromPlain,
 } from '../../../repositories/appointmentOverrideConstraintsCodec.js'
 import { rowsToLegacySelectedTimeSlots } from '../../../repositories/appointmentTimeSlotCodec.js'
-import { propertyDetailsApiShapeFromPropertyVersionJson } from '../../../repositories/appointmentPropertyDetailsSync.js'
+import { propertyDetailsApiShapeFromPropertyVersionJson } from '../../../repositories/appointmentPropertyDetailsApiShape.js'
+import {
+  APPOINTMENT_STATUS_STARTED,
+  APPOINTMENT_STATUS_VALUES,
+  type AppointmentStatusLiteral,
+} from '@shared/constants/appointmentStatusLiterals.js'
+import { manualCreatedUpdatedAtColumns } from '../shared/manualCreatedUpdatedAtColumns.js'
 
 export interface BlockInstanceSnapshot {
   id: string
@@ -49,7 +55,7 @@ export class Appointment extends Model<
   declare selectedDateRangeEnd: Date | null
   declare isQuoteMode: boolean
   declare quotePdfUrl: string | null
-  declare status: 'started' | 'held' | 'rescheduling' | 'quoted' | 'submitted' | 'confirmed' | 'cancelled' | 'deleted'
+  declare status: AppointmentStatusLiteral
   declare scheduledById: ForeignKey<string> | null
   declare heldBy: ForeignKey<string> | null
   declare heldUntil: Date | null
@@ -113,9 +119,9 @@ export function AppointmentFactory(sequelize: Sequelize) {
         field: 'quote_pdf_url',
       },
       status: {
-        type: DataTypes.ENUM('started', 'held', 'rescheduling', 'quoted', 'submitted', 'confirmed', 'cancelled', 'deleted'),
+        type: DataTypes.ENUM(...APPOINTMENT_STATUS_VALUES),
         allowNull: false,
-        defaultValue: 'started',
+        defaultValue: APPOINTMENT_STATUS_STARTED,
       },
       scheduledById: {
         type: DataTypes.UUID,
@@ -187,18 +193,7 @@ export function AppointmentFactory(sequelize: Sequelize) {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'created_at',
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'updated_at',
-      },
+      ...manualCreatedUpdatedAtColumns,
     },
     {
       sequelize,

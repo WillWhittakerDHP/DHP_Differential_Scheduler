@@ -9,17 +9,17 @@ import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { calculatePartsTotals } from '@/utils/booking/partsTotals'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
-import { resolveByIds } from '@/utils/collections/resolveByIds'
 import { createLogger } from '@/utils/logger'
 import type { UsePartsTotalsReturn } from '@/types/admin/partsTotals'
+import {
+  activeChildIdsForBlockParent,
+  blockShapeAllowsParts,
+  resolvePartInstancesByChildIds,
+} from '@/utils/admin/blockInstancePartsTotalsResolution'
 
 const logger = createLogger('usePartsTotals')
 
-
-export function usePartsTotals(
-  entityKey: GlobalEntityKey,
-  entityId: string
-): UsePartsTotalsReturn {
+export function usePartsTotals(entityKey: GlobalEntityKey, entityId: string): UsePartsTotalsReturn {
   const { getGlobalEntityById } = useGlobal()
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   const { entities: partInstances } = useEntityCrud('partInstance')
@@ -28,54 +28,35 @@ export function usePartsTotals(
     if (entityKey !== 'blockInstance') {
       return false
     }
-
     const blockInstance = getGlobalEntityById('blockInstance', entityId)
     if (!blockInstance) {
       return false
     }
-
     const blockInstanceEntity = blockInstance as GlobalEntity<'blockInstance'>
     const blockShape = getGlobalEntityById('blockShape', blockInstanceEntity.blockShapeRef)
-    if (!blockShape) {
-      return false
-    }
-
-    const blockShapeEntity = blockShape as GlobalEntity<'blockShape'>
-    return blockShapeEntity.canHaveParts === true
+    return blockShapeAllowsParts(blockShape as GlobalEntity<'blockShape'> | null | undefined)
   })
 
   const partInstancesForEntity = computed((): GlobalEntity<'partInstance'>[] => {
     if (!canHaveParts.value) {
       return []
     }
-
-    if (!partAssignments.value) {
-      return []
-    }
-
-    const relationships = partAssignments.value.filter(
-      rel => String(rel.parentId) === entityId && !rel.disabled
+    const { childIds, hadDuplicates, beforeDedup } = activeChildIdsForBlockParent(
+      partAssignments.value ?? null,
+      entityId
     )
-
-    // PATTERN: Use Set to deduplicate before resolving
-    const childIdsBeforeDedup = relationships.map(rel => String(rel.childId))
-    const childIds = [...new Set(childIdsBeforeDedup)]
-
-    if (childIdsBeforeDedup.length !== childIds.length) {
+    if (hadDuplicates) {
       logger.warn('Found duplicate child_ids', {
         entityId,
-        beforeDedup: childIdsBeforeDedup,
+        beforeDedup,
         afterDedup: childIds,
-        duplicates: childIdsBeforeDedup.filter((id, index) => childIdsBeforeDedup.indexOf(id) !== index)
+        duplicates: beforeDedup.filter((id, index) => beforeDedup.indexOf(id) !== index),
       })
     }
-
-    const { resolved, missingIds } = resolveByIds(partInstances.value, childIds)
-
+    const { resolved, missingIds } = resolvePartInstancesByChildIds(partInstances.value, childIds)
     if (missingIds.length > 0) {
       logger.warn('Missing part instances', { entityId, missingIds })
     }
-    
     return resolved
   })
 
@@ -88,10 +69,9 @@ export function usePartsTotals(
         totalBaseFee: 0,
         totalBaseTime: 0,
         totalRateOverBaseFee: 0,
-        totalRateOverBaseTime: 0
+        totalRateOverBaseTime: 0,
       }
     }
-
     return calculatePartsTotals(partInstancesForEntity.value)
   })
 
@@ -100,6 +80,6 @@ export function usePartsTotals(
     totalBaseFee: computed(() => totals.value.totalBaseFee),
     totalBaseTime: computed(() => totals.value.totalBaseTime),
     totalRateOverBaseFee: computed(() => totals.value.totalRateOverBaseFee),
-    totalRateOverBaseTime: computed(() => totals.value.totalRateOverBaseTime)
+    totalRateOverBaseTime: computed(() => totals.value.totalRateOverBaseTime),
   }
 }

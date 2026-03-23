@@ -75,13 +75,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
         defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
-        field: FIELD_NAMES.BOOKING_MODE_SNAKE,
       },
       agentPermissions: {
         type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
         defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
-        field: FIELD_NAMES.AGENT_PERMISSIONS_SNAKE,
       },
       composite: {
         type: DataTypes.BOOLEAN,
@@ -97,7 +95,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'pre_closing',
       },
       icon: {
         type: DataTypes.STRING,
@@ -131,7 +128,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.JSONB,
         allowNull: false,
         defaultValue: {},
-        field: 'differential_event_role_overrides',
       },
       createdAt: {
         type: DataTypes.DATE,

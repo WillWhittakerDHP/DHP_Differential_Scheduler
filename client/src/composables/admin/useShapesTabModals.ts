@@ -4,19 +4,17 @@
  */
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+import type { PartInstanceMetadataModalHandlersSlice } from '@/types/admin/metadataModalHandlers'
 
-export interface UseShapesTabModalsReturn {
+export interface UseShapesTabModalsReturn extends PartInstanceMetadataModalHandlersSlice {
   blockShapeMetadataModalOpen: Ref<boolean>
   partShapeMetadataModalOpen: Ref<boolean>
-  partInstanceMetadataModalOpen: Ref<boolean>
   annotationShapeMetadataModalOpen: Ref<boolean>
   annotationInstanceMetadataModalOpen: Ref<boolean>
   eventShapeMetadataModalOpen: Ref<boolean>
   eventInstanceMetadataModalOpen: Ref<boolean>
   toggleBlockShapeMetadataModal: () => void
   togglePartShapeMetadataModal: () => void
-  togglePartInstanceMetadataModal: () => void
-  handlePartInstanceMetadataSaved: () => void
   toggleAnnotationShapeMetadataModal: () => void
   toggleAnnotationInstanceMetadataModal: () => void
   handleAnnotationInstanceMetadataSaved: () => void

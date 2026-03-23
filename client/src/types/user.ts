@@ -6,10 +6,8 @@ export interface UserRequest extends ContactInfoBase {
   loginId?: number | null;
 }
 
-export interface UserResponse extends ContactInfoBase {
-  id: string;
-  userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector';
-  loginId?: number | null;
-  createdAt: string;
-  updatedAt: string;
+export interface UserResponse extends UserRequest {
+  id: string
+  createdAt: string
+  updatedAt: string
 }

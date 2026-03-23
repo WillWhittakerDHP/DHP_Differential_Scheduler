@@ -2,6 +2,8 @@
  * Inbound HTTP rate limiting for internal API routes.
  * Limits requests per IP to protect against abuse.
  * Auth routes use a stricter limiter (10 req/15min).
+ *
+ * express-rate-limit v8+: IPv6 clients are keyed by subnet (default /56) so limits apply per subnet, not per single address.
  */
 
 import rateLimit from 'express-rate-limit'

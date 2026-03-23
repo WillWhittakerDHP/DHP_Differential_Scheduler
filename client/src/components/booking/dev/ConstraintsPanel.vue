@@ -3,7 +3,7 @@
   <div class="pa-3">
     <div class="mb-4">
       <VCardTitle class="text-body-large font-weight-bold pa-2">Active Constraints</VCardTitle>
-      <VRow dense class="ma-0">
+      <VRow density="comfortable" class="ma-0">
         <VCol cols="auto">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-body-small text-medium-emphasis">Business Hours</div>
@@ -73,16 +73,52 @@
         </VCol>
       </VRow>
     </div>
+    <div v-if="moveableWindowDisplay" class="mb-4">
+      <VCardTitle class="text-body-large font-weight-bold pa-2">Moveable window (client virtual)</VCardTitle>
+      <VRow density="comfortable" class="ma-0">
+        <VCol cols="12" md="6">
+          <VCard variant="outlined" density="compact" class="pa-2">
+            <div class="text-body-small text-medium-emphasis">Earliest completion start</div>
+            <div class="text-body-medium font-weight-medium">
+              {{ formatIsoForDev(moveableWindowDisplay.earliestStart) }}
+            </div>
+          </VCard>
+        </VCol>
+        <VCol cols="12" md="6">
+          <VCard variant="outlined" density="compact" class="pa-2">
+            <div class="text-body-small text-medium-emphasis">Latest slot end (contingency)</div>
+            <div class="text-body-medium font-weight-medium">
+              {{
+                moveableWindowDisplay.latestEnd
+                  ? formatIsoForDev(moveableWindowDisplay.latestEnd)
+                  : 'Not applied (no closing deadline)'
+              }}
+            </div>
+          </VCard>
+        </VCol>
+      </VRow>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
 
 const props = defineProps<{
   availabilitySettingsValue: AvailabilitySettings | null
+  moveableSchedulingWindow?: MoveableSchedulingWindow | null
 }>()
+
+const moveableWindowDisplay = computed<MoveableSchedulingWindow | null>(
+  () => props.moveableSchedulingWindow ?? null
+)
+
+function formatIsoForDev(iso: string): string {
+  const d = new Date(iso)
+  return Number.isNaN(d.getTime()) ? iso : d.toLocaleString()
+}
 
 const businessHoursEnforcement = computed(() =>
   props.availabilitySettingsValue?.rangeConstraints?.businessHours?.enforcement || 'hard'

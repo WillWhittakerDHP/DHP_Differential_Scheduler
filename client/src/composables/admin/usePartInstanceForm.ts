@@ -11,11 +11,8 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
-import type {
-  PartInstanceFormData,
-  UsePartInstanceFormOptions,
-  UsePartInstanceFormReturn
-} from '@/types/admin/partInstanceForm'
+import type { UseEntityFormRedirectOptions } from '@/types/admin/entityFormRedirectOptions'
+import type { PartInstanceFormData, UsePartInstanceFormReturn } from '@/types/admin/partInstanceForm'
 
 const logger = createLogger('usePartInstanceForm')
 
@@ -25,7 +22,7 @@ const logger = createLogger('usePartInstanceForm')
 WHY: Moves business logic out of componen...
  */
 export function usePartInstanceForm(
-  options: UsePartInstanceFormOptions = {}
+  options: UseEntityFormRedirectOptions = {}
 ): UsePartInstanceFormReturn {
   const {
     redirectRouteName = 'part-instances-list'

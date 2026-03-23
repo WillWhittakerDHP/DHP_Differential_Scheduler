@@ -56,6 +56,7 @@ const AUDIT_SOURCES = [
   { id: 'unused-code', file: 'unused-code-audit.json', weight: 0.5 },
   { id: 'error-handling', file: 'error-handling-audit.json', weight: 1.5 },
   { id: 'deprecation', file: 'deprecation-audit.json', weight: 1 },
+  { id: 'dual-role-export', file: 'dual-role-export-audit.json', weight: 0.5 },
   { id: 'security', file: 'security-audit.json', weight: 2 },
   { id: 'todo-aging', file: 'todo-aging-audit.json', weight: 0.5 },
   { id: 'import-graph', file: 'import-graph-audit.json', weight: 1.5 },

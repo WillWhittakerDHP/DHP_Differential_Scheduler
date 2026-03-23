@@ -62,12 +62,12 @@ const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
       </VCol>
       <VCol cols="12" md="4">
         <VTextField
+          variant="outlined"
           :model-value="defaultLocationLabel"
           @update:model-value="emit('update:defaultLocationLabel', $event)"
           :label="UI_STRINGS.labels.defaultLocationLabel"
           :hint="UI_STRINGS.hints.defaultLocationLabel"
           persistent-hint
-          :placeholder="UI_STRINGS.placeholders.homeOffice"
         />
       </VCol>
     </VRow>

@@ -1,5 +1,6 @@
 
-import type { TimeRange, AppointmentSlot } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
@@ -49,13 +50,13 @@ export function resolveEventShapes(
 
 export function adjustMinorTimeRange(
   startTime: string,
-  eventTimeRanges: Record<string, TimeRange | null>,
+  eventTimeRanges: Record<string, SlotTimeBounds | null>,
   majorEventName: string | null,
   minorEventName: string | null,
-  majorTimeRange: TimeRange | null,
-  minorTimeRange: TimeRange | null,
+  majorTimeRange: SlotTimeBounds | null,
+  minorTimeRange: SlotTimeBounds | null,
   roundedDifferentialOffset: number
-): { adjustedEventTimeRanges: Record<string, TimeRange | null>; adjustedMinorTimeRange: TimeRange | null } {
+): { adjustedEventTimeRanges: Record<string, SlotTimeBounds | null>; adjustedMinorTimeRange: SlotTimeBounds | null } {
   if (
     !majorTimeRange ||
     !minorTimeRange ||
@@ -84,33 +85,30 @@ export function adjustMinorTimeRange(
   }
 }
 
-export function derivePerspective(
+function majorOrTotalRange(slot: AppointmentSlot, majorEventName: string | null): SlotTimeBounds | null {
+  return majorEventName != null ? (slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange) : slot.totalTimeRange
+}
+
+function derivePerspectiveNoEventFinals(
+  slot: AppointmentSlot,
+  perspective: 'major' | 'minor' | 'nonDifferential'
+): SlotTimeBounds | null {
+  const useTotal =
+    perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL || perspective === EVENT_PERSPECTIVE_KEYS.MAJOR
+  return useTotal ? slot.totalTimeRange : null
+}
+
+function derivePerspectiveWithResolved(
   slot: AppointmentSlot,
   perspective: 'major' | 'minor' | 'nonDifferential',
-): TimeRange | null {
-  const eventFinals = slot.shape.slotShape.eventFinals
-
-  if (!eventFinals?.length) {
-    if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL || perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
-      return slot.totalTimeRange
-    }
-    return null
-  }
-
-  const { majorEventShape, minorEventShape, majorEventName, minorEventName } = resolveEventShapes(
-    eventFinals,
-    slot.shape.differentialEventRoleOverrides ?? null
-  )
-
+  resolved: ResolvedEventShapes
+): SlotTimeBounds | null {
+  const { majorEventShape, minorEventShape, majorEventName, minorEventName } = resolved
   if (!majorEventShape) {
-    if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL || perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
-      return slot.totalTimeRange
-    }
-    return null
+    return derivePerspectiveNoEventFinals(slot, perspective)
   }
-
   if (perspective === EVENT_PERSPECTIVE_KEYS.MAJOR) {
-    return majorEventName != null ? (slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange) : slot.totalTimeRange
+    return majorOrTotalRange(slot, majorEventName)
   }
   if (perspective === EVENT_PERSPECTIVE_KEYS.MINOR) {
     if (!minorEventShape || !minorEventName) {
@@ -119,8 +117,19 @@ export function derivePerspective(
     return slot.eventTimeRanges?.[minorEventName] ?? slot.totalTimeRange
   }
   if (perspective === EVENT_PERSPECTIVE_KEYS.NON_DIFFERENTIAL) {
-    return majorEventName != null ? (slot.eventTimeRanges?.[majorEventName] ?? slot.totalTimeRange) : slot.totalTimeRange
+    return majorOrTotalRange(slot, majorEventName)
   }
-
   return null
+}
+
+export function derivePerspective(
+  slot: AppointmentSlot,
+  perspective: 'major' | 'minor' | 'nonDifferential'
+): SlotTimeBounds | null {
+  const eventFinals = slot.shape.slotShape.eventFinals
+  if (!eventFinals?.length) {
+    return derivePerspectiveNoEventFinals(slot, perspective)
+  }
+  const resolved = resolveEventShapes(eventFinals, slot.shape.differentialEventRoleOverrides ?? null)
+  return derivePerspectiveWithResolved(slot, perspective, resolved)
 }

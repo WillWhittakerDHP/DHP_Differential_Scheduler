@@ -65,11 +65,15 @@ function getAuditSummary(id, data) {
   switch (id) {
     case 'type-similarity': {
       const groups = data.groups ?? []
+      const thin = data.thinTypeAliases ?? []
+      const thinExcluded = data.thinTypeAliasPolicyExcludedCount ?? 0
+      const markers = data.markerExtendsInterfaces ?? []
+      const markersExcluded = data.markerExtendsPolicyExcludedCount ?? 0
       return {
         auditId: id,
-        totalFindings: groups.length,
-        filesWithFindings: groups.length,
-        detail: `Similarity groups (UNIFY/BRAND/EXTEND/REVIEW): ${groups.length}`,
+        totalFindings: groups.length + thin.length + markers.length,
+        filesWithFindings: groups.length + thin.length + markers.length,
+        detail: `Similarity groups: ${groups.length}; thin aliases (reported): ${thin.length}; thin policy-excluded: ${thinExcluded}; marker extends (reported): ${markers.length}; marker policy-excluded: ${markersExcluded}`,
       }
     }
     case 'dep-freshness': {

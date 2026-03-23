@@ -3,7 +3,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import { betaFeedback } from '@/utils/beta/betaFeedback'
-import type { BetaFeedback, BetaFeedbackFilters, BetaFeedbackStats } from '@/types/betaFeedback'
+import type { BetaFeedback, BetaFeedbackFiltersBase, BetaFeedbackStats } from '@/types/betaFeedback'
 
 export function useFeedbackDashboard(): {
   loading: Ref<boolean>
@@ -11,7 +11,7 @@ export function useFeedbackDashboard(): {
   stats: Ref<BetaFeedbackStats | null>
   detailOpen: Ref<boolean>
   selectedFeedback: Ref<BetaFeedback | null>
-  filters: BetaFeedbackFilters
+  filters: BetaFeedbackFiltersBase
   load: () => Promise<void>
 } {
   const { fetchAllFeedback, fetchFeedbackStats } = betaFeedback()
@@ -20,7 +20,7 @@ export function useFeedbackDashboard(): {
   const stats = ref<BetaFeedbackStats | null>(null)
   const detailOpen = ref(false)
   const selectedFeedback = ref<BetaFeedback | null>(null)
-  const filters = reactive<BetaFeedbackFilters>({})
+  const filters = reactive<BetaFeedbackFiltersBase>({})
 
   async function load(): Promise<void> {
     loading.value = true

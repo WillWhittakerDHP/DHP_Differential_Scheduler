@@ -46,7 +46,7 @@ function generateSlotsForDay(
 }
 
 /** Report of all violation keys for a slot (force-create; no short-circuit). */
-export interface ForceCreateViolationReport {
+interface ForceCreateViolationReport {
   violations: string[]
 }
 

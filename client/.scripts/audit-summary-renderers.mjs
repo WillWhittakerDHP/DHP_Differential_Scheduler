@@ -564,6 +564,43 @@ export const SUMMARY_RENDERERS = {
     return lines.join('\n')
   },
 
+  'dual-role-export'(data, ctx) {
+    const findings = Array.isArray(data.findings) ? data.findings : []
+    const files = Array.isArray(data.files) ? data.files : []
+    const lines = []
+    lines.push('# Dual-role export audit summary (generated)')
+    lines.push('')
+    lines.push(genFrom(ctx))
+    lines.push('')
+    lines.push(...renderDeltaFirstBlock(ctx))
+    lines.push(`- Findings: **${findings.length}**`)
+    lines.push(`- Files with findings: **${files.length}**`)
+    lines.push(`- Files scanned: **${data.totalScanned ?? 0}**`)
+    if (data.suppressed?.length) {
+      lines.push(`- Suppressed (allowlist / inline): **${data.suppressed.length}**`)
+    }
+    lines.push('')
+    const MAX = 25
+    lines.push(`## Top files (by score, max ${MAX})`)
+    lines.push('')
+    lines.push('| File | Score | Symbols (rule) |')
+    lines.push('| --- | ---: | --- |')
+    for (const f of files.slice(0, MAX)) {
+      const sym = (f.symbols ?? [])
+        .slice(0, 4)
+        .map((s) => `${s.symbol} (${s.ruleId})`)
+        .join('; ')
+      lines.push(`| \`${f.repoPath}\` | ${f.score ?? 0} | ${sym} |`)
+    }
+    lines.push('')
+    lines.push('## Notes')
+    lines.push('')
+    lines.push('- Review signal: exported symbol also used inside the module — candidate for helper extraction or naming/API clarity.')
+    lines.push('- Full report: `client/.audit-reports/dual-role-export-audit.md`.')
+    lines.push('')
+    return lines.join('\n')
+  },
+
   'duplication'(data, ctx) {
     const groups = Array.isArray(data.groups) ? data.groups : []
     const lines = []
@@ -1350,6 +1387,8 @@ export const SUMMARY_RENDERERS = {
   'type-similarity'(data, ctx) {
     const lines = []
     const groups = Array.isArray(data.groups) ? data.groups : []
+    const thinAliases = Array.isArray(data.thinTypeAliases) ? data.thinTypeAliases : []
+    const markerExtends = Array.isArray(data.markerExtendsInterfaces) ? data.markerExtendsInterfaces : []
     const actionCounts = { UNIFY: 0, BRAND: 0, EXTEND: 0, REVIEW: 0 }
     for (const g of groups) {
       const a = g.action || 'REVIEW'
@@ -1363,6 +1402,14 @@ export const SUMMARY_RENDERERS = {
     lines.push('')
     lines.push(`- File count: **${data.fileCount ?? 0}**`)
     lines.push(`- Total definitions: **${data.totalDefinitions ?? 0}**`)
+    lines.push(`- Thin type aliases (reported): **${thinAliases.length}** (\`export type X = SingleReference\` — see full MD)`)
+    if ((data.thinTypeAliasPolicyExcludedCount ?? 0) > 0) {
+      lines.push(`- Thin type aliases (policy-excluded): **${data.thinTypeAliasPolicyExcludedCount}** (\`type-similarity-audit-config.json\`)`)
+    }
+    lines.push(`- Marker extends (empty interface body, reported): **${markerExtends.length}** (see full MD / JSON \`markerExtendsInterfaces\`)`)
+    if ((data.markerExtendsPolicyExcludedCount ?? 0) > 0) {
+      lines.push(`- Marker extends (policy-excluded): **${data.markerExtendsPolicyExcludedCount}** (\`markerExtendsExclusions\`)`)
+    }
     lines.push(`- Groups: **${groups.length}**`)
     lines.push('')
     lines.push('## Action table')

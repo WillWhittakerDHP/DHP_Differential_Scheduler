@@ -4,7 +4,7 @@
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { formatDateTimeForDisplay } from '@/utils/time/localTime'
 
-export interface DevPanelsFormattersReturn {
+interface DevPanelsFormattersReturn {
   formatTime: (isoString: string | null) => string
   formatDuration: (minutes: number) => string
 }

@@ -8,6 +8,7 @@ import {
   writeAuditReports,
   toRepoPath as toRepoPathUtil,
   checkConfigAllowlist,
+  checkLinePatternAllowlist,
   parseInlineExceptions,
   checkInlineException,
 } from './shared-audit-utils.mjs'
@@ -29,7 +30,10 @@ import {
  * Notes:
  * - Heuristic/regex-based approach (consistent with other audits)
  * - May have false positives - manual review required
- * - Supports config-based allowlist for known exceptions
+ * - Supports config-based allowlist for known exceptions (glob patterns, linePatterns on export lines)
+ * - unused-function: nested helpers listed on a top-level `return { ... }` inside an exported `use*`
+ *   composable are treated as used (Vue consumers bind via destructuring; TS return types before `{` are skipped).
+ *   Limitation: return types containing `{` before the function body brace may confuse `indexOf('{', ...)`.
  */
 
 const AUDIT_TYPE = 'unused-code'
@@ -127,6 +131,259 @@ function extractFunctions(content) {
   }
   
   return functions
+}
+
+/**
+ * Skip a string or template literal starting at index i (opening quote already consumed position i).
+ * @returns {number} index after closing quote
+ */
+function skipQuotedString(s, i) {
+  const q = s[i]
+  if (q !== '"' && q !== "'" && q !== '`') return i + 1
+  i++
+  while (i < s.length) {
+    const c = s[i]
+    if (c === '\\') {
+      i += 2
+      continue
+    }
+    if (q === '`' && c === '$' && s[i + 1] === '{') {
+      let j = i + 2
+      let depth = 1
+      while (j < s.length && depth > 0) {
+        if (s[j] === '{') depth++
+        else if (s[j] === '}') depth--
+        j++
+      }
+      i = j
+      continue
+    }
+    if (c === q) return i + 1
+    i++
+  }
+  return s.length
+}
+
+/**
+ * Given '(' at openIdx, return index immediately after matching ')'.
+ */
+function skipBalancedParens(s, openIdx) {
+  if (s[openIdx] !== '(') return -1
+  let depth = 0
+  let i = openIdx
+  while (i < s.length) {
+    const c = s[i]
+    if (c === '"' || c === "'" || c === '`') {
+      i = skipQuotedString(s, i)
+      continue
+    }
+    if (c === '/' && s[i + 1] === '/') {
+      i = s.indexOf('\n', i)
+      if (i === -1) return -1
+      i++
+      continue
+    }
+    if (c === '/' && s[i + 1] === '*') {
+      const end = s.indexOf('*/', i + 2)
+      i = end === -1 ? s.length : end + 2
+      continue
+    }
+    if (c === '(') depth++
+    else if (c === ')') {
+      depth--
+      if (depth === 0) return i + 1
+    }
+    i++
+  }
+  return -1
+}
+
+/**
+ * Given '{' at openIdx, return { inner, end } where inner excludes outer braces, end is index of closing '}'.
+ */
+function extractBalancedBraces(s, openIdx) {
+  if (s[openIdx] !== '{') return null
+  let depth = 0
+  let i = openIdx
+  while (i < s.length) {
+    const c = s[i]
+    if (c === '"' || c === "'" || c === '`') {
+      i = skipQuotedString(s, i)
+      continue
+    }
+    if (c === '/' && s[i + 1] === '/') {
+      i = s.indexOf('\n', i)
+      if (i === -1) return null
+      i++
+      continue
+    }
+    if (c === '/' && s[i + 1] === '*') {
+      const end = s.indexOf('*/', i + 2)
+      i = end === -1 ? s.length : end + 2
+      continue
+    }
+    if (c === '{') depth++
+    else if (c === '}') {
+      depth--
+      if (depth === 0) {
+        return { inner: s.slice(openIdx + 1, i), end: i }
+      }
+    }
+    i++
+  }
+  return null
+}
+
+/**
+ * Collect object literal bodies from `return { ... }` at composable body depth 0 (not inside nested blocks).
+ */
+function collectTopLevelReturnObjectLiterals(composableBodyInner) {
+  /** @type {string[]} */
+  const literals = []
+  const s = composableBodyInner
+  let depth = 0
+  let i = 0
+  while (i < s.length) {
+    const c = s[i]
+    if (c === '"' || c === "'" || c === '`') {
+      i = skipQuotedString(s, i)
+      continue
+    }
+    if (c === '/' && s[i + 1] === '/') {
+      const nl = s.indexOf('\n', i)
+      i = nl === -1 ? s.length : nl + 1
+      continue
+    }
+    if (c === '/' && s[i + 1] === '*') {
+      const end = s.indexOf('*/', i + 2)
+      i = end === -1 ? s.length : end + 2
+      continue
+    }
+    if (c === '{') {
+      depth++
+      i++
+      continue
+    }
+    if (c === '}') {
+      depth = Math.max(0, depth - 1)
+      i++
+      continue
+    }
+    if (depth === 0 && s.startsWith('return', i)) {
+      const before = i > 0 ? s[i - 1] : ' '
+      if (/\w/.test(before)) {
+        i++
+        continue
+      }
+      const afterKw = i + 'return'.length
+      if (afterKw < s.length && /\w/.test(s[afterKw])) {
+        i++
+        continue
+      }
+      let k = afterKw
+      while (k < s.length && /\s/.test(s[k])) k++
+      if (s[k] === '{') {
+        const block = extractBalancedBraces(s, k)
+        if (block) {
+          literals.push(block.inner)
+          i = block.end + 1
+          continue
+        }
+      }
+    }
+    i++
+  }
+  return literals
+}
+
+/**
+ * True if identifier appears as an own property of a return object (shorthand or value).
+ */
+function isIdentifierInReturnObjectLiteral(objInner, identifier) {
+  const esc = identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  /* eslint-disable security/detect-non-literal-regexp */
+  // Shorthand properties: start of line (after {) or after comma; allow indentation (m).
+  const shorthand = new RegExp(`(^|,)\\s*${esc}\\s*(?=\\s*[,}])`, 'm')
+  const asValue = new RegExp(`\\b[A-Za-z_$][\\w$]*\\s*:\\s*${esc}\\b`)
+  /* eslint-enable security/detect-non-literal-regexp */
+  return shorthand.test(objInner) || asValue.test(objInner)
+}
+
+const EXPORT_USE_COMPOSABLE_HEAD = /export\s+(async\s+)?function\s+(use[A-Z]\w*)/g
+
+/**
+ * Position of '(' starting the composable parameter list (after optional TypeScript generics).
+ */
+function findComposableParamsOpenParen(content, searchFrom) {
+  let i = searchFrom
+  let angle = 0
+  while (i < content.length) {
+    const c = content[i]
+    if (c === '"' || c === "'" || c === '`') {
+      i = skipQuotedString(content, i)
+      continue
+    }
+    if (c === '/' && content[i + 1] === '/') {
+      const nl = content.indexOf('\n', i)
+      i = nl === -1 ? content.length : nl + 1
+      continue
+    }
+    if (c === '/' && content[i + 1] === '*') {
+      const end = content.indexOf('*/', i + 2)
+      i = end === -1 ? content.length : end + 2
+      continue
+    }
+    if (c === '<') angle++
+    else if (c === '>') angle = Math.max(0, angle - 1)
+    else if (c === '(' && angle === 0) return i
+    i++
+  }
+  return -1
+}
+
+/**
+ * Composable handlers passed through return { handleFoo, ... } are used from Vue templates via
+ * destructuring; the naive call-count check flags them as unused. Treat as used when the name
+ * appears on a top-level return object literal inside an exported use* function.
+ *
+ * @param {string} content - full file text
+ * @param {string} funcName
+ * @param {string} repoPath - repo-relative path for scoping (composables-heavy)
+ * @returns {boolean}
+ */
+function isIdentifierReturnedFromUseComposable(content, funcName, repoPath) {
+  const normalized = repoPath.replaceAll('\\', '/')
+  const looksComposableFile =
+    normalized.includes('/composables/') || /export\s+(async\s+)?function\s+use[A-Z]/.test(content)
+  if (!looksComposableFile) return false
+
+  EXPORT_USE_COMPOSABLE_HEAD.lastIndex = 0
+  let m
+  while ((m = EXPORT_USE_COMPOSABLE_HEAD.exec(content)) !== null) {
+    const afterName = m.index + m[0].length
+    const openParen = findComposableParamsOpenParen(content, afterName)
+    if (openParen < 0) continue
+    const afterParams = skipBalancedParens(content, openParen)
+    if (afterParams < 0) continue
+    let j = afterParams
+    while (j < content.length && /\s/.test(content[j])) j++
+    // TypeScript: ): ReturnType { — skip annotation before function body `{`
+    if (content[j] === ':') {
+      const bodyOpen = content.indexOf('{', j + 1)
+      if (bodyOpen === -1) continue
+      j = bodyOpen
+    }
+    if (content[j] !== '{') continue
+    const bodyBlock = extractBalancedBraces(content, j)
+    if (!bodyBlock) continue
+    const returnObjects = collectTopLevelReturnObjectLiterals(bodyBlock.inner)
+    for (const objText of returnObjects) {
+      if (isIdentifierInReturnObjectLiteral(objText, funcName)) {
+        return true
+      }
+    }
+  }
+  return false
 }
 
 /**
@@ -331,6 +588,14 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
       if (checkInlineException(exp.line || 1, 'unused-export', inlineExceptions).allowed) {
         continue
       }
+
+      const exportLineContent = lines[exp.line - 1]?.trim() || ''
+      if (
+        configAllowlist?.linePatterns?.length > 0 &&
+        checkLinePatternAllowlist(exportLineContent, 'unused-export', configAllowlist.linePatterns).allowed
+      ) {
+        continue
+      }
       
       // Prioritize exports found in pattern-detection (they're more likely to be actual exports)
       const isInPatternDetection = patternData ? isExportInPatternDetection(exp.name, patternData) : false
@@ -389,6 +654,9 @@ function scanFile(filePath, allFiles, configAllowlist, patternData, _hardcodingD
       }
       
       if (!isFunctionUsed(func.name, allFiles, filePath)) {
+        if (isIdentifierReturnedFromUseComposable(content, func.name, repoPath)) {
+          continue
+        }
         issues.push({
           severity: 'info',
           type: 'unused-function',
@@ -632,7 +900,7 @@ function main() {
   // Load data from other audits for pipeline optimization
   const patternData = loadPatternDetectionData()
   const hardcodingData = loadHardcodingData()
-  const typecheckErrorFiles = loadTypecheckData()
+  const typecheckErrorFiles = loadTypecheckData(_paths.outDir)
   
   let skippedFilesCount = 0
   
@@ -659,7 +927,15 @@ function main() {
     // Scan each file
     for (const file of allFiles) {
       const repoPath = toRepoPath(file, _paths.projectRoot)
-      const fileIssues = scanFile(file, allFiles, configAllowlist)
+      const fileIssues = scanFile(
+        file,
+        allFiles,
+        configAllowlist,
+        patternData,
+        hardcodingData,
+        typecheckErrorFiles,
+        _paths.projectRoot
+      )
       issues.push(...fileIssues)
       
       if (fileIssues.length > 0) {

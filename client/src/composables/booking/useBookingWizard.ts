@@ -1,12 +1,23 @@
 /**
  * WHY: Booking Wizard Composable
  */
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { useBooking } from '../useBooking'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { UseBookingWizardReturnGrouped, WizardMode } from '@/types/wizard'
 import { useWizardFilteredOptions } from './useWizardFilteredOptions'
+import {
+  bookingWizardBatchUpdate,
+  bookingWizardSelectUserType,
+  bookingWizardToggleCouponBlock,
+  bookingWizardToggleLineItemBlock,
+  bookingWizardToggleOptionTypeBlock,
+  bookingWizardTogglePropertyTypeBlock,
+  bookingWizardToggleServiceTypeBlock,
+  syncAvailabilityOptionSelectionFromAvailable,
+  type BookingWizardSelectionRefs,
+} from '@/composables/booking/bookingWizardSelectionActions'
 
 /**
  * WHY: Booking Wizard Composable
@@ -15,27 +26,34 @@ WHY: Single source of truth for wizard state w...
 export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const { bookingData } = useBooking()
 
-  // PATTERN: Use ref for single values, ref([]) for arrays
   const selectedUserTypeBlock = ref<BookingBlockInstance | null>(null)
-  const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - renamed from selectedServices for consistency
+  const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
-  const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array - replaces selectedPropertyTypeBlock
-  const selectedCouponBlocks = ref<BookingBlockInstance[]>([]) // Single-select UI, array storage (same pattern as property type)
-  const selectedLineItemBlocks = ref<BookingBlockInstance[]>([]) // Multi-select array for line item blocks (bookingMode: "addOn")
+  const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([])
+  const selectedCouponBlocks = ref<BookingBlockInstance[]>([])
+  const selectedLineItemBlocks = ref<BookingBlockInstance[]>([])
 
   const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
   const _sessionMode = ref<WizardMode | null>(null)
   const wizardMode = computed(() => _sessionMode.value ?? persistedWizardMode.value)
   const isQuoteMode = computed(() => wizardMode.value === 'quote')
 
-  // Optional migration: if user had quote preference under old key, move to new key and remove old key
   if (typeof localStorage !== 'undefined' && localStorage.getItem('booking-wizard-quote-mode') === 'true') {
     persistedWizardMode.value = 'quote'
     localStorage.removeItem('booking-wizard-quote-mode')
   }
 
-  /** When true, selection methods do not clear dependent selections (used by batchUpdate) */
   const _inBatch = ref(false)
+
+  const selectionRefs: BookingWizardSelectionRefs = {
+    selectedUserTypeBlock,
+    selectedServiceTypeBlocks,
+    selectedOptionTypeBlocks,
+    selectedPropertyTypeBlocks,
+    selectedCouponBlocks,
+    selectedLineItemBlocks,
+    _inBatch,
+  }
 
   const setWizardMode = (mode: WizardMode): void => {
     if (mode === 'reschedule') {
@@ -43,95 +61,6 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     } else {
       _sessionMode.value = null
       persistedWizardMode.value = mode
-    }
-  }
-
-  /**
-   * Run multiple wizard state updates without cascading clears.
-   * Use when loading an appointment so dependent selections are set in the same batch.
-   */
-  const batchUpdate = (fn: () => void): void => {
-    _inBatch.value = true
-    try {
-      fn()
-    } finally {
-      _inBatch.value = false
-    }
-  }
-
-  /**
-Select user type and clear dependent selections
-   */
-  const selectUserTypeBlock = (block: BookingBlockInstance | null): void => {
-    selectedUserTypeBlock.value = block
-    if (!_inBatch.value) {
-      selectedServiceTypeBlocks.value = []
-      selectedOptionTypeBlocks.value = []
-      selectedPropertyTypeBlocks.value = []
-      selectedCouponBlocks.value = []
-    }
-  }
-
-  /**
-Toggle service type block selection (single-select UI, array storage...
-   */
-  const toggleServiceTypeBlock = (block: BookingBlockInstance): void => {
-    if (selectedServiceTypeBlocks.value.length === 1 && selectedServiceTypeBlocks.value[0].id === block.id) {
-      selectedServiceTypeBlocks.value = []
-    } else {
-      selectedServiceTypeBlocks.value = [block]
-    }
-    if (!_inBatch.value) {
-      selectedOptionTypeBlocks.value = []
-      selectedPropertyTypeBlocks.value = []
-      selectedCouponBlocks.value = []
-    }
-  }
-
-  /**
-Toggle property type block selection (single-select UI, array storag...
-   */
-  const togglePropertyTypeBlock = (block: BookingBlockInstance): void => {
-    if (selectedPropertyTypeBlocks.value.length === 1 && selectedPropertyTypeBlocks.value[0]?.id === block.id) {
-      selectedPropertyTypeBlocks.value = []
-      return
-    }
-
-    selectedPropertyTypeBlocks.value = [block]
-  }
-
-  /**
-Toggle availability option selection
-   */
-  const toggleOptionTypeBlock = (block: BookingBlockInstance): void => {
-    const index = selectedOptionTypeBlocks.value.findIndex(b => b.id === block.id)
-    if (index >= 0) {
-      selectedOptionTypeBlocks.value.splice(index, 1)
-    } else {
-      selectedOptionTypeBlocks.value.push(block)
-    }
-  }
-
-  /**
-   * Toggle coupon block selection (single-select UI, array of 0 or 1; same as property type).
-   */
-  const toggleCouponBlock = (block: BookingBlockInstance): void => {
-    if (selectedCouponBlocks.value.length === 1 && selectedCouponBlocks.value[0]?.id === block.id) {
-      selectedCouponBlocks.value = []
-      return
-    }
-    selectedCouponBlocks.value = [block]
-  }
-
-  /**
-Toggle line item block selection
-   */
-  const toggleLineItemBlock = (block: BookingBlockInstance): void => {
-    const index = selectedLineItemBlocks.value.findIndex(b => b.id === block.id)
-    if (index >= 0) {
-      selectedLineItemBlocks.value.splice(index, 1)
-    } else {
-      selectedLineItemBlocks.value.push(block)
     }
   }
 
@@ -158,6 +87,15 @@ Toggle line item block selection
     selectedCouponBlocks,
   })
 
+  watch(
+    availableOptionTypeBlocks,
+    (available) => {
+      if (_inBatch.value) return
+      syncAvailabilityOptionSelectionFromAvailable(selectedOptionTypeBlocks, available)
+    },
+    { immediate: true }
+  )
+
   return {
     state: {
       selectedUserTypeBlock,
@@ -170,13 +108,13 @@ Toggle line item block selection
       wizardMode,
     },
     actions: {
-      selectUserTypeBlock,
-      toggleServiceTypeBlock,
-      toggleOptionTypeBlock,
-      togglePropertyTypeBlock,
-      toggleCouponBlock,
-      toggleLineItemBlock,
-      batchUpdate,
+      selectUserTypeBlock: (block) => bookingWizardSelectUserType(selectionRefs, block),
+      toggleServiceTypeBlock: (block) => bookingWizardToggleServiceTypeBlock(selectionRefs, block),
+      toggleOptionTypeBlock: (block) => bookingWizardToggleOptionTypeBlock(selectionRefs, block),
+      togglePropertyTypeBlock: (block) => bookingWizardTogglePropertyTypeBlock(selectionRefs, block),
+      toggleCouponBlock: (block) => bookingWizardToggleCouponBlock(selectionRefs, block),
+      toggleLineItemBlock: (block) => bookingWizardToggleLineItemBlock(selectionRefs, block),
+      batchUpdate: (fn) => bookingWizardBatchUpdate(selectionRefs, availableOptionTypeBlocks, fn),
       setWizardMode,
     },
     computed: {

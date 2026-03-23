@@ -11,7 +11,7 @@ import {
   propertyDetailsFieldErrorsKey,
   wizardKey,
   loadedWizardStateKey,
-} from '@/composables/booking/injectionKeys'
+} from '@/keys/bookingInjectionKeys'
 import { usePropertyDetailsLogic } from '@/composables/booking/usePropertyDetailsLogic'
 import { usePropertyValidation } from '@/composables/booking/usePropertyValidation'
 import { usePropertyTypeBlockSelection } from '@/composables/booking/usePropertyTypeBlockSelection'

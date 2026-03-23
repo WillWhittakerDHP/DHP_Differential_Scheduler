@@ -5,5 +5,3 @@ export interface UseEntityCrudStateReturnBase {
   error: ComputedRef<unknown | undefined>
   refetch: () => Promise<void>
 }
-
-export type UseEntityCrudStateReturn = UseEntityCrudStateReturnBase

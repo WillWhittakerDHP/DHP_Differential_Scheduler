@@ -9,7 +9,7 @@ import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin
 
 export type { BusinessRule, BusinessRuleFormData, RuleType }
 
-export interface BusinessRulesQueryFilters {
+interface BusinessRulesQueryFilters {
   blockInstanceId?: GlobalEntityId
   ruleType?: RuleType
   active?: boolean

@@ -1,10 +1,13 @@
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { SlotAvailabilityResult, SlotTimeBounds } from '@shared/types/availabilityTypes'
 
 
 export interface ContingencyPeriod {
-  hasContingency: boolean
-  endDate: string | null    // ISO date string (YYYY-MM-DD)
-  endTime: string | null    // Time string (HH:mm)
+  /** null = user has not chosen Yes/No yet (no default selection). */
+  hasContingency: boolean | null
+  /** Native `type="date"` value — user's local calendar day (YYYY-MM-DD). */
+  endDate: string | null
+  /** Native `type="time"` value — user's local wall time (HH:mm). No implicit default when null. */
+  endTime: string | null
 }
 
 export interface MoveableSchedulingOptions {
@@ -18,12 +21,8 @@ export interface MoveableSchedulingOptions {
   selectedSlotIndex: number | null
 }
 
-export interface MoveableSlot extends SlotTimeBounds {
+export interface MoveableSlot extends SlotTimeBounds, Partial<SlotAvailabilityResult> {
   /** Relative day label (e.g. AVAILABILITY_SUBSTEP_UI.TODAY/TOMORROW or formatted date like "Jan 16"). */
   dayLabel: string
   timeLabel: string         // "2:00 PM - 3:30 PM"
-  /** When set from server/computed slots; omitted when no constraint data (defaults to available). */
-  isAvailable?: boolean
-  /** Constraint violation codes when isAvailable is false (e.g. from ComputedSlot.violations). */
-  violations?: string[]
 }

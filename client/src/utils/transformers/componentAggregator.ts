@@ -97,7 +97,7 @@ export function composePartInstances(
 /**
 
  */
-export function composeProperties<GE extends GlobalEntityKey>(
+function composeProperties<GE extends GlobalEntityKey>(
   composerId: string,
   entityKind: GE,
   globalData: GlobalData

@@ -1,14 +1,15 @@
 import { computed } from 'vue'
-import { applyShapeToTime, derivePerspective } from '@/utils/booking/appointmentSlotBuilder'
 import { createLogger } from '@/utils/logger'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity } from '@/types/entities'
-import type { TimeRange } from '@/types/appointment'
 import type { UseAppointmentSlotsParams, UseAppointmentSlotsReturn } from '@/types/booking/appointmentSlots'
+import {
+  buildAppointmentSlotsWithServerMeta,
+  displayTimeForButtonIndex,
+  findSelectedAppointmentSlot,
+  resolveAppointmentGraphBars,
+} from '@/utils/booking/appointmentSlotsComputeds'
 
 const logger = createLogger('useAppointmentSlots')
-
 
 export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppointmentSlotsReturn {
   const {
@@ -18,93 +19,51 @@ export function useAppointmentSlots(params: UseAppointmentSlotsParams): UseAppoi
     perspective,
     isDifferentialService,
     appointmentShapeOverride,
+    appointmentShapeFromBlocks,
   } = params
 
   const baseShape = useAppointmentShape({ blockInstances })
-  const appointmentShape = computed(() =>
-    appointmentShapeOverride?.value ?? baseShape.appointmentShape.value
-  )
+  const appointmentShape = computed(() => {
+    if (appointmentShapeFromBlocks !== undefined) {
+      return appointmentShapeFromBlocks.value
+    }
+    return appointmentShapeOverride?.value ?? baseShape.appointmentShape.value
+  })
 
   const appointmentSlots = computed(() => {
     const shape = appointmentShape.value
-    if (!shape) return []
-
+    if (!shape) {
+      return []
+    }
     const serverSlots = serverSlotsForDay.value
-    if (serverSlots.length === 0) return []
-
+    if (serverSlots.length === 0) {
+      return []
+    }
     try {
-      return serverSlots.map((serverSlot, index) => {
-        const slot = applyShapeToTime(
-          shape,
-          serverSlot.startTime,
-          index,
-          undefined,
-          true,
-        )
-        return {
-          ...slot,
-          isAvailable: serverSlot.isAvailable,
-          flexibleViolations: serverSlot.violations,
-          hasFlexibleViolations: serverSlot.violations.length > 0,
-          driveToCandidate: serverSlot.driveToCandidate,
-          driveFromCandidate: serverSlot.driveFromCandidate,
-        }
-      })
+      return buildAppointmentSlotsWithServerMeta(shape, serverSlots)
     } catch (error) {
       logger.error('Error applying shape to server slots:', error)
       return []
     }
   })
 
-  const selectedSlot = computed(() => {
-    const index = selectedButtonIndex.value
-    if (index === null) return null
-    return appointmentSlots.value.find((s) => s.buttonIndex === index) ?? null
-  })
+  const selectedSlot = computed(() =>
+    findSelectedAppointmentSlot(appointmentSlots.value, selectedButtonIndex.value)
+  )
 
-  const getDisplayTime = (buttonIndex: number): TimeRange | null => {
-    const slot = appointmentSlots.value.find((s) => s.buttonIndex === buttonIndex)
-    if (!slot) return null
-    return derivePerspective(slot, perspective.value)
-  }
+  const getDisplayTime = (buttonIndex: number) =>
+    displayTimeForButtonIndex(appointmentSlots.value, buttonIndex, perspective.value)
 
-  const graphBars = computed(() => {
-    const slot = selectedSlot.value
-    if (!slot) return { major: null, minor: null }
-
-    const shape = appointmentShape.value
-    if (!shape?.slotShape.eventFinals?.length) return { major: null, minor: null }
-
-    const eventShapeEntities = shape.slotShape.eventFinals.map(
-      (ef) => ef.eventShape
-    ) as EventShapeEntity[]
-
-    const majorEventShape = getEventShapeByRoleWithOverrides(
-      eventShapeEntities,
-      'major',
-      shape.differentialEventRoleOverrides ?? null
+  const graphBars = computed(() =>
+    resolveAppointmentGraphBars(
+      selectedSlot.value,
+      appointmentShape.value,
+      isDifferentialService.value,
+      (message) => {
+        logger.error(message)
+      }
     )
-    if (!majorEventShape) {
-      logger.error('graphBars: no event shape with effective differentialRole=major')
-      return { major: null, minor: null }
-    }
-
-    const minorEventShape = isDifferentialService.value
-      ? getEventShapeByRoleWithOverrides(
-          eventShapeEntities,
-          'minor',
-          shape.differentialEventRoleOverrides ?? null
-        )
-      : null
-
-    return {
-      major: slot.eventTimeRanges?.[majorEventShape.name] ?? null,
-      minor:
-        isDifferentialService.value && minorEventShape
-          ? (slot.eventTimeRanges?.[minorEventShape.name] ?? null)
-          : null,
-    }
-  })
+  )
 
   return {
     appointmentShape,

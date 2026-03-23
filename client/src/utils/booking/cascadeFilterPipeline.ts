@@ -16,7 +16,7 @@ type CascadeStepResult =
 
 type CascadeFilterParams = CascadeFilterParamsBase
 
-export function filterByCascade(params: CascadeFilterParams): CascadeStepResult {
+function filterByCascade(params: CascadeFilterParams): CascadeStepResult {
   const { bookingData, parentInstances, currentSelection, relationshipName } = params
 
   if (!bookingData) {
@@ -173,6 +173,23 @@ export function cascadeShapePipeline(params: PipelineParams): {
         return shape ? `${inst.name} (${shape.name}, type: ${shape.type})` : `${inst.name} (unknown shape)`
       })
     })
+  }
+
+  if (
+    relationshipName === 'availability options' &&
+    !allowFallbackToAllOfShape &&
+    hasParentSelection &&
+    afterShape.length === 0
+  ) {
+    logger.warn(
+      '[availability_options_cascade_empty] No option blocks from cascade for selected service; fallback-to-all is disabled. Configure bookingCascades from service to availability options.',
+      {
+        relationshipName,
+        parentServiceIds: (Array.isArray(parentInstances) ? parentInstances : [parentInstances])
+          .filter((p): p is BookingBlockInstance => p != null)
+          .map((p) => p.id),
+      }
+    )
   }
 
   const instances = allowFallbackToAllOfShape

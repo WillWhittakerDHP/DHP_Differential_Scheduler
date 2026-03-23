@@ -173,8 +173,8 @@ export interface OverlapConstraint extends OverlapMinutesBase {
  * CAPACITY FILTER HIERARCHY (TYPE_SIMILARITY 1.16)
  * - WorkCapacityFilter: base for hours-based filters (maxHours, enforcement).
  * - IncomeCapacityFilter: base for income-based filters (maxIncome, enforcement).
- * - RollingWeekCapacityFilter extends WorkCapacityFilter + RollingWeekFilterBase (adds direction).
- * - RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter + RollingWeekFilterBase (adds direction).
+ * - RollingWeekCapacityFilter: WorkCapacityFilter & RollingWeekFilterBase (adds direction).
+ * - RollingWeekIncomeCapacityFilter: IncomeCapacityFilter & RollingWeekFilterBase (adds direction).
  * - CapacityConstraint: unified runtime shape for all capacity constraints (category: 'capacity'; type daily|calendarWeek|rollingWeek).
  */
 
@@ -212,7 +212,7 @@ export interface RollingWeekFilterBase {
 /**
  * Rolling week income capacity filter configuration
  */
-export interface RollingWeekIncomeCapacityFilter extends IncomeCapacityFilter, RollingWeekFilterBase {}
+export type RollingWeekIncomeCapacityFilter = IncomeCapacityFilter & RollingWeekFilterBase
 
 /**
  * Unified constraint type
@@ -262,7 +262,7 @@ export interface WorkCapacityFilter {
 /**
  * Rolling week capacity filter configuration
  */
-export interface RollingWeekCapacityFilter extends WorkCapacityFilter, RollingWeekFilterBase {}
+export type RollingWeekCapacityFilter = WorkCapacityFilter & RollingWeekFilterBase
 
 /**
  * Coordinates: from mapsTypes (canonical for geo types; Phase 1.1/3 type-similarity)

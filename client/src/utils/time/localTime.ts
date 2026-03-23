@@ -1,7 +1,8 @@
 /**
  */
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
-import type { TimeRange, TimeSlot } from '@/types/appointment'
+import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { TimeSlot } from '@/types/appointment'
 
 function rfc3339ToLocalTime(rfc3339: RFC3339DateTime): Date {
   return new Date(rfc3339)
@@ -44,7 +45,7 @@ function formatTimeForDisplay(
   return date.toLocaleString('en-US', defaultOptions)
 }
 
-export function formatTimeRangeForDisplay(range: TimeRange | TimeSlot): string {
+export function formatTimeRangeForDisplay(range: SlotTimeBounds | TimeSlot): string {
   if (!('startTime' in range && 'endTime' in range)) {
     throw new Error('Invalid time range object: must have startTime/endTime')
   }
@@ -125,7 +126,7 @@ function userTimeToRfc3339(hhmm: string, date: Date | ISO8601Date): RFC3339DateT
   return localHHmmToRfc3339(hhmm, date)
 }
 
-export function extractBusinessHoursMinutes(rfc3339: RFC3339DateTime): { hours: number; minutes: number } {
+function extractBusinessHoursMinutes(rfc3339: RFC3339DateTime): { hours: number; minutes: number } {
   const date = new Date(rfc3339)
   return {
     hours: date.getHours(),
@@ -133,7 +134,7 @@ export function extractBusinessHoursMinutes(rfc3339: RFC3339DateTime): { hours: 
   }
 }
 
-export function rfc3339ToLocalMinutesFromMidnight(rfc3339: RFC3339DateTime): number {
+function rfc3339ToLocalMinutesFromMidnight(rfc3339: RFC3339DateTime): number {
   const date = new Date(rfc3339)
   return date.getHours() * 60 + date.getMinutes()
 }
@@ -148,13 +149,13 @@ function isTodayLocal(rfc3339: RFC3339DateTime): boolean {
   )
 }
 
-export interface LocalTimeReturn {
+interface LocalTimeReturn {
   rfc3339ToLocalTime: (rfc3339: RFC3339DateTime) => Date
   rfc3339ToLocalHHmm: (rfc3339: RFC3339DateTime) => string
   localHHmmToRfc3339: (hhmm: string, date: Date | ISO8601Date) => RFC3339DateTime
   userTimeToRfc3339: (hhmm: string, date: Date | ISO8601Date) => RFC3339DateTime
   formatTimeForDisplay: (rfc3339: RFC3339DateTime, options?: Intl.DateTimeFormatOptions) => string
-  formatTimeRangeForDisplay: (range: TimeRange | TimeSlot) => string
+  formatTimeRangeForDisplay: (range: SlotTimeBounds | TimeSlot) => string
   rfc3339ToLocalTimeOfDay: (rfc3339: RFC3339DateTime) => string
   businessHoursHHmmToRfc3339: (time: string) => RFC3339DateTime
   rfc3339ToBusinessHoursHHmm: (rfc3339: RFC3339DateTime) => string
@@ -166,7 +167,7 @@ export interface LocalTimeReturn {
   isTodayLocal: (rfc3339: RFC3339DateTime) => boolean
 }
 
-export function localTime(): LocalTimeReturn {
+export function useLocalTime(): LocalTimeReturn {
   return {
     rfc3339ToLocalTime,
     rfc3339ToLocalHHmm,

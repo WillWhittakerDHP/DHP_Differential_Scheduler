@@ -2,142 +2,22 @@
   WHY: Admin config for availability (constraints), calendar, wizard. Each sub-tab loads/saves its own settings.
 -->
 <script setup lang="ts">
-import { computed, inject, provide, reactive, type Ref } from 'vue'
-import { BUSINESS_CONTROLS_STATE_KEY } from './businessControlsStateKey'
-import { useAdminAvailabilitySettings, calculateMaxBusinessHours } from '@/composables/admin/useAdminAvailabilitySettings'
-import { useAdminCalendarSettings } from '@/composables/admin/useAdminCalendarSettings'
-import { useAdminWizardSettings } from '@/composables/admin/useAdminWizardSettings'
-import { useTabNavigation } from '@/composables/admin/useTabNavigation'
-import { useBusinessControlsFormState } from '@/composables/admin/useBusinessControlsFormState'
-import { useWizardSettings } from '@/composables/admin/useWizardSettings'
-import { useCapacitySettings } from '@/composables/admin/useCapacitySettings'
-import { useBufferSettings } from '@/composables/admin/useBufferSettings'
-import { useDefaultLocation } from '@/composables/admin/useDefaultLocation'
-import { useDifferentialPerspectives } from '@/composables/admin/useDifferentialPerspectives'
-import type {
-  UseBufferSettingsParams,
-  UseDefaultLocationParams,
-  UseDifferentialPerspectivesParams
-} from '@/types/availabilitySettingsParams'
-import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
+import { useBusinessControlsTab } from '@/composables/admin/useBusinessControlsTab'
 import BusinessControlsConstraintsSection from './BusinessControlsConstraintsSection.vue'
 import BusinessControlsCalendarSection from './BusinessControlsCalendarSection.vue'
 import WizardConfigPanel from './components/WizardConfigPanel.vue'
 import BusinessControlsRulesSection from './BusinessControlsRulesSection.vue'
-import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
-const adminCurrentTab = inject<Ref<string>>(adminCurrentTabKey)
-const isTabActive = computed(() => adminCurrentTab?.value === 'business')
-
-const availability = useAdminAvailabilitySettings({ enabled: isTabActive })
-const calendar = useAdminCalendarSettings({ enabled: isTabActive })
-const wizard = useAdminWizardSettings({ enabled: isTabActive })
-
-const formStateGrouped = useBusinessControlsFormState({
-  formData: availability.formData,
-  saving: availability.saving,
-  error: availability.error,
-  calendarFormData: calendar.formData,
-  calendarSaving: calendar.saving,
-  calendarError: calendar.error,
-  wizardFormData: wizard.formData,
-})
-
-const formState = {
-  ...formStateGrouped.businessHours,
-  ...formStateGrouped.calendar,
-  ...formStateGrouped.rounding,
-}
-const { saveButtonProps } = formStateGrouped.calendar
-
-const showApplyCouponBinding = computed({
-  get: () => wizard.formData.value?.showApplyCoupon ?? false,
-  set: (v: boolean) => {
-    if (wizard.formData.value) wizard.formData.value.showApplyCoupon = v
-  },
-})
-const useBrandColorsBinding = computed({
-  get: () => wizard.formData.value?.useBrandColors ?? false,
-  set: (v: boolean) => {
-    if (wizard.formData.value) wizard.formData.value.useBrandColors = v
-  },
-})
-
-const wizardSettings = useWizardSettings({
-  showApplyCouponBinding,
-  useBrandColorsBinding,
-})
-
-const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
-
-const loading = computed(() => availability.loading.value || calendar.loading.value || wizard.loading.value)
-const error = computed(() => availability.error.value ?? calendar.error.value ?? wizard.error.value)
-const success = computed(() => availability.success.value ?? calendar.success.value ?? wizard.success.value)
-
-async function handleSave(): Promise<void> {
-  if (currentMainTab.value === 'constraints') {
-    await availability.saveSettings()
-  } else if (currentMainTab.value === 'calendar') {
-    await calendar.saveSettings()
-    await availability.saveSettings()
-    // Grid (and related) edits write label fields to wizard form in memory; booking reads GET /wizard-settings.
-    if (wizard.formData.value) {
-      await wizard.saveSettings()
-    }
-  } else if (currentMainTab.value === 'wizard') {
-    await wizard.saveSettings()
-  }
-}
-
-function clearAllErrors(): void {
-  availability.error.value = null
-  calendar.error.value = null
-  wizard.error.value = null
-}
-
-const maxBusinessHours = computed(() => {
-  if (!availability.formData.value) return 0
-  return calculateMaxBusinessHours(availability.formData.value.businessHours)
-})
-
-const capacity = useCapacitySettings({ formData: availability.formData, maxBusinessHours })
-const buffers = useBufferSettings({ formData: availability.formData } as UseBufferSettingsParams)
-const location = useDefaultLocation({ formData: availability.formData } as UseDefaultLocationParams)
-const differential = useDifferentialPerspectives({
-  formData: availability.formData,
-  wizardFormData: wizard.formData,
-  __brand: 'UseDifferentialPerspectivesParams',
-} as UseDifferentialPerspectivesParams)
-
-const businessControlsState = reactive({
-  formState,
-  availabilityFormData: availability.formData,
-  wizardSettings,
-  capacity,
-  buffers,
-  location,
-  differential,
-  saveButtonProps,
-  autoConfirmEnabled: formStateGrouped.calendar.autoConfirmEnabled,
-  calendarSaveSettings: calendar.saveSettings,
-  wizardSaveSettings: wizard.saveSettings,
-  constraintsSaveButtonProps: computed(() => ({
-    type: 'submit' as const,
-    color: 'primary' as const,
-    loading: availability.saving.value,
-    disabled: availability.saving.value,
-  })),
-  calendarSaveButtonProps: formStateGrouped.calendar.saveButtonProps,
-  wizardSaveButtonProps: computed(() => ({
-    type: 'submit' as const,
-    color: 'primary' as const,
-    loading: wizard.saving.value,
-    disabled: wizard.saving.value,
-  })),
-})
-provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)
-
-const UI_STRINGS = BUSINESS_CONTROLS_TAB_STRINGS
+const {
+  loading,
+  error,
+  success,
+  handleSave,
+  clearAllErrors,
+  currentMainTab,
+  businessControlsState,
+  UI_STRINGS,
+} = useBusinessControlsTab()
 </script>
 
 <template>

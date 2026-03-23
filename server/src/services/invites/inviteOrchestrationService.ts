@@ -10,10 +10,9 @@ import {
   EventShape,
 } from '../../config/app.js'
 import { appointmentIncludes } from '../../routes/internal/appointments/appointmentHelpers.js'
-import type { Appointment as AppointmentType } from '../../db/models/booking/appointment.js'
 import type { EventInstance as EventInstanceType } from '../../db/models/booking/event_instance.js'
 import { resolveEventTemplates } from './templateResolver.js'
-import { buildInviteContext, type InviteAppointmentData } from './inviteContextBuilder.js'
+import { buildInviteContext } from './inviteContextBuilder.js'
 import {
   buildAttendeesForEventShape,
   markAttendeesAsFailed,
@@ -23,22 +22,16 @@ import { createLogger } from '../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 import { EMPTY_STRING, nilToEmptyString } from '@shared/utils/nilDefaults.js'
+import {
+  type AppointmentWithRelations,
+  type NormalizedAppointmentForInviteFlow,
+  collectBlockInstanceIds,
+  linkStripSetForEventShape,
+  normalizeAppointmentForInviteFlow,
+  toInviteAppointmentData,
+} from './inviteAppointmentShared.js'
 
 const logger = createLogger('InviteOrchestrationService')
-
-/** When an event shape disables a link, strip that placeholder from calendar templates (see templateResolver stripPlaceholderNames). */
-function linkStripSetForEventShape(
-  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
-): Set<string> {
-  const strip = new Set<string>()
-  if (shape?.includeRescheduleLink === false) {
-    strip.add('rescheduleLink')
-  }
-  if (shape?.includeCancelLink === false) {
-    strip.add('cancelLink')
-  }
-  return strip
-}
 
 interface SingleEventResult {
   eventInstanceId: string
@@ -50,7 +43,7 @@ interface SingleEventResult {
   error?: string
 }
 
-export interface InviteOrchestrationResult {
+interface InviteOrchestrationResult {
   appointmentId: string
   totalEventsAttempted: number
   totalEventsCreated: number
@@ -58,42 +51,6 @@ export interface InviteOrchestrationResult {
   events: SingleEventResult[]
   noEventInstances?: boolean
 }
-
-/** Plain appointment shape with array fields guaranteed for invite orchestration; no Model methods. */
-interface NormalizedAppointmentForInvites {
-  id: string
-  selectedDate: Date | null
-  selectedTimeSlots: Array<Record<string, unknown>> | null
-  status: AppointmentType['status']
-  propertyVersion?: InviteAppointmentData['propertyVersion']
-  selectedServiceIds: string[]
-  selectedPropertyIds: string[]
-  selectedOptionIds: string[]
-  attendees: AppointmentAttendeeWithUser[]
-}
-
-function asArrayOrLogEmpty<T>(value: T[] | null | undefined, appointmentId: string, field: string): T[] {
-  if (Array.isArray(value)) return value
-  logger.debug('Invite orchestration: normalizing null/undefined to []', { appointmentId, field })
-  return []
-}
-
-function normalizeAppointmentForInvites(raw: AppointmentWithRelations): NormalizedAppointmentForInvites {
-  const j = raw.toJSON() as Record<string, unknown>
-  const id = String(j.id)
-  return {
-    id,
-    selectedDate: (j.selectedDate as Date | null) ?? null,
-    selectedTimeSlots: (j.selectedTimeSlots as Array<Record<string, unknown>> | null) ?? null,
-    status: j.status as NormalizedAppointmentForInvites['status'],
-    propertyVersion: raw.propertyVersion,
-    selectedServiceIds: asArrayOrLogEmpty(j.selectedServiceIds as string[] | null | undefined, id, 'selectedServiceIds'),
-    selectedPropertyIds: asArrayOrLogEmpty(j.selectedPropertyIds as string[] | null | undefined, id, 'selectedPropertyIds'),
-    selectedOptionIds: asArrayOrLogEmpty(j.selectedOptionIds as string[] | null | undefined, id, 'selectedOptionIds'),
-    attendees: asArrayOrLogEmpty(raw.attendees, id, 'attendees'),
-  }
-}
-
 
 export async function createInvitesForAppointment(
   appointmentId: string,
@@ -107,7 +64,7 @@ export async function createInvitesForAppointment(
     return emptyResult(appointmentId)
   }
 
-  const normalized = normalizeAppointmentForInvites(appointment)
+  const normalized = normalizeAppointmentForInviteFlow(appointment, { logEmptyArrays: true })
   const selectedBlockInstanceIds = collectBlockInstanceIds(normalized)
   const eventInstances = await findEventInstancesForBlockInstances(selectedBlockInstanceIds)
 
@@ -165,35 +122,6 @@ async function fetchAppointmentWithRelations(appointmentId: string): Promise<App
   })
 }
 
-function toInviteAppointmentData(appointment: NormalizedAppointmentForInvites): InviteAppointmentData {
-  const rawSlots = appointment.selectedTimeSlots
-  const selectedTimeSlots: Array<{ startTime: string; endTime: string }> | null = rawSlots
-    ? rawSlots
-        .map((s: Record<string, unknown>) => {
-          const start = s.startTime
-          const end = s.endTime
-          if (typeof start === 'string' && typeof end === 'string') return { startTime: start, endTime: end }
-          return null
-        })
-        .filter((slot): slot is { startTime: string; endTime: string } => slot !== null)
-    : null
-  return {
-    id: appointment.id,
-    selectedDate: appointment.selectedDate,
-    selectedTimeSlots: selectedTimeSlots?.length ? selectedTimeSlots : null,
-    status: appointment.status,
-    propertyVersion: appointment.propertyVersion ?? undefined,
-  }
-}
-
-function collectBlockInstanceIds(appointment: NormalizedAppointmentForInvites): string[] {
-  return [
-    ...appointment.selectedServiceIds,
-    ...appointment.selectedPropertyIds,
-    ...appointment.selectedOptionIds,
-  ]
-}
-
 async function findEventInstancesForBlockInstances(
   blockInstanceIds: string[]
 ): Promise<EventInstanceType[]> {
@@ -243,7 +171,7 @@ async function resolveServiceName(blockInstanceIds: string[]): Promise<string | 
 
 async function createEventForInstance(
   eventInstance: EventInstanceType,
-  appointment: NormalizedAppointmentForInvites,
+  appointment: NormalizedAppointmentForInviteFlow,
   context: Record<string, string>,
   calendarId: string
 ): Promise<SingleEventResult> {
@@ -331,29 +259,7 @@ async function createEventForInstance(
   }
 }
 
-
-interface AppointmentAttendeeWithUser {
-  id: string
-  userId: string
-  userTypeBlockInstanceId: string | null
-  shouldReceiveInvitation: boolean
-  invitationStatus: string
-  user?: {
-    id: string
-    email: string
-    firstName?: string
-    lastName?: string
-  }
-}
-
-/** Appointment as returned by fetchAppointmentWithRelations with eager-loaded associations. */
-interface AppointmentWithRelations extends AppointmentType {
-  attendees?: AppointmentAttendeeWithUser[]
-  propertyVersion?: InviteAppointmentData['propertyVersion']
-}
-
-
-function extractStartTime(appointment: NormalizedAppointmentForInvites): string {
+function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
   if (!firstSlot?.startTime) {
     throw new Error(`Appointment ${appointment.id} has no selectedTimeSlots — cannot create calendar event`)
@@ -361,7 +267,7 @@ function extractStartTime(appointment: NormalizedAppointmentForInvites): string 
   return new Date(firstSlot.startTime).toISOString()
 }
 
-function extractEndTime(appointment: NormalizedAppointmentForInvites): string {
+function extractEndTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ endTime: string }> | null)?.[0]
   if (!firstSlot?.endTime) {
     throw new Error(`Appointment ${appointment.id} has no endTime in selectedTimeSlots`)
@@ -370,7 +276,7 @@ function extractEndTime(appointment: NormalizedAppointmentForInvites): string {
 }
 
 
-function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): string {
+function buildDefaultSummary(appointment: NormalizedAppointmentForInviteFlow): string {
   const address = appointment.propertyVersion?.address as
     | { streetAddress?: string; address?: string }
     | undefined
@@ -378,7 +284,7 @@ function buildDefaultSummary(appointment: NormalizedAppointmentForInvites): stri
   return street ? `Inspection: ${street}` : DEFAULT_EVENT_SUMMARY_FALLBACK
 }
 
-function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): string {
+function buildDefaultDescription(appointment: NormalizedAppointmentForInviteFlow): string {
   return [
     'Home Inspection Appointment',
     '',
@@ -388,7 +294,7 @@ function buildDefaultDescription(appointment: NormalizedAppointmentForInvites): 
   ].join('\n')
 }
 
-function buildDefaultLocation(appointment: NormalizedAppointmentForInvites): string {
+function buildDefaultLocation(appointment: NormalizedAppointmentForInviteFlow): string {
   const address = appointment.propertyVersion?.address as
     | { streetAddress?: string; address?: string; city?: string; state?: string; zipCode?: string }
     | undefined

@@ -5,6 +5,18 @@ import type { ContactsStepData } from '@/types/wizard'
 
 export type ContactInfo = ContactInfoBase
 
+/** Ref bundle for contact step fields (composable internals + inject context base). */
+export interface ContactRefs {
+  clientInfo: Ref<ContactInfo>
+  agentInfo: Ref<ContactInfo>
+  anotherClientInfo: Ref<ContactInfo>
+  showAnotherClient: Ref<boolean>
+  transactionManagerInfo: Ref<ContactInfo>
+  showTransactionManager: Ref<boolean>
+  sellerInfo: Ref<ContactInfo>
+  showSeller: Ref<boolean>
+}
+
 export interface UseContactsStepDataOptions {
   loadedWizardState?: Ref<WizardStateData | null>
   /** Restore contacts from parent step data when returning to step (wizard persistence). */

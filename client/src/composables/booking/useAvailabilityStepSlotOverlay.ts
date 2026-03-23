@@ -4,11 +4,11 @@
  */
 import { computed, type ComputedRef } from 'vue'
 import { ANNOTATION_UI_SLOTS } from '@shared/constants/annotationSlots'
-import type { AvailabilitySubStepOrchestratorState } from '@/composables/booking/injectionKeys'
+import type { AvailabilitySubStepOrchestratorState } from '@/types/booking/injectionContexts'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { resolveBookingAnnotationSlotText } from '@/utils/booking/resolveBookingAnnotationSlotText'
 
-export interface UseAvailabilityStepSlotOverlayParams {
+interface UseAvailabilityStepSlotOverlayParams {
   o: AvailabilitySubStepOrchestratorState
 }
 

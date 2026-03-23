@@ -1,4 +1,7 @@
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import type { WizardCopyLabelFields } from '@shared/types/wizardSettingsTypes'
+
+type GridDifferentialLabels = Required<WizardCopyLabelFields>
 
 /**
  * State shape required by useGridConfigHandlers.
@@ -9,19 +12,9 @@ export interface GridConfigState {
     minuteIncrement: number
     setMinuteIncrement: (v: number) => void
   }
-  differential: {
+  differential: GridDifferentialLabels & {
     majorAttendees: GlobalEntityId[]
     minorAttendees: GlobalEntityId[]
-    majorLabel: string
-    minorLabel: string
-    differentialGraphDefaultLabel: string
-    moveableFallbackLabel: string
-    majorStateLabel: string
-    minorStateLabel: string
-    subStepLabelPickDay: string
-    subStepLabelOptions: string
-    subStepLabelPickTime: string
-    subStepLabelConfirmMoveable: string
   }
 }
 
@@ -39,4 +32,5 @@ export interface UseGridConfigHandlersReturn {
   handleSubStepLabelOptions: (v: string) => void
   handleSubStepLabelPickTime: (v: string) => void
   handleSubStepLabelConfirmMoveable: (v: string) => void
+  handleMoveableNoFeasibleCompletionSlotsMessage: (v: string) => void
 }

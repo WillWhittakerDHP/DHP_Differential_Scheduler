@@ -22,7 +22,7 @@ function num(v: unknown): number | null {
   return Number.isFinite(n) ? Math.floor(n) : null
 }
 
-export interface ParsedAppointmentTimeSlotRow {
+interface ParsedAppointmentTimeSlotRow {
   sortOrder: number
   startAt: Date
   endAt: Date
@@ -79,11 +79,14 @@ export function rowsToLegacySelectedTimeSlots(
       !Array.isArray(r.slotMetadata)
         ? { ...(r.slotMetadata as Record<string, unknown>) }
         : {}
+    const durationMinutes = r.durationMinutes
+    const durationSlice =
+      durationMinutes !== null && durationMinutes !== undefined ? { duration: durationMinutes } : {}
     return {
       ...meta,
       startTime: r.startAt instanceof Date ? r.startAt.toISOString() : String(r.startAt),
       endTime: r.endAt instanceof Date ? r.endAt.toISOString() : String(r.endAt),
-      ...(r.durationMinutes !== null && r.durationMinutes !== undefined ? { duration: r.durationMinutes } : {}),
+      ...durationSlice,
     }
   })
 }

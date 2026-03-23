@@ -7,7 +7,7 @@
   >
     <VCard>
       <VCardTitle class="d-flex align-center justify-space-between pa-6">
-        <span class="text-headline-medium">{{ title }}</span>
+        <span class="text-headline-medium">{{ labels.title }}</span>
         <VBtn
           icon
           variant="text"
@@ -19,7 +19,7 @@
 
       <VCardText class="pa-6">
         <p class="mb-4 text-body-medium">
-          {{ description }}
+          {{ labels.description }}
         </p>
 
         <div class="bulk-edit-entity-card">
@@ -31,10 +31,10 @@
           -->
           <EntityCard
             ref="entityCardRef"
-            :entity-key="entityKey"
-            :entity="entity"
+            :entity-key="content.entityKey"
+            :entity="content.entity"
             :expanded="true"
-            :field-metadata="fieldMetadata"
+            :field-metadata="content.fieldMetadata"
             :is-new="false"
             :disable-auto-save="true"
             :use-expansion-panel="false"
@@ -57,7 +57,7 @@
           variant="elevated"
           @click="handleApply"
         >
-          Apply to All ({{ instanceCount }})
+          Apply to All ({{ labels.instanceCount }})
         </VBtn>
       </VCardActions>
     </VCard>
@@ -66,19 +66,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalEntity } from '@/types/entities'
-import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import type { BulkEditModalContent, BulkEditModalLabels } from '@/types/admin/bulkEditModal'
 
 interface Props {
   modelValue?: boolean
-  entityKey: GlobalEntityKey
-  entity: GlobalEntity<GlobalEntityKey>
-  fieldMetadata: Record<string, FieldMetadataEntry>
-  title: string
-  description: string
-  instanceCount: number
+  content: BulkEditModalContent
+  labels: BulkEditModalLabels
   /** When true, dialog cannot be closed by clicking outside. When false, clicking outside closes. Undefined uses VDialog default. */
   persistent?: boolean
 }

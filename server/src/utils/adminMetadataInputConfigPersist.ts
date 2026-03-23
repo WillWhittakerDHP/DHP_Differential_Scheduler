@@ -6,7 +6,7 @@ import {
   AdminMetadataSelectOption,
   AdminPrimitiveMetadataSelectOption,
   AdminRelationshipMetadataSelectOption,
-} from '../config/models.js'
+} from '../config/app.js'
 import { encodeInputConfig, icColumnsToModelUpdate } from './adminMetadataInputConfigCodec.js'
 
 export function splitInputConfigForPersistence(inputConfig: unknown): {

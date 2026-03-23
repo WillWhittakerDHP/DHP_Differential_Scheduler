@@ -8,7 +8,7 @@ import {
   SYSTEM_DRIVE_TIME_BLOCK_SHAPE_REF,
 } from '@/constants/systemDriveTimeBlock'
 
-export interface SystemDriveTimeBlockRef {
+interface SystemDriveTimeBlockRef {
   blockInstanceId: string
   blockShapeRef: string
 }

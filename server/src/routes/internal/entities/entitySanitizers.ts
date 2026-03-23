@@ -5,7 +5,7 @@ import {
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
-export function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
+function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
   
   if (sanitized[FIELD_NAMES.BOOKING_MODE] === '') {
@@ -60,7 +60,7 @@ function sanitizeEventShapeTernaryDefault(raw: unknown): string | null {
   return null
 }
 
-export function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {
+function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
   if ('ternaryDefault' in sanitized) {
     sanitized.ternaryDefault = sanitizeEventShapeTernaryDefault(sanitized.ternaryDefault)

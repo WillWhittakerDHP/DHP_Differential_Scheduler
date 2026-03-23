@@ -9,6 +9,7 @@ import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
+import { groupedInstanceDragZoneKey as groupedInstanceDragZoneKeyUtil } from '@/utils/admin/instanceDragZoneKeys'
 
 const logger = createLogger('useInstanceDragAndDropGrouped')
 
@@ -19,12 +20,10 @@ export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>
   return rawBookingModeIsStandaloneOnly(mode)
 }
 
-/** Distinct FormKit / map key for the "not standalone-only" expansion panels (per block shape). */
-export function groupedInstanceDragZoneKey(blockShapeId: string): string {
-  return `${blockShapeId}::grouped`
-}
+/** Re-export for callers; canonical impl in utils (instance drag bind helpers). */
+export const groupedInstanceDragZoneKey = groupedInstanceDragZoneKeyUtil
 
-export function listMembershipSignature(instancesMap: Map<string, GlobalEntity<'blockInstance'>[]>): string {
+function listMembershipSignature(instancesMap: Map<string, GlobalEntity<'blockInstance'>[]>): string {
   return Array.from(instancesMap.entries())
     .map(([shapeId, list]) => `${shapeId}:${[...list].map((i) => i.id).sort().join(',')}`)
     .sort()

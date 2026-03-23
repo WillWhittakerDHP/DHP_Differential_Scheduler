@@ -17,7 +17,7 @@ import {
  * mixed-concern files, and dead modules with no exports.
  *
  * Metrics:
- *   - File line count vs directory-aware thresholds
+ *   - File line count vs directory-aware thresholds (matches `wc -l`: trailing newline does not add a line)
  *   - Export count per file (> 10 suggests too many responsibilities)
  *   - Mixed concerns (file imports from both UI and server layers)
  *   - Files with no exports (dead modules or undocumented side-effect files)
@@ -55,9 +55,41 @@ function categorizeFile(repoPath) {
   return 'general'
 }
 
+/**
+ * Line count consistent with POSIX `wc -l` (count newline-terminated records).
+ * Avoids split('\n').length off-by-one when the file ends with a final newline.
+ */
+function countLinesWcStyle(content) {
+  const parts = content.split(/\r?\n/)
+  if (parts.length > 0 && parts[parts.length - 1] === '') {
+    return parts.length - 1
+  }
+  return parts.length
+}
+
 function countExports(content) {
-  const matches = content.match(/\bexport\s+(?:default\s+|const\s+|function\s+|class\s+|interface\s+|type\s+|enum\s+|let\s+|var\s+|async\s+)/g)
-  return matches ? matches.length : 0
+  let count = 0
+  const declMatches = content.match(
+    /\bexport\s+(?:default\s+|const\s+|function\s+|class\s+|interface\s+|type\s+|enum\s+|let\s+|var\s+|async\s+)/g
+  )
+  if (declMatches) count += declMatches.length
+
+  // export { a, b as c } and export { x } from '...' (re-exports)
+  const braceExportRe = /\bexport\s*\{([^}]*)\}\s*(?:from\s*['"][^'"]+['"])?/g
+  let braceMatch
+  while ((braceMatch = braceExportRe.exec(content)) !== null) {
+    const inner = braceMatch[1]
+    const parts = inner
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0 && !s.startsWith('//'))
+    count += parts.length
+  }
+
+  const starFromMatches = content.match(/\bexport\s+\*\s+from\s+['"]/g)
+  if (starFromMatches) count += starFromMatches.length
+
+  return count
 }
 
 function detectMixedConcerns(content) {
@@ -77,7 +109,7 @@ function looksLikePureHelperInComposables(repoPath, content) {
 function analyzeFile(absPath, thresholds, projectRoot) {
   const repoPath = toRepoPath(absPath, projectRoot)
   const content = fs.readFileSync(absPath, 'utf-8')
-  const lineCount = content.split('\n').length
+  const lineCount = countLinesWcStyle(content)
   const category = categorizeFile(repoPath)
   const lineThreshold = thresholds[category] || thresholds.general
   const exportCount = countExports(content)

@@ -2,7 +2,7 @@
  */
 import type { Ref } from 'vue'
 
-export interface NotificationItem {
+interface NotificationItem {
   id: number
   [key: string]: unknown
 }

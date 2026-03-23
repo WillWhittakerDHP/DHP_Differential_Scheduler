@@ -9,7 +9,7 @@ import {
   cacheEnrichment,
   normalizeAddressForCache,
 } from '../../services/propertyEnrichmentCache.js';
-import { PropertyFieldMapping, PropertyFeatureMapping } from '../../config/models.js';
+import { PropertyFieldMapping, PropertyFeatureMapping } from '../../config/app.js';
 import { SORT_ORDERS } from '../internal/entities/entityConstants.js';
 
 const logger = createLogger('PropertyEnrichmentRoutes');

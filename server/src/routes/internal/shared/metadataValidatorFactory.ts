@@ -7,7 +7,7 @@ import {
   type ValidationResult,
 } from '../../helpers/routerValidators.js'
 
-export interface MetadataValidatorConfig {
+interface MetadataValidatorConfig {
   validEntityTypes: readonly string[]
   requiredFields: readonly string[]
   errorMessages: {
@@ -21,25 +21,25 @@ export interface MetadataValidatorConfig {
   missingInputConfigMessage: (renderAs: string) => string
 }
 
+function metadataValidateEntityType(
+  entityType: unknown,
+  validEntityTypes: readonly string[],
+  errorMessages: MetadataValidatorConfig['errorMessages']
+): ValidationResult {
+  if (typeof entityType === 'string' && validEntityTypes.includes(entityType)) {
+    return { valid: true }
+  }
+  const message = `entityType must be one of: ${validEntityTypes.join(', ')}`
+  const details = { entityType, validEntityTypes, message }
+  return { valid: false, error: errorMessages.INVALID_ENTITY_TYPE, details }
+}
+
 /**
  * Create validateEntityType that checks entityType against config.validEntityTypes.
  */
 export function createValidateEntityType(config: MetadataValidatorConfig): (entityType: unknown) => ValidationResult {
   const { validEntityTypes, errorMessages } = config
-  return function validateEntityType(entityType: unknown): ValidationResult {
-    if (typeof entityType !== 'string' || !validEntityTypes.includes(entityType)) {
-      return {
-        valid: false,
-        error: errorMessages.INVALID_ENTITY_TYPE,
-        details: {
-          entityType,
-          validEntityTypes,
-          message: `entityType must be one of: ${validEntityTypes.join(', ')}`,
-        },
-      }
-    }
-    return { valid: true }
-  }
+  return (entityType: unknown) => metadataValidateEntityType(entityType, validEntityTypes, errorMessages)
 }
 
 /**
@@ -56,24 +56,41 @@ export function createValidateRequiredFields(config: MetadataValidatorConfig): (
   }
 }
 
+function metadataValidateRenderAs(renderAs: unknown, msg: string): ValidationResult {
+  if (renderAs !== 'toggle') {
+    return { valid: true }
+  }
+  const message =
+    'renderAs "toggle" is not supported. Use "statusButton" for boolean toggle fields or "text" for regular boolean inputs.'
+  const details = { message }
+  return { valid: false, error: msg, details }
+}
+
 /**
  * Create validateRenderAs that rejects "toggle". Optional if config has no INVALID_RENDER_AS.
  */
-export function createValidateRenderAs(config: MetadataValidatorConfig): ((renderAs: unknown) => ValidationResult) | null {
+function createValidateRenderAs(config: MetadataValidatorConfig): ((renderAs: unknown) => ValidationResult) | null {
   const msg = config.errorMessages.INVALID_RENDER_AS
   if (!msg) return null
-  return function validateRenderAs(renderAs: unknown): ValidationResult {
-    if (renderAs === 'toggle') {
-      return {
-        valid: false,
-        error: msg,
-        details: {
-          message: 'renderAs "toggle" is not supported. Use "statusButton" for boolean toggle fields or "text" for regular boolean inputs.',
-        },
-      }
-    }
+  return (renderAs: unknown) => metadataValidateRenderAs(renderAs, msg)
+}
+
+function metadataValidateInputConfig(
+  renderAs: string,
+  inputConfig: unknown,
+  renderAsRequiringInputConfig: readonly string[],
+  errorMessages: MetadataValidatorConfig['errorMessages'],
+  missingInputConfigMessage: (renderAs: string) => string
+): ValidationResult {
+  if (typeof renderAs !== 'string' || !renderAsRequiringInputConfig.includes(renderAs)) {
     return { valid: true }
   }
+  if (inputConfig && typeof inputConfig === 'object') {
+    return { valid: true }
+  }
+  const message = missingInputConfigMessage(renderAs)
+  const details = { message }
+  return { valid: false, error: errorMessages.MISSING_INPUT_CONFIG, details }
 }
 
 /**
@@ -81,24 +98,18 @@ export function createValidateRenderAs(config: MetadataValidatorConfig): ((rende
  */
 export function createValidateInputConfig(config: MetadataValidatorConfig): (renderAs: string, inputConfig: unknown) => ValidationResult {
   const { renderAsRequiringInputConfig, errorMessages, missingInputConfigMessage } = config
-  return function validateInputConfig(renderAs: string, inputConfig: unknown): ValidationResult {
-    if (typeof renderAs === 'string' && renderAsRequiringInputConfig.includes(renderAs)) {
-      if (!inputConfig || typeof inputConfig !== 'object') {
-        return {
-          valid: false,
-          error: errorMessages.MISSING_INPUT_CONFIG,
-          details: {
-            message: missingInputConfigMessage(renderAs),
-          },
-        }
-      }
-    }
-    return { valid: true }
-  }
+  return (renderAs: string, inputConfig: unknown) =>
+    metadataValidateInputConfig(
+      renderAs,
+      inputConfig,
+      renderAsRequiringInputConfig,
+      errorMessages,
+      missingInputConfigMessage
+    )
 }
 
 /** Constants shape passed by admin-metadata and admin-primitive-metadata validators. */
-export interface MetadataValidatorConstants {
+interface MetadataValidatorConstants {
   VALID_ENTITY_TYPES: readonly string[]
   REQUIRED_FIELDS: { CREATE_UPDATE: readonly string[] }
   ERROR_MESSAGES: {

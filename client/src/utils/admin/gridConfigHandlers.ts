@@ -50,5 +50,8 @@ export function useGridConfigHandlers(state: GridConfigState): UseGridConfigHand
     handleSubStepLabelConfirmMoveable(v: string): void {
       differential.subStepLabelConfirmMoveable = v
     },
+    handleMoveableNoFeasibleCompletionSlotsMessage(v: string): void {
+      differential.moveableNoFeasibleCompletionSlotsMessage = v
+    },
   }
 }

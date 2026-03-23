@@ -30,6 +30,10 @@ import {
  * - `export interface X { ... }` and `interface X { ... }`
  * - Inline object shapes in function parameters and return types
  * - Type aliases for primitives (e.g., `type Minutes = number`)
+ * - **Thin type aliases**: `export type X = SomeOtherType` (single reference RHS, no object/union/intersection
+ *   at top level) — reported separately as `thinTypeAliases` for governance (avoid pointless re-exports)
+ * - **Marker extends**: `interface X extends Y[, Z] { }` with an empty body (comments/whitespace only) —
+ *   nominal alias at the type level; same intent as many thin aliases; see `markerExtendsInterfaces` in JSON
  *
  * Exception Handling:
  * - Config: .audit-reports/type-similarity-audit-config.json (allowlist patterns/specific)
@@ -411,6 +415,239 @@ function scanFileForTypes(filePath, projectRoot) {
   }
 
   return definitions
+}
+
+// ─── Thin type alias scan (export type X = Y; no structural body on RHS) ─────
+
+const THIN_ALIAS_PRIMITIVE_RHS = new Set([
+  'string',
+  'number',
+  'boolean',
+  'bigint',
+  'symbol',
+  'undefined',
+  'null',
+  'void',
+  'never',
+  'any',
+  'unknown',
+])
+
+/**
+ * True if `|` or `&` appears outside of `<...>` generic brackets (rough heuristic).
+ *
+ * @param {string} s
+ * @returns {boolean}
+ */
+function hasTopLevelUnionOrIntersection(s) {
+  let depth = 0
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i]
+    if (c === '<') depth++
+    else if (c === '>') depth = Math.max(0, depth - 1)
+    else if (depth === 0 && (c === '|' || c === '&')) return true
+  }
+  return false
+}
+
+/**
+ * RHS is a single type reference (possibly qualified or generic), not an inline structural alias.
+ *
+ * @param {string} rhs
+ * @returns {boolean}
+ */
+function isThinTypeAliasRhs(rhs) {
+  const s = rhs.trim().replace(/;$/, '').trim()
+  if (!s) return false
+  if (THIN_ALIAS_PRIMITIVE_RHS.has(s)) return false
+  if (s.startsWith('{') || s.startsWith('(')) return false
+  if (s.startsWith("'") || s.startsWith('"') || s.startsWith('`')) return false
+  if (/\bextends\b/.test(s)) return false
+  if (/\bimport\s*\(/.test(s)) return false
+  if (/\btypeof\b/.test(s)) return false
+  if (/\binfer\b/.test(s)) return false
+  if (/\bsatisfies\b/.test(s)) return false
+  if (hasTopLevelUnionOrIntersection(s)) return false
+  // Reject obvious non-reference tails (function types, conditional types)
+  if (s.includes('=>')) return false
+  return true
+}
+
+/**
+ * Find `type Name = SingleReference` lines (thin re-exports / renames).
+ * One line per alias; multiline RHS is skipped (heuristic).
+ *
+ * @param {string} filePath
+ * @param {string} projectRoot
+ * @returns {Array<{ thinAliasId: string, name: string, rhs: string, file: string, line: number, exported: boolean }>}
+ */
+function scanFileForThinTypeAliases(filePath, projectRoot) {
+  const repoPath = toRepoPath(filePath, projectRoot)
+  let content
+  try {
+    content = fs.readFileSync(filePath, 'utf8')
+  } catch {
+    return []
+  }
+
+  if (filePath.endsWith('.vue')) {
+    content = extractVueScriptContent(content)
+    if (!content) return []
+  }
+
+  /** @type {Array<{ thinAliasId: string, name: string, rhs: string, file: string, line: number, exported: boolean }>} */
+  const out = []
+  const lines = content.split('\n')
+
+  // export type Foo<...> = Bar;  |  type Foo = Bar
+  const lineRe = /^(\s*)(export\s+)?type\s+(\w+)(?:<[^>\n]*>)?\s*=\s*(.+)$/
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    const m = line.match(lineRe)
+    if (!m) continue
+
+    let rhs = m[4]
+    const slash = rhs.indexOf('//')
+    if (slash !== -1) rhs = rhs.slice(0, slash)
+    rhs = rhs.trim().replace(/;$/, '').trim()
+
+    if (!isThinTypeAliasRhs(rhs)) continue
+
+    const exported = Boolean(m[2])
+    const name = m[3]
+    const lineNumber = i + 1
+
+    const thinAliasId = `thin-${shortHash(`${name}|${rhs}|${repoPath}|${lineNumber}`)}`
+    out.push({
+      thinAliasId,
+      name,
+      rhs,
+      file: repoPath,
+      line: lineNumber,
+      exported,
+    })
+  }
+
+  return out
+}
+
+/**
+ * Thin aliases excluded from reported findings by type-similarity-audit-config.json
+ * (Vue Props pattern, utility generic wrappers, named composable contract bases).
+ *
+ * @param {{ name: string, rhs: string, file: string }} entry
+ * @param {object | undefined} exclusions config.thinTypeAliasExclusions
+ * @returns {boolean}
+ */
+function shouldExcludeThinTypeAlias(entry, exclusions) {
+  if (!exclusions || typeof exclusions !== 'object') return false
+  const rhs = (entry.rhs || '').trim()
+  const name = entry.name || ''
+  const file = entry.file || ''
+
+  if (exclusions.vueSfcPropsName && name === 'Props' && file.endsWith('.vue')) {
+    return true
+  }
+
+  const prefixes = exclusions.rhsPrefixes
+  if (Array.isArray(prefixes)) {
+    for (const p of prefixes) {
+      if (typeof p === 'string' && p.length > 0 && rhs.startsWith(p)) return true
+    }
+  }
+
+  const exactIds = exclusions.singleIdentifierRhsExact
+  if (Array.isArray(exactIds) && exactIds.includes(rhs)) {
+    return true
+  }
+
+  // Single type reference (no generics/indexed): semantic alias / domain naming (…Base, …Entity, …Row, …Key, …)
+  if (/^[A-Za-z_][\w]*$/.test(rhs)) {
+    const suffixes = exclusions.singleIdentifierRhsSuffixes
+    if (Array.isArray(suffixes)) {
+      for (const suf of suffixes) {
+        if (typeof suf === 'string' && suf.length > 0 && rhs.endsWith(suf)) return true
+      }
+    }
+  }
+
+  return false
+}
+
+/**
+ * True if interface body has no member declarations (comments and whitespace ignored).
+ *
+ * @param {string} body
+ * @returns {boolean}
+ */
+function isInterfaceBodySemanticallyEmpty(body) {
+  let s = body
+  s = s.replace(/\/\*[\s\S]*?\*\//g, '')
+  s = s.replace(/\/\/[^\n]*/g, '')
+  return s.trim().length === 0
+}
+
+/**
+ * `export interface Name extends Clause { }` with empty body — structurally a type alias / nominal rename.
+ * Heuristic: opening `{` of the body is on the same line as the `extends` clause (common style).
+ *
+ * @param {string} filePath
+ * @param {string} projectRoot
+ * @returns {Array<{ markerExtendsId: string, name: string, extendsClause: string, file: string, line: number, exported: boolean }>}
+ */
+function scanFileForMarkerExtendsInterfaces(filePath, projectRoot) {
+  const repoPath = toRepoPath(filePath, projectRoot)
+  let content
+  try {
+    content = fs.readFileSync(filePath, 'utf8')
+  } catch {
+    return []
+  }
+
+  if (filePath.endsWith('.vue')) {
+    content = extractVueScriptContent(content)
+    if (!content) return []
+  }
+
+  /** @type {Array<{ markerExtendsId: string, name: string, extendsClause: string, file: string, line: number, exported: boolean }>} */
+  const out = []
+  // Same-line `extends … {` only (multiline extends declarations are skipped).
+  const headRe = /^(\s*)(export\s+)?interface\s+(\w+)\s+extends\s+([^{]+)\{/gm
+  let m
+  while ((m = headRe.exec(content)) !== null) {
+    const exported = Boolean(m[2])
+    const name = m[3]
+    const extendsClause = m[4].trim().replace(/\s+/g, ' ')
+    const lineNumber = content.slice(0, m.index).split('\n').length
+    const extracted = extractBalancedBraces(content, m.index)
+    if (!extracted) continue
+    if (!isInterfaceBodySemanticallyEmpty(extracted.body)) continue
+
+    const markerExtendsId = `mxt-${shortHash(`${name}|${extendsClause}|${repoPath}|${lineNumber}`)}`
+    out.push({
+      markerExtendsId,
+      name,
+      extendsClause,
+      file: repoPath,
+      line: lineNumber,
+      exported,
+    })
+  }
+
+  return out
+}
+
+/**
+ * @param {{ name: string, file: string }} entry
+ * @param {object | undefined} exclusions config.markerExtendsExclusions
+ * @returns {boolean}
+ */
+function shouldExcludeMarkerExtends(entry, exclusions) {
+  if (!exclusions || typeof exclusions !== 'object') return false
+  const names = exclusions.interfaceNames
+  if (Array.isArray(names) && names.includes(entry.name)) return true
+  return false
 }
 
 // ─── Grouping & Classification ──────────────────────────────────────────────
@@ -798,6 +1035,7 @@ function renderMarkdown(data) {
   lines.push('- **BRAND**: Different concepts with identical structure — add TypeScript branding to distinguish')
   lines.push('- **EXTEND**: One type is a superset of another — use `extends` or intersection')
   lines.push('- **REVIEW**: High structural overlap — needs human judgment')
+  lines.push('- **Marker extends** (separate table): `interface X extends Y { }` with no own members — nominal alias; compare with thin `type` aliases and ESLint `no-empty-object-type`.')
   lines.push('')
   lines.push('## Scope')
   lines.push('')
@@ -822,6 +1060,18 @@ function renderMarkdown(data) {
   lines.push(`- BRAND candidates: **${actionCounts.BRAND}**`)
   lines.push(`- EXTEND candidates: **${actionCounts.EXTEND}**`)
   lines.push(`- REVIEW candidates: **${actionCounts.REVIEW}**`)
+  lines.push(`- Thin type aliases (reported, after policy exclusions): **${data.thinTypeAliases?.length ?? 0}**`)
+  if ((data.thinTypeAliasPolicyExcludedCount ?? 0) > 0) {
+    lines.push(
+      `- Thin type aliases excluded by \`type-similarity-audit-config.json\` policy: **${data.thinTypeAliasPolicyExcludedCount}**`,
+    )
+  }
+  lines.push(`- Marker extends (empty body, reported): **${data.markerExtendsInterfaces?.length ?? 0}**`)
+  if ((data.markerExtendsPolicyExcludedCount ?? 0) > 0) {
+    lines.push(
+      `- Marker extends excluded by \`type-similarity-audit-config.json\` → \`markerExtendsExclusions\`: **${data.markerExtendsPolicyExcludedCount}**`,
+    )
+  }
   lines.push('')
 
   // Priority breakdown
@@ -847,6 +1097,68 @@ function renderMarkdown(data) {
 
   if (data.groups.length > 40) {
     lines.push(`| ... | ... | ... | ... | ... | ... | (${data.groups.length - 40} more groups) |`)
+  }
+  lines.push('')
+
+  // ── Thin type aliases (rename / re-export only) ──
+  const thins = data.thinTypeAliases || []
+  lines.push('## Thin type aliases')
+  lines.push('')
+  if (thins.length > 0) {
+    lines.push(
+      'Single-line `type` aliases whose right-hand side is **one** type reference (qualified name or generic instantiation),',
+    )
+    lines.push('with no inline object body and no top-level `|` / `&`. Primitives (`string`, `number`, …) are excluded (see primitive alias inventory).')
+    lines.push('**Governance:** Prefer importing the canonical type (`rhs`) at use sites instead of re-aliasing and re-exporting.')
+    lines.push('**Policy exclusions:** Vue SFC `Props`, utility wrappers (`Partial<`, `Pick<`, …), and composable settings bases — see `type-similarity-audit-config.json`.')
+    lines.push('')
+    lines.push('| Alias | RHS | File | Line | Exported | Id |')
+    lines.push('| --- | --- | --- | ---: | --- | --- |')
+    const maxRows = Math.min(thins.length, 200)
+    for (let i = 0; i < maxRows; i++) {
+      const t = thins[i]
+      const rhsEsc = t.rhs.length > 48 ? `${t.rhs.slice(0, 45)}...` : t.rhs
+      lines.push(
+        `| \`${t.name}\` | \`${rhsEsc}\` | \`${t.file}\` | ${t.line} | ${t.exported ? 'yes' : 'no'} | \`${t.thinAliasId}\` |`,
+      )
+    }
+    if (thins.length > maxRows) {
+      lines.push(`| ... | | | | | (${thins.length - maxRows} more in JSON \`thinTypeAliases\`) |`)
+    }
+  } else {
+    lines.push(
+      `**None reported** after policy exclusions${(data.thinTypeAliasPolicyExcludedCount ?? 0) > 0 ? ` (**${data.thinTypeAliasPolicyExcludedCount}** raw matches filtered — see \`type-similarity-audit-config.json\`)` : ''}.`,
+    )
+  }
+  lines.push('')
+
+  // ── Marker extends (empty interface body, nominal alias) ──
+  const markers = data.markerExtendsInterfaces || []
+  lines.push('## Marker extends (empty body)')
+  lines.push('')
+  if (markers.length > 0) {
+    lines.push(
+      '`interface X extends Y { }` with **no own members** (whitespace/comments only). Structurally equivalent to many thin `type` aliases; often used for a stable public name or to avoid a one-line `type` alias.',
+    )
+    lines.push('**Cross-check:** ESLint `@typescript-eslint/no-empty-object-type`. Exclude intentional cases via `markerExtendsExclusions.interfaceNames` in `type-similarity-audit-config.json`.')
+    lines.push('')
+    lines.push('| Interface | Extends | File | Line | Exported | Id |')
+    lines.push('| --- | --- | --- | ---: | --- | --- |')
+    const maxM = Math.min(markers.length, 200)
+    for (let i = 0; i < maxM; i++) {
+      const x = markers[i]
+      const extEsc = x.extendsClause.length > 56 ? `${x.extendsClause.slice(0, 53)}...` : x.extendsClause
+      lines.push(
+        `| \`${x.name}\` | \`${extEsc}\` | \`${x.file}\` | ${x.line} | ${x.exported ? 'yes' : 'no'} | \`${x.markerExtendsId}\` |`,
+      )
+    }
+    if (markers.length > maxM) {
+      lines.push(`| ... | | | | | (${markers.length - maxM} more in JSON) |`)
+    }
+  } else {
+    lines.push(
+      `**None reported**${(data.markerExtendsPolicyExcludedCount ?? 0) > 0 ? ` (**${data.markerExtendsPolicyExcludedCount}** excluded by config)` : ''}. Multiline \`extends\` clauses (brace not on the same line) are not detected by this heuristic.`,
+    )
   }
   lines.push('')
 
@@ -931,7 +1243,7 @@ function renderMarkdown(data) {
   lines.push('- This is a *signal* index generated by heuristic parsing (no full TS compiler).')
   lines.push('- Branded type annotations (e.g., `string & { __brand: "X" }`) are normalized away for structural comparison.')
   lines.push('- Run this audit before `typecheck:audit` — unifying duplicates eliminates entire pools of type errors.')
-  lines.push('- See full data in `client/.audit-reports/type-similarity-audit.json`.')
+  lines.push('- See full data in `client/.audit-reports/type-similarity-audit.json` (`thinTypeAliases`, `markerExtendsInterfaces`).')
   lines.push('')
 
   return lines.join('\n')
@@ -957,10 +1269,27 @@ function main() {
 
   // Scan all files for type definitions
   const allDefinitions = []
+  /** @type {Array<{ thinAliasId: string, name: string, rhs: string, file: string, line: number, exported: boolean }>} */
+  const allThinTypeAliases = []
+  /** @type {Array<{ markerExtendsId: string, name: string, extendsClause: string, file: string, line: number, exported: boolean }>} */
+  const allMarkerExtends = []
   for (const absFile of allFiles) {
     const definitions = scanFileForTypes(absFile, paths.projectRoot)
     allDefinitions.push(...definitions)
+    allThinTypeAliases.push(...scanFileForThinTypeAliases(absFile, paths.projectRoot))
+    allMarkerExtends.push(...scanFileForMarkerExtendsInterfaces(absFile, paths.projectRoot))
   }
+
+  allThinTypeAliases.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line || a.name.localeCompare(b.name))
+  allMarkerExtends.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line || a.name.localeCompare(b.name))
+
+  const thinExclusions = config?.thinTypeAliasExclusions
+  const thinTypeAliases = allThinTypeAliases.filter((t) => !shouldExcludeThinTypeAlias(t, thinExclusions))
+  const thinTypeAliasPolicyExcludedCount = allThinTypeAliases.length - thinTypeAliases.length
+
+  const markerExclusions = config?.markerExtendsExclusions
+  const markerExtendsInterfaces = allMarkerExtends.filter((e) => !shouldExcludeMarkerExtends(e, markerExclusions))
+  const markerExtendsPolicyExcludedCount = allMarkerExtends.length - markerExtendsInterfaces.length
 
   // Build similarity groups
   const allGroups = buildGroups(allDefinitions, config)
@@ -977,6 +1306,12 @@ function main() {
     },
     fileCount: allFiles.length,
     totalDefinitions: allDefinitions.length,
+    thinTypeAliasCount: thinTypeAliases.length,
+    thinTypeAliasPolicyExcludedCount,
+    thinTypeAliases,
+    markerExtendsCount: markerExtendsInterfaces.length,
+    markerExtendsPolicyExcludedCount,
+    markerExtendsInterfaces,
     groups,
     // Include raw definition inventory for cross-referencing with other audits
     definitions: allDefinitions.map(d => ({
@@ -1004,7 +1339,15 @@ function main() {
   const serverCount = allFiles.filter(f => f.startsWith(paths.serverSrc)).length
   const sharedCount = allFiles.filter(f => f.startsWith(sharedRoot)).length
   console.log(`Files scanned: ${allFiles.length} (${clientCount} client, ${serverCount} server, ${sharedCount} shared)`)
-  console.log(`Type definitions: ${allDefinitions.length}, Similarity groups: ${groups.length}`)
+  console.log(
+    `Type definitions: ${allDefinitions.length}, Thin type aliases (reported): ${thinTypeAliases.length}, Marker extends (reported): ${markerExtendsInterfaces.length}, Similarity groups: ${groups.length}`,
+  )
+  if (thinTypeAliasPolicyExcludedCount > 0) {
+    console.log(`Thin type aliases (policy-excluded): ${thinTypeAliasPolicyExcludedCount}`)
+  }
+  if (markerExtendsPolicyExcludedCount > 0) {
+    console.log(`Marker extends (policy-excluded): ${markerExtendsPolicyExcludedCount}`)
+  }
   console.log(`Actions: UNIFY=${actionCounts.UNIFY}, BRAND=${actionCounts.BRAND}, EXTEND=${actionCounts.EXTEND}, REVIEW=${actionCounts.REVIEW}`)
   process.exitCode = 0
 }

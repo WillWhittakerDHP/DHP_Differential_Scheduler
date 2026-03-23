@@ -4,7 +4,8 @@
 WHY: Moves DOM association target calcul...
  */
 import { computed } from 'vue'
-import type { UseSelectDomTargetsOptions, UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
+import type { FieldContextGroupedOptions } from '@/types/admin/fieldContextGroupedOptions'
+import type { UseSelectDomTargetsReturn } from '@/types/admin/selectDomTargets'
 
 export type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
 
@@ -13,7 +14,7 @@ export type { SelectDomTarget } from '@/utils/forms/selectDomAssociation'
 WHY: Extracts DOM target calculation logic...
  */
 export function useSelectDomTargets(
-  options: UseSelectDomTargetsOptions
+  options: FieldContextGroupedOptions
 ): UseSelectDomTargetsReturn {
   const { fieldContext } = options
 
