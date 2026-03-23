@@ -10,7 +10,7 @@
 ## Feature Start - 2026-02-18
 
 **Feature:** authentication
-**Status:** 📋 Planning
+**Status:** Complete
 **Description:** 
 
 **Objectives:**
@@ -51,7 +51,7 @@
 ## Completed Phases
 
 ### Phase [N]: [Phase Name] ✅
-**Completed:** [Date]
+**Completed:** 2026-03-23
 **Sessions Completed:** [List of session IDs]
 **Key Accomplishments:**
 - [Accomplishment 1]
@@ -144,27 +144,48 @@
 
 ## Feature Completion Summary
 
-**Phases Completed:** [List all phase numbers]
-**Total Sessions Completed:** [Number]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Feature:** authentication
+**Completed:** 2026-03-23
 
+### Completed Phases
+
+## Completed Phases
+
+### Phase [N]: [Phase Name] ✅
+**Completed:** [Date]
+**Sessions Completed:** [List of session IDs]
 **Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
+- [Accomplishment 1]
+- [Accomplishment 2]
 
-**Lessons Learned:**
-- [Lesson 1]
-- [Lesson 2]
+**Decisions Made:**
+- [Decision that affects feature]
 
-**Workflow Feedback:** (Optional - only document if issues encountered)
-- **User feedback:** [Any problems managing feature workflow or issues with results]
-- **AI observations:** [Sticking points, inefficiencies, or workflow friction encountered during feature]
-- **Improvements needed:** [Workflow improvements for future features]
-- **Template updates:** [Any template improvements suggested]
-- **Cross-tier feedback:** [If feature-level issues suggest improvements needed at phase, session, or task level]
+### Phase [N+1]: [Phase Name] ✅
+**Completed:** [Date]
+**Sessions Completed:** [List of session IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+**Decisions Made:**
+- [Decision that affects feature]
 
 ---
+
+
+### Key Decisions
+
+## Key Decisions
+
+### Decision [Date]
+**Context:** [What decision was needed]
+**Decision:** [What was decided]
+**Rationale:** [Why this decision was made]
+**Impact:** [How this affects the feature and downstream work]
+
+---
+
 
 ## Related Documents
 

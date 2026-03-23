@@ -30,3 +30,14 @@ Phase 7.3 completed with sessions: 7.3.1, 7.3.2, 7.3.3.
 **Sessions Completed:** 7.3.1, 7.3.2, 7.3.3
 
 ---
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `authentication` · **Source:** phase_end · **Derived:** 2026-03-23T19:26:04.375Z
+- **Phases on disk (3):** 7.1, 7.2, 7.3
+- **Focus phase:** `7.3` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Manifest:** `.project-manager/features/authentication/across-ladder.json`
+<!-- harness-across-ladder:end -->
