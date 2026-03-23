@@ -1,4 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
+import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
+import { resolveAuthenticatedUserForRequest } from '../auth/resolveAuthenticatedUser.js'
+import { createLogger } from '../utils/logger.js'
+
+const logger = createLogger('middleware.requireAuth')
+
+const AUTH_401_MESSAGE = 'Authentication required'
+const AUTH_500_MESSAGE = 'Authentication check failed'
 
 /**
  * WHY: CSRF Protection Middleware (Stub)
@@ -10,18 +18,32 @@ export function csrfProtection(req: Request, res: Response, next: NextFunction):
 }
 
 /**
- * Require Authentication Middleware (Stub)
- *
- * ENACTMENT(Feature 7): Replace stub with real JWT/session verification.
- * Currently passes all requests through. When enacted, should:
- *   1. Validate auth token from request header or cookie
- *   2. Attach authenticated user to req.user
- *   3. Return 401 if token is missing or invalid
- *
- * @see docs/SECURITY_STUBS.md
+ * Session-backed auth: HttpOnly session cookie (see `cookieParser` in `app.ts`) → DB `Session` → `User` → `req.user`.
+ * Anonymous sessions (no `userId`) receive 401 until a strategy attaches identity (Phase 7.3).
  */
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  next()
+  void (async () => {
+    const result = await resolveAuthenticatedUserForRequest(req)
+    if (result.status === 'unauthorized') {
+      res.status(401).json({
+        code: AUTH_FAILURE_CODES.UNAUTHORIZED,
+        message: AUTH_401_MESSAGE,
+      })
+      return
+    }
+    if (result.status === 'internal_error') {
+      res.status(500).json({
+        code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
+        message: AUTH_500_MESSAGE,
+      })
+      return
+    }
+    req.user = result.user
+    next()
+  })().catch((error: unknown) => {
+    logger.error('requireAuth async failure:', error)
+    next(error)
+  })
 }
 
 /**

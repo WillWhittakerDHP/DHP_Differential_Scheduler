@@ -1,6 +1,6 @@
 # Security middleware stubs
 
-The middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until authentication is implemented.
+Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (HttpOnly cookie + `sessions` table + `users` row) as of Feature 7 Task **7.2.3.1**; routes must opt in by adding the middleware — it is not applied globally.
 
 ---
 
@@ -228,13 +228,10 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 
 ### requireAuth
 
-- **Current (stub):** Exported from `security.ts` but not yet applied to any route; passes all requests through. Code that will consume auth (e.g. appointment hold) uses `req.user` only when present.
-- **Planned (Feature 7):**
-  - Extract token from `Authorization` header or cookie.
-  - Verify token (e.g. JWT signature, expiration).
-  - Attach user object to `req.user` (e.g. `{ id: string, ... }`).
-  - Reject requests with invalid or missing tokens (e.g. 401 Unauthorized).
-- **Held-status usage:** When a client holds an appointment slot (`PATCH /appointments/:id` with `status: 'held'`), the server will set `held_by` to `req.user.id` once `requireAuth` is enacted and the route is protected. Until then, `held_by` remains `null` and the client "Hold Slot" button is disabled with a tooltip.
+- **Current (Feature 7 — session):** Reads session id from the configured HttpOnly cookie (`getSessionIdFromRequest`), loads `Session` via `getAuthSessionBySid`, requires `session.userId`, loads `User`, sets `req.user = { id, role }` (`role` from `user.userRole`). **401** `{ code: UNAUTHORIZED }` when unauthenticated; **500** `{ code: INTERNAL_ERROR }` on unexpected resolver failures (logged). Depends on `cookieParser()` in `app.ts`. Resolver: `server/src/auth/resolveAuthenticatedUser.ts`.
+- **Not applied globally:** Add `requireAuth` only on routes that should be protected.
+- **Future (optional):** Bearer JWT or additional headers can be layered in strategies without removing cookie session as the primary browser contract.
+- **Held-status usage:** When a client holds an appointment slot (`PATCH /appointments/:id` with `status: 'held'`), the server will set `held_by` to `req.user.id` once the route is protected with `requireAuth`. Until then, `held_by` remains `null` and the client "Hold Slot" button is disabled with a tooltip.
 
 ### requireRole
 
@@ -257,7 +254,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 
 | Stub | Location | Enactment (Feature 7) |
 |------|----------|------------------------|
-| `requireAuth` | `server/src/middlewares/security.ts` | Replace no-op with JWT/session verification; attach `req.user`. |
+| `requireAuth` | `server/src/middlewares/security.ts` | **Done (7.2.3.1):** session cookie + DB; attach `req.user`. Optional: extend with JWT/header in later tasks. |
 | `requireRole` | `server/src/middlewares/security.ts` | Replace no-op with role check against `req.user.role`; return 403 if role not in allowed list. |
 | Appointment hold `heldBy` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Replace `appointmentFields.heldBy = null` with `appointmentFields.heldBy = req.user?.id ?? null` (or require auth on PATCH and use `req.user.id`). |
 | Appointment `overrideConstraints` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Apply `requireRole('admin')` middleware to PATCH route (or the override-specific branch) so only admins can set `overrideConstraints`. |
