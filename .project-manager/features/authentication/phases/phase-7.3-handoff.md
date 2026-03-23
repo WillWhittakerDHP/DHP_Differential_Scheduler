@@ -69,7 +69,7 @@ Continue with next step. [Fill in.]
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `authentication` · **Source:** phase · **Derived:** 2026-03-23T18:41:03.920Z
+- **Feature:** `authentication` · **Source:** phase · **Derived:** 2026-03-23T18:44:08.130Z
 - **Phases on disk (3):** 7.1, 7.2, 7.3
 - **Focus phase:** `7.3` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Manifest:** `.project-manager/features/authentication/across-ladder.json`
