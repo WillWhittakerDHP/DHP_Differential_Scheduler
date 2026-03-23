@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.7.1.1: Call-site inventory and ownership registry module
+- [x] #### Task 8.7.1.1: Call-site inventory and ownership registry module
 **Goal:** List every `checkOwnership(...)` usage and add a typed registry mapping `resourceName` to Sequelize model + owner column (and hooks for future rules).
 **Files:**
 - `server/src/middlewares/ownershipRegistry.ts` (new, or equivalent path)
