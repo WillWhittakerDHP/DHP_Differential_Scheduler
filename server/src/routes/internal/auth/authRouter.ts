@@ -47,6 +47,15 @@ function httpStatusForMagicLinkVerifyFailure(code: string): number {
   return 500
 }
 
+/** WHY: Distinguish expected bad tokens (warn) from persistence / strategy faults (error). */
+function logMagicLinkVerifyStrategyFailure(code: string, message: string): void {
+  if (code === AUTH_FAILURE_CODES.INTERNAL_ERROR) {
+    logger.error('magic-link verify internal failure', { code, message })
+    return
+  }
+  logger.warn('magic-link verify rejected', { code, message })
+}
+
 function sendAuthNotImplemented(res: Response): void {
   const auth = getAuthConfig()
   res.status(501).json(
@@ -154,6 +163,7 @@ router.get('/magic-link/verify', async (req: Request, res: Response): Promise<vo
         result.userId
       )
       if (created === null) {
+        logger.error('magic-link verify session persist failed')
         res.status(500).json({
           code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
           message: 'Session establishment failed',
@@ -163,6 +173,7 @@ router.get('/magic-link/verify', async (req: Request, res: Response): Promise<vo
       res.status(200).json({ ok: true, userId: result.userId })
       return
     }
+    logMagicLinkVerifyStrategyFailure(result.code, result.message)
     const status = httpStatusForMagicLinkVerifyFailure(result.code)
     res.status(status).json({ code: result.code, message: result.message })
   } catch (err) {
