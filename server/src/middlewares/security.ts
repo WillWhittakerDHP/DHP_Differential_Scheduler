@@ -1,22 +1,89 @@
+import { timingSafeEqual } from 'crypto'
 import { Request, Response, NextFunction } from 'express'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { resolveAuthenticatedUserForRequest } from '../auth/resolveAuthenticatedUser.js'
+import { getAuthSessionBySid } from '../auth/sessionManager.js'
+import { getSessionIdFromRequest } from '../auth/sessionCookie.js'
 import { createLogger } from '../utils/logger.js'
+import { CSRF_HEADER_NAME, readStoredCsrfToken } from './csrfIssuance.js'
 
 const authLogger = createLogger('middleware.requireAuth')
 const roleLogger = createLogger('middleware.requireRole')
+const csrfLogger = createLogger('middleware.csrfProtection')
 
 const AUTH_401_MESSAGE = 'Authentication required'
 const AUTH_500_MESSAGE = 'Authentication check failed'
 const ROLE_403_MESSAGE = 'Insufficient permissions'
+const CSRF_403_MESSAGE = 'CSRF validation failed'
+
+const SAFE_HTTP_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])
 
 /**
- * WHY: CSRF validation (stub until 8.6.1.2). Issuance: `ensureCsrfTokenAttached` in `csrfIssuance.ts`
- * sets `Session.sess.csrfToken` + readable `csrf_token` cookie; client must send `X-CSRF-Token`.
+ * WHY: Validates `X-CSRF-Token` against `Session.sess.csrfToken` for unsafe methods.
+ * Issuance: `ensureCsrfTokenAttached` in `csrfIssuance.ts`. No session cookie → skip (login / magic-link POST
+ * before first session); session without stored token → 403 (client should GET once to mint token).
  */
 export function csrfProtection(req: Request, res: Response, next: NextFunction): void {
-  // Stub: see server/docs/SECURITY_STUBS.md — CSRF issuance (active)
-  next()
+  const method = req.method.toUpperCase()
+  if (SAFE_HTTP_METHODS.has(method)) {
+    next()
+    return
+  }
+
+  void (async () => {
+    const sid = getSessionIdFromRequest(req)
+    if (sid === null) {
+      next()
+      return
+    }
+
+    const session = await getAuthSessionBySid(sid)
+    if (session === null) {
+      csrfLogger.warn('csrfProtection: rejected; session cookie present but session row missing')
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: CSRF_403_MESSAGE,
+      })
+      return
+    }
+
+    const stored = readStoredCsrfToken(session.sess)
+    if (stored === null) {
+      csrfLogger.warn('csrfProtection: rejected; no csrfToken in session (GET once to issue token)')
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: CSRF_403_MESSAGE,
+      })
+      return
+    }
+
+    const headerRaw = req.get(CSRF_HEADER_NAME)
+    if (headerRaw === undefined || headerRaw.trim() === '') {
+      csrfLogger.warn('csrfProtection: rejected; missing X-CSRF-Token header')
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: CSRF_403_MESSAGE,
+      })
+      return
+    }
+
+    const submitted = headerRaw.trim()
+    const a = Buffer.from(stored, 'utf8')
+    const b = Buffer.from(submitted, 'utf8')
+    if (a.length !== b.length || !timingSafeEqual(a, b)) {
+      csrfLogger.warn('csrfProtection: rejected; token mismatch')
+      res.status(403).json({
+        code: AUTH_FAILURE_CODES.FORBIDDEN,
+        message: CSRF_403_MESSAGE,
+      })
+      return
+    }
+
+    next()
+  })().catch((error: unknown) => {
+    csrfLogger.error('csrfProtection failed:', error)
+    next(error)
+  })
 }
 
 /**

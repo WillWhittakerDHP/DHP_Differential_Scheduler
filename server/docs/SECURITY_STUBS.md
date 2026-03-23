@@ -1,6 +1,6 @@
 # Security middleware stubs
 
-Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`checkOwnership`** remains a stub. **`csrfProtection`** is still a **validation stub** (Phase 8.6.1.2); **CSRF token issuance** is **active** (Phase 8.6.1.1) — see below.
+Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`checkOwnership`** remains a stub. **`csrfProtection`** validation is **active** (Phase 8.6.1.2); **CSRF token issuance** is **active** (Phase 8.6.1.1) — see below.
 
 ---
 
@@ -13,7 +13,7 @@ Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs**
 |----------|--------|
 | Session store | `Session.sess` JSONB key `csrfToken` (64-char hex from 32 random bytes) |
 | Readable cookie | Name: **`csrf_token`** — `httpOnly: false`, `sameSite: lax`, `secure` in production |
-| Header for mutating requests (validation pending 8.6.1.2) | **`X-CSRF-Token`** — send the same value as `csrf_token` |
+| Header for mutating requests (validation active) | **`X-CSRF-Token`** — send the same value as `csrf_token` |
 | When skipped | No session cookie, or session row missing/expired — no cookie set |
 
 **Exports:** `CSRF_TOKEN_COOKIE_NAME`, `CSRF_HEADER_NAME`, `CSRF_SESS_KEY` from `csrfIssuance.ts` for server and documentation parity with the Vue client (8.6.2).
@@ -24,6 +24,18 @@ Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs**
 2. `GET` any API route with that cookie (e.g. `curl -v` with `-b` cookie jar after login).
 3. Response `Set-Cookie` should include **`csrf_token`** (non-HttpOnly).
 4. Confirm `sessions.sess` JSON for your `sid` contains `"csrfToken"`.
+
+## CSRF validation (active) — Task 8.6.1.2
+
+**Location:** `server/src/middlewares/security.ts` (`csrfProtection`)
+
+| Rule | Behavior |
+|------|-----------|
+| Safe methods | `GET`, `HEAD`, `OPTIONS` → no check |
+| No session cookie | **Skip** CSRF (allows `POST /auth/login`, `POST /auth/magic-link/request` before a session exists) |
+| Session cookie but no DB row | **403** `FORBIDDEN` — CSRF validation failed |
+| Session row but no `sess.csrfToken` | **403** — client should issue token via a safe request first (`ensureCsrfTokenAttached` on GET) |
+| Header missing or mismatch | **403** — compared with `crypto.timingSafeEqual` (UTF-8 buffers, same length) |
 
 ---
 
@@ -233,20 +245,22 @@ Alternatively, use browser DevTools → Network tab → select a request → Hea
 With the server running, send an invalid payload and confirm 400 with validation details:
 
 ```bash
+# No session cookie: CSRF check is skipped (see CSRF validation table).
 curl -X POST http://localhost:3001/api/v1/internal/auth/login \
   -H "Content-Type: application/json" \
-  -H "X-CSRF-Token: stub" \
   -d '{}'
 ```
 
 Expect `400` with JSON body containing `error: 'Validation failed'` and `details` array with Joi error entries. Valid payload (e.g. `{"email":"a@b.com","password":"x"}`) returns `501` (placeholder).
 
+**With a session cookie:** send **`X-CSRF-Token`** equal to `csrf_token` / `Session.sess.csrfToken` on mutating requests or receive **403**.
+
 ## Planned behavior
 
 ### csrfProtection
 
-- **Issuance (done):** see **CSRF issuance (active)** above.
-- **Validation (planned 8.6.1.2):** Extract CSRF token from header `X-CSRF-Token` (see `CSRF_HEADER_NAME`), compare to `Session.sess.csrfToken`, reject with 403/400 when missing or mismatched on unsafe methods.
+- **Issuance:** see **CSRF issuance (active)** above.
+- **Validation (done 8.6.1.2):** see **CSRF validation (active)** above. Implementation: `server/src/middlewares/security.ts`.
 
 ### requireAuth
 

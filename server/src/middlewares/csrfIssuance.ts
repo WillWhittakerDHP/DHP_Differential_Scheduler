@@ -34,6 +34,16 @@ function normalizeSess(sess: unknown): Record<string, unknown> {
   return {}
 }
 
+/** Server-side token from `Session.sess` for `csrfProtection` (Task 8.6.1.2). */
+export function readStoredCsrfToken(sess: unknown): string | null {
+  const existing = normalizeSess(sess)
+  const current = existing[CSRF_SESS_KEY]
+  if (typeof current === 'string' && current.length >= MIN_STORED_TOKEN_LEN) {
+    return current
+  }
+  return null
+}
+
 function setReadableCsrfCookie(res: Response, token: string): void {
   const { sessionMaxAgeSec } = getAuthConfig()
   res.cookie(CSRF_TOKEN_COOKIE_NAME, token, {

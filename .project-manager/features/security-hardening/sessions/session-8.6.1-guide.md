@@ -52,7 +52,7 @@ These sections contain session-specific content:
 **Approach:** Pick double-submit or synchronizer-token pattern; add minimal issuance (e.g. on session create or first request); use `createLogger` for diagnostics; keep `checkOwnership` unchanged.
 **Checkpoint:** Dev server starts; a test mutating request can include a token that the stub would not have rejected (or temporary log proves token is issued).
 
-- [ ] #### Task 8.6.1.2: `csrfProtection` validation and error responses
+- [x] #### Task 8.6.1.2: `csrfProtection` validation and error responses
 **Goal:** Replace the `csrfProtection` no-op with validation on unsafe HTTP methods; return 403 or 400 consistently; log failures.
 **Files:**
 - `server/src/middlewares/security.ts`
