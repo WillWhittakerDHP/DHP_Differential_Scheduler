@@ -17,7 +17,7 @@ export interface ComputedAvailabilityMutableBundle {
   clearSlotsCache: () => void
 }
 
-export function useComputedAvailabilityMutableState(): ComputedAvailabilityMutableBundle {
+export function useComputedAvailabilityState(): ComputedAvailabilityMutableBundle {
   const calendarEvents = ref<CalendarEvent[]>([])
   const slotsByDay = ref<Map<string, ComputedSlot[]>>(new Map())
   const constraints = ref<Constraint[]>([])

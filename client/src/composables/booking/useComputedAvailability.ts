@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { UseComputedAvailabilityParams, UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
-import { useComputedAvailabilityMutableState } from '@/composables/booking/useComputedAvailabilityState'
+import { useComputedAvailabilityState } from '@/composables/booking/useComputedAvailabilityState'
 import { createComputedAvailabilityRangeFetcher } from '@/composables/booking/useComputedAvailabilityRangeFetcher'
 import { resolveComputedAvailabilityDerived } from '@/composables/booking/useComputedAvailabilityDerived'
 import { wireComputedAvailabilityWatchers } from '@/composables/booking/useComputedAvailabilityWiring'
@@ -10,7 +10,7 @@ export function useComputedAvailability(
   params: UseComputedAvailabilityParams
 ): UseComputedAvailabilityReturn {
   const derived = resolveComputedAvailabilityDerived(params)
-  const state = useComputedAvailabilityMutableState()
+  const state = useComputedAvailabilityState()
   const durationRef = params.duration ?? ref<number | null>(null)
   const fetchWithRange = createComputedAvailabilityRangeFetcher({
     fetchRefs: state.fetchRefs,
