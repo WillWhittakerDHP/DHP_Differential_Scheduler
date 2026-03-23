@@ -61,7 +61,7 @@ These sections contain session-specific content:
 **Approach:** Align with Express `req`/`res` types; do not leak session id in response bodies.
 **Checkpoint:** Cookie attributes match env expectations; dev vs production `secure` behavior documented in code comments.
 
-- [ ] #### Task 7.2.2.3: Session + cookie façade
+- [x] #### Task 7.2.2.3: Session + cookie façade
 **Goal:** Single small module exporting composed operations for Phase 7.3 (e.g. issue session + Set-Cookie, clear session + Clear-Cookie).
 **Files:** 
 - `server/src/auth/sessionIssue.ts` or `server/src/auth/sessionFacade.ts` (new)

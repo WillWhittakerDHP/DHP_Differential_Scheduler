@@ -26,3 +26,7 @@ export {
   getSessionIdFromRequest,
   setSessionCookie,
 } from './sessionCookie.js'
+export {
+  clearAuthSessionWithCookie,
+  issueAuthSessionWithCookie,
+} from './sessionFacade.js'
