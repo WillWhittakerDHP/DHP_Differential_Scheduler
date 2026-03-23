@@ -59,7 +59,7 @@ These sections contain session-specific content:
 **Approach:** Sequelize queries in named functions; clear `AuthOpResult`-shaped outcomes or typed errors for strategy layer; handle not-found, expired, already-consumed uniformly.
 **Checkpoint:** Unit behavior verifiable via dev logging or temporary route stub (no new tests per project policy unless you add a deliberate harness).
 
-- [ ] #### Task 7.3.1.3: `magicLinkStrategy` module
+- [x] #### Task 7.3.1.3: `magicLinkStrategy` module
 **Goal:** Export an `AuthStrategy` with `name: 'magic_link'` and `verifyToken` returning `userId` on valid token; no session creation here (Phase 7.3.3). Expose hooks or factory deps for 7.3.2 to issue links.
 **Files:**
 - `server/src/auth/strategies/magicLinkStrategy.ts` (new)
