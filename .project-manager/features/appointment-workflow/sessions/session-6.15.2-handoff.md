@@ -14,7 +14,7 @@
 
 **Last Completed:** Task 
 **Next Session:** Session 6.15.3
-**Git Branch:** `session-6.15.2`
+**Git Branch:** `phase-6.15`
 **Last Updated:** 2026-03-23
 
 ## Next Action
