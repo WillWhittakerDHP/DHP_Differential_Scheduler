@@ -16,7 +16,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
-import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
+import { type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
@@ -28,13 +28,10 @@ import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entity
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { useEntityCardPrimaryTitleModels } from '@/composables/admin/useEntityCardPrimaryTitleModels'
-import { listSortedUserTypeBlockInstances } from '@/utils/admin/userTypeBlockInstances'
+import { useEntityCardAnnotationComposedMetadata } from '@/composables/admin/useEntityCardAnnotationComposedMetadata'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
-/**
- *      Since we explicitly declare all props, we don't need automatic inheritance
- */
 defineOptions({
   inheritAttrs: false
 })
@@ -69,26 +66,16 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-/**
- */
 const { isExpanded, handleExpansionChange } = useEntityCardExpansion({
   expanded: computed(() => props.expanded ?? true)
 })
 const { handleTitleKeydown } = entityCardTitleKeydown()
 
-/**
- * WHY: Use entity display composable for display name and messages
-WHY: Moves d...
- */
 const entityDisplayComposable = entityDisplay(useAdminConfig())
 const {
   getEntityDeleteTitle
 } = entityDisplayComposable
 
-/**
- * WHY: Use entity status composable for component status checks
-WHY: Moves comp...
- */
 void useEntityStatus({
   entityKey: props.entityKey,
   entity: computed(() => props.entity)
@@ -99,9 +86,6 @@ const admin = useAdmin()
 
 const logger = createLogger('EntityCard')
 
-/**
- * PATTERN: Single form owner in composable; component only consumes and passes form ref down
- */
 const { form } = useEntityCardForm({
   entityKey: props.entityKey,
   entity: props.entity,
@@ -113,36 +97,17 @@ const { form } = useEntityCardForm({
 /** Form instance for template binding; children require FormContext, not Ref. */
 const formForTemplate = computed(() => form.value!)
 
-// WHY: Reduces component complexity by moving metadata logic to composable
-// PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
 const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
   entity: props.entity,
   filteredMetadata: props.fieldMetadata
 })
 
-/**
- * WHY: Per-user annotation editor syncs `text` + `contentRows`; hide primitive `text` via metadata (field location dispatcher), not a parallel filter composable.
- */
-const composedFieldMetadata = computed(() => {
-  const base = baseComposedFieldMetadata.value
-  if (props.entityKey !== 'annotationInstance') {
-    return base
-  }
-  if (props.parentBlockShapeIsStateControl) {
-    return base
-  }
-  if (listSortedUserTypeBlockInstances(admin).length === 0) {
-    return base
-  }
-  const textEntry = base.text
-  if (!textEntry) {
-    return base
-  }
-  return {
-    ...base,
-    text: { ...textEntry, visibility: FIELD_VISIBILITY.HIDDEN },
-  }
+const composedFieldMetadata = useEntityCardAnnotationComposedMetadata({
+  entityKey: () => props.entityKey,
+  parentBlockShapeIsStateControl: () => props.parentBlockShapeIsStateControl,
+  baseComposedFieldMetadata,
+  admin,
 })
 
 const {
@@ -221,16 +186,11 @@ const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle }
   admin,
 })
 
-/**
- * WHY: Expose methods and state for parent components (minimal API)
-PATTERN: Ex...
- */
 defineExpose({
   getFieldContext,
   getNameFieldContext: () => getFieldContext('name'),
   form,
   handleSave,
-  // PATTERN: Expose computed properties for external access
   isMetadataReady,
   isFormReady: formFields.isFormReady
 })

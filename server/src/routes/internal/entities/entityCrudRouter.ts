@@ -20,6 +20,7 @@ import {
 } from '../../../services/annotations/annotationInstanceContentSync.js'
 import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
 import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
+import { countPartShapeDeleteDependencies } from '../../../services/partShapes/countPartShapeDeleteDependencies.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
@@ -332,6 +333,29 @@ router.delete(
             ),
             shapeId: entityId,
             dependentCount,
+          })
+          return
+        }
+      }
+      if (deleteEntityType === ENTITY_KEYS.PART_SHAPE || deleteEntityType === 'partShape') {
+        const dependencyCounts = await countPartShapeDeleteDependencies(entityId)
+        if (dependencyCounts.totalCount > 0) {
+          const validPricingCascadeCount =
+            dependencyCounts.validPricingCascadeParentCount +
+            dependencyCounts.validPricingCascadeChildCount
+
+          logger.warn('Part shape delete blocked: dependent records still reference shape', {
+            shapeId: entityId,
+            ...dependencyCounts,
+          })
+          res.status(HTTP_STATUS_CODES.CONFLICT).json({
+            error: ERROR_MESSAGES.PART_SHAPE_IN_USE,
+            details: ERROR_MESSAGES.PART_SHAPE_IN_USE_DETAILS
+              .replace('{partInstanceCount}', String(dependencyCounts.partInstanceCount))
+              .replace('{validPartCount}', String(dependencyCounts.validPartCount))
+              .replace('{validPricingCascadeCount}', String(validPricingCascadeCount)),
+            shapeId: entityId,
+            ...dependencyCounts,
           })
           return
         }

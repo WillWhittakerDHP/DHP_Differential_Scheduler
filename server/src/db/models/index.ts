@@ -29,6 +29,8 @@ import { PropertyVersionFactory } from "./booking/property_version.js";
 import { PropertyDetailsFactory } from "./booking/property_details.js";
 import { PropertyVersionTypeFactory } from "./booking/property_version_type.js";
 import { UserFactory } from "./participantModels/Users.js";
+import { SessionFactory } from "./auth/session.js";
+import { MagicLinkFactory } from "./auth/magic_link.js";
 import { AppointmentFactory } from "./booking/appointment.js";
 import { AppointmentSelectionLineFactory } from "./booking/appointment_selection_line.js";
 import { AppointmentTimeSlotFactory } from "./booking/appointment_time_slot.js";
@@ -97,6 +99,8 @@ export function initializeModels(sequelize: Sequelize) {
   const PropertyDetails = PropertyDetailsFactory(sequelize);
   const PropertyVersionType = PropertyVersionTypeFactory(sequelize);
   const User = UserFactory(sequelize);
+  const Session = SessionFactory(sequelize);
+  const MagicLink = MagicLinkFactory(sequelize);
   const Appointment = AppointmentFactory(sequelize);
   const AppointmentSelectionLine = AppointmentSelectionLineFactory(sequelize);
   const AppointmentTimeSlot = AppointmentTimeSlotFactory(sequelize);
@@ -172,7 +176,7 @@ export function initializeModels(sequelize: Sequelize) {
     BookingCascade, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee, AppointmentAttendee,
-    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
+    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
     AppointmentSelectionLine, AppointmentTimeSlot, AppointmentFeeSummary, AppointmentFeeEntry,
     ConstraintOverride, CalendarSettings, WizardSettings, AvailabilitySetting,
     AvailabilityBusinessHour, AvailabilityBufferEntry, AvailabilityRangeConstraint,
@@ -191,7 +195,7 @@ export function initializeModels(sequelize: Sequelize) {
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,
-    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Appointment,
+    Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
     AppointmentSelectionLine,
     AppointmentTimeSlot,
     AppointmentAttendee,

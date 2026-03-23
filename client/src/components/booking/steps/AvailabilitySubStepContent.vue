@@ -4,21 +4,15 @@
   Task 6.9.4.1: Step 4 is completion slots only; contingency lives in step 1 when moveable + preClosing.
 -->
 <script setup lang="ts">
-import { inject, computed, ref, watch } from 'vue'
+import { inject, toRef } from 'vue'
 import { availabilitySubStepContextKey } from '@/keys/bookingInjectionKeys'
 import { AVAILABILITY_SUBSTEP_UI } from '@/constants/availabilityStepConstants'
 import SlotGridWithOverlay from '@/components/booking/steps/SlotGridWithOverlay.vue'
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
-import {
-  clampContingencyDeadlineToEarliest,
-  minContingencyDateKeyFromEarliest,
-  minContingencyTimeForDate,
-  parseContingencyDeadlineLocalWallToUtcMs,
-} from '@/utils/booking/clampContingencyDeadlineToEarliest'
 import AppointmentSlotGrid from '@/components/booking/AppointmentSlotGrid.vue'
 import DifferentialGraph from '@/components/booking/DifferentialGraph.vue'
 import AvailabilityCalendarSection from '@/components/booking/steps/AvailabilityCalendarSection.vue'
 import AvailabilityOptionsSection from '@/components/booking/steps/AvailabilityOptionsSection.vue'
+import { useAvailabilitySubStepContent } from '@/composables/booking/useAvailabilitySubStepContent'
 
 interface Props {
   stepIndex: number
@@ -30,190 +24,21 @@ if (!ctx) {
   throw new Error('AvailabilitySubStepContent must be used inside AvailabilityStep')
 }
 
-/** Writable bridge for contingencyPeriod (Ref) so v-model works; clamps deadline to earliest moveable start. */
-function updateContingency(partial: Partial<ContingencyPeriod>): void {
-  const o = ctx!.o
-  let next: ContingencyPeriod = { ...o.contingencyPeriod.value, ...partial }
-  const win = o.moveableSchedulingWindow.value
-  if (win?.earliestStart && next.hasContingency === true && next.endDate && next.endTime) {
-    const c = clampContingencyDeadlineToEarliest(next.endDate, next.endTime, win.earliestStart)
-    next = { ...next, endDate: c.endDate, endTime: c.endTime }
-  }
-  o.contingencyPeriod.value = next
-}
-
-/** Yes/No only — clears deadline fields when user chooses No. */
-function onContingencyChoice(value: boolean): void {
-  const o = ctx!.o
-  const cur = o.contingencyPeriod.value
-  if (value === false) {
-    o.contingencyPeriod.value = {
-      ...cur,
-      hasContingency: false,
-      endDate: null,
-      endTime: null,
-    }
-    return
-  }
-  o.contingencyPeriod.value = { ...cur, hasContingency: true }
-}
-
-/** Task 6.9.4.1: Step 4 moveable computeds. */
-const step4HasClosingDate = computed(
-  () =>
-    ctx!.o.contingencyPeriod.value.hasContingency === true &&
-    Boolean(ctx!.o.contingencyPeriod.value.endDate && ctx!.o.contingencyPeriod.value.endTime)
-)
-
-const hasOptions = computed(() => ctx!.hasOptions.value)
-
-/** Min date/time from selected inspection slot + buffer (Step 3+); omit min until slot picked. */
-const contingencyDeadlineMinDate = computed(() => {
-  const es = ctx!.o.moveableSchedulingWindow.value?.earliestStart
-  return es ? minContingencyDateKeyFromEarliest(es) : undefined
-})
-
-const contingencyDeadlineMinTime = computed(() => {
-  const win = ctx!.o.moveableSchedulingWindow.value
-  const endDate = ctx!.o.contingencyPeriod.value.endDate
-  if (!win?.earliestStart || !endDate) return undefined
-  return minContingencyTimeForDate(endDate, win.earliestStart)
-})
-
-/** Pass min on component attrs so Vuetify forwards it to the native date/time input (not a declared prop). */
-const deadlineDateNativeAttrs = computed(() => {
-  const min = contingencyDeadlineMinDate.value
-  return min !== undefined && min !== '' ? { min } : {}
-})
-
-/** Restricts VTimePicker dial to only minutes aligned with admin grid increment (e.g. 0, 15, 30, 45). */
-const allowedDeadlineMinutes = computed(() => {
-  const minutes = ctx!.o.availabilityMinuteIncrement.value
-  const step = Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes) : 15
-  return (m: number): boolean => m % step === 0
-})
-
-const deadlineTimeMenuOpen = ref(false)
-
-/** Full YYYY-MM-DD only — avoids clobbering partial input while typing. */
-function coerceDeadlineDateInput(raw: unknown): string | null {
-  const s = typeof raw === 'string' ? raw.trim() : ''
-  if (!s) return null
-  const minD = contingencyDeadlineMinDate.value
-  if (minD && s.length === 10 && s < minD) return minD
-  return s
-}
-
-/** Full HH:mm only when on min date — avoids fighting incomplete time input. */
-function coerceDeadlineTimeInput(raw: unknown): string | null {
-  const t = typeof raw === 'string' ? raw.trim() : ''
-  if (!t) return null
-  const minT = contingencyDeadlineMinTime.value
-  const endDate = ctx!.o.contingencyPeriod.value.endDate
-  const minD = contingencyDeadlineMinDate.value
-  if (
-    minT !== undefined &&
-    endDate &&
-    minD &&
-    endDate === minD &&
-    t.length >= 5 &&
-    t < minT
-  ) {
-    return minT
-  }
-  return t
-}
-
-function onDeadlineDateModelUpdate(raw: unknown): void {
-  updateContingency({ endDate: coerceDeadlineDateInput(raw) })
-}
-
-function onDeadlineTimeModelUpdate(raw: unknown): void {
-  updateContingency({ endTime: coerceDeadlineTimeInput(raw) })
-}
-
-/** Stepper navigates canonical UTC day keys that have ≥1 slot after moveable window filter. */
-const step4MoveableDayIndex = computed(() => {
-  const keys = ctx!.o.availableMoveableDayKeys.value
-  const day = ctx!.o.selectedMoveableDay.value
-  if (!day) return -1
-  return keys.indexOf(day)
-})
-
-const step4CanStepPrev = computed(() => step4MoveableDayIndex.value > 0)
-
-const step4CanStepNext = computed(() => {
-  const keys = ctx!.o.availableMoveableDayKeys.value
-  const i = step4MoveableDayIndex.value
-  return i >= 0 && i < keys.length - 1
-})
-
-/** Contingency + deadline collected in Tailor (step 1); step 4 only picks completion slot or auto-confirms No. */
-const step4CanConfirm = computed(() => {
-  const o = ctx!.o
-  const opts = o.moveableOptions.value
-  if (!opts) return false
-  const h = o.contingencyPeriod.value.hasContingency
-  if (h === false) return true
-  if (!step4HasClosingDate.value) return false
-  const slots = o.moveableAppointmentSlots.value
-  if (slots.length === 0) return false
-  return o.selectedMoveableSlotIndex.value !== null
-})
-
-function step4StepDay(delta: -1 | 1): void {
-  const keys = ctx!.o.availableMoveableDayKeys.value
-  const i = step4MoveableDayIndex.value
-  if (i < 0) return
-  const nextIdx = i + delta
-  if (nextIdx < 0 || nextIdx >= keys.length) return
-  const nextDay = keys[nextIdx]
-  if (nextDay !== undefined) {
-    ctx!.o.setSelectedMoveableDay(nextDay)
-  }
-}
-
-/** On slot click: select slot and confirm (same pattern as step 3 — direct confirm). */
-function handleMoveableSlotClick(buttonIndex: number): void {
-  ctx!.o.selectMoveableSlot(buttonIndex)
-  ctx!.handleMoveableConfirmWithConfirm()
-}
-
-/** Auto-confirm when moveable step is valid; removes need for explicit Confirm/Cancel buttons.
- * No-contingency path confirms without step4HasClosingDate; Yes path waits for deadline + slot load.
- * WHY: Exclude loading states so we don't collapse before user can interact. */
-watch(
-  () =>
-    props.stepIndex === 4 &&
-    step4CanConfirm.value &&
-    !ctx!.o.stepData.value?.moveableScheduling &&
-    !ctx!.o.isLoadingOptions.value &&
-    !(step4HasClosingDate.value && ctx!.o.isLoadingMoveableDaySlots.value),
-  (shouldAutoConfirm) => {
-    if (shouldAutoConfirm) ctx!.handleMoveableConfirmWithConfirm()
-  },
-  { immediate: true }
-)
-
-/** If inspection/buffer changes, pull contingency deadline forward when it was before earliest start. */
-watch(
-  () => ctx!.o.moveableSchedulingWindow.value?.earliestStart ?? null,
-  (earliest) => {
-    if (!earliest) return
-    const o = ctx!.o
-    const c = o.contingencyPeriod.value
-    if (c.hasContingency !== true || !c.endDate || !c.endTime) return
-    const clamped = clampContingencyDeadlineToEarliest(c.endDate, c.endTime, earliest)
-    const beforeMs = parseContingencyDeadlineLocalWallToUtcMs(c.endDate, c.endTime)
-    const afterMs = parseContingencyDeadlineLocalWallToUtcMs(clamped.endDate, clamped.endTime)
-    const deadlineUnchanged =
-      (beforeMs === null && afterMs === null) ||
-      (beforeMs !== null && afterMs !== null && beforeMs === afterMs)
-    if (!deadlineUnchanged) {
-      o.contingencyPeriod.value = { ...c, endDate: clamped.endDate, endTime: clamped.endTime }
-    }
-  }
-)
+const {
+  hasOptions,
+  onContingencyChoice,
+  step4HasClosingDate,
+  contingencyDeadlineMinTime,
+  deadlineDateNativeAttrs,
+  allowedDeadlineMinutes,
+  deadlineTimeMenuOpen,
+  onDeadlineDateModelUpdate,
+  onDeadlineTimeModelUpdate,
+  step4CanStepPrev,
+  step4CanStepNext,
+  step4StepDay,
+  handleMoveableSlotClick,
+} = useAvailabilitySubStepContent({ ctx, stepIndex: toRef(props, 'stepIndex') })
 </script>
 
 <template>

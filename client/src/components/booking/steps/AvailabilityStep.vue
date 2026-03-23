@@ -15,6 +15,7 @@ import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStep
 import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
 import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
 import { useAvailabilityStepInjections } from '@/composables/booking/useAvailabilityStepInjections'
+import { buildAvailabilitySubStepContext } from '@/composables/booking/buildAvailabilitySubStepContext'
 import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
@@ -57,7 +58,6 @@ useWizardStepSync({
 const confirmation = useAvailabilityConfirmationState()
 const { labels: bookingWizardLabels } = useWizardSettings()
 
-/** Yes+deadline moveable: loaded day slots empty — show admin message and keep step invalid until user adjusts. */
 const moveableInfeasible = computed(() => {
   if (!o.hasMoveablePartsGated.value) return false
   const c = o.contingencyPeriod.value
@@ -92,10 +92,8 @@ watch(
   { immediate: true }
 )
 
-/** Options substep only when multiple cascade choices; 0–1 options use auto/clear sync in useBookingWizard. */
 const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 1)
 
-/** WHY: error is null when cascade is healthy; nilToEmptyString would warn on every render. */
 const availabilityOptionsCascadeErrorText = computed(() =>
   (o.wizard.availabilityOptionsCascadeError?.value ?? '').trim()
 )
@@ -108,7 +106,6 @@ const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
 const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
 
-/** Step 4 only when completion slots are required: gated + Yes + deadline. "No" skips the panel; silent confirm runs below. */
 const showMoveableSubstep = computed(() => {
   if (!o.hasMoveablePartsGated.value) return false
   const c = o.contingencyPeriod.value
@@ -148,7 +145,6 @@ const subSteps = useAvailabilitySubSteps({
   subStepLabels: ui.subStepLabels,
 })
 
-/** No-contingency path: no step 4 UI — confirm moveable scheduling once options exist (same as former in-panel auto-confirm). */
 watch(
   () => ({
     gated: o.hasMoveablePartsGated.value,
@@ -164,7 +160,6 @@ watch(
   { flush: 'post', immediate: true }
 )
 
-/** Visible sub-steps (filter to only visible). */
 const visibleSubStepsFiltered = computed(() =>
   subSteps.visibleSubSteps.value.filter((s) => s.visible)
 )
@@ -173,55 +168,27 @@ const accordion = useAvailabilityStepAccordion({
   currentStepIndex: computed(() => subSteps.currentStepIndex.value),
 })
 
-/** Expanded panel index for template (unwrap ref for correct v-model/aria types). */
 const expandedIndex = computed(() => accordion.expandedIndex.value)
 
-/** Loaded appointment with availability data — keep step 4 open for confirmation review. */
 const hasLoadedAvailability = computed(
   () =>
     (loadedWizardState?.value?.availability?.candidateDate != null) ||
     (loadedWizardState?.value?.availability?.candidateTimeSlots != null)
 )
 
-/** Unwrap Vuetify update:model-value (may emit value or Ref per typings). */
 function onExpandedChange(val: number | { value: number }): void {
   const num = typeof val === 'object' && val !== null && 'value' in val ? (val as { value: number }).value : val
   accordion.setExpanded(num)
 }
 
-/** Context for AvailabilitySubStepContent (inject). Task 6.9.4.1: handleMoveableConfirmWithConfirm for step 4. */
-const subStepContext = {
+const subStepContext = buildAvailabilitySubStepContext({
   o,
-  handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
-  onOptionIdUpdate: ui.onOptionIdUpdate,
-  handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
-  handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
-  handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
-  get showSlotsOverlay() {
-    return overlay.showSlotsOverlay.value
-  },
-  get slotGridOverlayLabel() {
-    return overlay.slotGridOverlayLabel.value
-  },
-  get slotGridOverlayError() {
-    return overlay.slotGridOverlayError.value
-  },
-  get emptyStateMessage() {
-    // WHY: useAvailabilityEmptyState returns null when slots exist; context still exposes string for templates.
-    return o.emptyStateMessage.value ?? ''
-  },
-  get firstAvailableNotice() {
-    return o.firstAvailableNotice?.value ?? null
-  },
-  clearFirstAvailableNotice: o.clearFirstAvailableNotice,
-  get moveableInfeasible() {
-    return moveableInfeasible.value
-  },
-  get moveableInfeasibleMessage() {
-    return moveableInfeasibleMessage.value
-  },
+  ui,
+  overlay,
+  moveableInfeasible,
+  moveableInfeasibleMessage,
   hasOptions,
-}
+})
 provide(availabilitySubStepContextKey, subStepContext)
 
 onMounted(() => {

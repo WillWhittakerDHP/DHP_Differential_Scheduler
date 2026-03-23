@@ -1,76 +1,53 @@
-# Phase [N] Handoff
+# Phase 7.1 Handoff
 
-**Purpose:** Transition context between phases (large-scale concerns only)
-
-**Tier:** Phase (Tier 1 - High-Level)
-
-**Last Updated:** [Date]
-**Phase Status:** [Complete / In Progress]
-**Next Phase:** [N+1]
+**Phase Status:** Complete  
+**Last Updated:** 2026-03-23  
+**Next Phase:** 7.2 (Server Infrastructure — in progress on feature branch)
 
 ---
 
 ## Current Status
 
-**Phase [N]:** [Complete / In Progress]
-**Last Completed Session:** 7.1
-**Next Phase:** [N+1]
+**Phase 7.1:** Complete  
+**Last Completed Session:** 7.1.2  
+**Next Phase:** 7.2
 
 ---
 
 ## Transition Context
 
-**Where we left off:**
-[Minimal notes about phase completion - 2-3 sentences max]
+**Where we left off:**  
+Phase 7.1 completed with sessions **7.1.1** (migrations) and **7.1.2** (Sequelize models). `sessions` and `magic_links` tables and models are available for Phase 7.2 session manager and auth infrastructure.
 
-**What you need to start Phase [N+1]:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
+**What you need to start Phase 7.2:**
 
-**Plan Changes Affecting Downstream Phases:**
-- [Only include if plan changed and affects later phases]
-- [Brief description of change and impact]
+- Review `phase-7.2-guide.md` and feature authentication guide for middleware and router scope.
+- Confirm DB migrations applied on the host that owns the database (migration authority).
 
 ---
 
 ## Phase Summary
 
-**Sessions Completed:** [List session IDs]
-**Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
+**Sessions Completed:** 7.1.1, 7.1.2  
 
-**Decisions Made:**
-- [Decision that affects downstream phases]
+**Key accomplishments:**
 
----
-
-## Notes
-
-**Keep minimal** - Detailed notes belong in phase log, not handoff.
-
----
-
-## Related Documents
-
-- Phase Guide: `.cursor/workflow-manager/vue-migration/phases/phase-[N]-guide.md`
-- Phase Log: `.cursor/workflow-manager/vue-migration/phases/phase-[N]-log.md`
-- Next Phase Guide: `.cursor/workflow-manager/vue-migration/phases/phase-[N+1]-guide.md`
+- Landed migrations for `sessions` and `magic_links` with FK/index alignment to `users`.
+- Registered Sequelize models and associations for auth persistence.
 
 ---
 
 ## Next Action
 
-Continue with next step. [Fill in.]
+Continue Feature 7 on **Phase 7.2** (strategy contract, session manager, middleware, router integration).
 
 <!-- harness-across-ladder:start -->
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `authentication` · **Source:** phase · **Derived:** 2026-03-23T05:33:55.169Z
-- **Phases on disk (1):** 7.1
-- **Focus phase:** `7.1` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Feature:** `authentication` · **Source:** manual resolution after merge  
+- **Phases on disk (2):** 7.1, 7.2  
+- **Focus phase:** `7.2` · **Next phase across:** _(see `across-ladder.json`)_  
 - **Manifest:** `.project-manager/features/authentication/across-ladder.json`
 <!-- harness-across-ladder:end -->

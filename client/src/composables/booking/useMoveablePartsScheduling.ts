@@ -92,14 +92,14 @@ export interface UseMoveablePartsSchedulingReturn {
   selectedMoveableDay: Ref<string | null>
   /** Set selected day (e.g. from calendar in modal). */
   setSelectedMoveableDay: (date: string | null) => void
-  /** Predicate: date allowed when it is a canonical UTC day key with ≥1 slot after moveable window filter. */
+  /** Predicate: date allowed when it is a canonical UTC day key with ≥1 slot after moveable scheduling filter. */
   allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
-  /** Sorted UTC day keys from fetched map that have at least one slot after window filter. */
+  /** Sorted UTC day keys from fetched map that have at least one slot after scheduling filter. */
   availableMoveableDayKeys: ComputedRef<string[]>
   /** First / last of availableMoveableDayKeys (canonical stepper bounds). */
   moveableFirstDayKey: ComputedRef<string | null>
   moveableLastDayKey: ComputedRef<string | null>
-  /** Transient client-only window applied to raw moveable day slots (earliest start + optional deadline end). */
+  /** Transient client-only scheduling range applied to raw moveable day slots (earliest start + optional deadline end). */
   moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
   /** Current day's slots as MoveableSlot[] for saving to step data on confirm. */
   moveableSlotsForConfirm: ComputedRef<MoveableSlot[]>
@@ -223,11 +223,11 @@ export function useMoveablePartsScheduling(params: UseMoveablePartsSchedulingPar
 
   const availableMoveableDayKeys = computed<string[]>(() => {
     const map = moveableSlotsByDay.value
-    const window = moveableSchedulingWindow.value
+    const schedulingRange = moveableSchedulingWindow.value
     return [...map.keys()]
       .filter((key) => {
         const raw = map.get(key) ?? []
-        return applyMoveableWindowToComputedSlots(raw, window, 'exclude').length > 0
+        return applyMoveableWindowToComputedSlots(raw, schedulingRange, 'exclude').length > 0
       })
       .sort()
   })

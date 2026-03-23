@@ -1713,6 +1713,15 @@
             "await"
           ],
           "reason": "CRUD actions delegate to withAsyncOperation and businessRulesApi; async/await count is structural, not complexity"
+        },
+        {
+          "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+          "ruleIds": [
+            "map",
+            "filter",
+            "sort"
+          ],
+          "reason": "Moveable modal derives day keys and slot rows via bounded inline transforms over the same appointment-slot pipeline; splitting would fragment orchestration without reducing real complexity"
         }
       ]
     },
