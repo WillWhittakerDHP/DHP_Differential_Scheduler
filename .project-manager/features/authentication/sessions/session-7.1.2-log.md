@@ -5,8 +5,7 @@
 **Goal:** Task completed
 
 **Next Task:**
-- 7.1.2.3
-
+- (session complete — run `/session-end 7.1.2` when wrapping)
 
 
 ## Completed Tasks
@@ -15,7 +14,13 @@
 **Goal:** Task completed
 
 **Next Task:**
-- 7.1.2.3
+- (session complete)
+
+### Task 7.1.2.1: Task 7.1.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.2.2
 
 <!-- end excerpt session -->
 
