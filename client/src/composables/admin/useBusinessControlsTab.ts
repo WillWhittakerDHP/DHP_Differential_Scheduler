@@ -18,6 +18,7 @@ import {
   useDefaultLocation,
   useDifferentialPerspectives,
 } from '@/composables/admin/businessControlsTabComposablesBundle'
+import { useAdminOrganizationDefaults } from '@/composables/admin/useAdminOrganizationDefaults'
 import type {
   UseBufferSettingsParams,
   UseDefaultLocationParams,
@@ -25,7 +26,7 @@ import type {
 } from '@/types/availabilitySettingsParams'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
-import type { BusinessControlsState } from '@/types/admin/businessControlsState'
+import type { BusinessControlsState, BusinessControlsSaveButtonProps } from '@/types/admin/businessControlsState'
 
 export interface UseBusinessControlsTabReturn {
   loading: ComputedRef<boolean>
@@ -35,6 +36,7 @@ export interface UseBusinessControlsTabReturn {
   clearAllErrors: () => void
   currentMainTab: Ref<string>
   businessControlsState: BusinessControlsState
+  organizationSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
   UI_STRINGS: typeof BUSINESS_CONTROLS_TAB_STRINGS
 }
 
@@ -84,9 +86,32 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
 
   const { currentTab: currentMainTab } = useTabNavigation({ initialTab: 'constraints' })
 
-  const loading = computed(() => availability.loading.value || calendar.loading.value || wizard.loading.value)
-  const error = computed(() => availability.error.value ?? calendar.error.value ?? wizard.error.value)
-  const success = computed(() => availability.success.value ?? calendar.success.value ?? wizard.success.value)
+  const organizationTabEnabled = computed(
+    () => isTabActive.value === true && currentMainTab.value === 'organization'
+  )
+  const organization = useAdminOrganizationDefaults({ enabled: organizationTabEnabled })
+
+  const loading = computed(
+    () =>
+      availability.loading.value ||
+      calendar.loading.value ||
+      wizard.loading.value ||
+      organization.loading.value
+  )
+  const error = computed(
+    () =>
+      availability.error.value ??
+      calendar.error.value ??
+      wizard.error.value ??
+      organization.error.value
+  )
+  const success = computed(
+    () =>
+      availability.success.value ??
+      calendar.success.value ??
+      wizard.success.value ??
+      organization.success.value
+  )
 
   async function handleSave(): Promise<void> {
     if (currentMainTab.value === 'constraints') {
@@ -99,6 +124,8 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       }
     } else if (currentMainTab.value === 'wizard') {
       await wizard.saveSettings()
+    } else if (currentMainTab.value === 'organization') {
+      await organization.saveSettings()
     }
   }
 
@@ -106,6 +133,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
     availability.error.value = null
     calendar.error.value = null
     wizard.error.value = null
+    organization.error.value = null
   }
 
   const maxBusinessHours = computed(() => {
@@ -155,9 +183,20 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       loading: wizard.saving.value,
       disabled: wizard.saving.value,
     })),
+    organizationDefaults: organization,
   })
 
   provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)
+
+  const organizationSaveButtonProps = computed(
+    () =>
+      ({
+        type: 'submit' as const,
+        color: 'primary' as const,
+        loading: organization.saving.value,
+        disabled: organization.saving.value,
+      }) satisfies BusinessControlsSaveButtonProps
+  )
 
   return {
     loading,
@@ -167,6 +206,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
     clearAllErrors,
     currentMainTab,
     businessControlsState: businessControlsState as BusinessControlsState,
+    organizationSaveButtonProps,
     UI_STRINGS: BUSINESS_CONTROLS_TAB_STRINGS,
   }
 }
