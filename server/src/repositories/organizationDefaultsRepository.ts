@@ -18,7 +18,7 @@ export async function getOrganizationDefaultsData(): Promise<OrganizationDefault
   if (raw == null || typeof raw !== 'object' || Array.isArray(raw)) {
     return normalizeOrganizationDefaults(undefined)
   }
-  return normalizeOrganizationDefaults(raw as OrganizationDefaults)
+  return normalizeOrganizationDefaults(raw as unknown as OrganizationDefaults)
 }
 
 export async function saveOrganizationDefaultsData(data: OrganizationDefaults): Promise<OrganizationDefaults> {
@@ -28,7 +28,7 @@ export async function saveOrganizationDefaultsData(data: OrganizationDefaults): 
     throw new Error('Availability settings must be initialized before saving organization defaults')
   }
   await row.update({
-    organizationDefaults: data as Record<string, unknown>,
+    organizationDefaults: data as unknown as Record<string, unknown>,
     updatedAt: new Date(),
   })
   return data
