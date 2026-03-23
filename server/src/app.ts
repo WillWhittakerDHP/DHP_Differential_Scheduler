@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
 import routes from './routes/index.js'
 import { getCorsOrigin } from './config/envConfig.js'
 import { notFound, errorHandler } from './middlewares/index.js'
@@ -62,6 +63,8 @@ app.use((req, _res, next) => {
   next()
 })
 
+// WHY: Populates `req.cookies` for session id read helpers (`sessionCookie.ts`).
+app.use(cookieParser())
 ensureWizardLogoUploadDir()
 app.use(WIZARD_LOGO_PUBLIC_PATH, express.static(getWizardLogoUploadDir(), { index: false }))
 

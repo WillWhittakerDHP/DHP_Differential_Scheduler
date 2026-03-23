@@ -1,51 +1,61 @@
-/**
- * WHY: Contingency deadline + step-4 moveable orchestration for AvailabilitySubStepContent.
- * PATTERN: Named composable keeps the SFC thin (component-governance / vue-architecture).
- */
 import { computed, ref, watch, type ComputedRef, type Ref } from 'vue'
 import type { AvailabilitySubStepContext } from '@/types/booking/injectionContexts'
 import type { ContingencyPeriod } from '@/types/moveableScheduling'
 import {
   clampContingencyDeadlineToEarliest,
+  minContingencyDateKeyFromEarliest,
+  minContingencyTimeForDate,
   parseContingencyDeadlineLocalWallToUtcMs,
 } from '@/utils/booking/clampContingencyDeadlineToEarliest'
-import { useAvailabilitySubStepContingencyDeadlineFields } from '@/composables/booking/useAvailabilitySubStepContingencyDeadlineFields'
+
+/**
+ * Native date input passthrough for VTextField `type="date"` (Vuetify forwards to the DOM input).
+ * Only `min` is set when the earliest moveable start yields a constraint; otherwise `{}` (no attrs).
+ */
+type DeadlineDateNativeAttrs = { min?: string }
+
+export interface UseAvailabilitySubStepContentParams {
+  ctx: AvailabilitySubStepContext
+  stepIndex: Ref<number>
+}
 
 export interface UseAvailabilitySubStepContentReturn {
+  hasOptions: ComputedRef<boolean>
   onContingencyChoice: (value: boolean) => void
-  onDeadlineDateModelUpdate: (raw: unknown) => void
-  onDeadlineTimeModelUpdate: (raw: unknown) => void
+  step4HasClosingDate: ComputedRef<boolean>
+  contingencyDeadlineMinDate: ComputedRef<string | undefined>
   contingencyDeadlineMinTime: ComputedRef<string | undefined>
-  deadlineDateNativeAttrs: ComputedRef<Record<string, string>>
+  deadlineDateNativeAttrs: ComputedRef<DeadlineDateNativeAttrs>
   allowedDeadlineMinutes: ComputedRef<(m: number) => boolean>
   deadlineTimeMenuOpen: Ref<boolean>
-  step4HasClosingDate: ComputedRef<boolean>
-  hasOptions: ComputedRef<boolean>
+  onDeadlineDateModelUpdate: (raw: unknown) => void
+  onDeadlineTimeModelUpdate: (raw: unknown) => void
   step4CanStepPrev: ComputedRef<boolean>
   step4CanStepNext: ComputedRef<boolean>
+  step4CanConfirm: ComputedRef<boolean>
   step4StepDay: (delta: -1 | 1) => void
   handleMoveableSlotClick: (buttonIndex: number) => void
 }
 
+/**
+ * WHY: Keeps AvailabilitySubStepContent.vue thin (vue-architecture: script size + local function count).
+ */
 export function useAvailabilitySubStepContent(
-  ctx: AvailabilitySubStepContext,
-  stepIndex: Ref<number>
+  params: UseAvailabilitySubStepContentParams
 ): UseAvailabilitySubStepContentReturn {
-  const {
-    contingencyDeadlineMinDate,
-    contingencyDeadlineMinTime,
-    deadlineDateNativeAttrs,
-    allowedDeadlineMinutes,
-  } = useAvailabilitySubStepContingencyDeadlineFields(ctx)
-
-  const deadlineTimeMenuOpen = ref(false)
+  const { ctx, stepIndex } = params
 
   function updateContingency(partial: Partial<ContingencyPeriod>): void {
     const o = ctx.o
     let next: ContingencyPeriod = { ...o.contingencyPeriod.value, ...partial }
-    const win = o.moveableSchedulingWindow.value
-    if (win?.earliestStart && next.hasContingency === true && next.endDate && next.endTime) {
-      const c = clampContingencyDeadlineToEarliest(next.endDate, next.endTime, win.earliestStart)
+    const schedulingRange = o.moveableSchedulingWindow.value
+    if (
+      schedulingRange?.earliestStart &&
+      next.hasContingency === true &&
+      next.endDate &&
+      next.endTime
+    ) {
+      const c = clampContingencyDeadlineToEarliest(next.endDate, next.endTime, schedulingRange.earliestStart)
       next = { ...next, endDate: c.endDate, endTime: c.endTime }
     }
     o.contingencyPeriod.value = next
@@ -65,6 +75,42 @@ export function useAvailabilitySubStepContent(
     }
     o.contingencyPeriod.value = { ...cur, hasContingency: true }
   }
+
+  const step4HasClosingDate = computed(
+    () =>
+      ctx.o.contingencyPeriod.value.hasContingency === true &&
+      Boolean(ctx.o.contingencyPeriod.value.endDate && ctx.o.contingencyPeriod.value.endTime)
+  )
+
+  const hasOptions = computed(() => ctx.hasOptions.value)
+
+  const contingencyDeadlineMinDate = computed(() => {
+    const es = ctx.o.moveableSchedulingWindow.value?.earliestStart
+    return es ? minContingencyDateKeyFromEarliest(es) : undefined
+  })
+
+  const contingencyDeadlineMinTime = computed(() => {
+    const schedulingRange = ctx.o.moveableSchedulingWindow.value
+    const endDate = ctx.o.contingencyPeriod.value.endDate
+    if (!schedulingRange?.earliestStart || !endDate) return undefined
+    return minContingencyTimeForDate(endDate, schedulingRange.earliestStart)
+  })
+
+  const deadlineDateNativeAttrs = computed((): DeadlineDateNativeAttrs => {
+    const min = contingencyDeadlineMinDate.value
+    if (min !== undefined && min !== '') {
+      return { min }
+    }
+    return {}
+  })
+
+  const allowedDeadlineMinutes = computed(() => {
+    const minutes = ctx.o.availabilityMinuteIncrement.value
+    const step = Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes) : 15
+    return (m: number): boolean => m % step === 0
+  })
+
+  const deadlineTimeMenuOpen = ref(false)
 
   function coerceDeadlineDateInput(raw: unknown): string | null {
     const s = typeof raw === 'string' ? raw.trim() : ''
@@ -100,14 +146,6 @@ export function useAvailabilitySubStepContent(
   function onDeadlineTimeModelUpdate(raw: unknown): void {
     updateContingency({ endTime: coerceDeadlineTimeInput(raw) })
   }
-
-  const step4HasClosingDate = computed(
-    () =>
-      ctx.o.contingencyPeriod.value.hasContingency === true &&
-      Boolean(ctx.o.contingencyPeriod.value.endDate && ctx.o.contingencyPeriod.value.endTime)
-  )
-
-  const hasOptions = computed(() => ctx.hasOptions.value)
 
   const step4MoveableDayIndex = computed(() => {
     const keys = ctx.o.availableMoveableDayKeys.value
@@ -186,17 +224,19 @@ export function useAvailabilitySubStepContent(
   )
 
   return {
+    hasOptions,
     onContingencyChoice,
-    onDeadlineDateModelUpdate,
-    onDeadlineTimeModelUpdate,
+    step4HasClosingDate,
+    contingencyDeadlineMinDate,
     contingencyDeadlineMinTime,
     deadlineDateNativeAttrs,
     allowedDeadlineMinutes,
     deadlineTimeMenuOpen,
-    step4HasClosingDate,
-    hasOptions,
+    onDeadlineDateModelUpdate,
+    onDeadlineTimeModelUpdate,
     step4CanStepPrev,
     step4CanStepNext,
+    step4CanConfirm,
     step4StepDay,
     handleMoveableSlotClick,
   }

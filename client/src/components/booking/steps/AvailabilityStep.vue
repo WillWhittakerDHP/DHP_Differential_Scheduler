@@ -15,10 +15,8 @@ import { useAvailabilityStepUI } from '@/composables/booking/useAvailabilityStep
 import { useAvailabilityStepSlotOverlay } from '@/composables/booking/useAvailabilityStepSlotOverlay'
 import { useAvailabilityStepAccordion } from '@/composables/booking/useAvailabilityStepAccordion'
 import { useAvailabilityStepInjections } from '@/composables/booking/useAvailabilityStepInjections'
-import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import { buildAvailabilitySubStepContext } from '@/composables/booking/buildAvailabilitySubStepContext'
-import { useAvailabilityStepMoveableInfeasible } from '@/composables/booking/useAvailabilityStepMoveableInfeasible'
-import { useAvailabilityStepSlotOverlayLabelGuard } from '@/composables/booking/useAvailabilityStepSlotOverlayLabelGuard'
+import { useWizardSettings } from '@/composables/admin/useWizardSettings'
 import AvailabilitySubStepHeader from '@/components/booking/steps/AvailabilitySubStepHeader.vue'
 import AvailabilitySubStepContent from '@/components/booking/steps/AvailabilitySubStepContent.vue'
 
@@ -60,26 +58,42 @@ useWizardStepSync({
 const confirmation = useAvailabilityConfirmationState()
 const { labels: bookingWizardLabels } = useWizardSettings()
 
-const { moveableInfeasible, moveableInfeasibleMessage } = useAvailabilityStepMoveableInfeasible({
-  o,
-  moveableNoFeasibleCompletionSlotsMessage: bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage,
+const moveableInfeasible = computed(() => {
+  if (!o.hasMoveablePartsGated.value) return false
+  const c = o.contingencyPeriod.value
+  if (c.hasContingency !== true || !c.endDate || !c.endTime) return false
+  if (!o.moveableOptions.value) return false
+  if (o.isLoadingOptions.value || o.isLoadingMoveableDaySlots.value) return false
+  return o.moveableAppointmentSlots.value.length === 0
 })
+
+const moveableInfeasibleMessage = computed(
+  () => bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage.value
+)
 
 const ui = useAvailabilityStepUI({ o, confirmation })
 const overlay = useAvailabilityStepSlotOverlay({ o })
 
 const logger = createLogger('AvailabilityStep')
 
-useAvailabilityStepSlotOverlayLabelGuard({
-  overlay,
-  isBookingFlowReady,
-  logger,
-})
+watch(
+  () => ({
+    showingSlotsOverlay: overlay.showSlotsOverlay.value,
+    slotGridLabel: overlay.slotGridOverlayLabel.value,
+    bookingFlowReady: isBookingFlowReady.value,
+  }),
+  ({ showingSlotsOverlay, slotGridLabel, bookingFlowReady }) => {
+    if (bookingFlowReady && showingSlotsOverlay && !slotGridLabel) {
+      logger.warn(
+        'Slot grid overlay is shown but differentialGraphDefaultLabel is missing in wizard settings. Set it under Admin → Business Controls → Calendar → Grid, then Save (wizard settings are persisted with that save).'
+      )
+    }
+  },
+  { immediate: true }
+)
 
-/** Options substep only when multiple cascade choices; 0–1 options use auto/clear sync in useBookingWizard. */
 const hasOptions = computed(() => (o.wizard.availableOptionTypeBlocks.value?.length ?? 0) > 1)
 
-/** WHY: error is null when cascade is healthy; nilToEmptyString would warn on every render. */
 const availabilityOptionsCascadeErrorText = computed(() =>
   (o.wizard.availabilityOptionsCascadeError?.value ?? '').trim()
 )
@@ -92,7 +106,6 @@ const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
 const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
 
-/** Step 4 only when completion slots are required: gated + Yes + deadline. "No" skips the panel; silent confirm runs below. */
 const showMoveableSubstep = computed(() => {
   if (!o.hasMoveablePartsGated.value) return false
   const c = o.contingencyPeriod.value
@@ -132,7 +145,6 @@ const subSteps = useAvailabilitySubSteps({
   subStepLabels: ui.subStepLabels,
 })
 
-/** No-contingency path: no step 4 UI — confirm moveable scheduling once options exist (same as former in-panel auto-confirm). */
 watch(
   () => ({
     gated: o.hasMoveablePartsGated.value,
@@ -148,7 +160,6 @@ watch(
   { flush: 'post', immediate: true }
 )
 
-/** Visible sub-steps (filter to only visible). */
 const visibleSubStepsFiltered = computed(() =>
   subSteps.visibleSubSteps.value.filter((s) => s.visible)
 )
@@ -157,39 +168,28 @@ const accordion = useAvailabilityStepAccordion({
   currentStepIndex: computed(() => subSteps.currentStepIndex.value),
 })
 
-/** Expanded panel index for template (unwrap ref for correct v-model/aria types). */
 const expandedIndex = computed(() => accordion.expandedIndex.value)
 
-/** Loaded appointment with availability data — keep step 4 open for confirmation review. */
 const hasLoadedAvailability = computed(
   () =>
     (loadedWizardState?.value?.availability?.candidateDate != null) ||
     (loadedWizardState?.value?.availability?.candidateTimeSlots != null)
 )
 
-/** Unwrap Vuetify update:model-value (may emit value or Ref per typings). */
 function onExpandedChange(val: number | { value: number }): void {
   const num = typeof val === 'object' && val !== null && 'value' in val ? (val as { value: number }).value : val
   accordion.setExpanded(num)
 }
 
-provide(
-  availabilitySubStepContextKey,
-  buildAvailabilitySubStepContext({
-    o,
-    handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
-    onOptionIdUpdate: ui.onOptionIdUpdate,
-    handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
-    handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
-    handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
-    showSlotsOverlay: overlay.showSlotsOverlay,
-    slotGridOverlayLabel: overlay.slotGridOverlayLabel,
-    slotGridOverlayError: overlay.slotGridOverlayError,
-    moveableInfeasible,
-    moveableInfeasibleMessage,
-    hasOptions,
-  })
-)
+const subStepContext = buildAvailabilitySubStepContext({
+  o,
+  ui,
+  overlay,
+  moveableInfeasible,
+  moveableInfeasibleMessage,
+  hasOptions,
+})
+provide(availabilitySubStepContextKey, subStepContext)
 
 onMounted(() => {
   if (hasLoadedAvailability.value) {

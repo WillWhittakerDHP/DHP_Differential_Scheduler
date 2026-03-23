@@ -137,7 +137,7 @@ export async function executeEntityCardDelete<GE extends GlobalEntityKey>(
     onDelete?.(entityId)
   } catch (err) {
     logger.error('Entity delete failed', { err, entityKey })
-    const errorMessage = err instanceof Error ? err.message : `Failed to delete ${entityKey}`
+    const errorMessage = getApiErrorMessage(err, `Failed to delete ${entityKey}. Please try again.`)
     showError(errorMessage)
   }
 }

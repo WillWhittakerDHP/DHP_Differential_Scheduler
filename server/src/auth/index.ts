@@ -1,0 +1,47 @@
+/**
+ * PATTERN: Public server auth surface — types + config readers for routes and future strategies.
+ */
+
+export type {
+  AuthFailureCode,
+  AuthOpResult,
+  AuthPlaceholder501Json,
+  AuthPlaceholder501Meta,
+  AuthRequestContext,
+  AuthStrategy,
+  AuthStrategyName,
+  RequestLoginInput,
+  VerifyTokenInput,
+} from './strategies/strategyTypes.js'
+export { AUTH_FAILURE_CODES, buildAuthPlaceholder501Body } from './strategies/strategyTypes.js'
+export { getAuthConfig, type AuthRuntimeConfig } from '../config/authConfig.js'
+export {
+  createAuthSession,
+  getAuthSessionBySid,
+  revokeAuthSession,
+  type CreatedAuthSession,
+} from './sessionManager.js'
+export {
+  clearSessionCookie,
+  getSessionIdFromRequest,
+  setSessionCookie,
+} from './sessionCookie.js'
+export {
+  clearAuthSessionWithCookie,
+  issueAuthSessionWithCookie,
+} from './sessionFacade.js'
+export {
+  createMagicLinkStrategy,
+  issueMagicLinkForEmail,
+  magicLinkStrategy,
+} from './strategies/magicLinkStrategy.js'
+export type {
+  IssueMagicLinkForEmailInput,
+  IssueMagicLinkForEmailResult,
+} from './strategies/magicLinkStrategy.js'
+export { redactMagicLinkBodyForLogs, sendMagicLinkDelivery } from './magicLinkDelivery.js'
+export {
+  buildMagicLinkVerifyUrl,
+  magicLinkRequestBodySchema,
+  submitMagicLinkRequest,
+} from './magicLinkRequest.js'

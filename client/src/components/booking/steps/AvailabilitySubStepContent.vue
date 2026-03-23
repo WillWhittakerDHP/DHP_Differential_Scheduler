@@ -24,23 +24,21 @@ if (!ctx) {
   throw new Error('AvailabilitySubStepContent must be used inside AvailabilityStep')
 }
 
-const stepIndexRef = toRef(props, 'stepIndex')
-
 const {
+  hasOptions,
   onContingencyChoice,
-  onDeadlineDateModelUpdate,
-  onDeadlineTimeModelUpdate,
+  step4HasClosingDate,
   contingencyDeadlineMinTime,
   deadlineDateNativeAttrs,
   allowedDeadlineMinutes,
   deadlineTimeMenuOpen,
-  step4HasClosingDate,
-  hasOptions,
+  onDeadlineDateModelUpdate,
+  onDeadlineTimeModelUpdate,
   step4CanStepPrev,
   step4CanStepNext,
   step4StepDay,
   handleMoveableSlotClick,
-} = useAvailabilitySubStepContent(ctx, stepIndexRef)
+} = useAvailabilitySubStepContent({ ctx, stepIndex: toRef(props, 'stepIndex') })
 </script>
 
 <template>

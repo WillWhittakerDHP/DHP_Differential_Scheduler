@@ -1,57 +1,50 @@
-/**
- * Builds the injectable context for AvailabilitySubStepContent (keeps AvailabilityStep.vue thin).
- */
 import type { ComputedRef } from 'vue'
-import type { AvailabilitySubStepContext } from '@/types/booking/injectionContexts'
+import type { AvailabilitySubStepContext, AvailabilitySubStepOrchestratorState } from '@/types/booking/injectionContexts'
+import type { UseAvailabilityStepUIReturn } from '@/composables/booking/useAvailabilityStepUI'
+import type { UseAvailabilityStepSlotOverlayReturn } from '@/composables/booking/useAvailabilityStepSlotOverlay'
 
-interface BuildAvailabilitySubStepContextParams {
-  o: AvailabilitySubStepContext['o']
-  handleDateChangeWithConfirm: AvailabilitySubStepContext['handleDateChangeWithConfirm']
-  onOptionIdUpdate: AvailabilitySubStepContext['onOptionIdUpdate']
-  handleTimeBasisChangeWithConfirm: AvailabilitySubStepContext['handleTimeBasisChangeWithConfirm']
-  handleSlotClickWithConfirm: AvailabilitySubStepContext['handleSlotClickWithConfirm']
-  handleMoveableConfirmWithConfirm: AvailabilitySubStepContext['handleMoveableConfirmWithConfirm']
-  showSlotsOverlay: ComputedRef<boolean>
-  slotGridOverlayLabel: ComputedRef<string | null>
-  slotGridOverlayError: ComputedRef<string | null>
+export interface BuildAvailabilitySubStepContextParams {
+  o: AvailabilitySubStepOrchestratorState
+  ui: Pick<
+    UseAvailabilityStepUIReturn,
+    | 'handleDateChangeWithConfirm'
+    | 'onOptionIdUpdate'
+    | 'handleTimeBasisChangeWithConfirm'
+    | 'handleSlotClickWithConfirm'
+    | 'handleMoveableConfirmWithConfirm'
+  >
+  overlay: Pick<
+    UseAvailabilityStepSlotOverlayReturn,
+    'showSlotsOverlay' | 'slotGridOverlayLabel' | 'slotGridOverlayError'
+  >
   moveableInfeasible: ComputedRef<boolean>
   moveableInfeasibleMessage: ComputedRef<string>
   hasOptions: ComputedRef<boolean>
 }
 
+/**
+ * WHY: Keeps AvailabilityStep.vue under vue-architecture script size limits; same object shape as prior inline provide().
+ */
 export function buildAvailabilitySubStepContext(
   params: BuildAvailabilitySubStepContextParams
 ): AvailabilitySubStepContext {
-  const {
-    o,
-    handleDateChangeWithConfirm,
-    onOptionIdUpdate,
-    handleTimeBasisChangeWithConfirm,
-    handleSlotClickWithConfirm,
-    handleMoveableConfirmWithConfirm,
-    showSlotsOverlay,
-    slotGridOverlayLabel,
-    slotGridOverlayError,
-    moveableInfeasible,
-    moveableInfeasibleMessage,
-    hasOptions,
-  } = params
+  const { o, ui, overlay, moveableInfeasible, moveableInfeasibleMessage, hasOptions } = params
 
   return {
     o,
-    handleDateChangeWithConfirm,
-    onOptionIdUpdate,
-    handleTimeBasisChangeWithConfirm,
-    handleSlotClickWithConfirm,
-    handleMoveableConfirmWithConfirm,
+    handleDateChangeWithConfirm: ui.handleDateChangeWithConfirm,
+    onOptionIdUpdate: ui.onOptionIdUpdate,
+    handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
+    handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
+    handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
     get showSlotsOverlay() {
-      return showSlotsOverlay.value
+      return overlay.showSlotsOverlay.value
     },
     get slotGridOverlayLabel() {
-      return slotGridOverlayLabel.value
+      return overlay.slotGridOverlayLabel.value
     },
     get slotGridOverlayError() {
-      return slotGridOverlayError.value
+      return overlay.slotGridOverlayError.value
     },
     get emptyStateMessage() {
       return o.emptyStateMessage.value ?? ''

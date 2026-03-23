@@ -59,4 +59,6 @@ export type SequelizeModelsBag = {
   BetaFeedbackTag: ModelCtor<Model>
   PropertyFieldMapping: ModelCtor<Model>
   PropertyFeatureMapping: ModelCtor<Model>
+  Session: ModelCtor<Model>
+  MagicLink: ModelCtor<Model>
 }

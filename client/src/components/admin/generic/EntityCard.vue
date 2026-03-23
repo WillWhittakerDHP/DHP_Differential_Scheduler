@@ -5,7 +5,7 @@
   BENEFITS: DRY, configurable, testable, easier to maintain
 -->
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 import type { FormContext } from 'vee-validate'
 import { useEntityCardForm } from '@/composables/admin/useEntityCardForm'
 import { useEntityCardSaveAndActions } from '@/composables/admin/useEntityCardSaveAndActions'
@@ -24,11 +24,11 @@ import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
 import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useEntityCardFieldContextAndVisibility'
+import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
 import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { useEntityCardPrimaryTitleModels } from '@/composables/admin/useEntityCardPrimaryTitleModels'
 import { useEntityCardAnnotationComposedMetadata } from '@/composables/admin/useEntityCardAnnotationComposedMetadata'
-import { useEntityCardProvides } from '@/composables/admin/useEntityCardProvides'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -86,9 +86,6 @@ const admin = useAdmin()
 
 const logger = createLogger('EntityCard')
 
-/**
- * PATTERN: Single form owner in composable; component only consumes and passes form ref down
- */
 const { form } = useEntityCardForm({
   entityKey: props.entityKey,
   entity: props.entity,
@@ -100,8 +97,6 @@ const { form } = useEntityCardForm({
 /** Form instance for template binding; children require FormContext, not Ref. */
 const formForTemplate = computed(() => form.value!)
 
-// WHY: Reduces component complexity by moving metadata logic to composable
-// PATTERN: Composable provides composedFieldMetadata and isMetadataLoading
 const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
   entity: props.entity,
@@ -109,8 +104,8 @@ const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = 
 })
 
 const composedFieldMetadata = useEntityCardAnnotationComposedMetadata({
-  entityKey: computed(() => props.entityKey),
-  parentBlockShapeIsStateControl: computed(() => props.parentBlockShapeIsStateControl),
+  entityKey: () => props.entityKey,
+  parentBlockShapeIsStateControl: () => props.parentBlockShapeIsStateControl,
   baseComposedFieldMetadata,
   admin,
 })
@@ -169,11 +164,13 @@ const {
   logger,
 })
 
-useEntityCardProvides({
+provide(ENTITY_CARD_SAVE_KEY, {
   handleSave,
   isNew: props.isNew,
-  disableAutoSave: props.disableAutoSave,
+  disableAutoSave: props.disableAutoSave
 })
+
+provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = fieldLocation.titleRowFields
 
@@ -189,16 +186,11 @@ const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle }
   admin,
 })
 
-/**
- * WHY: Expose methods and state for parent components (minimal API)
-PATTERN: Ex...
- */
 defineExpose({
   getFieldContext,
   getNameFieldContext: () => getFieldContext('name'),
   form,
   handleSave,
-  // PATTERN: Expose computed properties for external access
   isMetadataReady,
   isFormReady: formFields.isFormReady
 })

@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import type { ComputedRef } from 'vue'
 import type { ComputedSlotAvailabilityData } from '@shared/types/availabilityTypes'
 import { buildComputedSlotAvailabilityData } from '@/composables/booking/computedAvailabilityFetchCore'
-import type { ComputedAvailabilityMutableBundle } from '@/composables/booking/useComputedAvailabilityMutableState'
+import type { ComputedAvailabilityMutableBundle } from '@/composables/booking/useComputedAvailabilityState'
 
 export function createComputedAvailabilityAggregatedComputed(
   state: ComputedAvailabilityMutableBundle

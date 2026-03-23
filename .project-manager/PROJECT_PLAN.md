@@ -30,7 +30,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
 | 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
-| 7 | Authentication | 📋 Planning | `features/authentication/` | — |
+| 7 | Authentication | ✅ Complete | `features/authentication/` | — |
 | 8 | Security Hardening | 📋 Planning | `features/security-hardening/` | — |
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
