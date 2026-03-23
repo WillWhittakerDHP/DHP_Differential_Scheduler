@@ -20,51 +20,19 @@
 ## Completed Sessions
 
 ### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) ✅
-**Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Organization defaults & resolved numeric policy (availability + calendar)
+**Completed:** 2026-03-23  
+**Key Accomplishments:** Shared `OrganizationDefaults` types; resolver; JSONB persistence; admin surface; merge-at-read on computed availability server path.
 
-
-
-### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) ✅
-**Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Organization defaults & resolved numeric policy (availability + calendar)
-
-
-
-### Session 6.14.1: Organization defaults & resolved numeric policy (availability + calendar) ✅
-**Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
-**Key Accomplishments:**
-- Completed ** ** Organization defaults & resolved numeric policy (availability + calendar)
-
-
-
-### Session [SESSION_ID]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-### Session [SESSION_ID+1]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
+### Session 6.14.2: Resolver breadth, validation parity, and org-default UX ✅
+**Completed:** 2026-03-23  
+**Tasks:** 6.14.2.1, 6.14.2.2, 6.14.2.3  
+**Key Accomplishments:** Server hold/admin-timeout merged policy; client `useAppointmentShape` merged `timeAndRounding` for slot rounding; phase/session handoff + lint gate; optional admin badges deferred (see `phases/phase-6.14-handoff.md`).
 
 ---
 
 ## In Progress Sessions
 
-### Session [SESSION_ID]: [SESSION_NAME] 🔄
-**Started:** [Date]
-**Current Task:** [TASK_ID]
-**Progress:** [X] of [Y] tasks complete
+_(none — await `/session-end 6.14.2` / `/phase-end 6.14` in harness)_
 
 ---
 

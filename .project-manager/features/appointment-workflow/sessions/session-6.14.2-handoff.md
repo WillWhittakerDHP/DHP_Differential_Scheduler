@@ -1,35 +1,35 @@
 # Session 6.14.2 Handoff: Resolver breadth, validation parity, and org-default UX
 
-**Purpose:** Transition context for session 6.14.2 (in progress until `/session-end`).
+**Purpose:** Transition context after session 6.14.2 (ready for **`/session-end 6.14.2`**).
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
 **Last Updated:** 2026-03-23
-**Session Status:** In Progress
-**Next Session:** _(after this session completes — typically `/phase-end 6.14` or next phase work)_
+**Session Status:** Complete (implementation + docs gate — pending harness **`/session-end`**)
+**Next:** Run **`/session-end 6.14.2`**, then **`/phase-end 6.14`** when ready.
 
 ---
 
 ## Current Status
 
 **Session:** 6.14.2  
-**Git Branch:** `session-6.14.2` (expected after `/accepted-proceed` execute)  
-**Scope:** See `sessions/session-6.14.2-planning.md`
+**Git Branch:** `session-6.14.2` (per workflow)  
+**Tasks:** 6.14.2.1 ✅ · 6.14.2.2 ✅ · 6.14.2.3 ✅  
 
 ## Next Action
 
-Complete tasks 6.14.2.1 → 6.14.2.3 per planning doc; then `/session-end 6.14.2`.
+Run **`/session-end 6.14.2`** in the Cursor UI to complete the session tier and merge per harness rules.
 
 ## Transition Context
 
 **Where we left off:**
 
-`/session-start 6.14.2` completed (plan mode). Planning doc filled for `/accepted-proceed`.
+Session **6.14.2** delivered server hold/admin-timeout merge (**6.14.2.1**), client merged duration rounding for appointment slot shape (**6.14.2.2**), and phase/session documentation + lint gate (**6.14.2.3**). Optional Calendar “org default” badges were **deferred** (see `phases/phase-6.14-handoff.md`).
 
-**What you need:**
+**What you need for `/phase-end 6.14`:**
 
-- Run **`/accepted-proceed`** when ready for harness execute (branch, docs).
-- Implement per tasks in `session-6.14.2-guide.md`.
+- Confirm `phases/phase-6.14-guide.md` success criteria match your product bar (optional badge row may stay unchecked).
+- Run **`/phase-end 6.14`** after **`/session-end 6.14.2`** succeeds.
 
 <!-- harness-across-ladder:start -->
 ## Across ladder (harness)

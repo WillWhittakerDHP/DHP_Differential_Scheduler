@@ -5,17 +5,17 @@
 **Tier:** Phase (Tier 1 - High-Level)
 
 **Last Updated:** 2026-03-23
-**Phase Status:** In Progress
-**Next session in phase:** 6.14.2 (resolver breadth, validation parity, org-default UX)
+**Phase Status:** In Progress (session **6.14.2** work complete — run **`/session-end 6.14.2`** then **`/phase-end 6.14`** when ready)
+**Next session in phase:** _(none — 6.14.2 is the final session in phase 6.14)_
 
 ---
 
 ## Current Status
 
-**Phase 6.14:** In Progress  
-**Last completed session:** 6.14.1 (foundation — types, resolver, persistence, admin surface, computed-availability merge on server)  
-**Remaining in phase:** Session **6.14.2** per `sessions/session-6.14.2-planning.md`  
-**Next phase after 6.14 closes:** 6.15 (see feature guide) — **do not** start until `/phase-end` for 6.14 when success criteria are met.
+**Phase 6.14:** In Progress (awaiting tier-end commands)  
+**Last completed session:** **6.14.2** (resolver breadth, client rounding alignment, server hold/timeout merge) — see *Session 6.14.2 closeout* below  
+**Prior session:** 6.14.1 (foundation — types, resolver, persistence, admin surface, computed-availability merge on server)  
+**Next phase after 6.14 closes:** 6.15 (see feature guide) — **do not** start until **`/phase-end 6.14`** when success criteria are met.
 
 ---
 
@@ -45,20 +45,42 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 - **`calculateAppointmentSlots`** can take optional **`resolvedTimeRounding`** for callers that load merged policy themselves; otherwise behavior falls back to availability-only rounding (unchanged).
 - **Admin “using org default” badges** on Calendar panels: **deferred** (optional scope); re-open under 6.14.2 if product wants chips on hold fields.
 
+### Task 6.14.2.3 (docs + quality gate — 2026-03-23)
+
+- **Phase / session docs** updated; **client + server lint** run as part of closeout.
+- **Explicit deferrals (unchanged):** optional admin “org default” badges; **resolver unit tests** remain Phase 3.0 per project policy.
+
+### Session 6.14.2 closeout
+
+**Delivered (merged policy alignment):**
+
+- **6.14.1:** Computed availability service merge-at-read; org defaults JSONB + admin surface.
+- **6.14.2.1:** `getHoldDurationFromSettings` / `getAdminEntryTimeoutFromSettings` use **`resolveNumericPolicyForAvailabilityAndCalendar`** (availability + calendar + org defaults).
+- **6.14.2.2:** Client **`useAppointmentShape`** resolves **`timeAndRounding`** via shared merge (`resolveBookingNumericPolicyFromLoadedData`) for **duration rounding** / slot shape; `calculateAppointmentSlots` accepts optional merged rounding.
+
+**Documented exceptions / follow-ups:**
+
+- **Optional** “using org default” UI on legacy Calendar/Availability panels — **not shipped**; listed above.
+- **Exhaustive** audit of every remaining numeric read in the repo — not claimed; primary booking + validation paths above are aligned. Future greps may find edge utilities; wire or document if product-critical.
+
 ---
 
 ## Phase Summary
 
-**Sessions completed:** 6.14.1  
-**Sessions remaining:** 6.14.2  
+**Sessions completed:** 6.14.1, 6.14.2  
+**Sessions remaining:** _(none in phase 6.14)_  
 
 **Key accomplishments (6.14.1):**
 
 - `OrganizationDefaults` types; `resolveOrganizationNumericPolicy`; JSONB persistence; admin API and Business Controls organization surface; merge-at-read on computed availability service path.
 
+**Key accomplishments (6.14.2):**
+
+- Server hold/admin-timeout helpers merged; client slot-shape rounding merged; documentation and lint gate for phase close.
+
 **Decisions:**
 
-- Follow-up integration is **session 6.14.2**, not ad-hoc tickets, until phase success criteria are satisfied or exceptions are documented.
+- Optional badges and automated resolver tests deferred per scope / Phase 3.0 policy.
 
 ---
 
@@ -72,4 +94,6 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 
 ## Next Action
 
-Run **`/session-start 6.14.2`** (or equivalent tier workflow) when ready to implement session 6.14.2; then **`/session-end`** when session completes. When phase 6.14 success criteria are fully met, run **`/phase-end 6.14`**.
+1. Run **`/session-end 6.14.2`** to roll up the session tier.  
+2. When satisfied with phase success criteria, run **`/phase-end 6.14`**.  
+3. Do **not** start phase **6.15** until phase 6.14 is ended in the harness.

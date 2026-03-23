@@ -36,7 +36,7 @@
 
 **Checkpoint:** Wizard/admin behavior matches server policy; badges consistent where added.
 
-- [ ] #### Task 6.14.2.3: Docs, handoff, quality gate
+- [x] - [x] #### Task 6.14.2.3: Docs, handoff, quality gate
 
 **Goal:** Update phase handoff and session log; run client and server lint; verify app start; check phase success criteria or list explicit deferrals.
 

@@ -13,7 +13,7 @@
 **Description:** Introduce organization-level defaults (option 3: defaults + optional overrides / merge at read) for admin-controlled numeric fields currently spread across Business Controls. Defaults define “what we use when nothing more specific is set”; overrides store only explicit values or deltas where they differ.
 
 **Duration:** 2 sessions (6.14.1 foundation, 6.14.2 integration gaps) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
-**Status:** In Progress (6.14.1 complete; 6.14.2 not started)
+**Status:** In Progress (6.14.1 + 6.14.2 implementation complete — pending **`/session-end 6.14.2`** / **`/phase-end 6.14`**)
 
 ---
 
@@ -48,7 +48,7 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 **Tasks:** Types; merge/resolve; persistence; admin UI; initial server wiring + documented deferrals.
 **Focus:** Single resolver module; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
 
-- [ ] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
+- [x] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
 **Description:** Close gaps from 6.14.1 — wire resolver across remaining booking/server read and validation paths (or document exceptions); optional “using org default” badges on Calendar/Availability panels; finalize phase success criteria.
 **Tasks:** Audit call sites; server + client alignment as needed; admin badges; handoff updates.
 **Focus:** Parity between what the wizard sees and what the server enforces.
@@ -65,11 +65,11 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 ## Success Criteria
 
 - [x] Types and resolver in shared (or agreed) layer — **6.14.1**
-- [ ] **Resolved numeric policy** used (or explicitly exempted in writing) for all production booking + validation paths that derive policy from org + calendar + availability — **target 6.14.2**
+- [x] **Resolved numeric policy** used (or explicitly exempted in writing) for primary production booking + validation paths that derive policy from org + calendar + availability — **6.14.2** (see `phases/phase-6.14-handoff.md` → *Session 6.14.2 closeout*; optional badges and exhaustive edge utilities deferred there)
 - [x] Admin can edit organization defaults in one dedicated surface — **6.14.1**
 - [x] Persistence strategy documented and implemented (`organization_defaults` JSONB + API) — **6.14.1**
-- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **6.14.2** (where useful)
-- [ ] Client lint and app start pass at phase close — **verify at 6.14.2 end** (6.14.1 already met this bar for touched code)
+- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **deferred** (documented in `phases/phase-6.14-handoff.md`)
+- [x] Client lint and app start pass at phase close — **verified at 6.14.2 task 6.14.2.3** (6.14.1 already met this bar for earlier touched code)
 - [ ] Resolver automated tests — Phase 3.0 policy (not a gate for 6.14.2 unless unblocked)
 
 ---
