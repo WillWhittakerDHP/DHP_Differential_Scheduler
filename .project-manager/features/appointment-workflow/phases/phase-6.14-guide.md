@@ -105,3 +105,5 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 - `sessions/session-6.14.3-planning.md`, `sessions/session-6.14.3-guide.md`
 - `feature-appointment-workflow-guide.md` (Phase 6.14)
 - `client/src/views/admin/tabs/BusinessControlsTab.vue`, `client/src/configs/availabilitySettings/types.ts`, `shared/types/calendarTypes.ts`, `shared/types/availabilityTypes.ts`
+
+<!-- end excerpt phase -->

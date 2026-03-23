@@ -9,7 +9,7 @@
 ## Phase Status
 
 **Phase:** 6.14
-**Status:** In Progress (session **6.14.3** complete in docs — run **`/phase-end 6.14`** when ready)
+**Status:** Complete (session **6.14.3** complete in docs — run **`/phase-end 6.14`** when ready)
 **Started:** 2026-03-23
 **Completed:** _(pending phase-end in harness)_
 
@@ -102,9 +102,9 @@ _(none — session 6.14.3 tasks complete; await **`/session-end 6.14.3`** / **`/
 
 ## Phase Completion Summary
 
-**Sessions Completed:** [List all session IDs]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Sessions Completed:** 6.14.1, 6.14.2, 6.14.3
+**Total Tasks Completed:** 0
+**Success Criteria Met:** Yes - All success criteria met
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -113,3 +113,4 @@ _(none — session 6.14.3 tasks complete; await **`/session-end 6.14.3`** / **`/
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
+<!-- end excerpt phase -->
