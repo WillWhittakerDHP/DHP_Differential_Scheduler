@@ -1,4 +1,4 @@
-# Session 7.2.1 Guide: Strategy Contract and Auth Config Foundation
+# Session 7.3.1 Guide: Magic link strategy core
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -34,33 +34,38 @@ These sections contain session-specific content:
 
 ### Session Overview
 
-**Session ID:** 7.2.1
-**Session Name:** Strategy Contract and Auth Config Foundation
-**Description:** Define the shared server auth contracts and configuration foundation so later magic-link and password strategies can plug into one stable router and middleware boundary.
+**Session ID:** 7.3.1
+**Session Name:** Magic link strategy core
+**Description:** Token generation and hashing, `magic_links` persistence lifecycle, and `AuthStrategy` (`verifyToken`) aligned with Phase 7.2 contracts. HTTP request-link, email, and session+cookie on verify belong to sessions 7.3.2 and 7.3.3.
 
-**Duration:** 2 tasks
+**Duration:** ~3 tasks
 **Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 7.2.1.1: Define Auth Strategy Contracts
-**Goal:** Create the shared strategy interface, auth payload/result types, and server auth vocabulary that Phase 7.3 can implement without revisiting route contracts.
-**Files:** 
-- `server/src/auth/strategies/strategyTypes.ts`
-- `server/src/routes/internal/auth/authRouter.ts`
-- `server/src/routes/index.ts`
-**Approach:** Define explicit auth strategy contracts for request/verify/authenticate-style flows, add typed result shapes, and align the current auth router with those contracts without implementing magic-link behavior yet.
-**Checkpoint:** Strategy types are explicit, reusable, and narrow enough that future strategies can implement them without changing router signatures.
+- [x] #### Task 7.3.1.1: Token and hash utilities
+**Goal:** Define how raw magic-link tokens are generated, hashed for storage (never store raw token), default TTL, optional `purpose` string; read TTL from env where appropriate.
+**Files:**
+- `server/src/auth/strategies/magicLinkToken.ts` (new, or co-locate in strategy file if small)
+- `server/src/auth/strategies/strategyTypes.ts` (reference only)
+**Approach:** Use Node crypto for random bytes + one-way hash; centralize constants; log misconfiguration with project logger, not empty catches.
+**Checkpoint:** Hash function stable; TTL documented; raw token never persisted in DB.
 
-- [ ] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
-**Goal:** Centralize auth environment decisions and create clean server module seams for config-driven auth behavior.
-**Files:** 
-- `server/src/config/authConfig.ts`
-- `server/src/auth/index.ts`
-- `server/src/routes/internal/auth/authRouter.ts`
-- `server/src/routes/index.ts`
-**Approach:** Add auth config helpers for strategy selection and cookie/session policy, then wire the auth router to consume the new config/module boundary while leaving session persistence implementation for Session 7.2.2.
-**Checkpoint:** Auth config exists in one place, deferred responsibilities are clear, and the router/module shape is ready for Phase 7.3 magic-link work.
+- [x] #### Task 7.3.1.2: Magic link persistence layer
+**Goal:** Create, lookup by token hash, enforce `expiresAt` and `consumedAt`, mark consumed on success (single-use).
+**Files:**
+- `server/src/db/models/auth/magic_link.ts` (model usage)
+- `server/src/auth/strategies/magicLinkPersistence.ts` (new) or equivalent module
+**Approach:** Sequelize queries in named functions; clear `AuthOpResult`-shaped outcomes or typed errors for strategy layer; handle not-found, expired, already-consumed uniformly.
+**Checkpoint:** Unit behavior verifiable via dev logging or temporary route stub (no new tests per project policy unless you add a deliberate harness).
+
+- [x] #### Task 7.3.1.3: `magicLinkStrategy` module
+**Goal:** Export an `AuthStrategy` with `name: 'magic_link'` and `verifyToken` returning `userId` on valid token; no session creation here (Phase 7.3.3). Expose hooks or factory deps for 7.3.2 to issue links.
+**Files:**
+- `server/src/auth/strategies/magicLinkStrategy.ts` (new)
+- `server/src/auth/index.ts` (register/export if pattern exists)
+**Approach:** Compose token + persistence helpers; map failures to `AUTH_FAILURE_CODES`; keep functions within governance size or split.
+**Checkpoint:** `verifyToken` matches `AuthStrategy` types; invalid paths return structured failure; ready for auth router wiring in later sessions.
 
 ---
 
@@ -68,7 +73,7 @@ These sections contain session-specific content:
 
 ### Before Starting a Session
 
-**Recommended:** Use `/session-start 7.2.1 [description]` to automatically:
+**Recommended:** Use `/session-start 7.3.1 [description]` to automatically:
 - Load key sections from session handoff document
 - Load relevant sections from session guide
 - Generate formatted session label with date/status
@@ -103,7 +108,7 @@ See the template file for complete format, examples, and guidelines.
 
 Each session should start with:
 ```
-## Session: 7.2.1 - [Brief Description]
+## Session: 7.3.1 - [Brief Description]
 **Date:** [Date]
 **Duration:** [Estimated/Actual]
 **Status:** [In Progress / Completed / Blocked]
@@ -253,7 +258,7 @@ All tasks complete. Ready to run end-of-session workflow?
 
 Each session should start with:
 ```
-## Session: 7.2.1 - [Brief Description]
+## Session: 7.3.1 - [Brief Description]
 **Date:** [Date]
 **Duration:** [Estimated/Actual]
 **Status:** [In Progress / Completed / Blocked]
@@ -271,7 +276,7 @@ Break each session into focused tasks. Each task should have:
 
 **Task Format:**
 ```
-#### Task 7.2.1.N: [Task Name]
+#### Task 7.3.1.N: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
@@ -295,7 +300,7 @@ Break each session into focused tasks. Each task should have:
 When planning a new task, use this structure:
 
 ```markdown
-- [ ] #### Task 7.2.1.N: [Task Name]
+- [ ] #### Task 7.3.1.N: [Task Name]
 
 **Goal:** [Clear, specific objective]
 
@@ -406,4 +411,7 @@ Break each session into focused tasks:
 
 ## Notes
 
-[Session-specific notes, patterns, architectural decisions]
+- Session scope stops at strategy + persistence; **7.3.2** adds request-link HTTP + mail/log delivery; **7.3.3** adds verify route + `sessionManager` + cookie.
+- Planning reference: `.project-manager/features/authentication/sessions/session-7.3.1-planning.md`
+
+<!-- end excerpt session -->

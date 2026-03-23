@@ -738,6 +738,43 @@ export function shouldPruneDirectory(dirName) {
 }
 
 /**
+ * Resolve project root from cwd (same rules as resolveAuditPaths).
+ * @returns {string}
+ */
+function resolveProjectRootFromCwd() {
+  const cwd = path.resolve(process.cwd())
+  const isClientDir = fs.existsSync(path.join(cwd, 'src'))
+  return isClientDir ? path.resolve(cwd, '..') : cwd
+}
+
+let _rootEnvLoadedForAudits = false
+
+/**
+ * Loads project root `.env` once so `TEST_ENABLED` / `APP_STAGE` match scripts/start-dev.mjs
+ * when audits run from `client/` (e.g. npm --prefix client run audit:test).
+ */
+export function loadRootEnvForAudits() {
+  if (_rootEnvLoadedForAudits) return
+  _rootEnvLoadedForAudits = true
+  const projectRoot = resolveProjectRootFromCwd()
+  const envPath = path.join(projectRoot, '.env')
+  if (!fs.existsSync(envPath)) return
+  const raw = fs.readFileSync(envPath, 'utf8')
+  for (const line of raw.split('\n')) {
+    const trimmed = line.trim()
+    if (!trimmed || trimmed.startsWith('#')) continue
+    const eq = trimmed.indexOf('=')
+    if (eq <= 0) continue
+    const key = trimmed.slice(0, eq).trim()
+    let value = trimmed.slice(eq + 1).trim()
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1)
+    }
+    process.env[key] = value
+  }
+}
+
+/**
  * Whether testing is enabled for audits and workflow commands.
  *
  * Controlled by APP_STAGE or legacy TEST_ENABLED in project root .env.
@@ -752,6 +789,7 @@ export function shouldPruneDirectory(dirName) {
  * @returns {boolean}
  */
 export function isTestingEnabled() {
+  loadRootEnvForAudits()
   return process.env.TEST_ENABLED === 'true' || process.env.APP_STAGE === 'staging'
 }
 

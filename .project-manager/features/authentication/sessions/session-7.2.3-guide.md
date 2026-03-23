@@ -62,7 +62,7 @@ These sections contain session-specific content:
 **Approach:** Variadic `requireRole(...roles: string[])` returning standard middleware; clear JSON body for 403.
 **Checkpoint:** Agent vs client (etc.) correctly allowed/blocked on a test route when combined with `requireAuth`.
 
-- [ ] #### Task 7.2.3.3: Auth router and route-tree integration
+- [x] #### Task 7.2.3.3: Auth router and route-tree integration
 **Goal:** Mount or extend internal auth routes so at least one endpoint demonstrates `requireAuth` (and optional `requireRole`); keep login/magic-link as 501 until 7.3; document extension points in code comments.
 **Files:** 
 - `server/src/routes/internal/auth/authRouter.ts`
@@ -415,3 +415,5 @@ Break each session into focused tasks:
 ## Notes
 
 [Session-specific notes, patterns, architectural decisions]
+
+<!-- end excerpt session -->

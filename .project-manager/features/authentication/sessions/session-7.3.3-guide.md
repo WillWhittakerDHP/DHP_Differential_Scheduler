@@ -1,4 +1,4 @@
-# Session 7.2.1 Guide: Strategy Contract and Auth Config Foundation
+# Session 7.3.3 Guide: ** Verify route — validate token, create session, set cookie, structured error paths and logging.
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -34,33 +34,28 @@ These sections contain session-specific content:
 
 ### Session Overview
 
-**Session ID:** 7.2.1
-**Session Name:** Strategy Contract and Auth Config Foundation
-**Description:** Define the shared server auth contracts and configuration foundation so later magic-link and password strategies can plug into one stable router and middleware boundary.
+**Session ID:** 7.3.3
+**Session Name:** ** Verify route — validate token, create session, set cookie, structured error paths and logging.
+**Description:** [Brief description of session objectives]
 
-**Duration:** 2 tasks
-**Status:** In Progress
+**Duration:** [Estimated hours/days]
+**Status:** [Not Started / In Progress / Complete]
 
 ### Tasks
 
-- [ ] #### Task 7.2.1.1: Define Auth Strategy Contracts
-**Goal:** Create the shared strategy interface, auth payload/result types, and server auth vocabulary that Phase 7.3 can implement without revisiting route contracts.
+- [x] #### Task 7.3.3.1: [Task Name]
+**Goal:** [Task goal]
 **Files:** 
-- `server/src/auth/strategies/strategyTypes.ts`
-- `server/src/routes/internal/auth/authRouter.ts`
-- `server/src/routes/index.ts`
-**Approach:** Define explicit auth strategy contracts for request/verify/authenticate-style flows, add typed result shapes, and align the current auth router with those contracts without implementing magic-link behavior yet.
-**Checkpoint:** Strategy types are explicit, reusable, and narrow enough that future strategies can implement them without changing router signatures.
+- [Files to work with]
+**Approach:** [Approach to take]
+**Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 7.2.1.2: Add Auth Config and Module Scaffolding
-**Goal:** Centralize auth environment decisions and create clean server module seams for config-driven auth behavior.
+- [x] #### Task 7.3.3.2: [Task Name]
+**Goal:** [Task goal]
 **Files:** 
-- `server/src/config/authConfig.ts`
-- `server/src/auth/index.ts`
-- `server/src/routes/internal/auth/authRouter.ts`
-- `server/src/routes/index.ts`
-**Approach:** Add auth config helpers for strategy selection and cookie/session policy, then wire the auth router to consume the new config/module boundary while leaving session persistence implementation for Session 7.2.2.
-**Checkpoint:** Auth config exists in one place, deferred responsibilities are clear, and the router/module shape is ready for Phase 7.3 magic-link work.
+- [Files to work with]
+**Approach:** [Approach to take]
+**Checkpoint:** [What needs to be verified]
 
 ---
 
@@ -68,7 +63,7 @@ These sections contain session-specific content:
 
 ### Before Starting a Session
 
-**Recommended:** Use `/session-start 7.2.1 [description]` to automatically:
+**Recommended:** Use `/session-start 7.3.3 [description]` to automatically:
 - Load key sections from session handoff document
 - Load relevant sections from session guide
 - Generate formatted session label with date/status
@@ -103,7 +98,7 @@ See the template file for complete format, examples, and guidelines.
 
 Each session should start with:
 ```
-## Session: 7.2.1 - [Brief Description]
+## Session: 7.3.3 - [Brief Description]
 **Date:** [Date]
 **Duration:** [Estimated/Actual]
 **Status:** [In Progress / Completed / Blocked]
@@ -253,7 +248,7 @@ All tasks complete. Ready to run end-of-session workflow?
 
 Each session should start with:
 ```
-## Session: 7.2.1 - [Brief Description]
+## Session: 7.3.3 - [Brief Description]
 **Date:** [Date]
 **Duration:** [Estimated/Actual]
 **Status:** [In Progress / Completed / Blocked]
@@ -271,7 +266,7 @@ Break each session into focused tasks. Each task should have:
 
 **Task Format:**
 ```
-#### Task 7.2.1.N: [Task Name]
+#### Task 7.3.3.N: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]
@@ -295,7 +290,7 @@ Break each session into focused tasks. Each task should have:
 When planning a new task, use this structure:
 
 ```markdown
-- [ ] #### Task 7.2.1.N: [Task Name]
+- [ ] #### Task 7.3.3.N: [Task Name]
 
 **Goal:** [Clear, specific objective]
 
@@ -407,3 +402,5 @@ Break each session into focused tasks:
 ## Notes
 
 [Session-specific notes, patterns, architectural decisions]
+
+<!-- end excerpt session -->

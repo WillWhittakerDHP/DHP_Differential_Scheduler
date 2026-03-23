@@ -30,3 +30,18 @@ export {
   clearAuthSessionWithCookie,
   issueAuthSessionWithCookie,
 } from './sessionFacade.js'
+export {
+  createMagicLinkStrategy,
+  issueMagicLinkForEmail,
+  magicLinkStrategy,
+} from './strategies/magicLinkStrategy.js'
+export type {
+  IssueMagicLinkForEmailInput,
+  IssueMagicLinkForEmailResult,
+} from './strategies/magicLinkStrategy.js'
+export { redactMagicLinkBodyForLogs, sendMagicLinkDelivery } from './magicLinkDelivery.js'
+export {
+  buildMagicLinkVerifyUrl,
+  magicLinkRequestBodySchema,
+  submitMagicLinkRequest,
+} from './magicLinkRequest.js'

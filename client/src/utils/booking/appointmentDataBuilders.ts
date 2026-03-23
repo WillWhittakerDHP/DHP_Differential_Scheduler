@@ -160,7 +160,6 @@ export function buildAppointmentRequest(params: {
   quantities: BlockQuantities
   squareFootage: number | null
   aduCount: number | null
-  /** Phase 6.11.5: optional drive fee row in persisted fee breakdown */
   feeDriveOptions?: AppointmentFeeBreakdownDriveOptions | null
   status: AppointmentStatus
 }): AppointmentRequest {

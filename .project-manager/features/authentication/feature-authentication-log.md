@@ -6,169 +6,70 @@
 
 ---
 
-
-## Feature Start - 2026-02-18
+## Feature start — 2026-02-18
 
 **Feature:** authentication
-**Status:** 📋 Planning
-**Description:** 
+**Status:** Complete
+**Description:** User authentication for the scheduler (sessions, strategies, magic link beta path).
+**Objectives:** Ship DB/models, server auth infrastructure, and magic link flow per phases 7.1–7.3.
 
-**Objectives:**
-
-
-**Phases Planned:** 5
+**Phases planned:** 7.1, 7.2, 7.3 (plus any future auth hardening tracked separately)
 
 ---
 
-
-## Feature Status
+## Feature status
 
 **Feature:** authentication
-**Status:** [Not Started / Research / Planning / In Progress / Complete]
+**Status:** Complete
 **Started:** 2026-02-18
-**Completed:** —
+**Completed:** 2026-03-23
 
 ---
 
-## Research Phase
+## Completed phases
 
-### Research Phase Entry [Date]
-**Status:** [In Progress / Complete]
-**Researcher:** [Name/Agent]
-**Key Findings:**
-- [Finding 1]
-- [Finding 2]
+### Phase 7.1: Database & models
 
-**Decisions Made:**
-- [Decision 1]
-- [Decision 2]
+**Completed:** 2026-03-23  
+**Sessions:** per phase-7.1 guides on disk  
+**Accomplishments:** Schema/migrations and models aligned with auth entities (sessions, magic links, etc.).
 
-**Research Documentation:**
-- Research Questions: `.project-manager/features/[name]/research-questions.md`
+### Phase 7.2: Server infrastructure
 
----
+**Completed:** 2026-03-23  
+**Sessions:** per phase-7.2 guides on disk  
+**Accomplishments:** Strategy interface, session manager, auth config, middleware, router wiring.
 
-## Completed Phases
+### Phase 7.3: Magic link strategy (beta / development)
 
-### Phase [N]: [Phase Name] ✅
-**Completed:** [Date]
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
-
-### Phase [N+1]: [Phase Name] ✅
-**Completed:** [Date]
-**Sessions Completed:** [List of session IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-**Decisions Made:**
-- [Decision that affects feature]
+**Completed:** 2026-03-23  
+**Sessions:** 7.3.x (request, verify, cookie session)  
+**Accomplishments:** Magic link request and verify routes, structured errors/logging, env documentation.
 
 ---
 
-## In Progress Phases
+## Feature checkpoints
 
-### Phase [N]: [Phase Name] 🔄
-**Started:** [Date]
-**Current Session:** [SESSION_ID]
-**Progress:** [X] of [Y] sessions complete
+### Checkpoint 2026-03-23
 
----
-
-## Blockers and Issues
-
-### Blocker [Date]
-**Description:** [What's blocking progress]
-**Impact:** [How it affects the feature]
-**Resolution:** [How it was resolved or plan to resolve]
+**Phases completed:** 7.1, 7.2, 7.3  
+**Status:** Complete  
+**Notes:** Documentation normalized for handoff; integration line is **`develop`**.  
+**Git:** Work merged to **`develop`**; **`main`** updated via merge from **`develop`** when releasing.
 
 ---
 
-## Key Decisions
+## Feature completion summary
 
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects the feature and downstream work]
+**Feature:** authentication  
+**Completed:** 2026-03-23
 
----
-
-## Feature Checkpoints
-
-### Checkpoint [Date]
-**Phases Completed:** [N, N+1, ...]
-**Status:** [On track / Behind / Ahead]
-**Notes:** [Checkpoint notes]
-**Git Branch:** `feature/[name]`
-**Git Commit:** [Commit hash]
+All planned phases for this feature tranche are complete. Follow-up work (e.g. additional strategies, production hardening) should be scheduled as new tasks/phases in **PROJECT_PLAN**.
 
 ---
 
-## Feature Changes
+## Related documents
 
-### Feature Change [Date]
-**From:** [Previous state]
-**To:** [New state]
-**Reason:** [Why the change was made]
-**Impact:** [How this affects phases/sessions]
-
-**Documentation:**
-- Feature Change Doc: `.project-manager/features/[name]/feature-[name]-change.md`
-
----
-
-## Feature Checkpoints
-
-### Checkpoint 2026-02-20
-**Status:** [On track / Behind / Ahead]
-**Notes:** [Checkpoint notes]
-**Git Branch:** `feature/authentication`
-**Git Commit:** [Commit hash]
-
----
-
-## Next Steps
-
-- [Next phase to start]
-- [Actions needed]
-- [Dependencies to resolve]
-
----
-
-## Feature Completion Summary
-
-**Phases Completed:** [List all phase numbers]
-**Total Sessions Completed:** [Number]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
-
-**Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
-
-**Lessons Learned:**
-- [Lesson 1]
-- [Lesson 2]
-
-**Workflow Feedback:** (Optional - only document if issues encountered)
-- **User feedback:** [Any problems managing feature workflow or issues with results]
-- **AI observations:** [Sticking points, inefficiencies, or workflow friction encountered during feature]
-- **Improvements needed:** [Workflow improvements for future features]
-- **Template updates:** [Any template improvements suggested]
-- **Cross-tier feedback:** [If feature-level issues suggest improvements needed at phase, session, or task level]
-
----
-
-## Related Documents
-
-- Feature Guide: `.project-manager/features/[name]/feature-[name]-guide.md`
-- Feature Handoff: `.project-manager/features/[name]/feature-[name]-handoff.md`
-- Phase Logs: `.project-manager/features/[name]/phases/phase-[N]-log.md`
-
+- Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
+- Feature handoff: `.project-manager/features/authentication/feature-authentication-handoff.md`
+- Phase logs: `.project-manager/features/authentication/phases/phase-7.*-log.md`

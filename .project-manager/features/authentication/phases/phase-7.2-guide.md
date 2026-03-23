@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [x] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
+- [ ] ### Session 7.2.1: Strategy Contract and Auth Config Foundation
 **Description:** Start simple by defining the server auth seams: shared auth types, strategy interface, environment/config decisions, and router/auth module structure.
 **Tasks:** 3
 **Focus:**
@@ -35,7 +35,7 @@
 - Add auth config helpers for cookie/session behavior and environment-driven strategy selection
 - Replace placeholder planning ambiguity with concrete file locations and naming for the auth server module
 
-- [x] ### Session 7.2.2: Session Manager and Cookie Lifecycle
+- [ ] ### Session 7.2.2: Session Manager and Cookie Lifecycle
 **Description:** Add the persistent session layer that strategies can use without owning cookie or database lifecycle details directly.
 **Tasks:** 3
 **Focus:**
