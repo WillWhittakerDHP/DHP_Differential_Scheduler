@@ -12,14 +12,14 @@
 **Phase Name:** Organization Defaults & Resolved Numeric Policy  
 **Description:** Introduce organization-level defaults (option 3: defaults + optional overrides / merge at read) for admin-controlled numeric fields currently spread across Business Controls. Defaults define “what we use when nothing more specific is set”; overrides store only explicit values or deltas where they differ.
 
-**Duration:** 2 sessions (6.14.1 foundation, 6.14.2 integration gaps) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
-**Status:** In Progress (6.14.1 + 6.14.2 implementation complete — pending **`/session-end 6.14.2`** / **`/phase-end 6.14`**)
+**Duration:** 3 sessions (6.14.1 foundation, 6.14.2 primary wiring, 6.14.3 deferred polish / audit) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
+**Status:** In Progress (6.14.1 + 6.14.2 complete — **6.14.3** tracks optional badges, exhaustive resolver audit, and Phase 3.0 test checklist)
 
 ---
 
 ## Planning decomposition note
 
-Early phase artifacts listed only **one session** while the phase objectives implicitly required **foundation + follow-up integration** (full resolver wiring, validation parity, optional admin badges). Session **6.14.1** delivered types, resolver, persistence, admin surface, and merge-at-read on the **computed availability** server path. Session **6.14.2** tracks the remaining scope explicitly (`sessions/session-6.14.2-planning.md`). This restores alignment between planning docs and actual work.
+Early phase artifacts listed only **one session** while the phase objectives implicitly required **foundation + follow-up integration** (full resolver wiring, validation parity, optional admin badges). Session **6.14.1** delivered types, resolver, persistence, admin surface, and merge-at-read on the **computed availability** server path. Session **6.14.2** aligned **primary** booking and validation paths. Session **6.14.3** holds explicitly deferred work: **exhaustive** grep audit (wire or document), optional legacy-panel “org default” affordances, and **Phase 3.0** resolver test follow-up (documented only unless test policy is unblocked). See `sessions/session-6.14.3-planning.md`.
 
 ---
 
@@ -48,15 +48,17 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 **Tasks:** Types; merge/resolve; persistence; admin UI; initial server wiring + documented deferrals.
 **Focus:** Single resolver module; no silent fallbacks; align with `BusinessControlsTab.vue` save split.
 
-<<<<<<< HEAD
 - [x] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
-=======
-- [ ] ### Session 6.14.2: Resolver breadth, validation parity, and org-default UX
->>>>>>> dd05826dd ([auto] workflow artifacts before branch switch)
-**Description:** Close gaps from 6.14.1 — wire resolver across remaining booking/server read and validation paths (or document exceptions); optional “using org default” badges on Calendar/Availability panels; finalize phase success criteria.
-**Tasks:** Audit call sites; server + client alignment as needed; admin badges; handoff updates.
-**Focus:** Parity between what the wizard sees and what the server enforces.
+**Description:** Close **primary** gaps from 6.14.1 — wire resolver across main booking/server read and validation paths (or document exceptions); client rounding alignment; docs + lint gate. Exhaustive audit and optional legacy badges deferred to **6.14.3** where listed in handoff.
+**Tasks:** Audit call sites; server + client alignment as needed; handoff updates.
+**Focus:** Parity between what the wizard sees and what the server enforces on primary paths.
 **Full scope:** `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`.
+
+- [ ] ### Session 6.14.3: Org-default UX polish, resolver audit, and test policy alignment
+**Description:** Deferred from 6.14.2 closeout — exhaustive grep audit (wire or document exceptions); optional “using org default” badges on legacy Calendar/Availability panels; Phase 3.0 resolver test checklist in docs (no new test files unless policy unblocked).
+**Tasks:** Full audit table; optional badges; docs + lint; update phase success criteria.
+**Focus:** No silent gaps; honest phase close.
+**Full scope:** `sessions/session-6.14.3-planning.md`, `sessions/session-6.14.3-guide.md`.
 
 ---
 
@@ -69,20 +71,22 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 ## Success Criteria
 
 - [x] Types and resolver in shared (or agreed) layer — **6.14.1**
-- [x] **Resolved numeric policy** used (or explicitly exempted in writing) for primary production booking + validation paths that derive policy from org + calendar + availability — **6.14.2** (see `phases/phase-6.14-handoff.md` → *Session 6.14.2 closeout*; optional badges and exhaustive edge utilities deferred there)
+- [x] **Resolved numeric policy** used (or explicitly exempted in writing) for **primary** production booking + validation paths — **6.14.2** (see `phases/phase-6.14-handoff.md` → *Session 6.14.2 closeout*)
+- [ ] **Exhaustive** resolver coverage (or written exception list) for remaining numeric policy reads — **6.14.3**
 - [x] Admin can edit organization defaults in one dedicated surface — **6.14.1**
 - [x] Persistence strategy documented and implemented (`organization_defaults` JSONB + API) — **6.14.1**
-- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **deferred** (documented in `phases/phase-6.14-handoff.md`)
+- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **6.14.3** (deferred from 6.14.2; see handoff)
 - [x] Client lint and app start pass at phase close — **verified at 6.14.2 task 6.14.2.3** (6.14.1 already met this bar for earlier touched code)
-- [ ] Resolver automated tests — Phase 3.0 policy (not a gate for 6.14.2 unless unblocked)
+- [ ] Resolver automated tests — Phase 3.0 policy; document checklist in **6.14.3** (no new test files unless policy unblocked)
 
 ---
 
 ## Related Documents
 
 - `phases/phase-6.14-planning.md` (phase contract + decomposition table)
-- `phases/phase-6.14-handoff.md` (current transition / next: 6.14.2)
+- `phases/phase-6.14-handoff.md` (current transition / next: **6.14.3**)
 - `sessions/session-6.14.1-planning.md` (includes **Outcome: delivered vs deferred**)
 - `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`
+- `sessions/session-6.14.3-planning.md`, `sessions/session-6.14.3-guide.md`
 - `feature-appointment-workflow-guide.md` (Phase 6.14)
 - `client/src/views/admin/tabs/BusinessControlsTab.vue`, `client/src/configs/availabilitySettings/types.ts`, `shared/types/calendarTypes.ts`, `shared/types/availabilityTypes.ts`

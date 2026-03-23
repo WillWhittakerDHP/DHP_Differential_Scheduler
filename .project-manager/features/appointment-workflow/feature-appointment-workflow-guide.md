@@ -76,7 +76,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 | 6.11 | Drive Time Fee Line Item | In Progress | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 | 6.12 | Annotation Content Layer and Entity Enhancements | Not Started | Event shape link toggles; annotation_instance_content; UI slots registry; wizard pipeline for selection cards and grid overlay. Sessions 6.12.1–6.12.2. |
 | 6.13 | Wizard Theme Tokens & Brand Palettes | Not Started | OKLCH/HSL-derived palettes; quote/reschedule/brand alignment; single pipeline for theme.ts, useThemeMode, BookingWizard.scss. To be sessioned from phase guide. |
-| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (wiring, validation parity, badges). |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (audit, optional badges, Phase 3.0 test doc). |
 | 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload + serving; extract/verify primary+secondary anchors; wizard_settings fields; wire OKLCH pipeline; logo in BookingWizard. Depends on 6.13. Sessions 6.15.1–6.15.3. |
 | 6.16 | Differential Role Generalization: margin + Multiple Moveables | Not Started | Add `margin` to DifferentialRole; DB ENUM; slot pipeline + time ranges; multi-moveable sequencing; `differentialEventRoleOverrides` for diversion. Sessions 6.16.1–6.16.3. Detailed plan referenced in phase 6.16 block below. |
 | 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight + wizard + resolve/finalize delete for admin CRUD; policy registry; wire `useEntityCrud` / list + card delete. Sessions 6.17.1–6.17.5. See `phases/phase-6.17-guide.md`. Relates to Phase 6.6 (soft vs hard delete). |
@@ -219,14 +219,14 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 
 - [ ] ### Phase 6.14: Organization Defaults & Resolved Numeric Policy
 **Description:** Organization-level defaults model (canonical defaults object + optional overrides, merge at read time) for admin numeric policy scattered across Business Controls. Covers time grid & rounding, drive-time billing, holds & admin entry timeout, and optional constraint baselines.
-**Sessions:** **6.14.1** — foundation (`sessions/session-6.14.1-planning.md`, outcome: delivered vs deferred). **6.14.2** — remaining wiring, validation parity, optional org-default badges (`sessions/session-6.14.2-planning.md`).
+**Sessions:** **6.14.1** — foundation (`sessions/session-6.14.1-planning.md`, outcome: delivered vs deferred). **6.14.2** — primary wiring and validation parity (`sessions/session-6.14.2-planning.md`). **6.14.3** — exhaustive audit, optional legacy badges, Phase 3.0 test checklist (`sessions/session-6.14.3-planning.md`).
 **Success Criteria:**
 - Shared `OrganizationDefaults` (or equivalent) types and JSON-serializable shape — **6.14.1**
-- Resolver merged across **all** production booking and server validation paths that derive policy from org + availability + calendar, **or** narrow exceptions documented — **6.14.2**
-- Admin surface for org defaults; persistence implemented — **6.14.1**; optional “using org default” badges — **6.14.2**
-- Automated tests for resolver edge cases — Phase 3.0 policy unless explicitly scheduled
+- Resolver merged across **primary** paths in **6.14.2**; **exhaustive** remaining reads wired or documented — **6.14.3**
+- Admin surface for org defaults; persistence implemented — **6.14.1**; optional “using org default” badges on legacy panels — **6.14.3**
+- Automated tests for resolver edge cases — Phase 3.0 policy; checklist documented in **6.14.3** unless explicitly unblocked
 - Lint/app start pass at phase close; no silent misconfiguration fallbacks per project standards
-**See:** `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`, `sessions/session-6.14.2-planning.md`
+**See:** `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`, `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.3-planning.md`
 
 ---
 

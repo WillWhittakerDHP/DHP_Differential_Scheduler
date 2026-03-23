@@ -20,20 +20,21 @@ Phase 6.13 completed with sessions: All sessions.
 
 ## Planning decomposition note
 
-Phase **6.14** is intentionally split into **two sessions**:
+Phase **6.14** is split into **three sessions**:
 
 | Session | Role |
 |--------|------|
 | **6.14.1** | Foundation: types, `resolveOrganizationNumericPolicy`, persistence, admin UI, merge-at-read on **computed availability** (server). |
-| **6.14.2** | Integration: broaden resolver wiring + server validation parity + optional org-default badges; close phase success criteria. |
+| **6.14.2** | Integration: **primary** resolver wiring + server validation parity + client alignment; docs + lint gate. |
+| **6.14.3** | Follow-up: exhaustive **grep audit** (wire or document), optional legacy **org-default** badges, **Phase 3.0** resolver test checklist in docs (no new tests unless policy unblocked). |
 
-Some artifacts previously implied a **single** session for the whole phase; that understated follow-up work. See `sessions/session-6.14.1-planning.md` (*Outcome*) and `sessions/session-6.14.2-planning.md`.
+Some artifacts previously implied a **single** session for the whole phase; that understated follow-up work. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
 
 ## Goal
 Deliver a canonical **organization defaults** model merged at read time with availability/calendar payloads so numeric policy (minute increments, duration rounding, drive-time fee, holds, admin entry timeout, lead time, buffers, optional constraint baselines) has one source of truth and explicit resolution on client and server—no silent Vue-only fallbacks. Admin can edit defaults in a dedicated surface; persistence strategy is documented and implemented (or stubbed with a tracked follow-up). Aligns with `BusinessControlsTab.vue` save split and existing `AvailabilitySettings` / `CalendarConfig` paths.
 
 ## Files
-- `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`, `sessions/session-6.14.2-planning.md` — scope and session detail
+- `phases/phase-6.14-guide.md`, `sessions/session-6.14.1-planning.md`, `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.3-planning.md` — scope and session detail
 - `client/src/views/admin/tabs/BusinessControlsTab.vue` — current controls and save behavior
 - `client/src/configs/availabilitySettings/types.ts`, `shared/types/calendarTypes.ts`, `shared/types/availabilityTypes.ts` — types to extend or integrate
 - New or updated: shared types for `OrganizationDefaults` (or equivalent), resolver module(s) (`resolveBusinessNumericPolicy` / `resolve*`), admin tab or section for organization defaults
@@ -55,7 +56,8 @@ Deliver a canonical **organization defaults** model merged at read time with ava
 
 ## How we build the tierDown to achieve them
 - **Session 6.14.1:** Organization defaults & resolved numeric policy — foundation (complete; see session outcome for deferrals)
-- **Session 6.14.2:** Resolver breadth, validation parity, org-default UX — closes phase 6.14
+- **Session 6.14.2:** Resolver breadth, validation parity — primary paths (complete; see handoff for deferrals to 6.14.3)
+- **Session 6.14.3:** Org-default UX polish, exhaustive audit, test policy alignment — closes remaining phase 6.14 success criteria
 ---
 ## Reference (read before filling slots — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/appointment-workflow/feature-appointment-workflow-guide.md`

@@ -302,7 +302,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
 | 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Add new block shapes button on admin Shapes tab (6.10.1 ✅); admin toggle to show/hide apply-coupon in wizard (6.10.2 ✅); fee preview bar on availability step (6.10.3 not started); coupon fee calculation (6.10.4 not started). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
-| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (resolver breadth, validation parity, org-default UX). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (exhaustive audit, optional badges, Phase 3.0 test checklist). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
 | 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight dependency inspection; reusable admin delete wizard; resolve/finalize API; policy registry; wire generic CRUD delete. Sessions 6.17.1–6.17.5. See `features/appointment-workflow/phases/phase-6.17-guide.md`. Complements Phase 6.6 (soft vs hard delete). |
 
 ### Phase 6.1 Completed (Workflow)
@@ -359,7 +359,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 ### Phase 6.14: Organization Defaults & Resolved Numeric Policy (In Progress)
 
 - **Goal:** One canonical **organization defaults** object merged at read time with availability/calendar payloads so numeric policy (minute increments, duration rounding, drive-time fee, holds, admin entry timeout, lead time, buffers, optional constraint baselines) resolves on client and server from a single module—no silent Vue-only fallbacks.
-- **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — remaining wiring (booking validation parity, optional “using org default” badges, phase success criteria). See `sessions/session-6.14.1-planning.md` (*Outcome*) and `sessions/session-6.14.2-planning.md`.
+- **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — primary booking/validation wiring + client alignment. **6.14.3** — exhaustive audit (wire or document), optional legacy “org default” badges, Phase 3.0 resolver test checklist in docs. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
 - **See:** `features/appointment-workflow/phases/phase-6.14-guide.md`, `features/appointment-workflow/phases/phase-6.14-planning.md`.
 
 ### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Not Started)
