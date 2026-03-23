@@ -1,27 +1,24 @@
-# Phase 7.1 Guide Template
+# Phase 7.1 — Database & Models
 
-**Purpose:** Phase-level guide for planning and tracking major milestones
+## Overview
 
-**Tier:** Phase (Tier 1 - High-Level)
+**Phase Number:** 7.1  
+**Phase Name:** Database & Models  
+**Description:** PostgreSQL migrations for `sessions` and `magic_links` tables plus Sequelize models, aligned with Feature 7 (Authentication) in PROJECT_PLAN. No Express auth routes or client UI in this phase.
 
----
+**Status:** In Progress  
+**Feature:** authentication (see `feature-authentication-guide.md`).
 
-## Phase Overview
+## Objectives
 
-**Phase Number:** 7.1
-**Phase Name:** Database & Models
-**Description:** Database & Models
+- Land **migrations** for server-side **sessions** and **magic_links** persistence with appropriate indexes and FK to `users` where required (LAUNCH_CHECKLIST Phase 2A / PROJECT_PLAN Feature 7).
+- Register **Sequelize models** and associations consistent with those tables; integrate with existing **`User`** model where foreign keys apply.
+- Respect **migration authority**: run DDL only when `DB_HOST` is localhost; otherwise author migrations for execution on the DB host.
+- No auth middleware, routes, or client UI in this phase — Phase 7.2+ only.
 
-**Duration:** [Estimated weeks/months]
-**Status:** Not Started
+## Tasks
 
----
-
-## Phase Objectives
-
-- PostgreSQL tables exist for **server-side sessions** and **magic links**, aligned with Feature 7 strategy (LAUNCH_CHECKLIST Phase 2A, PROJECT_PLAN Feature 7).
-- **Sequelize models** mirror those tables and integrate with the existing **`User`** model where foreign keys apply.
-- No auth middleware, routes, or client UI in this phase — schema and models only.
+Sessions and tasks for this phase. See **Sessions Breakdown** below.
 
 ---
 
@@ -31,7 +28,7 @@
 **Description:** Add Sequelize migrations creating `sessions` and `magic_links` (or agreed table names) with appropriate columns, indexes, and FK to `users` as needed.
 **Tasks:** [Planned at session-start]
 **Focus:**
-- Match columns to the session-manager / magic-link design implied by PROJECT_PLAN (expiry, token storage, user linkage)
+- Match columns to session-manager / magic-link design (expiry, token storage, user linkage)
 - Follow repo migration conventions; respect DB_HOST policy for running migrations
 
 - [ ] ### Session 7.1.2: Sequelize models & registration
@@ -45,68 +42,17 @@
 
 ## Dependencies
 
-**Prerequisites:**
-- [Dependency 1]
-- [Dependency 2]
+**Prerequisites:** Feature branch and phase branch per harness; existing `User` model in codebase.
 
-**Downstream Impact:**
-- [How this phase affects later phases]
+**Downstream:** Phase 7.2 (server auth infrastructure) depends on schema and models from this phase.
 
 ---
 
 ## Success Criteria
 
-- [ ] All sessions completed
-- [ ] All focus areas addressed
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Ready for next phase
-
----
-
-## End of Phase Workflow
-
-**CRITICAL: Prompt before completing phase**
-
-After completing all sessions in a phase, **prompt the user** before running `/phase-end`:
-
-```
-## Ready to Complete Phase?
-
-All sessions complete. Ready to run phase-completion workflow?
-
-**This will:**
-- Mark phase complete (update checkboxes and status)
-- Update phase log with completion summary
-- Update main handoff document
-- Git commit/push
-
-**Proceed with /phase-end?** (yes/no)
-```
-
-**If user says "yes":**
-- Run `/phase-end` command automatically
-- Complete all phase-completion steps
-
-**If user says "no":**
-- Address any requested changes
-- Re-prompt when ready
-
-After completing all sessions in a phase:
-
-1. **Verify phase completion** - All sessions complete, success criteria met
-2. **Update phase status** - Mark phase as Complete
-3. **Update phase handoff** - Document phase completion and transition context
-4. **Workflow Feedback** (Optional - only if issues encountered):
-   - Were there any problems managing this phase workflow or issues with results?
-   - Note any sticking points, inefficiencies, or workflow friction for future improvement
-   - Consider if phase-level issues suggest improvements needed at session or task level
-
----
-
-## Notes
-
-[Phase-specific notes, decisions, blockers]
+- [ ] All sessions in this phase completed
+- [ ] Migrations and models reviewed against PROJECT_PLAN Feature 7 step 1
+- [ ] Ready for `/phase-end 7.1` when scoped work is done
 
 ---
 
@@ -114,10 +60,4 @@ After completing all sessions in a phase:
 
 - Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
 - Phase planning: `.project-manager/features/authentication/phases/phase-7.1-planning.md`
-- Session guides: `.project-manager/features/authentication/sessions/session-7.1.*-guide.md` (created at session-start)
-
----
-
-## Tasks
-
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+- Session guides: `.project-manager/features/authentication/sessions/session-7.1.*-guide.md`
