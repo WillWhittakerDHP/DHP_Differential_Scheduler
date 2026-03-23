@@ -13,7 +13,7 @@
 **Description:** Implement the first concrete auth strategy: magic-link issuance, delivery (email or dev logging), and verify flow that establishes a server session and httpOnly cookie on top of Phase 7.1–7.2 infrastructure.
 
 **Duration:** 3 sessions  
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -132,3 +132,5 @@ Client-facing login and guard polish belong to **Phase 7.4**. Password strategy 
 ## Tasks
 
 Sessions and tasks for this phase. See **Sessions Breakdown** above.
+
+<!-- end excerpt phase -->

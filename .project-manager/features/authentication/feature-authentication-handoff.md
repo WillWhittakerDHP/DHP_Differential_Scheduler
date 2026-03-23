@@ -79,11 +79,11 @@
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-23T19:11:15.047Z
+- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-23T19:18:43.524Z
 - **Phases on disk (3):** 7.1, 7.2, 7.3
 - **Focus phase:** `7.3` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-- **Focus session:** `7.3.2` · **Session 2/3 in phase** · **Next session across:** `7.3.3` → `/session-start 7.3.3`
-- **Tasks in session (detected):** 3 · **Next task across:** `7.3.2.1` → `/task-start` / cascade
+- **Focus session:** `7.3.3` · **Session 3/3 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `7.3.3.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/authentication/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
