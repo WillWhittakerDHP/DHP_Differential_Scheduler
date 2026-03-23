@@ -11,7 +11,7 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import type { AppLogger } from '@/utils/logger'
 
-export type AccumulatedRawDurations = {
+type AccumulatedRawDurations = {
   totalRawDuration: number
   eventRawDurations: Map<string, number>
 }
@@ -124,7 +124,7 @@ export function computeTopLevelRoundedDuration(eventFinals: EventFinal[]): numbe
   return eventFinals.length > 0 ? Math.max(...eventFinals.map((ef) => ef.roundedDuration)) : 0
 }
 
-export type DifferentialOffsets = {
+type DifferentialOffsets = {
   rawDifferentialOffset: number
   roundedDifferentialOffset: number
 }

@@ -4,7 +4,7 @@
 import type { ComputedRef } from 'vue'
 import type { AvailabilitySubStepContext } from '@/types/booking/injectionContexts'
 
-export interface BuildAvailabilitySubStepContextParams {
+interface BuildAvailabilitySubStepContextParams {
   o: AvailabilitySubStepContext['o']
   handleDateChangeWithConfirm: AvailabilitySubStepContext['handleDateChangeWithConfirm']
   onOptionIdUpdate: AvailabilitySubStepContext['onOptionIdUpdate']

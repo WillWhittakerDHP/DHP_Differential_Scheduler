@@ -6,8 +6,8 @@ import { buildWizardModePaletteFromAnchors } from '@/utils/theme'
 import { normalizeBrandHex } from './normalizeBrandHex'
 
 /** Same defaults as `dhpPalette` / theme anchors for preview when DB fields are empty. */
-export const DEFAULT_BRAND_PRIMARY_ANCHOR = '#EED202' as const
-export const DEFAULT_BRAND_SECONDARY_ANCHOR = '#FF3333' as const
+const DEFAULT_BRAND_PRIMARY_ANCHOR = '#EED202' as const
+const DEFAULT_BRAND_SECONDARY_ANCHOR = '#FF3333' as const
 
 const HEX6 = /^#[0-9A-Fa-f]{6}$/
 

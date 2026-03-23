@@ -12,7 +12,7 @@ const optionalHexColor = Joi.string()
 const optionalLabelString = Joi.string().allow(null, '').optional()
 
 /** PUT body.setting_value — all keys optional so partial payloads remain valid. */
-export const wizardSettingsDataSchema = Joi.object({
+const wizardSettingsDataSchema = Joi.object({
   showApplyCoupon: Joi.boolean().optional(),
   useBrandColors: Joi.boolean().optional(),
   majorLabel: optionalLabelString,
