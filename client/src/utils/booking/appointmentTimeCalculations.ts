@@ -5,6 +5,7 @@ import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
 
 export function calculateAppointmentSlots(
@@ -14,7 +15,8 @@ export function calculateAppointmentSlots(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
-  settings?: AvailabilitySettings | null
+  settings?: AvailabilitySettings | null,
+  resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentSlots {
   if (!blockInstances || blockInstances.length === 0) {
     return []
@@ -27,8 +29,8 @@ export function calculateAppointmentSlots(
     eventInstances,
     eventShapes,
     eventAssignmentsRelationships,
-    partShapeById
-    // PATTERN: Only pass required parameters, omit optional ones that aren't needed
+    partShapeById,
+    resolvedTimeRounding,
   )
   
   // PATTERN: Use applyShapeToTime to create slot

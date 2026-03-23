@@ -2,11 +2,15 @@
  * WHY: useAppointmentShape Composable
 
  */
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { AppointmentShape } from '@/types/appointment'
 import { buildAppointmentShape } from '@/utils/booking/appointmentSlotBuilder'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { useGlobal } from '@/composables/useGlobal'
+import { getOrganizationDefaults } from '@/configs/organizationDefaults/api'
+import { getCalendarSettings } from '@/configs/calendarSettings'
+import { resolveBookingNumericPolicyFromLoadedData } from '@/utils/booking/resolveBookingNumericPolicyClient'
+import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
@@ -24,6 +28,27 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
   const { blockInstances } = params
 
   const { settings } = useAvailabilitySettings()
+
+  const resolvedTimeRounding = ref<ResolvedNumericPolicy['timeAndRounding'] | null>(null)
+
+  watch(
+    () => settings.value,
+    async (avail) => {
+      if (avail === null || avail === undefined) {
+        resolvedTimeRounding.value = null
+        return
+      }
+      try {
+        const [org, cal] = await Promise.all([getOrganizationDefaults(), getCalendarSettings()])
+        const policy = resolveBookingNumericPolicyFromLoadedData(org, avail, cal)
+        resolvedTimeRounding.value = policy.timeAndRounding
+      } catch (error) {
+        logger.error('Failed to resolve booking numeric policy for duration rounding', error)
+        resolvedTimeRounding.value = null
+      }
+    },
+    { immediate: true },
+  )
 
   const { getGlobalData, getGlobalEntities } = useGlobal()
 
@@ -65,7 +90,8 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
         eventInstances,
         eventShapes,
         eventAssignmentsRelationships,
-        partShapeById
+        partShapeById,
+        resolvedTimeRounding.value,
       )
     } catch (error) {
       logger.error('Error building appointment shape:', error)

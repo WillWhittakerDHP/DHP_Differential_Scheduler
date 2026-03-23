@@ -39,6 +39,12 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 - **`getHoldDurationFromSettings`** and **`getAdminEntryTimeoutFromSettings`** (`server/src/routes/internal/appointments/appointmentSettingsHelpers.ts`) now load availability + calendar and call **`resolveNumericPolicyForAvailabilityAndCalendar`**, using **`policy.holdsAndAdminEntry`** for bounds, default hold minutes, and admin entry timeout. This matches the merge used by **`computedAvailabilityService`** and org defaults JSONB. Previously these helpers read **calendar settings only**, which could diverge from merged policy.
 - **Documented exceptions:** None for these entry points; calendar-only hold/timeout reads were replaced rather than grandfathered.
 
+### Task 6.14.2.2 (client booking duration rounding — 2026-03-23)
+
+- **Slot shape / `roundDuration` path** now uses the same merge as the server: when availability settings are loaded, **`useAppointmentShape`** fetches organization defaults + calendar settings in parallel and builds **`resolveOrganizationNumericPolicy`** via **`resolveBookingNumericPolicyFromLoadedData`** (`client/src/utils/booking/resolveBookingNumericPolicyClient.ts`). **`buildRoundedDurationMap`** / **`calculateSlotShape`** accept optional **`resolvedTimeRounding`**; **`roundDurationFromResolvedTimeRounding`** (`durationRounding.ts`) applies merged `timeAndRounding` instead of raw `AvailabilitySettings` only.
+- **`calculateAppointmentSlots`** can take optional **`resolvedTimeRounding`** for callers that load merged policy themselves; otherwise behavior falls back to availability-only rounding (unchanged).
+- **Admin “using org default” badges** on Calendar panels: **deferred** (optional scope); re-open under 6.14.2 if product wants chips on hold fields.
+
 ---
 
 ## Phase Summary

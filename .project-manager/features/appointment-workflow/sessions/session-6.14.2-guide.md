@@ -26,7 +26,7 @@
 
 **Checkpoint:** Server paths that enforce policy for booking use the same merge as computed availability, or exceptions are written in handoff.
 
-- [ ] #### Task 6.14.2.2: Client booking alignment + optional admin badges
+- [x] #### Task 6.14.2.2: Client booking alignment + optional admin badges
 
 **Goal:** Align client booking composables with the resolved policy contract (prefer API payloads that embed policy; if client resolves locally, use shared utils and one documented pattern). Add minimal “using org default” affordances on high-traffic admin fields where useful.
 
