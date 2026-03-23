@@ -14,6 +14,11 @@ import {
   API_VERSION,
   ROUTE_PATHS,
 } from './constants/appConstants.js'
+import {
+  ensureWizardLogoUploadDir,
+  getWizardLogoUploadDir,
+  WIZARD_LOGO_PUBLIC_PATH,
+} from './config/wizardLogoUploadConfig.js'
 
 const logger = createLogger('app')
 const app = express()
@@ -56,6 +61,9 @@ app.use((req, _res, next) => {
   if (req.body === undefined) req.body = {}
   next()
 })
+
+ensureWizardLogoUploadDir()
+app.use(WIZARD_LOGO_PUBLIC_PATH, express.static(getWizardLogoUploadDir(), { index: false }))
 
 app.use(ROUTE_PATHS.API, routes)
 
