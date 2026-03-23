@@ -2,8 +2,8 @@
  * Internal auth router: `/api/v1/internal/auth/*` (see `routes/index.ts`).
  *
  * PATTERN: Session-backed **`requireAuth`** / **`requireRole`** prove middleware wiring (7.2.3).
- * Phase 7.3 adds strategy handlers (e.g. magic-link verify, logout) on this router or sub-routers —
- * keep mutating routes behind **`csrfProtection`** + **`validateRequest`** where applicable.
+ * Phase 7.3: **`POST /magic-link/request`** issues and delivers a magic link; verify/session routes follow in 7.3.3.
+ * Keep mutating routes behind **`csrfProtection`** + **`validateRequest`** where applicable.
  */
 
 import { Router, Request, Response } from 'express'
@@ -14,6 +14,7 @@ import {
   AUTH_FAILURE_CODES,
   buildAuthPlaceholder501Body,
 } from '../../../auth/strategies/strategyTypes.js'
+import { magicLinkRequestBodySchema, submitMagicLinkRequest } from '../../../auth/index.js'
 import { getAuthConfig } from '../../../config/authConfig.js'
 import { USER_ROLE_AGENT } from '../../../constants/userRoles.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -77,6 +78,29 @@ router.post(
   validateRequest(loginBodySchema),
   (_req: Request, res: Response): void => {
     sendAuthNotImplemented(res)
+  }
+)
+
+/**
+ * Request a magic-link email. Body `{ email }` — valid shape → 200 `{ delivered: true }` (anti-enumeration);
+ * validation failures → 400 from `validateRequest`.
+ */
+router.post(
+  '/magic-link/request',
+  csrfProtection,
+  validateRequest(magicLinkRequestBodySchema),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const email = typeof req.body.email === 'string' ? req.body.email : ''
+      await submitMagicLinkRequest(email)
+      res.status(200).json({ delivered: true })
+    } catch (err) {
+      logger.error('magic-link request handler failed', { err })
+      res.status(500).json({
+        code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
+        message: 'Request failed',
+      })
+    }
   }
 )
 

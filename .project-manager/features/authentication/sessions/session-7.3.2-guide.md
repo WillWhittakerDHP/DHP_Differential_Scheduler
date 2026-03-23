@@ -59,7 +59,7 @@ These sections contain session-specific content:
 **Approach:** Joi body; generic JSON success (no user enumeration); CSRF on POST.
 **Checkpoint:** End-to-end in dev: POST returns 200/202 and logs show a verifiable URL fragment.
 
-- [ ] #### Task 7.3.2.3: Router integration and docs
+- [x] #### Task 7.3.2.3: Router integration and docs
 **Goal:** Wire route path under `authRouter`; align with `routes/index.ts` prefix; document env and smoke steps.
 **Files:**
 - `authRouter.ts`, `.env.example`, session planning reference
