@@ -27,7 +27,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.7.1: Ownership registry and middleware implementation
+- [x] ### Session 8.7.1: Ownership registry and middleware implementation
 **Description:** Map resource names to Sequelize models and owner columns; implement load-by-param, 404/403, logging.
 **Tasks:** Defined in session guide after `/session-start 8.7.1`
 **Focus:**
