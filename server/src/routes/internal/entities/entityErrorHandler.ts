@@ -42,6 +42,19 @@ function handleDatabaseConstraintError(
       })
       return true
     }
+    if (
+      constraint === CONSTRAINT_NAMES.PART_INSTANCES_PART_SHAPE_REF_FKEY ||
+      constraint === CONSTRAINT_NAMES.VALID_PARTS_CHILD_ID_FKEY ||
+      constraint === CONSTRAINT_NAMES.VALID_PRICING_CASCADES_PARENT_ID_FKEY ||
+      constraint === CONSTRAINT_NAMES.VALID_PRICING_CASCADES_CHILD_ID_FKEY
+    ) {
+      res.status(409).json({
+        error: ERROR_MESSAGES.PART_SHAPE_IN_USE,
+        details: ERROR_MESSAGES.PART_SHAPE_IN_USE_DETAILS_RACE,
+        shapeId: entityId,
+      })
+      return true
+    }
   }
 
   // Handle mutual exclusivity constraint violation

@@ -3,6 +3,7 @@
  * WHY: Moved from composables (utils-in-disguise) — no Vue reactivity; single source for list delete logic.
  */
 import type { GlobalEntityId } from '@/types/entities'
+import { getApiErrorMessage } from '@/composables/useApiErrorMessage'
 import type { AppLogger } from '@/utils/logger'
 
 interface EntityListDeleteOptions {
@@ -25,7 +26,7 @@ export function entityListDelete(options: EntityListDeleteOptions): (id: GlobalE
       await remove(id)
     } catch (error) {
       logger.error(errorMessage, { error })
-      notifyError(errorMessage)
+      notifyError(getApiErrorMessage(error, errorMessage))
     }
   }
 }

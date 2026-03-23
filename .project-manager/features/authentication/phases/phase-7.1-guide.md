@@ -6,7 +6,7 @@
 **Phase Name:** Database & Models  
 **Description:** PostgreSQL migrations for `sessions` and `magic_links` tables plus Sequelize models, aligned with Feature 7 (Authentication) in PROJECT_PLAN. No Express auth routes or client UI in this phase.
 
-**Status:** In Progress  
+**Status:** Complete  
 **Feature:** authentication (see `feature-authentication-guide.md`).
 
 ## Objectives
@@ -61,3 +61,5 @@ Sessions and tasks for this phase. See **Sessions Breakdown** below.
 - Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
 - Phase planning: `.project-manager/features/authentication/phases/phase-7.1-planning.md`
 - Session guides: `.project-manager/features/authentication/sessions/session-7.1.*-guide.md`
+
+<!-- end excerpt phase -->

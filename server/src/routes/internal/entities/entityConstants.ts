@@ -37,6 +37,11 @@ export const ERROR_MESSAGES = {
   /** FK violation after pre-count (rare race): omit exact count */
   ANNOTATION_SHAPE_IN_USE_DETAILS_RACE:
     'Cannot delete this annotation shape because one or more annotation instances still reference it. Remove or reassign those instances first.',
+  PART_SHAPE_IN_USE: 'Part shape is in use',
+  PART_SHAPE_IN_USE_DETAILS:
+    'Cannot delete this part shape because it is still referenced by {partInstanceCount} part instance(s), {validPartCount} valid part link(s), and {validPricingCascadeCount} pricing cascade link(s). Remove or reassign those records first.',
+  PART_SHAPE_IN_USE_DETAILS_RACE:
+    'Cannot delete this part shape because one or more part instances, valid part links, or pricing cascade links still reference it. Remove or reassign those records first.',
 } as const
 
 /** Domain default for BookingMode (wizard); storage uses TernaryBoolean. */
@@ -74,6 +79,10 @@ export const FIELD_NAMES = {
 export const CONSTRAINT_NAMES = {
   STATE_CONTROL_MUTUAL_EXCLUSIVITY: 'check_state_control_mutual_exclusivity',
   ANNOTATION_INSTANCES_TYPE_FKEY: 'annotation_instances_type_fkey',
+  PART_INSTANCES_PART_SHAPE_REF_FKEY: 'part_instances_part_shape_ref_fkey',
+  VALID_PARTS_CHILD_ID_FKEY: 'valid_parts_child_id_fkey',
+  VALID_PRICING_CASCADES_PARENT_ID_FKEY: 'valid_pricing_cascades_parent_id_fkey',
+  VALID_PRICING_CASCADES_CHILD_ID_FKEY: 'valid_pricing_cascades_child_id_fkey',
 } as const
 
 export const ERROR_CODES = {
