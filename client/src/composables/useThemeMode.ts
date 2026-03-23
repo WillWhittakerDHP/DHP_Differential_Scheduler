@@ -148,16 +148,15 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
   }
 }
 
-/**
- * WHY: Convert hex color to RGB format for CSS variables (r, g, b).
- */
+/** Converts 3- or 6-char hex to Vuetify-compatible RGB triplet (e.g. "255, 255, 255"). */
 function hexToRgb(hex: string): string {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  if (!result) {
+  const short = /^#?([a-f\d])([a-f\d])([a-f\d])$/i.exec(hex)
+  if (short) {
+    return `${parseInt(short[1] + short[1], 16)}, ${parseInt(short[2] + short[2], 16)}, ${parseInt(short[3] + short[3], 16)}`
+  }
+  const full = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  if (!full) {
     return '0, 0, 0'
   }
-  const r = parseInt(result[1], 16)
-  const g = parseInt(result[2], 16)
-  const b = parseInt(result[3], 16)
-  return `${r}, ${g}, ${b}`
+  return `${parseInt(full[1], 16)}, ${parseInt(full[2], 16)}, ${parseInt(full[3], 16)}`
 }

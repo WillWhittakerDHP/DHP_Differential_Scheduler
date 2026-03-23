@@ -59,7 +59,7 @@ These sections contain session-specific content:
 - No hardcoded DHP RGB values in `.dhp-colors-active` SCSS
 - SCSS blocks reference pipeline CSS variables where available
 
-- [ ] #### Task 6.13.2.2: Verification matrix and lint
+- [x] #### Task 6.13.2.2: Verification matrix and lint
 **Goal:** Verify all six wizard-mode × brand combinations (new/quote/reschedule × brand on/off) produce correct and distinct visuals; run client lint and fix any issues in touched files.
 **Files:** 
 - `client/src/components/booking/BookingWizard.vue`
