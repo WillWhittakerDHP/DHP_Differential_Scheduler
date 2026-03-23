@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 7.2.1.1: Define Auth Strategy Contracts
+- [x] #### Task 7.2.1.1: Define Auth Strategy Contracts
 **Goal:** Create the shared strategy interface, auth payload/result types, and server auth vocabulary that Phase 7.3 can implement without revisiting route contracts.
 **Files:** 
 - `server/src/auth/strategies/strategyTypes.ts`
