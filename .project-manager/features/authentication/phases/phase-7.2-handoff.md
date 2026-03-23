@@ -69,10 +69,10 @@ Continue with next step. [Fill in.]
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-23T18:14:03.065Z
+- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-23T18:31:15.149Z
 - **Phases on disk (2):** 7.1, 7.2
 - **Focus phase:** `7.2` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-- **Focus session:** `7.2.2` · **Session 2/3 in phase** · **Next session across:** `7.2.3` → `/session-start 7.2.3`
-- **Tasks in session (detected):** 3 · **Next task across:** `7.2.2.1` → `/task-start` / cascade
+- **Focus session:** `7.2.3` · **Session 3/3 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 3 · **Next task across:** `7.2.3.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/authentication/across-ladder.json`
 <!-- harness-across-ladder:end -->

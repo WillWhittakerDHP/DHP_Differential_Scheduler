@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "authentication",
-  "derivedAt": "2026-03-23T18:16:33.882Z",
-  "sourceTier": "session",
+  "derivedAt": "2026-03-23T18:31:15.149Z",
+  "sourceTier": "session_end",
   "phasesOnDisk": [
     "7.1",
     "7.2"
