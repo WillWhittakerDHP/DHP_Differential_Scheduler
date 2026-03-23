@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "feature": "authentication",
+  "derivedAt": "2026-03-23T05:33:55.169Z",
+  "sourceTier": "phase",
+  "phasesOnDisk": [
+    "7.1"
+  ],
+  "phaseAcrossTotal": 1,
+  "focusPhaseId": "7.1",
+  "nextPhaseAcross": null,
+  "prevPhaseId": null,
+  "sessionsByPhase": {},
+  "focusSessionId": null,
+  "sessionAcrossTotal": null,
+  "sessionIndex0Based": null,
+  "nextSessionAcross": null,
+  "taskAcrossTotal": null,
+  "nextTaskAcross": null
+}
