@@ -69,7 +69,7 @@ Continue with next step. [Fill in.]
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `appointment-workflow` · **Source:** phase · **Derived:** 2026-03-23T16:32:00.624Z
+- **Feature:** `appointment-workflow` · **Source:** phase · **Derived:** 2026-03-23T16:35:34.067Z
 - **Phases on disk (13):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14
 - **Focus phase:** `6.14` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
