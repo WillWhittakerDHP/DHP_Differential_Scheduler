@@ -13,7 +13,7 @@
 **Description:** Today, non-brand quote/reschedule use hand-tuned palettes while brand mode applies a flat DHP palette with identical `standard` / `quote` / `reschedule` entries; quote/reschedule SCSS classes are disabled when brand colors are on. Warning and other semantic colors in the global Vuetify theme are a separate static set. This phase introduces derived tokens from anchor colors (and optional library such as culori), extends `WizardModePalette` and CSS variable application as needed, and consolidates one generator feeding both JS and wizard styles.
 
 **Duration:** 2 sessions (6.13.1, 6.13.2)  
-**Status:** Planning
+**Status:** Complete
 
 ---
 
@@ -38,8 +38,8 @@
 
 ## Sessions Breakdown
 
-- **Session 6.13.1:** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, OKLCH/HSL generator, `WizardModePalette` / CSS vars)
-- **Session 6.13.2:** `BookingWizard.vue` / `BookingWizard.scss` integration; brand + quote/reschedule verification; client lint
+- [x] **Session 6.13.1:** Token pipeline + theme wiring (`theme.ts`, `useThemeMode`, OKLCH/HSL generator, `WizardModePalette` / CSS vars)
+- [x] **Session 6.13.2:** `BookingWizard.vue` / `BookingWizard.scss` integration; brand + quote/reschedule verification; client lint
 
 _Register each session with `/session-add` or tier workflow when starting work._
 
@@ -96,3 +96,5 @@ Session detail (Goal / Files / Approach / Checkpoint) is under **Sessions (tierD
 **Checkpoint:** Coherent quote and reschedule appearance with brand colors enabled; admin brand toggle behavior unchanged unless documented; lint and app start pass.
 
 **See:** `sessions/session-6.13.2-guide.md` (created by tier workflow)
+
+<!-- end excerpt phase -->

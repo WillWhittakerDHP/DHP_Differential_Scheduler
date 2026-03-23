@@ -1,25 +1,37 @@
-# Session 6.13.1 Handoff: Session 6.13.1
+# Session 6.13.2 Handoff: Session 6.13.2
 
 **Purpose:** Minimal transition context between sessions (~100-200 lines)
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** 2026-03-22
-**Session Status:** Complete
-**Next Session:** 6.13.2
+**Last Updated:** [Date]
+**Session Status:** [Complete / In Progress]
+**Next Session:** [NEXT_SESSION]
 
 ---
+
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-03-23T16:00:54.392Z
+- **Phases on disk (13):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14
+- **Focus phase:** `6.13` · **Next phase across:** `6.14` → `/phase-start 6.14`
+- **Focus session:** `6.13.2` · **Session 2/2 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `6.13.2.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 ## Current Status
 
 **Last Completed:** Task 
-**Next Session:** Session 6.13.1
-**Git Branch:** `session-6.13.1`
+**Next Session:** Session 6.13.2
+**Git Branch:** `session-6.13.2`
 **Last Updated:** 2026-03-23
 
 ## Next Action
 
-Start Session 6.13.1 (see session guide and phase guide for scope).
+Start Session 6.13.2 (see session guide and phase guide for scope).
 
 ## Transition Context
 
@@ -27,7 +39,7 @@ Start Session 6.13.1 (see session guide and phase guide for scope).
 Completed Task 
 
 **What you need to start:**
-- Begin Session 6.13.1
+- Begin Session 6.13.2
 
 <!-- end excerpt session -->
 
@@ -68,6 +80,6 @@ Completed Task
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-6.13.1-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.13.1-log.md`
+- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-6.13.2-guide.md` (detailed instructions and patterns)
+- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.13.2-log.md`
 - Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-6.13-handoff.md` (for phase-level context)

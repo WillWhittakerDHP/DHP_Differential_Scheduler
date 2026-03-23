@@ -93,9 +93,7 @@ async function handleCopyQuoteLink(): Promise<void> {
   <VCard
     class="booking-wizard"
     :class="{
-      'quote-mode-active': isQuoteMode && !useDhpColors,
-      'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
-      'dhp-colors-active': useDhpColors,
+      'wizard-palette-active': useDhpColors || isQuoteMode || wizardMode === 'reschedule',
     }"
   >
     
@@ -106,9 +104,7 @@ async function handleCopyQuoteLink(): Promise<void> {
           <VCardText
             class="stepper-header"
             :class="{
-              'quote-mode-active': isQuoteMode && !useDhpColors,
-              'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
-              'dhp-colors-active': useDhpColors,
+              'wizard-palette-active': useDhpColors || isQuoteMode || wizardMode === 'reschedule',
             }"
           >
             <VList class="horizontal-stepper" density="compact">

@@ -77,6 +77,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 | 6.12 | Annotation Content Layer and Entity Enhancements | Not Started | Event shape link toggles; annotation_instance_content; UI slots registry; wizard pipeline for selection cards and grid overlay. Sessions 6.12.1–6.12.2. |
 | 6.13 | Wizard Theme Tokens & Brand Palettes | Not Started | OKLCH/HSL-derived palettes; quote/reschedule/brand alignment; single pipeline for theme.ts, useThemeMode, BookingWizard.scss. To be sessioned from phase guide. |
 | 6.14 | Organization Defaults & Resolved Numeric Policy | Not Started | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Session 6.14.1. |
+| 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload + serving; extract/verify primary+secondary anchors; wizard_settings fields; wire OKLCH pipeline; logo in BookingWizard. Depends on 6.13. Sessions 6.15.1–6.15.3. |
 
 ---
 
@@ -229,6 +230,13 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 
 - [ ] ### Phase 6.13: Guide: Wizard Theme Tokens & Brand Palettes
 **Description:** Guide: Wizard Theme Tokens & Brand Palettes
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
+
+
+- [ ] ### Phase 6.15: Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); admin verification and selection of primary + secondary anchor hex; DB schema for custom brand anchors and logo URL on wizard_settings; wire custom anchors into the existing OKLCH pipeline (replace hardcoded DHP_ANCHOR_PRIMARY / DHP_ANCHOR_SECONDARY with DB-sourced values in theme.ts / useThemeMode); render uploaded logo in BookingWizard header. Depends on 6.13 (OKLCH token pipeline). Sessions: 6.15.1 (DB schema + server API — migration for brand_primary_hex, brand_secondary_hex, logo_url on wizard_settings; multer upload endpoint; GET/PUT brand settings routes), 6.15.2 (Admin UI — logo upload component, color extraction from image, swatch presentation with editable color picker, live palette preview using buildWizardModePaletteFromAnchors, save flow), 6.15.3 (Wizard consumption — replace DHP_ANCHOR constants with DB values in theme.ts / useThemeMode; render logo in BookingWizard.vue; verify all mode × brand combinations with custom colors; client lint).
+**Description:** Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); admin verification and selection of primary + secondary anchor hex; DB schema for custom brand anchors and logo URL on wizard_settings; wire custom anchors into the existing OKLCH pipeline (replace hardcoded DHP_ANCHOR_PRIMARY / DHP_ANCHOR_SECONDARY with DB-sourced values in theme.ts / useThemeMode); render uploaded logo in BookingWizard header. Depends on 6.13 (OKLCH token pipeline). Sessions: 6.15.1 (DB schema + server API — migration for brand_primary_hex, brand_secondary_hex, logo_url on wizard_settings; multer upload endpoint; GET/PUT brand settings routes), 6.15.2 (Admin UI — logo upload component, color extraction from image, swatch presentation with editable color picker, live palette preview using buildWizardModePaletteFromAnchors, save flow), 6.15.3 (Wizard consumption — replace DHP_ANCHOR constants with DB values in theme.ts / useThemeMode; render logo in BookingWizard.vue; verify all mode × brand combinations with custom colors; client lint).
 **Sessions:** [To be planned]
 **Success Criteria:**
 - [To be defined]
