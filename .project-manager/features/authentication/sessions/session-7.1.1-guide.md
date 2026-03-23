@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 7.1.1.1: Migration — `sessions` table
+- [x] #### Task 7.1.1.1: Migration — `sessions` table
 **Goal:** Create the `sessions` table migration with columns, indexes, and FK to `users` as required by the session-store design for Phase 7.2.
 **Files:**
 - `server/migrations/*` (new file)
