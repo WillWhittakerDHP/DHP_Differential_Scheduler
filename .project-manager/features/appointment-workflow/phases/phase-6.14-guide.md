@@ -13,7 +13,7 @@
 **Description:** Introduce organization-level defaults (option 3: defaults + optional overrides / merge at read) for admin-controlled numeric fields currently spread across Business Controls. Defaults define “what we use when nothing more specific is set”; overrides store only explicit values or deltas where they differ.
 
 **Duration:** 3 sessions (6.14.1 foundation, 6.14.2 primary wiring, 6.14.3 deferred polish / audit) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
-**Status:** In Progress (6.14.1 + 6.14.2 complete — **6.14.3** tracks optional badges, exhaustive resolver audit, and Phase 3.0 test checklist)
+**Status:** Session **6.14.3** complete (docs + lint gate in task **6.14.3.3**); run **`/phase-end 6.14`** in the harness when ready to close the phase.
 
 ---
 
@@ -54,7 +54,7 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 **Focus:** Parity between what the wizard sees and what the server enforces on primary paths.
 **Full scope:** `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`.
 
-- [ ] ### Session 6.14.3: Org-default UX polish, resolver audit, and test policy alignment
+- [x] ### Session 6.14.3: Org-default UX polish, resolver audit, and test policy alignment
 **Description:** Deferred from 6.14.2 closeout — exhaustive grep audit (wire or document exceptions); optional “using org default” badges on legacy Calendar/Availability panels; Phase 3.0 resolver test checklist in docs (no new test files unless policy unblocked).
 **Tasks:** Full audit table; optional badges; docs + lint; update phase success criteria.
 **Focus:** No silent gaps; honest phase close.
@@ -72,12 +72,27 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 
 - [x] Types and resolver in shared (or agreed) layer — **6.14.1**
 - [x] **Resolved numeric policy** used (or explicitly exempted in writing) for **primary** production booking + validation paths — **6.14.2** (see `phases/phase-6.14-handoff.md` → *Session 6.14.2 closeout*)
-- [ ] **Exhaustive** resolver coverage (or written exception list) for remaining numeric policy reads — **6.14.3**
+- [x] **Exhaustive** resolver coverage (or written exception list) for remaining numeric policy reads — **6.14.3.1** (audit table: `phases/phase-6.14-handoff.md` → *Session 6.14.3.1*)
 - [x] Admin can edit organization defaults in one dedicated surface — **6.14.1**
 - [x] Persistence strategy documented and implemented (`organization_defaults` JSONB + API) — **6.14.1**
-- [ ] Optional: “using org default” affordances on relevant legacy admin panels — **6.14.3** (deferred from 6.14.2; see handoff)
-- [x] Client lint and app start pass at phase close — **verified at 6.14.2 task 6.14.2.3** (6.14.1 already met this bar for earlier touched code)
-- [ ] Resolver automated tests — Phase 3.0 policy; document checklist in **6.14.3** (no new test files unless policy unblocked)
+- [x] Optional: “using org default” affordances on relevant legacy admin panels — **6.14.3.2** (Grid slot increment + Constraints duration rounding chips; drive-time fee row deferred — see `phases/phase-6.14-handoff.md` → *Session 6.14.3.2*)
+- [x] Client and server lint pass for session **6.14.3** closeout — **6.14.3.3** (re-verify; `npm run start:dev` acceptable when already running)
+- [ ] **Automated** resolver tests — **not implemented** while `TEST_ENABLED=false` / Phase 3.0 gate; checklist documented below (Phase 3.0)
+
+---
+
+## Phase 3.0 — Resolver tests (checklist)
+
+*Canonical list for when automated testing is enabled (see `LAUNCH_CHECKLIST.md` Phase 3.0). No test files added in 6.14.3.*
+
+- **Org baseline:** Merge when `organization_defaults` row missing vs present; default JSON shape vs partial PATCH.
+- **Overrides:** Numeric `0` vs unset leaf (drive fee, increments) — merged snapshot matches resolver contract.
+- **Holds / admin entry:** `resolveNumericPolicyForAvailabilityAndCalendar` clamps hold duration to min/max/fallback; admin entry timeout units.
+- **Calendar partial overrides:** `CalendarNumericOverrides` — only some leaves set; remainder from org.
+- **Client confirmation:** `useConfirmationStepData` — `driveTimeFee` from `resolveBookingNumericPolicyFromLoadedData` vs raw availability fallback on failure.
+- **Admin chips:** `orgDefaultPolicyBadges` comparisons align with org `timeAndRounding` (including duration rounding increment fallback to org minute increment).
+
+*See also:* `phases/phase-6.14-handoff.md` (sessions 6.14.3.1–6.14.3.2).
 
 ---
 

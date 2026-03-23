@@ -92,6 +92,11 @@ Session 6.14.1 shipped the shared resolver and org-defaults persistence, but pha
 - **Shipped:** Organization defaults load when Business Controls main tab is **Constraints**, **Calendar**, or **Organization** (not only Organization), so **Grid → slot increment** and **Constraints → Rounding** can compare to the org baseline. Small tonal chips: **Org default** (match) vs **Override** (differs), using `client/src/utils/admin/orgDefaultPolicyBadges.ts`.
 - **Deferred:** Drive-time fee row under Calendar → confirmation/holds — no chip in this pass (merge surface is shared with availability; keep UI minimal).
 
+### Session 6.14.3.3 — docs & quality gate (2026-03-23)
+
+- **`phases/phase-6.14-guide.md`:** Success criteria updated for 6.14.3 deliverables; **Phase 3.0 — Resolver tests (checklist)** is the canonical deferred-test list (cross-referenced from this handoff where needed).
+- **Lint:** Client + server `npm run lint` run for session closeout (task 6.14.3.3).
+
 ---
 
 ## Phase Summary

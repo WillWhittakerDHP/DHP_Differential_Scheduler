@@ -36,7 +36,7 @@
 
 **Checkpoint:** Badges present where agreed, or deferral noted in handoff with reason.
 
-- [ ] #### Task 6.14.3.3: Docs, Phase 3.0 test checklist, quality gate
+- [x] #### Task 6.14.3.3: Docs, Phase 3.0 test checklist, quality gate
 
 **Goal:** Update `phases/phase-6.14-guide.md` success criteria; document resolver edge cases for Phase 3.0 (do not add test files per current project policy unless explicitly unblocked). Run client and server lint; verify app start.
 

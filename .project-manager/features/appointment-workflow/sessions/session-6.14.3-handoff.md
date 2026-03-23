@@ -1,34 +1,47 @@
 # Session 6.14.3 Handoff: Org-default UX polish, resolver audit, and test policy alignment
 
-**Purpose:** Transition context for session 6.14.3 (run **`/session-start 6.14.3`** when beginning; **`/session-end 6.14.3`** when complete).
+**Purpose:** Transition context after session **6.14.3** (tasks **6.14.3.1**–**6.14.3.3**).
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
 **Last Updated:** 2026-03-23
-**Session Status:** Not Started
-**Next:** Run **`/session-start 6.14.3`** (feature `appointment-workflow`), then work tasks per `sessions/session-6.14.3-guide.md`.
+
+**Session Status:** Complete (pending harness **`/session-end 6.14.3`**)
+
+**Next:** Run **`/session-end 6.14.3`**, then **`/phase-end 6.14`** when phase success criteria are satisfied in the harness.
 
 ---
 
 ## Current Status
 
-**Last Completed Task:** —
-**Next Task:** 6.14.3.1 (exhaustive grep audit — wire or document exceptions)
-**Git Branch:** `session-6.14.3` (after tier start)
+**Last Completed Task:** 6.14.3.3 (docs, Phase 3.0 checklist in phase guide, client + server lint)
+
+**Next Task:** — (session tasks complete)
+
+**Git Branch:** `session-6.14.3` (typical; confirm with `git branch` before session-end)
+
 **Last Updated:** 2026-03-23
+
+---
 
 ## Next Action
 
-Start session **6.14.3** using the tier workflow; read `sessions/session-6.14.3-planning.md` and `sessions/session-6.14.3-guide.md`.
+1. Run **`/session-end 6.14.3`** (feature `appointment-workflow`) to roll up session 6.14.3.
+2. When ready to close phase 6.14, run **`/phase-end 6.14`**.
+
+---
 
 ## Transition Context
 
 **Where we left off:**
-Session **6.14.2** delivered primary path alignment; optional badges, exhaustive audit, and resolver unit tests were deferred to **6.14.3** (see `phases/phase-6.14-handoff.md`).
 
-**What you need to start:**
-- Confirm phase 6.14 is still open until 6.14.3 completes or deferrals are explicitly accepted.
-- Grep plan from session 6.14.3 planning doc.
+- **6.14.3.1:** Exhaustive audit table in `phases/phase-6.14-handoff.md` (wire vs exempt call sites); client confirmation `driveTimeFee` wired via merged policy in `useConfirmationStepData`.
+- **6.14.3.2:** Org defaults load on Business Controls **Constraints / Calendar / Organization**; **Org default** / **Override** chips on Grid (slot increment) and Constraints → Rounding; drive-time fee chips deferred (documented in phase handoff).
+- **6.14.3.3:** `phases/phase-6.14-guide.md` success criteria + **Phase 3.0** resolver test checklist; `phases/phase-6.14-handoff.md` session 6.14.3.3 note; phase log updated; client + server lint verified.
+
+**What you need next:**
+
+- Session-end merge/push per harness; then phase-end if 6.14 is fully done.
 
 <!-- harness-across-ladder:start -->
 ## Across ladder (harness)
