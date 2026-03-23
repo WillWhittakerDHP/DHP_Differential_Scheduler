@@ -1,57 +1,38 @@
-# Session 6.14.3 Log: ** Org-default UX polish, resolver audit, and test policy alignment
+# Session 6.14.3 Log: Org-default UX polish, resolver audit, and test policy alignment
 
-**Status:** In Progress
-**Date:** 2026-03-23
+## Status
+
+**Session:** 6.14.3  
+**State:** Complete (pending harness **`/session-end 6.14.3`** if not yet run successfully)  
+**Last Updated:** 2026-03-23
 
 ---
 
 ## Session Goal
 
-[Document concrete session goal]
+Close Phase 6.14 deferred work: exhaustive resolver audit (wire or document), optional org-default badges on admin panels, and Phase 3.0 resolver test checklist in docs — without new test files per project policy.
 
-### Task 6.14.3.1: Task 6.14.3.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.3.2
-
-
+---
 
 ## Completed Tasks
 
-### Task 6.14.3.3: Task 6.14.3.3 ✅
-**Goal:** Task completed
+### Task 6.14.3.1 — Exhaustive grep audit ✅
 
-**Next Task:**
-- 6.14.3.4
+Wire or document remaining numeric policy reads; confirmation `driveTimeFee` merged via shared resolver where applicable.
 
+### Task 6.14.3.2 — Optional org-default badges ✅
 
+Grid + Constraints rounding chips; org defaults load on calendar/constraints/organization tabs.
 
-### Task 6.14.3.2: Task 6.14.3.2 ✅
-**Goal:** Task completed
+### Task 6.14.3.3 — Docs, Phase 3.0 checklist, quality gate ✅
 
-**Next Task:**
-- 6.14.3.3
+Phase guide success criteria; Phase 3.0 checklist in `phase-6.14-guide.md`; client + server lint.
 
+---
 
+## Notes
 
-### Task 6.14.3.1: Task 6.14.3.1 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.3.2
+- Session handoff: `sessions/session-6.14.3-handoff.md`
+- Phase handoff: `phases/phase-6.14-handoff.md`
 
 <!-- end excerpt session -->
-### Task 6.14.3.2: Task 6.14.3.2 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.3.3
-
-
-### Task 6.14.3.3: Task 6.14.3.3 ✅
-**Goal:** Task completed
-
-**Next Task:**
-- 6.14.3.4
-
