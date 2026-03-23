@@ -9,9 +9,9 @@
 ## Phase Status
 
 **Phase:** 8.7
-**Status:** [In Progress / Complete]
-**Started:** [Date]
-**Completed:** [Date] (if complete)
+**Status:** Complete
+**Started:** 2026-03-23
+**Completed:** 2026-03-23
 
 ---
 
@@ -19,83 +19,61 @@
 
 ### Session 8.7.1: Ownership registry and middleware implementation ✅
 **Completed:** 2026-03-23
-**Tasks Completed:** All tasks completed
+**Tasks Completed:** 8.7.1.1, 8.7.1.2
 **Key Accomplishments:**
-- Completed ** Ownership registry + real `checkOwnership` middleware (models, owner fields, 403/404, logging)
+- `ownershipRegistry.ts` + `ownershipEnforcement.ts`; real `checkOwnership` in `security.ts` (403/404, logging, staff vs row rules).
 
-
-
-### Session [SESSION_ID]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
+### Session 8.7.2: Edge cases, docs, and IDOR smoke ✅
+**Completed:** 2026-03-23
+**Tasks Completed:** 8.7.2.1, 8.7.2.2
 **Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
-
-### Session [SESSION_ID+1]: [SESSION_NAME] ✅
-**Completed:** [Date]
-**Tasks Completed:** [List of task IDs]
-**Key Accomplishments:**
-- [Accomplishment 1]
-- [Accomplishment 2]
+- **SECURITY_STUBS:** active `checkOwnership` documentation + manual IDOR / ownership smoke checklist (`/api/v1/internal`, CSRF, user / appointment / entity cases).
+- Phase guide and objectives synced with shipped behavior.
 
 ---
 
 ## In Progress Sessions
 
-### Session [SESSION_ID]: [SESSION_NAME] 🔄
-**Started:** [Date]
-**Current Task:** [TASK_ID]
-**Progress:** [X] of [Y] tasks complete
+_None — phase work complete; run `/session-end 8.7.2` and `/phase-end 8.7` for harness closure if not already done._
 
 ---
 
 ## Blockers and Issues
 
-### Blocker [Date]
-**Description:** [What's blocking progress]
-**Impact:** [How it affects the phase]
-**Resolution:** [How it was resolved or plan to resolve]
+_None recorded._
 
 ---
 
 ## Key Decisions
 
-### Decision [Date]
-**Context:** [What decision was needed]
-**Decision:** [What was decided]
-**Rationale:** [Why this decision was made]
-**Impact:** [How this affects downstream phases]
+### Decision 2026-03-23
+**Context:** Internal CRUD vs `requireAuth` ordering.
+**Decision:** Document in **SECURITY_STUBS** that many internal routes use `checkOwnership` without `requireAuth` in the same stack; anonymous callers may see **403** from ownership when `req.user` is missing.
+**Rationale:** Matches current code; **401**-first behavior is a follow-up hardening item.
+**Impact:** QA uses two logged-in sessions for IDOR smoke, not “no cookie” expectations, for those routes.
 
 ---
 
 ## Phase Checkpoints
 
-### Checkpoint [Date]
-**Sessions Completed:** [X.Y, X.Y+1, ...]
-**Status:** [On track / Behind / Ahead]
-**Notes:** [Checkpoint notes]
+### Checkpoint 2026-03-23
+**Sessions Completed:** 8.7.1, 8.7.2
+**Status:** On track
+**Notes:** Registry complete; docs and smoke checklist landed in **SECURITY_STUBS**.
 
 ---
 
 ## Next Steps
 
-- [Next session to start]
-- [Actions needed]
-- [Dependencies to resolve]
+- Run **`/session-end 8.7.2`** if the session harness is still open.
+- Run **`/phase-end 8.7`** when ready for tier completion (commit/audit per playbook).
 
 ---
 
 ## Phase Completion Summary
 
-**Sessions Completed:** [List all session IDs]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Sessions Completed:** 8.7.1, 8.7.2
+**Total Tasks Completed:** 4 (8.7.1.1, 8.7.1.2, 8.7.2.1, 8.7.2.2)
+**Success Criteria Met:** Yes — ownership enforced per registry; **SECURITY_STUBS** updated; smoke steps documented.
 
-**Workflow Feedback:** (Optional - only document if issues encountered)
-- **User feedback:** [Any problems managing phase workflow or issues with results]
-- **AI observations:** [Sticking points, inefficiencies, or workflow friction encountered during phase]
-- **Improvements needed:** [Workflow improvements for future phases]
-- **Template updates:** [Any template improvements suggested]
-- **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
-
+**Workflow Feedback:** _(Optional — fill if friction occurred.)_

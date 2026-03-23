@@ -13,15 +13,15 @@
 **Description:** checkOwnership Real Implementation
 
 **Duration:** TBD
-**Status:** In Progress
+**Status:** Complete
 
 ---
 
 ## Phase Objectives
 
-- [ ] Replace **`checkOwnership`** stub with real enforcement using **`req.user.id`** (after **`requireAuth`**)
-- [ ] Keep **`createCrudRouter`** and existing route wiring — fix only wrong owner-field assumptions via registry/config
-- [ ] Document behavior, exceptions (global rows, admin), and verification steps in **`SECURITY_STUBS.md`**
+- [x] Replace **`checkOwnership`** stub with real enforcement using **`req.user.id`** (after **`requireAuth`**)
+- [x] Keep **`createCrudRouter`** and existing route wiring — fix only wrong owner-field assumptions via registry/config
+- [x] Document behavior, exceptions (global rows, admin), and verification steps in **`SECURITY_STUBS.md`**
 
 ---
 
@@ -34,7 +34,7 @@
 - `server/src/middlewares/security.ts`
 - Optional ownership registry module colocated under `server/src/middlewares/` or `server/src/auth/`
 
-- [ ] ### Session 8.7.2: Edge cases, docs, and IDOR smoke
+- [x] ### Session 8.7.2: Edge cases, docs, and IDOR smoke
 **Description:** Global/system-owned rows, admin bypass rules if any, update **SECURITY_STUBS**, manual wrong-user checks.
 **Tasks:** Defined in session guide after `/session-start 8.7.2`
 **Focus:**
@@ -56,11 +56,11 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
-- [ ] Ownership enforced per registry; exceptions documented
-- [ ] Server lint clean on touched files
-- [ ] **SECURITY_STUBS** reflects active **`checkOwnership`**
-- [ ] Ready for **`/phase-end 8.7`**
+- [x] All sessions completed
+- [x] Ownership enforced per registry; exceptions documented
+- [x] Server lint clean on touched files
+- [x] **SECURITY_STUBS** reflects active **`checkOwnership`**
+- [x] Ready for **`/phase-end 8.7`**
 
 ---
 
@@ -106,7 +106,8 @@ After completing all sessions in a phase:
 
 ## Notes
 
-[Phase-specific notes, decisions, blockers]
+- Phase **8.7.2** added **SECURITY_STUBS** **Manual IDOR / ownership smoke** checklist (**8.7.2.2**).
+- Follow-up (outside this phase): mount **`requireAuth`** consistently on internal CRUD where product requires **401** before ownership (**403**) for anonymous callers.
 
 ---
 

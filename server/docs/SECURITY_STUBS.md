@@ -354,7 +354,32 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 
 **Logging:** Denials and misconfiguration (e.g. `req.user` missing, unknown `resourceName`, unhandled special resource) are logged at **warn** or **error** with stable messages — see `ownershipLogger` / `checkOwnership:` prefixes in code.
 
-**Manual IDOR / smoke checklist:** Session **8.7.2.2** (same doc or companion notes).
+### Manual IDOR / ownership smoke (8.7.2.2)
+
+**Base path:** Internal API is mounted at **`/api/v1/internal`** (see `server/src/routes/index.ts` + `server/src/routes/internal/index.ts`). Adjust host/port for your environment (e.g. `http://localhost:3001`).
+
+**Prerequisites**
+
+1. Two distinct accounts (or two cookie jars): **User A** and **User B**, both able to log in and receive a session cookie + **`csrf_token`** (Phase **8.6**).
+2. For **mutating** requests (`POST`, `PUT`, `PATCH`, `DELETE`), send header **`X-CSRF-Token`** equal to the readable **`csrf_token`** cookie / stored session value — otherwise CSRF middleware may return **403** before ownership runs.
+3. **Authenticated IDOR checks** require a valid session (`req.user` set). Many internal CRUD routers use **`checkOwnership`** without **`requireAuth`** in the same stack today — if no session user is present, **`checkOwnership`** returns **403** `{ code: FORBIDDEN, message: "Access denied" }` (missing `req.user`), not **401**. Routes that mount **`requireAuth`** first (e.g. some auth demos) return **401** when unauthenticated.
+
+**Checks (run as User A)**
+
+| # | Action | Expect if IDOR is closed |
+|---|--------|---------------------------|
+| 1 | **User row:** `PATCH` or `PUT` **`/api/v1/internal/users/{userB_id}`** with User A’s session (+ CSRF). | **403** `{ code: FORBIDDEN, message: "Access denied" }` |
+| 2 | **User row:** Same method on **`/api/v1/internal/users/{userA_id}`**. | Success (**2xx**) if body is valid |
+| 3 | **Appointment:** `GET` **`/api/v1/internal/appointments/{appointment_owned_by_B}`** as User A (session on GET). | **403** ownership denial (appointment uses `scheduledById` in registry) |
+| 4 | **Appointment:** `GET` **`/api/v1/internal/appointments/{random-uuid}`** as User A. | **404** `{ error: "Resource not found" }` |
+| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `seller`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
+| 6 | **Entity:** Repeat **5** as an internal staff user with a valid **`entityType`** and existing **`id`**. | **2xx** if payload valid and row exists (**404** if id missing) |
+| 7 | **Registry fail-closed (optional):** If you temporarily add a route with `checkOwnership('nonexistent', 'id')` in dev, expect **403** and a **`checkOwnership: unknown resourceName`** log — remove the route after the check. | **403** |
+
+**Notes**
+
+- **Staff-only** admin resources (e.g. **`property`**, **`calendarSetting`**, **`businessSetting`** with key `availability_settings`) follow **`isInternalStaffRole`** in `ownershipEnforcement.ts` — extend this table when you add new protected admin surfaces.
+- Prefer recording **response status + JSON body** in ticket notes so regressions are obvious.
 
 ## Stub → real implementation mapping
 

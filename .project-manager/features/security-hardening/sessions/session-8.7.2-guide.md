@@ -50,7 +50,7 @@ These sections contain session-specific content:
 **Approach:** Update intro paragraph, expand `checkOwnership` section, update stub→real mapping table.
 **Checkpoint:** Doc matches `security.ts` / `ownershipEnforcement.ts` behavior; server unchanged or lint clean if touched.
 
-- [ ] #### Task 8.7.2.2: Smoke checklist and phase guide sync
+- [x] - [x] #### Task 8.7.2.2: Smoke checklist and phase guide sync
 **Goal:** Add manual IDOR/ownership verification steps to the doc (or linked checklist); mark phase/session objectives complete when accurate.
 **Files:**
 - `server/docs/SECURITY_STUBS.md` (checklist subsection) or session handoff
