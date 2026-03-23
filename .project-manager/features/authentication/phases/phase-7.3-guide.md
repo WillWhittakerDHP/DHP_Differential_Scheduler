@@ -41,7 +41,7 @@
 - No silent failures; rate-limit or abuse notes documented if out of scope
 - Router wiring in `authRouter` consistent with Phase 7.2
 
-- [ ] ### Session 7.3.3: Verify route and session establishment
+- [x] ### Session 7.3.3: Verify route and session establishment
 **Description:** Verify handler validates token, creates session via session manager, sets session cookie, returns appropriate success/error responses.  
 **Tasks:** 3  
 **Focus:**
