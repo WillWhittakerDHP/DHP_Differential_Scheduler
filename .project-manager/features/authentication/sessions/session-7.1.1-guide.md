@@ -50,7 +50,7 @@ These sections contain session-specific content:
 **Approach:** Follow existing repo migration patterns; align column types with `users.id`; add indexes for session lookup and expiry maintenance.
 **Checkpoint:** `up`/`down` succeed on local Postgres when migrations are allowed to run; no model layer changes required for this task.
 
-- [ ] #### Task 7.1.1.2: Migration — `magic_links` table
+- [x] #### Task 7.1.1.2: Migration — `magic_links` table
 **Goal:** Create the `magic_links` table migration (hashed token, expiry, consumption state, indexes; optional `user_id` / email per design).
 **Files:**
 - `server/migrations/*` (new or follow-up file in same PR as 7.1.1.1 if using one migration)
