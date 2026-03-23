@@ -8,6 +8,12 @@ import {
   parseContingencyDeadlineLocalWallToUtcMs,
 } from '@/utils/booking/clampContingencyDeadlineToEarliest'
 
+/**
+ * Native date input passthrough for VTextField `type="date"` (Vuetify forwards to the DOM input).
+ * Only `min` is set when the earliest moveable start yields a constraint; otherwise `{}` (no attrs).
+ */
+type DeadlineDateNativeAttrs = { min?: string }
+
 export interface UseAvailabilitySubStepContentParams {
   ctx: AvailabilitySubStepContext
   stepIndex: Ref<number>
@@ -19,7 +25,7 @@ export interface UseAvailabilitySubStepContentReturn {
   step4HasClosingDate: ComputedRef<boolean>
   contingencyDeadlineMinDate: ComputedRef<string | undefined>
   contingencyDeadlineMinTime: ComputedRef<string | undefined>
-  deadlineDateNativeAttrs: ComputedRef<Record<string, string>>
+  deadlineDateNativeAttrs: ComputedRef<DeadlineDateNativeAttrs>
   allowedDeadlineMinutes: ComputedRef<(m: number) => boolean>
   deadlineTimeMenuOpen: Ref<boolean>
   onDeadlineDateModelUpdate: (raw: unknown) => void
@@ -90,7 +96,7 @@ export function useAvailabilitySubStepContent(
     return minContingencyTimeForDate(endDate, schedulingRange.earliestStart)
   })
 
-  const deadlineDateNativeAttrs = computed((): Record<string, string> => {
+  const deadlineDateNativeAttrs = computed((): DeadlineDateNativeAttrs => {
     const min = contingencyDeadlineMinDate.value
     if (min !== undefined && min !== '') {
       return { min }
