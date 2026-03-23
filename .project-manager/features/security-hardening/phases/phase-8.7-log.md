@@ -85,3 +85,5 @@ _None recorded._
 **Success Criteria Met:** Yes — ownership enforced per registry; **SECURITY_STUBS** updated; smoke steps documented.
 
 **Workflow Feedback:** _(Optional — fill if friction occurred.)_
+
+<!-- end excerpt phase -->

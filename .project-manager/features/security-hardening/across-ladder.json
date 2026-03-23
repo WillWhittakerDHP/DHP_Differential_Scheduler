@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "security-hardening",
-  "derivedAt": "2026-03-23T21:58:08.836Z",
-  "sourceTier": "session",
+  "derivedAt": "2026-03-23T22:06:37.918Z",
+  "sourceTier": "session_end",
   "phasesOnDisk": [
     "8.1",
     "8.2",

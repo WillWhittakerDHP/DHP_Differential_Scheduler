@@ -122,3 +122,5 @@ After completing all sessions in a phase:
 ## Tasks
 
 Sessions and tasks for this phase. [See Sessions Breakdown below.]
+
+<!-- end excerpt phase -->
