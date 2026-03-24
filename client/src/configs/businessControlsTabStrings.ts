@@ -101,6 +101,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   },
   buttons: {
     saveSettings: 'Save Settings',
+    saveOrganizationDefaults: 'Save organization defaults',
     resetToDefaults: 'Reset to Defaults'
   },
   tabs: {
@@ -118,7 +119,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     timezone: 'Timezone',
     places: 'Places',
     grid: 'Grid',
-    wizard: 'Wizard'
+    wizard: 'Wizard',
+    organization: 'Organization defaults'
   },
   calendar: {
     integrationTitle: 'Calendar Integration',
@@ -168,6 +170,26 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     drivingRatePerHourHint: 'Dollar amount per hour for billable drive time after complimentary minutes.',
     driveTimeRoundingMinutesLabel: 'Billable drive rounding (minutes)',
     driveTimeRoundingMinutesHint: 'Billable drive time is rounded up to this increment. Must be at least 1 minute.'
+  },
+  brand: {
+    sectionTitle: 'Brand customization',
+    sectionHint:
+      'Logo and anchor colors for the booking wizard when Brand colors is enabled. Click Save settings to persist.',
+    currentLogoAlt: 'Current wizard logo',
+    logoLabel: 'Logo file',
+    logoHint: 'PNG or JPEG. Choose a file, then upload or extract colors.',
+    uploadButton: 'Upload logo',
+    extractButton: 'Extract colors from image',
+    primaryHexLabel: 'Primary anchor (hex)',
+    primaryHexHint: 'Six-digit hex (e.g. #EED202). Drives the yellow family in OKLCH-derived palettes.',
+    secondaryHexLabel: 'Secondary anchor (hex)',
+    secondaryHexHint: 'Six-digit hex (e.g. #FF3333). Drives the red family.',
+    previewTitle: 'Preview (standard mode)',
+    previewPrimary: 'Primary',
+    previewSecondary: 'Secondary',
+    previewWarning: 'Warning',
+    uploadFailed: 'Upload failed. Check the file and try again.',
+    extractFailed: 'Could not read colors from this image. Try another file.'
   },
   driveTime: {
     calculatedTitle: 'Calculated Drive Times',
@@ -238,6 +260,10 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelPickTime: 'Pick a time',
     subStepLabelConfirmMoveable: 'Confirm moveable details',
     moveableNoFeasibleCompletionSlotsMessage: DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
+  },
+  orgDefaultBadges: {
+    orgDefault: 'Org default',
+    override: 'Override',
   },
   sections: {
     durationRoundingTitle: 'Rounding',

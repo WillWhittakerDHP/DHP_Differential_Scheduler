@@ -4,13 +4,14 @@ import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { DifferentialRole } from '@shared/types/differentialRole'
+import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
-import { roundDuration } from '@/utils/booking/durationRounding'
+import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/booking/durationRounding'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import type { AppLogger } from '@/utils/logger'
 
-export type AccumulatedRawDurations = {
+type AccumulatedRawDurations = {
   totalRawDuration: number
   eventRawDurations: Map<string, number>
 }
@@ -82,12 +83,17 @@ export function accumulateRawDurationsFromBlockFinals(
 
 export function buildRoundedDurationMap(
   eventRawDurations: Map<string, number>,
-  roundingSettings: AvailabilitySettings | null | undefined
+  roundingSettings: AvailabilitySettings | null | undefined,
+  resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): Map<string, number> {
+  const roundOne = (dur: number): number =>
+    resolvedTimeRounding != null
+      ? roundDurationFromResolvedTimeRounding(dur, resolvedTimeRounding)
+      : roundDuration(dur, roundingSettings ?? null)
   return new Map(
     Array.from(eventRawDurations.entries()).map(([eventShapeId, dur]) => [
       eventShapeId,
-      roundDuration(dur, roundingSettings ?? null),
+      roundOne(dur),
     ]),
   )
 }
@@ -118,7 +124,7 @@ export function computeTopLevelRoundedDuration(eventFinals: EventFinal[]): numbe
   return eventFinals.length > 0 ? Math.max(...eventFinals.map((ef) => ef.roundedDuration)) : 0
 }
 
-export type DifferentialOffsets = {
+type DifferentialOffsets = {
   rawDifferentialOffset: number
   roundedDifferentialOffset: number
 }

@@ -32,6 +32,9 @@ export class WizardSettings extends Model<
   declare subStepLabelPickTime: CreationOptional<string | null>;
   declare subStepLabelConfirmMoveable: CreationOptional<string | null>;
   declare moveableNoFeasibleCompletionSlotsMessage: CreationOptional<string | null>;
+  declare brandPrimaryHex: CreationOptional<string | null>;
+  declare brandSecondaryHex: CreationOptional<string | null>;
+  declare logoUrl: CreationOptional<string | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -80,6 +83,21 @@ export function WizardSettingsFactory(sequelize: Sequelize) {
         type: DataTypes.TEXT,
         allowNull: true,
         field: 'moveable_no_feasible_completion_slots_message',
+      },
+      brandPrimaryHex: {
+        type: DataTypes.STRING(32),
+        allowNull: true,
+        field: 'brand_primary_hex',
+      },
+      brandSecondaryHex: {
+        type: DataTypes.STRING(32),
+        allowNull: true,
+        field: 'brand_secondary_hex',
+      },
+      logoUrl: {
+        type: DataTypes.STRING(2048),
+        allowNull: true,
+        field: 'logo_url',
       },
       createdAt: {
         type: DataTypes.DATE,

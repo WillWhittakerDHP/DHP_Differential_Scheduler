@@ -1,7 +1,9 @@
 import { getCalendarSettings } from '../../../repositories/calendarSettingsRepository.js'
+import { getAvailabilitySettingsData } from '../../../repositories/availabilitySettingsRepository.js'
+import { resolveNumericPolicyForAvailabilityAndCalendar } from '../../../services/organizationNumericPolicyService.js'
 import { createLogger } from '../../../utils/logger.js'
-import type { CalendarSettingsData } from '../../../db/models/admin/calendar_settings.js'
 import type { AdminEntryTimeout } from '../../../../../shared/types/calendarTypes.js'
+import type { HoldsAndAdminEntrySnapshot } from '../../../../../shared/types/organizationDefaults.js'
 
 const logger = createLogger('AppointmentRouter')
 
@@ -15,11 +17,11 @@ export interface HoldDurationBounds {
   fallback: number
 }
 
-/** Derive bounds from calendar settings (sync; no DB). */
-function holdDurationBoundsFromCalendarData(data: CalendarSettingsData): HoldDurationBounds {
-  const minRaw = data.holdDurationMin
-  const maxRaw = data.holdDurationMax
-  const fallbackRaw = data.holdDurationFallback
+/** Derive bounds from merged hold snapshot (same merge as computed availability — Phase 6.14.2). */
+function holdDurationBoundsFromMergedHolds(h: HoldsAndAdminEntrySnapshot): HoldDurationBounds {
+  const minRaw = h.holdDurationMin
+  const maxRaw = h.holdDurationMax
+  const fallbackRaw = h.holdDurationFallback
   const min = typeof minRaw === 'number' && !Number.isNaN(minRaw) ? Math.floor(minRaw) : HOLD_DURATION_MIN_FALLBACK
   const max = typeof maxRaw === 'number' && !Number.isNaN(maxRaw) ? Math.floor(maxRaw) : HOLD_DURATION_MAX_FALLBACK
   const fallback = typeof fallbackRaw === 'number' && !Number.isNaN(fallbackRaw) ? Math.floor(fallbackRaw) : HOLD_DURATION_VALUE_FALLBACK
@@ -27,11 +29,14 @@ function holdDurationBoundsFromCalendarData(data: CalendarSettingsData): HoldDur
   return { min, max, fallback: clampedFallback }
 }
 
-/** Hold duration bounds and default in one read. */
+/** Hold duration bounds and default — uses org defaults + calendar/availability merge (matches slot pipeline). */
 export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurationBounds; defaultMinutes: number }> {
-  const data = await getCalendarSettings()
-  const bounds = holdDurationBoundsFromCalendarData(data)
-  const raw = data.holdDurationMinutes
+  const availability = await getAvailabilitySettingsData()
+  const calendar = await getCalendarSettings()
+  const policy = await resolveNumericPolicyForAvailabilityAndCalendar(availability, calendar)
+  const h = policy.holdsAndAdminEntry
+  const bounds = holdDurationBoundsFromMergedHolds(h)
+  const raw = h.holdDurationMinutes
   const parsed = typeof raw === 'number' && !Number.isNaN(raw) ? Math.floor(raw) : bounds.fallback
   const defaultMinutes = Math.min(bounds.max, Math.max(bounds.min, parsed))
   return { bounds, defaultMinutes }
@@ -39,10 +44,12 @@ export async function getHoldDurationFromSettings(): Promise<{ bounds: HoldDurat
 
 const DEFAULT_ADMIN_ENTRY_TIMEOUT: AdminEntryTimeout = { value: 30, unit: 'days' }
 
-/** Admin entry dropdown time-out from calendar_settings. */
+/** Admin entry dropdown time-out — merged org defaults + calendar (matches computed availability policy). */
 export async function getAdminEntryTimeoutFromSettings(): Promise<AdminEntryTimeout> {
-  const data = await getCalendarSettings()
-  const raw = data.adminEntryTimeout
+  const availability = await getAvailabilitySettingsData()
+  const calendar = await getCalendarSettings()
+  const policy = await resolveNumericPolicyForAvailabilityAndCalendar(availability, calendar)
+  const raw = policy.holdsAndAdminEntry.adminEntryTimeout
   if (raw && typeof raw.value === 'number' && !Number.isNaN(raw.value) && (raw.unit === 'days' || raw.unit === 'weeks')) {
     const value = Math.max(1, Math.min(365, Math.floor(raw.value)))
     return { value, unit: raw.unit }

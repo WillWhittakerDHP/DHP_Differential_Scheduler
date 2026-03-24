@@ -1,6 +1,7 @@
 /**
  * PATTERN: Theme Mode Composable
- * Watches wizardMode and useDhpColors; applies quote/reschedule/DHP palettes and sets --v-theme-* CSS vars.
+ * Watches wizardMode and useDhpColors; applies quote/reschedule/DHP palettes via --wizard-* CSS vars.
+ * SCSS (.wizard-palette-active) maps --wizard-* to --v-theme-* at component level for Vuetify specificity.
  */
 import { computed, watch } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
@@ -13,38 +14,41 @@ import {
 import type { WizardModePalette } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardMode } from '@/types/wizard'
+import { buildWizardModePaletteFromAnchors, type WizardBrandMode } from '@/utils/theme'
+import { normalizeBrandHex } from '@/utils/wizardBrand/normalizeBrandHex'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
 /** Named constants instead of inline nullish coalescing (deprecation audit). */
 const FALLBACK_THEME_COLORS: Record<string, string> = {}
 const FALLBACK_STR = ''
 
-const THEME_VAR_KEYS = [
-  '--v-theme-primary',
-  '--v-theme-primary-darken-1',
-  '--v-theme-secondary',
-  '--v-theme-secondary-darken-1',
-  '--v-theme-warning',
-  '--v-theme-warning-darken-1',
-  '--v-theme-on-primary',
-  '--v-theme-on-secondary',
-  '--v-theme-on-warning',
+/** Intermediate vars that bypass Vuetify's theme provider specificity. SCSS maps these to --v-theme-* at component level. */
+const WIZARD_VAR_KEYS = [
+  '--wizard-primary',
+  '--wizard-primary-darken-1',
+  '--wizard-secondary',
+  '--wizard-secondary-darken-1',
+  '--wizard-warning',
+  '--wizard-warning-darken-1',
+  '--wizard-on-primary',
+  '--wizard-on-secondary',
+  '--wizard-on-warning',
 ] as const
 
 function applyPaletteToCss(palette: WizardModePalette): void {
-  setCSSVariable('--v-theme-primary', hexToRgb(palette.primary))
-  setCSSVariable('--v-theme-primary-darken-1', hexToRgb(palette['primary-darken-1']))
-  setCSSVariable('--v-theme-secondary', hexToRgb(palette.secondary))
-  setCSSVariable('--v-theme-secondary-darken-1', hexToRgb(palette['secondary-darken-1']))
-  setCSSVariable('--v-theme-warning', hexToRgb(palette.warning))
-  setCSSVariable('--v-theme-warning-darken-1', hexToRgb(palette['warning-darken-1']))
-  setCSSVariable('--v-theme-on-primary', palette['on-primary'])
-  setCSSVariable('--v-theme-on-secondary', palette['on-secondary'])
-  setCSSVariable('--v-theme-on-warning', palette['on-warning'])
+  setCSSVariable('--wizard-primary', hexToRgb(palette.primary))
+  setCSSVariable('--wizard-primary-darken-1', hexToRgb(palette['primary-darken-1']))
+  setCSSVariable('--wizard-secondary', hexToRgb(palette.secondary))
+  setCSSVariable('--wizard-secondary-darken-1', hexToRgb(palette['secondary-darken-1']))
+  setCSSVariable('--wizard-warning', hexToRgb(palette.warning))
+  setCSSVariable('--wizard-warning-darken-1', hexToRgb(palette['warning-darken-1']))
+  setCSSVariable('--wizard-on-primary', hexToRgb(palette['on-primary']))
+  setCSSVariable('--wizard-on-secondary', hexToRgb(palette['on-secondary']))
+  setCSSVariable('--wizard-on-warning', hexToRgb(palette['on-warning']))
 }
 
 function clearThemeOverrides(): void {
-  for (const key of THEME_VAR_KEYS) {
+  for (const key of WIZARD_VAR_KEYS) {
     removeCSSVariable(key)
   }
 }
@@ -61,6 +65,37 @@ interface UseThemeModeOptions {
   wizard?: UseBookingWizardReturn
   /** When true, use DHP palette. Can be Ref (wizard local) or ComputedRef (from useWizardSettings().flags/API). */
   useDhpColors?: Ref<boolean> | ComputedRef<boolean>
+  /** Admin-configured anchors from GET /wizard-settings; when missing or invalid, `dhpPalette` defaults apply. */
+  brandPrimaryHex?: Ref<string | null> | ComputedRef<string | null>
+  brandSecondaryHex?: Ref<string | null> | ComputedRef<string | null>
+}
+
+const HEX6_ANCHOR = /^#[0-9A-Fa-f]{6}$/
+
+function isUsableAnchorHex(raw: string | null | undefined): boolean {
+  if (raw == null || raw.trim() === '') {
+    return false
+  }
+  const n = normalizeBrandHex(raw)
+  return HEX6_ANCHOR.test(n)
+}
+
+/**
+ * DHP path: API anchors when both valid hex; else static `dhpPalette` for the mode (session 6.15.3.1).
+ */
+function resolveDhpPaletteForMode(
+  modeKey: WizardBrandMode,
+  primaryRaw: string | null | undefined,
+  secondaryRaw: string | null | undefined
+): WizardModePalette {
+  if (isUsableAnchorHex(primaryRaw) && isUsableAnchorHex(secondaryRaw)) {
+    return buildWizardModePaletteFromAnchors({
+      primary: normalizeBrandHex(primaryRaw!),
+      secondary: normalizeBrandHex(secondaryRaw!),
+      mode: modeKey,
+    })
+  }
+  return dhpPalette[modeKey]
 }
 
 /**
@@ -69,13 +104,15 @@ interface UseThemeModeOptions {
 function resolvePalette(
   wizardMode: WizardMode,
   useDhp: boolean,
+  primaryAnchor: string | null | undefined,
+  secondaryAnchor: string | null | undefined,
   _themePrimary: string,
   _themeSecondary: string,
   _themeWarning: string
 ): WizardModePalette | null {
   if (useDhp) {
-    const key = wizardMode === 'new' ? 'standard' : wizardMode
-    return dhpPalette[key]
+    const key: WizardBrandMode = wizardMode === 'new' ? 'standard' : wizardMode
+    return resolveDhpPaletteForMode(key, primaryAnchor, secondaryAnchor)
   }
   if (wizardMode === 'quote') return quoteModeColors
   if (wizardMode === 'reschedule') return rescheduleModeColors
@@ -90,10 +127,14 @@ function resolvePalette(
 export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn {
   const wizard = options?.wizard
   const useDhpColorsRef = options?.useDhpColors
+  const brandPrimaryRef = options?.brandPrimaryHex
+  const brandSecondaryRef = options?.brandSecondaryHex
 
   const theme = useTheme()
   const wizardMode = computed<WizardMode>(() => wizard?.wizardMode.value ?? 'new')
   const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
+  const brandPrimaryHex = computed(() => brandPrimaryRef?.value ?? null)
+  const brandSecondaryHex = computed(() => brandSecondaryRef?.value ?? null)
 
   const isQuoteMode = computed(() => wizardMode.value === 'quote')
   const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
@@ -105,7 +146,15 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
     const primary = String(themeColors.primary ?? FALLBACK_STR)
     const secondary = String(themeColors.secondary ?? FALLBACK_STR)
     const warning = String(themeColors.warning ?? FALLBACK_STR)
-    return resolvePalette(mode, useDhp, primary, secondary, warning)
+    return resolvePalette(
+      mode,
+      useDhp,
+      brandPrimaryHex.value,
+      brandSecondaryHex.value,
+      primary,
+      secondary,
+      warning
+    )
   })
 
   const currentPrimary = computed(() => {
@@ -146,16 +195,15 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
   }
 }
 
-/**
- * WHY: Convert hex color to RGB format for CSS variables (r, g, b).
- */
+/** Converts 3- or 6-char hex to Vuetify-compatible RGB triplet (e.g. "255, 255, 255"). */
 function hexToRgb(hex: string): string {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  if (!result) {
+  const short = /^#?([a-f\d])([a-f\d])([a-f\d])$/i.exec(hex)
+  if (short) {
+    return `${parseInt(short[1] + short[1], 16)}, ${parseInt(short[2] + short[2], 16)}, ${parseInt(short[3] + short[3], 16)}`
+  }
+  const full = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  if (!full) {
     return '0, 0, 0'
   }
-  const r = parseInt(result[1], 16)
-  const g = parseInt(result[2], 16)
-  const b = parseInt(result[3], 16)
-  return `${r}, ${g}, ${b}`
+  return `${parseInt(full[1], 16)}, ${parseInt(full[2], 16)}, ${parseInt(full[3], 16)}`
 }

@@ -7,6 +7,7 @@ import BusinessControlsConstraintsSection from './BusinessControlsConstraintsSec
 import BusinessControlsCalendarSection from './BusinessControlsCalendarSection.vue'
 import WizardConfigPanel from './components/WizardConfigPanel.vue'
 import BusinessControlsRulesSection from './BusinessControlsRulesSection.vue'
+import BusinessControlsOrganizationSection from './BusinessControlsOrganizationSection.vue'
 
 const {
   loading,
@@ -16,6 +17,7 @@ const {
   clearAllErrors,
   currentMainTab,
   businessControlsState,
+  organizationSaveButtonProps,
   UI_STRINGS,
 } = useBusinessControlsTab()
 </script>
@@ -46,6 +48,7 @@ const {
         <VTab value="calendar">{{ UI_STRINGS.tabs.calendar }}</VTab>
         <VTab value="wizard">{{ UI_STRINGS.tabs.wizard }}</VTab>
         <VTab value="rules">{{ UI_STRINGS.tabs.rules }}</VTab>
+        <VTab value="organization">{{ UI_STRINGS.tabs.organization }}</VTab>
       </VTabs>
 
       <VWindow v-model="currentMainTab">
@@ -63,6 +66,16 @@ const {
 
         <VWindowItem key="rules" value="rules">
           <BusinessControlsRulesSection />
+        </VWindowItem>
+
+        <VWindowItem key="organization" value="organization">
+          <div v-if="businessControlsState.organizationDefaults.formData" class="d-flex flex-wrap gap-2 mb-4">
+            <VBtn v-bind="organizationSaveButtonProps">{{ UI_STRINGS.buttons.saveOrganizationDefaults }}</VBtn>
+          </div>
+          <BusinessControlsOrganizationSection
+            v-if="businessControlsState.organizationDefaults.formData"
+            :model="businessControlsState.organizationDefaults.formData"
+          />
         </VWindowItem>
       </VWindow>
     </VForm>

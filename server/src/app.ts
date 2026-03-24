@@ -16,6 +16,11 @@ import {
   API_VERSION,
   ROUTE_PATHS,
 } from './constants/appConstants.js'
+import {
+  ensureWizardLogoUploadDir,
+  getWizardLogoUploadDir,
+  WIZARD_LOGO_PUBLIC_PATH,
+} from './config/wizardLogoUploadConfig.js'
 
 const logger = createLogger('app')
 const app = express()
@@ -59,8 +64,10 @@ app.use((req, _res, next) => {
   next()
 })
 
-// WHY: Populates `req.cookies` for Feature 7 session id read helpers (`sessionCookie.ts`).
+// WHY: Populates `req.cookies` for session id read helpers (`sessionCookie.ts`).
 app.use(cookieParser())
+ensureWizardLogoUploadDir()
+app.use(WIZARD_LOGO_PUBLIC_PATH, express.static(getWizardLogoUploadDir(), { index: false }))
 
 // WHY: DB session row gets `sess.csrfToken`; readable `csrf_token` cookie for SPA (Phase 8.6.1). Validation: `csrfProtection` (8.6.1.2).
 app.use(ensureCsrfTokenAttached)

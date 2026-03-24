@@ -10,12 +10,12 @@ import {
 } from '@/utils/time/localCalendarDisplay'
 
 /** Today/tomorrow strings for local-calendar relative headings (shared by stepper + slot row). */
-export interface MoveableRelativeDayLabelCopy {
+interface MoveableRelativeDayLabelCopy {
   today: string
   tomorrow: string
 }
 
-export interface MoveableStepperDayLabelCopy extends MoveableRelativeDayLabelCopy {
+interface MoveableStepperDayLabelCopy extends MoveableRelativeDayLabelCopy {
   noSelection: string
 }
 

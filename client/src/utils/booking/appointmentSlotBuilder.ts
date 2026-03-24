@@ -10,6 +10,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 
 const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
+import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
@@ -112,6 +113,7 @@ export function buildAppointmentShape(
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
   partShapeById?: Map<string, GlobalEntity<'partShape'>>,
+  resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
   let nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
@@ -159,6 +161,7 @@ export function buildAppointmentShape(
     resolvedEventShapes,
     settings ?? null,
     differentialEventRoleOverrides,
+    resolvedTimeRounding,
   )
 
   return {

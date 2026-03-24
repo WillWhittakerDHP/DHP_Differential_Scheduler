@@ -1,5 +1,6 @@
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/durationRounding'
+import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 
 export type { DurationRoundingConfig, RoundingMethod } from '@/types/booking/durationRounding'
 
@@ -71,5 +72,30 @@ export function roundDuration(
     return duration
   }
   
+  return applyRoundingMethod(duration, config.increment, config.method)
+}
+
+/**
+ * Round using merged org + calendar/availability policy (Phase 6.14), matching server resolver output.
+ */
+export function roundDurationFromResolvedTimeRounding(
+  duration: number,
+  timeAndRounding: ResolvedNumericPolicy['timeAndRounding'],
+): number {
+  const dr = timeAndRounding.durationRounding
+  const config: DurationRoundingConfig = {
+    enabled: dr.enabled,
+    increment:
+      dr.increment !== undefined && dr.increment !== null
+        ? dr.increment
+        : timeAndRounding.minuteIncrement !== undefined && timeAndRounding.minuteIncrement !== null
+          ? timeAndRounding.minuteIncrement
+          : 15,
+    method:
+      dr.method !== undefined && dr.method !== null ? dr.method : DURATION_ROUNDING_MODE.ROUND_UP,
+  }
+  if (!config.enabled) {
+    return duration
+  }
   return applyRoundingMethod(duration, config.increment, config.method)
 }

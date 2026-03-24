@@ -26,6 +26,8 @@ const {
   toggleQuoteMode,
   wizardMode,
   useDhpColors,
+  wizardLogoSrc,
+  handleWizardLogoError,
   handleSubmit,
   isUpdateSubmit,
   isDevMode,
@@ -93,9 +95,7 @@ async function handleCopyQuoteLink(): Promise<void> {
   <VCard
     class="booking-wizard"
     :class="{
-      'quote-mode-active': isQuoteMode && !useDhpColors,
-      'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
-      'dhp-colors-active': useDhpColors,
+      'wizard-palette-active': useDhpColors || isQuoteMode || wizardMode === 'reschedule',
     }"
   >
     
@@ -106,11 +106,17 @@ async function handleCopyQuoteLink(): Promise<void> {
           <VCardText
             class="stepper-header"
             :class="{
-              'quote-mode-active': isQuoteMode && !useDhpColors,
-              'reschedule-mode-active': wizardMode === 'reschedule' && !useDhpColors,
-              'dhp-colors-active': useDhpColors,
+              'wizard-palette-active': useDhpColors || isQuoteMode || wizardMode === 'reschedule',
             }"
           >
+            <div v-if="wizardLogoSrc" class="booking-wizard-logo-wrap d-flex justify-center mb-3">
+              <img
+                :src="wizardLogoSrc"
+                alt="Organization logo"
+                class="booking-wizard-logo"
+                @error="handleWizardLogoError"
+              />
+            </div>
             <VList class="horizontal-stepper" density="compact">
               <VListItem
                 v-for="(step, index) in steps"

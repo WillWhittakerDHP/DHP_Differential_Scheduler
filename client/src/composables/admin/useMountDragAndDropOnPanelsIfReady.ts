@@ -10,7 +10,7 @@ import {
 } from '@/composables/admin/useDragAndDropHelpers'
 import { createLogger } from '@/utils/logger'
 
-const logger = createLogger('useDragAndDropInstance')
+const logger = createLogger('useMountDragAndDropOnPanelsIfReady')
 
 export interface MountDragAndDropOnPanelsParams {
   container: HTMLElement

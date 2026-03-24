@@ -302,6 +302,8 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 | 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
 | 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Add new block shapes button on admin Shapes tab (6.10.1 ✅); admin toggle to show/hide apply-coupon in wizard (6.10.2 ✅); fee preview bar on availability step (6.10.3 not started); coupon fee calculation (6.10.4 not started). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (exhaustive audit, optional badges, Phase 3.0 test checklist). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
+| 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight dependency inspection; reusable admin delete wizard; resolve/finalize API; policy registry; wire generic CRUD delete. Sessions 6.17.1–6.17.5. See `features/appointment-workflow/phases/phase-6.17-guide.md`. Complements Phase 6.6 (soft vs hard delete). |
 
 ### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
@@ -354,6 +356,24 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
 - **See:** `features/appointment-workflow/phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`.
 
+### Phase 6.14: Organization Defaults & Resolved Numeric Policy (In Progress)
+
+- **Goal:** One canonical **organization defaults** object merged at read time with availability/calendar payloads so numeric policy (minute increments, duration rounding, drive-time fee, holds, admin entry timeout, lead time, buffers, optional constraint baselines) resolves on client and server from a single module—no silent Vue-only fallbacks.
+- **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — primary booking/validation wiring + client alignment. **6.14.3** — exhaustive audit (wire or document), optional legacy “org default” badges, Phase 3.0 resolver test checklist in docs. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
+- **See:** `features/appointment-workflow/phases/phase-6.14-guide.md`, `features/appointment-workflow/phases/phase-6.14-planning.md`.
+
+### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Not Started)
+
+- **Goal:** Replace one-shot synchronous delete for supported admin entities with a **dependency-aware workflow**: preflight → wizard (reassign / remove / cancel) → server applies resolution in transaction → final delete → client cache refresh.
+- **Scope:** Generalized cross-entity admin architecture (not a single-entity patch). Typed contracts, registry/config-driven policies, shared server + client layers.
+- **Integration seam (baseline):** Client: `client/src/composables/entityCrud/useEntityCrud.ts`, `useEntityCrudMutations.ts`, `client/src/utils/admin/entityListDelete.ts`, `client/src/composables/admin/entityCardActionsPersistence.ts`. Server: `server/src/routes/internal/entities/entityCrudRouter.ts` (+ related routers/handlers).
+- **Architecture:** Multi-step requests — `delete preflight` returns dependency graph / counts / policy actions; UI wizard; `resolve` / `finalize` (or equivalent) applies mutations + final delete. **Do not** hold a single HTTP DELETE open while waiting for user interaction.
+- **Policy categories (explicit):** `reassign_required`, `safe_auto_remove`, `confirm_bulk_remove`, `hard_blocked`, `allow_direct_delete` — no universal silent cascade rule.
+- **First rollout entities:** `partShape`, `blockShape`, `annotationShape`, and any other types already on generic admin delete flows; document how to add more.
+- **Relation to Phase 6.6:** Informs product-safe deletion vs hard-delete policy; this phase is the **admin generic delete** architecture; 6.6 remains appointment lifecycle soft/hard delete.
+- **Out of scope (unless explicitly added):** Silent full cascade for all entities, background delete workers, wholesale DB FK CASCADE migrations, automated tests (Phase 3.0 policy).
+- **See:** `features/appointment-workflow/phases/phase-6.17-guide.md`, `features/appointment-workflow/phases/phase-6.17-planning.md`.
+
 ### Booking Calculations (Core Complete)
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`. **Time calculations:** `useTimeSlotCalculations()`, `calculateAppointmentSlots()`, `calculateTotalDurationFromAppointmentSlots()`, `createBlockFinal()` / `createPartFinals()`. Shared finalization and fee utilities live in `client/src/utils/booking/` and are used by the confirmation step and related composables.
 
@@ -376,6 +396,8 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Phase 6.9 Guide: `features/appointment-workflow/phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Phase 6.14 Guide: `features/appointment-workflow/phases/phase-6.14-guide.md` (Organization Defaults & Resolved Numeric Policy)
+- Phase 6.17 Guide: `features/appointment-workflow/phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`
 

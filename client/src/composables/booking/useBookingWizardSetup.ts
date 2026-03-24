@@ -36,6 +36,10 @@ import {
   useBookingProgressSummaryStrip,
   type UseBookingProgressSummaryStripReturn,
 } from '@/composables/booking/useBookingProgressSummaryStrip'
+import { resolveBookingWizardLogoUrl } from '@/utils/booking/resolveBookingWizardLogoUrl'
+import { createLogger } from '@/utils/logger'
+
+const wizardLogoLogger = createLogger('useBookingWizardSetup')
 
 export interface UseBookingWizardSetupReturn {
   steps: typeof WIZARD_STEPS
@@ -53,6 +57,9 @@ export interface UseBookingWizardSetupReturn {
   wizardMode: Ref<import('@/types/wizard').WizardMode>
   /** From `bookingFlow.wizardSettings.flags`; configured in Admin Wizard tab. */
   useDhpColors: ComputedRef<boolean>
+  /** Resolved href for header logo, or null when unset / not loadable in booking shell. */
+  wizardLogoSrc: ComputedRef<string | null>
+  handleWizardLogoError: () => void
   handleSubmit: ReturnType<typeof useWizardSubmission>['handleSubmit']
   isUpdateSubmit: ReturnType<typeof useWizardSubmission>['isUpdateSubmit']
   isDevMode: boolean
@@ -216,9 +223,26 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
   const { getStepContent } = useWizardStepContent()
 
   const {
-    flags: { useBrandColors: useDhpBrandColors },
+    flags: {
+      useBrandColors: useDhpBrandColors,
+      brandPrimaryHex,
+      brandSecondaryHex,
+      logoUrl: wizardLogoUrl,
+    },
   } = bookingFlow.wizardSettings
-  useThemeMode({ wizard, useDhpColors: useDhpBrandColors })
+
+  const wizardLogoSrc = computed(() => resolveBookingWizardLogoUrl(wizardLogoUrl.value))
+
+  function handleWizardLogoError(): void {
+    wizardLogoLogger.warn('Booking wizard logo image failed to load (src hidden from user)')
+  }
+
+  useThemeMode({
+    wizard,
+    useDhpColors: useDhpBrandColors,
+    brandPrimaryHex,
+    brandSecondaryHex,
+  })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)
   const toggleQuoteMode = (): void => {
@@ -280,6 +304,8 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     toggleQuoteMode,
     wizardMode: wizard.wizardMode,
     useDhpColors: useDhpBrandColors,
+    wizardLogoSrc,
+    handleWizardLogoError,
     handleSubmit,
     isUpdateSubmit,
     isDevMode,

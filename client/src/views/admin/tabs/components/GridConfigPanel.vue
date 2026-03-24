@@ -4,12 +4,13 @@
   PATTERN: Injects businessControlsState from parent; handlers from useGridConfigHandlers
 -->
 <script setup lang="ts">
-import { inject } from 'vue'
+import { computed, inject, unref } from 'vue'
 import { BUSINESS_CONTROLS_STATE_KEY } from '../businessControlsStateKey'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { TIME_INCREMENT_OPTIONS } from '@/constants/availabilitySettings'
 import { useGridConfigHandlers } from '@/utils/admin/gridConfigHandlers'
 import type { GridConfigState } from '@/types/admin/gridConfigHandlers'
+import { minuteIncrementMatchesOrg } from '@/utils/admin/orgDefaultPolicyBadges'
 
 const state = inject(BUSINESS_CONTROLS_STATE_KEY)
 if (!state) throw new Error('GridConfigPanel must be used inside BusinessControlsTab')
@@ -20,6 +21,18 @@ const formState = state.formState
 const differential = state.differential
 
 const handlers = useGridConfigHandlers(state as GridConfigState)
+
+/** `null` = loading or org not fetched — no chip (avoid false “Org default”). */
+const slotIncrementOrgBadge = computed((): 'match' | 'override' | null => {
+  const orgModule = state.organizationDefaults
+  const loading = unref(orgModule.loading)
+  const org = unref(orgModule.formData)
+  if (loading || org == null) {
+    return null
+  }
+  const m = minuteIncrementMatchesOrg(formState.minuteIncrement, org)
+  return m === true ? 'match' : 'override'
+})
 </script>
 
 <template>
@@ -27,7 +40,21 @@ const handlers = useGridConfigHandlers(state as GridConfigState)
     <div class="text-body-large mb-3">{{ UI_STRINGS.sections.gridConfigTitle }}</div>
 
     <div class="mb-6">
-      <div class="text-label-large mb-3">{{ UI_STRINGS.sections.slotIncrementTitle }}</div>
+      <div class="d-flex align-center flex-wrap gap-2 mb-3">
+        <div class="text-label-large">{{ UI_STRINGS.sections.slotIncrementTitle }}</div>
+        <VChip
+          v-if="slotIncrementOrgBadge !== null"
+          size="small"
+          variant="tonal"
+          :color="slotIncrementOrgBadge === 'match' ? 'success' : 'warning'"
+        >
+          {{
+            slotIncrementOrgBadge === 'match'
+              ? UI_STRINGS.orgDefaultBadges.orgDefault
+              : UI_STRINGS.orgDefaultBadges.override
+          }}
+        </VChip>
+      </div>
       <VSelect
         :model-value="formState.minuteIncrement"
         @update:model-value="handlers.handleMinuteIncrement"
