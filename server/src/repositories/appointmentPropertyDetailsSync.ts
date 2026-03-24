@@ -46,7 +46,6 @@ async function syncAddressFromWizardBlobIfComplete(
     longitude: numOrNull(b.longitude) ?? numOrNull((b.candidateCoordinates as { lng?: unknown } | undefined)?.lng),
   })
   if (propertyVersion.addressId !== addressRecord.id) {
-    // @audit-allow:hardcoding:fieldMapping - Sequelize update payload; PropertyVersion.addressId FK
     await propertyVersion.update({ addressId: addressRecord.id }, { transaction })
   }
 }

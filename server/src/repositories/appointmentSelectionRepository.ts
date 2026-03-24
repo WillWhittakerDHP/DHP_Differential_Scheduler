@@ -42,7 +42,6 @@ async function fillMissingSnapshotVersionIds(
   for (const line of lines) {
     if (line.snapshotVersionId) continue
     const version = await createBlockInstanceVersion(line.blockInstanceId)
-    // @audit-allow:hardcoding:fieldMapping - Sequelize model update attributes for snapshot_version_id
     await line.update({ snapshotVersionId: version.id }, { transaction })
   }
 }

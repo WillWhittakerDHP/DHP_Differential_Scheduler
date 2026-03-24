@@ -35,6 +35,8 @@ export class WizardSettings extends Model<
   declare brandPrimaryHex: CreationOptional<string | null>;
   declare brandSecondaryHex: CreationOptional<string | null>;
   declare logoUrl: CreationOptional<string | null>;
+  /** Ms before CARD_TOOLTIP opens on selection-card hover; default 3000. */
+  declare selectionCardTooltipOpenDelayMs: CreationOptional<number>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -98,6 +100,12 @@ export function WizardSettingsFactory(sequelize: Sequelize) {
         type: DataTypes.STRING(2048),
         allowNull: true,
         field: 'logo_url',
+      },
+      selectionCardTooltipOpenDelayMs: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 3000,
+        field: 'selection_card_tooltip_open_delay_ms',
       },
       createdAt: {
         type: DataTypes.DATE,

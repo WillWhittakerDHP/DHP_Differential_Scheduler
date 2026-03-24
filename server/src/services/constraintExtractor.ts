@@ -36,7 +36,7 @@ function convertBusinessHoursConstraint(dbConstraint: DbRangeConstraint): RangeC
     Array.from({ length: 7 }, (_, day) => {
       const dayHours = config.hours[day as 0 | 1 | 2 | 3 | 4 | 5 | 6]
       return dayHours
-        ? // @audit-allow:hardcoding:fieldMapping - Config entry tuple shape
+        ? // @audit-allow:hardcoding:fieldMapping - BusinessHoursConfig.hours entry tuple; day index → {start, end} as RFC3339DateTime for Object.fromEntries
           [day, { start: dayHours.start as RFC3339DateTime, end: dayHours.end as RFC3339DateTime }] as const
         : null
     }).filter((entry): entry is readonly [number, { start: RFC3339DateTime; end: RFC3339DateTime }] => entry !== null)

@@ -10,6 +10,8 @@ This document governs how types are created, placed, and used in the codebase. I
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
 
+**Remediation order:** Type work sits **before** symptom-style audits in the overall cleanup ladder—see `.project-manager/AUDIT_FIX_CONTEXT.md` → **Governance remediation ladder** (steps 3–7).
+
 ---
 
 ## Decision tree: create vs reuse vs inline

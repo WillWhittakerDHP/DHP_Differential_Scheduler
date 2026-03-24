@@ -99,7 +99,7 @@ Early phase artifacts listed only **one session** while the phase objectives imp
 ## Related Documents
 
 - `phases/phase-6.14-planning.md` (phase contract + decomposition table)
-- `phases/phase-6.14-handoff.md` (current transition / next: **6.14.3**)
+- `phases/phase-6.14-handoff.md` (phase complete; next: **6.17** or across-ladder **6.15**)
 - `sessions/session-6.14.1-planning.md` (includes **Outcome: delivered vs deferred**)
 - `sessions/session-6.14.2-planning.md`, `sessions/session-6.14.2-guide.md`
 - `sessions/session-6.14.3-planning.md`, `sessions/session-6.14.3-guide.md`

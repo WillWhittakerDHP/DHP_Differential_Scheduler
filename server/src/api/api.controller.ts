@@ -14,7 +14,6 @@ const apiGet = async (req: Request, res: Response): Promise<void> => {
 
 const apiPost = async (req: Request, res: Response): Promise<void> => {
   try {
-    // @audit-allow:hardcoding:fieldMapping - Response shape
     res.status(200).json({ msg: req.body });
   } catch (error) {
     logger.error("api POST error", { error });

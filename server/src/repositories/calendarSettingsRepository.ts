@@ -63,7 +63,6 @@ export async function getCalendarSettings(): Promise<CalendarSettingsData> {
     autoConfirmEnabled: row.autoConfirmEnabled,
     calendars: entries.map((e) => ({
       email: e.email,
-      // @audit-allow:hardcoding:fieldMapping - Calendar entry optional label matches API row shape
       ...(e.label ? { label: e.label } : {}),
       readFrom: e.readFrom,
       writeTo: e.writeTo,
@@ -108,7 +107,6 @@ async function persistCalendar(data: CalendarSettingsData, t: Transaction): Prom
     )
   }
 
-  // @audit-allow:hardcoding:fieldMapping - Sequelize destroy where matches calendar_setting_calendars FK
   await CalendarSettingCalendarModel.destroy({ where: { calendarSettingsId: row.id }, transaction: t })
   const cals = Array.isArray(merged.calendars) ? merged.calendars : []
   let order = 0

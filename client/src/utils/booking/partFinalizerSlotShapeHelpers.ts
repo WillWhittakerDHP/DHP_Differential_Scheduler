@@ -1,4 +1,5 @@
 import type { BlockFinal } from '@/types/booking/blockFinal'
+import type { DifferentialDurationOffsets } from '@/types/appointmentModels'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { EventShapeEntity } from '@/types/entities'
 import type { EventFinal } from '@/types/appointment'
@@ -124,17 +125,12 @@ export function computeTopLevelRoundedDuration(eventFinals: EventFinal[]): numbe
   return eventFinals.length > 0 ? Math.max(...eventFinals.map((ef) => ef.roundedDuration)) : 0
 }
 
-type DifferentialOffsets = {
-  rawDifferentialOffset: number
-  roundedDifferentialOffset: number
-}
-
 export function computeDifferentialOffsetsFromMaps(
   eventRawDurations: Map<string, number>,
   eventRoundedDurationsByShapeId: Map<string, number>,
   eventShapes: EventShape[],
   mergedRoleOverrides: Record<string, DifferentialRole>
-): DifferentialOffsets {
+): DifferentialDurationOffsets {
   let rawDifferentialOffset = 0
   let roundedDifferentialOffset = 0
 

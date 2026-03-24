@@ -28,4 +28,9 @@ export interface WizardSettingsData extends WizardCopyLabelFields {
   brandSecondaryHex?: string | null
   /** Public URL or path to uploaded wizard logo, nullable when unset. */
   logoUrl?: string | null
+  /**
+   * Booking selection cards: ms to wait before showing CARD_TOOLTIP overlay on hover.
+   * Omit or invalid → client default (3000).
+   */
+  selectionCardTooltipOpenDelayMs?: number
 }

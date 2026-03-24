@@ -5,14 +5,10 @@
 import { type Ref } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import { fetchAutocompleteSuggestions, MapsApiError, type AutocompletePrediction } from '@/services/mapsApiService'
+import type { UseAddressAutocompleteSuggestionsParams } from '@/types/addressAutocomplete'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAddressAutocompleteSuggestions')
-
-interface UseAddressAutocompleteSuggestionsParams {
-  minInputLength: () => number
-  debounceMs: () => number
-}
 
 interface UseAddressAutocompleteSuggestionsState {
   suggestions: Ref<AutocompletePrediction[]>

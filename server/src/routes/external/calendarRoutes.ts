@@ -21,7 +21,7 @@ const createEventBodySchema = Joi.object({
   end: Joi.string().required(),
   description: Joi.string().allow('').optional(),
   location: Joi.string().allow('').optional(),
-  // @audit-allow:hardcoding:fieldMapping - Joi schema shape for request validation
+  // @audit-allow:hardcoding:fieldMapping - Joi schema for Google Calendar event attendees array; createEvent request body validation
   attendees: Joi.array().items(Joi.object({ email: Joi.string().email().required() })).optional(),
   sendUpdates: Joi.string().valid('all', 'externalOnly', 'none').optional(),
 })

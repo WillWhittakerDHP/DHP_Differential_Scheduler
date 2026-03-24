@@ -18,6 +18,8 @@ import { useSelectionCardHandlers } from '@/composables/booking/useSelectionCard
 import { useSelectionCardStyles } from '@/composables/booking/useSelectionCardStyles'
 import { useSelectionCardComponent } from '@/composables/booking/useSelectionCardComponent'
 import { useAnnotationContent } from '@/composables/booking/useAnnotationContent'
+import { useSelectionCardAnnotationTooltipOpenDelayMs } from '@/composables/booking/useSelectionCardAnnotationTooltipOpenDelayMs'
+import { getSelectionComponentName } from '@/utils/booking/selectionCardComponent'
 import type { BookingBlockAnnotationUi } from '@/types/transformers/bookingData'
 
 interface Props {
@@ -62,6 +64,14 @@ const { configWithDefaults } = useSelectionCardConfig({
   config: computed(() => props.config)
 })
 
+const annotationTooltipOpenDelayMs = useSelectionCardAnnotationTooltipOpenDelayMs()
+
+/** Full-card hover tooltip whenever CARD_TOOLTIP copy exists (including controlPosition hidden). */
+const canWrapSelectionTooltip = computed(() => {
+  const name = getSelectionComponentName(configWithDefaults.value)
+  return cardTooltip.value.trim().length > 0 && name !== 'custom'
+})
+
 // PATTERN: Composable provides selection state management
 const {
   activeStatePlugin,
@@ -95,6 +105,11 @@ const {
   isSelected,
   controlClasses
 })
+
+const showSelectionControl = computed(
+  () =>
+    configWithDefaults.value.controlPosition !== 'hidden' && selectionComponentName.value !== 'custom'
+)
 
 /**
  * WHY: Use selection card composable for core logic
@@ -143,23 +158,92 @@ const handleNumberUpdate = (value: string | number | null) => {
 <template>
   <!-- WHY: Removed VRadioGroup wrapper for better reactivity and configurability -->
   <div class="selection-card-wrapper">
-    <!-- WHY: Selection component is rendered dynamically based on config -->
-    <!-- PATTERN: VLabel wraps card content, selection component rendered inside -->
-      <VLabel
-        :class="cardClasses"
-        :style="{ minHeight: configWithDefaults.appearance.minHeight }"
-        @click="handleParentClick"
-      >
-      <!-- WHY: Allows VRadio, VCheckbox, or custom components based on config -->
-      <!-- PATTERN: Use component :is with computed component name and props -->
+    <!--
+      Full-card hover tooltip (no info icon). Activator = one surface matching the card hit box.
+      open-delay: wizard_settings (default 3000 ms). See SELECTION_CARD_ANNOTATION_TOOLTIP.md.
+    -->
+    <VTooltip
+      v-if="canWrapSelectionTooltip"
+      location="top"
+      :open-delay="annotationTooltipOpenDelayMs"
+      :close-delay="0"
+    >
+      <template #activator="{ props: tooltipActivatorProps }">
+        <div
+          v-bind="tooltipActivatorProps"
+          :class="[cardClasses, 'd-flex flex-column align-center w-100 position-relative']"
+          :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+          @click="handleParentClick"
+        >
+          <component
+            v-if="showSelectionControl"
+            :is="selectionComponentName"
+            v-bind="selectionComponentProps"
+            @click.stop="handleSelection"
+          />
+          <CardButton
+            v-if="hasChildren"
+            type="expansion"
+            :expanded="isExpandedState"
+            position="top-right"
+            :stacked="false"
+            @click.stop="toggleExpansion"
+          />
+          <div :class="[contentContainerClasses, 'selection-card-content']">
+            <Icon
+              v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
+              :icon="item.icon"
+              width="40"
+              height="40"
+              class="mb-2 selection-card-icon"
+            />
+            <div class="d-flex align-center flex-wrap gap-1 mb-2">
+              <h6 class="text-headline-small mb-0">
+                {{ item.name }}
+              </h6>
+            </div>
+            <p
+              v-if="configWithDefaults.appearance.showDescription !== false && cardDescription.trim()"
+              class="text-body-medium text-medium-emphasis mb-2"
+            >
+              {{ cardDescription }}
+            </p>
+            <slot :item="item" />
+            <VTextField
+              v-if="item.allowMultiple && isSelected"
+              :model-value="(item as { number?: number | null }).number ?? null"
+              type="number"
+              min="1"
+              label="Quantity"
+              density="compact"
+              variant="outlined"
+              class="mt-2 selection-card-quantity-input"
+              @update:model-value="handleNumberUpdate"
+              @click.stop
+            />
+            <DependentInstanceCheckboxList
+              v-if="hasChildren && isExpandedState"
+              :options="visibleChildren"
+              :model-value="nestedChildSelections"
+              @update:model-value="emit('update:nestedChildSelections', $event)"
+            />
+          </div>
+        </div>
+      </template>
+      <span>{{ cardTooltip }}</span>
+    </VTooltip>
+    <VLabel
+      v-else
+      :class="cardClasses"
+      :style="{ minHeight: configWithDefaults.appearance.minHeight }"
+      @click="handleParentClick"
+    >
       <component
-        v-if="configWithDefaults.controlPosition !== 'hidden' && selectionComponentName !== 'custom'"
+        v-if="showSelectionControl"
         :is="selectionComponentName"
         v-bind="selectionComponentProps"
         @click.stop="handleSelection"
       />
-      
-      <!-- Expansion indicator -->
       <CardButton
         v-if="hasChildren"
         type="expansion"
@@ -168,8 +252,6 @@ const handleNumberUpdate = (value: string | number | null) => {
         :stacked="false"
         @click.stop="toggleExpansion"
       />
-      
-      <!-- Card content -->
       <div :class="[contentContainerClasses, 'selection-card-content']">
         <Icon
           v-if="configWithDefaults.appearance.showIcon && item.icon && (configWithDefaults.layout === 'row' || item.icon !== 'tabler-circle')"
@@ -178,40 +260,18 @@ const handleNumberUpdate = (value: string | number | null) => {
           height="40"
           class="mb-2 selection-card-icon"
         />
-
         <div class="d-flex align-center flex-wrap gap-1 mb-2">
           <h6 class="text-headline-small mb-0">
             {{ item.name }}
           </h6>
-          <VTooltip v-if="cardTooltip.trim()" location="top">
-            <template #activator="{ props: tipProps }">
-              <VBtn
-                icon
-                size="x-small"
-                variant="text"
-                class="selection-card-info-btn"
-                aria-label="More information"
-                v-bind="tipProps"
-                @click.stop
-              >
-                <Icon icon="mdi-information-outline" width="20" />
-              </VBtn>
-            </template>
-            <span>{{ cardTooltip }}</span>
-          </VTooltip>
         </div>
-
         <p
           v-if="configWithDefaults.appearance.showDescription !== false && cardDescription.trim()"
           class="text-body-medium text-medium-emphasis mb-2"
         >
           {{ cardDescription }}
         </p>
-
         <slot :item="item" />
-        
-        <!-- WHY: When allowMultiple is true, show number input to specify quantity -->
-        <!-- PATTERN: Conditional rendering based on item.allowMultiple, only when selected -->
         <VTextField
           v-if="item.allowMultiple && isSelected"
           :model-value="(item as { number?: number | null }).number ?? null"
@@ -224,9 +284,6 @@ const handleNumberUpdate = (value: string | number | null) => {
           @update:model-value="handleNumberUpdate"
           @click.stop
         />
-        
-        <!-- WHY: Checkbox list appears within the card, not outside -->
-        <!-- PATTERN: Render DependentInstanceCheckboxList when expanded and has children -->
         <DependentInstanceCheckboxList
           v-if="hasChildren && isExpandedState"
           :options="visibleChildren"

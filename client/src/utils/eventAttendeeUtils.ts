@@ -21,7 +21,7 @@ export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[]
 }
 
 /** Major/minor lookup using block-instance overrides when provided. */
-export function getEventShapeByRoleWithOverrides(
+function resolveEventShapeEntityForRole(
   eventShapes: EventShapeEntity[],
   role: DifferentialRoleStorage,
   overrides?: Record<string, DifferentialRole> | null
@@ -32,6 +32,14 @@ export function getEventShapeByRoleWithOverrides(
       return effective === role
     }) ?? null
   )
+}
+
+export function getEventShapeByRoleWithOverrides(
+  eventShapes: EventShapeEntity[],
+  role: DifferentialRoleStorage,
+  overrides?: Record<string, DifferentialRole> | null
+): EventShapeEntity | null {
+  return resolveEventShapeEntityForRole(eventShapes, role, overrides)
 }
 
 /** Both roles resolved — differential scheduling bar/offset path. No logging. */
@@ -45,8 +53,8 @@ export function resolveDifferentialMajorMinorFromEventShapes(
   eventShapes: EventShapeEntity[],
   overrides?: Record<string, DifferentialRole> | null
 ): DifferentialMajorMinorFromEventShapes {
-  const major = getEventShapeByRoleWithOverrides(eventShapes, 'major', overrides)
-  const minor = getEventShapeByRoleWithOverrides(eventShapes, 'minor', overrides)
+  const major = resolveEventShapeEntityForRole(eventShapes, 'major', overrides)
+  const minor = resolveEventShapeEntityForRole(eventShapes, 'minor', overrides)
   return {
     hasMajorMinorPair: major !== null && minor !== null,
     major,

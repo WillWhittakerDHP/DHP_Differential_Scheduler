@@ -26,6 +26,12 @@ export interface UseAddressAutocompleteOptions {
   emit?: UseAddressAutocompleteEmit
 }
 
+/** Subset for debounced suggestions only (type-similarity EXTEND). */
+export type UseAddressAutocompleteSuggestionsParams = Pick<
+  UseAddressAutocompleteOptions,
+  'minInputLength' | 'debounceMs'
+>
+
 export interface UseAddressAutocompleteReturn {
   searchInput: Ref<string>
   selectedAddress: Ref<AutocompletePrediction | null>

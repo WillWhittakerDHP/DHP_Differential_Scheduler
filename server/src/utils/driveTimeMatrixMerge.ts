@@ -25,11 +25,11 @@ function extendAccumulatorForPlaceId(
   const nextEntry: { driveToCandidate?: number; driveFromCandidate?: number } = {
     ...(existingResult !== undefined && existingResult !== null ? existingResult : {}),
     ...(cachedTo
-      ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+      ? // @audit-allow:hardcoding:fieldMapping - DriveLegsPerPlace entry; driveToCandidate from cached durationSeconds
         { driveToCandidate: Math.ceil(cachedTo.durationSeconds / 60) }
       : {}),
     ...(cachedFrom
-      ? // @audit-allow:hardcoding:fieldMapping - API drive-time payload shape
+      ? // @audit-allow:hardcoding:fieldMapping - DriveLegsPerPlace entry; driveFromCandidate from cached durationSeconds
         { driveFromCandidate: Math.ceil(cachedFrom.durationSeconds / 60) }
       : {}),
   }

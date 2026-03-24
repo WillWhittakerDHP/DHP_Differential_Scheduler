@@ -23,12 +23,16 @@ export interface EventFinal {
   roundedDuration: number
 }
 
-export interface SlotShape {
+/** Major–minor raw/rounded deltas shared by slot shape and part-finalizer helpers (type-similarity EXTEND). */
+export interface DifferentialDurationOffsets {
+  rawDifferentialOffset: number
+  roundedDifferentialOffset: number
+}
+
+export interface SlotShape extends DifferentialDurationOffsets {
   rawDuration: number
   roundedDuration: number
   eventFinals: EventFinal[]
-  rawDifferentialOffset: number
-  roundedDifferentialOffset: number
 }
 
 export interface AppointmentShape {

@@ -9,6 +9,7 @@ import { sequelize } from '../config/database.js'
 const DEFAULT: WizardSettingsData = {
   showApplyCoupon: false,
   useBrandColors: false,
+  selectionCardTooltipOpenDelayMs: 3000,
 }
 
 /** Nullable string columns copied onto WizardSettingsData when present (keeps branch count low). */
@@ -51,6 +52,8 @@ export async function getWizardSettingsData(): Promise<WizardSettingsData> {
     ...DEFAULT,
     showApplyCoupon: row.showApplyCoupon,
     useBrandColors: row.useBrandColors,
+    selectionCardTooltipOpenDelayMs:
+      row.selectionCardTooltipOpenDelayMs ?? DEFAULT.selectionCardTooltipOpenDelayMs,
     ...optionalStringFieldsFromWizardRow(row),
   }
 }
@@ -78,6 +81,7 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         brandPrimaryHex: merged.brandPrimaryHex ?? null,
         brandSecondaryHex: merged.brandSecondaryHex ?? null,
         logoUrl: merged.logoUrl ?? null,
+        selectionCardTooltipOpenDelayMs: merged.selectionCardTooltipOpenDelayMs ?? 3000,
       },
       { transaction: t }
     )
@@ -101,6 +105,7 @@ async function persistWizard(data: WizardSettingsData, t: Transaction): Promise<
         brandPrimaryHex: merged.brandPrimaryHex ?? null,
         brandSecondaryHex: merged.brandSecondaryHex ?? null,
         logoUrl: merged.logoUrl ?? null,
+        selectionCardTooltipOpenDelayMs: merged.selectionCardTooltipOpenDelayMs ?? 3000,
         updatedAt: new Date(),
       },
       { transaction: t }

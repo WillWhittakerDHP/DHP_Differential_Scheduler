@@ -80,7 +80,6 @@ export async function primitiveMetadataToHttpPayload(
   transaction?: Transaction
 ): Promise<Record<string, unknown>> {
   const rows = await AdminPrimitiveMetadataSelectOption.findAll({
-    // @audit-allow:hardcoding:fieldMapping - Sequelize where clause; FK column primitiveMetadataId
     where: { primitiveMetadataId: meta.id },
     order: [['displayOrder', 'ASC']],
     transaction,
@@ -114,7 +113,6 @@ export async function relationshipMetadataToHttpPayload(
   transaction?: Transaction
 ): Promise<Record<string, unknown>> {
   const rows = await AdminRelationshipMetadataSelectOption.findAll({
-    // @audit-allow:hardcoding:fieldMapping - Sequelize where clause; FK column relationshipMetadataId
     where: { relationshipMetadataId: meta.id },
     order: [['displayOrder', 'ASC']],
     transaction,

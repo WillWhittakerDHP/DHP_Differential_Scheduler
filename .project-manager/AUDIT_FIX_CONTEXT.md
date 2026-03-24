@@ -6,6 +6,27 @@ When fixing findings from session, phase, or task audits, load the following doc
 
 ---
 
+## Governance remediation ladder (causes before symptoms)
+
+Use this order for **discretionary** governance cleanups (no failing gate). When **tier-end, CI, or release checks fail** on an audit, treat that audit as **blocking**: fix or allowlist per the relevant playbook immediately—you are not expected to “finish the ladder” first.
+
+**Principle:** Several audits measure **graph shape, import fan-out, and local complexity** that often **moves or disappears** after structural work (types, boundaries, module surfaces). Chasing those reports file-by-file *before* cohesion and module boundaries tends to churn without lasting improvement.
+
+**Dependency freshness** (`cd client && npm run audit:dep-freshness`) is **orthogonal** to steps 3–7: it reflects **npm semver drift** on `client/` and `server/`, not module shape inside the repo. Run it on a **cadence** (e.g. alongside feature-tier audits), before large releases, or when addressing **security** / `npm audit` findings—**not** as a substitute for structural cleanup. Prefer **patch/minor** bumps in focused PRs; **major** upgrades need changelog review, typecheck, and smoke of affected surfaces.
+
+| Step | Focus | Typical artifacts / playbooks |
+|------|--------|-----------------------------|
+| 1–2 | **Ship blockers & architecture alignment** | Lint/type errors; `.project-manager/ARCHITECTURE.md`; data-flow alignment; **dependency freshness** (`audit:dep-freshness`) and **security** (`audit:security` / `npm audit` where applicable) as supply-chain hygiene—not driven by import-graph or composable audits |
+| 3 | **Type boundaries** | `TYPE_AUTHORING_PLAYBOOK.md`; type-escape / type-constant-inventory when tuning types |
+| 4 | **Composable contract shape** | `COMPOSABLE_AUTHORING_PLAYBOOK.md` — explicit return types, flat public surface, `InjectionKey`, action-based mutation |
+| 5 | **Component boundaries** | `COMPONENT_AUTHORING_PLAYBOOK.md` — thin SFCs, props/emits/slots, extract vs allowlist |
+| **6** | **Module boundaries (structure)** | **File cohesion** (split oversized or multi-concern files); **dual-role export** (split public vs internal surfaces, thin barrels); clear **public API** per folder. This class of work most often **reduces import-graph depth/fan-out** and **composable-health** noise (e.g. excessive composable imports) as a **consequence**, without tuning those audits first. |
+| **7** | **Symptom audits last** | Treat as **outcomes** to re-run after step 6: **import-graph** (hotspots), **composables-logic**, **function-complexity**, **component-logic** (and related **composable-health** / **component-health** scores). What remains is more likely **real localized complexity** worth extracting or allowlisting deliberately. |
+
+**`/audit-fix`:** When the failure report is a step-7 audit, still fix what the report lists if the gate is blocking. On **optional** cleanups, prefer checking whether **step 6** (or 4–5) would collapse many findings before deep file-by-file tuning.
+
+---
+
 ## Harness alignment (audit-fix + tier-end)
 
 **Single assembly (no split brain):** `getAuditFixContext` and `auditFixPrompt` in `.cursor/commands/audit/atomic/audit-fix-prompt.ts` share one internal pipeline. Both return the same **`instruction`** (with full embedded markdown) and the same deduped **`paths`** list; the paste variant only adds an `@` refs line for Cursor attachments.
@@ -63,10 +84,15 @@ When fixing a specific audit category, attach the corresponding report so the ag
 | Audit name | Additional report path |
 |------------|-------------------------|
 | component-health | `client/.audit-reports/component-health-audit.md` |
-| component-logic | `client/.audit-reports/component-logic-audit.md` (or summary) |
+| component-logic | `client/.audit-reports/component-logic-audit.md` (or summary) — *symptom-style; see **Governance remediation ladder** § step 7* |
 | composable-health | `client/.audit-reports/composable-health-audit.md` |
-| composables-logic | `client/.audit-reports/composables-logic-audit.md` (or summary) |
-| function-complexity | `client/.audit-reports/function-complexity-audit.md` |
+| composables-logic | `client/.audit-reports/composables-logic-audit.md` (or summary) — *symptom-style; see § step 7* |
+| function-complexity | `client/.audit-reports/function-complexity-audit.md` — *symptom-style; see § step 7* |
+| import-graph | `client/.audit-reports/import-graph-audit.json` (or `cd client && npm run audit:import-graph`) — *symptom-style; see § step 7* |
+| file-cohesion | `cd client && npm run audit:file-cohesion` — *structural; aligns with § step 6* |
+| dual-role-export | `cd client && npm run audit:dual-role-export` — *structural; aligns with § step 6* |
+| dep-freshness | `cd client && npm run audit:dep-freshness` → `client/.audit-reports/dep-freshness-audit.{json,md}` — *supply-chain / semver hygiene; orthogonal to § steps 3–7; see ladder intro* |
+| security | `cd client && npm run audit:security` (and server-side checks per script) — *vulnerabilities; not the same as freshness* |
 | type-escape | `client/.audit-reports/type-escape-audit.md` |
 | type-constant-inventory | `client/.audit-reports/type-constant-inventory-audit.md` |
 | data-flow-health | `client/.audit-reports/data-flow-health-audit.md` |

@@ -50,4 +50,4 @@ This note keeps **authoring playbooks** and **governance docs** aligned with the
 
 ## Related
 
-- **Audit-fix scope injection:** `.project-manager/AUDIT_FIX_CONTEXT.md` (`.tier-scope` + guides).
+- **Audit-fix scope injection:** `.project-manager/AUDIT_FIX_CONTEXT.md` (`.tier-scope` + guides). Same file defines the **Governance remediation ladder** (module boundaries before import-graph / composables-logic / function-complexity / component-logic on discretionary cleanups; blocking gates still fix the failing report). **Dependency freshness** (`client`: `npm run audit:dep-freshness`) is documented there as **supply-chain hygiene** (orthogonal to the code-structure ladder).

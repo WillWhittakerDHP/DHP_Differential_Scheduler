@@ -163,7 +163,6 @@ async function forceCreateHandler(req: Request, res: Response): Promise<void> {
 
   const validation = validateForceCreateBody(req.body)
   if (!validation.valid) {
-    // @audit-allow:hardcoding:fieldMapping - Standard Express error response shape; 'error' key is conventional (RFC 7807-style)
     res.status(validation.status).json({ error: validation.message })
     return
   }

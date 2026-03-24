@@ -13,6 +13,8 @@ This document governs how Vue components are designed and maintained: prop/emit/
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audits provide automated enforcement.
 
+**Remediation order:** **component-logic** and **component-health** are largely **outcome** metrics: hotspots and scores often move after composables and **module boundaries** stabilize. For discretionary cleanups, follow `.project-manager/AUDIT_FIX_CONTEXT.md` → **Governance remediation ladder** (steps 6–7); when tier-end or CI **fails**, treat the report as blocking and fix or allowlist per this playbook.
+
 ---
 
 ## Threshold table

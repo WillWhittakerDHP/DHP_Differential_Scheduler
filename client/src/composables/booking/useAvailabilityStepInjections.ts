@@ -13,20 +13,9 @@ import {
   loadedWizardStateKey,
   bookingFlowReadyKey,
 } from '@/keys/bookingInjectionKeys'
-import type { UseBookingWizardReturn } from '@/types/wizard'
-import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
-import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
-import type { PropertyDetailsData } from '@/types/propertyForm'
-import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
+import type { AvailabilityStepOrchestratorContext } from '@/types/booking/availabilityOrchestrator'
 
-export interface UseAvailabilityStepInjectionsReturn {
-  wizard: UseBookingWizardReturn
-  loadedWizardState: Ref<WizardStateData | null>
-  computedAvailability: UseComputedAvailabilityReturn
-  propertyDetailsStepData: Ref<PropertyDetailsData | null>
-  displayedMonth: Ref<DisplayedMonth>
-  updateDisplayedMonth: (month: DisplayedMonth) => void
-  appointmentDurationRef: Ref<number | null>
+export interface UseAvailabilityStepInjectionsReturn extends AvailabilityStepOrchestratorContext {
   isBookingFlowReady: Ref<boolean>
 }
 

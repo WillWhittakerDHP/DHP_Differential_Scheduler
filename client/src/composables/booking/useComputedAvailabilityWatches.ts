@@ -59,14 +59,18 @@ export function setupComputedAvailabilityPrefetchWatch(deps: ComputedAvailabilit
   )
 }
 
-interface ComputedAvailabilityMonthPrefetchWatchDeps {
-  dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
+/** Shared fetch/cache inputs for month vs per-day watchers (type-similarity REVIEW). */
+interface ComputedAvailabilitySlotFetchWatchBase {
   canFetchAvailability: ComputedRef<boolean>
   slotsByDay: Ref<Map<string, ComputedSlot[]>>
   fetchWithRange: (
     range: { start: RFC3339DateTime; end: RFC3339DateTime },
     label: string
   ) => Promise<void>
+}
+
+interface ComputedAvailabilityMonthPrefetchWatchDeps extends ComputedAvailabilitySlotFetchWatchBase {
+  dateRange: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime }>
 }
 
 /** Fetches month-end slice when the visible calendar range changes and that day is not yet cached. */
@@ -81,14 +85,8 @@ export function setupComputedAvailabilityMonthPrefetchWatch(deps: ComputedAvaila
   })
 }
 
-interface ComputedAvailabilityPerDayWatchDeps {
+interface ComputedAvailabilityPerDayWatchDeps extends ComputedAvailabilitySlotFetchWatchBase {
   selectedDate: Ref<string | null>
-  canFetchAvailability: ComputedRef<boolean>
-  slotsByDay: Ref<Map<string, ComputedSlot[]>>
-  fetchWithRange: (
-    range: { start: RFC3339DateTime; end: RFC3339DateTime },
-    label: string
-  ) => Promise<void>
 }
 
 /** When a single day is selected, fetches a narrow range around that UTC date if missing from cache. */

@@ -13,6 +13,20 @@ import type { DisplayedMonth } from '@/types/booking/dateRangeDecider'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 
+/**
+ * Wiring shared by availability step injections and orchestrator (type-similarity REVIEW → EXTEND).
+ * Step SFC injects this plus `isBookingFlowReady`; orchestrator adds optional `availabilityStepData` for restore.
+ */
+export interface AvailabilityStepOrchestratorContext {
+  wizard: UseBookingWizardReturn
+  loadedWizardState: Ref<WizardStateData | null>
+  computedAvailability: UseComputedAvailabilityReturn
+  propertyDetailsStepData: Ref<PropertyDetailsData | null>
+  displayedMonth: Ref<DisplayedMonth>
+  updateDisplayedMonth: (month: DisplayedMonth) => void
+  appointmentDurationRef: Ref<number | null>
+}
+
 export interface UseAvailabilityOrchestratorReturn {
   data: {
     firstAvailableNotice: Ref<string | null>
@@ -68,14 +82,7 @@ export interface UseAvailabilityOrchestratorReturn {
   wizard: UseBookingWizardReturn
 }
 
-export interface UseAvailabilityOrchestratorParams {
-  wizard: UseBookingWizardReturn
-  loadedWizardState: Ref<WizardStateData | null>
-  computedAvailability: UseComputedAvailabilityReturn
-  propertyDetailsStepData: Ref<PropertyDetailsData | null>
-  displayedMonth: Ref<DisplayedMonth>
-  updateDisplayedMonth: (month: DisplayedMonth) => void
-  appointmentDurationRef: Ref<number | null>
+export interface UseAvailabilityOrchestratorParams extends AvailabilityStepOrchestratorContext {
   /** Parent step data for restore when returning to step (wizard persistence). */
   availabilityStepData?: Ref<AvailabilityStepData | null>
 }

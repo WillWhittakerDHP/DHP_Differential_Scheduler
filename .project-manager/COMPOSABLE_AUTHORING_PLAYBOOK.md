@@ -11,6 +11,8 @@ This document governs how composables and function boundaries are designed, expo
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
 
+**Remediation order:** For optional cleanups, treat **composables-logic** and **composable-health** signals (including excessive composable imports) as **outcomes** that often improve after **module-boundary** work (file cohesion, dual-role/public-vs-internal splits, thin barrels)—see `.project-manager/AUDIT_FIX_CONTEXT.md` → **Governance remediation ladder** (steps 6–7). If tier-end or CI **fails** on these audits, fix per report; that is blocking.
+
 ---
 
 ## Decision tree: keep flat vs split vs facade

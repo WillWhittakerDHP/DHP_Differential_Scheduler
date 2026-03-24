@@ -58,7 +58,6 @@ export async function fetchAutocompleteSuggestions(
   logger.debug('[fetchAutocompleteSuggestions] Fetching for:', input)
   
   try {
-    // @audit-allow:hardcoding:fieldMapping - URLSearchParams query shape
     const params = new URLSearchParams({ input: input.trim() })
     if (sessionToken) {
       params.append('sessionToken', sessionToken)

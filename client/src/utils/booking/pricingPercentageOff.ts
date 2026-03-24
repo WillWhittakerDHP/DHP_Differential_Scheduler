@@ -6,10 +6,14 @@
 /**
  * Normalize percentage off for fee math. Admin may store `10` (10%) or `0.1` (10% as a fraction).
  */
-export function normalizePercentageOffForFee(raw: number | undefined | null): number {
+function coercePercentageOffNumber(raw: number | undefined | null): number {
   if (raw == null || Number.isNaN(raw)) return 0
   if (raw > 0 && raw <= 1) return raw * 100
   return raw
+}
+
+export function normalizePercentageOffForFee(raw: number | undefined | null): number {
+  return coercePercentageOffNumber(raw)
 }
 
 /**
@@ -20,7 +24,7 @@ export function applyPercentageOffToFeeComponent(
   value: number,
   percentageOffRaw: number | undefined | null
 ): number {
-  const pct = normalizePercentageOffForFee(percentageOffRaw)
+  const pct = coercePercentageOffNumber(percentageOffRaw)
   if (pct <= 0 || value < 0) return value
   return value * (1 - pct / 100)
 }

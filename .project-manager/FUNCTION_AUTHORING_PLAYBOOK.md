@@ -12,6 +12,8 @@ This document governs how functions are designed and maintained: complexity boun
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audit provides automated enforcement.
 
+**Remediation order:** **function-complexity** is often a **symptom** audit: many findings shrink after structural extraction and module-boundary cleanup (smaller files, clearer call sites). Prefer the ladder in `.project-manager/AUDIT_FIX_CONTEXT.md` → **Governance remediation ladder** (steps 6–7) for discretionary work; fix immediately when a **blocking** gate fails.
+
 ---
 
 ## Threshold table

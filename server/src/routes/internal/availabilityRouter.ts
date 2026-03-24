@@ -18,7 +18,6 @@ router.post(
     try {
       const validation = validateComputedAvailabilityRequest(req.body)
       if (!validation.valid) {
-        // @audit-allow:hardcoding:fieldMapping - Response shape (business logic validation)
         res.status(HTTP_STATUS_CODES.BAD_REQUEST).json({ error: validation.error })
         return
       }

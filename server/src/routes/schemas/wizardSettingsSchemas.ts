@@ -30,6 +30,7 @@ const wizardSettingsDataSchema = Joi.object({
   brandPrimaryHex: optionalHexColor.optional(),
   brandSecondaryHex: optionalHexColor.optional(),
   logoUrl: Joi.string().max(2048).allow(null, '').optional(),
+  selectionCardTooltipOpenDelayMs: Joi.number().integer().min(0).max(600_000).optional(),
 }).unknown(true)
 
 /** PUT /wizard-settings: requires setting_value object. */
