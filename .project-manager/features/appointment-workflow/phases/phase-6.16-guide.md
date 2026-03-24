@@ -6,23 +6,35 @@
 
 ---
 
-## Phase overview
+## Overview
 
-**Phase number:** 6.16  
-**Phase name:** Differential Role Generalization: margin + multiple minimizers  
-**Status:** Not started (design captured here; sessions 6.16.1–6.16.3 per feature guide)
+**Phase Number:** 6.16  
+**Phase Name:** Differential Role Generalization: margin + multiple minimizers  
+**Description:** Add a **`margin`** differential role (deterministic **pre-major** temporal position — work that sits at the **front** of the anchored appointment window). Support **multiple minimizer** segments with **sequential boundary chaining** in scheduling composables. Align **`PartFinal.minimizer: TernaryBoolean`** (`'false'` plain timeline, `'true'` minimizer, `'override'` margin). Inventory and extend **downstream** behavior: appointment persistence, **Google Calendar event creation** (what stays on the main event vs a separate calendar event), API payloads, and confirmation copy. Execute or document phased **moveable → minimizer** rename with migrations for stored JSON.
 
-**Summary:** Add a **`margin`** differential role (deterministic **pre-major** temporal position — work that sits at the **front** of the anchored appointment window). Support **multiple minimizer** segments with **sequential boundary chaining** in scheduling composables. Inventory and extend **downstream** behavior: appointment persistence, **Google Calendar event creation** (what stays on the main event vs a separate calendar event), API payloads, and confirmation copy.
+**Duration:** 3 sessions (6.16.1 margin foundation, 6.16.2 multiple minimizers, 6.16.3 integration + rename) — see `phases/phase-6.16-planning.md`.  
+**Status:** Not started
 
 **Related planning artifact (local Cursor plan, not in repo):** `~/.cursor/plans/differential_role_generalization_7884ea5f.plan.md` — use if present for session decomposition detail.
 
 ---
 
+## Objectives
+
+- Add **`margin`** to the **DifferentialRole** enum (server + shared types) with DB migration; set **`PartFinal.minimizer`** to **`'override'`** when margin applies.
+- Extend slot pipeline (part finalizer, slot shapes) to compute margin durations and **pre-major** temporal position.
+- Support **multiple minimizer** event shapes with ordered, sequential boundary chaining in scheduling composables (`useMoveablePartsScheduling` → eventual `useMinimizerPartsScheduling`).
+- Extend **`differentialEventRoleOverrides`** (Phase 6.12.5) path for margin and multiple minimizer shapes in admin UI.
+- Inventory and document (or implement) downstream behavior: appointment persistence, **Google Calendar** event split, API payloads, confirmation copy.
+- Execute or explicitly phase the mechanical **moveable → minimizer** rename with migration notes for stored JSON and server keys.
+
+---
+
 ## Terminology: minimizer (née moveable)
 
-**Product intent:** “Moveable” in UX copy referred to work scheduled in a **separate completion window** after the onsite inspection, with contingency/deadline semantics. The codebase historically mixed spellings (**moveable** vs **movable**).
+**Product intent:** "Moveable" in UX copy referred to work scheduled in a **separate completion window** after the onsite inspection, with contingency/deadline semantics. The codebase historically mixed spellings (**moveable** vs **movable**).
 
-**Direction:** Prefer the name **minimizer** in **code identifiers** (composables, types, CSS classes where renamed), and align **user-facing** strings in a later pass. **Rationale:** “Minimizer” reads closer to “residual / completion segment” and avoids collision with generic English “movable.”
+**Direction:** Prefer the name **minimizer** in **code identifiers** (composables, types, CSS classes where renamed), and align **user-facing** strings in a later pass. **Rationale:** "Minimizer" reads closer to "residual / completion segment" and avoids collision with generic English "movable."
 
 **Scope of rename (phased):**
 
@@ -38,11 +50,11 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**: 
 
 | Value | Meaning (placement) |
 |--------|---------------------|
-| **`'false'`** | Plain **major/minor** timeline for this part shape — **no** separate minimizer scheduling segment (not the “completion window” path). |
+| **`'false'`** | Plain **major/minor** timeline for this part shape — **no** separate minimizer scheduling segment (not the "completion window" path). |
 | **`'true'`** | **Minimizer** — participates in the **separately scheduled** segment (completion window, second temporal band, optional extra calendar event). |
 | **`'override'`** | **Margin** — **pre-major** anchor (work pushed to the **front** of the appointment window relative to the major segment), not the free-floating minimizer window. |
 
-**Resolution today:** `enrichBlockFinalsWithDifferentialRoles` sets **`minimizer: 'true'`** when an assigned event shape’s effective differential role is **`moveable`** (until DB enum is renamed). **`'override'`** is reserved for Phase 6.16 **margin** role wiring; until then it is not emitted from role resolution.
+**Resolution today:** `enrichBlockFinalsWithDifferentialRoles` sets **`minimizer: 'true'`** when an assigned event shape's effective differential role is **`moveable`** (until DB enum is renamed). **`'override'`** is reserved for Phase 6.16 **margin** role wiring; until then it is not emitted from role resolution.
 
 **Interaction with `differentialEventRoleOverrides`:** Block-instance overrides (Phase 6.12.5) already divert **major / minor / moveable / none** per event shape. Phase 6.16 extends the same override map for **margin** and multiple minimizer shapes once the role enum and admin UI exist.
 
@@ -51,30 +63,61 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**: 
 ## Alignment with existing patterns
 
 - **`TernaryBoolean`** elsewhere: block **`differential`**, **`agent_permissions`** (`'true' | 'false' | 'override'`) — same three-value discipline for admin + inheritance.
-- **Phase 6.4 / 6.9:** Pre-closing UX and availability sub-step “confirm moveable” are **wizard presentation**; they stay until the minimizer rename pass lands.
+- **Phase 6.4 / 6.9:** Pre-closing UX and availability sub-step "confirm moveable" are **wizard presentation**; they stay until the minimizer rename pass lands.
 - **Phase 6.12.5:** **`differentialEventRoleOverrides`** — matrix over active event shapes; use for conditional diversion when margin vs minimizer splits differ by option block.
 
 ---
 
-## Sessions (from feature guide)
+## Tasks
 
-- **6.16.1 — Margin role:** Shared types, server model + migration, slot pipeline (PartFinal margin flag is **`minimizer: 'override'`** + duration math), perspective resolver, admin dropdown, lint.
-- **6.16.2 — Multiple minimizers:** Detection utilities, `MoveableSegment`-style type (rename to **MinimizerSegment** when doing identifier pass), `useMoveablePartsScheduling` multi-segment refactor + sequential boundaries, orchestrator / sub-step wiring.
-- **6.16.3 — Integration:** Test event-shape data, sequential scheduling verification, downstream inventory (persistence, calendar events, API, confirmation UX).
+- DB migration: add **`margin`** to `differential_role` ENUM on `event_shapes`; decide storage name vs alias (6.16.1).
+- Shared types: extend `DifferentialRole` (or equivalent) with `margin`; align with `TernaryBoolean` on `PartFinal`.
+- Part finalizer / slot shapes: compute margin durations, offsets, and pre-major positioning.
+- Perspective resolver: emit `PartFinal.minimizer === 'override'` for margin; update `enrichBlockFinalsWithDifferentialRoles`.
+- Admin dropdown / override surface: margin option in differential role override matrix.
+- Multi-minimizer detection utilities and segment types.
+- Composable refactor: `useMoveablePartsScheduling` → sequential multi-segment boundaries; orchestrator/sub-step wiring.
+- Downstream inventory: appointment persistence, calendar event split, API payloads, confirmation UX (implement or document gaps).
+- Mechanical rename: moveable → minimizer pass executed or tranched with migration notes.
+- Client lint + app start; update session logs and handoff per workflow.
+
+### Sessions Breakdown
+
+- [ ] ### Session 6.16.1: Margin role — types, pipeline, admin
+**Description:** Shared types and DB migration for **margin** on `DifferentialRole`; lock ENUM rename strategy (minimizer vs alias); slot pipeline — `PartFinal.minimizer: 'override'` + duration math for pre-major placement; perspective resolver; admin dropdown for margin in override matrix; lint.
+**Tasks:** ENUM migration; shared types; part finalizer margin path; perspective + enrichment; admin override UI; lint + app start.
+**Focus:** Foundation: margin in storage/types/pipeline/admin; no silent fallback in resolver.
+
+- [ ] ### Session 6.16.2: Multiple minimizers — segments, composable, orchestrator
+**Description:** Detection utilities for multiple minimizer shapes; `MinimizerSegment`-style types (or rename from `MoveableSegment`); `useMoveablePartsScheduling` multi-segment refactor with sequential boundary chaining; orchestrator / availability sub-step wiring.
+**Tasks:** Multi-minimizer detection; segment types; composable refactor; sequential boundaries; orchestrator wiring; lint + app start.
+**Focus:** Ordered multi-segment scheduling with correct inner/outer boundaries.
+
+- [ ] ### Session 6.16.3: Integration + rename tranches
+**Description:** End-to-end verification with test event-shape data; sequential scheduling verification; downstream inventory (persistence, calendar events, API, confirmation UX); mechanical minimizer rename pass executed or documented per tranche.
+**Tasks:** E2E data verification; downstream checklist; rename/migration execution or documentation; lint + app start; phase handoff.
+**Focus:** No half-renamed API; downstream behavior documented or implemented; honest phase close.
 
 ---
 
-## Success criteria (draft)
+## Dependencies
+
+**Prerequisites:** Phase 6.12.5 (`differentialEventRoleOverrides`) complete. `PartFinal.minimizer: TernaryBoolean` type change landed. Phase 6.14 (organization defaults) complete for numeric policy context.
+
+---
+
+## Success Criteria
 
 - [ ] `margin` (or agreed name) exists in **DifferentialRole** storage and admin UI; **`PartFinal.minimizer === 'override'`** when margin applies.
 - [ ] Multiple minimizer shapes schedule in **order** with correct inner/outer boundaries.
 - [ ] Calendar invite pipeline documents which shapes create **separate** events vs **inline** on the main appointment.
+- [ ] **`differentialEventRoleOverrides`** path supports margin / multi-minimizer per phase guide.
 - [ ] Mechanical **minimizer** rename completed or explicitly phased with migration notes (no half-renamed public API).
 - [ ] Lint and app start pass.
 
 ---
 
-## Related documents
+## Related Documents
 
 - `feature-appointment-workflow-guide.md` — Phase 6.16 row and detailed bullet
 - `phases/phase-6.16-planning.md` — phase contract

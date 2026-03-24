@@ -192,3 +192,20 @@ nextAction:
 - Phase 6.15 has status: Complete
 - All sessions in this phase have been completed
 - To start a new phase, use /phase-start 7
+
+### 2026-03-24 — 6.16 — phase — start — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 6.16
+- **featureName:** appointment-workflow
+- **stepPath:** ensure_branch, ensure_guide_from_plan
+
+- **Symptom:** Harness start failed (reasonCode=guide_materialization_failed).
+- **Context:** tier=phase; identifier=6.16; featureName=appointment-workflow
+
+nextAction:
+Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
