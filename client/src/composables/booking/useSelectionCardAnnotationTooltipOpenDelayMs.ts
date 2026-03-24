@@ -6,10 +6,10 @@ import { computed, type ComputedRef } from 'vue'
 import type { WizardSettingsData } from '@/configs/wizardSettings'
 import { useBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
 
-export const DEFAULT_SELECTION_CARD_TOOLTIP_OPEN_DELAY_MS = 3000
+const DEFAULT_SELECTION_CARD_TOOLTIP_OPEN_DELAY_MS = 3000
 
 /** Read delay from wizard payload (camelCase or legacy snake_case). */
-export function pickSelectionCardTooltipOpenDelayMsRaw(data: WizardSettingsData | null | undefined): unknown {
+function pickSelectionCardTooltipOpenDelayMsRaw(data: WizardSettingsData | null | undefined): unknown {
   if (data == null) {
     return undefined
   }
@@ -22,7 +22,7 @@ export function pickSelectionCardTooltipOpenDelayMsRaw(data: WizardSettingsData 
 }
 
 /** Normalize API / form values (number or numeric string); invalid → default. */
-export function parseSelectionCardTooltipOpenDelayMs(raw: unknown): number {
+function parseSelectionCardTooltipOpenDelayMs(raw: unknown): number {
   if (raw == null) {
     return DEFAULT_SELECTION_CARD_TOOLTIP_OPEN_DELAY_MS
   }

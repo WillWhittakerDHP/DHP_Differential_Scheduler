@@ -1806,6 +1806,13 @@
           "reason": "Composable modules expose nested handlers and module-private helpers; not all are attributed when returned, passed to child components, or referenced indirectly."
         },
         {
+          "glob": "client/src/composables/booking/useAvailabilityStepSlotOverlayLabelGuard.ts",
+          "ruleIds": [
+            "unused-export"
+          ],
+          "reason": "Guard composable staged for wiring into AvailabilityStep (slot overlay misconfiguration warning); will be consumed when Phase 6.9 mini-wizard lands."
+        },
+        {
           "glob": "client/src/utils/**/*.ts",
           "ruleIds": [
             "unused-function"
