@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "modelPreferences": {
+    "feature": {
+      "model": "Claude Opus 4",
+      "reason": "Deep architectural reasoning for feature decomposition"
+    },
+    "phase": {
+      "model": "GPT-4.5",
+      "reason": "Balanced planning and phase-level decomposition"
+    },
+    "session": {
+      "model": "Composer",
+      "reason": "Strong implementation focus for session work"
+    },
+    "task": {
+      "model": "Composer (fast)",
+      "reason": "Speed-optimized for focused task changes"
+    }
+  },
+  "gateProfileOverrides": {
+    "express": {
+      "model": "Composer (fast)",
+      "reason": "Express profile: minimal gates, prioritize speed"
+    },
+    "decomposition": {
+      "model": "Claude Opus 4",
+      "reason": "Decomposition profile: deep reasoning for multi-tier planning"
+    }
+  }
+}
