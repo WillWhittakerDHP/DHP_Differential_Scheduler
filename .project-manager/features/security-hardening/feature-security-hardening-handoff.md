@@ -24,6 +24,249 @@ Phase 8.2 (Inbound Rate Limiting) complete. General limiter (100 req/15 min) and
 
 ---
 
+#### Session 8.1.1
+**Last Completed:** Session 8.1.1 — CORS origin wiring (env, `app.ts`, `.env.example`, verification)
+**Next Session:** Per phase 8.1 guide (e.g. follow-up sessions or `/phase-end 8.1` when phase is done)
+**Git Branch:** `phase-8.1` (session work merged from `session-8.1.1`)
+**Where we left off:**
+CORS lockdown work for session 8.1.1 is complete; session branch merged into `phase-8.1`.
+
+**What you need to start:**
+- Confirm API + client still run with `CORS_ORIGIN` set for dev/production
+- Proceed with the next phase session or phase-end workflow as planned
+
+<!-- end excerpt session -->
+
+#### Task 8.1.1.1
+
+#### Session 8.1.2
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `session-8.1.2`
+**Last Updated:** 2026-03-21
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+[Minimal notes about what was completed - 2-3 sentences max]
+
+**What you need to start:**
+- [Brief bullet point about context needed]
+- [Brief bullet point about files to review]
+- [Brief bullet point about any blockers or considerations]
+
+**Minimal Future Considerations:**
+- [Only include if critical for next session - keep minimal]
+
+---
+
+#### Task 8.1.2.1
+
+#### Session 8.2.1
+**Last Completed:** Task **8.2.1.2** — Verify rate limit behavior (429 + `Retry-After`; manual or `curl` check).  
+(Session **8.2.1** also completed Task **8.2.1.1** — add `express-rate-limit` and mount general limiter on `/api/v1/internal/*`.)
+
+**Next Session:** Session **8.2.2** — Auth-route limiter and verification (tasks per `session-8.2.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
+**Where we left off:**  
+General inbound limiter (100 req/15 min per IP) is mounted for internal API routes; excess traffic returns **429** with **Retry-After**. Behavior documented in `server/docs/SECURITY_STUBS.md`.
+
+**What you need to start 8.2.2:**
+
+- Review limiter order and paths in `server/src/app.ts` and notes in `SECURITY_STUBS.md`
+- Follow `session-8.2.2-guide.md` and `phases/phase-8.2-guide.md` for auth-route scope
+
+<!-- end excerpt session -->
+
+---
+
+#### Session 8.2.2
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `session-8.2.2`
+**Last Updated:** 2026-03-21
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+[Minimal notes about what was completed - 2-3 sentences max]
+
+**What you need to start:**
+- [Brief bullet point about context needed]
+- [Brief bullet point about files to review]
+- [Brief bullet point about any blockers or considerations]
+
+**Minimal Future Considerations:**
+- [Only include if critical for next session - keep minimal]
+
+---
+
+#### Session 8.3.1
+**Last Completed:** Task **8.3.1.2** — Wire validation to a sample internal route; document pattern in `SECURITY_STUBS`.  
+(Session **8.3.1** also completed Task **8.3.1.1** — add Joi and `validateRequest` middleware.)
+
+**Next Session:** Session **8.3.2** — Apply validation across internal POST/PUT routes (see `session-8.3.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
+**Where we left off:**  
+Joi is installed; validation middleware/helpers exist; at least one internal route validates POST/PUT bodies; invalid payloads return **400** with schema details. Pattern noted in `server/docs/SECURITY_STUBS.md`.
+
+**What you need to start 8.3.2:**
+
+- Review `server/src/middlewares/` validation helpers and the sample route wiring
+- Follow `session-8.3.2-guide.md` and `phases/phase-8.3-guide.md` for breadth of route coverage
+
+<!-- end excerpt session -->
+
+---
+
+#### Task 8.3.1.1
+
+#### Session 8.3.2
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `phase-8.3`
+**Last Updated:** 2026-03-22
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+[Minimal notes about what was completed - 2-3 sentences max]
+
+**What you need to start:**
+- [Brief bullet point about context needed]
+- [Brief bullet point about files to review]
+- [Brief bullet point about any blockers or considerations]
+
+**Minimal Future Considerations:**
+- [Only include if critical for next session - keep minimal]
+
+---
+
+#### Task 8.3.2.1
+
+#### Session 8.4.1
+**Last Completed:** Task **8.4.1.2** — Validate `.env.example` and remediate any hardcoded secrets (cross-check against inventory).  
+(Session **8.4.1** also completed Task **8.4.1.1** — inventory `process.env` / config usage across server and client.)
+
+**Next Session:** Session **8.4.2** — Verify `.gitignore`, scan tracked files for secrets, document in `SECURITY_STUBS` (see `session-8.4.2-guide.md`)
+
+**Git Branch:** `feature/security-hardening`
+
+---
+**Where we left off:**  
+Env usage is inventoried; `.env.example` templates align with required vars; no hardcoded secrets left in scope of this audit. Findings and safe-handling notes are reflected in project docs / `SECURITY_STUBS` as applicable.
+
+**What you need to start 8.4.2:**
+
+- Review `.gitignore` and any credential paths (e.g. tokens, `.env*`)
+- Follow `session-8.4.2-guide.md` and `phases/phase-8.4-guide.md` for the committed-files scan scope
+
+<!-- end excerpt session -->
+
+---
+
+#### Task 8.4.1.1
+
+#### Session 8.4.2
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `session-8.4.2`
+**Last Updated:** 2026-03-22
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+[Minimal notes about what was completed - 2-3 sentences max]
+
+**What you need to start:**
+- [Brief bullet point about context needed]
+- [Brief bullet point about files to review]
+- [Brief bullet point about any blockers or considerations]
+
+**Minimal Future Considerations:**
+- [Only include if critical for next session - keep minimal]
+
+---
+
+#### Task 8.4.2.1
+
+#### Session 8.5.1
+**Last Completed:** Task 
+**Next Session:** Session 8.5.2
+**Git Branch:** `phase-8.5`
+**Last Updated:** 2026-03-22
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 8.5.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+Completed Task 
+
+**What you need to start:**
+- Begin Session 8.5.2
+
+<!-- end excerpt session -->
+
+
+**Where we left off:**
+[Minimal notes about what was completed - 2-3 sentences max]
+
+**What you need to start:**
+- [Brief bullet point about context needed]
+- [Brief bullet point about files to review]
+- [Brief bullet point about any blockers or considerations]
+
+**Minimal Future Considerations:**
+- [Only include if critical for next session - keep minimal]
+
+---
+
+#### Task 8.5.1.1
+
 ## Child handoff excerpts (sources archived)
 
 Per-child **Transition Context** and **Current Status** excerpts (no duplicate top-level handoff sections).

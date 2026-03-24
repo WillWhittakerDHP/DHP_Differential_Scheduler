@@ -166,3 +166,29 @@ Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. C
 - **24** fan-in violations: `client/src/constants/entities` (215), `client/src/types/entities` (178), `client/s
 
 …(truncated)
+
+### 2026-03-24 — 6.15 — phase — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 6.15
+- **featureName:** appointment-workflow
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=phase; identifier=6.15; featureName=appointment-workflow
+
+nextAction:
+## Phase Validation
+# Phase 6.15 Validation
+
+❌ **Status:** Cannot start - Phase already completed
+
+## Details
+
+- Phase 6.15 has status: Complete
+- All sessions in this phase have been completed
+- To start a new phase, use /phase-start 7

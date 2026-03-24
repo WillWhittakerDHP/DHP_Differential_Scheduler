@@ -458,3 +458,377 @@ All planned phases for this feature tranche are complete. Follow-up work (e.g. a
 <!-- end excerpt phase -->
 
 ---
+
+## Phase logs (integrated)
+
+### Phase 7.1 (integrated)
+
+# Phase 7.1 log (integrated)
+
+_Created during doc rollup — session logs merged below._
+
+## Session logs (integrated)
+
+### Session 7.1.1 (integrated)
+
+# Session 7.1.1: ** Migrations — `sessions` and `magic_links` tables, indexes, FK to `users` where required
+
+
+### Task 7.1.1.1: Task 7.1.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.1.2
+
+
+
+## Completed Tasks
+
+### Task 7.1.1.2: Task 7.1.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.1.3
+
+
+
+### Task 7.1.1.1: Task 7.1.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.1.2
+
+<!-- end excerpt session -->
+### Task 7.1.1.2: Task 7.1.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.1.3
+
+### Session 7.1.2 (integrated)
+
+# Session 7.1.2: ** Sequelize models — register Session and MagicLink (or agreed names), associations, model index wiring
+
+
+### Task 7.1.2.2: Task 7.1.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- (session complete — run `/session-end 7.1.2` when wrapping)
+
+### Phase 7.2 (integrated)
+
+# Phase 7.2 log (integrated)
+
+_Created during doc rollup — session logs merged below._
+
+### Phase 7.3 (integrated)
+
+# Phase 7.3 log (integrated)
+
+_Created during doc rollup — session logs merged below._
+
+## Session logs (integrated)
+
+### Session 7.3.1 (integrated)
+
+# Session 7.3.1: ** Magic link strategy — token generation, persistence, expiry/consumption rules aligned with `strategyTypes` and `magic_link` model.
+
+
+### Task 7.3.1.1: Task 7.3.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.2
+
+
+
+## Completed Tasks
+
+### Task 7.3.1.3: Task 7.3.1.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.4
+
+
+
+### Task 7.3.1.2: Task 7.3.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.3
+
+
+
+### Task 7.3.1.1: Task 7.3.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.2
+
+<!-- end excerpt session -->
+### Task 7.3.1.2: Task 7.3.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.3
+
+
+### Task 7.3.1.3: Task 7.3.1.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.1.4
+
+### Session 7.3.2 (integrated)
+
+# Session 7.3.2: ** Request-magic-link API + mailer abstraction (real email when configured; console/logger fallback in dev).
+
+
+### Task 7.3.2.1: Task 7.3.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.2
+
+### Session 7.3.3 (integrated)
+
+# Session 7.3.3: ** Verify route — validate token, create session, set cookie, structured error paths and logging.
+
+
+### Task 7.3.3.1: Task 7.3.3.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.3.2
+
+
+
+## Completed Tasks
+
+### Task 7.3.3.2: Task 7.3.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.3.3
+
+
+
+### Task 7.3.3.1: Task 7.3.3.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.3.2
+
+<!-- end excerpt session -->
+### Task 7.3.3.2: Task 7.3.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.3.3
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Completed Tasks
+
+### Task 7.3.2.3: Task 7.3.2.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.4
+
+
+
+### Task 7.3.2.2: Task 7.3.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.3
+
+
+
+### Task 7.3.2.1: Task 7.3.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.2
+
+<!-- end excerpt session -->
+### Task 7.3.2.2: Task 7.3.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.3
+
+
+### Task 7.3.2.3: Task 7.3.2.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.3.2.4
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Session logs (integrated)
+
+### Session 7.2.1 (integrated)
+
+# Session 7.2.1 Log: Strategy Contract and Auth Config Foundation
+
+**Status:** In Progress
+**Date:** 2026-03-23
+
+---
+
+### Session 7.2.2 (integrated)
+
+# Session 7.2.2 Log: Session Manager and Cookie Lifecycle
+
+**Status:** In Progress
+**Date:** 2026-03-23
+
+---
+
+## Session Goal
+
+[Document concrete session goal]
+
+### Task 7.2.2.1: Task 7.2.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.2
+
+
+
+## Completed Tasks
+
+### Task 7.2.2.3: Task 7.2.2.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.4
+
+
+
+### Task 7.2.2.2: Task 7.2.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.3
+
+
+
+### Task 7.2.2.1: Task 7.2.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.2
+
+<!-- end excerpt session -->
+### Task 7.2.2.2: Task 7.2.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.3
+
+
+### Task 7.2.2.3: Task 7.2.2.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.2.2.4
+
+### Session 7.2.3 (integrated)
+
+# Session 7.2.3 Log: Middleware and Router Integration
+
+**Status:** Complete
+**Date:** 2026-03-23
+
+---
+
+## Session Goal
+
+Middleware and router integration for authentication (session 7.2.3).
+
+### Task 7.2.3.1: Task 7.2.3.1 ✅
+
+**Goal:** Task completed
+
+**Next Task:**
+
+- 7.2.3.2
+
+## Completed Tasks
+
+### Task 7.2.3.2: Task 7.2.3.2 ✅
+
+**Goal:** Task completed
+
+**Next Task:**
+
+- 7.2.3.3
+
+### Task 7.2.3.3: Task 7.2.3.3 ✅
+
+**Goal:** Task completed
+
+**Next Task:**
+
+- 7.2.3.4
+
+<!-- end excerpt session -->
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Session Goal
+
+[Document concrete session goal]
+
+## Completed Tasks
+
+### Task 7.1.2.2: Task 7.1.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- (session complete)
+
+### Task 7.1.2.1: Task 7.1.2.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 7.1.2.2
+
+<!-- end excerpt session -->
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
