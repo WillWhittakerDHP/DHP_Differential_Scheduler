@@ -2452,16 +2452,6 @@
           "reason": "Dynamic z-index for overlay stacking."
         },
         {
-          "file": "client/src/components/booking/IndependentSelectCard.vue",
-          "ruleId": "inline-style-static",
-          "reason": "Config-driven minHeight from mergedConfig.appearance."
-        },
-        {
-          "file": "client/src/components/booking/IndependentSelectCard.vue",
-          "ruleId": "inline-style-dynamic",
-          "reason": "Config-driven minHeight from mergedConfig.appearance."
-        },
-        {
           "file": "client/src/components/booking/AppointmentSlotGrid.vue",
           "ruleId": "inline-style-static",
           "reason": "Dynamic grid columns and constraint violation colors (same as inline-dynamic)."
@@ -2577,15 +2567,6 @@
             "fieldMapping"
           ],
           "reason": "Vue :style bindings (legend-swatch backgroundColor, chart); template shape not API mapping"
-        },
-        {
-          "file": "client/src/components/booking/IndependentSelectCard.vue",
-          "ruleId": "fieldMapping",
-          "lineRange": [
-            119,
-            121
-          ],
-          "reason": "Vue :style binding from config (minHeight); template shape"
         },
         {
           "file": "client/src/components/booking/SelectionCard.vue",
