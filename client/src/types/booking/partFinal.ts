@@ -9,7 +9,12 @@ export interface PartFinal {
   rateOverBaseFee: number
   major: TernaryBoolean
   minor: TernaryBoolean
-  moveable: boolean
+  /**
+   * Minimizer placement (née moveable boolean): plain major/minor timeline (`false`),
+   * separate minimizer scheduling segment (`true`), margin / pre-major anchor (`override`).
+   * See `phases/phase-6.16-guide.md`.
+   */
+  minimizer: TernaryBoolean
   zeroOutPart: boolean
   sourcePartInstances: BookingPartInstance[]
 }

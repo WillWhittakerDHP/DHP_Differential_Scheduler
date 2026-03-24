@@ -1,3 +1,5 @@
+<!-- harness-guide-rollup tier=feature id=authentication consolidatedAt=2026-03-24T22:41:52.985Z -->
+
 # Feature authentication Guide
 
 **Purpose:** Feature-level guide for planning and tracking major initiatives
@@ -182,3 +184,22 @@ After completing all phases in a feature:
 - Phase Guides: `.project-manager/features/[name]/phases/phase-[N]-guide.md`
 - Research Questions: `.project-manager/features/[name]/research-questions.md`
 
+## Guide doc rollup (harness)
+
+Child guides were archived at **2026-03-24T22:41:52.985Z** (safe rollup — no automatic merge of tierDown blocks).
+
+- `.project-manager/features/authentication/phases/phase-7.1-guide.md`
+- `.project-manager/features/authentication/phases/phase-7.2-guide.md`
+- `.project-manager/features/authentication/phases/phase-7.3-guide.md`
+
+---
+
+## Architecture
+
+High-level architecture and dependencies. [Fill in from feature plan.]
+
+---
+
+## Implementation Plan
+
+Phases and implementation order. [Fill in from feature plan.]

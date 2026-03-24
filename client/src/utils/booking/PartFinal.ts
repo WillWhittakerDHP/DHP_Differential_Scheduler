@@ -7,7 +7,7 @@ export type { PartFinal } from '@/types/booking/partFinal'
 /** Defaults before enrichBlockFinalsWithDifferentialRoles (buildAppointmentShape). */
 const PART_FINAL_DEFAULT_MAJOR = 'false' as const
 const PART_FINAL_DEFAULT_MINOR = 'false' as const
-const PART_FINAL_DEFAULT_MOVEABLE = false
+const PART_FINAL_DEFAULT_MINIMIZER = 'false' as const
 
 export function createPartFinal(
   partShape: string,
@@ -31,7 +31,7 @@ export function createPartFinal(
     rateOverBaseFee,
     major: PART_FINAL_DEFAULT_MAJOR,
     minor: PART_FINAL_DEFAULT_MINOR,
-    moveable: PART_FINAL_DEFAULT_MOVEABLE,
+    minimizer: PART_FINAL_DEFAULT_MINIMIZER,
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }

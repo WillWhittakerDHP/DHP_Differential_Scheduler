@@ -88,11 +88,11 @@ function resolvePartShapeDifferentialFlags(
   assignments: Record<string, EventInstance[]>,
   shapeById: Map<string, EventShape>,
   overrides?: Record<string, DifferentialRole> | null
-): { major: TernaryBoolean; minor: TernaryBoolean; moveable: boolean } {
+): { major: TernaryBoolean; minor: TernaryBoolean; minimizer: TernaryBoolean } {
   const events = nilToEmptyArray(assignments[partShapeName])
   let major: TernaryBoolean = 'false'
   let minor: TernaryBoolean = 'false'
-  let moveable = false
+  let minimizer: TernaryBoolean = 'false'
   for (const ei of events) {
     const es = shapeById.get(toGlobalEntityId(ei.eventShapeRef))
     if (!es) {
@@ -104,13 +104,13 @@ function resolvePartShapeDifferentialFlags(
     } else if (role === 'minor') {
       minor = 'true'
     } else if (role === 'moveable') {
-      moveable = true
+      minimizer = 'true'
     }
   }
-  return { major, minor, moveable }
+  return { major, minor, minimizer }
 }
 
-/** Set PartFinal major/minor/moveable from eventAssignmentsByPartShape + event shape roles. */
+/** Set PartFinal major/minor/minimizer from eventAssignmentsByPartShape + event shape roles. */
 export function enrichBlockFinalsWithDifferentialRoles(
   blockFinals: BlockFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]>,

@@ -83,3 +83,86 @@ nextAction:
 - **Context:** The session ID `6.14.1` already encodes the feature number (`6`). The harness has `resolveWorkflowScope` and `WorkflowCommandContext.contextFromParams` which can extract the feature from a session ID (the phase prefix `6.14` maps to feature `6` / `appointment-workflow` via the existing feature directory scan). Phase-start accepts `phaseStart('6.14', '6')` but the feature ref there is used for disambiguation — session IDs are even more specific (three-level) and should need it even less. The cascade from `/accepted-plan` suggested `/session-start 6.14.1` (no feature ref), matching user expectation, but the export crashed without it.
 - **What we tried:** Manually added `'6'` as the second argument to unblock. Works, but the UX is inconsistent and the agent had to inspect the function signature to discover the requirement.
 - **Suggestion:** Re-engineer `sessionStart` in `session.ts` to make `featureRef` optional. When omitted, derive the feature from the session ID using the existing extraction tools (`WorkflowId.parseSessionId` → phase prefix → scan `.project-manager/features/` for the phase guide, or use `resolveWorkflowScope({ mode: 'fromTierParams', tier: 'session', params: { sessionId } })`). This aligns session-start with the other tiers and with the cascade command output that omits the feature ref. The slash command prompt `/session-start 6.14.1` should just work without appending a feature number.
+
+### 2026-03-24 — 6.14 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 6.14
+- **featureName:** appointment-workflow
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, planning_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=6.14; featureName=appointment-workflow
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 6.14
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/appointment-workflow/audits/phase-6.14-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/appointment-workflow/audits/external/phase-6.14/2026-03-24T22-36-38Z`
+- **Copied:** 6 file(s)
+- **Missing:** 3 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (82/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+- Remove or allowlist unused exports/functions in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/unused-code-audit.json. Verify before remove.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/appointment-workflow/audits/phase-6.14-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Governance context (harness-injected)
+
+## Governance Context (Phase)
+
+
+### Type Inventory Issues
+- 15 mixed type+constant files
+- 129 inline types in composables
+- 3 duplicate type names
+
+### Duplication Hotspots (top 4)
+- **create** pattern across 49 files
+- **use** pattern across 275 files
+- **get** pattern across 94 files
+- **update** pattern across 5 files
+
+### Import Graph
+- **24** fan-in violations: `client/src/constants/entities` (215), `client/src/types/entities` (178), `client/s
+
+…(truncated)

@@ -1,3 +1,5 @@
+<!-- harness-guide-rollup tier=feature id=security-hardening consolidatedAt=2026-03-24T22:43:16.884Z -->
+
 # Feature security-hardening Guide
 
 **Purpose:** Feature-level guide for planning and tracking major initiatives
@@ -133,3 +135,25 @@ Research phase not yet started — architectural decisions to be documented in t
 - **Phase 8.4:** Secrets audit
 - **Phase 8.5:** Security headers — Helmet, CSP
 - **Phase 8.6–8.7:** CSRF protection (depends on Feature 7 Authentication)
+
+## Guide doc rollup (harness)
+
+Child guides were archived at **2026-03-24T22:43:16.884Z** (safe rollup — no automatic merge of tierDown blocks).
+
+- `.project-manager/features/security-hardening/phases/phase-8.1-guide.md`
+- `.project-manager/features/security-hardening/phases/phase-8.2-guide.md`
+- `.project-manager/features/security-hardening/phases/phase-8.3-guide.md`
+- `.project-manager/features/security-hardening/phases/phase-8.4-guide.md`
+- `.project-manager/features/security-hardening/phases/phase-8.5-guide.md`
+
+---
+
+## Architecture
+
+High-level architecture and dependencies. [Fill in from feature plan.]
+
+---
+
+## Implementation Plan
+
+Phases and implementation order. [Fill in from feature plan.]

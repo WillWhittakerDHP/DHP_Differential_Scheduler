@@ -26,7 +26,7 @@ The charter describes a **multi-step** `StepId` pipeline (`preflight`, `load_con
 |-------|------|----------|
 | Step graph (v1 actual) | `.cursor/commands/harness/step-graph.ts` | One step (`validate_identifier`) → adapter runs whole start/end workflow |
 | Tier start steps | `.cursor/commands/harness/run-start-steps.ts` + `tiers/shared/tier-start-steps.ts` | Real ordering of validate, context, branch, planning gate, … |
-| Tier end steps | `.cursor/commands/harness/run-end-steps.ts` + `tiers/shared/tier-end-steps.ts` | Ordered end pipeline (`END_WORKFLOW_STEP_IDS` in `run-end-steps.ts`): includes **`deliverables_check`** then **`planning_rollup`** (consolidate planning docs via `DocumentManager.rollupPlanningArtifacts`) **before** **`commit_remaining`** and **`git`** |
+| Tier end steps | `.cursor/commands/harness/run-end-steps.ts` + `tiers/shared/tier-end-steps.ts` | Ordered end pipeline (`END_WORKFLOW_STEP_IDS`): **`deliverables_check`** → **`planning_rollup`** → **`doc_rollup`** (log/handoff/guide via `DocumentManager.rollupLogArtifacts` / `rollupHandoffArtifacts` / `rollupGuideArtifacts`; scope from `docRollupProfile` / `HARNESS_DOC_ROLLUP`, default **`planning_only`**) → **`commit_remaining`** → **`git`** |
 
 End-state multi-step kernel in `.project-manager/HARNESS_CHARTER.md` §7 is **target architecture**, not the only step trace the repo records today.
 
