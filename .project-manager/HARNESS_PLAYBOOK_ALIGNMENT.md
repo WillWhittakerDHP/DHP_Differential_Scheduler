@@ -19,7 +19,7 @@ This note keeps **authoring playbooks** and **governance docs** aligned with the
 
 - **Single resolver:** `resolveWorkflowScope` in `.cursor/commands/utils/workflow-scope.ts` normalizes feature directory, tier, identifier, and optional `.tier-scope` snapshot.
 - **`WorkflowCommandContext.contextFromParams`** delegates to `resolveWorkflowScope` only (no git-based feature inference).
-- **Phase, session, task** invocations **must** include **`featureId` or `featureName`** (PROJECT_PLAN `#` or `features/` directory slug). Pending state for `/accepted-proceed` and `/accepted-code` must carry the same.
+- **Phase, session, task** invocations **must** include **`featureId` or `featureName`** (PROJECT_PLAN `#` or `features/` directory slug). Pending state for `/accepted-plan`, `/accepted-build`, and `/accepted-code` must carry the same.
 - **Feature-only helpers** (utilities, audits, scripts):
   - **`resolveFeatureDirectoryFromPlan(ref)`** — `#` or slug → canonical feature directory (same rules as feature tier).
   - **`resolveActiveFeatureDirectory()`** — reads `.project-manager/.tier-scope` `feature.id` (written on successful tier-starts); **not** derived from git branch.

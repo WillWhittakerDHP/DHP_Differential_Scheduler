@@ -10,6 +10,7 @@ This document governs how Vue components are designed and maintained: prop/emit/
 - **Function Authoring Playbook** (`.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`) — complexity and return types in extracted utilities.
 - **Cursor rules** (`.cursor/rules/component-governance.mdc`) — boundaries, thresholds, reusability; always-applied.
 - **Audit scripts** — `client/.scripts/component-logic-audit.mjs` and `client/.scripts/component-health-audit.mjs` (reports in `client/.audit-reports/`).
+- **Architectural patterns** — `.project-manager/ARCHITECTURE.md` §6 (e.g. admin metadata-driven pattern, generic components under `client/src/admin/components/generic/`).
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audits provide automated enforcement.
 

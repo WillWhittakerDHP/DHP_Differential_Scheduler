@@ -8,6 +8,7 @@ This document governs how composables and function boundaries are designed, expo
 - **Type Authoring Playbook** (`.project-manager/TYPE_AUTHORING_PLAYBOOK.md`) — types at boundaries follow that playbook; this one focuses on composable shape, mutation ownership, and complexity.
 - **Cursor rules** (`.cursor/rules/composable-governance.mdc`) — flat contracts, action-based mutation, Ref/ComputedRef boundaries; always-applied.
 - **Audit scripts** — composable-health, composables-logic, function-complexity — which enforce and report on composable and function hygiene.
+- **Domain orchestrators & prefixes** — `.project-manager/ARCHITECTURE.md` §5 for per-domain composable naming (e.g. `useBooking*`, `useAdmin*`) and key orchestrators.
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
 

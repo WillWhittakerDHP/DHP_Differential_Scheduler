@@ -45,7 +45,7 @@ Fold two inherited design threads into planning (not blockers here): **pre-alpha
 1. **Follow the guide’s phase order:** `7.1` → `7.2` → `7.3` → `7.4`; treat `7.5` as deferred until magic-link + client paths are stable and product agrees on password/OAuth scope.
 2. **Each phase:** `/phase-start` → implement per phase guide → `/phase-end`; merge/cascade per harness; no skipping governance at tier boundaries.
 3. **Open questions:** In **Phases 7.2–7.4**, decide or stub **tester user-type switching** (minimal dev-only affordance vs full matrix) and record **Google OAuth** as out-of-scope for initial beta unless explicitly pulled into a phase.
-4. **Branching:** Target branch `feature/authentication` from `develop` when execute mode runs after `/accepted-proceed`; keep work off unrelated feature branches.
+4. **Branching:** Target branch `feature/authentication` from `develop` when execute mode runs after **`/accepted-plan`** (and **`/accepted-build`** if Gate 2 applied); keep work off unrelated feature branches.
 
 ## Checkpoint
 - **After 7.1:** Data model and migrations support users/sessions (or agreed equivalents); no blocking schema gaps for magic link.
