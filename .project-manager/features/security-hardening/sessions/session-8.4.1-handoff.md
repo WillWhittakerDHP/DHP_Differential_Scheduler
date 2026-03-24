@@ -41,6 +41,30 @@ Env usage is inventoried; `.env.example` templates align with required vars; no 
 
 ---
 
+#### Task 8.4.1.1
+
+# Task 8.4.1.1 handoff
+
+**Completed:** 2026-03-22
+**Description:** Task 8.4.1.1
+**Goal:** Task completed
+
+**Next:** 8.4.1.2
+
+<!-- end excerpt task -->
+
+#### Task 8.4.1.2
+
+# Task 8.4.1.2 handoff
+
+**Completed:** 2026-03-22
+**Description:** Task 8.4.1.2
+**Goal:** Task completed
+
+**Next:** 8.4.1.3
+
+<!-- end excerpt task -->
+
 ## Related Documents
 
 - Session guide: `session-8.4.1-guide.md`

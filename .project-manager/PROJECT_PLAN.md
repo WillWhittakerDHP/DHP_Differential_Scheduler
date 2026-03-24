@@ -364,6 +364,12 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — primary booking/validation wiring + client alignment. **6.14.3** — exhaustive audit (wire or document), optional legacy “org default” badges, Phase 3.0 resolver test checklist in docs. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
 - **See:** `features/appointment-workflow/phases/phase-6.14-guide.md`, `features/appointment-workflow/phases/phase-6.14-planning.md`.
 
+### Phase 6.16: Differential Role Generalization — margin + multiple minimizers (Not Started)
+
+- **Goal:** Extend **DifferentialRole** with **margin** (pre-major placement); support **multiple minimizer** segments with sequential boundaries; align **`PartFinal.minimizer`** as **`TernaryBoolean`** (`false` / `true` / `override`) with calendar invite and persistence inventory; execute phased **moveable → minimizer** rename (identifiers + stored JSON keys) with migrations where required.
+- **Design:** `features/appointment-workflow/phases/phase-6.16-guide.md` — terminology, semantic table, rename tranches, session outline. Contract: `phase-6.16-planning.md`.
+- **Client types:** `client/src/types/booking/partFinal.ts` (`minimizer`), `client/src/utils/booking/partFinalizer.ts` (role `moveable` → `minimizer: 'true'` until DB enum rename).
+
 ### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Not Started)
 
 - **Goal:** Replace one-shot synchronous delete for supported admin entities with a **dependency-aware workflow**: preflight → wizard (reassign / remove / cancel) → server applies resolution in transaction → final delete → client cache refresh.
@@ -399,6 +405,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
 - Phase 6.14 Guide: `features/appointment-workflow/phases/phase-6.14-guide.md` (Organization Defaults & Resolved Numeric Policy)
+- Phase 6.16 Guide: `features/appointment-workflow/phases/phase-6.16-guide.md` (margin + minimizers, `PartFinal.minimizer`, rename roadmap); Phase 6.16 Planning: `features/appointment-workflow/phases/phase-6.16-planning.md`
 - Phase 6.17 Guide: `features/appointment-workflow/phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`

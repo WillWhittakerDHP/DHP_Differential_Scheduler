@@ -18,6 +18,9 @@ import {
   wizardCandidateSlotsToLoadedSlots,
   type WizardCandidateTimeSlotPersisted,
 } from '@/utils/booking/availabilityDefaultsTimeSlotTransform'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('useAvailabilityDefaults')
 
 interface WizardStateLike {
   availability?: { candidateTimeSlots?: WizardCandidateTimeSlotPersisted[] }
@@ -30,6 +33,7 @@ function runSlotRestoreWatch(
   slotSelectionsByDate: Ref<Record<string, number>>,
   restoreState: { done: boolean }
 ): void {
+  if (slots == null) logger.warn('runSlotRestoreWatch: slots was null/undefined, using empty array')
   const slotList: TimeSlot[] = (slots as TimeSlot[] | null | undefined) ?? []
   const dateStart = (date as { start: string | null })?.start ?? null
   const update = computeSlotRestoreUpdate(restoreVal, slotList, dateStart)
@@ -59,6 +63,7 @@ function runLoadedStateTimeMatchWatch(
   tempMinorSlot: Ref<TimeSlot | null>
 ): void {
   const state = newState as WizardStateLike | null
+  if (availableSlots == null) logger.warn('runLoadedStateTimeMatchWatch: availableSlots was null/undefined, using empty array')
   const slots = (availableSlots as TimeSlot[] | null | undefined) ?? []
   const candidate = state?.availability?.candidateTimeSlots
   if (!candidate || candidate.length === 0 || slots.length === 0) {

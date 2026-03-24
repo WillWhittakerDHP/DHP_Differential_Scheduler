@@ -35,7 +35,7 @@ import {
  *   - client/.audit-reports/import-graph-audit.md
  */
 
-const DEFAULTS = { maxFanOut: 15, maxFanIn: 20, maxComposableChainDepth: 2 }
+const DEFAULTS = { maxFanOut: 15, maxFanIn: 20, maxComposableChainDepth: 3 }
 
 function toRepoPath(p, projectRoot) { return toRepoPathUtil(p, projectRoot) }
 

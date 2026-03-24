@@ -13,6 +13,9 @@ import {
   requiredFieldsConfigFromCommaString,
   requiredFieldsConfigWithCondition,
 } from '@/utils/admin/requiredFieldsRuleConfigHelpers'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('businessRuleFormComputeds')
 
 const DEFAULT_RULE_CONFIG_BY_TYPE: Record<RuleType, RuleConfig> = {
   [RULE_TYPE_VALUES.REQUIRED_FIELDS]: { fields: [] },
@@ -98,6 +101,7 @@ export function buildRequiredFieldsArrayWritable(
         return ''
       }
       const config = formData.value.ruleConfig as RequiredFieldsRuleConfig
+      if (config.fields == null) logger.warn('buildRequiredFieldsArrayWritable: config.fields was null/undefined')
       return config.fields?.join(', ') ?? ''
     },
     set: (value: string) => {
@@ -118,7 +122,9 @@ export function buildRequiredFieldsConditionWritable(
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {
         return ''
       }
-      return (formData.value.ruleConfig as RequiredFieldsRuleConfig).condition ?? ''
+      const condition = (formData.value.ruleConfig as RequiredFieldsRuleConfig).condition
+      if (condition == null) logger.warn('buildRequiredFieldsConditionWritable: condition was null/undefined')
+      return condition ?? ''
     },
     set: (value: string) => {
       if (formData.value.ruleType !== RULE_TYPE_VALUES.REQUIRED_FIELDS) {

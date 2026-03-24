@@ -1,40 +1,8 @@
-import type { ComputedRef, Ref } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
-import type { GlobalFieldKey, ValidAdminValue } from '@/constants/primitives'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
-import type { UseAdminReturn } from '@/composables/admin/useAdmin'
-import type { ComposedEntityLike } from '@/types/fieldContext/composedEntityLike'
-import type { useQueryClient } from '@tanstack/vue-query'
-import type { FormContext } from 'vee-validate'
-import type { FieldDisplayConfig, FieldValidationRules } from '@/composables/fieldContext/types'
+import type { GlobalFieldKey } from '@/constants/primitives'
 import type { UseFieldContextStateReturn } from '@/types/fieldContext/fieldContextState'
 
-export interface UseFieldContextStateSnapshotParts<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> {
-  fieldKey: FieldKey
-  entityKey: GE
-  entityId: GlobalEntityId
-  isTempEntity: ComputedRef<boolean>
-  adminComp: UseAdminReturn
-  entity: ComputedRef<unknown>
-  entityValue: ComputedRef<ValidAdminValue>
-  composedEntityComposable: ComposedEntityLike | null
-  formInstance: FormContext
-  value: Ref<ValidAdminValue>
-  error: ComputedRef<string | undefined>
-  isValid: ComputedRef<boolean>
-  isDirty: ComputedRef<boolean>
-  validateField: () => Promise<unknown>
-  setValue: (value: ValidAdminValue) => void
-  handleChange: (nextValue: ValidAdminValue) => void
-  isValidating: Ref<boolean>
-  isFocused: Ref<boolean>
-  isDisabled: Ref<boolean>
-  displayConfig: FieldDisplayConfig<GE, FieldKey>
-  validationRules: FieldValidationRules
-  queryClient: ReturnType<typeof useQueryClient>
-  patchFieldAsync: UseFieldContextStateReturn<GE, FieldKey>['patchFieldAsync']
-  toPlainValue: (raw: unknown) => unknown
-}
+export type UseFieldContextStateSnapshotParts<GE extends GlobalEntityKey, FieldKey extends GlobalFieldKey<GE>> = UseFieldContextStateReturn<GE, FieldKey>
 
 /**
  * Builds the flat state object expected by save helpers / grouped return.

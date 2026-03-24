@@ -2,13 +2,9 @@
  * 501 placeholder response shapes (split from strategyTypes for file-cohesion max-exports).
  */
 import { AUTH_FAILURE_CODES } from './strategyTypesCore.js'
-import type { AuthStrategyName } from './strategyTypesCore.js'
+import type { AuthRuntimeConfig } from '../../config/authConfig.js'
 
-export interface AuthPlaceholder501Meta {
-  strategy: AuthStrategyName
-  sessionCookieName: string
-  sessionMaxAgeSec: number
-}
+export type AuthPlaceholder501Meta = AuthRuntimeConfig
 
 export interface AuthPlaceholder501Json extends AuthPlaceholder501Meta {
   code: typeof AUTH_FAILURE_CODES.NOT_IMPLEMENTED

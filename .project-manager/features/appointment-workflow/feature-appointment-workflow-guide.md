@@ -406,6 +406,8 @@ After completing all phases in a feature:
 - Phase 6.9 Guide: `phases/phase-6.9-guide.md` (Availability Step Mini-Wizard)
 - Phase 6.10 Guide: `phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
+- Phase 6.14 Guide: `phases/phase-6.14-guide.md` (Organization Defaults & Resolved Numeric Policy)
+- Phase 6.16 Guide: `phases/phase-6.16-guide.md` (margin + minimizers, `PartFinal.minimizer`, rename roadmap); Planning: `phases/phase-6.16-planning.md`
 - Phase 6.17 Guide: `phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - PROJECT_PLAN: `.project-manager/PROJECT_PLAN.md` (Feature 6)

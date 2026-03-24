@@ -742,6 +742,125 @@
             "fanOut"
           ],
           "reason": "Sequelize model bag registers every model factory; high fan-out is structural."
+        },
+        {
+          "glob": "client/src/types/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Shared type modules are foundational; high fan-in is by design."
+        },
+        {
+          "glob": "client/src/constants/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Shared constant modules are foundational; high fan-in is by design."
+        },
+        {
+          "glob": "**/utils/logger",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Logger is a foundational cross-cutting concern; every module may import it."
+        },
+        {
+          "glob": "server/src/config/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Server config is foundational; high fan-in is by design."
+        },
+        {
+          "glob": "server/src/constants/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Server constants are foundational; high fan-in is by design."
+        },
+        {
+          "glob": "server/src/middlewares/security",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Security middleware applied to all route files; high fan-in is structural."
+        },
+        {
+          "glob": "server/src/routes/helpers/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Route response helpers used by all routers; high fan-in is structural."
+        },
+        {
+          "glob": "client/src/utils/transformers/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Data transformers are shared across composables and components; high fan-in is by design."
+        },
+        {
+          "glob": "client/src/utils/api",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "API utility is the shared HTTP layer; high fan-in is by design."
+        },
+        {
+          "glob": "client/src/utils/safeDefaults",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Safe defaults utility used project-wide for fallback values; high fan-in is structural."
+        },
+        {
+          "glob": "client/src/utils/globalEntity",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Global entity utility used across admin and booking domains; high fan-in is structural."
+        },
+        {
+          "glob": "client/src/configs/availabilitySettings",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Availability settings config consumed by booking and admin composables; high fan-in is expected."
+        },
+        {
+          "glob": "client/src/composables/fieldContext/types",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Field context types shared across fieldContext composables and consumers; foundational."
+        },
+        {
+          "glob": "client/src/components/booking/types/**",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Booking component types shared across booking domain; foundational."
+        },
+        {
+          "glob": "server/src/routes/internal/entities/entityConstants",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Entity constants for CRUD route registration; every entity router imports them."
+        },
+        {
+          "glob": "client/src/composables/admin/useAdmin",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Root admin composable providing global admin state; high fan-in is structural."
+        },
+        {
+          "glob": "client/src/composables/useGlobal",
+          "ruleIds": [
+            "fanIn"
+          ],
+          "reason": "Global app state composable; high fan-in is by design."
         }
       ],
       "specific": [
@@ -856,6 +975,55 @@
             "*"
           ],
           "reason": "Entity card form setup; depth accepted (remaining repairs Batch 4)"
+        },
+        {
+          "file": "client/src/composables/admin/useRelationshipCollectionField",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 5: top-level admin collection field orchestrator → useBaseCollectionField → bindings → core → useAdmin; intentional layered decomposition."
+        },
+        {
+          "file": "client/src/composables/booking/useBookingWizardSetup",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 5: wizard entry point → useWizardDateAvailability → useComputedAvailability → wiring → watches; intentional orchestrator layering."
+        },
+        {
+          "file": "client/src/composables/admin/useBaseCollectionField",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 4: collection field → bindings → core → useAdmin; structural admin collection hierarchy."
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityOrchestratorFormsPhase",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 4: forms-phase orchestrator → formsBundle → emptyState → wizardSettings; intentional phase decomposition."
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityOrchestratorSlotsPhase",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 4: slots-phase orchestrator → slotsBundle → appointmentSlots → shape; intentional phase decomposition."
+        },
+        {
+          "file": "client/src/composables/booking/useWizardDateAvailability",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 4: date availability → computedAvailability → wiring → watches; intentional availability pipeline."
+        },
+        {
+          "file": "client/src/composables/fieldContext/useFieldContext",
+          "ruleIds": [
+            "composableChainDepth"
+          ],
+          "reason": "Depth 4: fieldContext → state → entityDerived → entityMetadata; intentional context-building pipeline."
         }
       ]
     },
@@ -2290,6 +2458,20 @@
             "*"
           ],
           "reason": "Barrel re-exports from models.ts; name list overlap is inherent"
+        },
+        {
+          "glob": "server/src/db/models/sequelizeModelAssociations*.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Association files destructure the same SequelizeModelsBag; import list duplication is structural to Sequelize."
+        },
+        {
+          "glob": "server/src/routes/internal/admin-*-metadata/*CrudRouter.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "CRUD router scaffold for metadata entity variants; structural similarity by design."
         }
       ],
       "specific": [
@@ -2306,6 +2488,34 @@
             "*"
           ],
           "reason": "Destructures useBusinessControlsFormState return — proper composable usage, not duplication"
+        },
+        {
+          "file": "client/src/composables/booking/useAvailabilityOrchestratorSlotsPhase.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Re-exposes useMoveablePartsScheduling return properties; standard composable orchestrator pattern."
+        },
+        {
+          "file": "client/src/composables/booking/useMoveablePartsScheduling.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Moveable scheduling composable consumed by orchestrator; property list overlap is by design."
+        },
+        {
+          "file": "client/src/types/booking/wizardNavigation.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Navigation type shape shared with build utility; type-level overlap is structural."
+        },
+        {
+          "file": "client/src/utils/booking/buildWizardNavigationReturn.ts",
+          "ruleIds": [
+            "*"
+          ],
+          "reason": "Navigation builder implements the wizardNavigation type shape; property overlap is structural."
         }
       ]
     },

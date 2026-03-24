@@ -154,12 +154,27 @@ function extractReplacement(line) {
 }
 
 /** Skip at scan time: common acceptable patterns so they never enter requiresReview. */
-function isPermissibleDeprecationMatch(line, ruleId) {
+function isPermissibleDeprecationMatch(line, ruleId, lines, lineIndex) {
   if (ruleId === 'chaining-fallback') {
     return /\?\?\s*0\b/.test(line) || /\|\|\s*0\b/.test(line)
   }
   if (ruleId === 'default-param') {
     return /\bdefineProps\b/.test(line) || /\bwithDefaults\b/.test(line)
+  }
+  if (ruleId === 'unhelpful-default-nullish' || ruleId === 'unhelpful-default-or') {
+    if (hasNearbyLoggerCall(lines, lineIndex, 3)) return true
+  }
+  return false
+}
+
+const LOGGER_CALL_RE = /\blogger\.(warn|error|info|debug)\b/
+
+/** Check ±radius lines for a logger.warn/error/info/debug call (default is not silent). */
+function hasNearbyLoggerCall(lines, lineIndex, radius) {
+  const start = Math.max(0, lineIndex - radius)
+  const end = Math.min(lines.length - 1, lineIndex + radius)
+  for (let i = start; i <= end; i++) {
+    if (LOGGER_CALL_RE.test(lines[i])) return true
   }
   return false
 }
@@ -186,7 +201,7 @@ function scanFile(filePath, projectRoot) {
     let _matched = false
     for (const rule of ALL_RULES) {
       if (rule.test(line)) {
-        if (isPermissibleDeprecationMatch(line, rule.id)) continue
+        if (isPermissibleDeprecationMatch(line, rule.id, lines, i)) continue
         const replacement = ANNOTATION_RULES.includes(rule) ? extractReplacement(line) : null
         matches.push({
           ruleId: rule.id,
