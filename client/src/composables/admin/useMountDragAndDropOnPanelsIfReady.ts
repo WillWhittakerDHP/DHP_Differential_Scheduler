@@ -23,7 +23,7 @@ export interface MountDragAndDropOnPanelsParams {
   dragEndHandler: () => void
 }
 
-export function useDragAndDropInstance(params: MountDragAndDropOnPanelsParams): void {
+export function useMountDragAndDropOnPanelsIfReady(params: MountDragAndDropOnPanelsParams): void {
   const {
     container,
     panelsComponentRef,
