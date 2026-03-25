@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Follow existing schema pattern (`entitySchemas.ts`, `propertySchemas.ts`). Define create/update schemas with required fields; patch schemas with all optional but `.min(1)`. Use `.unknown(true)` for forward compat.
 **Checkpoint:** Schema files export named Joi schemas; `cd server && npm run lint` passes
 
-- [ ] #### Task 8.8.1.2: Wire validateRequest callbacks and update checklist
+- [x] #### Task 8.8.1.2: Wire validateRequest callbacks and update checklist
 **Goal:** Add `validateRequest` callbacks to all three CRUD router configs; update GC-8-JOI
 **Files:** 
 - `server/src/routes/internal/users/userCrudRouter.ts`
