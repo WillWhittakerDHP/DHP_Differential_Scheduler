@@ -57,11 +57,12 @@
 **Focus:**
 - [To be identified during planning]
 
-- [ ] ### Session 8.5.5: Joi gap closure batch C — Misc internal routes, dev-only routers, and edge POST/PUT paths missed in 8.5.3–8.5.4; final pass to mark GC-8-JOI done. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
-**Description:** Joi gap closure batch C — Misc internal routes, dev-only routers, and edge POST/PUT paths missed in 8.5.3–8.5.4; final pass to mark GC-8-JOI done. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
-**Tasks:** [To be planned]
+- [x] ### Session 8.5.5: Joi gap closure batch C — verification + documentation (auth mount, stragglers); GC-8-JOI already done in 8.5.4.
+**Description:** Optional batch C: verify `internal/auth` and paths outside batch A/B mount list; server lint; extend GC-8-JOI Notes. See `session-8.5.5-planning.md`, `session-8.5.5-log.md`.
+**Tasks:** 2 (8.5.5.1 evidence, 8.5.5.2 lint + checklist)
 **Focus:**
-- [To be identified during planning]
+- Auth POST routes + inline Joi on relationship PATCH handlers
+- No code changes unless new gap (none found)
 ## Dependencies
 
 **Prerequisites:**
