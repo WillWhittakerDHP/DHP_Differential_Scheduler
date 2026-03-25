@@ -482,5 +482,5 @@ nextAction:
 - **Suggestion:** None — meta only.
 - **harnessRepairAddressed:** 2026-03-25T18:53:19.539Z
 - **harnessRepairNote:** Smoke test: harness-repair execute Policy A
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** ee76c8b6835a5c4115936b0b9118c2d68f0a9f51
 - **cursorSubmoduleCommit:** 4ca844f
