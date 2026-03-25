@@ -55,3 +55,14 @@ export function listMinimizerSegmentsFromAppointmentShape(
 
   return out
 }
+
+/**
+ * Total rounded minutes for all minimizer segments (completion-window path).
+ * WHY: Fetch + window math must reserve time for every minimizer final, not only the first match.
+ */
+export function sumMinimizerSegmentsRoundedDurationMinutes(shape: AppointmentShape | null): number {
+  if (!shape) {
+    return 0
+  }
+  return listMinimizerSegmentsFromAppointmentShape(shape).reduce((acc, s) => acc + s.roundedDuration, 0)
+}

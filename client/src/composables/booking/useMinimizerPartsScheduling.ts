@@ -16,13 +16,15 @@ import { DEFAULT_CONTINGENCY } from '@/constants/minimizerScheduling'
 import { useLocalTime } from '@/utils/time/localTime'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
-import type { EventShapeEntity } from '@/types/entities'
+import {
+  listMinimizerSegmentsFromAppointmentShape,
+  sumMinimizerSegmentsRoundedDurationMinutes,
+} from '@/utils/booking/minimizerEventShapes'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { createMinimalAppointmentShapeForDuration } from '@/utils/booking/appointmentSlotBuilder'
 import { useMinimizerAvailabilityData } from '@/composables/booking/useMinimizerAvailabilityData'
-import { getMinimizerPartShapeName } from '@/utils/booking/minimizerPartShapeName'
+import { formatMinimizerSegmentsDisplayLabel } from '@/utils/booking/minimizerPartShapeName'
 import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 import {
   applyMinimizerWindowToComputedSlots,
@@ -122,31 +124,31 @@ export function useMinimizerPartsScheduling(params: UseMinimizerPartsSchedulingP
   const selectedSlotIndex = ref<number | null>(null)
   const configuredMinimizerFallbackLabel = ref<string>(DEFAULT_MINIMIZER_FALLBACK_LABEL)
 
-  const minimizerEventFinal = computed(() => {
+  /**
+   * Ordered minimizer segments (eventFinals order). All segments contribute to duration and labels.
+   * WHY aggregate duration: fetch + window + inspection filter reserve total minutes before deadline.
+   * Per-segment chaining (inner_i = completion instant of segment i−1) is deferred — future UX if we pick
+   * each segment’s slot in sequence; current single step-4 flow uses one grid with total minutes.
+   */
+  const minimizerSegments = computed(() => {
     const shape = appointmentShape.value
-    if (!shape || shape.slotShape.eventFinals.length === 0) return null
-    const eventShapes = shape.slotShape.eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-    const minimizerShape = getEventShapeByRoleWithOverrides(
-      eventShapes,
-      'minimizer',
-      shape.differentialEventRoleOverrides ?? null
-    )
-    if (!minimizerShape) return null
-    return shape.slotShape.eventFinals.find(ef => ef.eventShape.id === minimizerShape.id) ?? null
+    if (!shape) {
+      return []
+    }
+    return listMinimizerSegmentsFromAppointmentShape(shape)
   })
 
-  const hasMinimizerParts = computed(() => (minimizerEventFinal.value?.roundedDuration ?? 0) > 0)
+  const hasMinimizerParts = computed(() => minimizerSegments.value.some((s) => s.roundedDuration > 0))
 
-  const minimizerDuration = computed(
-    () => minimizerEventFinal.value?.roundedDuration ?? 0
+  const minimizerDuration = computed(() =>
+    sumMinimizerSegmentsRoundedDurationMinutes(appointmentShape.value)
   )
 
   const minimizerPartShapeName = computed(() =>
-    getMinimizerPartShapeName(
+    formatMinimizerSegmentsDisplayLabel(
+      minimizerSegments.value,
       appointmentShape.value,
-      minimizerEventFinal.value?.eventShape?.id,
-      configuredMinimizerFallbackLabel.value,
-      (minimizerEventFinal.value?.eventShape as EventShapeEntity | undefined)?.name?.trim()
+      configuredMinimizerFallbackLabel.value
     )
   )
 

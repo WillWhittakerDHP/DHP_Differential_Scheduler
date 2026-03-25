@@ -2,6 +2,7 @@
  * Pure helper for resolving minimizer part shape display name. Extracted to reduce composable complexity.
  */
 import type { AppointmentShape } from '@/types/appointment'
+import type { MinimizerSegmentDescriptor } from '@/utils/booking/minimizerEventShapes'
 
 function isGenericMinimizerLabel(value: string | null | undefined): boolean {
   if (!value) return true
@@ -52,4 +53,29 @@ export function getMinimizerPartShapeName(
   }
 
   return fallbackLabel
+}
+
+/**
+ * Label for one or more minimizer segments (ordered). For a single segment, reuses `getMinimizerPartShapeName`;
+ * for multiple, joins event-shape names (or fallback when none).
+ */
+export function formatMinimizerSegmentsDisplayLabel(
+  segments: MinimizerSegmentDescriptor[],
+  shape: AppointmentShape | null,
+  fallbackLabel: string
+): string {
+  if (segments.length === 0) {
+    return fallbackLabel
+  }
+  if (segments.length === 1) {
+    const s = segments[0]
+    return getMinimizerPartShapeName(shape, s.eventShapeId, fallbackLabel, s.eventShape.name?.trim())
+  }
+  const names = segments
+    .map((seg) => seg.eventShape.name?.trim())
+    .filter((n): n is string => Boolean(n && n.length > 0))
+  if (names.length === 0) {
+    return fallbackLabel
+  }
+  return names.join(' + ')
 }

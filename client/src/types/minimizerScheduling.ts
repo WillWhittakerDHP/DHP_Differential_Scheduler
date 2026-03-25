@@ -13,7 +13,8 @@ export interface ContingencyPeriod {
 export interface MinimizerSchedulingOptions {
   innerBoundary: string           // ISO datetime - end of onsite work
   outerBoundary: string           // ISO datetime - contingency deadline
-  minimizerDuration: number        // minutes
+  /** Total minimizer minutes (sum of all minimizer segments when N > 1). */
+  minimizerDuration: number
   /** Name of the minimizer event/part shape used for UI labels (e.g., "Report Writing"). */
   partShapeName?: string
   availableSlots: MinimizerSlot[]

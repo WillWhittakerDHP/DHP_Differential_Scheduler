@@ -2,6 +2,7 @@
  * API client for wizard_settings (GET /wizard-settings, PUT /wizard-settings).
  */
 import apiClient from '@/utils/api'
+import { CSRF_HEADER_NAME, readCsrfTokenFromDocumentCookie } from '@/utils/api/csrfClient'
 import { createLogger } from '@/utils/logger'
 import type { WizardSettingsData } from './types'
 
@@ -36,18 +37,27 @@ export async function uploadWizardLogo(file: File): Promise<WizardSettingsData> 
   const formData = new FormData()
   formData.append('file', file)
   try {
+    const headers: Record<string, string> = {}
+    const csrf = readCsrfTokenFromDocumentCookie()
+    if (csrf !== null && csrf !== '') {
+      headers[CSRF_HEADER_NAME] = csrf
+    }
     const response = await fetch(`${WIZARD_API_BASE}/wizard-settings/logo`, {
       method: 'POST',
+      headers,
       body: formData,
-      credentials: 'same-origin',
+      // Align with axios apiClient `withCredentials` so session cookie is sent (incl. cross-origin API base).
+      credentials: 'include',
     })
     if (!response.ok) {
       const text = await response.text()
       let detail = response.statusText
       try {
-        const parsed = JSON.parse(text) as { error?: string }
+        const parsed = JSON.parse(text) as { error?: string; message?: string }
         if (parsed.error) {
           detail = parsed.error
+        } else if (parsed.message) {
+          detail = parsed.message
         }
       } catch (parseErr: unknown) {
         logger.debug('Logo upload error body was not JSON', { parseErr, textSnippet: text.slice(0, 200) })
