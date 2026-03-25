@@ -4,7 +4,7 @@
 
 **Tier:** Feature (Tier 0)
 
-**Last Updated:** 2026-03-23
+**Last Updated:** 2026-03-25
 **Feature Status:** Complete
 **Next Phase:** TBD
 
@@ -35,7 +35,7 @@ Phase 8.2 (Inbound Rate Limiting) complete. General limiter (100 req/15 min) and
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `security-hardening` · **Source:** phase_end · **Derived:** 2026-03-25T20:21:51.220Z
+- **Feature:** `security-hardening` · **Source:** phase_end · **Derived:** 2026-03-25T20:23:11.224Z
 - **Phases on disk (8):** 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8
 - **Focus phase:** `8.8` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Manifest:** `.project-manager/features/security-hardening/across-ladder.json`

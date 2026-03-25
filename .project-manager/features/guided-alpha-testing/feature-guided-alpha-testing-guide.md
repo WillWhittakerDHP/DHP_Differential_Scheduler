@@ -13,6 +13,12 @@
 
 We need to know **what to test** before writing E2E tests. Guided Alpha Testing produces the canonical list of testable scenarios (wizard paths, modes, roles) and validates the flow with real users. That task list becomes the source for Feature 10's E2E test cases and for assigning work to alpha testers.
 
+### Open Questions (Feature 9)
+
+1. **Out-of-state testers and address generation:** Some alpha testers will be out of state and unable to enter a local property address. Should the wizard include a "show random address" button that generates a random address in the metro area or pulls one from the appointment database? *(Needs design decision — affects Property Details step UI and data seeding strategy.)*
+
+2. **Alpha cohorts vs `user_role`:** Labels such as **dev**, **agent**, and **friend** must map to **`users.user_role`** for auth and task assignment. **Agent** → `agent`. **Dev** / **friend** may map onto existing ENUM values (e.g. `client`, `inspector`) for alpha without schema work, or gain dedicated roles only after **Feature 6 Phase 6.18** and ENUM changes — document the chosen mapping in task seeds and tester onboarding. See **Feature 6** Open Questions in `.project-manager/PROJECT_PLAN.md` and `features/appointment-workflow/phases/phase-6.18-guide.md`.
+
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 
 **Goal:** One diagram of the entire booking wizard flow and all logical branches so we can review for bad loops, dead ends, and wrong logic.
@@ -34,7 +40,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 - **Task id** (e.g. UUID or short code).
 - **Title / description** (e.g. "Complete wizard in quote mode and hold quote").
 - **Category** (e.g. "Booking – new," "Booking – quote," "Booking – reschedule," "Admin – confirmation," "Admin – override").
-- **Wizard path** (optional): which steps, which mode, which role.
+- **Wizard path** (optional): which steps, which mode, which role (canonical **`user_role`** per Feature 6 Phase 6.18 / `@shared`).
 - **Acceptance / verification** (what "done" looks like; becomes the E2E assertion list).
 - **Depends on** (e.g. "Auth," "Reschedule API") so tasks are not assigned before the feature exists.
 - **Assignment** (for guided alpha): tester id, assigned date, status (not started / in progress / done / skipped).
@@ -77,6 +83,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ### Related Documents
 
 - LAUNCH_CHECKLIST.md Phase 6A (guided testing; update to "Guided Alpha")
-- Feature 6 (Appointment Workflow) — wizard steps, modes, admin entry
+- Feature 6 (Appointment Workflow) — wizard steps, modes, admin entry; **Phase 6.18** (canonical `user_role` catalog)
+- Feature 7 (Authentication) — Enactment uses shared role vocabulary with Phase 6.18
 - Feature 10 (Testing & Quality Validation) — E2E tests derived from alpha task list
 - **Feature 9 Session 9.4.1:** `features/guided-alpha-testing/sessions/session-9.4.1-guide.md` — User Feedback & Error Wiring (rename to user_feedback, wire all feedback/errors)

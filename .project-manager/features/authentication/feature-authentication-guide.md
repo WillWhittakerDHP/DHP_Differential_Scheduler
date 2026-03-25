@@ -80,6 +80,8 @@ Research folded into phases 7.1–7.3; key decisions recorded in phase logs and 
 
 **Downstream impact:** Booking and admin UIs consume auth when wired client-side (phase 7.4+).
 
+**Enactment & `user_role`:** `.project-manager/PROJECT_PLAN.md` — Feature 7 **Enactment** (role-based access, expose role to client). **Canonical role strings** are centralized in **`@shared`** under **Feature 6 Phase 6.18** (`features/appointment-workflow/phases/phase-6.18-guide.md`); after Session 6.18.1, **`owner`** replaces **`seller`**. Client auth state and route guards should use the same vocabulary as the API/DB.
+
 **External dependencies:** Email delivery for magic links (provider-specific).
 
 ---
