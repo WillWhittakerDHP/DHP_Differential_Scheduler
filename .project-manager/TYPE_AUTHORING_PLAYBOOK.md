@@ -7,6 +7,7 @@ This document governs how types are created, placed, and used in the codebase. I
 - **Harness playbook alignment** (`.project-manager/HARNESS_PLAYBOOK_ALIGNMENT.md`) — Vue root (`client/`), workflow scope; see `HARNESS_CHARTER.md` for harness detail.
 - **Cursor rules** (`.cursor/rules/type-governance.mdc`) — inventory, boundaries, placement; always-applied.
 - **Audit scripts** — type-escape, type-health, type-similarity, type-import, type-constant-inventory — which enforce and report on type hygiene.
+- **Canonical domains & layer boundaries** — `.project-manager/ARCHITECTURE.md` §2 (Domain Map) and §4 (Type Boundaries: `@shared` vs `client/src/types` vs `server/src/types`).
 
 The playbook is the source of truth for rationale and examples; cursor rules are condensed references; audits provide automated enforcement.
 

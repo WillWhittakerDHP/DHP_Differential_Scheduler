@@ -1,4 +1,14 @@
-<!-- harness-handoff-rollup tier=feature id=authentication consolidatedAt=2026-03-24T22:41:46.510Z -->
+# Feature authentication Handoff
+
+**Purpose:** Transition context between features (large-scale concerns only)
+
+**Tier:** Feature (Tier 0 - Highest Level)
+
+**Last Updated:** 2026-03-25
+**Feature Status:** Complete
+**Next Feature:** _(choose from PROJECT_PLAN when starting the next initiative)_
+
+---
 
 ## Current Status
 
@@ -31,177 +41,53 @@
 
 ---
 
+## Feature Summary
+
+**Phases completed:** 7.1, 7.2, 7.3
+**Key accomplishments:**
+
+- Server-side auth infrastructure (strategy interface, sessions, middleware, routing).
+- Magic link request/verify flow with cookie-backed sessions (beta/dev path).
+- Project-manager guides, logs, and ladder artifacts updated through phase 7.3.
+
+**Decisions made:**
+
+- Test coverage audits are suppressed when **`TEST_ENABLED`** is not enabled (LAUNCH_CHECKLIST Phase 3.0 policy); see **`client/.scripts/test-audit.mjs`**.
+
+**Architecture:** Auth flows go through the strategy/session layer; magic link is one strategy; cookies issued via shared session helpers.
+
+**Technology stack:** Vue client, Express server, existing DB/session models as per phase 7.1–7.2 migrations and code.
+
 ---
 
-#### Session 7.1.1
-**Last Completed:** Task 
-**Next Session:** Session 7.1.2
-**Git Branch:** `session-7.1.1`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
+## Git branch status
 
-**What you need to start:**
-- Begin Session 7.1.2
+**Branch:** `feature/authentication` _(may be absent locally after merge — work lives on `develop`)_
+**Status:** Integrated to **`develop`**
+**Merged to:** `develop` (and `main` when release merge is performed)
 
-<!-- end excerpt session -->
+---
 
-#### Task 7.1.1.1
+## Notes
 
-#### Session 7.1.2
-**Last Completed:** Task 
-**Next Session:** Session 
-**Git Branch:** `session-7.1.2`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
+Keep this file minimal; detail stays in the **feature log** and phase/session guides.
 
-**What you need to start:**
-- Begin Session
+---
 
-#### Task 7.1.2.1
+## Related documents
 
-#### Session 7.2.1
-**Last Completed:** Task 
-**Next Session:** Session 7.2.2
-**Git Branch:** `session-7.2.1`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 7.2.2
-
-#### Session 7.3.1
-**Last Completed:** Task 
-**Next Session:** Session 7.3.2
-**Git Branch:** `session-7.3.1`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 7.3.2
-
-#### Task 7.3.1.1
-
-#### Session 7.3.2
-**Last Completed:** Task 
-**Next Session:** Session 7.3.3
-**Git Branch:** `session-7.3.2`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session 7.3.3
-
-#### Task 7.3.2.1
-
-#### Session 7.3.3
-**Last Completed:** Task 
-**Next Session:** Session 
-**Git Branch:** `session-7.3.3`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session
-
-#### Task 7.3.3.1
+- Feature guide: `.project-manager/features/authentication/feature-authentication-guide.md`
+- Feature log: `.project-manager/features/authentication/feature-authentication-log.md`
 
 <!-- harness-across-ladder:start -->
+## Across ladder (harness)
 
----
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-#### Session 7.2.2
-**Last Completed:** Task 
-**Next Session:** Session 7.2.3
-**Git Branch:** `session-7.2.2`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
+- **Feature:** `authentication` · **Source:** phase_end · **Derived:** 2026-03-25T19:41:30.044Z
+- **Phases on disk (4):** 7.1, 7.2, 7.3, 7.4
+- **Focus phase:** `7.4` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Manifest:** `.project-manager/features/authentication/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
-**What you need to start:**
-- Begin Session 7.2.3
-
-<!-- harness-across-ladder:start -->
-
----
-
-#### Session 7.2.3
-**Last Completed:** Task 
-**Next Session:** Session 
-**Git Branch:** `session-7.2.3`
-**Last Updated:** 2026-03-23
-**Where we left off:**
-Completed Task 
-
-**What you need to start:**
-- Begin Session
-
-<!-- harness-across-ladder:start -->
-
----
-
-## Child handoff excerpts (sources archived)
-
-Per-child **Transition Context** and **Current Status** excerpts (no duplicate top-level handoff sections).
-
-#### Phase 7.1 (`phase-7.1-handoff.md`)
-
-**Transition Context (excerpt):** **Where we left off:**  
-Phase 7.1 completed with sessions **7.1.1** (migrations) and **7.1.2** (Sequelize models). `sessions` and `magic_links` tables and models are available for Phase 7.2 session manager and auth infrastructure.
-
-**What you need to start Phase 7.2:**
-
-- Review `phase-7.2-guide.md` and feature authentication guide for middleware and router scope.
-- Confirm DB migrations applied on the host that owns the database (migration authority).
-
----
-
-**Current Status (excerpt):** **Phase 7.1:** Complete  
-**Last Completed Session:** 7.1.2  
-**Next Phase:** 7.2
-
----
-
-#### Phase 7.2 (`phase-7.2-handoff.md`)
-
-**Transition Context (excerpt):** **Where we left off:**
-[Minimal notes about phase completion - 2-3 sentences max]
-
-**What you need to start Phase [N+1]:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
-
-**Plan Changes Affecting Downstream Phases:**
-- [Only include if plan changed and affects later phases]
-- [Brief description of change and impact]
-
----
-
-**Current Status (excerpt):** **Phase [N]:** [Complete / In Progress]
-**Last Completed Session:** 7.2
-**Next Phase:** [N+1]
-
----
-
-#### Phase 7.3 (`phase-7.3-handoff.md`)
-
-**Transition Context (excerpt):** **Where we left off:**
-Phase 7.3 completed with sessions: 7.3.1, 7.3.2, 7.3.3.
-
-**What you need to start Phase TBD:**
-- Review phase 7.3 guide for any outstanding notes
-- Check feature handoff for overall feature status
-
----
-
-**Current Status (excerpt):** **Phase 7.3:** Complete
-**Last Completed Session:** 7.3.3
-**Next Phase:** TBD
-
----
+<!-- end excerpt feature -->

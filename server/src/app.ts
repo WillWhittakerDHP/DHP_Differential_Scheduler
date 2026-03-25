@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import routes from './routes/index.js'
 import { getCorsOrigin } from './config/envConfig.js'
 import { notFound, errorHandler } from './middlewares/index.js'
+import { ensureCsrfTokenAttached } from './middlewares/csrfIssuance.js'
 import { initializeDatabase } from './config/app.js'
 import { loadTokensFromFile } from './config/googleOAuth.js'
 import { OAuthCallbackRouter } from './routes/external/oauthCallbackRouter.js'
@@ -85,6 +86,9 @@ app.use((req, _res, next) => {
 app.use(cookieParser())
 ensureWizardLogoUploadDir()
 app.use(WIZARD_LOGO_PUBLIC_PATH, express.static(getWizardLogoUploadDir(), { index: false }))
+
+// WHY: DB session row gets `sess.csrfToken`; readable `csrf_token` cookie for SPA (Phase 8.6.1). Validation: `csrfProtection` (8.6.1.2).
+app.use(ensureCsrfTokenAttached)
 
 app.use(ROUTE_PATHS.API, routes)
 

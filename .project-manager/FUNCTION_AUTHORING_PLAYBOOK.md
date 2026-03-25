@@ -9,6 +9,7 @@ This document governs how functions are designed and maintained: complexity boun
 - **Composable Authoring Playbook** (`.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`) — composable shape and function policy inside composables.
 - **Cursor rules** (`.cursor/rules/function-governance.mdc`) — thresholds, return types, no silent errors; always-applied.
 - **Audit script** — `client/.scripts/function-complexity-audit.mjs` (reports in `client/.audit-reports/function-complexity-audit.{md,json}`).
+- **Domain map & naming** — `.project-manager/ARCHITECTURE.md` §2 (Domain Map) and §5 (Per-Domain Conventions) for canonical `<domain>` segments in `client/src/utils/<domain>/` and server utils.
 
 The playbook is the source of truth for rationale and thresholds; cursor rules are condensed references; the audit provides automated enforcement.
 

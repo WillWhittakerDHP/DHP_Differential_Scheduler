@@ -80,6 +80,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 | 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload + serving; extract/verify primary+secondary anchors; wizard_settings fields; wire OKLCH pipeline; logo in BookingWizard. Depends on 6.13. Sessions 6.15.1–6.15.3. |
 | 6.16 | Differential Role Generalization: margin + multiple minimizers | Not Started | `PartFinal.minimizer: TernaryBoolean` (plain timeline / minimizer segment / margin); add `margin` to DifferentialRole; DB ENUM; slot pipeline + time ranges; sequential minimizer segments; phased rename moveable→minimizer in code/API; `differentialEventRoleOverrides`. **Guide:** `phases/phase-6.16-guide.md`, `phases/phase-6.16-planning.md`. Sessions 6.16.1–6.16.3. |
 | 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight + wizard + resolve/finalize delete for admin CRUD; policy registry; wire `useEntityCrud` / list + card delete. Sessions 6.17.1–6.17.5. See `phases/phase-6.17-guide.md`. Relates to Phase 6.6 (soft vs hard delete). |
+| 6.18 | User role catalog, owner rename, block-instance alignment | Not Started | Single `@shared` `USER_ROLE_VALUES`; `seller` → `owner` migration; audit hardcoded role lists; Session 6.18.2 admin UI for role ↔ user-type block instance mapping. See `phases/phase-6.18-guide.md`. Coordinates with Feature 7 Enactment. |
 
 ---
 
@@ -266,6 +267,17 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - [ ] Server returns structured dependency + policy payloads (not only generic 500/409)
 - [ ] Phase docs describe how to register new entity types and policies
 
+- [ ] ### Phase 6.18: User role catalog, `owner` rename, block-instance alignment
+**Description:** Centralize allowed `users.user_role` strings in **`@shared`** (`USER_ROLE_VALUES` + const exports); migrate **`seller` → `owner`** (ENUM + data + API + client); grep audit so Joi, Sequelize, admin selects, and transformers **import the same module** — no parallel string arrays. Update `userTypeMapping.ts` keys accordingly. **Session 6.18.2:** Persisted **canonical role → user-type block_instance_id** mapping and admin UI so operators align instances without code changes for mapping-only updates (fallback: legacy name map).
+**Sessions:** 6.18.1 (catalog + rename + audit); 6.18.2 (admin alignment API + UI)
+**Dependencies:** Feature 7 Enactment should use shared role types when exposing identity to the client (see PROJECT_PLAN Feature 7). Alpha cohort ↔ role mapping documented under Feature 9.
+**Success Criteria:**
+- One shared module is authoritative for allowed role strings across server and client
+- `owner` replaces `seller` end-to-end; existing rows migrated
+- Documented inventory of fixed role lists eliminated or wired to shared catalog
+- Optional: admin saves role ↔ block instance alignment; runtime resolver prefers config
+**See:** `phases/phase-6.18-guide.md`, `phases/phase-6.18-planning.md`, `sessions/session-6.18.1-planning.md`, `sessions/session-6.18.2-planning.md`
+
 ## Booking Calculations (Core Complete)
 
 **Fee calculations:** `calculateBlockInstanceFee()`, `buildConfirmationPriceData()`, `calculatePartsTotals()`, pricing cascade resolution via `pricingCascadeResolver.ts`.
@@ -294,6 +306,7 @@ Shared finalization and fee utilities live in `client/src/utils/booking/` and ar
 **Downstream Impact:**
 - Feature 7 (Authentication) enactment activates auth-dependent phases (6.7, 6.8) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
 - Feature 7 must expose **user role** (e.g. admin) to the client so the wizard and admin UI can gate Hold Slot, Override constraints, and Force schedule; state (wizard mode, user role, block.agentPermissions) drives tooltips and permissions
+- Phase 6.18 aligns **canonical `user_role` values** (`@shared`) with **user-type block instances**; Feature 7 Enactment should consume the same shared role vocabulary
 - Phase 6.5 (Rescheduling) integrates with Phase 6.8 constraint relaxation
 
 **External Dependencies:**

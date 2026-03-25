@@ -28,7 +28,6 @@ export class AvailabilitySetting extends Model<
   declare driveTimeFeeComplimentaryMinutes: number
   declare driveTimeFeeRatePerHour: number
   declare driveTimeFeeRoundingMinutes: number
-  /** Phase 6.14 — canonical org numeric defaults (JSON); merge at read with calendar/availability. */
   declare organizationDefaults: CreationOptional<Record<string, unknown> | null>
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>

@@ -1,10 +1,95 @@
-# Security middleware
+# Security middleware stubs
 
-**`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in.
+In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. **`csrfProtection`** (validation) and CSRF **issuance** are **active** (Phase 8.6.1.x) — see below. **`checkOwnership`** is **active** (Phase **8.7.1.2**; documented here in **8.7.2.1**) — registry + enforcement in **`ownershipRegistry.ts`** / **`ownershipEnforcement.ts`**. None of these are global — routes opt in.
 
-**`csrfProtection`** validates **`X-CSRF-Token`** (or body `_csrf`) against the **`csrf_secret`** httpOnly cookie. Obtain a token with **`GET /api/v1/internal/auth/csrf-token`** before unsafe methods.
+**Router-level policy (GC-7-E1):** Which internal subtrees are intended for **anonymous booking** (session + CSRF, no logged-in user) vs **authenticated staff/admin** — including middleware order and priority routes — is recorded in **`INTERNAL_API_ENACTMENT_MATRIX.md`**. Implement selective `requireAuth` / `requireRole` in code against that matrix (follow-on tasks); this file remains the **behavior reference** for each middleware.
 
-**`checkOwnership`** enforces access for **appointments** when `req.user` is present and the user is not privileged (`admin`, `transaction_manager`, `inspector`, `seller`): the user must match **`scheduledById`** or **`heldBy`**. Anonymous requests still pass (booking wizard). Other resource names are unchanged until extended in `ownershipChecks.ts`.
+---
+
+## CSRF issuance (active) — Task 8.6.1.1
+
+**Location:** `server/src/middlewares/csrfIssuance.ts` (`ensureCsrfTokenAttached`)  
+**Order:** Registered in `app.ts` **after** `cookieParser()` and **before** `ROUTE_PATHS.API`.
+
+| Contract | Value |
+|----------|--------|
+| Session store | `Session.sess` JSONB key `csrfToken` (64-char hex from 32 random bytes) |
+| Readable cookie | Name: **`csrf_token`** — `httpOnly: false`, `sameSite: lax`, `secure` in production |
+| Header for mutating requests (validation active) | **`X-CSRF-Token`** — send the same value as `csrf_token` |
+| When skipped | No session cookie, or session row missing/expired — no cookie set |
+
+**Exports from `csrfIssuance.ts`:** `CSRF_HEADER_NAME`, `readStoredCsrfToken`, `ensureCsrfTokenAttached`. The readable cookie name (`csrf_token`) and `Session.sess` key (`csrfToken`) are **module-private constants** in that file — this doc lists their string values for parity with the Vue client (8.6.2).
+
+### How to verify (manual)
+
+1. Log in so you have a valid session cookie (Feature 7).
+2. `GET` any API route with that cookie (e.g. `curl -v` with `-b` cookie jar after login).
+3. Response `Set-Cookie` should include **`csrf_token`** (non-HttpOnly).
+4. Confirm `sessions.sess` JSON for your `sid` contains `"csrfToken"`.
+
+## CSRF validation (active) — Task 8.6.1.2
+
+**Location:** `server/src/middlewares/security.ts` (`csrfProtection`)
+
+| Rule | Behavior |
+|------|-----------|
+| Safe methods | `GET`, `HEAD`, `OPTIONS` → no check |
+| No session cookie | **Skip** CSRF (allows `POST /auth/login`, `POST /auth/magic-link/request` before a session exists) |
+| Session cookie but no DB row | **403** `FORBIDDEN` — CSRF validation failed |
+| Session row but no `sess.csrfToken` | **403** — client should issue token via a safe request first (`ensureCsrfTokenAttached` on GET) |
+| Header missing or mismatch | **403** — compared with `crypto.timingSafeEqual` (UTF-8 buffers, same length) |
+
+## Vue SPA — CSRF header wiring (Session 8.6.2)
+
+**Purpose:** One place for the Vue team to implement CSRF without reading `security.ts`. Mutating browser calls to internal API routes that use **`csrfProtection`** must send **`X-CSRF-Token`** when a **session cookie** is present, or the server responds **403** (`FORBIDDEN`, message **CSRF validation failed**).
+
+**CSRF env vars:** None. Names are **code constants** in `server/src/middlewares/csrfIssuance.ts` — do not add `CSRF_*` to `server/.env.example` for this contract.
+
+### Canonical names (keep in sync with server)
+
+| Role | Value | Server reference (`csrfIssuance.ts`) |
+|------|--------|--------------------------------------|
+| Readable cookie | `csrf_token` | private constant (same string) |
+| Request header | `X-CSRF-Token` | exported `CSRF_HEADER_NAME` |
+| DB `Session.sess` key | `csrfToken` | private constant (same string) |
+
+In the client, use the **same string literals** or define matching constants in `client/src/` (e.g. next to your API module) so they stay aligned with the server file above.
+
+### End-to-end flow
+
+1. User has a **session** (HttpOnly session cookie from Feature 7).
+2. Issue the CSRF cookie: call any **safe** internal API with **`credentials: 'include'`** so the server runs **`ensureCsrfTokenAttached`** and responds with **`Set-Cookie: csrf_token=...`** (non-HttpOnly).
+3. Read the token (e.g. parse `document.cookie` for `csrf_token`, or read it from your wrapper after the response).
+4. On **POST**, **PUT**, **PATCH**, **DELETE** to protected routes, send **`X-CSRF-Token: <same value>`** and **`credentials: 'include'`**.
+
+**Skip path:** If there is **no** session cookie, **`csrfProtection`** does not require a header (e.g. first **`POST /auth/login`** / **`POST /auth/magic-link/request`**). After login, the session exists — subsequent mutating calls **must** include the header.
+
+### `fetch` shape (pseudo-code)
+
+```javascript
+await fetch(`${apiBase}/v1/internal/...`, {
+  method: 'POST',
+  credentials: 'include',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': csrfTokenFromCookie,
+  },
+  body: JSON.stringify(body),
+})
+```
+
+For **axios**, use `withCredentials: true` and set `headers['X-CSRF-Token']` the same way.
+
+### Session 8.6.2 implementation checklist
+
+- [x] Wire the **shared API layer** (`client/src/utils/api` default axios instance + **`calendarApiService`** internal POST) so **mutating** methods attach **`X-CSRF-Token`** when a **`csrf_token`** cookie is present.
+- [x] Use **`credentials: 'include'`** (fetch) or **`withCredentials: true`** (axios) for same-site API calls so both session and **`csrf_token`** cookies are sent.
+- [x] After login or app load, ensure at least one **GET** (or other safe) internal request runs **before** the first mutating call so **`csrf_token`** exists (normal admin/entity loads and booking reads satisfy this).
+- [ ] Smoke-test admin or booking CRUD after wiring (manual — run before closing session **8.6.2**).
+
+### Breaking change (until 8.6.2 ships)
+
+The SPA may get **403** on CRUD even for logged-in users if **`X-CSRF-Token`** is missing. **`createCrudRouter`** applies **`csrfProtection`** to **POST** / **PUT** / **PATCH** / **DELETE** on CRUD routers.
 
 ---
 
@@ -214,21 +299,22 @@ Alternatively, use browser DevTools → Network tab → select a request → Hea
 With the server running, send an invalid payload and confirm 400 with validation details:
 
 ```bash
+# No session cookie: CSRF check is skipped (see CSRF validation table).
 curl -X POST http://localhost:3001/api/v1/internal/auth/login \
   -H "Content-Type: application/json" \
-  -H "X-CSRF-Token: stub" \
   -d '{}'
 ```
 
 Expect `400` with JSON body containing `error: 'Validation failed'` and `details` array with Joi error entries. Valid payload (e.g. `{"email":"a@b.com","password":"x"}`) returns `501` (placeholder).
 
+**With a session cookie:** send **`X-CSRF-Token`** equal to `csrf_token` / `Session.sess.csrfToken` on mutating requests or receive **403**.
+
 ## Planned behavior
 
 ### csrfProtection
 
-- Extract CSRF token from request header (e.g. `X-CSRF-Token`).
-- Compare against session/token store.
-- Reject requests with invalid or missing tokens (e.g. 403 Forbidden).
+- **Issuance:** see **CSRF issuance (active)** above.
+- **Validation (done 8.6.1.2):** see **CSRF validation (active)** above. Implementation: `server/src/middlewares/security.ts`.
 
 ### requireAuth
 
@@ -242,13 +328,60 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 - **Current (Feature 7 — 7.2.3.2):** Factory `requireRole(...allowedRoles)` returns middleware that runs **after** `requireAuth`. Compares `req.user.role` to allowed strings. **403** `{ code: FORBIDDEN }` when role missing, not allowed, or `requireAuth` was omitted (`req.user` undefined — logged). Empty `allowedRoles` → warn + **403** for every request.
 - **Override usage:** Gate routes with role strings that match `users.user_role` (shared constants), not necessarily literal `'admin'` unless that value exists in your enum.
 
-### checkOwnership
+### checkOwnership (active) — Phase 8.7.1.2
 
-- Extract resource ID from `req.params[paramKey]`.
-- Load resource (e.g. `Model.findByPk(resourceId)`).
-- If no resource, return 404.
-- If `resource[ownerField] !== req.user.id`, return 403.
-- Optionally attach resource to `req` for the route handler.
+**Factory:** `checkOwnership(resourceName, paramKey?, _ownerField?)` in `server/src/middlewares/security.ts`. The third argument is reserved; the **owner column** (or `row_pk_is_user` rule) comes from **`ownershipRegistry.ts`**, not from the route.
+
+**Core implementation:** `runOwnershipCheck` in `server/src/middlewares/ownershipEnforcement.ts` (called by the factory). **Order:** use **`requireAuth`** on the same route **before** `checkOwnership` so `req.user` is set. If `req.user` is missing, the check logs and returns **403**.
+
+**Registry:** `OWNERSHIP_REGISTRY` / `OWNERSHIP_RESOURCE_NAMES` in `ownershipRegistry.ts`. Every `resourceName` passed to `checkOwnership(...)` must be registered. **Unknown `resourceName`:** fail closed — **403** `FORBIDDEN` + log (`warn`).
+
+**Response shapes (ownership middleware only):**
+
+| Outcome | Status | Body |
+|--------|--------|------|
+| Allowed | — | (middleware calls `next()`) |
+| Denied (policy / unknown resource / missing user / null owner column / non-staff where required) | **403** | `{ code: FORBIDDEN, message: "Access denied" }` (same `code` as `requireRole`) |
+| Missing or empty `req.params[paramKey]`, or row not found | **404** | `{ error: "Resource not found" }` |
+
+**Registry entry kinds:**
+
+1. **`sequelize`** — Load row with `Model.findByPk(id)` from `req.params[paramKey]`.
+   - **`owner.mode: 'column'`** — Compare `req.user.id` to `row[owner.field]` (string-normalized). **Null/undefined owner value → 403** (no silent allow).
+   - **`owner.mode: 'row_pk_is_user'`** — Compare `req.user.id` to the row primary key (e.g. **`user`** resource).
+2. **`dynamic_entity`** — Used for **`entity`** CRUD: requires `req.entityConfig` (from entity route setup) and **`findByPk`** on the configured model. **Mutations are allowed only for internal staff roles** (see below); others get **403**.
+3. **`special`** — Custom logic in `ownershipEnforcement.ts` (e.g. **`businessSetting`** keyed by `key` param + availability constant; **`calendarSetting`** / **`wizardSetting`** singleton admin paths; **`appointmentFeeSummary`** via parent **`Appointment.scheduledById`**; **`property`** / **`propertyType`** / staff-scoped integration models). See registry `reason` / `notes` for intent; behavior is defined in code.
+
+**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`seller`** (`isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
+
+**Logging:** Denials and misconfiguration (e.g. `req.user` missing, unknown `resourceName`, unhandled special resource) are logged at **warn** or **error** with stable messages — see `ownershipLogger` / `checkOwnership:` prefixes in code.
+
+### Manual IDOR / ownership smoke (8.7.2.2)
+
+**Base path:** Internal API is mounted at **`/api/v1/internal`** (see `server/src/routes/index.ts` + `server/src/routes/internal/index.ts`). Adjust host/port for your environment (e.g. `http://localhost:3001`).
+
+**Prerequisites**
+
+1. Two distinct accounts (or two cookie jars): **User A** and **User B**, both able to log in and receive a session cookie + **`csrf_token`** (Phase **8.6**).
+2. For **mutating** requests (`POST`, `PUT`, `PATCH`, `DELETE`), send header **`X-CSRF-Token`** equal to the readable **`csrf_token`** cookie / stored session value — otherwise CSRF middleware may return **403** before ownership runs.
+3. **Authenticated IDOR checks** require a valid session (`req.user` set). Many internal CRUD routers use **`checkOwnership`** without **`requireAuth`** in the same stack today — if no session user is present, **`checkOwnership`** returns **403** `{ code: FORBIDDEN, message: "Access denied" }` (missing `req.user`), not **401**. Routes that mount **`requireAuth`** first (e.g. some auth demos) return **401** when unauthenticated.
+
+**Checks (run as User A)**
+
+| # | Action | Expect if IDOR is closed |
+|---|--------|---------------------------|
+| 1 | **User row:** `PATCH` or `PUT` **`/api/v1/internal/users/{userB_id}`** with User A’s session (+ CSRF). | **403** `{ code: FORBIDDEN, message: "Access denied" }` |
+| 2 | **User row:** Same method on **`/api/v1/internal/users/{userA_id}`**. | Success (**2xx**) if body is valid |
+| 3 | **Appointment:** `GET` **`/api/v1/internal/appointments/{appointment_owned_by_B}`** as User A (session on GET). | **403** ownership denial (appointment uses `scheduledById` in registry) |
+| 4 | **Appointment:** `GET` **`/api/v1/internal/appointments/{random-uuid}`** as User A. | **404** `{ error: "Resource not found" }` |
+| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `seller`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
+| 6 | **Entity:** Repeat **5** as an internal staff user with a valid **`entityType`** and existing **`id`**. | **2xx** if payload valid and row exists (**404** if id missing) |
+| 7 | **Registry fail-closed (optional):** If you temporarily add a route with `checkOwnership('nonexistent', 'id')` in dev, expect **403** and a **`checkOwnership: unknown resourceName`** log — remove the route after the check. | **403** |
+
+**Notes**
+
+- **Staff-only** admin resources (e.g. **`property`**, **`calendarSetting`**, **`businessSetting`** with key `availability_settings`) follow **`isInternalStaffRole`** in `ownershipEnforcement.ts` — extend this table when you add new protected admin surfaces.
+- Prefer recording **response status + JSON body** in ticket notes so regressions are obvious.
 
 ## Stub → real implementation mapping
 
@@ -256,6 +389,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 |------|----------|------------------------|
 | `requireAuth` | `server/src/middlewares/security.ts` | **Done (7.2.3.1):** session cookie + DB; attach `req.user`. Optional: extend with JWT/header in later tasks. |
 | `requireRole` | `server/src/middlewares/security.ts` | **Done (7.2.3.2):** variadic factory; 403 `FORBIDDEN`; order after `requireAuth`. |
+| `checkOwnership` | `security.ts` + `ownershipRegistry.ts` + `ownershipEnforcement.ts` | **Done (8.7.1.2; docs 8.7.2.1):** registry-driven ownership; **403**/**404** shapes above; extend registry when adding new protected resources. |
 | Appointment hold `heldBy` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Replace `appointmentFields.heldBy = null` with `appointmentFields.heldBy = req.user?.id ?? null` (or require auth on PATCH and use `req.user.id`). |
 | Appointment `overrideConstraints` | `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (sanitizeInput) | Apply `requireRole('admin')` middleware to PATCH route (or the override-specific branch) so only admins can set `overrideConstraints`. |
 | Client "Hold Slot" button | Client booking wizard | Remove `disabled` and tooltip; wire button to `holdSlot()` when auth is present. |
@@ -274,6 +408,7 @@ Phase 6.2 establishes **stub foundations** for both held-status and admin constr
 
 ## Reference
 
+- Internal API enactment matrix (GC-7-E1): `server/docs/INTERNAL_API_ENACTMENT_MATRIX.md`
 - Implementation: `server/src/middlewares/security.ts`
 - Appointment hold logic: `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`beforeUpdate`, `sanitizeInput`)
 - Appointment override logic: `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`sanitizeInput`)
