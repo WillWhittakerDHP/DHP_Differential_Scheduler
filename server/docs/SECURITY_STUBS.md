@@ -2,6 +2,8 @@
 
 In `src/middlewares/security.ts`, **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. **`csrfProtection`** (validation) and CSRF **issuance** are **active** (Phase 8.6.1.x) — see below. **`checkOwnership`** is **active** (Phase **8.7.1.2**; documented here in **8.7.2.1**) — registry + enforcement in **`ownershipRegistry.ts`** / **`ownershipEnforcement.ts`**. None of these are global — routes opt in.
 
+**Router-level policy (GC-7-E1):** Which internal subtrees are intended for **anonymous booking** (session + CSRF, no logged-in user) vs **authenticated staff/admin** — including middleware order and priority routes — is recorded in **`INTERNAL_API_ENACTMENT_MATRIX.md`**. Implement selective `requireAuth` / `requireRole` in code against that matrix (follow-on tasks); this file remains the **behavior reference** for each middleware.
+
 ---
 
 ## CSRF issuance (active) — Task 8.6.1.1
@@ -406,6 +408,7 @@ Phase 6.2 establishes **stub foundations** for both held-status and admin constr
 
 ## Reference
 
+- Internal API enactment matrix (GC-7-E1): `server/docs/INTERNAL_API_ENACTMENT_MATRIX.md`
 - Implementation: `server/src/middlewares/security.ts`
 - Appointment hold logic: `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`beforeUpdate`, `sanitizeInput`)
 - Appointment override logic: `server/src/routes/internal/appointments/appointmentCrudRouter.ts` (`sanitizeInput`)
