@@ -100,5 +100,5 @@ export function normalizeEventShapeDifferentialRoleFromApi(raw: unknown): Differ
 }
 
 function isDifferentialRoleStorageLoose(raw: unknown): boolean {
-  return raw === 'major' || raw === 'minor' || raw === 'moveable'
+  return raw === 'major' || raw === 'minor' || raw === 'moveable' || raw === 'margin'
 }

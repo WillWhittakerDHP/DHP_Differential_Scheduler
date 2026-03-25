@@ -87,6 +87,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { buildDifferentialRoleMatrixRows } from '@/utils/admin/differentialRoleMatrixRows'
 import type { BlockInstanceEntity, EventShapeEntity } from '@/types/entities'
 import type { DifferentialRole } from '@shared/types/differentialRole'
+import { DIFFERENTIAL_ROLE_LABELS } from '@shared/constants/differentialRoleMappings'
 import { sanitizeDifferentialEventRoleOverridesInput } from '@shared/utils/differentialRoleUtils'
 import BaseInput from './BaseInput.vue'
 
@@ -128,10 +129,11 @@ const matrixRows = computed(() =>
 
 const roleSelectItems = computed((): RoleSelectItem[] => [
   { title: 'Inherit (use event shape template)', value: INHERIT_SENTINEL },
-  { title: 'Major', value: 'major' },
-  { title: 'Minor', value: 'minor' },
-  { title: 'Movable', value: 'moveable' },
-  { title: 'None', value: 'none' },
+  { title: DIFFERENTIAL_ROLE_LABELS.major, value: 'major' },
+  { title: DIFFERENTIAL_ROLE_LABELS.minor, value: 'minor' },
+  { title: DIFFERENTIAL_ROLE_LABELS.moveable, value: 'moveable' },
+  { title: DIFFERENTIAL_ROLE_LABELS.margin, value: 'margin' },
+  { title: DIFFERENTIAL_ROLE_LABELS.none, value: 'none' },
 ])
 
 const overridesMap = computed((): DifferentialEventRoleOverridesMap => {

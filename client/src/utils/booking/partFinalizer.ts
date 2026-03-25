@@ -9,7 +9,7 @@ import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
 import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 import type { DifferentialRole } from '@shared/types/differentialRole'
-import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
+import { effectiveDifferentialRole, isDifferentialRoleOverrideValue } from '@shared/utils/differentialRoleUtils'
 
 export { calculateSlotShape } from './partFinalizerSlotShape'
 
@@ -26,7 +26,7 @@ export function mergeBlockDifferentialRoleOverrides(blockFinals: BlockFinal[]): 
       continue
     }
     for (const [k, v] of Object.entries(raw)) {
-      if (v !== 'major' && v !== 'minor' && v !== 'moveable' && v !== 'none') {
+      if (!isDifferentialRoleOverrideValue(v)) {
         continue
       }
       if (k in merged && merged[k] !== v) {

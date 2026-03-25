@@ -39,11 +39,11 @@ These sections contain session-specific content:
 **Description:** Add `margin` to `DifferentialRole` across the full stack: shared types + constants, DB migration (authored), server model, part finalizer pipeline (`minimizer: 'override'`), and admin override UI. Locks the ENUM rename strategy (keep `moveable` in storage for now; full rename in 6.16.3).
 
 **Duration:** 1–2 hours (4 focused tasks)
-**Status:** Not Started
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 6.16.1.1: Shared types + constants for margin
+- [x] #### Task 6.16.1.1: Shared types + constants for margin
 **Goal:** Add `'margin'` to `DifferentialRole`, `DifferentialRoleStorage`, labels, select options, and all guards/parsers in `shared/`.
 **Files:** 
 - `shared/types/differentialRole.ts`
