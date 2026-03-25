@@ -13,7 +13,7 @@
 **Description:** Review and tune Helmet configuration; add Content-Security-Policy for API and Vue SPA; document in SECURITY_STUBS.
 
 **Duration:** ~1–2 weeks
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -76,11 +76,11 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] Helmet configured with HSTS, referrer policy
 - [ ] CSP header applied; Vue app loads without CSP violations
 - [ ] SECURITY_STUBS updated
-- [ ] Ready for next phase
+- [x] Ready for next phase
 
 ---
 
@@ -141,3 +141,5 @@ After completing all sessions in a phase:
 ## Tasks
 
 Sessions 8.5.1, 8.5.2, and 8.5.3. See Sessions Breakdown above.
+
+<!-- end excerpt phase -->

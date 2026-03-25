@@ -588,3 +588,24 @@ nextAction:
 - Session 8.5.4 checkbox is checked in phase guide
 - This session has already been completed
 - To start a new session, use /session-start 8.5.5
+
+### 2026-03-25 — 8.5.5 — session-end — docs audit WARN: session log shape vs `audit-docs.ts` (`### Task … ✅`)
+
+- **reasonCodeRaw:** audit_failed (underlying: docs plugin WARN on session log)
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true (tier-end returned `success: false` until audit clean)
+- **tier:** session
+- **action:** end
+- **identifier:** 8.5.5
+- **featureName:** security-hardening
+- **audit:** `.cursor/project-manager/features/security-hardening/audits/session-8.5.5-audit.md` — **Docs** score WARN (95/100)
+
+- **Symptom:** First **`/session-end 8.5.5`** (and equivalent `sessionEnd('8.5.5', '8')` via `npx tsx`) completed harness steps including **`commit_remaining`**, but the **session tier audit** reported **WARN** and the orchestrator surfaced **`audit_failed`** / **User choice required** (retry, `/audit-fix`, skip). Session end was **`success: false`** until the log format was fixed and session-end was run again.
+
+- **Context (root cause):** **Docs audit** checks session (and phase) logs for completed task headings using a **literal regex** in `.cursor/commands/audit/atomic/audit-docs.ts` (lines ~140–141): `logContent.match(/### Task.*✅/g)`. Entries must look like **`### Task 8.5.5.1: … ✅`**, not checkbox lines such as `- [x] **8.5.5.1** — …`. The agent-authored **`session-8.5.5-log.md`** used the latter style (and narrative sections under “## Tasks”), so **`taskEntries` was empty** → finding **“Log document has no completed task entries”** → docs WARN → failing tier-end for this harness profile.
+
+- **What we tried:** Re-ran tier-end after rewriting the session log to include explicit **`## Completed Tasks`** subsections with **`### Task 8.5.5.1: … ✅`** and **`### Task 8.5.5.2: … ✅`** (matching the pattern used in e.g. `session-8.5.4-log.md`). Second **`sessionEnd`** → **`success: true`**, **`pending_push`**.
+
+- **Outcome / workaround:** Any session (or phase) log that must pass this audit should include at least one line matching **`### Task`** … **`✅`** in the body. Prefer aligning new logs with **`session-guide` / prior session logs** that already satisfy the checker.
+
+- **Suggestion:** (1) Document the **`### Task … ✅`** requirement in **session log template** and **tier-workflow-agent SKILL** (acceptance / session-end checklist). (2) Optionally relax **`audit-docs.ts`** to also accept common alternatives (e.g. `- [x]` next to a task id, or `### Task` without emoji if normalized), so checklist-style logs do not false-fail tier-end. (3) Link from **docs audit** suggestion text to the exact regex / line in `audit-docs.ts` for faster diagnosis.
