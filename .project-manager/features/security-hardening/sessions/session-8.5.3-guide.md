@@ -59,7 +59,7 @@ These sections contain session-specific content:
 **Approach:** Preserve middleware order; use project logger for any intentional warn paths.
 **Checkpoint:** Affected routes validate body/params/query per audit list.
 
-- [ ] #### Task 8.5.3.3: Verify and close GC-8-JOI row
+- [x] #### Task 8.5.3.3: Verify and close GC-8-JOI row
 **Goal:** Smoke API behavior; confirm checklist row **GC-8-JOI** can be marked done with evidence.
 **Files:**
 - `.project-manager/GAP_CLOSURE_CHECKLIST.md`
