@@ -100,3 +100,9 @@
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
 <!-- end excerpt phase -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+_No in-scope paths (or clean)._
+<!-- /harness:anchor:commit-preview -->
