@@ -30,6 +30,18 @@ import { createLogger } from '../../../utils/logger.js'
 const router = Router()
 const logger = createLogger('routes.authRouter')
 
+/** Express may surface `token` as string or string[] when query is duplicated. */
+function readMagicLinkQueryToken(req: Request): string {
+  const q = req.query.token
+  if (typeof q === 'string') {
+    return q
+  }
+  if (Array.isArray(q) && typeof q[0] === 'string') {
+    return q[0]
+  }
+  return ''
+}
+
 const PLACEHOLDER_MESSAGE = 'Auth routes coming in Feature 7'
 
 const loginBodySchema = Joi.object({
@@ -165,7 +177,7 @@ router.get('/magic-link/verify', async (req: Request, res: Response): Promise<vo
       })
       return
     }
-    const rawToken = typeof req.query.token === 'string' ? req.query.token : ''
+    const rawToken = readMagicLinkQueryToken(req)
     const result = await verifyToken(MAGIC_LINK_AUTH_CONTEXT, { token: rawToken })
     if (result.ok) {
       if (result.userId === undefined || result.userId === '') {

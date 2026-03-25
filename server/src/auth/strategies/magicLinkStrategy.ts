@@ -29,8 +29,8 @@ export type IssueMagicLinkForEmailResult = {
   magicLinkId: string
 }
 
-async function verifyMagicLinkToken(rawToken: string): Promise<AuthOpResult> {
-  const trimmed = rawToken.trim()
+async function verifyMagicLinkToken(rawToken: string | undefined): Promise<AuthOpResult> {
+  const trimmed = String(rawToken ?? '').trim()
   if (!trimmed) {
     return {
       ok: false,
@@ -94,7 +94,7 @@ export function createMagicLinkStrategy(): AuthStrategy {
   return {
     name: 'magic_link',
     async verifyToken(_ctx: AuthRequestContext, input: VerifyTokenInput): Promise<AuthOpResult> {
-      return verifyMagicLinkToken(input.token)
+      return verifyMagicLinkToken(input?.token)
     },
   }
 }

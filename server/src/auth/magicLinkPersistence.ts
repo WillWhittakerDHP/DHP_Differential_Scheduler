@@ -3,6 +3,7 @@
  * PATTERN: Mirrors `sessionManager` (models + logger); strategy task maps outcomes to `AuthOpResult`.
  */
 
+import type { Transaction } from 'sequelize'
 import type { MagicLink } from '../db/models/auth/magic_link.js'
 import { models } from '../config/models.js'
 import { sequelize } from '../config/database.js'
@@ -64,11 +65,11 @@ export async function findPendingMagicLinkByTokenHash(tokenHash: string): Promis
 export async function consumeMagicLinkByRawToken(rawToken: string): Promise<MagicLinkConsumeResult> {
   const tokenHash = hashMagicLinkTokenForStorage(rawToken)
   try {
-    return await sequelize.transaction(async (transaction) => {
+    return await sequelize.transaction(async (transaction: Transaction) => {
       const row = await models.MagicLink.findOne({
         where: { tokenHash, consumedAt: null },
         transaction,
-        lock: true,
+        lock: transaction.LOCK.UPDATE,
       })
       if (!row) {
         return { status: 'not_found' }
@@ -86,7 +87,7 @@ export async function consumeMagicLinkByRawToken(rawToken: string): Promise<Magi
         email: row.email ?? null,
       }
     })
-  } catch (error) {
+  } catch (error: unknown) {
     logger.error('consumeMagicLinkByRawToken failed:', error)
     return { status: 'error' }
   }
