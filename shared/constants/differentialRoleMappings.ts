@@ -5,6 +5,7 @@ export const DIFFERENTIAL_ROLE_LABELS: Record<DifferentialRole, string> = {
   major: 'Major',
   minor: 'Minor',
   moveable: 'Moveable',
+  margin: 'Margin',
   none: 'None',
 }
 
@@ -14,4 +15,5 @@ export const DIFFERENTIAL_ROLE_SELECT_OPTIONS: ReadonlyArray<{ value: string | n
   { value: 'major', label: DIFFERENTIAL_ROLE_LABELS.major },
   { value: 'minor', label: DIFFERENTIAL_ROLE_LABELS.minor },
   { value: 'moveable', label: DIFFERENTIAL_ROLE_LABELS.moveable },
+  { value: 'margin', label: DIFFERENTIAL_ROLE_LABELS.margin },
 ]

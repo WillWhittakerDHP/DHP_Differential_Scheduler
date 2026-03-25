@@ -4,7 +4,8 @@ export function isDifferentialRoleStorage(value: unknown): value is Differential
   return (
     value === 'major' ||
     value === 'minor' ||
-    value === 'moveable'
+    value === 'moveable' ||
+    value === 'margin'
   )
 }
 
@@ -39,9 +40,15 @@ export function sanitizeDifferentialRoleInput(raw: unknown): DifferentialRoleSto
   return null
 }
 
-/** Override map value: major | minor | moveable | none (explicit none). */
+/** Override map value: major | minor | moveable | margin | none (explicit none). */
 export function isDifferentialRoleOverrideValue(raw: unknown): raw is DifferentialRole {
-  return raw === 'major' || raw === 'minor' || raw === 'moveable' || raw === 'none'
+  return (
+    raw === 'major' ||
+    raw === 'minor' ||
+    raw === 'moveable' ||
+    raw === 'margin' ||
+    raw === 'none'
+  )
 }
 
 /**

@@ -1,6 +1,6 @@
 /**
  * Event-shape differential scheduling role (storage: DB NULL = none).
  */
-export type DifferentialRole = 'major' | 'minor' | 'moveable' | 'none'
+export type DifferentialRole = 'major' | 'minor' | 'moveable' | 'margin' | 'none'
 
-export type DifferentialRoleStorage = 'major' | 'minor' | 'moveable'
+export type DifferentialRoleStorage = 'major' | 'minor' | 'moveable' | 'margin'
