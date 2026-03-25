@@ -9,15 +9,21 @@
 
 ## Current Status
 
-**Completed:** Batch C evidence in `session-8.5.5-log.md`; **GC-8-JOI** Notes updated; server lint clean.
-**Git Branch:** `feature/security-hardening` (unchanged by this session)
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `feature/security-hardening`
+**Last Updated:** 2026-03-25
 
 ## Next Action
 
-Run **`/session-end 8.5.5`** when ready. After session-end, if phase 8.5 is fully complete, follow phase guide for **`/phase-end 8.5`** then **`/phase-start 8.6`** (CSRF phase already marked done in checklist — align with your harness ladder).
+Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**Where we left off:** Internal Joi sweep closed in 8.5.4; 8.5.5 only added written confirmation for auth mount + stragglers.
+**Where we left off:**
+Completed Task 
 
-**What you need next:** Harness session-end; optional phase wrap-up per `phase-8.5-guide.md`.
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
