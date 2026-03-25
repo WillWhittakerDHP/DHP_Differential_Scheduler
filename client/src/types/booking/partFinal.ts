@@ -10,7 +10,7 @@ export interface PartFinal {
   major: TernaryBoolean
   minor: TernaryBoolean
   /**
-   * Minimizer placement (née moveable boolean): plain major/minor timeline (`false`),
+   * Minimizer placement (ternary field): plain major/minor timeline (`false`),
    * separate minimizer scheduling segment (`true`), margin / pre-major anchor (`override`).
    * See `phases/phase-6.16-guide.md`.
    */

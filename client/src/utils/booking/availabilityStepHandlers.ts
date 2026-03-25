@@ -1,5 +1,5 @@
 /**
- * Availability step event handlers: slot clicks, moveable confirm/cancel, time basis changes.
+ * Availability step event handlers: slot clicks, minimizer confirm/cancel, time basis changes.
  * Accepts reactive params but uses no Vue reactivity internally.
  */
 import type { UseAvailabilityStepHandlersParams, UseAvailabilityStepHandlersReturn } from '@/types/booking/availabilityStepHandlers'
@@ -10,11 +10,11 @@ export function useAvailabilityStepHandlers(
 ): UseAvailabilityStepHandlersReturn {
   const {
     appointmentSlotOrderIndex,
-    closeMoveableModal,
-    moveableOptions,
-    moveableSlotsForConfirm,
-    selectedMoveableSlotIndex,
-    confirmedMoveableScheduling,
+    closeMinimizerModal,
+    minimizerOptions,
+    minimizerSlotsForConfirm,
+    selectedMinimizerSlotIndex,
+    confirmedMinimizerScheduling,
     startTimeType
   } = params
 
@@ -24,27 +24,27 @@ export function useAvailabilityStepHandlers(
   }
 
   /**
-   * PATTERN: Event handler that updates state, fails explicitly if moveableOptions is null
+   * PATTERN: Event handler that updates state, fails explicitly if minimizerOptions is null
    */
-  const handleMoveableConfirm = (): void => {
-    if (!moveableOptions.value) {
-      throw new Error('Cannot confirm moveable scheduling: moveableOptions is null')
+  const handleMinimizerConfirm = (): void => {
+    if (!minimizerOptions.value) {
+      throw new Error('Cannot confirm minimizer scheduling: minimizerOptions is null')
     }
     
-    confirmedMoveableScheduling.value = {
-      ...moveableOptions.value,
-      availableSlots: moveableSlotsForConfirm.value,
-      selectedSlotIndex: selectedMoveableSlotIndex.value
+    confirmedMinimizerScheduling.value = {
+      ...minimizerOptions.value,
+      availableSlots: minimizerSlotsForConfirm.value,
+      selectedSlotIndex: selectedMinimizerSlotIndex.value
     }
-    closeMoveableModal()
+    closeMinimizerModal()
   }
 
   /**
    * PATTERN: Event handler that resets state
    */
-  const handleMoveableCancel = (): void => {
-    closeMoveableModal()
-    selectedMoveableSlotIndex.value = null
+  const handleMinimizerCancel = (): void => {
+    closeMinimizerModal()
+    selectedMinimizerSlotIndex.value = null
   }
 
   /**
@@ -56,8 +56,8 @@ export function useAvailabilityStepHandlers(
 
   return {
     handleAppointmentSlotClick,
-    handleMoveableConfirm,
-    handleMoveableCancel,
+    handleMinimizerConfirm,
+    handleMinimizerCancel,
     handleTimeBasisChange
   }
 }

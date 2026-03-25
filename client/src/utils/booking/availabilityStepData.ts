@@ -1,6 +1,6 @@
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { AppointmentSlot } from '@/types/appointment'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
 import type { EventShapeEntity } from '@/types/entities'
 import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
@@ -101,7 +101,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
 export function buildAvailabilityStepData(params: {
   candidateDate: { start: string | null; end: string | null }
   candidateTimeSlots: SlotTimeBounds[] | null
-  moveableScheduling?: MoveableSchedulingOptions | null
+  minimizerScheduling?: MinimizerSchedulingOptions | null
   totalDriveMinutes: number | null
 }): AvailabilityStepData {
   return {
@@ -110,7 +110,7 @@ export function buildAvailabilityStepData(params: {
       end: params.candidateDate.end,
     },
     candidateTimeSlots: params.candidateTimeSlots,
-    moveableScheduling: params.moveableScheduling ?? null,
+    minimizerScheduling: params.minimizerScheduling ?? null,
     totalDriveMinutes: params.totalDriveMinutes,
   }
 }

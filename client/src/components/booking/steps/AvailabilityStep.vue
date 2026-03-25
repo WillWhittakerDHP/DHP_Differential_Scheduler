@@ -58,17 +58,17 @@ useWizardStepSync({
 const confirmation = useAvailabilityConfirmationState()
 const { labels: bookingWizardLabels } = useWizardSettings()
 
-const moveableInfeasible = computed(() => {
-  if (!o.hasMoveablePartsGated.value) return false
+const minimizerInfeasible = computed(() => {
+  if (!o.hasMinimizerPartsGated.value) return false
   const c = o.contingencyPeriod.value
   if (c.hasContingency !== true || !c.endDate || !c.endTime) return false
-  if (!o.moveableOptions.value) return false
-  if (o.isLoadingOptions.value || o.isLoadingMoveableDaySlots.value) return false
-  return o.moveableAppointmentSlots.value.length === 0
+  if (!o.minimizerOptions.value) return false
+  if (o.isLoadingOptions.value || o.isLoadingMinimizerDaySlots.value) return false
+  return o.minimizerAppointmentSlots.value.length === 0
 })
 
-const moveableInfeasibleMessage = computed(
-  () => bookingWizardLabels.moveableNoFeasibleCompletionSlotsMessage.value
+const minimizerInfeasibleMessage = computed(
+  () => bookingWizardLabels.minimizerNoFeasibleCompletionSlotsMessage.value
 )
 
 const ui = useAvailabilityStepUI({ o, confirmation })
@@ -104,10 +104,10 @@ const showAvailabilityOptionsCascadeError = computed(() => {
 })
 const hasDateSelected = computed(() => !!o.selectedDate.value?.start)
 const hasSlotSelected = computed(() => o.selectedButtonIndex.value != null)
-const hasMoveableConfirmed = computed(() => !!o.stepData.value?.moveableScheduling)
+const hasMinimizerConfirmed = computed(() => !!o.stepData.value?.minimizerScheduling)
 
-const showMoveableSubstep = computed(() => {
-  if (!o.hasMoveablePartsGated.value) return false
+const showMinimizerSubstep = computed(() => {
+  if (!o.hasMinimizerPartsGated.value) return false
   const c = o.contingencyPeriod.value
   return c.hasContingency === true && Boolean(c.endDate && c.endTime)
 })
@@ -116,7 +116,7 @@ const tailorSubStepComplete = computed(() => {
   const optsOk = !hasOptions.value || o.selectedOptionTypeBlockId.value !== null
   const c = o.contingencyPeriod.value
   const contOk =
-    !o.hasMoveablePartsGated.value ||
+    !o.hasMinimizerPartsGated.value ||
     c.hasContingency === false ||
     (c.hasContingency === true && Boolean(c.endDate && c.endTime))
   return optsOk && contOk
@@ -134,28 +134,28 @@ const subSteps = useAvailabilitySubSteps({
   hasOptions,
   hasDateSelected,
   isEffectivelyDifferential: o.isEffectivelyDifferential,
-  hasMoveablePartsGated: o.hasMoveablePartsGated,
-  showMoveableSubstep,
+  hasMinimizerPartsGated: o.hasMinimizerPartsGated,
+  showMinimizerSubstep,
   tailorSubStepComplete,
   selectedOptionTypeBlockId: o.selectedOptionTypeBlockId,
   userHasChosenTimeBasisFromGraph: computed(() => !!o.userHasChosenTimeBasisFromGraph?.value),
   hasSlotSelected,
-  hasMoveableConfirmed,
+  hasMinimizerConfirmed,
   confirmationState: confirmation,
   subStepLabels: ui.subStepLabels,
 })
 
 watch(
   () => ({
-    gated: o.hasMoveablePartsGated.value,
+    gated: o.hasMinimizerPartsGated.value,
     noContingency: o.contingencyPeriod.value.hasContingency === false,
-    hasOpts: o.moveableOptions.value != null,
+    hasOpts: o.minimizerOptions.value != null,
     loadingOpts: o.isLoadingOptions.value,
-    scheduled: o.stepData.value?.moveableScheduling != null,
+    scheduled: o.stepData.value?.minimizerScheduling != null,
   }),
   (w) => {
     if (!w.gated || !w.noContingency || !w.hasOpts || w.loadingOpts || w.scheduled) return
-    ui.handleMoveableConfirmWithConfirm()
+    ui.handleMinimizerConfirmWithConfirm()
   },
   { flush: 'post', immediate: true }
 )
@@ -185,8 +185,8 @@ const subStepContext = buildAvailabilitySubStepContext({
   o,
   ui,
   overlay,
-  moveableInfeasible,
-  moveableInfeasibleMessage,
+  minimizerInfeasible,
+  minimizerInfeasibleMessage,
   hasOptions,
 })
 provide(availabilitySubStepContextKey, subStepContext)

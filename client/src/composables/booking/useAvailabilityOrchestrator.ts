@@ -5,7 +5,7 @@ import type {
 import { createAvailabilityOrchestratorTimeSlotsShell } from '@/composables/booking/useAvailabilityOrchestratorTimeSlotsShell'
 import { setupAvailabilityOrchestratorDefaultsPhase } from '@/composables/booking/useAvailabilityOrchestratorDefaultsPhase'
 import { useAvailabilityOrchestratorLogicPhase } from '@/composables/booking/useAvailabilityOrchestratorLogicPhase'
-import { setupAvailabilityOrchestratorMoveableGates } from '@/composables/booking/useAvailabilityOrchestratorMoveableGates'
+import { setupAvailabilityOrchestratorMinimizerGates } from '@/composables/booking/useAvailabilityOrchestratorMinimizerGates'
 import { createAvailabilityOrchestratorSlotComputeds } from '@/composables/booking/useAvailabilityOrchestratorSlotComputeds'
 import { setupAvailabilityOrchestratorPostFetchPhase } from '@/composables/booking/useAvailabilityOrchestratorPostFetchPhase'
 import { setupAvailabilityOrchestratorSlotsPhase } from '@/composables/booking/useAvailabilityOrchestratorSlotsPhase'
@@ -44,7 +44,7 @@ export function useAvailabilityOrchestrator(
     shell,
   })
 
-  const moveableGates = setupAvailabilityOrchestratorMoveableGates({
+  const minimizerGates = setupAvailabilityOrchestratorMinimizerGates({
     accumulatedBlockInstances: logic.accumulatedBlockInstances,
     wizard,
   })
@@ -52,10 +52,10 @@ export function useAvailabilityOrchestrator(
   const slotComputeds = createAvailabilityOrchestratorSlotComputeds({
     selectedDate: defaults.selectedDate,
     slotsByDay: computedAvailability.slotsByDay,
-    hasMoveablePartsGated: moveableGates.hasMoveablePartsGated,
-    contingencyPeriod: moveableGates.contingencyPeriod,
-    moveableRoundedMinutes: moveableGates.moveableRoundedDurationForInspectionFilter,
-    afterBufferMinutes: moveableGates.afterBufferMinutesForInspectionFilter,
+    hasMinimizerPartsGated: minimizerGates.hasMinimizerPartsGated,
+    contingencyPeriod: minimizerGates.contingencyPeriod,
+    minimizerRoundedMinutes: minimizerGates.minimizerRoundedDurationForInspectionFilter,
+    afterBufferMinutes: minimizerGates.afterBufferMinutesForInspectionFilter,
   })
 
   const postFetch = setupAvailabilityOrchestratorPostFetchPhase({
@@ -77,7 +77,7 @@ export function useAvailabilityOrchestrator(
     logic,
     slotComputeds,
     postFetch,
-    moveableGates,
+    minimizerGates,
     propertyDetailsStepData,
     computedAvailability,
   })
@@ -95,8 +95,8 @@ export function useAvailabilityOrchestrator(
     appointmentSlots: slotsPhase.appointmentSlots,
     selectedDate: defaults.selectedDate,
     selectedSlot: slotsPhase.selectedSlot,
-    confirmedMoveableScheduling: slotsPhase.confirmedMoveableScheduling,
-    hasMoveablePartsGated: moveableGates.hasMoveablePartsGated,
+    confirmedMinimizerScheduling: slotsPhase.confirmedMinimizerScheduling,
+    hasMinimizerPartsGated: minimizerGates.hasMinimizerPartsGated,
   })
 
   const actionsPhase = useAvailabilityOrchestratorActionsPhase({
@@ -104,7 +104,7 @@ export function useAvailabilityOrchestrator(
     postFetch,
     slotsPhase,
     formsPhase,
-    moveableGates,
+    minimizerGates,
     selectedDate: defaults.selectedDate,
     startTimeType: defaults.startTimeType,
     appointmentSlotOrderIndex: defaults.appointmentSlotOrderIndex,
@@ -118,7 +118,7 @@ export function useAvailabilityOrchestrator(
     allowedDates: postFetch.allowedDates,
     fieldErrors: formsPhase.fieldErrors,
     isEffectivelyDifferential: logic.isEffectivelyDifferential,
-    hasMoveablePartsGated: moveableGates.hasMoveablePartsGated,
+    hasMinimizerPartsGated: minimizerGates.hasMinimizerPartsGated,
     userHasChosenTimeBasisFromGraph: actionsPhase.userHasChosenTimeBasisFromGraph,
     graphBars: slotsPhase.graphBars,
     perspective: postFetch.perspective,
@@ -128,21 +128,21 @@ export function useAvailabilityOrchestrator(
     selectedButtonIndex: postFetch.selectedButtonIndex,
     originalInspectionButtonIndex,
     selectedOptionTypeBlockId: postFetch.selectedOptionTypeBlockId,
-    showMoveableModal: slotsPhase.showMoveableModal,
-    moveableOptions: slotsPhase.moveableOptions,
-    moveableAppointmentSlots: slotsPhase.moveableAppointmentSlots,
-    moveableStepperDayLabel: slotsPhase.moveableStepperDayLabel,
-    moveablePartShapeName: slotsPhase.moveablePartShapeName,
-    selectedMoveableDay: slotsPhase.selectedMoveableDay,
-    setSelectedMoveableDay: slotsPhase.setSelectedMoveableDay,
-    allowedMoveableDates: slotsPhase.allowedMoveableDates,
-    availableMoveableDayKeys: slotsPhase.availableMoveableDayKeys,
-    moveableFirstDayKey: slotsPhase.moveableFirstDayKey,
-    moveableLastDayKey: slotsPhase.moveableLastDayKey,
-    moveableSchedulingWindow: slotsPhase.moveableSchedulingWindow,
-    isLoadingMoveableDaySlots: slotsPhase.isLoadingMoveableDaySlots,
-    selectedMoveableSlotIndex: slotsPhase.selectedMoveableSlotIndex,
-    contingencyPeriod: moveableGates.contingencyPeriod,
+    showMinimizerModal: slotsPhase.showMinimizerModal,
+    minimizerOptions: slotsPhase.minimizerOptions,
+    minimizerAppointmentSlots: slotsPhase.minimizerAppointmentSlots,
+    minimizerStepperDayLabel: slotsPhase.minimizerStepperDayLabel,
+    minimizerPartShapeName: slotsPhase.minimizerPartShapeName,
+    selectedMinimizerDay: slotsPhase.selectedMinimizerDay,
+    setSelectedMinimizerDay: slotsPhase.setSelectedMinimizerDay,
+    allowedMinimizerDates: slotsPhase.allowedMinimizerDates,
+    availableMinimizerDayKeys: slotsPhase.availableMinimizerDayKeys,
+    minimizerFirstDayKey: slotsPhase.minimizerFirstDayKey,
+    minimizerLastDayKey: slotsPhase.minimizerLastDayKey,
+    minimizerSchedulingWindow: slotsPhase.minimizerSchedulingWindow,
+    isLoadingMinimizerDaySlots: slotsPhase.isLoadingMinimizerDaySlots,
+    selectedMinimizerSlotIndex: slotsPhase.selectedMinimizerSlotIndex,
+    contingencyPeriod: minimizerGates.contingencyPeriod,
     isLoadingOptions: slotsPhase.isLoadingOptions,
     stepData: formsPhase.stepData,
     isFormValid: formsPhase.isFormValid,
@@ -154,9 +154,9 @@ export function useAvailabilityOrchestrator(
     handleDateChange: actionsPhase.handleDateChange,
     handleTimeBasisChange: actionsPhase.handleTimeBasisChange,
     handleAppointmentSlotClick: actionsPhase.handleAppointmentSlotClick,
-    selectMoveableSlot: actionsPhase.selectMoveableSlot,
-    handleMoveableConfirm: actionsPhase.handleMoveableConfirm,
-    handleMoveableCancel: actionsPhase.handleMoveableCancel,
+    selectMinimizerSlot: actionsPhase.selectMinimizerSlot,
+    handleMinimizerConfirm: actionsPhase.handleMinimizerConfirm,
+    handleMinimizerCancel: actionsPhase.handleMinimizerCancel,
     validateForm: formsPhase.validateForm,
     clearFirstAvailableNotice: () => {
       postFetch.firstAvailableNotice.value = null

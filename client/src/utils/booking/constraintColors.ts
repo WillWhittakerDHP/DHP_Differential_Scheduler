@@ -32,8 +32,8 @@ const CONSTRAINT_COLORS: Record<string, string> = {
   'range.leadTime': '#FFC107',         // Amber
   'range.dateRange': '#FF5722',        // Deep Orange
   'range.businessHours': '#E91E63',    // Pink
-  'range.moveableWindow.beforeOnsiteEnd': '#795548', // Brown — client virtual window
-  'range.moveableWindow.afterDeadline': '#5D4037',   // Dark brown — client virtual window
+  'range.minimizerWindow.beforeOnsiteEnd': '#795548', // Brown — client virtual window
+  'range.minimizerWindow.afterDeadline': '#5D4037',   // Dark brown — client virtual window
 }
 
 export function getColorForViolation(violationType: string): string {
@@ -97,14 +97,14 @@ export function formatViolationTooltip(violationType: string): string {
   }
   
   if (parts[0] === 'range') {
-    if (parts[1] === 'moveableWindow') {
+    if (parts[1] === 'minimizerWindow') {
       if (parts[2] === 'beforeOnsiteEnd') {
-        return 'Moveable window: before onsite work ends (client)'
+        return 'Minimizer window: before onsite work ends (client)'
       }
       if (parts[2] === 'afterDeadline') {
-        return 'Moveable window: after contingency deadline (client)'
+        return 'Minimizer window: after contingency deadline (client)'
       }
-      return 'Moveable window (client)'
+      return 'Minimizer window (client)'
     }
     const rangeType = parts[1] || 'range'
     const typeMap: Record<string, string> = {

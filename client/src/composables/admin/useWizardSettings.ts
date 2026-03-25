@@ -15,7 +15,7 @@ import type {
 } from '@/types/admin/wizardSettings'
 import { useBookingWizardSettingsSingleton } from '@/composables/booking/useBookingWizardSettingsSingleton'
 import { createLogger } from '@/utils/logger'
-import { DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
+import { DEFAULT_MINIMIZER_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
 
 /** First exported composable in file — composable-health skips ref() on lines below this (helpers use ref internally). */
 export function useWizardSettings(options?: UseWizardSettingsOptions): UseWizardSettingsReturn {
@@ -34,7 +34,7 @@ const logger = createLogger('useWizardSettings')
 
 const DEFAULT_MAJOR_LABEL = 'Major'
 const DEFAULT_MINOR_LABEL = 'Minor'
-const DEFAULT_MOVEABLE_FALLBACK = 'Post-Appointment Work'
+const DEFAULT_MINIMIZER_FALLBACK = 'Post-Appointment Work'
 
 function usesAdminBindings(options?: UseWizardSettingsOptions): boolean {
   return options?.showApplyCouponBinding != null || options?.useBrandColorsBinding != null
@@ -76,8 +76,8 @@ function buildWizardSettingsLabels(
   const subStepLabelPickDay = computed(() => wizardData.value?.subStepLabelPickDay?.trim() || undefined)
   const subStepLabelOptions = computed(() => wizardData.value?.subStepLabelOptions?.trim() || undefined)
   const subStepLabelPickTime = computed(() => wizardData.value?.subStepLabelPickTime?.trim() || undefined)
-  const subStepLabelConfirmMoveable = computed(
-    () => wizardData.value?.subStepLabelConfirmMoveable?.trim() || undefined
+  const subStepLabelConfirmMinimizer = computed(
+    () => wizardData.value?.subStepLabelConfirmMinimizer?.trim() || undefined
   )
   const differentialGraphDefaultLabel = computed(() => {
     const raw = wizardData.value?.differentialGraphDefaultLabel
@@ -88,7 +88,7 @@ function buildWizardSettingsLabels(
     1: subStepLabelOptions.value,
     2: differentialGraphDefaultLabel.value ?? undefined,
     3: subStepLabelPickTime.value,
-    4: subStepLabelConfirmMoveable.value,
+    4: subStepLabelConfirmMinimizer.value,
   }))
   const majorLabel = computed(() => wizardData.value?.majorLabel?.trim() || DEFAULT_MAJOR_LABEL)
   const minorLabel = computed(() => wizardData.value?.minorLabel?.trim() || DEFAULT_MINOR_LABEL)
@@ -98,12 +98,12 @@ function buildWizardSettingsLabels(
   const minorStateLabel = computed(
     () => wizardData.value?.minorStateLabel?.trim() || `Showing ${minorLabel.value} times`
   )
-  const moveableFallbackLabel = computed(
-    () => wizardData.value?.moveableFallbackLabel?.trim() || DEFAULT_MOVEABLE_FALLBACK
+  const minimizerFallbackLabel = computed(
+    () => wizardData.value?.minimizerFallbackLabel?.trim() || DEFAULT_MINIMIZER_FALLBACK
   )
-  const moveableNoFeasibleCompletionSlotsMessage = computed(() => {
-    const raw = wizardData.value?.moveableNoFeasibleCompletionSlotsMessage?.trim()
-    return raw && raw.length > 0 ? raw : DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE
+  const minimizerNoFeasibleCompletionSlotsMessage = computed(() => {
+    const raw = wizardData.value?.minimizerNoFeasibleCompletionSlotsMessage?.trim()
+    return raw && raw.length > 0 ? raw : DEFAULT_MINIMIZER_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE
   })
 
   return {
@@ -113,8 +113,8 @@ function buildWizardSettingsLabels(
     minorLabel,
     majorStateLabel,
     minorStateLabel,
-    moveableFallbackLabel,
-    moveableNoFeasibleCompletionSlotsMessage,
+    minimizerFallbackLabel,
+    minimizerNoFeasibleCompletionSlotsMessage,
   }
 }
 

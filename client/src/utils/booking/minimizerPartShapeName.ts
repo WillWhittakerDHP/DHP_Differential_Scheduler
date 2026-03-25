@@ -1,37 +1,37 @@
 /**
- * Pure helper for resolving moveable part shape display name. Extracted to reduce composable complexity.
+ * Pure helper for resolving minimizer part shape display name. Extracted to reduce composable complexity.
  */
 import type { AppointmentShape } from '@/types/appointment'
 
-function isGenericMoveableLabel(value: string | null | undefined): boolean {
+function isGenericMinimizerLabel(value: string | null | undefined): boolean {
   if (!value) return true
   const normalized = value.trim().toLowerCase().replace(/\s+/g, ' ')
   return (
-    normalized === 'moveable part' ||
+    normalized === 'minimizer part' ||
     normalized === 'movable part' ||
-    normalized === 'moveable work' ||
+    normalized === 'minimizer work' ||
     normalized === 'movable work'
   )
 }
 
 /**
- * Resolve the display name for the moveable part (part-shape name, event-instance names, or fallback).
+ * Resolve the display name for the minimizer part (part-shape name, event-instance names, or fallback).
  */
-export function getMoveablePartShapeName(
+export function getMinimizerPartShapeName(
   shape: AppointmentShape | null,
-  moveableEventShapeId: string | undefined,
+  minimizerEventShapeId: string | undefined,
   fallbackLabel: string,
   eventShapeName?: string | null
 ): string {
-  if (shape && moveableEventShapeId) {
+  if (shape && minimizerEventShapeId) {
     const matchingAssignments = Object.entries(shape.eventAssignmentsByPartShape).filter(
       ([, eventInstances]) =>
-        eventInstances.some((eventInstance) => eventInstance.eventShapeRef === moveableEventShapeId)
+        eventInstances.some((eventInstance) => eventInstance.eventShapeRef === minimizerEventShapeId)
     )
     const matchingPartShapes = matchingAssignments
       .map(([partShapeName]) => partShapeName)
       .filter((name) => name.trim().length > 0)
-      .filter((name) => !isGenericMoveableLabel(name))
+      .filter((name) => !isGenericMinimizerLabel(name))
 
     if (matchingPartShapes.length === 1) return matchingPartShapes[0]
     if (matchingPartShapes.length > 1) return `${matchingPartShapes[0]} +${matchingPartShapes.length - 1}`
@@ -39,7 +39,7 @@ export function getMoveablePartShapeName(
     const matchingEventInstanceNames = matchingAssignments
       .flatMap(([, eventInstances]) => eventInstances.map((eventInstance) => eventInstance.name))
       .filter((name): name is string => typeof name === 'string' && name.trim().length > 0)
-      .filter((name) => !isGenericMoveableLabel(name))
+      .filter((name) => !isGenericMinimizerLabel(name))
 
     if (matchingEventInstanceNames.length === 1) return matchingEventInstanceNames[0]
     if (matchingEventInstanceNames.length > 1) {
@@ -47,7 +47,7 @@ export function getMoveablePartShapeName(
     }
   }
 
-  if (eventShapeName && !isGenericMoveableLabel(eventShapeName)) {
+  if (eventShapeName && !isGenericMinimizerLabel(eventShapeName)) {
     return eventShapeName
   }
 

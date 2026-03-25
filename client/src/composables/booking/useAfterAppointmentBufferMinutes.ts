@@ -1,6 +1,6 @@
 /**
  * Appointment buffer minutes after onsite end (placement after | both), from availability settings.
- * WHY: Orchestrator needs buffer before useAppointmentSlots for inspection deadline filter; separate from moveable fetch.
+ * WHY: Orchestrator needs buffer before useAppointmentSlots for inspection deadline filter; separate from minimizer fetch.
  */
 import { ref, watchEffect, type Ref } from 'vue'
 import { getAvailabilitySettings } from '@/configs/availabilitySettings'

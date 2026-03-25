@@ -22,7 +22,7 @@ export class WizardSettings extends Model<
   declare useBrandColors: boolean;
   declare majorLabel: CreationOptional<string | null>;
   declare minorLabel: CreationOptional<string | null>;
-  declare moveableFallbackLabel: CreationOptional<string | null>;
+  declare minimizerFallbackLabel: CreationOptional<string | null>;
   declare differentialGraphDefaultLabel: CreationOptional<string | null>;
   declare majorStateLabel: CreationOptional<string | null>;
   declare minorStateLabel: CreationOptional<string | null>;
@@ -30,8 +30,8 @@ export class WizardSettings extends Model<
   declare subStepLabelPickDay: CreationOptional<string | null>;
   declare subStepLabelOptions: CreationOptional<string | null>;
   declare subStepLabelPickTime: CreationOptional<string | null>;
-  declare subStepLabelConfirmMoveable: CreationOptional<string | null>;
-  declare moveableNoFeasibleCompletionSlotsMessage: CreationOptional<string | null>;
+  declare subStepLabelConfirmMinimizer: CreationOptional<string | null>;
+  declare minimizerNoFeasibleCompletionSlotsMessage: CreationOptional<string | null>;
   declare brandPrimaryHex: CreationOptional<string | null>;
   declare brandSecondaryHex: CreationOptional<string | null>;
   declare logoUrl: CreationOptional<string | null>;
@@ -64,7 +64,7 @@ export function WizardSettingsFactory(sequelize: Sequelize) {
       },
       majorLabel: { type: DataTypes.STRING, allowNull: true, field: 'major_label' },
       minorLabel: { type: DataTypes.STRING, allowNull: true, field: 'minor_label' },
-      moveableFallbackLabel: { type: DataTypes.STRING, allowNull: true, field: 'moveable_fallback_label' },
+      minimizerFallbackLabel: { type: DataTypes.STRING, allowNull: true, field: 'minimizer_fallback_label' },
       differentialGraphDefaultLabel: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -76,15 +76,15 @@ export function WizardSettingsFactory(sequelize: Sequelize) {
       subStepLabelPickDay: { type: DataTypes.STRING, allowNull: true, field: 'sub_step_label_pick_day' },
       subStepLabelOptions: { type: DataTypes.STRING, allowNull: true, field: 'sub_step_label_options' },
       subStepLabelPickTime: { type: DataTypes.STRING, allowNull: true, field: 'sub_step_label_pick_time' },
-      subStepLabelConfirmMoveable: {
+      subStepLabelConfirmMinimizer: {
         type: DataTypes.STRING,
         allowNull: true,
-        field: 'sub_step_label_confirm_moveable',
+        field: 'sub_step_label_confirm_minimizer',
       },
-      moveableNoFeasibleCompletionSlotsMessage: {
+      minimizerNoFeasibleCompletionSlotsMessage: {
         type: DataTypes.TEXT,
         allowNull: true,
-        field: 'moveable_no_feasible_completion_slots_message',
+        field: 'minimizer_no_feasible_completion_slots_message',
       },
       brandPrimaryHex: {
         type: DataTypes.STRING(32),

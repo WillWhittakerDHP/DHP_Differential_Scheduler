@@ -11,14 +11,14 @@ export interface BuildAvailabilitySubStepContextParams {
     | 'onOptionIdUpdate'
     | 'handleTimeBasisChangeWithConfirm'
     | 'handleSlotClickWithConfirm'
-    | 'handleMoveableConfirmWithConfirm'
+    | 'handleMinimizerConfirmWithConfirm'
   >
   overlay: Pick<
     UseAvailabilityStepSlotOverlayReturn,
     'showSlotsOverlay' | 'slotGridOverlayLabel' | 'slotGridOverlayError'
   >
-  moveableInfeasible: ComputedRef<boolean>
-  moveableInfeasibleMessage: ComputedRef<string>
+  minimizerInfeasible: ComputedRef<boolean>
+  minimizerInfeasibleMessage: ComputedRef<string>
   hasOptions: ComputedRef<boolean>
 }
 
@@ -28,7 +28,7 @@ export interface BuildAvailabilitySubStepContextParams {
 export function buildAvailabilitySubStepContext(
   params: BuildAvailabilitySubStepContextParams
 ): AvailabilitySubStepContext {
-  const { o, ui, overlay, moveableInfeasible, moveableInfeasibleMessage, hasOptions } = params
+  const { o, ui, overlay, minimizerInfeasible, minimizerInfeasibleMessage, hasOptions } = params
 
   return {
     o,
@@ -36,7 +36,7 @@ export function buildAvailabilitySubStepContext(
     onOptionIdUpdate: ui.onOptionIdUpdate,
     handleTimeBasisChangeWithConfirm: ui.handleTimeBasisChangeWithConfirm,
     handleSlotClickWithConfirm: ui.handleSlotClickWithConfirm,
-    handleMoveableConfirmWithConfirm: ui.handleMoveableConfirmWithConfirm,
+    handleMinimizerConfirmWithConfirm: ui.handleMinimizerConfirmWithConfirm,
     get showSlotsOverlay() {
       return overlay.showSlotsOverlay.value
     },
@@ -53,11 +53,11 @@ export function buildAvailabilitySubStepContext(
       return o.firstAvailableNotice?.value ?? null
     },
     clearFirstAvailableNotice: o.clearFirstAvailableNotice,
-    get moveableInfeasible() {
-      return moveableInfeasible.value
+    get minimizerInfeasible() {
+      return minimizerInfeasible.value
     },
-    get moveableInfeasibleMessage() {
-      return moveableInfeasibleMessage.value
+    get minimizerInfeasibleMessage() {
+      return minimizerInfeasibleMessage.value
     },
     hasOptions,
   }

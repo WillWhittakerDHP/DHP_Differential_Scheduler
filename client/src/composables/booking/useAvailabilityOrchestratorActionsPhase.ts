@@ -9,7 +9,7 @@ import {
   type AvailabilityOrchestratorPostFetchPhaseResult,
   type AvailabilityOrchestratorSlotsPhaseResult,
   type AvailabilityOrchestratorFormsPhaseResult,
-  type AvailabilityOrchestratorMoveableGates,
+  type AvailabilityOrchestratorMinimizerGates,
 } from '@/composables/booking/availabilityOrchestratorActionsBundle'
 
 interface AvailabilityOrchestratorActionsPhaseResult {
@@ -17,9 +17,9 @@ interface AvailabilityOrchestratorActionsPhaseResult {
   handleDateChange: (value: string | Date | string[] | Date[] | null) => void
   handleTimeBasisChange: (type: 'major' | 'minor') => void
   handleAppointmentSlotClick: ReturnType<typeof useAvailabilityStepHandlers>['handleAppointmentSlotClick']
-  selectMoveableSlot: AvailabilityOrchestratorSlotsPhaseResult['selectMoveableSlot']
-  handleMoveableConfirm: ReturnType<typeof useAvailabilityStepHandlers>['handleMoveableConfirm']
-  handleMoveableCancel: ReturnType<typeof useAvailabilityStepHandlers>['handleMoveableCancel']
+  selectMinimizerSlot: AvailabilityOrchestratorSlotsPhaseResult['selectMinimizerSlot']
+  handleMinimizerConfirm: ReturnType<typeof useAvailabilityStepHandlers>['handleMinimizerConfirm']
+  handleMinimizerCancel: ReturnType<typeof useAvailabilityStepHandlers>['handleMinimizerCancel']
 }
 
 export function useAvailabilityOrchestratorActionsPhase(input: {
@@ -30,17 +30,17 @@ export function useAvailabilityOrchestratorActionsPhase(input: {
     | 'appointmentSlots'
     | 'appointmentShape'
     | 'selectedSlot'
-    | 'openMoveableModal'
-    | 'closeMoveableModal'
-    | 'moveableOptions'
-    | 'moveablePartsScheduling'
-    | 'selectedMoveableSlotIndex'
-    | 'confirmedMoveableScheduling'
-    | 'selectMoveableSlot'
-    | 'moveableSchedulingWindow'
+    | 'openMinimizerModal'
+    | 'closeMinimizerModal'
+    | 'minimizerOptions'
+    | 'minimizerPartsScheduling'
+    | 'selectedMinimizerSlotIndex'
+    | 'confirmedMinimizerScheduling'
+    | 'selectMinimizerSlot'
+    | 'minimizerSchedulingWindow'
   >
   formsPhase: Pick<AvailabilityOrchestratorFormsPhaseResult, 'fieldErrors'>
-  moveableGates: Pick<AvailabilityOrchestratorMoveableGates, 'hasMoveablePartsGated'>
+  minimizerGates: Pick<AvailabilityOrchestratorMinimizerGates, 'hasMinimizerPartsGated'>
   selectedDate: UseAvailabilityUIParams['selectedDate']
   startTimeType: UsePerspectiveMappingParams['startTimeType']
   appointmentSlotOrderIndex: Ref<number | null>
@@ -51,7 +51,7 @@ export function useAvailabilityOrchestratorActionsPhase(input: {
     postFetch,
     slotsPhase,
     formsPhase,
-    moveableGates,
+    minimizerGates,
     selectedDate,
     startTimeType,
     appointmentSlotOrderIndex,
@@ -73,19 +73,19 @@ export function useAvailabilityOrchestratorActionsPhase(input: {
 
   const {
     handleAppointmentSlotClick,
-    handleMoveableConfirm,
-    handleMoveableCancel,
+    handleMinimizerConfirm,
+    handleMinimizerCancel,
     handleTimeBasisChange: handleTimeBasisChangeBase,
   } = useAvailabilityStepHandlers({
     appointmentSlotOrderIndex,
-    hasMoveableParts: moveableGates.hasMoveablePartsGated,
+    hasMinimizerParts: minimizerGates.hasMinimizerPartsGated,
     selectedSlot: slotsPhase.selectedSlot,
-    openMoveableModal: slotsPhase.openMoveableModal,
-    closeMoveableModal: slotsPhase.closeMoveableModal,
-    moveableOptions: slotsPhase.moveableOptions,
-    moveableSlotsForConfirm: slotsPhase.moveablePartsScheduling.moveableSlotsForConfirm,
-    selectedMoveableSlotIndex: slotsPhase.selectedMoveableSlotIndex,
-    confirmedMoveableScheduling: slotsPhase.confirmedMoveableScheduling,
+    openMinimizerModal: slotsPhase.openMinimizerModal,
+    closeMinimizerModal: slotsPhase.closeMinimizerModal,
+    minimizerOptions: slotsPhase.minimizerOptions,
+    minimizerSlotsForConfirm: slotsPhase.minimizerPartsScheduling.minimizerSlotsForConfirm,
+    selectedMinimizerSlotIndex: slotsPhase.selectedMinimizerSlotIndex,
+    confirmedMinimizerScheduling: slotsPhase.confirmedMinimizerScheduling,
     startTimeType,
   })
 
@@ -104,7 +104,7 @@ export function useAvailabilityOrchestratorActionsPhase(input: {
     busyPeriods: computed(() => []),
     refreshKey: postFetch.mockRefreshKey,
     isEffectivelyDifferential: logic.isEffectivelyDifferential,
-    moveableSchedulingWindow: slotsPhase.moveableSchedulingWindow,
+    minimizerSchedulingWindow: slotsPhase.minimizerSchedulingWindow,
   })
 
   return {
@@ -112,8 +112,8 @@ export function useAvailabilityOrchestratorActionsPhase(input: {
     handleDateChange,
     handleTimeBasisChange,
     handleAppointmentSlotClick,
-    selectMoveableSlot: slotsPhase.selectMoveableSlot,
-    handleMoveableConfirm,
-    handleMoveableCancel,
+    selectMinimizerSlot: slotsPhase.selectMinimizerSlot,
+    handleMinimizerConfirm,
+    handleMinimizerCancel,
   }
 }

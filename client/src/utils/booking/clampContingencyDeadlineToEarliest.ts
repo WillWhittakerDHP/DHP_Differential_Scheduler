@@ -40,7 +40,7 @@ function deadlineUtcMsToLocalContingencyFields(ms: number): { endDate: string; e
 }
 
 /**
- * If deadline (local wall) is before earliest moveable start instant, snap deadline to earliest (shown as local fields).
+ * If deadline (local wall) is before earliest minimizer start instant, snap deadline to earliest (shown as local fields).
  * Does not invent a time when `endTime` is null — returns input unchanged.
  */
 export function clampContingencyDeadlineToEarliest(

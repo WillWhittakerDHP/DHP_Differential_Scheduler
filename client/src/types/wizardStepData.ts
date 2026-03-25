@@ -12,9 +12,9 @@ export interface SummaryData {
   squareFootage: string
   appointmentDate?: string
   appointmentTimes?: string
-  moveablePartShapeName?: string
-  moveableCompletion?: string
-  moveableDeadline?: string
+  minimizerPartShapeName?: string
+  minimizerCompletion?: string
+  minimizerDeadline?: string
 }
 
 export interface PriceData {

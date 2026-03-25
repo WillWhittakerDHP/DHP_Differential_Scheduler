@@ -1,5 +1,5 @@
 import type { AppointmentFeeBreakdownPayload } from '@shared/types/appointmentFeeTypes'
-import type { MoveableSchedulingOptions } from './moveableScheduling'
+import type { MinimizerSchedulingOptions } from './minimizerScheduling'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { AppointmentStatus } from './appointmentStatus'
 import type { PropertyResponse } from './property'
@@ -53,7 +53,7 @@ export interface AppointmentRequest {
   status?: AppointmentStatus
   scheduledById?: string | null
   propertyDetails?: Record<string, unknown> | null
-  moveableScheduling?: MoveableSchedulingOptions | null
+  minimizerScheduling?: MinimizerSchedulingOptions | null
   /** Attendees for calendar invitations */
   attendees?: AttendeeRequest[] | null
   /** Fee breakdown for persistence (summary + per-block entries); server persists in afterCreate */
@@ -89,7 +89,7 @@ export interface AppointmentResponse {
   status: AppointmentStatus
   scheduledById?: string | null
   propertyDetails?: Record<string, unknown> | null
-  moveableScheduling?: MoveableSchedulingOptions | null
+  minimizerScheduling?: MinimizerSchedulingOptions | null
   createdAt: string
   updatedAt: string
   propertyVersion?: {

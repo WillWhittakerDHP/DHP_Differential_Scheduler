@@ -1,6 +1,6 @@
 import { computed, ref, watch, type ComputedRef, type Ref } from 'vue'
 import type { AvailabilitySubStepContext } from '@/types/booking/injectionContexts'
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
+import type { ContingencyPeriod } from '@/types/minimizerScheduling'
 import {
   clampContingencyDeadlineToEarliest,
   minContingencyDateKeyFromEarliest,
@@ -10,7 +10,7 @@ import {
 
 /**
  * Native date input passthrough for VTextField `type="date"` (Vuetify forwards to the DOM input).
- * Only `min` is set when the earliest moveable start yields a constraint; otherwise `{}` (no attrs).
+ * Only `min` is set when the earliest minimizer start yields a constraint; otherwise `{}` (no attrs).
  */
 type DeadlineDateNativeAttrs = { min?: string }
 
@@ -34,7 +34,7 @@ export interface UseAvailabilitySubStepContentReturn {
   step4CanStepNext: ComputedRef<boolean>
   step4CanConfirm: ComputedRef<boolean>
   step4StepDay: (delta: -1 | 1) => void
-  handleMoveableSlotClick: (buttonIndex: number) => void
+  handleMinimizerSlotClick: (buttonIndex: number) => void
 }
 
 /**
@@ -48,7 +48,7 @@ export function useAvailabilitySubStepContent(
   function updateContingency(partial: Partial<ContingencyPeriod>): void {
     const o = ctx.o
     let next: ContingencyPeriod = { ...o.contingencyPeriod.value, ...partial }
-    const schedulingRange = o.moveableSchedulingWindow.value
+    const schedulingRange = o.minimizerSchedulingWindow.value
     if (
       schedulingRange?.earliestStart &&
       next.hasContingency === true &&
@@ -85,12 +85,12 @@ export function useAvailabilitySubStepContent(
   const hasOptions = computed(() => ctx.hasOptions.value)
 
   const contingencyDeadlineMinDate = computed(() => {
-    const es = ctx.o.moveableSchedulingWindow.value?.earliestStart
+    const es = ctx.o.minimizerSchedulingWindow.value?.earliestStart
     return es ? minContingencyDateKeyFromEarliest(es) : undefined
   })
 
   const contingencyDeadlineMinTime = computed(() => {
-    const schedulingRange = ctx.o.moveableSchedulingWindow.value
+    const schedulingRange = ctx.o.minimizerSchedulingWindow.value
     const endDate = ctx.o.contingencyPeriod.value.endDate
     if (!schedulingRange?.earliestStart || !endDate) return undefined
     return minContingencyTimeForDate(endDate, schedulingRange.earliestStart)
@@ -147,65 +147,65 @@ export function useAvailabilitySubStepContent(
     updateContingency({ endTime: coerceDeadlineTimeInput(raw) })
   }
 
-  const step4MoveableDayIndex = computed(() => {
-    const keys = ctx.o.availableMoveableDayKeys.value
-    const day = ctx.o.selectedMoveableDay.value
+  const step4MinimizerDayIndex = computed(() => {
+    const keys = ctx.o.availableMinimizerDayKeys.value
+    const day = ctx.o.selectedMinimizerDay.value
     if (!day) return -1
     return keys.indexOf(day)
   })
 
-  const step4CanStepPrev = computed(() => step4MoveableDayIndex.value > 0)
+  const step4CanStepPrev = computed(() => step4MinimizerDayIndex.value > 0)
 
   const step4CanStepNext = computed(() => {
-    const keys = ctx.o.availableMoveableDayKeys.value
-    const i = step4MoveableDayIndex.value
+    const keys = ctx.o.availableMinimizerDayKeys.value
+    const i = step4MinimizerDayIndex.value
     return i >= 0 && i < keys.length - 1
   })
 
   const step4CanConfirm = computed(() => {
     const o = ctx.o
-    const opts = o.moveableOptions.value
+    const opts = o.minimizerOptions.value
     if (!opts) return false
     const h = o.contingencyPeriod.value.hasContingency
     if (h === false) return true
     if (!step4HasClosingDate.value) return false
-    const slots = o.moveableAppointmentSlots.value
+    const slots = o.minimizerAppointmentSlots.value
     if (slots.length === 0) return false
-    return o.selectedMoveableSlotIndex.value !== null
+    return o.selectedMinimizerSlotIndex.value !== null
   })
 
   function step4StepDay(delta: -1 | 1): void {
-    const keys = ctx.o.availableMoveableDayKeys.value
-    const i = step4MoveableDayIndex.value
+    const keys = ctx.o.availableMinimizerDayKeys.value
+    const i = step4MinimizerDayIndex.value
     if (i < 0) return
     const nextIdx = i + delta
     if (nextIdx < 0 || nextIdx >= keys.length) return
     const nextDay = keys[nextIdx]
     if (nextDay !== undefined) {
-      ctx.o.setSelectedMoveableDay(nextDay)
+      ctx.o.setSelectedMinimizerDay(nextDay)
     }
   }
 
-  function handleMoveableSlotClick(buttonIndex: number): void {
-    ctx.o.selectMoveableSlot(buttonIndex)
-    ctx.handleMoveableConfirmWithConfirm()
+  function handleMinimizerSlotClick(buttonIndex: number): void {
+    ctx.o.selectMinimizerSlot(buttonIndex)
+    ctx.handleMinimizerConfirmWithConfirm()
   }
 
   watch(
     () =>
       stepIndex.value === 4 &&
       step4CanConfirm.value &&
-      !ctx.o.stepData.value?.moveableScheduling &&
+      !ctx.o.stepData.value?.minimizerScheduling &&
       !ctx.o.isLoadingOptions.value &&
-      !(step4HasClosingDate.value && ctx.o.isLoadingMoveableDaySlots.value),
+      !(step4HasClosingDate.value && ctx.o.isLoadingMinimizerDaySlots.value),
     (shouldAutoConfirm) => {
-      if (shouldAutoConfirm) ctx.handleMoveableConfirmWithConfirm()
+      if (shouldAutoConfirm) ctx.handleMinimizerConfirmWithConfirm()
     },
     { immediate: true }
   )
 
   watch(
-    () => ctx.o.moveableSchedulingWindow.value?.earliestStart ?? null,
+    () => ctx.o.minimizerSchedulingWindow.value?.earliestStart ?? null,
     (earliest) => {
       if (!earliest) return
       const o = ctx.o
@@ -238,6 +238,6 @@ export function useAvailabilitySubStepContent(
     step4CanStepNext,
     step4CanConfirm,
     step4StepDay,
-    handleMoveableSlotClick,
+    handleMinimizerSlotClick,
   }
 }

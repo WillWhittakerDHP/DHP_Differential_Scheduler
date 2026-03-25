@@ -1,6 +1,6 @@
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 
-export interface ComputeMoveableSlotsParams {
+export interface ComputeMinimizerSlotsParams {
   innerBoundary: RFC3339DateTime
   outerBoundary: RFC3339DateTime
   duration: number

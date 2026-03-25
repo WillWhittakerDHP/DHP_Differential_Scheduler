@@ -1,25 +1,25 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
+import type { ContingencyPeriod } from '@/types/minimizerScheduling'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
-import { DEFAULT_CONTINGENCY } from '@/constants/moveableScheduling'
+import { DEFAULT_CONTINGENCY } from '@/constants/minimizerScheduling'
 import { useAppointmentShape } from '@/composables/booking/useAppointmentShape'
 import { useAfterAppointmentBufferMinutes } from '@/composables/booking/useAfterAppointmentBufferMinutes'
-import { getMoveableRoundedDurationMinutesFromAppointmentShape } from '@/utils/booking/moveableDurationFromAppointmentShape'
+import { getMinimizerRoundedDurationMinutesFromAppointmentShape } from '@/utils/booking/minimizerDurationFromAppointmentShape'
 
-export interface AvailabilityOrchestratorMoveableGates {
+export interface AvailabilityOrchestratorMinimizerGates {
   contingencyPeriod: Ref<ContingencyPeriod>
   appointmentShapeFromBlocks: UseAppointmentShapeReturn['appointmentShape']
   afterBufferMinutesForInspectionFilter: Ref<number>
-  moveableRoundedDurationForInspectionFilter: ComputedRef<number>
-  hasMoveableParts: ComputedRef<boolean>
-  hasMoveablePartsGated: ComputedRef<boolean>
+  minimizerRoundedDurationForInspectionFilter: ComputedRef<number>
+  hasMinimizerParts: ComputedRef<boolean>
+  hasMinimizerPartsGated: ComputedRef<boolean>
 }
 
-export function setupAvailabilityOrchestratorMoveableGates(input: {
+export function setupAvailabilityOrchestratorMinimizerGates(input: {
   accumulatedBlockInstances: UseAppointmentShapeParams['blockInstances']
   wizard: UseBookingWizardReturn
-}): AvailabilityOrchestratorMoveableGates {
+}): AvailabilityOrchestratorMinimizerGates {
   const { accumulatedBlockInstances, wizard } = input
 
   const contingencyPeriod = ref<ContingencyPeriod>({ ...DEFAULT_CONTINGENCY })
@@ -27,13 +27,13 @@ export function setupAvailabilityOrchestratorMoveableGates(input: {
     blockInstances: accumulatedBlockInstances,
   })
   const afterBufferMinutesForInspectionFilter = useAfterAppointmentBufferMinutes()
-  const moveableRoundedDurationForInspectionFilter = computed(() =>
-    getMoveableRoundedDurationMinutesFromAppointmentShape(appointmentShapeFromBlocks.value)
+  const minimizerRoundedDurationForInspectionFilter = computed(() =>
+    getMinimizerRoundedDurationMinutesFromAppointmentShape(appointmentShapeFromBlocks.value)
   )
-  const hasMoveableParts = computed(() => moveableRoundedDurationForInspectionFilter.value > 0)
-  const hasMoveablePartsGated = computed(
+  const hasMinimizerParts = computed(() => minimizerRoundedDurationForInspectionFilter.value > 0)
+  const hasMinimizerPartsGated = computed(
     () =>
-      hasMoveableParts.value &&
+      hasMinimizerParts.value &&
       wizard.selectedServiceTypeBlocks.value.some((b) => b.preClosing === true)
   )
 
@@ -41,8 +41,8 @@ export function setupAvailabilityOrchestratorMoveableGates(input: {
     contingencyPeriod,
     appointmentShapeFromBlocks,
     afterBufferMinutesForInspectionFilter,
-    moveableRoundedDurationForInspectionFilter,
-    hasMoveableParts,
-    hasMoveablePartsGated,
+    minimizerRoundedDurationForInspectionFilter,
+    hasMinimizerParts,
+    hasMinimizerPartsGated,
   }
 }

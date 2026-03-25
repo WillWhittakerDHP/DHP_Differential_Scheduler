@@ -84,18 +84,18 @@ function handleUseBrandColors(value: boolean | null): void {
         class="mb-4"
       />
       <VTextField
-        :model-value="differential.subStepLabelConfirmMoveable"
-        @update:model-value="handlers.handleSubStepLabelConfirmMoveable"
-        :label="UI_STRINGS.differential.subStepLabelConfirmMoveable"
-        :hint="UI_STRINGS.differential.subStepLabelConfirmMoveableHint"
+        :model-value="differential.subStepLabelConfirmMinimizer"
+        @update:model-value="handlers.handleSubStepLabelConfirmMinimizer"
+        :label="UI_STRINGS.differential.subStepLabelConfirmMinimizer"
+        :hint="UI_STRINGS.differential.subStepLabelConfirmMinimizerHint"
         persistent-hint
         class="mb-4"
       />
       <VTextField
-        :model-value="differential.moveableNoFeasibleCompletionSlotsMessage"
-        @update:model-value="handlers.handleMoveableNoFeasibleCompletionSlotsMessage"
-        :label="UI_STRINGS.differential.moveableNoFeasibleCompletionSlotsMessage"
-        :hint="UI_STRINGS.differential.moveableNoFeasibleCompletionSlotsMessageHint"
+        :model-value="differential.minimizerNoFeasibleCompletionSlotsMessage"
+        @update:model-value="handlers.handleMinimizerNoFeasibleCompletionSlotsMessage"
+        :label="UI_STRINGS.differential.minimizerNoFeasibleCompletionSlotsMessage"
+        :hint="UI_STRINGS.differential.minimizerNoFeasibleCompletionSlotsMessageHint"
         persistent-hint
         class="mb-4"
       />

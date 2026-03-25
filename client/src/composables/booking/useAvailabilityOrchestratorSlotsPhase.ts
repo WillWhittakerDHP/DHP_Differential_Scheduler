@@ -1,12 +1,12 @@
 import { ref, type ComputedRef, type Ref } from 'vue'
 import type { PropertyDetailsData } from '@/types/propertyForm'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
 import {
   useAppointmentSlots,
-  useMoveablePartsScheduling,
+  useMinimizerPartsScheduling,
   type AvailabilityOrchestratorSlotComputeds,
-  type AvailabilityOrchestratorMoveableGates,
+  type AvailabilityOrchestratorMinimizerGates,
   type UseAvailabilityLogicReturn,
   type AvailabilityOrchestratorPostFetchPhaseResult,
 } from '@/composables/booking/availabilityOrchestratorSlotsBundle'
@@ -16,25 +16,25 @@ export interface AvailabilityOrchestratorSlotsPhaseResult {
   appointmentShape: ReturnType<typeof useAppointmentSlots>['appointmentShape']
   selectedSlot: ReturnType<typeof useAppointmentSlots>['selectedSlot']
   graphBars: ReturnType<typeof useAppointmentSlots>['graphBars']
-  confirmedMoveableScheduling: Ref<MoveableSchedulingOptions | null>
-  moveablePartsScheduling: ReturnType<typeof useMoveablePartsScheduling>
-  showMoveableModal: Ref<boolean>
-  moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
-  moveableAppointmentSlots: ReturnType<typeof useMoveablePartsScheduling>['moveableAppointmentSlots']
-  moveableStepperDayLabel: ReturnType<typeof useMoveablePartsScheduling>['moveableStepperDayLabel']
-  moveablePartShapeName: ReturnType<typeof useMoveablePartsScheduling>['moveablePartShapeName']
-  selectedMoveableDay: Ref<string | null>
-  setSelectedMoveableDay: (date: string | null) => void
-  allowedMoveableDates: ReturnType<typeof useMoveablePartsScheduling>['allowedMoveableDates']
-  availableMoveableDayKeys: ReturnType<typeof useMoveablePartsScheduling>['availableMoveableDayKeys']
-  moveableFirstDayKey: ReturnType<typeof useMoveablePartsScheduling>['moveableFirstDayKey']
-  moveableLastDayKey: ReturnType<typeof useMoveablePartsScheduling>['moveableLastDayKey']
-  moveableSchedulingWindow: ReturnType<typeof useMoveablePartsScheduling>['moveableSchedulingWindow']
-  isLoadingMoveableDaySlots: Ref<boolean>
-  selectedMoveableSlotIndex: Ref<number | null>
-  openMoveableModal: () => void
-  closeMoveableModal: () => void
-  selectMoveableSlot: (index: number) => void
+  confirmedMinimizerScheduling: Ref<MinimizerSchedulingOptions | null>
+  minimizerPartsScheduling: ReturnType<typeof useMinimizerPartsScheduling>
+  showMinimizerModal: Ref<boolean>
+  minimizerOptions: ComputedRef<MinimizerSchedulingOptions | null>
+  minimizerAppointmentSlots: ReturnType<typeof useMinimizerPartsScheduling>['minimizerAppointmentSlots']
+  minimizerStepperDayLabel: ReturnType<typeof useMinimizerPartsScheduling>['minimizerStepperDayLabel']
+  minimizerPartShapeName: ReturnType<typeof useMinimizerPartsScheduling>['minimizerPartShapeName']
+  selectedMinimizerDay: Ref<string | null>
+  setSelectedMinimizerDay: (date: string | null) => void
+  allowedMinimizerDates: ReturnType<typeof useMinimizerPartsScheduling>['allowedMinimizerDates']
+  availableMinimizerDayKeys: ReturnType<typeof useMinimizerPartsScheduling>['availableMinimizerDayKeys']
+  minimizerFirstDayKey: ReturnType<typeof useMinimizerPartsScheduling>['minimizerFirstDayKey']
+  minimizerLastDayKey: ReturnType<typeof useMinimizerPartsScheduling>['minimizerLastDayKey']
+  minimizerSchedulingWindow: ReturnType<typeof useMinimizerPartsScheduling>['minimizerSchedulingWindow']
+  isLoadingMinimizerDaySlots: Ref<boolean>
+  selectedMinimizerSlotIndex: Ref<number | null>
+  openMinimizerModal: () => void
+  closeMinimizerModal: () => void
+  selectMinimizerSlot: (index: number) => void
   isLoadingOptions: Ref<boolean>
 }
 
@@ -42,14 +42,14 @@ export function setupAvailabilityOrchestratorSlotsPhase(input: {
   logic: Pick<UseAvailabilityLogicReturn, 'accumulatedBlockInstances' | 'isEffectivelyDifferential'>
   slotComputeds: Pick<AvailabilityOrchestratorSlotComputeds, 'deadlineFilteredSlotsForDay'>
   postFetch: Pick<AvailabilityOrchestratorPostFetchPhaseResult, 'selectedButtonIndex' | 'perspective'>
-  moveableGates: Pick<
-    AvailabilityOrchestratorMoveableGates,
+  minimizerGates: Pick<
+    AvailabilityOrchestratorMinimizerGates,
     'contingencyPeriod' | 'appointmentShapeFromBlocks'
   >
   propertyDetailsStepData: Ref<PropertyDetailsData | null>
   computedAvailability: UseComputedAvailabilityReturn
 }): AvailabilityOrchestratorSlotsPhaseResult {
-  const { logic, slotComputeds, postFetch, moveableGates, propertyDetailsStepData, computedAvailability } = input
+  const { logic, slotComputeds, postFetch, minimizerGates, propertyDetailsStepData, computedAvailability } = input
 
   const { appointmentShape, appointmentSlots, selectedSlot, graphBars } = useAppointmentSlots({
     blockInstances: logic.accumulatedBlockInstances,
@@ -57,64 +57,64 @@ export function setupAvailabilityOrchestratorSlotsPhase(input: {
     selectedButtonIndex: postFetch.selectedButtonIndex,
     perspective: postFetch.perspective,
     isDifferentialService: logic.isEffectivelyDifferential,
-    appointmentShapeFromBlocks: moveableGates.appointmentShapeFromBlocks,
+    appointmentShapeFromBlocks: minimizerGates.appointmentShapeFromBlocks,
   })
 
-  const moveablePartsScheduling = useMoveablePartsScheduling({
+  const minimizerPartsScheduling = useMinimizerPartsScheduling({
     appointmentShape,
     selectedSlot,
-    contingencyPeriod: moveableGates.contingencyPeriod,
+    contingencyPeriod: minimizerGates.contingencyPeriod,
     propertyDetailsStepData,
     slotsByDay: computedAvailability.slotsByDay,
   })
 
   const {
-    showModal: showMoveableModal,
-    moveableOptions,
-    moveableAppointmentSlots,
-    moveableStepperDayLabel,
-    moveablePartShapeName,
-    selectedMoveableDay,
-    setSelectedMoveableDay,
-    allowedMoveableDates,
-    availableMoveableDayKeys,
-    moveableFirstDayKey,
-    moveableLastDayKey,
-    moveableSchedulingWindow,
-    isLoadingMoveableDaySlots,
-    selectedSlotIndex: selectedMoveableSlotIndex,
-    openModal: openMoveableModal,
-    closeModal: closeMoveableModal,
-    selectSlot: selectMoveableSlot,
+    showModal: showMinimizerModal,
+    minimizerOptions,
+    minimizerAppointmentSlots,
+    minimizerStepperDayLabel,
+    minimizerPartShapeName,
+    selectedMinimizerDay,
+    setSelectedMinimizerDay,
+    allowedMinimizerDates,
+    availableMinimizerDayKeys,
+    minimizerFirstDayKey,
+    minimizerLastDayKey,
+    minimizerSchedulingWindow,
+    isLoadingMinimizerDaySlots,
+    selectedSlotIndex: selectedMinimizerSlotIndex,
+    openModal: openMinimizerModal,
+    closeModal: closeMinimizerModal,
+    selectSlot: selectMinimizerSlot,
     isLoadingOptions,
-  } = moveablePartsScheduling
+  } = minimizerPartsScheduling
 
-  const confirmedMoveableScheduling = ref<typeof moveableOptions.value>(null)
+  const confirmedMinimizerScheduling = ref<MinimizerSchedulingOptions | null>(null)
 
   return {
     appointmentSlots,
     appointmentShape,
     selectedSlot,
     graphBars,
-    confirmedMoveableScheduling,
-    moveablePartsScheduling,
-    showMoveableModal,
-    moveableOptions,
-    moveableAppointmentSlots,
-    moveableStepperDayLabel,
-    moveablePartShapeName,
-    selectedMoveableDay,
-    setSelectedMoveableDay,
-    allowedMoveableDates,
-    availableMoveableDayKeys,
-    moveableFirstDayKey,
-    moveableLastDayKey,
-    moveableSchedulingWindow,
-    isLoadingMoveableDaySlots,
-    selectedMoveableSlotIndex,
-    openMoveableModal,
-    closeMoveableModal,
-    selectMoveableSlot,
+    confirmedMinimizerScheduling,
+    minimizerPartsScheduling,
+    showMinimizerModal,
+    minimizerOptions,
+    minimizerAppointmentSlots,
+    minimizerStepperDayLabel,
+    minimizerPartShapeName,
+    selectedMinimizerDay,
+    setSelectedMinimizerDay,
+    allowedMinimizerDates,
+    availableMinimizerDayKeys,
+    minimizerFirstDayKey,
+    minimizerLastDayKey,
+    minimizerSchedulingWindow,
+    isLoadingMinimizerDaySlots,
+    selectedMinimizerSlotIndex,
+    openMinimizerModal,
+    closeMinimizerModal,
+    selectMinimizerSlot,
     isLoadingOptions,
   }
 }

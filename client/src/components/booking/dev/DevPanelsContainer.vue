@@ -43,8 +43,8 @@ const { settings: availabilitySettings } = useAvailabilitySettings()
 
 const availabilitySettingsValue = computed(() => availabilitySettings?.value ?? null)
 
-const moveableSchedulingWindowForPanel = computed(() =>
-  unref(devPanelData.value.moveableSchedulingWindow) ?? null
+const minimizerSchedulingWindowForPanel = computed(() =>
+  unref(devPanelData.value.minimizerSchedulingWindow) ?? null
 )
 
 const {
@@ -193,7 +193,7 @@ provide(instancesPanelContextKey, {
           <VWindowItem value="constraints">
             <ConstraintsPanel
               :availability-settings-value="availabilitySettingsValue"
-              :moveable-scheduling-window="moveableSchedulingWindowForPanel"
+              :minimizer-scheduling-window="minimizerSchedulingWindowForPanel"
             />
           </VWindowItem>
         </VWindow>

@@ -25,12 +25,12 @@ export interface UseGridConfigHandlersReturn {
   handleMajorLabel: (v: string) => void
   handleMinorLabel: (v: string) => void
   handleDifferentialGraphDefaultLabel: (v: string) => void
-  handleMoveableFallbackLabel: (v: string) => void
+  handleMinimizerFallbackLabel: (v: string) => void
   handleMajorStateLabel: (v: string) => void
   handleMinorStateLabel: (v: string) => void
   handleSubStepLabelPickDay: (v: string) => void
   handleSubStepLabelOptions: (v: string) => void
   handleSubStepLabelPickTime: (v: string) => void
-  handleSubStepLabelConfirmMoveable: (v: string) => void
-  handleMoveableNoFeasibleCompletionSlotsMessage: (v: string) => void
+  handleSubStepLabelConfirmMinimizer: (v: string) => void
+  handleMinimizerNoFeasibleCompletionSlotsMessage: (v: string) => void
 }

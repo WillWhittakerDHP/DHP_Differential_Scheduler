@@ -1,7 +1,7 @@
 <!--
-  Shared sub-step content: calendar, tailor (options + contingency), graph, slots, moveable completion.
+  Shared sub-step content: calendar, tailor (options + contingency), graph, slots, minimizer completion.
   Used in VExpansionPanelText (accordion) and section content.
-  Task 6.9.4.1: Step 4 is completion slots only; contingency lives in step 1 when moveable + preClosing.
+  Task 6.9.4.1: Step 4 is completion slots only; contingency lives in step 1 when minimizer + preClosing.
 -->
 <script setup lang="ts">
 import { inject, toRef } from 'vue'
@@ -37,7 +37,7 @@ const {
   step4CanStepPrev,
   step4CanStepNext,
   step4StepDay,
-  handleMoveableSlotClick,
+  handleMinimizerSlotClick,
 } = useAvailabilitySubStepContent({ ctx, stepIndex: toRef(props, 'stepIndex') })
 </script>
 
@@ -65,7 +65,7 @@ const {
       @update:display-date="ctx.o.setVDatePickerDisplayDate($event)"
     />
   </div>
-  <!-- Step 1: Tailor — cascade options (if any) + contingency when moveable + preClosing -->
+  <!-- Step 1: Tailor — cascade options (if any) + contingency when minimizer + preClosing -->
   <div v-else-if="stepIndex === 1" class="availability-options-below-calendar">
     <AvailabilityOptionsSection
       v-if="hasOptions"
@@ -77,7 +77,7 @@ const {
       @update:selected-option-type-block-id="ctx.onOptionIdUpdate"
     />
 
-    <div v-if="ctx.o.hasMoveablePartsGated.value" :class="hasOptions ? 'mt-6' : ''">
+    <div v-if="ctx.o.hasMinimizerPartsGated.value" :class="hasOptions ? 'mt-6' : ''">
       <VDivider v-if="hasOptions" class="mb-6" />
       <h3 class="text-headline-small mb-4">{{ AVAILABILITY_SUBSTEP_UI.CONTINGENCY_DEADLINE }}</h3>
       <p class="mb-4 text-body-medium">
@@ -174,19 +174,19 @@ const {
     </div>
   </div>
   <!-- Step 4: Completion times only (contingency in Tailor / step 1). -->
-  <div v-else-if="stepIndex === 4" class="availability-step-5-slot moveable-content">
+  <div v-else-if="stepIndex === 4" class="availability-step-5-slot minimizer-content">
     <div v-if="ctx.o.isLoadingOptions.value" class="text-center py-8">
       <VProgressCircular indeterminate color="primary" />
       <div class="mt-4">{{ AVAILABILITY_SUBSTEP_UI.CALCULATING_TIMES }}</div>
     </div>
 
     <div v-else>
-      <div v-if="ctx.o.moveableOptions.value && step4HasClosingDate" class="moveable-completion-section">
+      <div v-if="ctx.o.minimizerOptions.value && step4HasClosingDate" class="minimizer-completion-section">
         <h3 class="text-headline-small mb-4">{{ AVAILABILITY_SUBSTEP_UI.AVAILABLE_COMPLETION_TIMES }}</h3>
 
         <div class="mb-4">
           <p class="text-body-medium mb-2">{{ AVAILABILITY_SUBSTEP_UI.CHOOSE_DAY }}</p>
-          <div class="moveable-day-stepper">
+          <div class="minimizer-day-stepper">
             <VBtn
               variant="text"
               density="comfortable"
@@ -196,7 +196,7 @@ const {
             >
               {{ AVAILABILITY_SUBSTEP_UI.PREV }}
             </VBtn>
-            <span class="moveable-day-stepper__label">{{ ctx.o.moveableStepperDayLabel.value }}</span>
+            <span class="minimizer-day-stepper__label">{{ ctx.o.minimizerStepperDayLabel.value }}</span>
             <VBtn
               variant="text"
               density="comfortable"
@@ -214,35 +214,35 @@ const {
         </p>
 
         <VAlert
-          v-if="ctx.moveableInfeasible"
+          v-if="ctx.minimizerInfeasible"
           type="error"
           variant="tonal"
           class="mb-4"
           role="alert"
         >
-          {{ ctx.moveableInfeasibleMessage }}
+          {{ ctx.minimizerInfeasibleMessage }}
         </VAlert>
 
-        <div v-if="ctx.o.isLoadingMoveableDaySlots.value" class="text-center py-4">
+        <div v-if="ctx.o.isLoadingMinimizerDaySlots.value" class="text-center py-4">
           <VProgressCircular indeterminate color="primary" size="24" />
           <span class="ml-2 text-body-small">{{ AVAILABILITY_SUBSTEP_UI.LOADING_DAY_SLOTS }}</span>
         </div>
 
         <div
-          v-else-if="ctx.o.moveableAppointmentSlots.value.length > 0"
-          class="moveable-slot-grid-wrapper position-relative"
+          v-else-if="ctx.o.minimizerAppointmentSlots.value.length > 0"
+          class="minimizer-slot-grid-wrapper position-relative"
         >
           <AppointmentSlotGrid
-            :appointment-slots="ctx.o.moveableAppointmentSlots.value"
-            :selected-button-index="ctx.o.selectedMoveableSlotIndex.value"
+            :appointment-slots="ctx.o.minimizerAppointmentSlots.value"
+            :selected-button-index="ctx.o.selectedMinimizerSlotIndex.value"
             time-basis="nonDifferential"
             color="primary"
             class="appointment-slot-grid-abut mb-4"
-            @slot-click="handleMoveableSlotClick"
+            @slot-click="handleMinimizerSlotClick"
           />
         </div>
 
-        <VAlert v-else-if="!ctx.moveableInfeasible" type="warning" variant="tonal">
+        <VAlert v-else-if="!ctx.minimizerInfeasible" type="warning" variant="tonal">
           {{ AVAILABILITY_SUBSTEP_UI.NO_SLOTS_FOR_DAY }}
           {{ AVAILABILITY_SUBSTEP_UI.NO_SLOTS_HINT }}
         </VAlert>
@@ -256,11 +256,11 @@ const {
   font-size: 0.8125rem;
 }
 
-.moveable-slot-grid-wrapper {
+.minimizer-slot-grid-wrapper {
   position: relative;
 }
 
-.moveable-day-stepper {
+.minimizer-day-stepper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -269,7 +269,7 @@ const {
   padding: 0.25rem 0.5rem;
 }
 
-.moveable-day-stepper__label {
+.minimizer-day-stepper__label {
   font-weight: 600;
 }
 </style>

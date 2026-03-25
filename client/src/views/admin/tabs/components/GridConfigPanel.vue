@@ -135,10 +135,10 @@ const slotIncrementOrgBadge = computed((): 'match' | 'override' | null => {
       />
 
       <VTextField
-        :model-value="differential.moveableFallbackLabel"
-        @update:model-value="handlers.handleMoveableFallbackLabel"
-        :label="UI_STRINGS.differential.moveableFallbackLabel"
-        :hint="UI_STRINGS.differential.moveableFallbackHint"
+        :model-value="differential.minimizerFallbackLabel"
+        @update:model-value="handlers.handleMinimizerFallbackLabel"
+        :label="UI_STRINGS.differential.minimizerFallbackLabel"
+        :hint="UI_STRINGS.differential.minimizerFallbackHint"
         persistent-hint
         class="mb-4"
       />
@@ -164,7 +164,7 @@ const slotIncrementOrgBadge = computed((): 'match' | 'override' | null => {
         <div class="mb-1">{{ UI_STRINGS.differential.helpMajor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpMinor }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpLabels }}</div>
-        <div class="mb-1">{{ UI_STRINGS.differential.helpMoveableFallback }}</div>
+        <div class="mb-1">{{ UI_STRINGS.differential.helpMinimizerFallback }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpGraphDefault }}</div>
         <div class="mb-1">{{ UI_STRINGS.differential.helpStateLabels }}</div>
         <div>{{ UI_STRINGS.differential.helpFallback }}</div>

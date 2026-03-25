@@ -73,14 +73,14 @@
         </VCol>
       </VRow>
     </div>
-    <div v-if="moveableWindowDisplay" class="mb-4">
-      <VCardTitle class="text-body-large font-weight-bold pa-2">Moveable window (client virtual)</VCardTitle>
+    <div v-if="minimizerWindowDisplay" class="mb-4">
+      <VCardTitle class="text-body-large font-weight-bold pa-2">Minimizer window (client virtual)</VCardTitle>
       <VRow density="comfortable" class="ma-0">
         <VCol cols="12" md="6">
           <VCard variant="outlined" density="compact" class="pa-2">
             <div class="text-body-small text-medium-emphasis">Earliest completion start</div>
             <div class="text-body-medium font-weight-medium">
-              {{ formatIsoForDev(moveableWindowDisplay.earliestStart) }}
+              {{ formatIsoForDev(minimizerWindowDisplay.earliestStart) }}
             </div>
           </VCard>
         </VCol>
@@ -89,8 +89,8 @@
             <div class="text-body-small text-medium-emphasis">Latest slot end (contingency)</div>
             <div class="text-body-medium font-weight-medium">
               {{
-                moveableWindowDisplay.latestEnd
-                  ? formatIsoForDev(moveableWindowDisplay.latestEnd)
+                minimizerWindowDisplay.latestEnd
+                  ? formatIsoForDev(minimizerWindowDisplay.latestEnd)
                   : 'Not applied (no closing deadline)'
               }}
             </div>
@@ -104,15 +104,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 
 const props = defineProps<{
   availabilitySettingsValue: AvailabilitySettings | null
-  moveableSchedulingWindow?: MoveableSchedulingWindow | null
+  minimizerSchedulingWindow?: MinimizerSchedulingWindow | null
 }>()
 
-const moveableWindowDisplay = computed<MoveableSchedulingWindow | null>(
-  () => props.moveableSchedulingWindow ?? null
+const minimizerWindowDisplay = computed<MinimizerSchedulingWindow | null>(
+  () => props.minimizerSchedulingWindow ?? null
 )
 
 function formatIsoForDev(iso: string): string {

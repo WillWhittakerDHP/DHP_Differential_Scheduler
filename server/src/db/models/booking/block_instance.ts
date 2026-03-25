@@ -32,7 +32,7 @@ export class BlockInstance extends Model<
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
-  /** Per eventShapeId: major | minor | moveable | none; omit id to inherit template role. */
+  /** Per eventShapeId: major | minor | minimizer | none; omit id to inherit template role. */
   declare differentialEventRoleOverrides: CreationOptional<Record<string, string> | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;

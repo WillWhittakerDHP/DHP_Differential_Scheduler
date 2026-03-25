@@ -131,7 +131,7 @@ const roleSelectItems = computed((): RoleSelectItem[] => [
   { title: 'Inherit (use event shape template)', value: INHERIT_SENTINEL },
   { title: DIFFERENTIAL_ROLE_LABELS.major, value: 'major' },
   { title: DIFFERENTIAL_ROLE_LABELS.minor, value: 'minor' },
-  { title: DIFFERENTIAL_ROLE_LABELS.moveable, value: 'moveable' },
+  { title: DIFFERENTIAL_ROLE_LABELS.minimizer, value: 'minimizer' },
   { title: DIFFERENTIAL_ROLE_LABELS.margin, value: 'margin' },
   { title: DIFFERENTIAL_ROLE_LABELS.none, value: 'none' },
 ])

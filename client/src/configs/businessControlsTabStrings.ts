@@ -1,4 +1,4 @@
-import { DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
+import { DEFAULT_MINIMIZER_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE } from '@/constants/availabilityStepConstants'
 
 export const BUSINESS_CONTROLS_TAB_STRINGS = {
   loading: 'Loading settings...',
@@ -215,8 +215,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     minorAttendeesHint: 'UserTypeBlock instances that make an event "minor" (e.g., Client)',
     minorLabelLabel: 'Minor Label',
     minorLabelHint: 'Display label for minor perspective (e.g., Minor Formal Presentation)',
-    moveableFallbackLabel: 'Moveable Fallback Label',
-    moveableFallbackHint: 'Used when a moveable part-shape name cannot be determined (e.g., Post-Appointment Work)',
+    minimizerFallbackLabel: 'Minimizer Fallback Label',
+    minimizerFallbackHint: 'Used when a minimizer part-shape name cannot be determined (e.g., Post-Appointment Work)',
     graphDefaultLabel: 'Differential Graph Default Label',
     graphDefaultHint: 'Message shown when no time slot is selected (e.g., Select a Time Slot)',
     majorStateLabel: 'Major State Label',
@@ -226,7 +226,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     helpMajor: 'Major Attendees: Events with these attendees are considered "major" perspective.',
     helpMinor: 'Minor Attendees: Events with these attendees are considered "minor" perspective.',
     helpLabels: 'Labels: Customize how major and minor perspectives are displayed in the UI.',
-    helpMoveableFallback: 'Moveable Fallback Label: Used when no moveable part-shape can be resolved from event assignments.',
+    helpMinimizerFallback: 'Minimizer Fallback Label: Used when no minimizer part-shape can be resolved from event assignments.',
     helpGraphDefault: 'Differential Graph Default Label: Shown over the graph when no time slot is selected, and as the Perspective card title in the accordion.',
     subStepLabelsSectionTitle: 'Availability Sub-Step Card Titles',
     subStepLabelsSectionHint: 'Titles for collapsed availability cards in the accordion. Perspective card uses "Differential Graph Default Label" above.',
@@ -236,10 +236,10 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     subStepLabelOptionsHint: 'Card title for availability options (e.g., Options)',
     subStepLabelPickTime: 'Pick a Time',
     subStepLabelPickTimeHint: 'Card title for time slot selection (e.g., Pick a time)',
-    subStepLabelConfirmMoveable: 'Confirm Moveable Details',
-    subStepLabelConfirmMoveableHint: 'Card title for moveable confirmation (e.g., Confirm moveable details)',
-    moveableNoFeasibleCompletionSlotsMessage: 'No Feasible Moveable Slots Message',
-    moveableNoFeasibleCompletionSlotsMessageHint:
+    subStepLabelConfirmMinimizer: 'Confirm Minimizer Details',
+    subStepLabelConfirmMinimizerHint: 'Card title for minimizer confirmation (e.g., Confirm minimizer details)',
+    minimizerNoFeasibleCompletionSlotsMessage: 'No Feasible Minimizer Slots Message',
+    minimizerNoFeasibleCompletionSlotsMessageHint:
       'Shown in booking when the customer chooses a contingency deadline but no completion times fit. Leave empty to use the default text.',
     helpStateLabels: 'State Labels: Messages shown when a time slot is selected. If left empty, defaults to "Showing {Major/Minor Label} times".',
     helpFallback: 'If not configured, the system falls back to hardcoded "Major" (major) and "Minor" (minor) event names, and default labels.'
@@ -253,13 +253,13 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   defaults: {
     majorLabel: 'Inspector',
     minorLabel: 'Minor Formal Presentation',
-    moveableFallbackLabel: 'Post-Appointment Work',
+    minimizerFallbackLabel: 'Post-Appointment Work',
     differentialGraphDefaultLabel: 'Select a Time Slot',
     subStepLabelPickDay: 'Pick a day',
     subStepLabelOptions: 'Options',
     subStepLabelPickTime: 'Pick a time',
-    subStepLabelConfirmMoveable: 'Confirm moveable details',
-    moveableNoFeasibleCompletionSlotsMessage: DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
+    subStepLabelConfirmMinimizer: 'Confirm minimizer details',
+    minimizerNoFeasibleCompletionSlotsMessage: DEFAULT_MINIMIZER_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE,
   },
   orgDefaultBadges: {
     orgDefault: 'Org default',

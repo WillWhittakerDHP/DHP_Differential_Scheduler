@@ -187,28 +187,28 @@ const showCouponRow = computed(
             </td>
           </tr>
 
-          <tr v-if="summaryData.moveableCompletion">
+          <tr v-if="summaryData.minimizerCompletion">
             <td>
               <span class="text-body-medium font-weight-medium text-medium-emphasis">
-                {{ summaryData.moveablePartShapeName || 'Moveable Work' }} Completion
+                {{ summaryData.minimizerPartShapeName || 'Minimizer Work' }} Completion
               </span>
             </td>
             <td>
               <span class="text-body-medium text-medium-emphasis">
-                {{ summaryData.moveableCompletion }}
+                {{ summaryData.minimizerCompletion }}
               </span>
             </td>
           </tr>
 
-          <tr v-if="summaryData.moveableDeadline">
+          <tr v-if="summaryData.minimizerDeadline">
             <td>
               <span class="text-body-medium font-weight-medium text-medium-emphasis">
-                {{ summaryData.moveablePartShapeName || 'Moveable Work' }} Deadline
+                {{ summaryData.minimizerPartShapeName || 'Minimizer Work' }} Deadline
               </span>
             </td>
             <td>
               <span class="text-body-medium text-medium-emphasis">
-                {{ summaryData.moveableDeadline }}
+                {{ summaryData.minimizerDeadline }}
               </span>
             </td>
           </tr>

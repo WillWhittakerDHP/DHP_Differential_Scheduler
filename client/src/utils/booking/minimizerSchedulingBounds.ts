@@ -1,16 +1,16 @@
 /**
- * Pure helpers for moveable scheduling boundaries. Extracted so composables can share without circular deps.
+ * Pure helpers for minimizer scheduling boundaries. Extracted so composables can share without circular deps.
  */
 import type { AppointmentSlot } from '@/types/appointment'
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
+import type { ContingencyPeriod } from '@/types/minimizerScheduling'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
 import { parseContingencyDeadlineLocalWallToUtcMs } from '@/utils/booking/clampContingencyDeadlineToEarliest'
 import { resolveEventShapes } from '@/utils/booking/perspectiveResolver'
-import { DEFAULT_OUTER_BOUNDARY_DAYS } from '@/constants/moveableScheduling'
+import { DEFAULT_OUTER_BOUNDARY_DAYS } from '@/constants/minimizerScheduling'
 
 /**
- * Compute the outer boundary for moveable scheduling based on contingency period.
+ * Compute the outer boundary for minimizer scheduling based on contingency period.
  * When contingency is Yes with both date and time, deadline is **local** wall clock (native inputs) → RFC3339 UTC.
  * If only date is set, falls back like "no deadline" so we do not invent a time.
  * Otherwise falls back to DEFAULT_OUTER_BOUNDARY_DAYS from the inner boundary.

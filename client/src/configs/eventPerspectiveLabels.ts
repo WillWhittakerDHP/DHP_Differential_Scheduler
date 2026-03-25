@@ -4,6 +4,6 @@ export const EVENT_PERSPECTIVE_KEYS = {
   MINOR: 'minor',
   NON_DIFFERENTIAL: 'nonDifferential',
   OTHER: 'other',
-  MOVEABLE: 'moveable',
+  MINIMIZER: 'minimizer',
 } as const
 

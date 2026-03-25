@@ -1,6 +1,6 @@
 import type { SummaryData } from '@/types/wizardStepData'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
-import type { MoveableSlot } from '@/types/moveableScheduling'
+import type { MinimizerSlot } from '@/types/minimizerScheduling'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants'
 import type { PropertyDetailsStepData, WizardSelectionState } from './confirmationStepDataShared'
 
@@ -68,24 +68,24 @@ export function buildConfirmationSummaryData(
         .join(' | ')
     : undefined
 
-  const moveableScheduling = availabilityStepData?.moveableScheduling
-  const selectedMoveableIndex = moveableScheduling?.selectedSlotIndex
-  const moveableSlots: MoveableSlot[] =
-    moveableScheduling != null && moveableScheduling.availableSlots != null
-      ? moveableScheduling.availableSlots
+  const minimizerScheduling = availabilityStepData?.minimizerScheduling
+  const selectedMinimizerIndex = minimizerScheduling?.selectedSlotIndex
+  const minimizerSlots: MinimizerSlot[] =
+    minimizerScheduling != null && minimizerScheduling.availableSlots != null
+      ? minimizerScheduling.availableSlots
       : []
-  const moveableSlot =
-    typeof selectedMoveableIndex === 'number' && selectedMoveableIndex >= 0
-      ? moveableSlots[selectedMoveableIndex] ?? null
+  const minimizerSlot =
+    typeof selectedMinimizerIndex === 'number' && selectedMinimizerIndex >= 0
+      ? minimizerSlots[selectedMinimizerIndex] ?? null
       : null
-  const moveableCompletion = moveableSlot
-    ? formatDateTime(moveableSlot.startTime)
+  const minimizerCompletion = minimizerSlot
+    ? formatDateTime(minimizerSlot.startTime)
     : undefined
 
-  const moveablePartShapeName = availabilityStepData?.moveableScheduling?.partShapeName
+  const minimizerPartShapeName = availabilityStepData?.minimizerScheduling?.partShapeName
 
-  const moveableDeadline = availabilityStepData?.moveableScheduling?.outerBoundary
-    ? formatDateTime(availabilityStepData.moveableScheduling.outerBoundary)
+  const minimizerDeadline = availabilityStepData?.minimizerScheduling?.outerBoundary
+    ? formatDateTime(availabilityStepData.minimizerScheduling.outerBoundary)
     : undefined
 
   return {
@@ -95,8 +95,8 @@ export function buildConfirmationSummaryData(
     squareFootage,
     appointmentDate,
     appointmentTimes,
-    moveablePartShapeName,
-    moveableCompletion,
-    moveableDeadline,
+    minimizerPartShapeName,
+    minimizerCompletion,
+    minimizerDeadline,
   }
 }

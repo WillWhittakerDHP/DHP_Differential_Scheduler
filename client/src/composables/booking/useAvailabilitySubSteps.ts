@@ -19,15 +19,15 @@ interface UseAvailabilitySubStepsParams {
   hasOptions: Ref<boolean>
   hasDateSelected: Ref<boolean>
   isEffectivelyDifferential: Ref<boolean>
-  hasMoveablePartsGated: Ref<boolean>
-  /** When false (e.g. contingency "No"), step 4 is skipped — moveable confirms without completion UI. */
-  showMoveableSubstep: Ref<boolean>
+  hasMinimizerPartsGated: Ref<boolean>
+  /** When false (e.g. contingency "No"), step 4 is skipped — minimizer confirms without completion UI. */
+  showMinimizerSubstep: Ref<boolean>
   /** Step 1 tailor: options done (if hasOptions) and contingency+deadline done (if gated). */
   tailorSubStepComplete: Ref<boolean>
   selectedOptionTypeBlockId: Ref<string | null>
   userHasChosenTimeBasisFromGraph: Ref<boolean>
   hasSlotSelected: Ref<boolean>
-  hasMoveableConfirmed: Ref<boolean>
+  hasMinimizerConfirmed: Ref<boolean>
   /** When provided, panel opens first unconfirmed step (prefilled vs confirmed). Omit for completion-based behavior. */
   confirmationState?: { isConfirmed: (stepIndex: number) => boolean }
   /** Admin-configurable card titles. Perspective (2) uses differentialGraphDefaultLabel. */
@@ -48,7 +48,7 @@ const SUB_STEP_LABELS: Record<number, string> = {
   1: 'Options',
   2: 'Perspective',
   3: 'Pick a time',
-  4: 'Confirm moveable details',
+  4: 'Confirm minimizer details',
 }
 
 export function useAvailabilitySubSteps(
@@ -61,8 +61,8 @@ export function useAvailabilitySubSteps(
     const push = (i: number, visible: boolean): void => {
       steps.push({ index: i, label: label(i), visible })
     }
-    // WHY: Tailor step shows cascade options and/or moveable contingency; same DOM order (1 then 0) when visible.
-    const showTailorStep = params.hasOptions.value || params.hasMoveablePartsGated.value
+    // WHY: Tailor step shows cascade options and/or minimizer contingency; same DOM order (1 then 0) when visible.
+    const showTailorStep = params.hasOptions.value || params.hasMinimizerPartsGated.value
     if (showTailorStep) {
       push(1, true)
       push(0, true)
@@ -72,7 +72,7 @@ export function useAvailabilitySubSteps(
     }
     push(2, false)
     push(3, true)
-    push(4, params.showMoveableSubstep.value)
+    push(4, params.showMinimizerSubstep.value)
     return steps
   })
 
@@ -92,7 +92,7 @@ export function useAvailabilitySubSteps(
     if (params.tailorSubStepComplete.value) completed.add(1)
     if (!params.isEffectivelyDifferential.value || params.userHasChosenTimeBasisFromGraph.value) completed.add(2)
     if (params.hasSlotSelected.value) completed.add(3)
-    if (!params.hasMoveablePartsGated.value || params.hasMoveableConfirmed.value) completed.add(4)
+    if (!params.hasMinimizerPartsGated.value || params.hasMinimizerConfirmed.value) completed.add(4)
     return completed
   })
 

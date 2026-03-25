@@ -3,7 +3,7 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { AppointmentSlot, AppointmentShape } from '@/types/appointment'
 import type { RFC3339DateTime, ISO8601Date } from '@shared/types/primitiveBrands'
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 
 export interface UseAvailabilityDevPanelParams {
   selectedBlockInstances: ComputedRef<BookingBlockInstance[]>
@@ -15,6 +15,6 @@ export interface UseAvailabilityDevPanelParams {
   busyPeriods: Ref<BusyTimeRange[]> | ComputedRef<BusyTimeRange[]>
   refreshKey: Ref<number>
   isEffectivelyDifferential: ComputedRef<boolean>
-  /** Transient client-only moveable window; omitted when availability step is not mounted. */
-  moveableSchedulingWindow?: ComputedRef<MoveableSchedulingWindow | null>
+  /** Transient client-only minimizer window; omitted when availability step is not mounted. */
+  minimizerSchedulingWindow?: ComputedRef<MinimizerSchedulingWindow | null>
 }

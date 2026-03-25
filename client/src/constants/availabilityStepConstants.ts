@@ -17,7 +17,7 @@ export const AVAILABILITY_SUBSTEP_UI = {
   ANSWER_CONTINGENCY_PROMPT: 'Choose Yes or No above to see completion times (if applicable).',
   DEADLINE_DATE: 'Deadline Date',
   DEADLINE_TIME: 'Deadline Time',
-  /** Shown while moveable bounds compute before deadline pickers mount. */
+  /** Shown while minimizer bounds compute before deadline pickers mount. */
   PREPARING_DEADLINE_BOUNDS: 'Preparing earliest allowed deadline…',
   AVAILABLE_COMPLETION_TIMES: 'Available Completion Times',
   CHOOSE_DAY: 'Choose a day',
@@ -28,12 +28,12 @@ export const AVAILABILITY_SUBSTEP_UI = {
   TOMORROW: 'Tomorrow',
   PROVIDE_DEADLINE:
     'Choose a deadline date and time above to see available completion times (no default time is applied).',
-  SELECT_COMPLETION_TIME: "Select when you'd like the moveable work to be completed (first option is earliest).",
+  SELECT_COMPLETION_TIME: "Select when you'd like the minimizer work to be completed (first option is earliest).",
   LOADING_DAY_SLOTS: 'Loading times for this day...',
   NO_SLOTS_FOR_DAY: 'No available time slots found for this day.',
   NO_SLOTS_HINT: 'Pick another day or adjust your contingency deadline.',
 } as const
 
-/** Default when Admin Wizard setting `moveableNoFeasibleCompletionSlotsMessage` is empty. */
-export const DEFAULT_MOVEABLE_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE =
-  'No completion times are available that meet your deadline. Try a different onsite time, a later deadline, or another day for moveable work.'
+/** Default when Admin Wizard setting `minimizerNoFeasibleCompletionSlotsMessage` is empty. */
+export const DEFAULT_MINIMIZER_NO_FEASIBLE_COMPLETION_SLOTS_MESSAGE =
+  'No completion times are available that meet your deadline. Try a different onsite time, a later deadline, or another day for minimizer work.'

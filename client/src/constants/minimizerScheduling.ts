@@ -1,4 +1,4 @@
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
+import type { ContingencyPeriod } from '@/types/minimizerScheduling'
 
 export const DEFAULT_CONTINGENCY: ContingencyPeriod = {
   hasContingency: null,

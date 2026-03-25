@@ -23,7 +23,7 @@ export interface UseAvailabilityStepUIReturn {
   onOptionIdUpdate: (id: string | null) => void
   handleTimeBasisChangeWithConfirm: (type: 'major' | 'minor') => void
   handleSlotClickWithConfirm: (buttonIndex: number) => void
-  handleMoveableConfirmWithConfirm: () => void
+  handleMinimizerConfirmWithConfirm: () => void
 }
 
 export function useAvailabilityStepUI(
@@ -35,11 +35,12 @@ export function useAvailabilityStepUI(
   const subStepLabels = computed(() => {
     const base = wizardLabels.subStepLabels.value
     const raw4 = base[4]
-    const moveableLabel = raw4?.replace(/\bmoveable\b/gi, o.moveablePartShapeName.value) ??
-      `Schedule ${o.moveablePartShapeName.value}`
+    const minimizerLabel =
+      raw4?.replace(/\bminimizer\b/gi, o.minimizerPartShapeName.value) ??
+      `Schedule ${o.minimizerPartShapeName.value}`
     return {
       ...base,
-      4: moveableLabel,
+      4: minimizerLabel,
     }
   })
 
@@ -58,7 +59,7 @@ export function useAvailabilityStepUI(
         const block = o.wizard.availableOptionTypeBlocks.value.find((b) => b.id === id)
         parts.push(block?.name ?? id)
       }
-      if (o.hasMoveablePartsGated.value) {
+      if (o.hasMinimizerPartsGated.value) {
         const c = o.contingencyPeriod.value
         if (c.hasContingency === false) {
           parts.push('No deadline')
@@ -97,9 +98,9 @@ export function useAvailabilityStepUI(
       return range ? formatTimeRange(range) : null
     }
     if (stepIndex === 4) {
-      const ms = o.stepData.value?.moveableScheduling
+      const ms = o.stepData.value?.minimizerScheduling
       if (!ms) return null
-      const partName = ms.partShapeName ?? o.moveablePartShapeName.value ?? 'Work'
+      const partName = ms.partShapeName ?? o.minimizerPartShapeName.value ?? 'Work'
       const outer = ms.outerBoundary
       if (!outer) return `${partName} confirmed`
       const date = new Date(outer)
@@ -140,8 +141,8 @@ export function useAvailabilityStepUI(
     o.handleAppointmentSlotClick(buttonIndex)
     confirmation.confirm(3)
   }
-  function handleMoveableConfirmWithConfirm(): void {
-    o.handleMoveableConfirm()
+  function handleMinimizerConfirmWithConfirm(): void {
+    o.handleMinimizerConfirm()
     confirmation.confirm(4)
   }
 
@@ -153,6 +154,6 @@ export function useAvailabilityStepUI(
     onOptionIdUpdate,
     handleTimeBasisChangeWithConfirm,
     handleSlotClickWithConfirm,
-    handleMoveableConfirmWithConfirm,
+    handleMinimizerConfirmWithConfirm,
   }
 }

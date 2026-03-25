@@ -31,7 +31,7 @@ export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShape
 export { derivePerspective } from './perspectiveResolver'
 
 /**
- * Build a minimal AppointmentShape for a single duration (e.g. moveable completion grid).
+ * Build a minimal AppointmentShape for a single duration (e.g. minimizer completion grid).
  */
 export function createMinimalAppointmentShapeForDuration(durationMinutes: number): AppointmentShape {
   return {

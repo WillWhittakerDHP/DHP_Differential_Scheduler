@@ -22,14 +22,14 @@ export interface UseDifferentialPerspectivesReturn {
   majorLabel: WritableComputedRef<string>
   minorLabel: WritableComputedRef<string>
   differentialGraphDefaultLabel: WritableComputedRef<string>
-  moveableFallbackLabel: WritableComputedRef<string>
+  minimizerFallbackLabel: WritableComputedRef<string>
   majorStateLabel: WritableComputedRef<string>
   minorStateLabel: WritableComputedRef<string>
   subStepLabelPickDay: WritableComputedRef<string>
   subStepLabelOptions: WritableComputedRef<string>
   subStepLabelPickTime: WritableComputedRef<string>
-  subStepLabelConfirmMoveable: WritableComputedRef<string>
-  moveableNoFeasibleCompletionSlotsMessage: WritableComputedRef<string>
+  subStepLabelConfirmMinimizer: WritableComputedRef<string>
+  minimizerNoFeasibleCompletionSlotsMessage: WritableComputedRef<string>
 }
 
 export function useDifferentialPerspectives(params: UseDifferentialPerspectivesParams): UseDifferentialPerspectivesReturn {
@@ -77,16 +77,16 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
   const majorLabel = labelRef('majorLabel', DEFAULTS.majorLabel)
   const minorLabel = labelRef('minorLabel', DEFAULTS.minorLabel)
   const differentialGraphDefaultLabel = labelRef('differentialGraphDefaultLabel', DEFAULTS.differentialGraphDefaultLabel)
-  const moveableFallbackLabel = labelRef('moveableFallbackLabel', DEFAULTS.moveableFallbackLabel)
+  const minimizerFallbackLabel = labelRef('minimizerFallbackLabel', DEFAULTS.minimizerFallbackLabel)
   const majorStateLabel = labelRef('majorStateLabel', '')
   const minorStateLabel = labelRef('minorStateLabel', '')
   const subStepLabelPickDay = labelRef('subStepLabelPickDay', DEFAULTS.subStepLabelPickDay)
   const subStepLabelOptions = labelRef('subStepLabelOptions', DEFAULTS.subStepLabelOptions)
   const subStepLabelPickTime = labelRef('subStepLabelPickTime', DEFAULTS.subStepLabelPickTime)
-  const subStepLabelConfirmMoveable = labelRef('subStepLabelConfirmMoveable', DEFAULTS.subStepLabelConfirmMoveable)
-  const moveableNoFeasibleCompletionSlotsMessage = labelRef(
-    'moveableNoFeasibleCompletionSlotsMessage',
-    DEFAULTS.moveableNoFeasibleCompletionSlotsMessage
+  const subStepLabelConfirmMinimizer = labelRef('subStepLabelConfirmMinimizer', DEFAULTS.subStepLabelConfirmMinimizer)
+  const minimizerNoFeasibleCompletionSlotsMessage = labelRef(
+    'minimizerNoFeasibleCompletionSlotsMessage',
+    DEFAULTS.minimizerNoFeasibleCompletionSlotsMessage
   )
 
   return {
@@ -96,13 +96,13 @@ export function useDifferentialPerspectives(params: UseDifferentialPerspectivesP
     majorLabel,
     minorLabel,
     differentialGraphDefaultLabel,
-    moveableFallbackLabel,
+    minimizerFallbackLabel,
     majorStateLabel,
     minorStateLabel,
     subStepLabelPickDay,
     subStepLabelOptions,
     subStepLabelPickTime,
-    subStepLabelConfirmMoveable,
-    moveableNoFeasibleCompletionSlotsMessage,
+    subStepLabelConfirmMinimizer,
+    minimizerNoFeasibleCompletionSlotsMessage,
   }
 }

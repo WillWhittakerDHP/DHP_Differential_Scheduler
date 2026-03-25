@@ -8,7 +8,7 @@ import {
   useAvailabilityStepData,
   useAvailabilityValidation,
   type UseAvailabilityLogicReturn,
-  type AvailabilityOrchestratorMoveableGates,
+  type AvailabilityOrchestratorMinimizerGates,
   type AvailabilityOrchestratorSlotsPhaseResult,
 } from '@/composables/booking/availabilityOrchestratorFormsBundle'
 
@@ -26,8 +26,8 @@ export function setupAvailabilityOrchestratorFormsPhase(input: {
   appointmentSlots: ComputedRef<AppointmentSlots>
   selectedDate: AvailabilityStepParamsBase['selectedDate']
   selectedSlot: AvailabilityOrchestratorSlotsPhaseResult['selectedSlot']
-  confirmedMoveableScheduling: AvailabilityOrchestratorSlotsPhaseResult['confirmedMoveableScheduling']
-  hasMoveablePartsGated: AvailabilityOrchestratorMoveableGates['hasMoveablePartsGated']
+  confirmedMinimizerScheduling: AvailabilityOrchestratorSlotsPhaseResult['confirmedMinimizerScheduling']
+  hasMinimizerPartsGated: AvailabilityOrchestratorMinimizerGates['hasMinimizerPartsGated']
 }): AvailabilityOrchestratorFormsPhaseResult {
   const {
     isEffectivelyDifferential,
@@ -35,8 +35,8 @@ export function setupAvailabilityOrchestratorFormsPhase(input: {
     appointmentSlots,
     selectedDate,
     selectedSlot,
-    confirmedMoveableScheduling,
-    hasMoveablePartsGated,
+    confirmedMinimizerScheduling,
+    hasMinimizerPartsGated,
   } = input
 
   const { emptyStateMessage } = useAvailabilityEmptyState({
@@ -48,7 +48,7 @@ export function setupAvailabilityOrchestratorFormsPhase(input: {
   const { stepData } = useAvailabilityStepData({
     selectedDate,
     selectedSlot,
-    moveableScheduling: computed(() => confirmedMoveableScheduling.value),
+    minimizerScheduling: computed(() => confirmedMinimizerScheduling.value),
   })
 
   const { fieldErrors, isFormValid: baseIsFormValid, validateForm } = useAvailabilityValidation({
@@ -58,7 +58,7 @@ export function setupAvailabilityOrchestratorFormsPhase(input: {
 
   const isFormValid = computed(() => {
     if (!baseIsFormValid.value) return false
-    if (hasMoveablePartsGated.value && !confirmedMoveableScheduling.value) return false
+    if (hasMinimizerPartsGated.value && !confirmedMinimizerScheduling.value) return false
     return true
   })
 

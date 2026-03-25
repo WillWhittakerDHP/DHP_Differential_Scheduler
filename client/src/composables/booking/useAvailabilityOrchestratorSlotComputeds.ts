@@ -1,17 +1,17 @@
 import { computed, type ComputedRef, type Ref } from 'vue'
 import type { UseAvailabilityUIParams } from '@/types/booking/availabilityUI'
 import type { TimeSlot } from '@/types/appointment'
-import type { ContingencyPeriod } from '@/types/moveableScheduling'
+import type { ContingencyPeriod } from '@/types/minimizerScheduling'
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import { parseContingencyDeadlineLocalWallToUtcMs } from '@/utils/booking/clampContingencyDeadlineToEarliest'
-import { applyDeadlineConstraintToInspectionSlots } from '@/utils/booking/applyMoveableWindowToComputedSlots'
+import { applyDeadlineConstraintToInspectionSlots } from '@/utils/booking/applyMinimizerWindowToComputedSlots'
 
 interface AvailabilityOrchestratorSlotComputedsInput {
   selectedDate: UseAvailabilityUIParams['selectedDate']
   slotsByDay: Ref<Map<string, ComputedSlot[]>>
-  hasMoveablePartsGated: ComputedRef<boolean>
+  hasMinimizerPartsGated: ComputedRef<boolean>
   contingencyPeriod: Ref<ContingencyPeriod>
-  moveableRoundedMinutes: ComputedRef<number>
+  minimizerRoundedMinutes: ComputedRef<number>
   afterBufferMinutes: Ref<number>
 }
 
@@ -28,9 +28,9 @@ export function createAvailabilityOrchestratorSlotComputeds(
   const {
     selectedDate,
     slotsByDay,
-    hasMoveablePartsGated,
+    hasMinimizerPartsGated,
     contingencyPeriod,
-    moveableRoundedMinutes,
+    minimizerRoundedMinutes,
     afterBufferMinutes,
   } = input
 
@@ -48,14 +48,14 @@ export function createAvailabilityOrchestratorSlotComputeds(
 
   const deadlineFilteredSlotsForDay = computed(() => {
     const raw = serverSlotsForDay.value
-    if (!hasMoveablePartsGated.value) return raw
+    if (!hasMinimizerPartsGated.value) return raw
     const c = contingencyPeriod.value
     if (c.hasContingency !== true || !c.endDate || !c.endTime) return raw
     const deadlineMs = parseContingencyDeadlineLocalWallToUtcMs(c.endDate, c.endTime)
     return applyDeadlineConstraintToInspectionSlots(
       raw,
       deadlineMs,
-      moveableRoundedMinutes.value,
+      minimizerRoundedMinutes.value,
       afterBufferMinutes.value,
       'markUnavailable'
     )

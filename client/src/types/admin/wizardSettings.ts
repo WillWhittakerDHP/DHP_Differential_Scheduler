@@ -30,7 +30,7 @@ export interface UseWizardSettingsFlagsReturn {
   logoUrl: ComputedRef<string | null>
 }
 
-/** Wizard copy from /wizard-settings (labels, sub-step strings, moveable fallback). */
+/** Wizard copy from /wizard-settings (labels, sub-step strings, minimizer fallback). */
 export interface UseWizardSettingsLabelsReturn {
   subStepLabels: ComputedRef<WizardSubStepLabels>
   differentialGraphDefaultLabel: ComputedRef<string | null>
@@ -38,8 +38,8 @@ export interface UseWizardSettingsLabelsReturn {
   minorLabel: ComputedRef<string>
   majorStateLabel: ComputedRef<string>
   minorStateLabel: ComputedRef<string>
-  moveableFallbackLabel: ComputedRef<string>
-  moveableNoFeasibleCompletionSlotsMessage: ComputedRef<string>
+  minimizerFallbackLabel: ComputedRef<string>
+  minimizerNoFeasibleCompletionSlotsMessage: ComputedRef<string>
 }
 
 /** Load contract for /wizard-settings (booking singleton or per-instance admin fetch). */

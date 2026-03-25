@@ -18,7 +18,7 @@ Reusable confirmation modal shell used when a step requires the user to confirm 
 | Step | Component | Purpose |
 |------|-----------|---------|
 | Property details | PropertyConfirmationModal | Confirm property info before continuing |
-| Availability (moveable) | MoveablePartsModal | Confirm contingency and completion time |
+| Availability (minimizer) | MinimizerPartsModal | Confirm contingency and completion time |
 
 ### Step-level concept: `confirmModal`
 

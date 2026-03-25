@@ -29,8 +29,8 @@ export function useGridConfigHandlers(state: GridConfigState): UseGridConfigHand
     handleDifferentialGraphDefaultLabel(v: string): void {
       differential.differentialGraphDefaultLabel = v
     },
-    handleMoveableFallbackLabel(v: string): void {
-      differential.moveableFallbackLabel = v
+    handleMinimizerFallbackLabel(v: string): void {
+      differential.minimizerFallbackLabel = v
     },
     handleMajorStateLabel(v: string): void {
       differential.majorStateLabel = v
@@ -47,11 +47,11 @@ export function useGridConfigHandlers(state: GridConfigState): UseGridConfigHand
     handleSubStepLabelPickTime(v: string): void {
       differential.subStepLabelPickTime = v
     },
-    handleSubStepLabelConfirmMoveable(v: string): void {
-      differential.subStepLabelConfirmMoveable = v
+    handleSubStepLabelConfirmMinimizer(v: string): void {
+      differential.subStepLabelConfirmMinimizer = v
     },
-    handleMoveableNoFeasibleCompletionSlotsMessage(v: string): void {
-      differential.moveableNoFeasibleCompletionSlotsMessage = v
+    handleMinimizerNoFeasibleCompletionSlotsMessage(v: string): void {
+      differential.minimizerNoFeasibleCompletionSlotsMessage = v
     },
   }
 }

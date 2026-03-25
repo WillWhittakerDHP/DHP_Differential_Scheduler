@@ -25,7 +25,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
   const {
     selectedDate,
     selectedSlot,
-    moveableScheduling
+    minimizerScheduling
   } = params
 
   const selectedTimeSlots = computed<SlotTimeBounds[] | null>(() => {
@@ -43,7 +43,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     buildAvailabilityStepData({
       candidateDate: selectedDate.value,
       candidateTimeSlots: selectedTimeSlots.value,
-      moveableScheduling: moveableScheduling?.value ?? null,
+      minimizerScheduling: minimizerScheduling?.value ?? null,
       totalDriveMinutes: totalDriveMinutes.value,
     })
   )

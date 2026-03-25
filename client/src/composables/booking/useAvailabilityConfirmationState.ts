@@ -10,7 +10,7 @@ interface AvailabilityConfirmationState {
   optionConfirmed: boolean
   perspectiveConfirmed: boolean
   slotConfirmed: boolean
-  moveableConfirmed: boolean
+  minimizerConfirmed: boolean
 }
 
 export interface UseAvailabilityConfirmationStateReturn {
@@ -29,7 +29,7 @@ const INITIAL_STATE: AvailabilityConfirmationState = {
   optionConfirmed: false,
   perspectiveConfirmed: false,
   slotConfirmed: false,
-  moveableConfirmed: false,
+  minimizerConfirmed: false,
 }
 
 const STEP_FLAG_KEYS: (keyof AvailabilityConfirmationState)[] = [
@@ -37,7 +37,7 @@ const STEP_FLAG_KEYS: (keyof AvailabilityConfirmationState)[] = [
   'optionConfirmed',
   'perspectiveConfirmed',
   'slotConfirmed',
-  'moveableConfirmed',
+  'minimizerConfirmed',
 ]
 
 function setConfirmationForStep(state: AvailabilityConfirmationState, stepIndex: number): void {

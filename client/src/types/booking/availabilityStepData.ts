@@ -1,12 +1,12 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
+import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
 import type { AvailabilityStepParamsBase } from '@/types/availabilityStepParams'
 
 export interface AvailabilityStepData {
   candidateDate: { start: string | null; end: string | null }
   candidateTimeSlots: SlotTimeBounds[] | null
-  moveableScheduling: MoveableSchedulingOptions | null
+  minimizerScheduling: MinimizerSchedulingOptions | null
   /**
    * Sum of drive legs for the selected slot (minutes), when a slot is selected and server provided legs.
    * Null when no slot selected.
@@ -15,7 +15,7 @@ export interface AvailabilityStepData {
 }
 
 export interface UseAvailabilityStepDataParams extends AvailabilityStepParamsBase {
-  moveableScheduling?: Ref<MoveableSchedulingOptions | null>
+  minimizerScheduling?: Ref<MinimizerSchedulingOptions | null>
 }
 
 export interface UseAvailabilityStepDataReturn {

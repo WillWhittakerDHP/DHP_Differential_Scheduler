@@ -15,7 +15,7 @@ export interface UseAppointmentSlotsParams {
   selectedButtonIndex: Ref<number | null>
   perspective: ComputedRef<PerspectiveKey>
   isDifferentialService: ComputedRef<boolean>
-  /** When set, used instead of shape from blockInstances (e.g. moveable single-duration grid). */
+  /** When set, used instead of shape from blockInstances (e.g. minimizer single-duration grid). */
   appointmentShapeOverride?: ComputedRef<AppointmentShape | null>
   /** When set, replaces built-in useAppointmentShape result (orchestrator shares one shape for filter + slots). */
   appointmentShapeFromBlocks?: ComputedRef<AppointmentShape | null>

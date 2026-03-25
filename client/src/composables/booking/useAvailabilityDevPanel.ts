@@ -9,7 +9,7 @@ import type { AppointmentSlot, AppointmentShape } from '@/types/appointment'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { BusyTimeRange } from '@shared/types/availabilityTypes'
 import type { UseAvailabilityDevPanelParams } from '@/types/booking/availabilityDevPanel'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 
 /**
  * WHY: Shared dev panel data state
@@ -24,7 +24,7 @@ const sharedDevPanelData = ref<{
   busyPeriods?: Ref<BusyTimeRange[]> | ComputedRef<BusyTimeRange[]>
   refreshKey?: Ref<number>
   isEffectivelyDifferential?: ComputedRef<boolean>
-  moveableSchedulingWindow?: ComputedRef<MoveableSchedulingWindow | null>
+  minimizerSchedulingWindow?: ComputedRef<MinimizerSchedulingWindow | null>
 }>({})
 
 /**
@@ -45,7 +45,7 @@ export function useAvailabilityDevPanel(
     busyPeriods,
     refreshKey,
     isEffectivelyDifferential,
-    moveableSchedulingWindow,
+    minimizerSchedulingWindow,
   } = params
 
   // PATTERN: Update shared refs that can be accessed from anywhere
@@ -67,7 +67,7 @@ export function useAvailabilityDevPanel(
     busyPeriods,
     refreshKey,
     isEffectivelyDifferential,
-    ...(moveableSchedulingWindow !== undefined ? { moveableSchedulingWindow } : {}),
+    ...(minimizerSchedulingWindow !== undefined ? { minimizerSchedulingWindow } : {}),
   }
 }
 

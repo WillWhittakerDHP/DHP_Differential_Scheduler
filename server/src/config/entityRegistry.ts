@@ -61,7 +61,7 @@ const ENTITY_REGISTRY: Record<EntityType, EntityConfig> = {
     model: EventShape,
     tableName: 'event_shapes',
     displayName: 'Event Shape',
-    description: 'Event shape definitions (e.g., OnSite, Moveable, ClientPresent)'
+    description: 'Event shape definitions (e.g., OnSite, Minimizer, ClientPresent)'
   },
   eventInstance: {
     model: EventInstance,

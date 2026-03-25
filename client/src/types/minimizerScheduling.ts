@@ -10,18 +10,18 @@ export interface ContingencyPeriod {
   endTime: string | null
 }
 
-export interface MoveableSchedulingOptions {
+export interface MinimizerSchedulingOptions {
   innerBoundary: string           // ISO datetime - end of onsite work
   outerBoundary: string           // ISO datetime - contingency deadline
-  moveableDuration: number        // minutes
-  /** Name of the moveable event/part shape used for UI labels (e.g., "Report Writing"). */
+  minimizerDuration: number        // minutes
+  /** Name of the minimizer event/part shape used for UI labels (e.g., "Report Writing"). */
   partShapeName?: string
-  availableSlots: MoveableSlot[]
+  availableSlots: MinimizerSlot[]
   earliestCompletion: string      // ISO datetime
   selectedSlotIndex: number | null
 }
 
-export interface MoveableSlot extends SlotTimeBounds, Partial<SlotAvailabilityResult> {
+export interface MinimizerSlot extends SlotTimeBounds, Partial<SlotAvailabilityResult> {
   /** Relative day label (e.g. AVAILABILITY_SUBSTEP_UI.TODAY/TOMORROW or formatted date like "Jan 16"). */
   dayLabel: string
   timeLabel: string         // "2:00 PM - 3:30 PM"

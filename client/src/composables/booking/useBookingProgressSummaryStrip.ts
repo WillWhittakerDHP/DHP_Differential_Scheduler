@@ -83,11 +83,11 @@ export function useBookingProgressSummaryStrip(
     } else if (s.appointmentTimes != null && s.appointmentTimes !== '') {
       lines.push(s.appointmentTimes)
     }
-    if (s.moveableCompletion != null && s.moveableCompletion !== '') {
-      lines.push(`Completion: ${s.moveableCompletion}`)
+    if (s.minimizerCompletion != null && s.minimizerCompletion !== '') {
+      lines.push(`Completion: ${s.minimizerCompletion}`)
     }
-    if (s.moveableDeadline != null && s.moveableDeadline !== '') {
-      lines.push(`Deadline: ${s.moveableDeadline}`)
+    if (s.minimizerDeadline != null && s.minimizerDeadline !== '') {
+      lines.push(`Deadline: ${s.minimizerDeadline}`)
     }
     return lines
   })

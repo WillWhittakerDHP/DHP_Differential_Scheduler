@@ -1,5 +1,5 @@
 /**
- * WHY: Moveable stepper + confirm rows need the same local-calendar Today/Tomorrow/weekday rules as slot times.
+ * WHY: Minimizer stepper + confirm rows need the same local-calendar Today/Tomorrow/weekday rules as slot times.
  * Pure transforms — copy strings passed from composables (no AVAILABILITY_SUBSTEP_UI import here).
  */
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
@@ -10,16 +10,16 @@ import {
 } from '@/utils/time/localCalendarDisplay'
 
 /** Today/tomorrow strings for local-calendar relative headings (shared by stepper + slot row). */
-interface MoveableRelativeDayLabelCopy {
+interface MinimizerRelativeDayLabelCopy {
   today: string
   tomorrow: string
 }
 
-interface MoveableStepperDayLabelCopy extends MoveableRelativeDayLabelCopy {
+interface MinimizerStepperDayLabelCopy extends MinimizerRelativeDayLabelCopy {
   noSelection: string
 }
 
-function resolveMoveableStepperAnchorDate(
+function resolveMinimizerStepperAnchorDate(
   selectedUtcDayKey: string,
   slots: readonly { startTime: string }[]
 ): Date {
@@ -38,7 +38,7 @@ function resolveMoveableStepperAnchorDate(
   return new Date(bestStart)
 }
 
-function formatLocalRelativeDayHeading(anchor: Date, copy: MoveableRelativeDayLabelCopy): string {
+function formatLocalRelativeDayHeading(anchor: Date, copy: MinimizerRelativeDayLabelCopy): string {
   const anchorLocal = localCalendarDateKeyFromDate(anchor)
   const todayLocal = localCalendarDateKeyFromDate(new Date())
   const tomorrowLocal = addLocalCalendarDays(todayLocal, 1)
@@ -47,19 +47,19 @@ function formatLocalRelativeDayHeading(anchor: Date, copy: MoveableRelativeDayLa
   return formatLocalCalendarKeyWithWeekday(anchorLocal)
 }
 
-export function computeMoveableStepperDayLabel(
+export function computeMinimizerStepperDayLabel(
   selectedUtcDayKey: string | null,
   slots: readonly { startTime: string }[],
-  copy: MoveableStepperDayLabelCopy
+  copy: MinimizerStepperDayLabelCopy
 ): string {
   if (!selectedUtcDayKey) return copy.noSelection
-  const anchor = resolveMoveableStepperAnchorDate(selectedUtcDayKey, slots)
+  const anchor = resolveMinimizerStepperAnchorDate(selectedUtcDayKey, slots)
   return formatLocalRelativeDayHeading(anchor, copy)
 }
 
-export function computeMoveableSlotRowDayLabel(
+export function computeMinimizerSlotRowDayLabel(
   slotStartIso: RFC3339DateTime,
-  copy: MoveableRelativeDayLabelCopy
+  copy: MinimizerRelativeDayLabelCopy
 ): string {
   return formatLocalRelativeDayHeading(new Date(slotStartIso), copy)
 }

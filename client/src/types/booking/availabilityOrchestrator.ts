@@ -3,8 +3,8 @@ import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { AppointmentSlots } from '@/types/appointment'
-import type { MoveableSchedulingOptions, ContingencyPeriod } from '@/types/moveableScheduling'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { MinimizerSchedulingOptions, ContingencyPeriod } from '@/types/minimizerScheduling'
+import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PerspectiveKey } from '@/types/appointment'
 
@@ -35,7 +35,7 @@ export interface UseAvailabilityOrchestratorReturn {
     allowedDates: ComputedRef<(date: string) => boolean>
     fieldErrors: Ref<Record<string, string>>
     isEffectivelyDifferential: ComputedRef<boolean>
-    hasMoveablePartsGated: ComputedRef<boolean>
+    hasMinimizerPartsGated: ComputedRef<boolean>
     userHasChosenTimeBasisFromGraph: Ref<boolean>
     graphBars: ComputedRef<{ major: SlotTimeBounds | null; minor: SlotTimeBounds | null }>
     perspective: ComputedRef<PerspectiveKey>
@@ -45,20 +45,20 @@ export interface UseAvailabilityOrchestratorReturn {
     selectedButtonIndex: ComputedRef<number | null>
     originalInspectionButtonIndex: ComputedRef<number | null>
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
-    showMoveableModal: Ref<boolean>
-    moveableOptions: ComputedRef<MoveableSchedulingOptions | null>
-    moveableAppointmentSlots: ComputedRef<AppointmentSlots>
-    moveableStepperDayLabel: ComputedRef<string>
-    moveablePartShapeName: ComputedRef<string>
-    selectedMoveableDay: Ref<string | null>
-    setSelectedMoveableDay: (date: string | null) => void
-    allowedMoveableDates: ComputedRef<(date: unknown) => boolean>
-    availableMoveableDayKeys: ComputedRef<string[]>
-    moveableFirstDayKey: ComputedRef<string | null>
-    moveableLastDayKey: ComputedRef<string | null>
-    moveableSchedulingWindow: ComputedRef<MoveableSchedulingWindow | null>
-    isLoadingMoveableDaySlots: Ref<boolean>
-    selectedMoveableSlotIndex: Ref<number | null>
+    showMinimizerModal: Ref<boolean>
+    minimizerOptions: ComputedRef<MinimizerSchedulingOptions | null>
+    minimizerAppointmentSlots: ComputedRef<AppointmentSlots>
+    minimizerStepperDayLabel: ComputedRef<string>
+    minimizerPartShapeName: ComputedRef<string>
+    selectedMinimizerDay: Ref<string | null>
+    setSelectedMinimizerDay: (date: string | null) => void
+    allowedMinimizerDates: ComputedRef<(date: unknown) => boolean>
+    availableMinimizerDayKeys: ComputedRef<string[]>
+    minimizerFirstDayKey: ComputedRef<string | null>
+    minimizerLastDayKey: ComputedRef<string | null>
+    minimizerSchedulingWindow: ComputedRef<MinimizerSchedulingWindow | null>
+    isLoadingMinimizerDaySlots: Ref<boolean>
+    selectedMinimizerSlotIndex: Ref<number | null>
     contingencyPeriod: Ref<ContingencyPeriod>
     isLoadingOptions: Ref<boolean>
     stepData: ComputedRef<AvailabilityStepData>
@@ -73,9 +73,9 @@ export interface UseAvailabilityOrchestratorReturn {
     handleDateChange: (date: string | Date | string[] | Date[] | null) => void
     handleTimeBasisChange: (basis: 'major' | 'minor') => void
     handleAppointmentSlotClick: (index: number) => void
-    selectMoveableSlot: (index: number) => void
-    handleMoveableConfirm: () => void
-    handleMoveableCancel: () => void
+    selectMinimizerSlot: (index: number) => void
+    handleMinimizerConfirm: () => void
+    handleMinimizerCancel: () => void
     validateForm: () => boolean
     clearFirstAvailableNotice: () => void
   }

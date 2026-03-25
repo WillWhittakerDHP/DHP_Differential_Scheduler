@@ -1,30 +1,30 @@
 import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import type { RFC3339DateTime } from '@shared/types/primitiveBrands'
 import { toRFC3339DateTime } from '@/utils/datetime'
-import type { MoveableSchedulingOptions } from '@/types/moveableScheduling'
-import type { MoveableSchedulingWindow } from '@/types/booking/moveableSchedulingWindow'
+import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
+import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 
-type MoveableWindowApplicationMode = 'exclude' | 'markUnavailable'
+type MinimizerWindowApplicationMode = 'exclude' | 'markUnavailable'
 
-const MOVEABLE_WINDOW_VIOLATION_BEFORE_ONSITE = 'range.moveableWindow.beforeOnsiteEnd' as const
-const MOVEABLE_WINDOW_VIOLATION_AFTER_DEADLINE = 'range.moveableWindow.afterDeadline' as const
-const INSPECTION_DEADLINE_VIOLATION = 'range.inspectionDeadline.noRoomForMoveable' as const
+const MINIMIZER_WINDOW_VIOLATION_BEFORE_ONSITE = 'range.minimizerWindow.beforeOnsiteEnd' as const
+const MINIMIZER_WINDOW_VIOLATION_AFTER_DEADLINE = 'range.minimizerWindow.afterDeadline' as const
+const INSPECTION_DEADLINE_VIOLATION = 'range.inspectionDeadline.noRoomForMinimizer' as const
 
 /**
- * Mark or drop inspection ComputedSlots where onsite end leaves no time for moveable work + buffer before deadline.
- * Compares slot.endTime (UTC) to deadline minus (moveableDurationMinutes + bufferMinutes).
+ * Mark or drop inspection ComputedSlots where onsite end leaves no time for minimizer work + buffer before deadline.
+ * Compares slot.endTime (UTC) to deadline minus (minimizerDurationMinutes + bufferMinutes).
  */
 export function applyDeadlineConstraintToInspectionSlots(
   slots: ComputedSlot[],
   deadlineUtcMs: number | null,
-  moveableDurationMinutes: number,
+  minimizerDurationMinutes: number,
   bufferMinutes: number,
-  mode: MoveableWindowApplicationMode
+  mode: MinimizerWindowApplicationMode
 ): ComputedSlot[] {
-  if (deadlineUtcMs === null || Number.isNaN(deadlineUtcMs) || moveableDurationMinutes <= 0) {
+  if (deadlineUtcMs === null || Number.isNaN(deadlineUtcMs) || minimizerDurationMinutes <= 0) {
     return slots
   }
-  const reserveMs = (moveableDurationMinutes + bufferMinutes) * 60_000
+  const reserveMs = (minimizerDurationMinutes + bufferMinutes) * 60_000
   const latestViableEndMs = deadlineUtcMs - reserveMs
   if (Number.isNaN(latestViableEndMs)) {
     return slots
@@ -52,10 +52,10 @@ export function applyDeadlineConstraintToInspectionSlots(
 }
 
 /**
- * First UTC calendar day (YYYY-MM-DD) on which moveable work may start — onsite end + appointment buffer.
- * Use this for moveable day pickers and allowed-date predicates (not raw innerBoundary date).
+ * First UTC calendar day (YYYY-MM-DD) on which minimizer work may start — onsite end + appointment buffer.
+ * Use this for minimizer day pickers and allowed-date predicates (not raw innerBoundary date).
  */
-export function earliestMoveableUtcDayKey(
+export function earliestMinimizerUtcDayKey(
   innerBoundaryIso: string,
   afterBufferMinutes: number
 ): string | null {
@@ -66,13 +66,13 @@ export function earliestMoveableUtcDayKey(
 }
 
 /**
- * Build the transient moveable window from persisted moveable options + buffer + whether contingency has a closing datetime.
+ * Build the transient minimizer window from persisted minimizer options + buffer + whether contingency has a closing datetime.
  */
-export function buildMoveableSchedulingWindow(
-  opts: MoveableSchedulingOptions | null,
+export function buildMinimizerSchedulingWindow(
+  opts: MinimizerSchedulingOptions | null,
   afterBufferMinutes: number,
   hasContingencyClosingDate: boolean
-): MoveableSchedulingWindow | null {
+): MinimizerSchedulingWindow | null {
   if (!opts) return null
   const innerMs = new Date(opts.innerBoundary).getTime()
   if (Number.isNaN(innerMs)) return null
@@ -93,7 +93,7 @@ export function buildMoveableSchedulingWindow(
 
 function slotViolatesWindow(
   slot: ComputedSlot,
-  window: MoveableSchedulingWindow
+  window: MinimizerSchedulingWindow
 ): { beforeOnsite: boolean; afterDeadline: boolean } {
   const startMs = new Date(slot.startTime).getTime()
   const endMs = new Date(slot.endTime).getTime()
@@ -112,14 +112,14 @@ function slotViolatesWindow(
 }
 
 /**
- * Apply the client virtual moveable window to server computed slots.
+ * Apply the client virtual minimizer window to server computed slots.
  * - exclude: drop invalid slots (default grid UX).
  * - markUnavailable: keep all rows; mark failing slots unavailable and append violation keys (for dev/teaching).
  */
-export function applyMoveableWindowToComputedSlots(
+export function applyMinimizerWindowToComputedSlots(
   slots: ComputedSlot[],
-  window: MoveableSchedulingWindow | null,
-  mode: MoveableWindowApplicationMode
+  window: MinimizerSchedulingWindow | null,
+  mode: MinimizerWindowApplicationMode
 ): ComputedSlot[] {
   if (!window) {
     return mode === 'exclude' ? [] : slots
@@ -138,8 +138,8 @@ export function applyMoveableWindowToComputedSlots(
       return slot
     }
     const extra: string[] = []
-    if (beforeOnsite) extra.push(MOVEABLE_WINDOW_VIOLATION_BEFORE_ONSITE)
-    if (afterDeadline) extra.push(MOVEABLE_WINDOW_VIOLATION_AFTER_DEADLINE)
+    if (beforeOnsite) extra.push(MINIMIZER_WINDOW_VIOLATION_BEFORE_ONSITE)
+    if (afterDeadline) extra.push(MINIMIZER_WINDOW_VIOLATION_AFTER_DEADLINE)
     return {
       ...slot,
       isAvailable: false,

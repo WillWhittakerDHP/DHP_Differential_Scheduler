@@ -1,21 +1,21 @@
 /**
- * Pure: moveable part rounded duration from built appointment shape (same rules as useMoveablePartsScheduling).
+ * Pure: minimizer part rounded duration from built appointment shape (same rules as useMinimizerPartsScheduling).
  */
 import type { AppointmentShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 
-export function getMoveableRoundedDurationMinutesFromAppointmentShape(
+export function getMinimizerRoundedDurationMinutesFromAppointmentShape(
   shape: AppointmentShape | null
 ): number {
   if (!shape || shape.slotShape.eventFinals.length === 0) return 0
   const eventShapes = shape.slotShape.eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
-  const moveableShape = getEventShapeByRoleWithOverrides(
+  const minimizerShape = getEventShapeByRoleWithOverrides(
     eventShapes,
-    'moveable',
+    'minimizer',
     shape.differentialEventRoleOverrides ?? null
   )
-  if (!moveableShape) return 0
-  const ef = shape.slotShape.eventFinals.find((e) => e.eventShape.id === moveableShape.id)
+  if (!minimizerShape) return 0
+  const ef = shape.slotShape.eventFinals.find((e) => e.eventShape.id === minimizerShape.id)
   return ef?.roundedDuration ?? 0
 }

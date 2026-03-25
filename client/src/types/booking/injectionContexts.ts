@@ -48,17 +48,17 @@ export interface AvailabilitySubStepContext {
   onOptionIdUpdate: (id: string | null) => void
   handleTimeBasisChangeWithConfirm: (type: 'major' | 'minor') => void
   handleSlotClickWithConfirm: (buttonIndex: number) => void
-  /** Task 6.9.4.1: For step 4 (moveable details) — confirm advances confirmation state. */
-  handleMoveableConfirmWithConfirm: () => void
+  /** Task 6.9.4.1: For step 4 (minimizer details) — confirm advances confirmation state. */
+  handleMinimizerConfirmWithConfirm: () => void
   showSlotsOverlay: boolean
   slotGridOverlayLabel: string | null
   slotGridOverlayError: string | null
   emptyStateMessage: string
   firstAvailableNotice: string | null
   clearFirstAvailableNotice: () => void
-  /** Yes+deadline moveable path: slots loaded and empty (blocks Next until user adjusts). */
-  moveableInfeasible: boolean
-  moveableInfeasibleMessage: string
+  /** Yes+deadline minimizer path: slots loaded and empty (blocks Next until user adjusts). */
+  minimizerInfeasible: boolean
+  minimizerInfeasibleMessage: string
   /** Multiple cascade option blocks — Tailor step shows options section when true. */
   hasOptions: ComputedRef<boolean>
 }
