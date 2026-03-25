@@ -55,7 +55,7 @@ nextAction:
 - To start a new phase, use /phase-start 7
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-24 — 6.16 — phase — start — guide_materialization_failed
@@ -76,7 +76,7 @@ nextAction:
 Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.3 — session — add — session-add 8.5.3 bypassed; agent implemented batch A directly
@@ -97,7 +97,7 @@ Fix the error above (planning doc, paths, write guard), then re-run tier-start i
 - **Suggestion:** On messages starting with /session-add|/phase-add|/task-add: first run the corresponding tier-add export from .cursor/commands/tiers/shared/tier-add.ts with the parsed id and description; present harness output (Next: /session-start …). Defer implementation until session-start + planning gate unless user explicitly asks to skip harness. Consider a short rule or skill note: "slash line /session-add …" ⇒ execute sessionAdd before coding.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.3 — session — add — harness execution friction (agent ran tier-add via CLI)
@@ -122,7 +122,7 @@ Fix the error above (planning doc, paths, write guard), then re-run tier-start i
 - **Suggestion:** Add a copy-paste `npx tsx -e` example without top-level await to HARNESS_CHARTER or tier-add docs. Optionally have tier-add detect missing `phase-X.Y-guide` and emit a single explicit "copy from doc-archive …" command. Fix planning-check path join that doubled the repo path in one WARNING.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.3 — session — start — validation_failed
@@ -152,7 +152,7 @@ nextAction:
 - Complete Session 8.5.2 first with /session-end 8.5.2
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.3 — session — start — agent follow-up: logging expectations + recordWorkflowFriction CLI failure
@@ -174,7 +174,7 @@ nextAction:
 - **Suggestion:** After any CLI `sessionStart`/`tierStart` with `success: false`, agent should **one line** confirm: “Friction log auto-append: see `WORKFLOW_FRICTION_LOG.md` (validation_failed).” For extra context, use a on-disk script or manual append — avoid inline `tsx -e` for `recordWorkflowFriction` payloads with special characters.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.2 — session — end — expected_branch_missing_run_tier_start
@@ -206,7 +206,7 @@ Branches are created at **tier-start**. Run **/feature-start** with **featureNam
 If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.2 — session — end — audit_failed
@@ -288,7 +288,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.2 — session — end — audit_failed
@@ -370,7 +370,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.3 / 8.5 — cross-cutting — tier-add vs across-ladder manifest and session-end cascade
@@ -406,7 +406,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
   3. **Agents:** Post-**session-add**, **`grep` / read** **`phase-X.Y-guide.md`** for the new session id before assuming the ladder is current.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 6.16.1 — session — start — validation_failed
@@ -435,7 +435,7 @@ nextAction:
 - Create the phase guide first using /phase-plan 6.16
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 6.16.1 — session — start — validation_failed
@@ -464,7 +464,7 @@ nextAction:
 - Create the phase guide first using /phase-plan 6.16
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.5 — session — start — validation_failed
@@ -494,7 +494,7 @@ nextAction:
 - Complete Session 8.5.4 first with /session-end 8.5.4
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.4 — session — start — sessionStart requires separate featureRef; should derive from F.P.S identifier
@@ -519,7 +519,7 @@ nextAction:
 - **Suggestion:** Align `sessionStart` (and `sessionEnd`) to match `tier-add` and other composites: parse `featureId` from the session ID using `WorkflowId.parseSessionId(sessionId).feature` when `featureRef` is not provided. Make `featureRef` optional with a fallback: `const resolvedFeature = featureRef?.trim() || WorkflowId.parseSessionId(sessionId)?.feature`. This removes the redundant parameter requirement and makes the agent invocation pattern consistent across all tiers: `sessionStart('8.5.4')` should just work, same as `sessionAdd('8.5.4', description)` does.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — meta — harness-repair — smoke — execute verification (intentional test entry)
@@ -620,7 +620,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.4 — session — start — validation_failed
@@ -650,7 +650,7 @@ nextAction:
 - To start a new session, use /session-start 8.5.5
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.5.5 — session-end — docs audit WARN: session log shape vs `audit-docs.ts` (`### Task … ✅`)
@@ -675,7 +675,7 @@ nextAction:
 - **Suggestion:** (1) Document the **`### Task … ✅`** requirement in **session log template** and **tier-workflow-agent SKILL** (acceptance / session-end checklist). (2) Optionally relax **`audit-docs.ts`** to also accept common alternatives (e.g. `- [x]` next to a task id, or `### Task` without emoji if normalized), so checklist-style logs do not false-fail tier-end. (3) Link from **docs audit** suggestion text to the exact regex / line in `audit-docs.ts` for faster diagnosis.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 8.6 — phase — start — validation_failed
@@ -705,7 +705,7 @@ nextAction:
 - To start a new phase, use /phase-start 9
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 7.4.4 — session — start — validation_failed
@@ -735,7 +735,7 @@ nextAction:
 - Complete Session 7.4.3 first with /session-end 7.4.3
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 6.16.1 — session — start — validation_failed
@@ -764,7 +764,7 @@ nextAction:
 - Create the phase guide first using /phase-plan 6.16
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 6.16.1 — session — end — app_not_running
@@ -787,7 +787,7 @@ Start the dev environment in a terminal: `npm run start:dev`
 Then re-run the command.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
 
 ### 2026-03-25 — 6.16.1 — session — end — app_not_running
@@ -810,5 +810,5 @@ Start the dev environment in a terminal: `npm run start:dev`
 Then re-run the command.
 - **harnessRepairAddressed:** 2026-03-25T21:38:47.116Z
 - **harnessRepairNote:** Phase 1 durable harness fixes landed: audit-docs completed-task patterns (### Task … ✅, Completed Tasks, - [x] + task id); validation_failed control-plane footer + playbook note; sessionStart/sessionEnd id guards; sessionStart derives feature from F.P.S when arg omitted; HARNESS_CHARTER tsx -e guidance; SKILL session log checklist. Remaining rows are historical expected gates, environment (app_not_running), or process notes — closed for push hygiene.
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 9df1d18da791b7ac075b65a41925a7d69c2a634b
 - **cursorSubmoduleCommit:** 1c1ba07
