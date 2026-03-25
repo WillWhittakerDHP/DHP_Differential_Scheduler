@@ -88,7 +88,7 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**: 
 **Tasks:** ENUM migration; shared types; part finalizer margin path; perspective + enrichment; admin override UI; lint + app start.
 **Focus:** Foundation: margin in storage/types/pipeline/admin; no silent fallback in resolver.
 
-- [ ] ### Session 6.16.2: Multiple minimizers — segments, composable, orchestrator
+- [x] ### Session 6.16.2: Multiple minimizers — segments, composable, orchestrator
 **Description:** Detection utilities for multiple minimizer shapes; `MinimizerSegment`-style types (or rename from `MoveableSegment`); `useMoveablePartsScheduling` multi-segment refactor with sequential boundary chaining; orchestrator / availability sub-step wiring.
 **Tasks:** Multi-minimizer detection; segment types; composable refactor; sequential boundaries; orchestrator wiring; lint + app start.
 **Focus:** Ordered multi-segment scheduling with correct inner/outer boundaries.
