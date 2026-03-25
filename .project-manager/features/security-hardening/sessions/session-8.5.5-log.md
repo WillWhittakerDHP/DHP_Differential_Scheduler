@@ -68,3 +68,86 @@ Record **batch C**: auth subtree + mount layout + straggler scan, confirm **GC-8
 **Deferred:** Project policy — `TEST_ENABLED=false` until Phase 3.0 of `LAUNCH_CHECKLIST.md`; this session was documentation and verification only (no new code paths).
 
 <!-- end excerpt session -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (3): `.project-manager/features/security-hardening/phases/phase-8.5-log.md`, `.project-manager/features/security-hardening/sessions/session-8.5.5-handoff.md`, `.project-manager/features/security-hardening/sessions/session-8.5.5-log.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../features/security-hardening/phases/phase-8.5-log.md  |  8 ++++++++
+ .../security-hardening/sessions/session-8.5.5-handoff.md | 16 ++++++++--------
+ .../security-hardening/sessions/session-8.5.5-log.md     |  2 ++
+ 3 files changed, 18 insertions(+), 8 deletions(-)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/security-hardening/phases/phase-8.5-log.md b/.project-manager/features/security-hardening/phases/phase-8.5-log.md
+index fc4fc59f..3d2895f2 100644
+--- a/.project-manager/features/security-hardening/phases/phase-8.5-log.md
++++ b/.project-manager/features/security-hardening/phases/phase-8.5-log.md
+@@ -25,6 +25,14 @@
+ 
+ 
+ 
++### Session 8.5.5: Joi gap closure batch C — verification + documentation (auth mount, stragglers); GC-8-JOI already done in 8.5.4. ✅
++**Completed:** 2026-03-25
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Joi gap closure batch C — Misc internal routes, dev-only routers, and edge POST/PUT paths missed in 8.5.3–8.5.4; final pass to mark GC-8-JOI done. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
++
++
++
+ ### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke). ✅
+ **Completed:** 2026-03-25
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.5-handoff.md b/.project-manager/features/security-hardening/sessions/session-8.5.5-handoff.md
+index a8fcd758..1a97f7df 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.5-handoff.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.5-handoff.md
+@@ -9,21 +9,21 @@
+ 
+ ## Current Status
+ 
+-**Last Completed:** Session 8.5.5 (batch C verification)
+-**Next across ladder:** Phase **8.6** — run **`/phase-end 8.5`** when ready, then **`/phase-start 8.6`** with feature ref **`8`** (see `across-ladder.json`).
++**Last Completed:** Task 
++**Next Session:** Session 
+ **Git Branch:** `feature/security-hardening`
+ **Last Updated:** 2026-03-25
+ 
+ ## Next Action
+ 
+-1. If **`/session-end 8.5.5`** stopped on audit WARN: retry after log fix (task headings with ✅), or choose skip per harness.
+-2. Close phase 8.5: **`/phase-end 8.5`** (confirm phase guide success criteria).
+-3. Continue security-hardening: **`/phase-start 8.6`** with **`8`**.
++Start Session  (see session guide and phase guide for scope).
+ 
+ ## Transition Context
+ 
+-**Where we left off:** Internal Joi sweep closed in 8.5.4; 8.5.5 added written confirmation for auth mount + stragglers, **GC-8-JOI** Notes, and lint evidence.
++**Where we left off:**
++Completed Task 
+ 
+-**What you need to start next phase:** Phase 8.6 guide + handoff; same feature branch unless harness opens a new session first.
++**What you need to start:**
++- Begin Session 
+ 
+-<!-- end excerpt session -->
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.5-log.md b/.project-manager/features/security-hardening/sessions/session-8.5.5-log.md
+index 0c431053..2c744db3 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.5-log.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.5-log.md
+@@ -68,3 +68,5 @@ Record **batch C**: auth subtree + mount layout + straggler scan, confirm **GC-8
+ **Deferred:** Project policy — `TEST_ENABLED=false` until Phase 3.0 of `LAUNCH_CHECKLIST.md`; this session was documentation and verification only (no new code paths).
+ 
++
++
+```
+<!-- /harness:anchor:commit-preview -->
