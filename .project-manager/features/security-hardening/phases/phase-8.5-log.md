@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 8.5.2: CSP implementation ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** CSP implementation — add Content-Security-Policy for API and Vue SPA, verify app loads
+
+
+
 ### Session 8.5.1: Helmet configuration ✅
 **Completed:** 2026-03-22
 **Tasks Completed:** All tasks completed
