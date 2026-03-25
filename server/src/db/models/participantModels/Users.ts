@@ -20,7 +20,13 @@ export class User extends Model<
   declare lastName: string;
   declare email: string;
   declare phone: string | null;
-  declare userRole: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller';
+  declare userRole:
+    | typeof USER_ROLE_CLIENT
+    | typeof USER_ROLE_AGENT
+    | 'transaction_manager'
+    | 'seller'
+    | 'inspector'
+    | 'admin';
   declare loginId: ForeignKey<number> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -55,7 +61,14 @@ export function UserFactory(sequelize: Sequelize) {
         allowNull: true,
       },
       userRole: {
-        type: DataTypes.ENUM(USER_ROLE_CLIENT, USER_ROLE_AGENT, 'transaction_manager', 'seller', 'inspector'),
+        type: DataTypes.ENUM(
+          USER_ROLE_CLIENT,
+          USER_ROLE_AGENT,
+          'transaction_manager',
+          'seller',
+          'inspector',
+          'admin'
+        ),
         allowNull: false,
         field: 'user_role',
       },

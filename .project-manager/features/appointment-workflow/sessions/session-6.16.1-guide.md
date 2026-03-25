@@ -67,7 +67,7 @@ These sections contain session-specific content:
 **Approach:** Add `else if (role === 'margin') { minimizer = 'override' }` after the moveable branch in `resolvePartShapeDifferentialFlags`.
 **Checkpoint:** When effective role is `'margin'`, `PartFinal.minimizer === 'override'`; existing roles unchanged
 
-- [ ] #### Task 6.16.1.4: Admin UI verification + lint
+- [x] #### Task 6.16.1.4: Admin UI verification + lint
 **Goal:** Confirm admin override field picks up `Margin` from shared constants; lint client + server; verify app starts.
 **Files:** 
 - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`

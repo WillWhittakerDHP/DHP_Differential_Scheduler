@@ -47,12 +47,15 @@ function idsEqual(a: unknown, b: unknown): boolean {
   return String(a) === String(b)
 }
 
-/** Agent, transaction_manager, and seller may mutate internal admin resources without a per-row user owner. */
+/** Agent, admin, transaction_manager, and seller may mutate internal admin resources without a per-row user owner. */
 function isInternalStaffRole(role: string | undefined): boolean {
   if (role === undefined || role === '') {
     return false
   }
   if (role === USER_ROLE_AGENT) {
+    return true
+  }
+  if (role === 'admin') {
     return true
   }
   if (role === 'transaction_manager' || role === 'seller') {

@@ -11,6 +11,7 @@ const USER_ROLE_VALUES = [
   'transaction_manager',
   'seller',
   'inspector',
+  'admin',
 ] as const
 
 const userMutableFields = {

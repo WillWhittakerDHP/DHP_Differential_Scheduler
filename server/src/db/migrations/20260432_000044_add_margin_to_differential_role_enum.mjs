@@ -1,5 +1,6 @@
 /**
  * Add margin to public.differential_role_enum and eventShape differentialRole admin select options.
+ * Updates legacy admin_metadata.input_config only when that column exists (normalized ic_* schemas skip).
  * Down reverts admin_metadata only; dropping ENUM labels requires a type rebuild (not done here).
  */
 
@@ -24,10 +25,22 @@ export default {
   `)
 
     await sequelize.query(`
-    UPDATE public.admin_metadata
-    SET input_config = '{"options":[{"label":"None","value":null},{"label":"Major","value":"major"},{"label":"Minor","value":"minor"},{"label":"Moveable","value":"moveable"},{"label":"Margin","value":"margin"}]}',
-        updated_at = NOW()
-    WHERE id = '132b05ce-f486-4d3d-be5d-211b13a7ee9d';
+    DO $migrate$
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'admin_metadata'
+          AND column_name = 'input_config'
+      ) THEN
+        UPDATE public.admin_metadata
+        SET input_config = '{"options":[{"label":"None","value":null},{"label":"Major","value":"major"},{"label":"Minor","value":"minor"},{"label":"Moveable","value":"moveable"},{"label":"Margin","value":"margin"}]}',
+            updated_at = NOW()
+        WHERE id = '132b05ce-f486-4d3d-be5d-211b13a7ee9d';
+      END IF;
+    END
+    $migrate$;
   `)
   },
 
@@ -35,10 +48,22 @@ export default {
     const sequelize = queryInterface.sequelize
 
     await sequelize.query(`
-    UPDATE public.admin_metadata
-    SET input_config = '{"options":[{"label":"None","value":null},{"label":"Major","value":"major"},{"label":"Minor","value":"minor"},{"label":"Moveable","value":"moveable"}]}',
-        updated_at = NOW()
-    WHERE id = '132b05ce-f486-4d3d-be5d-211b13a7ee9d';
+    DO $migrate$
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'admin_metadata'
+          AND column_name = 'input_config'
+      ) THEN
+        UPDATE public.admin_metadata
+        SET input_config = '{"options":[{"label":"None","value":null},{"label":"Major","value":"major"},{"label":"Minor","value":"minor"},{"label":"Moveable","value":"moveable"}]}',
+            updated_at = NOW()
+        WHERE id = '132b05ce-f486-4d3d-be5d-211b13a7ee9d';
+      END IF;
+    END
+    $migrate$;
   `)
   },
 }

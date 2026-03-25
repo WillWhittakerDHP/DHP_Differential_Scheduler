@@ -11,6 +11,14 @@
 
 ## Completed Tasks
 
+### Task 6.16.1.4: Task 6.16.1.4 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.16.1.5
+
+
+
 ### Task 6.16.1.3: Task 6.16.1.3 ✅
 **Goal:** Task completed
 
@@ -85,7 +93,7 @@ index f70535da..07b3c784 100644
 **Next Task:**
 - 6.16.1.4
 
-<!-- harness:anchor:commit-preview -->
+
 ## Harness: commit preview (in-scope diff)
 
 Paths (5): `.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md`, `client/src/utils/booking/partFinalizer.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.16.1.3-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.16.1.3-planning.md`
@@ -117,6 +125,53 @@ index bb1aefe8..437fe17c 100644
  - `client/src/utils/booking/partFinalizer.ts`
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
 index 9a5153da..42ac167f 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
+@@ -11,6 +11,14 @@
+ 
+### Task 6.16.1.4: Task 6.16.1.4 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.16.1.5
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (10): `.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md`, `server/src/auth/magicLinkRequest.ts`, `server/src/db/migrations/20260432_000044_add_margin_to_differential_role_enum.mjs`, `server/src/db/models/participantModels/Users.ts`, `server/src/middlewares/ownershipEnforcement.ts`, `server/src/routes/schemas/userSchemas.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.16.1.4-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.16.1.4-planning.md`, `server/src/db/migrations/20260432_000045_magic_links_user_id_nullable_admin_enum_will_user.mjs`
+
+### `git diff --stat HEAD`
+
+```text
+.../sessions/session-6.16.1-guide.md               |  2 +-
+ .../sessions/session-6.16.1-log.md                 | 16 ++++++++-
+ server/src/auth/magicLinkRequest.ts                | 11 +++++-
+ ...000044_add_margin_to_differential_role_enum.mjs | 41 +++++++++++++++++-----
+ server/src/db/models/participantModels/Users.ts    | 17 +++++++--
+ server/src/middlewares/ownershipEnforcement.ts     |  5 ++-
+ server/src/routes/schemas/userSchemas.ts           |  1 +
+ 7 files changed, 79 insertions(+), 14 deletions(-)
+```
+
+### `git diff HEAD`
+_(diff truncated to cap)_
+
+```diff
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md
+index 437fe17c..e19e80d2 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-guide.md
+@@ -67,7 +67,7 @@ These sections contain session-specific content:
+ **Approach:** Add `else if (role === 'margin') { minimizer = 'override' }` after the moveable branch in `resolvePartShapeDifferentialFlags`.
+ **Checkpoint:** When effective role is `'margin'`, `PartFinal.minimizer === 'override'`; existing roles unchanged
+ 
+-- [ ] #### Task 6.16.1.4: Admin UI verification + lint
++- [x] #### Task 6.16.1.4: Admin UI verification + lint
+ **Goal:** Confirm admin override field picks up `Margin` from shared constants; lint client + server; verify app starts.
+ **Files:** 
+ - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
+index e23b1ba4..ec516de8 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.1-log.md
 @@ -11,6 +11,14 @@

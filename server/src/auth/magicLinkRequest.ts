@@ -4,6 +4,8 @@
  */
 
 import Joi from 'joi'
+import { Op } from 'sequelize'
+import { models } from '../config/models.js'
 import { createLogger } from '../utils/logger.js'
 import { sendMagicLinkDelivery } from './magicLinkDelivery.js'
 import { issueMagicLinkForEmail } from './strategies/magicLinkStrategy.js'
@@ -57,7 +59,14 @@ export async function submitMagicLinkRequest(email: string): Promise<{ delivered
   if (error) {
     return { delivered: true }
   }
-  const issued = await issueMagicLinkForEmail({ email: trimmed })
+  const user = await models.User.findOne({
+    where: { email: { [Op.iLike]: trimmed } },
+    attributes: ['id'],
+  })
+  if (user === null) {
+    return { delivered: true }
+  }
+  const issued = await issueMagicLinkForEmail({ email: trimmed, userId: user.id })
   if (!issued) {
     return { delivered: true }
   }
