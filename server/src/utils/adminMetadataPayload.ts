@@ -1,5 +1,4 @@
 import type { MetadataEntryBase } from '@shared/types/metadataEntryTypes'
-import { nilToEmptyArray } from '@shared/utils/nilDefaults.js'
 import { FIELD_NAMES } from '../routes/internal/entities/entityConstants.js'
 import { decodeInputConfig, icColumnsFromModel } from './adminMetadataInputConfigCodec.js'
 
@@ -68,6 +67,6 @@ export function mapMetaFieldsToPayloadWithDecodedInput(
     statusButtonColor: meta.statusButtonColor ?? undefined,
     panel: meta.panel,
     bulkEdit: meta.bulkEdit,
-    inputConfig: decodeInputConfig(icColumnsFromModel(meta), nilToEmptyArray(optionRows)),
+    inputConfig: decodeInputConfig(icColumnsFromModel(meta), optionRows ?? []),
   })
 }

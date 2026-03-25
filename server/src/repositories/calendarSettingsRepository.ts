@@ -3,7 +3,6 @@
  */
 import type { Transaction } from 'sequelize'
 import type { CalendarSettingsData } from '../../../shared/types/calendarSettingsDocument.js'
-import { nilToEmptyArray } from '../../../shared/utils/nilDefaults.js'
 import type { CalendarSettingCalendar } from '../db/models/admin/calendar_setting_calendar.js'
 import { CalendarSettings, CalendarSettingCalendar as CalendarSettingCalendarModel } from '../config/app.js'
 import { sequelize } from '../config/database.js'
@@ -47,7 +46,7 @@ export async function getCalendarSettings(): Promise<CalendarSettingsData> {
     return { ...DEFAULT }
   }
   const rawEntries = (row as { calendarEntries?: CalendarSettingCalendar[] }).calendarEntries
-  const entries = nilToEmptyArray(rawEntries)
+  const entries = rawEntries ?? []
   return {
     ...DEFAULT,
     enabled: row.enabled,

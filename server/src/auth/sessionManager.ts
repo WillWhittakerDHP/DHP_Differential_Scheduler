@@ -5,6 +5,7 @@
 import { randomBytes } from 'crypto'
 import { models } from '../config/models.js'
 import { getAuthConfig } from '../config/authConfig.js'
+import { loggableErrorFields } from '../utils/loggableError.js'
 import { createLogger } from '../utils/logger.js'
 import type { Session } from '../db/models/auth/session.js'
 
@@ -45,8 +46,11 @@ export async function createAuthSession(
       userId: uid,
     })
     return { sid, expire }
-  } catch (error) {
-    logger.error('createAuthSession failed:', error)
+  } catch (error: unknown) {
+    logger.error('createAuthSession failed', {
+      userId: userId ?? null,
+      ...loggableErrorFields(error),
+    })
     return null
   }
 }

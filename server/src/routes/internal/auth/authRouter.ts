@@ -25,6 +25,8 @@ import {
 import { createCsrfTokenForRequest } from '../../../middlewares/csrfTokens.js'
 import { getAuthConfig } from '../../../config/authConfig.js'
 import { USER_ROLE_AGENT } from '../../../constants/userRoles.js'
+import { describeMagicLinkTokenForLogs } from '../../../auth/magicLinkVerifyDiagnostics.js'
+import { loggableErrorFields } from '../../../utils/loggableError.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const router = Router()
@@ -178,37 +180,61 @@ router.get('/magic-link/verify', async (req: Request, res: Response): Promise<vo
       return
     }
     const rawToken = readMagicLinkQueryToken(req)
+    const tokenDiag =
+      rawToken.trim() === '' ? { rawCharLength: 0, sha256HexPrefix: '' } : describeMagicLinkTokenForLogs(rawToken.trim())
+    logger.info('magic_link.verify.request', {
+      ...tokenDiag,
+      queryTokenPresent: rawToken.length > 0,
+      expressQueryKeys: Object.keys(req.query),
+    })
     const result = await verifyToken(MAGIC_LINK_AUTH_CONTEXT, { token: rawToken })
     if (result.ok) {
       if (result.userId === undefined || result.userId === '') {
-        logger.error('magic-link verify returned ok without userId')
+        logger.error('magic-link verify returned ok without userId', { ...tokenDiag })
         res.status(500).json({
           code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
           message: 'Session establishment failed',
         })
         return
       }
+      logger.info('magic_link.verify.issue_session', { userId: result.userId, ...tokenDiag })
       const created = await issueAuthSessionWithCookie(
         res,
         { strategy: 'magic_link' },
         result.userId
       )
       if (created === null) {
-        logger.error('magic-link verify session persist failed')
+        logger.error('magic-link verify session persist failed', {
+          userId: result.userId,
+          ...tokenDiag,
+        })
         res.status(500).json({
           code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
           message: 'Session establishment failed',
         })
         return
       }
+      logger.info('magic_link.verify.success', {
+        userId: result.userId,
+        sessionSidPrefix: created.sid.slice(0, 8),
+        ...tokenDiag,
+      })
       res.status(200).json({ ok: true, userId: result.userId })
       return
     }
     logMagicLinkVerifyStrategyFailure(result.code, result.message)
     const status = httpStatusForMagicLinkVerifyFailure(result.code)
+    logger.info('magic_link.verify.response', {
+      httpStatus: status,
+      strategyCode: result.code,
+      ...tokenDiag,
+    })
     res.status(status).json({ code: result.code, message: result.message })
-  } catch (err) {
-    logger.error('magic-link verify handler failed', { err })
+  } catch (err: unknown) {
+    logger.error('magic-link verify handler failed', {
+      ...loggableErrorFields(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    })
     res.status(500).json({
       code: AUTH_FAILURE_CODES.INTERNAL_ERROR,
       message: 'Request failed',

@@ -21,6 +21,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import { defaultPostAuthPath } from '@/utils/authRedirect'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('AuthVerifyView')
@@ -41,7 +42,8 @@ onMounted(() => {
       await auth.verifyMagicLinkToken(token)
       status.value = 'ok'
       const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : undefined
-      await router.replace(redirect ?? '/')
+      const target = redirect ?? defaultPostAuthPath(auth.user?.role)
+      await router.replace(target)
     } catch (err: unknown) {
       logger.warn('magic link verify failed', { err })
       status.value = 'error'

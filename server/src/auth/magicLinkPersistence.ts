@@ -7,6 +7,8 @@ import type { Transaction } from 'sequelize'
 import type { MagicLink } from '../db/models/auth/magic_link.js'
 import { models } from '../config/models.js'
 import { sequelize } from '../config/database.js'
+import { describeMagicLinkTokenForLogs } from './magicLinkVerifyDiagnostics.js'
+import { loggableErrorFields } from '../utils/loggableError.js'
 import { hashMagicLinkTokenForStorage } from './strategies/magicLinkToken.js'
 import { createLogger } from '../utils/logger.js'
 
@@ -64,6 +66,8 @@ export async function findPendingMagicLinkByTokenHash(tokenHash: string): Promis
  */
 export async function consumeMagicLinkByRawToken(rawToken: string): Promise<MagicLinkConsumeResult> {
   const tokenHash = hashMagicLinkTokenForStorage(rawToken)
+  const diag = describeMagicLinkTokenForLogs(rawToken)
+  logger.info('magic_link.consume.start', { ...diag })
   try {
     return await sequelize.transaction(async (transaction: Transaction) => {
       const row = await models.MagicLink.findOne({
@@ -72,14 +76,29 @@ export async function consumeMagicLinkByRawToken(rawToken: string): Promise<Magi
         lock: transaction.LOCK.UPDATE,
       })
       if (!row) {
+        logger.warn('magic_link.consume.not_found', {
+          ...diag,
+          hint: 'No pending row for this hash (wrong token, already used, or DB drift vs token_hash).',
+        })
         return { status: 'not_found' }
       }
       const now = new Date()
       if (row.expiresAt <= now) {
+        logger.warn('magic_link.consume.expired', {
+          ...diag,
+          magicLinkId: row.id,
+          expiresAt: row.expiresAt.toISOString(),
+          now: now.toISOString(),
+        })
         return { status: 'expired' }
       }
       row.consumedAt = now
       await row.save({ transaction })
+      logger.info('magic_link.consume.ok', {
+        magicLinkId: row.id,
+        userId: row.userId ?? null,
+        email: row.email ?? null,
+      })
       return {
         status: 'ok',
         id: row.id,
@@ -88,7 +107,10 @@ export async function consumeMagicLinkByRawToken(rawToken: string): Promise<Magi
       }
     })
   } catch (error: unknown) {
-    logger.error('consumeMagicLinkByRawToken failed:', error)
+    logger.error('magic_link.consume.transaction_failed', {
+      ...diag,
+      ...loggableErrorFields(error),
+    })
     return { status: 'error' }
   }
 }

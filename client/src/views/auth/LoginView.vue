@@ -37,6 +37,7 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import { defaultPostAuthPath } from '@/utils/authRedirect'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('LoginView')
@@ -69,7 +70,7 @@ watch(
   () => auth.isAuthenticated,
   (ok) => {
     if (ok) {
-      void router.push(redirectTarget ?? '/')
+      void router.push(redirectTarget ?? defaultPostAuthPath(auth.user?.role))
     }
   },
   { immediate: true }

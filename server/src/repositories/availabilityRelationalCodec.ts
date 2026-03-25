@@ -24,7 +24,7 @@ import type { AvailabilityMaxWorkHour } from '../db/models/admin/availability_ma
 import type { AvailabilityMaxIncomeRow } from '../db/models/admin/availability_max_income_row.js'
 import type { AvailabilityDifferentialAttendee } from '../db/models/admin/availability_differential_attendee.js'
 import { defaultAvailabilitySettings } from '../routes/internal/businessSettings/businessSettingsConstants.js'
-import { nilToEmptyArray, nilToEmptyString } from '../../../shared/utils/nilDefaults.js'
+import { nilToEmptyString } from '../../../shared/utils/nilDefaults.js'
 import { legacyDbLabelIsProbablyFormattedAddress } from '../../../shared/utils/defaultLocationHeuristics.js'
 
 function iso(d: Date): string {
@@ -154,7 +154,8 @@ function indexRangeConstraintHours(
 ): Map<string, AvailabilityRangeConstraintHour[]> {
   const hoursByRc = new Map<string, AvailabilityRangeConstraintHour[]>()
   for (const h of rangeConstraintHours) {
-    const list = nilToEmptyArray(hoursByRc.get(h.rangeConstraintId))
+    // First occurrence per key: Map.get is undefined (not nullable API data).
+    const list = hoursByRc.get(h.rangeConstraintId) ?? []
     list.push(h)
     hoursByRc.set(h.rangeConstraintId, list)
   }
@@ -167,7 +168,7 @@ function buildRangeConstraintsOutput(
 ): NonNullable<AvailabilitySettingsData['rangeConstraints']> {
   const rcOut: NonNullable<AvailabilitySettingsData['rangeConstraints']> = {}
   for (const rc of rangeConstraints) {
-    const hrs = nilToEmptyArray(hoursByRc.get(rc.id))
+    const hrs = hoursByRc.get(rc.id) ?? []
     const built = rangeConstraintFromRow(rc, hrs)
     if (!built) continue
     if (rc.rangeType === 'businessHours') rcOut.businessHours = built

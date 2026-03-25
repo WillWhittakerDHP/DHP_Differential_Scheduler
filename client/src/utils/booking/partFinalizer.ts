@@ -7,7 +7,6 @@ import { createPartFinal } from './PartFinal'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
-import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import { effectiveDifferentialRole, isDifferentialRoleOverrideValue } from '@shared/utils/differentialRoleUtils'
 
@@ -89,7 +88,7 @@ function resolvePartShapeDifferentialFlags(
   shapeById: Map<string, EventShape>,
   overrides?: Record<string, DifferentialRole> | null
 ): { major: TernaryBoolean; minor: TernaryBoolean; minimizer: TernaryBoolean } {
-  const events = nilToEmptyArray(assignments[partShapeName])
+  const events = assignments[partShapeName] ?? []
   let major: TernaryBoolean = 'false'
   let minor: TernaryBoolean = 'false'
   let minimizer: TernaryBoolean = 'false'

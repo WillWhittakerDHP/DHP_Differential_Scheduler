@@ -1,4 +1,3 @@
-
 import { Op } from 'sequelize'
 import { AdminMetadata } from '../../../db/models/admin/adminMetadata.js'
 import { isRelationshipKey } from '../../../constants/relationships.js'
@@ -7,7 +6,6 @@ import {
   adminMetadataToApiEntry,
   fetchSelectOptionsByMetadataIds,
 } from '../../../utils/adminMetadataEntryAssembly.js'
-import { nilToEmptyArray } from '@shared/utils/nilDefaults.js'
 
 type AdminMetadataEntityType = (typeof VALID_ENTITY_TYPES)[number]
 
@@ -111,7 +109,7 @@ export async function buildBatchMetadataResult(
     const fieldKey = entry.fieldKey
     const blockShapeRef = entry.blockShapeRef
 
-    const optionRows = nilToEmptyArray(optionsMap.get(entry.id))
+    const optionRows = optionsMap.get(entry.id) ?? []
     const metadataEntry = adminMetadataToApiEntry(entry, optionRows)
 
     if (entityType === 'blockInstance' && blockShapeRef) {

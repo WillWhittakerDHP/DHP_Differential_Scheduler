@@ -37,6 +37,8 @@ export function SessionFactory(sequelize: Sequelize): typeof Session {
       expire: {
         type: DataTypes.DATE,
         allowNull: false,
+        /** Drifted DBs use `expires_at` (connect-pg-simple); 000040 used `expire` — migration 000048 aligns. */
+        field: 'expires_at',
       },
       userId: {
         type: DataTypes.UUID,

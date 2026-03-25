@@ -11,6 +11,10 @@ import type {
 } from './strategyTypes.js'
 import { AUTH_FAILURE_CODES } from './strategyTypes.js'
 import { consumeMagicLinkByRawToken, createPendingMagicLink } from '../magicLinkPersistence.js'
+import { describeMagicLinkTokenForLogs } from '../magicLinkVerifyDiagnostics.js'
+import { createLogger } from '../../utils/logger.js'
+
+const logger = createLogger('auth.magicLinkStrategy')
 import {
   computeMagicLinkExpiresAt,
   DEFAULT_MAGIC_LINK_PURPOSE,
@@ -32,17 +36,21 @@ export type IssueMagicLinkForEmailResult = {
 async function verifyMagicLinkToken(rawToken: string | undefined): Promise<AuthOpResult> {
   const trimmed = String(rawToken ?? '').trim()
   if (!trimmed) {
+    logger.warn('magic_link.verify.missing_token', { rawCharLength: trimmed.length })
     return {
       ok: false,
       code: AUTH_FAILURE_CODES.VALIDATION,
       message: 'Magic link token is required',
     }
   }
+  const diag = describeMagicLinkTokenForLogs(trimmed)
   const result = await consumeMagicLinkByRawToken(trimmed)
   if (result.status === 'ok') {
     if (result.userId) {
+      logger.info('magic_link.verify.strategy_ok', { ...diag, userId: result.userId })
       return { ok: true, userId: result.userId }
     }
+    logger.warn('magic_link.verify.no_user_on_row', { ...diag, magicLinkId: result.id })
     return {
       ok: false,
       code: AUTH_FAILURE_CODES.UNAUTHORIZED,
@@ -50,12 +58,14 @@ async function verifyMagicLinkToken(rawToken: string | undefined): Promise<AuthO
     }
   }
   if (result.status === 'not_found' || result.status === 'expired') {
+    logger.warn('magic_link.verify.consume_rejected', { ...diag, consumeStatus: result.status })
     return {
       ok: false,
       code: AUTH_FAILURE_CODES.UNAUTHORIZED,
       message: 'Invalid or expired magic link',
     }
   }
+  logger.error('magic_link.verify.consume_error_status', { ...diag, consumeStatus: result.status })
   return {
     ok: false,
     code: AUTH_FAILURE_CODES.INTERNAL_ERROR,

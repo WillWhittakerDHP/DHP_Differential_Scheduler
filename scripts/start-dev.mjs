@@ -4,7 +4,7 @@
  * or APP_STAGE=staging, runs server + client + test:watch. Otherwise server + client only.
  *
  * Modes:
- *   npm run start:dev   → if dev port is already in use, clears ports and starts (same as restart)
+ *   npm run start:dev   → runs kill:ports only if main dev ports (server/client) are in use, or after explicit restart
  *   npm run restart:dev  → always kills dev ports first, then starts (--restart flag; explicit restart)
  */
 
@@ -17,6 +17,8 @@ import { execSync } from 'node:child_process'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 const SERVER_PORT = 3001
+/** Keep in sync with `client` dev script / vite config (e.g. `vite --port 3002`). */
+const CLIENT_DEV_PORT = 3002
 const isRestart = process.argv.includes('--restart')
 
 /** Returns true if something is accepting TCP connections on port at 127.0.0.1. */
@@ -65,25 +67,28 @@ process.env.NODE_ENV = 'development'
 const testsEnabled = process.env.TEST_ENABLED === 'true' || process.env.APP_STAGE === 'staging'
 
 const serverAlreadyUp = await isPortInUse(SERVER_PORT)
+const clientDevPortBusy = await isPortInUse(CLIENT_DEV_PORT)
+const shouldKillPorts = isRestart || serverAlreadyUp || clientDevPortBusy
 
-if (serverAlreadyUp) {
-  if (isRestart) {
-    console.log('\n🔄 Restart requested — killing existing processes on dev ports...')
-  } else {
-    console.log(
-      '\n🔄 Port',
-      SERVER_PORT,
-      'is in use — clearing dev ports and starting fresh (same as npm run restart:dev).\n',
-    )
-  }
+if (isRestart) {
+  console.log('\n🔄 Restart requested — killing existing processes on dev ports...')
+} else if (serverAlreadyUp || clientDevPortBusy) {
+  const parts = []
+  if (serverAlreadyUp) parts.push(`${SERVER_PORT} (server)`)
+  if (clientDevPortBusy) parts.push(`${CLIENT_DEV_PORT} (client)`)
+  console.log('\n🔄 Port(s) in use:', parts.join(', '), '— clearing dev ports before start.\n')
 }
 
-console.log('\n🔌 Killing open dev ports before starting...')
-try {
-  execSync('npm run kill:ports', { stdio: 'inherit', cwd: ROOT, env: process.env })
-  console.log('✅ Ports cleared.\n')
-} catch {
-  console.log('⚠️  No processes found on dev ports (or kill-port unavailable). Continuing.\n')
+if (shouldKillPorts) {
+  console.log('\n🔌 Killing open dev ports before starting...')
+  try {
+    execSync('npm run kill:ports', { stdio: 'inherit', cwd: ROOT, env: process.env })
+    console.log('✅ Ports cleared.\n')
+  } catch {
+    console.log('⚠️  No processes found on dev ports (or kill-port unavailable). Continuing.\n')
+  }
+} else {
+  console.log('\n🔌 Dev ports look free — skipping kill:ports.\n')
 }
 
 execSync('npm run build', { stdio: 'inherit', cwd: ROOT, env: process.env })

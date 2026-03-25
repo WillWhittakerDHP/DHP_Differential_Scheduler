@@ -3,7 +3,6 @@
  */
 import type { ComputedRef, Ref } from 'vue'
 import { rawBookingModeIsStandaloneOnly } from '@shared/utils/ternaryAliasUtils'
-import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
@@ -51,16 +50,15 @@ export function createGroupedZoneDragEndHandler(params: {
   const { blockShapeId, groupedEntityIds, groupedEntityList, blockInstancesByShape, patchOrderIndex } = params
 
   const syncGroupedFromSource = (): void => {
-    const grouped = nilToEmptyArray(
-      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSectionCore(e))
-    )
+    const grouped =
+      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSectionCore(e)) ?? []
     groupedEntityList.value = [...grouped]
     groupedEntityIds.value = grouped.map((e) => e.id)
   }
 
   return async (): Promise<void> => {
     try {
-      const all = nilToEmptyArray(blockInstancesByShape.value.get(blockShapeId))
+      const all = blockInstancesByShape.value.get(blockShapeId) ?? []
       const idToEntity = new Map(all.map((e) => [e.id, e]))
       const mainOrderedStable = all.filter((e) => isAdminStandaloneSectionCore(e))
       const groupedOrdered = groupedEntityIds.value

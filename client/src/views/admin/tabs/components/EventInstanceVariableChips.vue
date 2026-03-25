@@ -2,8 +2,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EVENT_TEMPLATE_VARIABLES } from '@shared/constants/templateVariables'
-import { nilToEmptyArray } from '@shared/utils/nilDefaults'
-
 const props = defineProps<{
   insertVariable: (name: string) => void
 }>()
@@ -33,7 +31,7 @@ const variablesByGroup = computed(() => {
       }
     }
   }
-  return GROUP_ORDER.map((label) => ({ label, variables: nilToEmptyArray(map.get(label)) }))
+  return GROUP_ORDER.map((label) => ({ label, variables: map.get(label) ?? [] }))
 })
 
 function onChipDown(name: string): void {
