@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-03-25
+**Last Updated:** 2026-03-15
 **Status:** Active Planning Document
 
 ---
@@ -31,7 +31,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
 | 6 | Appointment Workflow & Booking Calculations | ⏳ Partial | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
 | 7 | Authentication | ✅ Complete | `features/authentication/` | — |
-| 8 | Security Hardening | ⏳ Partial | `features/security-hardening/` | CSP/CSRF/ownership enacted; Joi sweep ongoing |
+| 8 | Security Hardening | ✅ Complete | `features/security-hardening/` | — |
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
 | 10 | Testing & Quality Validation | 📋 Planning | `features/testing-quality-validation/` | — |
 | 11 | Production Readiness | 📋 Planning | `features/production-readiness/` | — |
@@ -303,8 +303,6 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 | 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Add new block shapes button on admin Shapes tab (6.10.1 ✅); admin toggle to show/hide apply-coupon in wizard (6.10.2 ✅); fee preview bar on availability step (6.10.3 not started); coupon fee calculation (6.10.4 not started). |
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 | 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (exhaustive audit, optional badges, Phase 3.0 test checklist). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
-| 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload, extracted anchors, `wizard_settings`, OKLCH pipeline; depends on 6.13. See `features/appointment-workflow/feature-appointment-workflow-guide.md`. |
-| 6.16 | Differential Role Generalization: margin + multiple minimizers | Not Started | **`PartFinal.minimizer: TernaryBoolean`**; margin role + slot pipeline; multiple minimizer segments; phased **moveable → minimizer** rename; calendar/API inventory. See `features/appointment-workflow/phases/phase-6.16-guide.md`, `phase-6.16-planning.md`. |
 | 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight dependency inspection; reusable admin delete wizard; resolve/finalize API; policy registry; wire generic CRUD delete. Sessions 6.17.1–6.17.5. See `features/appointment-workflow/phases/phase-6.17-guide.md`. Complements Phase 6.6 (soft vs hard delete). |
 
 ### Phase 6.1 Completed (Workflow)
@@ -364,12 +362,6 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — primary booking/validation wiring + client alignment. **6.14.3** — exhaustive audit (wire or document), optional legacy “org default” badges, Phase 3.0 resolver test checklist in docs. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
 - **See:** `features/appointment-workflow/phases/phase-6.14-guide.md`, `features/appointment-workflow/phases/phase-6.14-planning.md`.
 
-### Phase 6.16: Differential Role Generalization — margin + multiple minimizers (Not Started)
-
-- **Goal:** Extend **DifferentialRole** with **margin** (pre-major placement); support **multiple minimizer** segments with sequential boundaries; align **`PartFinal.minimizer`** as **`TernaryBoolean`** (`false` / `true` / `override`) with calendar invite and persistence inventory; execute phased **moveable → minimizer** rename (identifiers + stored JSON keys) with migrations where required.
-- **Design:** `features/appointment-workflow/phases/phase-6.16-guide.md` — terminology, semantic table, rename tranches, session outline. Contract: `phase-6.16-planning.md`.
-- **Client types:** `client/src/types/booking/partFinal.ts` (`minimizer`), `client/src/utils/booking/partFinalizer.ts` (role `moveable` → `minimizer: 'true'` until DB enum rename).
-
 ### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Not Started)
 
 - **Goal:** Replace one-shot synchronous delete for supported admin entities with a **dependency-aware workflow**: preflight → wizard (reassign / remove / cancel) → server applies resolution in transaction → final delete → client cache refresh.
@@ -405,7 +397,6 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Phase 6.10 Guide: `features/appointment-workflow/phases/phase-6.10-guide.md` (Fee Preview & Coupon Visibility)
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
 - Phase 6.14 Guide: `features/appointment-workflow/phases/phase-6.14-guide.md` (Organization Defaults & Resolved Numeric Policy)
-- Phase 6.16 Guide: `features/appointment-workflow/phases/phase-6.16-guide.md` (margin + minimizers, `PartFinal.minimizer`, rename roadmap); Phase 6.16 Planning: `features/appointment-workflow/phases/phase-6.16-planning.md`
 - Phase 6.17 Guide: `features/appointment-workflow/phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`
@@ -414,21 +405,26 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 7: Authentication
 
-**Status:** ✅ Core complete (7.1–7.4 shipped); enactment with Feature 6 and broader internal API policy remains incremental.
-**Description:** Pluggable authentication using a Strategy Pattern: Magic Link for beta/development (passwordless), Email + Password for production (7.5 deferred). Shared session infrastructure (PostgreSQL sessions table, httpOnly cookies, `requireAuth` / `requireRole`). See LAUNCH_CHECKLIST.md Phase 2A.
+**Status:** 📋 Planning
+**Description:** Pluggable authentication using a Strategy Pattern: Magic Link for beta/development (passwordless), Email + Password for production. Shared session infrastructure (PostgreSQL sessions table, httpOnly cookies, requireAuth middleware). See LAUNCH_CHECKLIST.md Phase 2A.
 **Branch:** TBD
 
-### Existing infrastructure (reconciled 2026-03-25)
+### Existing Stubs & Scaffolding
 
-| What | Location | Notes |
-|------|----------|-------|
-| Auth package | `server/src/auth/` | Session manager, magic-link strategy, `requireAuth` integration |
-| Internal auth routes | `server/src/routes/internal/auth/authRouter.ts` | Magic link request/verify, `session/me`, `csrf-token`, `logout` |
-| Client auth | `client/src/stores/authStore.ts`, `client/src/views/auth/` | Pinia store, `/login`, `/auth/verify`, CSRF bootstrap + `withCredentials` |
-| Router | `client/src/router/index.ts` | Admin area requires authenticated session (redirect to `/login`) |
-| CSRF + ownership | Feature 8 | See Feature 8 — `csrfProtection` and `checkOwnership` are **not** stubs |
+The following auth-related code already exists in the codebase:
 
-**Deferred:** Password strategy (**7.5**); optional Google OAuth (open question).
+| What | File | Notes |
+|------|------|-------|
+| `csrfProtection` (stub) | `server/src/middlewares/security.ts` | Exported, already wired into many CRUD/state-changing routes. Just calls `next()`. |
+| `checkOwnership` (stub) | `server/src/middlewares/security.ts` | Exported, wired into property, entity, business-settings, appointment CRUD. Just calls `next()`. |
+| `_requireAuth` (stub) | `server/src/middlewares/security.ts` | **Not exported / not used anywhere.** Ready to be replaced by the real `requireAuth` from `auth/`. |
+| Login routes (empty) | `server/src/routes/internal/participantRoutes/login-routes.ts` | Commented-out export; no functional routes. |
+| Login model (empty) | `server/src/db/models/participantModels/Logins.ts` | Commented-out password/hooks; no functional model. |
+| Security docs | `server/docs/SECURITY_STUBS.md` | Documents planned behavior of the security stubs. |
+| Router guards | `client/src/plugins/1.router/guards.ts` | Checks `userData` and `accessToken` cookies for isLoggedIn; redirects to `login` route. |
+| UserProfile logout | `client/src/layouts/components/UserProfile.vue` | Clears cookies and redirects to `/login`. |
+
+**What does NOT exist yet:** No `server/src/auth/` directory (strategy interface, session manager, auth router, magic-link strategy), no session/magic_links DB tables/models, no client auth store or auth views.
 
 ### Implementation Order
 
@@ -449,11 +445,11 @@ Implement the following so that authenticated users and roles are used where oth
 
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
-- [x] **Role-based access (SPA):** Vue admin routes require an authenticated session (see `client/src/router/index.ts`). **Not** a global `requireAuth` on all `/internal/*` APIs (wizard and anonymous flows still use selected endpoints).
-- [x] **Expose user role to client:** `GET /auth/session/me` and Pinia `authStore` supply `userId` and `role` for gating UI.
+- [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
+- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.8; agentPermissions in Session 6.8.5).
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
-- [x] **CSRF:** Real `csrfProtection` + client token bootstrap (Feature 8.6 — see `server/src/middlewares/csrfTokens.ts`).
-- [x] **Ownership (appointments):** `checkOwnership` enforces appointment owner / privileged roles (Feature 8.7 — extend other resources as needed).
+- [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
+- [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
 
 ### Open Questions (Feature 7)
 
@@ -462,34 +458,37 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2A
-- **Gap closure (execution tracker):** [GAP_CLOSURE_CHECKLIST.md](GAP_CLOSURE_CHECKLIST.md) — Features 0–8 (excl. Feature 6) remaining work vs code.
 
 ---
 
 ## Feature 8: Security Hardening
 
-**Status:** ⏳ Partial — 8.1–8.4 and 8.6–8.7 delivered; **8.5 Joi sweep** and production CSP tuning ongoing.
-**Description:** CORS lockdown, inbound rate limiting, request validation (Joi), secrets audit, security headers (Helmet + CSP), CSRF with session cookies, appointment ownership on mutations. Protects API before external access.
+**Status:** 📋 Planning
+**Description:** CORS lockdown, rate limiting, request validation (Joi), secrets audit, security headers (Helmet), CSRF when using session-based auth. Protects API before external access.
 **Branch:** TBD
 
-### Existing infrastructure (reconciled 2026-03-25)
+### Existing Infrastructure & Stubs
 
 | What | File(s) | Status |
 |------|---------|--------|
-| Helmet | `server/src/app.ts` | HSTS, `referrerPolicy`, **`contentSecurityPolicy`** (dev relaxes `script-src` for Vite). |
-| CORS | `server/src/app.ts`, `server/src/config/envConfig.ts` | **`CORS_ORIGIN`** allowlist. |
-| Inbound rate limit | `server/src/middlewares/rateLimit.ts`, `server/src/routes/index.ts` | General + stricter auth limiters on `/internal`. |
-| Joi + `validateRequest` | Routers + `middlewares/validateRequest.ts` | Many routes covered; **not** every POST/PUT yet (see **8.5**). |
-| CRUD factory | `createCrudRouter.ts` | Wires **`csrfProtection`** + **`checkOwnership`** on mutations. |
-| CSRF | `middlewares/csrfTokens.ts`, `security.ts`, `authRouter` `GET /csrf-token` | Double-submit cookie + `X-CSRF-Token`. |
-| Ownership | `middlewares/ownershipChecks.ts` | Appointments + privileged roles; extend per product. |
-| Outbound rate limit | `rateLimiter.ts`, Google/MLS | Unchanged. |
-| Env / secrets | `server/docs/SECURITY_STUBS.md`, `server/.env.example` | Inventory expanded over time — re-audit when adding vars. |
-| Error handler | `errorHandler.ts` | Production stack hiding unchanged. |
+| Helmet (security headers) | `server/src/app.ts` | Installed (`^8.1.0`), applied globally via `app.use(helmet())`. **Default config only** — no custom CSP, HSTS tuning, or referrer policy. |
+| CORS | `server/src/app.ts` | Installed (`^2.8.6`), applied globally via `app.use(cors())`. **Wide open** — no origin restriction. No `CORS_ORIGIN` env var exists. |
+| Joi | `server/package.json` | Installed (`^18.0.2`). Used only in `envConfig.ts` for env-var validation — **not used for request body validation**. |
+| Custom per-route validators | `*Validators.ts` files across most routers | Hand-written `ValidationResult`-based functions (required fields, enum checks, ID validation). Present for entities, relationships, properties, businessSettings, betaFeedback, admin-metadata, availability, businessRules. **Not Joi schemas.** |
+| Per-route sanitizers | `entitySanitizers.ts` | Exist for entities (booking mode enum fix-up). Other routers lack dedicated sanitizers. |
+| CRUD router factory security wiring | `server/src/routes/helpers/createCrudRouter.ts` | `csrfProtection` on POST/PUT/PATCH/DELETE; `checkOwnership` on PUT/PATCH/DELETE. **All CRUD routers inherit this automatically.** |
+| `csrfProtection` (stub) | `server/src/middlewares/security.ts` | Exported, wired into ~16 route files. Just calls `next()`. |
+| `checkOwnership` (stub) | `server/src/middlewares/security.ts` | Exported, wired into ~7 route files. Just calls `next()`. |
+| Outbound API rate limiter | `server/src/services/rateLimiter.ts`, `googleApiRateLimiter.ts` | Sliding-window limiter for **outbound** Google/MLS API calls. **Not** inbound HTTP rate limiting. |
+| `.gitignore` | Root `.gitignore` | Covers `.env`, `.env.*`, `.google-tokens.json`. |
+| `.env.example` | `server/.env.example` | Exists but **only covers Bright MLS vars** — missing DB, PORT, Google OAuth, and future auth vars. |
+| Error handler | `server/src/middlewares/errorHandler.ts` | Global handler hides stack traces in production (`isProduction() ? "🥞" : stack`). |
+| Security stubs doc | `server/docs/SECURITY_STUBS.md` | Documents planned behavior for csrf, requireAuth, checkOwnership. |
+| Route structure | `server/src/routes/index.ts` | Clean split: `/api/v1/internal/*` (admin/app CRUD) vs `/api/v1/external/*` (Google/MLS integrations). Rate limiting can target these separately. |
 
-**Remaining:** Full Joi coverage on internal mutators; tighten CSP against real production asset/CDN URLs; extend ownership beyond appointments where required.
+**What does NOT exist yet:** No `express-rate-limit` (inbound HTTP rate limiting), no CORS origin restriction, no Helmet production config (CSP, HSTS), no Joi request-body schemas, no real CSRF implementation, no real checkOwnership implementation, no comprehensive `.env.example`, no formal secrets audit.
 
-**Key architectural note:** `createCrudRouter` still centralizes CSRF and ownership — new CRUD resources inherit the same middleware.
+**Key architectural note:** The CRUD router factory (`createCrudRouter`) already wires `csrfProtection` and `checkOwnership` into every CRUD resource. Replacing the stubs with real implementations in `security.ts` will activate them on all routes automatically — no route-file changes needed.
 
 ### Implementation Order
 
@@ -500,14 +499,13 @@ Implement the following so that authenticated users and roles are used where oth
 | 3 | **Helmet production config** — Add CSP, tighten HSTS, configure referrer policy. Verify Vue app still loads. | — |
 | 4 | **Secrets audit** — Scan committed files for hardcoded credentials; expand `.env.example` to document all expected env vars; verify `.gitignore` coverage. | — |
 | 5 | **Joi request body validation** — Audit routes missing validation; add Joi schemas for unvalidated POST/PUT bodies. Optionally migrate existing custom validators to Joi over time. | — |
-| 6 | **CSRF** — ✅ Double-submit cookie + `GET /auth/csrf-token`; client attaches `X-CSRF-Token`. | Feature 7 (sessions) |
-| 7 | **checkOwnership** — ✅ Appointments + privileged roles (extend other models as needed). | Feature 7 (`req.user`) |
+| 6 | **CSRF real implementation** — Replace `csrfProtection` stub with token validation (double-submit cookie or `csrf-csrf`). Existing route wiring stays. | Feature 7 (sessions) |
+| 7 | **checkOwnership real implementation** — Replace stub to verify `req.user.id` against resource owner field. Existing route wiring stays. | Feature 7 (`req.user`) |
 
-> Steps **1–4** and **6–7** are implemented. Step **5** (Joi everywhere) is ongoing.
+> **Steps 1–5 are independent of Feature 7** and can be done now. Steps 6–7 require working sessions/auth and align with Feature 7's Enactment phase.
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2
-- **Gap closure (execution tracker):** [GAP_CLOSURE_CHECKLIST.md](GAP_CLOSURE_CHECKLIST.md) — CSP, CSRF, ownership, Joi sweep, doc refresh.
 
 ---
 
@@ -598,43 +596,10 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
 
 ---
-
-### Open Questions (Feature 9: Guided Alpha Testing)
-
-#### E2E discovery and static analysis
-
-Should we include an AST-oriented pass on the client tree (e.g. TypeScript compiler API or `ts-morph`), **Mermaid** diagrams, and checks that **block / part instance / shape** primitives and their relationships are exercised as the client sees them—plus any other reasonable way to surface possible E2E UI behaviors before (or alongside) Playwright coverage?
-
-#### Logger, feedback pipeline, and durability
-
-Since errors, fallbacks, empty states, and similar paths already emit **logger** output, should we **persist** those signals into the unified feedback pipeline (`user_feedback` after Phase 9.4) so they survive reloads and hard failures? What belongs in the database (e.g. error/warn traces, categories, request correlation when Feature 11 adds request IDs)—and what needs **sampling, caps, or PII redaction** so we do not over-collect?
-
-#### Developer friends: access and narrative
-
-For dev friends reviewing the alpha: **read-only** repo access (e.g. GitHub collaborator) or a **tagged release + doc bundle** is normal. Pair access with short, accurate **handoff text**—README pointers, env setup, known limitations—so they can speak robustly about the build without guessing.
-
-#### Alpha handoff package for technical reviewers (high signal)
-
-Artifacts senior engineers tend to respect when they are **accurate, reproducible, and scoped** (methodology stated, not vanity metrics):
-
-- **Architecture:** System-context diagram (who talks to whom); 1–2 **sequence** diagrams for hard paths (e.g. booking submit, auth/session). Extend Mermaid beyond the wizard to API + data where useful.
-- **Client delivery:** **Bundle** breakdown (e.g. Rollup/Vite visualizer / treemap) and a brief note on chunking strategy.
-- **Structure:** **Module dependency** view (e.g. `madge` or equivalent)—cycles and hot paths visible; tie boundaries to `.project-manager/ARCHITECTURE.md` where possible.
-- **Static analysis / types:** TypeScript strictness, shared-type boundaries (`@shared` vs client/server); optional **summarized** AST or inventory reports (counts, entrypoints, domain folders)—not raw dumps.
-- **Governance snapshot:** One-page summary of existing audits (function / composable / component governance baselines), including **honest** “not done yet” areas.
-- **Performance:** Named scenarios with **p50 / p95 / p99** (or equivalent) and **how measured** (environment, concurrency, cold vs warm); optional **Lighthouse** summary for main routes with the main bottleneck called out.
-- **Quality:** Coverage **by area** with known gaps; when available, **Stryker** / **fast-check** summaries (Feature 10); **CI** matrix—what runs per PR and what is still deferred.
-- **Security / ops:** Short note on CORS, cookies, startup env validation, and **dependency audit** posture—with triage, not raw panic.
-
-Cross-link: Feature 12 (README, alpha tester onboarding) and Feature 10 (audits, E2E derivation) when those land.
-
-#### What to avoid (overselling or low-signal artifacts)
-
-- **Huge AST or codebase dumps** nobody will read—prefer short summaries and diagrams.
-- **Charts without captions:** every graph needs data source, date, and environment.
-- **Coverage as a trophy** without meaningful tests or mutation/property context.
-- **Raw `npm audit`** screenshots without severity triage and exceptions documented.
-- Claiming performance or security without **methodology**—seniors discount unverifiable numbers.
+### Open Questions 
+Should we include some sort of ast scan on the client folder, mermaid modeling, check for the function of all the block and part instance and shape primitives and relationships when viewed by the client code, and any other reasonable means to discover all the possible E2E ui behaviors?
+since all of our errors and fallbacks and escapes and empty arrays and whatnot return logger readouts, can we build them to always be loaded into the feedbacker? even if the website fails or blocks and the tester relaods the page? are these other behvaiors we can send to the database? like traces for errors and warns?
+i am sending this to some of my friends who are devs. can we give them read-only access to the code? can we create some texts they would get to see to speak robustly about the build?
 
 ---
 
