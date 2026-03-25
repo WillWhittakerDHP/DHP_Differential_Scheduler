@@ -35,7 +35,7 @@
 - HSTS, referrer policy, safe defaults
 - SECURITY_STUBS documentation
 
-- [ ] ### Session 8.5.2: CSP implementation
+- [x] ### Session 8.5.2: CSP implementation
 **Description:** Add Content-Security-Policy via Helmet; configure for API and Vue SPA; verify app loads.
 **Tasks:** 2
 **Focus:**
