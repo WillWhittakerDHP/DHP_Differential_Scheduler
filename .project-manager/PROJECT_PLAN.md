@@ -596,10 +596,29 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
 
 ---
-### Open Questions 
-Should we include some sort of ast scan on the client folder, mermaid modeling, check for the function of all the block and part instance and shape primitives and relationships when viewed by the client code, and any other reasonable means to discover all the possible E2E ui behaviors?
-since all of our errors and fallbacks and escapes and empty arrays and whatnot return logger readouts, can we build them to always be loaded into the feedbacker? even if the website fails or blocks and the tester relaods the page? are these other behvaiors we can send to the database? like traces for errors and warns?
-i am sending this to some of my friends who are devs. can we give them read-only access to the code? can we create some texts they would get to see to speak robustly about the build?
+
+### Open Questions
+
+- **E2E discovery:** Should we include some sort of AST scan on the client folder, Mermaid modeling, checks for block/part instance and shape primitives and relationships as seen from the client code, and any other reasonable means to discover all possible E2E UI behaviors?
+- **Feedback pipeline:** Since many errors, fallbacks, escapes, and empty-array paths already log, can we load those into the feedback store consistently—even when the site fails or blocks and the tester reloads the page? What other behaviors should we send to the database (e.g. traces for errors and warns)?
+
+### Notes and deliverables for dev friends (alpha)
+
+Trusted dev friends get more than the in-app alpha flow: a way to **read** the project and **short texts** so they can talk about the build without guessing.
+
+**Repo access (planning)** — Give read-only access when inviting them (e.g. GitHub collaborator read, or a shared read-only fork / archive if policy prefers). Confirm accounts and policy at invite time.
+
+**Companion texts (planning)** — Assemble a small bundle for friends: this harness note; pointers to `.project-manager/ARCHITECTURE.md`; LAUNCH_CHECKLIST or PROJECT_PLAN excerpts as needed; alpha onboarding copy when Feature 12’s static tester guide exists.
+
+**The harness (why I built it)** — I’m not a seasoned dev, and I kept losing the thread: the model would jump to coding before the plan was clear, I’d re-explain the same goal every session, and long chats ate context fast. I needed something that **forced a boring order**: decide scope → write it down → get a real checkpoint → then implement → then close the loop with checks and git. That’s the harness: **slash commands that run real workflows** (steps in code, not vibes), organized in **nested tiers** (feature → phase → session → task) so work has a place in the tree.
+
+**Flow in plain English** — You kick off a tier **start**: it validates scope, pulls light context, and fills or checks **planning docs** and guides. When something’s missing, it stops with a **reason** and you (or the agent) finish the doc; you confirm with **`/accepted-plan`** (and sometimes **`/accepted-build`** or **`/accepted-code`** for tasks) so the run **continues from there** instead of redoing everything. For **tasks**, there’s an explicit **design-then-code** beat so “what we’re building” is written before edits. You do the work, then **tier end** runs the heavier stuff: verification, audits, commit rules, handoff/log updates. The harness returns **structured next steps** (reason codes) instead of guessing from a wall of output.
+
+**Why it helps tokens** — The plan lives in **files**, not only in chat history. After a gate, the workflow can **resume** without re-running the whole pipeline. Outcomes are **small and routable**—less re-derivation every turn. Fewer redundant reads and less “start over from zero” in the model.
+
+**Why it helps planning vs execution** — Plan vs execute modes and human gates keep “approve the plan” separate from “touch the repo.” Execution isn’t supposed to live only in prose rules; the **typed workflow** is the spine. I’m still growing into it, but the point is simple: **same problem every time—scope slips, context burns—so I wired the process into the repo instead of trusting memory.**
+
+**Deeper reference for friends who want it** — `.project-manager/HARNESS_CHARTER.md` (design intent and current implementation notes).
 
 ---
 

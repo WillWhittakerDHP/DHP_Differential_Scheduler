@@ -113,3 +113,35 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 -
 
 …(truncated)
+
+### 2026-03-25 — 8.8 — phase — add — unhandled_error
+
+- **reasonCodeRaw:** unhandled_error
+- **reasonCodeNormalized:** unhandled_error
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** add
+- **identifier:** 8.8
+- **featureName:** 8
+- **stepPath:** —
+
+- **Symptom:** resolveWorkflowScope(phase): featureId or featureName is required
+- **Context:** tier-add: WorkflowCommandContext.contextFromParams failed.
+
+tier=phase; identifier=8.8; featureId=8
+
+### 2026-03-25 — 8.8 — phase — add — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** add
+- **identifier:** 8.8
+- **featureName:** 8
+- **stepPath:** —
+
+- **Symptom:** tier-add: appendChildToParentDoc failed.
+- **Context:** tier=phase; identifier=8.8; parent=feature 8
+
+Error: Document verification failed: .project-manager/features/security-hardening/feature-security-hardening-guide.md missing [Architecture, Implementation Plan]

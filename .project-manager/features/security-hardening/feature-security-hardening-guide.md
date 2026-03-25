@@ -24,6 +24,22 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ---
 
+## Architecture
+
+Security hardening touches the Express middleware pipeline and route-level wiring. Key architectural decisions:
+
+- **Middleware ordering:** `csrfProtection` → `requireAuth` → `requireRole` → `checkOwnership` → `validateRequest` → handler. The CRUD factory (`createCrudRouter`) auto-wires csrf and ownership; Joi validation is per-route or per-CRUD-config.
+- **Validation patterns:** Two valid approaches coexist: (a) `validateRequest(joiSchema)` middleware from `server/src/middlewares/validateRequest.ts` for standalone routers, (b) `validateRequest` callback in `CrudRouterConfig` for CRUD factory routers. Both reject invalid input with 400 before the handler runs.
+- **Domain boundaries:** Security middleware lives in `server/src/middlewares/`; Joi schemas in `server/src/routes/schemas/`; route wiring in `server/src/routes/internal/`.
+
+---
+
+## Implementation Plan
+
+Phases 8.1–8.7 delivered CORS, rate limiting, Helmet/CSP, secrets audit, initial Joi coverage, CSRF, and ownership checks. Phase 8.8 closes remaining Joi gaps on three CRUD routers identified during gap closure audit.
+
+---
+
 ## Feature Objectives
 
 - Lock down CORS to specific origins (Render static site URL, localhost for dev)
@@ -98,6 +114,13 @@ Research phase not yet started — architectural decisions to be documented in t
 **Success Criteria:** Ownership check enforced on PUT/PATCH/DELETE; unauthorized access returns 403.
 
 ---
+
+
+- [ ] ### Phase 8.8: Joi validateRequest gap closure (reopened GC-8-JOI) — Three CRUD router configurations have mutating routes (POST/PUT/PATCH/DELETE) with ZERO input validation: (1) userCrudRouter.ts (User model, all mutations unvalidated), (2) propertyMappingsRouter.ts field-mappings CRUD (PropertyFieldMapping model, all mutations unvalidated), (3) propertyMappingsRouter.ts feature-mappings CRUD (PropertyFeatureMapping model, all mutations unvalidated). All three use createCrudRouter from server/src/routes/helpers/createCrudRouter.ts without a validateRequest config callback. Fix: define Joi schemas per model, wire via validateRequest middleware or CRUD config validateRequest callback, lint, smoke. Scope excludes relationshipCrudRouter and businessSettingsCrudRouter which already have substantial custom (non-Joi) domain validation. Single session 8.8.1 expected. Reopen GAP_CLOSURE_CHECKLIST GC-8-JOI from done to in-progress; mark done when all three CRUD instances are covered and server lint passes.
+**Description:** Joi validateRequest gap closure (reopened GC-8-JOI) — Three CRUD router configurations have mutating routes (POST/PUT/PATCH/DELETE) with ZERO input validation: (1) userCrudRouter.ts (User model, all mutations unvalidated), (2) propertyMappingsRouter.ts field-mappings CRUD (PropertyFieldMapping model, all mutations unvalidated), (3) propertyMappingsRouter.ts feature-mappings CRUD (PropertyFeatureMapping model, all mutations unvalidated). All three use createCrudRouter from server/src/routes/helpers/createCrudRouter.ts without a validateRequest config callback. Fix: define Joi schemas per model, wire via validateRequest middleware or CRUD config validateRequest callback, lint, smoke. Scope excludes relationshipCrudRouter and businessSettingsCrudRouter which already have substantial custom (non-Joi) domain validation. Single session 8.8.1 expected. Reopen GAP_CLOSURE_CHECKLIST GC-8-JOI from done to in-progress; mark done when all three CRUD instances are covered and server lint passes.
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
 
 ## Success Criteria (Feature-Level)
 

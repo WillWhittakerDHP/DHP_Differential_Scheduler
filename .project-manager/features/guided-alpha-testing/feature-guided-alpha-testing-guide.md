@@ -76,6 +76,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 ### Related Documents
 
+- **Notes for trusted dev friends (alpha):** repo access, companion texts, and the **harness** narrative — see `.project-manager/PROJECT_PLAN.md` Feature 9 → **Notes and deliverables for dev friends (alpha)**.
 - LAUNCH_CHECKLIST.md Phase 6A (guided testing; update to "Guided Alpha")
 - Feature 6 (Appointment Workflow) — wizard steps, modes, admin entry
 - Feature 10 (Testing & Quality Validation) — E2E tests derived from alpha task list

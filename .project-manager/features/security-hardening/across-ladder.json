@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "security-hardening",
-  "derivedAt": "2026-03-23T22:13:55.882Z",
-  "sourceTier": "phase_end",
+  "derivedAt": "2026-03-25T20:02:17.948Z",
+  "sourceTier": "phase",
   "phasesOnDisk": [
     "8.1",
     "8.2",
@@ -10,12 +10,13 @@
     "8.4",
     "8.5",
     "8.6",
-    "8.7"
+    "8.7",
+    "8.8"
   ],
-  "phaseAcrossTotal": 7,
-  "focusPhaseId": "8.7",
+  "phaseAcrossTotal": 8,
+  "focusPhaseId": "8.8",
   "nextPhaseAcross": null,
-  "prevPhaseId": "8.6",
+  "prevPhaseId": "8.7",
   "sessionsByPhase": {
     "8.1": [
       "8.1.1",
