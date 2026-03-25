@@ -661,3 +661,28 @@ nextAction:
 - Session 7.4.3 is not marked as complete in phase guide
 - Session 7.4.4 cannot be started until Session 7.4.3 is complete
 - Complete Session 7.4.3 first with /session-end 7.4.3
+
+### 2026-03-25 — 6.16.1 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 6.16.1
+- **featureName:** appointment-workflow
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=6.16.1; featureName=appointment-workflow
+
+nextAction:
+## Session Validation
+# Session 6.16.1 Validation
+
+❌ **Status:** Cannot start - Phase guide not found
+
+## Details
+
+- Phase guide does not exist or is unreadable at: .project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
+- Create the phase guide first using /phase-plan 6.16

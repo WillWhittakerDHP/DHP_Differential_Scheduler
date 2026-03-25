@@ -49,13 +49,7 @@ These sections contain session-specific content:
 - `shared/types/differentialRole.ts`
 - `shared/constants/differentialRoleMappings.ts`
 - `shared/utils/differentialRoleUtils.ts`
-**Approach:** 
-- Add `'margin'` to `DifferentialRole` and `DifferentialRoleStorage` unions
-- Add `margin: 'Margin'` to `DIFFERENTIAL_ROLE_LABELS`
-- Add `{ value: 'margin', label: 'Margin' }` to `DIFFERENTIAL_ROLE_SELECT_OPTIONS`
-- Update `isDifferentialRoleStorage` to include `'margin'`
-- Update `isDifferentialRoleOverrideValue` to include `'margin'`
-- `parseDifferentialRole` needs no change (routes through `isDifferentialRoleStorage`)
+**Approach:** Add `'margin'` to type unions, labels, select options, and update guards (`isDifferentialRoleStorage`, `isDifferentialRoleOverrideValue`).
 **Checkpoint:** Types compile; guards accept `'margin'`; labels and select options include Margin
 
 - [ ] #### Task 6.16.1.2: Server model + migration
@@ -63,20 +57,14 @@ These sections contain session-specific content:
 **Files:** 
 - `server/src/db/models/booking/event_shape.ts`
 - `server/src/db/migrations/` (new migration file)
-**Approach:** 
-- Add `'margin'` to the TypeScript union on `differentialRole` field
-- Add `'margin'` to the `DataTypes.ENUM(...)` array
-- Author migration: `ALTER TYPE differential_role_enum ADD VALUE 'margin'`
-- Do NOT run migration (remote DB — per migration authority rule)
+**Approach:** Add `'margin'` to TypeScript union and `DataTypes.ENUM`; author migration `ALTER TYPE differential_role_enum ADD VALUE 'margin'`; do NOT run (remote DB).
 **Checkpoint:** Server compiles; model accepts `'margin'`; migration file authored
 
 - [ ] #### Task 6.16.1.3: Part finalizer pipeline — margin branch
 **Goal:** Add `'margin'` branch in `resolvePartShapeDifferentialFlags` so margin maps to `minimizer: 'override'`.
 **Files:** 
 - `client/src/utils/booking/partFinalizer.ts`
-**Approach:** 
-- In `resolvePartShapeDifferentialFlags` add `else if (role === 'margin') { minimizer = 'override' }` after the moveable branch
-- Verify `enrichBlockFinalsWithDifferentialRoles` does not filter or alter the result
+**Approach:** Add `else if (role === 'margin') { minimizer = 'override' }` after the moveable branch in `resolvePartShapeDifferentialFlags`.
 **Checkpoint:** When effective role is `'margin'`, `PartFinal.minimizer === 'override'`; existing roles unchanged
 
 - [ ] #### Task 6.16.1.4: Admin UI verification + lint
@@ -84,11 +72,7 @@ These sections contain session-specific content:
 **Files:** 
 - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`
 - `client/src/utils/admin/differentialRoleMatrixRows.ts`
-**Approach:** 
-- Read `DifferentialEventRoleOverridesField.vue` to confirm `roleSelectItems` derives from shared constants (should pick up `margin` automatically)
-- If hardcoded, add `Margin` to the items list
-- Run `cd client && npm run lint` and `cd server && npm run lint`
-- Verify `npm run start:dev` starts without errors
+**Approach:** Verify `roleSelectItems` derives from shared constants (should pick up `margin` automatically); run lint; verify app starts.
 **Checkpoint:** Admin dropdown includes "Margin"; lint clean; app starts
 
 ---
@@ -224,7 +208,8 @@ All tasks complete. Ready to run end-of-session workflow?
   4. Run code quality audit
   5. Update docs (session log, handoff, guide)
   6. **Commit audit fixes** (if any, separately from feature work)
-  7. **After all commits are done, prompt for push:**
+  7. **Workflow friction gate (before push):** If `.project-manager/WORKFLOW_FRICTION_LOG.md` has **open** entries (no `harnessRepairAddressed` line, or `parentRepoCommit: pending`), **`/session-end`** appends a **`/harness-repair`** **plan** step to `outcome.nextAction`. Run **`harnessRepair`** (see `.cursor/commands/harness-repair.md`) in **plan** mode for this session scope, then **`/harness-repair` execute** only when marking entries addressed; then continue.
+  8. **After all commits are done, prompt for push:**
   ```
   ## Ready to Push?
   
@@ -236,6 +221,7 @@ All tasks complete. Ready to run end-of-session workflow?
   - ✅ Session log updated
   - ✅ Handoff document updated
   - ✅ Session guide updated
+  - ✅ Workflow friction triage (`/harness-repair` plan) when `nextAction` requires it
   
   **Ready to push all commits to remote?**
   
