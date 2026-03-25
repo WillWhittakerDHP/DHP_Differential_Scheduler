@@ -7,7 +7,7 @@
  * same components and constraint semantics.
  */
 import type { Ref } from 'vue'
-import { computed, ref, watch, type ComputedRef } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import type { AppointmentShape, AppointmentSlot } from '@/types/appointment'
 import type { ContingencyPeriod, MinimizerSchedulingOptions, MinimizerSlot } from '@/types/minimizerScheduling'
 import type { PropertyDetailsData } from '@/types/propertyForm'
@@ -24,6 +24,7 @@ import type { ComputedSlot } from '@shared/types/availabilityTypes'
 import { useAppointmentSlots } from '@/composables/booking/useAppointmentSlots'
 import { createMinimalAppointmentShapeForDuration } from '@/utils/booking/appointmentSlotBuilder'
 import { useMinimizerAvailabilityData } from '@/composables/booking/useMinimizerAvailabilityData'
+import { useMinimizerAvailableDayKeys } from '@/composables/booking/useMinimizerAvailableDayKeys'
 import { formatMinimizerSegmentsDisplayLabel } from '@/utils/booking/minimizerPartShapeName'
 import type { MinimizerSchedulingWindow } from '@/types/booking/minimizerSchedulingWindow'
 import {
@@ -85,7 +86,7 @@ export interface UseMinimizerPartsSchedulingReturn {
   isLoadingMinimizerDaySlots: Ref<boolean>
   hasMinimizerParts: ComputedRef<boolean>
   minimizerDuration: ComputedRef<number>
-  minimizerOptions: ComputedRef<MinimizerSchedulingOptions | null>
+  minimizerOptions: Ref<MinimizerSchedulingOptions | null>
   /** Virtual appointment slots for the selected day (same pipeline as main grid). */
   minimizerAppointmentSlots: ComputedRef<AppointmentSlot[]>
   /** Step 4 day stepper heading: local Today/Tomorrow/weekday aligned with slot times. */
@@ -126,7 +127,7 @@ export function useMinimizerPartsScheduling(params: UseMinimizerPartsSchedulingP
 
   /**
    * Ordered minimizer segments (eventFinals order). All segments contribute to duration and labels.
-   * WHY aggregate duration: fetch + window + inspection filter reserve total minutes before deadline.
+   * WHY aggregate duration: fetch + scheduling range + inspection filter reserve total minutes before deadline.
    * Per-segment chaining (inner_i = completion instant of segment i−1) is deferred — future UX if we pick
    * each segment’s slot in sequence; current single step-4 flow uses one grid with total minutes.
    */
@@ -223,38 +224,17 @@ export function useMinimizerPartsScheduling(params: UseMinimizerPartsSchedulingP
     )
   )
 
-  const availableMinimizerDayKeys = computed<string[]>(() => {
-    const map = minimizerSlotsByDay.value
-    const schedulingRange = minimizerSchedulingWindow.value
-    return [...map.keys()]
-      .filter((key) => {
-        const raw = map.get(key) ?? []
-        return applyMinimizerWindowToComputedSlots(raw, schedulingRange, 'exclude').length > 0
-      })
-      .sort()
+  const {
+    availableMinimizerDayKeys,
+    allowedMinimizerDates,
+    minimizerFirstDayKey,
+    minimizerLastDayKey,
+  } = useMinimizerAvailableDayKeys({
+    minimizerSlotsByDay,
+    minimizerSchedulingWindow,
+    selectedMinimizerDay,
+    setSelectedMinimizerDay,
   })
-
-  const allowedMinimizerDates = computed(() => {
-    const keys = new Set(availableMinimizerDayKeys.value)
-    return (date: unknown): boolean => typeof date === 'string' && keys.has(date)
-  })
-
-  const minimizerFirstDayKey = computed(() => availableMinimizerDayKeys.value[0] ?? null)
-
-  const minimizerLastDayKey = computed(() => {
-    const keys = availableMinimizerDayKeys.value
-    return keys.length > 0 ? keys[keys.length - 1] ?? null : null
-  })
-
-  watch(
-    [availableMinimizerDayKeys, selectedMinimizerDay],
-    ([keys, day]) => {
-      if (keys.length === 0) return
-      if (day === null || !keys.includes(day)) {
-        setSelectedMinimizerDay(keys[0] ?? null)
-      }
-    }
-  )
 
   const minimizerSlotsForConfirm = computed<MinimizerSlot[]>(() =>
     minimizerAppointmentSlots.value.map((s) => {
@@ -290,7 +270,7 @@ export function useMinimizerPartsScheduling(params: UseMinimizerPartsSchedulingP
     isLoadingMinimizerDaySlots,
     hasMinimizerParts,
     minimizerDuration,
-    minimizerOptions: computed(() => minimizerOptions.value),
+    minimizerOptions,
     minimizerAppointmentSlots,
     minimizerStepperDayLabel,
     minimizerPartShapeName,

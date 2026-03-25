@@ -46,7 +46,7 @@ export interface UseAvailabilityOrchestratorReturn {
     originalInspectionButtonIndex: ComputedRef<number | null>
     selectedOptionTypeBlockId: WritableComputedRef<string | null>
     showMinimizerModal: Ref<boolean>
-    minimizerOptions: ComputedRef<MinimizerSchedulingOptions | null>
+    minimizerOptions: Ref<MinimizerSchedulingOptions | null>
     minimizerAppointmentSlots: ComputedRef<AppointmentSlots>
     minimizerStepperDayLabel: ComputedRef<string>
     minimizerPartShapeName: ComputedRef<string>

@@ -1,4 +1,4 @@
-import { ref, type ComputedRef, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import type { PropertyDetailsData } from '@/types/propertyForm'
 import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
 import type { UseComputedAvailabilityReturn } from '@/types/booking/computedAvailability'
@@ -19,7 +19,7 @@ export interface AvailabilityOrchestratorSlotsPhaseResult {
   confirmedMinimizerScheduling: Ref<MinimizerSchedulingOptions | null>
   minimizerPartsScheduling: ReturnType<typeof useMinimizerPartsScheduling>
   showMinimizerModal: Ref<boolean>
-  minimizerOptions: ComputedRef<MinimizerSchedulingOptions | null>
+  minimizerOptions: Ref<MinimizerSchedulingOptions | null>
   minimizerAppointmentSlots: ReturnType<typeof useMinimizerPartsScheduling>['minimizerAppointmentSlots']
   minimizerStepperDayLabel: ReturnType<typeof useMinimizerPartsScheduling>['minimizerStepperDayLabel']
   minimizerPartShapeName: ReturnType<typeof useMinimizerPartsScheduling>['minimizerPartShapeName']
