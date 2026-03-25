@@ -259,3 +259,81 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useA
 
 …(truncated)
+
+### 2026-03-25 — 8.5.2 — session — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 8.5.2
+- **featureName:** security-hardening
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=session; identifier=8.5.2; featureName=security-hardening
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Session Audit: 8.5.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/security-hardening/audits/session-8.5.2-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/security-hardening/audits/external/session-8.5.2/2026-03-25T16-14-30Z`
+- **Copied:** 6 file(s)
+- **Missing:** 3 file(s) (signals not present yet)
+
+## Results Summary
+
+- ✅ **tier-quality**: pass (98/100)
+- ⚠️ **docs**: warn (95/100)
+- ✅ **vue-architecture**: pass (100/100)
+
+## Autofix
+
+Tier session: 0 script fix(es) applied, 0 agent directive(s).
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/security-hardening/audits/session-8.5.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+
+---
+
+## 2. Domain map
+
+| Domain | Client paths | Server paths | Key models / areas | Shared types |
+|--------|----------------|-------------|---------------------|--------------|
+| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useA
+
+…(truncated)
