@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.8.1.1: Create Joi schema files
+- [x] #### Task 8.8.1.1: Create Joi schema files
 **Goal:** Define Joi schemas for User, PropertyFieldMapping, and PropertyFeatureMapping (create/update/patch per model)
 **Files:** 
 - `server/src/routes/schemas/userSchemas.ts` (new)
