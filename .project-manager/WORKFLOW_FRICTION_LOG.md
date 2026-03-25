@@ -609,3 +609,55 @@ nextAction:
 - **Outcome / workaround:** Any session (or phase) log that must pass this audit should include at least one line matching **`### Task`** … **`✅`** in the body. Prefer aligning new logs with **`session-guide` / prior session logs** that already satisfy the checker.
 
 - **Suggestion:** (1) Document the **`### Task … ✅`** requirement in **session log template** and **tier-workflow-agent SKILL** (acceptance / session-end checklist). (2) Optionally relax **`audit-docs.ts`** to also accept common alternatives (e.g. `- [x]` next to a task id, or `### Task` without emoji if normalized), so checklist-style logs do not false-fail tier-end. (3) Link from **docs audit** suggestion text to the exact regex / line in `audit-docs.ts` for faster diagnosis.
+
+### 2026-03-25 — 8.6 — phase — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 8.6
+- **featureName:** security-hardening
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=phase; identifier=8.6; featureName=security-hardening
+
+nextAction:
+## Phase Validation
+# Phase 8.6 Validation
+
+❌ **Status:** Cannot start - Phase already completed
+
+## Details
+
+- Phase 8.6 has status: Complete
+- All sessions in this phase have been completed
+- To start a new phase, use /phase-start 9
+
+### 2026-03-25 — 7.4.4 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 7.4.4
+- **featureName:** authentication
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=7.4.4; featureName=authentication
+
+nextAction:
+## Session Validation
+# Session 7.4.4 Validation
+
+❌ **Status:** Cannot start - Previous session not completed
+
+## Details
+
+- Session 7.4.3 is not marked as complete in phase guide
+- Session 7.4.4 cannot be started until Session 7.4.3 is complete
+- Complete Session 7.4.3 first with /session-end 7.4.3

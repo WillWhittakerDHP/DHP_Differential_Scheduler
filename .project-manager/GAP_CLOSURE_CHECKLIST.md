@@ -55,7 +55,7 @@ flowchart LR
 | GC-DOC-7 | F7 | Refresh **PROJECT_PLAN.md** Feature 7 body (stubs table, paths) to match `server/src/auth/` and current middleware. | doc | [PROJECT_PLAN.md](PROJECT_PLAN.md) | done | Second-pass vs code | Reconciled 2026-03-25 |
 | GC-7.4 | F7 | Client auth: session cookie via `withCredentials`, Pinia auth store + composable, `/login` + magic-link verify UX, align logout. | phase 7.4 | `client/src/stores/authStore.ts`, `client/src/router/index.ts`, `client/src/composables/layout/useLogout.ts` | done | PROJECT_PLAN 7.4; [phase-7.4-guide.md](features/authentication/phases/phase-7.4-guide.md) | Tranche A |
 | GC-7.5 | F7 | Password strategy (email + password production). | deferred | — | deferred | PROJECT_PLAN 7.5 | Post-beta |
-| GC-7-E1 | F7 | Enactment: restrict admin/internal API per roles; expose `session/me` to client for gating. | `GET /auth/session/me` + Vue admin `beforeEnter` | `authRouter.ts`, `client/src/router/index.ts` | in_progress | PROJECT_PLAN Enactment | SPA gated; global `requireAuth` on `/internal/*` not applied (wizard) |
+| GC-7-E1 | F7 | Enactment: restrict admin/internal API per roles; expose `session/me` to client for gating. | [phase-7.4-guide.md](features/authentication/phases/phase-7.4-guide.md) — **Session 7.4.4** registered; `GET /auth/session/me` + Vue admin `beforeEnter` | `server/src/routes/internal/**`, `authRouter.ts`, `client/src/router/index.ts` | in_progress | PROJECT_PLAN Enactment | Session **7.4.4** registered (enactment / selective auth + wizard allowlist). Next: `/session-start 7.4.4` → plan → implement → `/session-end`; set **done** after lint + smoke or split follow-up rows. |
 | GC-7-E2 | F7 | Pre-alpha user-type switching for E2E (design + mechanism). | TBD | — | pending | PROJECT_PLAN F7 Open Questions | Design |
 | GC-7-E3 | F7 | Google OAuth login (optional). | deferred | — | deferred | PROJECT_PLAN F7 Open Questions | Scope later |
 | GC-7-E4 | F9/F15 | Wire session identity for guided alpha / beta feedback when those features start. | N/A F9+ | — | pending | PROJECT_PLAN F7 Enactment | Out of 0–8 closure |
@@ -76,4 +76,4 @@ Items **GC-DOC-7**, **GC-DOC-8** capture **stale PROJECT_PLAN** narrative vs imp
 
 ---
 
-_Last updated: 2026-03-25 (GC-8-JOI: batch C verification logged in session 8.5.5)_
+_Last updated: 2026-03-25 (GC-7-E1: session 7.4.4 registered under phase 7.4; GC-8-JOI batch C in session 8.5.5)_
