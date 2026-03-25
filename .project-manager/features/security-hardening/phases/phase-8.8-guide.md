@@ -28,7 +28,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.8.1: Joi schemas and CRUD validateRequest wiring
+- [x] ### Session 8.8.1: Joi schemas and CRUD validateRequest wiring
 **Description:** Create Joi schema files, wire validateRequest callbacks into userCrudRouter and propertyMappingsRouter (both CRUD instances), run server lint, update checklist.
 **Tasks:** 2–3
 **Focus:**
