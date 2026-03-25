@@ -83,7 +83,7 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**: 
 
 ### Sessions Breakdown
 
-- [ ] ### Session 6.16.1: Margin role — types, pipeline, admin
+- [x] ### Session 6.16.1: Margin role — types, pipeline, admin
 **Description:** Shared types and DB migration for **margin** on `DifferentialRole`; lock ENUM rename strategy (minimizer vs alias); slot pipeline — `PartFinal.minimizer: 'override'` + duration math for pre-major placement; perspective resolver; admin dropdown for margin in override matrix; lint.
 **Tasks:** ENUM migration; shared types; part finalizer margin path; perspective + enrichment; admin override UI; lint + app start.
 **Focus:** Foundation: margin in storage/types/pipeline/admin; no silent fallback in resolver.
