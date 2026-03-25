@@ -686,3 +686,41 @@ nextAction:
 
 - Phase guide does not exist or is unreadable at: .project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
 - Create the phase guide first using /phase-plan 6.16
+
+### 2026-03-25 — 6.16.1 — session — end — app_not_running
+
+- **reasonCodeRaw:** app_not_running
+- **reasonCodeNormalized:** app_not_running
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 6.16.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness end failed (reasonCode=app_not_running).
+- **Context:** tier=session; identifier=6.16.1; featureName=appointment-workflow
+
+nextAction:
+App not fully running — server :3001, client :3002 not responding.
+Start the dev environment in a terminal: `npm run start:dev`
+Then re-run the command.
+
+### 2026-03-25 — 6.16.1 — session — end — app_not_running
+
+- **reasonCodeRaw:** app_not_running
+- **reasonCodeNormalized:** app_not_running
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 6.16.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness end failed (reasonCode=app_not_running).
+- **Context:** tier=session; identifier=6.16.1; featureName=appointment-workflow
+
+nextAction:
+App not fully running — server :3001, client :3002 not responding.
+Start the dev environment in a terminal: `npm run start:dev`
+Then re-run the command.
