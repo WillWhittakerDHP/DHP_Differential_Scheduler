@@ -51,48 +51,7 @@
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 
-<!-- harness:anchor:commit-preview -->
-## Harness: commit preview (in-scope diff)
 
-Paths (7): `.project-manager/features/authentication/sessions/session-7.4.4-guide.md`, `.project-manager/features/authentication/sessions/session-7.4.4-log.md`, `.project-manager/features/authentication/sessions/session-7.4.4-planning.md`, `.project-manager/features/authentication/sessions/task-7.4.4.1-planning.md`, `.project-manager/features/authentication/sessions/task-7.4.4.2-planning.md`, `.project-manager/features/authentication/planning-archive/`, `.project-manager/features/authentication/sessions/session-7.4.4-handoff.md`
-
-### `git diff --stat HEAD`
-
-```text
-.../authentication/sessions/session-7.4.4-guide.md |   4 +-
- .../authentication/sessions/session-7.4.4-log.md   |   6 +
- .../sessions/session-7.4.4-planning.md             | 324 ++++++++++++---------
- .../sessions/task-7.4.4.1-planning.md              | 142 ---------
- .../sessions/task-7.4.4.2-planning.md              | 136 ---------
- 5 files changed, 202 insertions(+), 410 deletions(-)
-```
-
-### `git diff HEAD`
-_(diff truncated to cap)_
-
-```diff
-diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-guide.md b/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
-index a42affdd..e7735cc6 100644
---- a/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
-+++ b/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
-@@ -403,4 +403,6 @@ Break each session into focused tasks:
- 
- ## Notes
- 
--[Session-specific notes, patterns, architectural decisions]
-\ No newline at end of file
-+[Session-specific notes, patterns, architectural decisions]
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-log.md b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
-index 936cb02e..78cc86ac 100644
---- a/.project-manager/features/authentication/sessions/session-7.4.4-log.md
-+++ b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
-@@ -125,3 +125,9 @@ index b6880290..e570f6b3 100644
-  router.use('/force-create', forceCreateRouter)
- ```
- <!-- /harness:anchor:commit-preview -->
 +
 +
 +
@@ -194,5 +153,33 @@ index 157a2bf2..f15db795 100644
 -
 -**Reactivity boundaries:** Prefer `ComputedRef<T>
 … (truncated)
+```
+<!-- /harness:anchor:commit-preview -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (2): `.project-manager/features/authentication/sessions/session-7.4.4-log.md`, `.project-manager/features/authentication/phases/phase-7.4-log.md`
+
+### `git diff --stat HEAD`
+
+```text
+.project-manager/features/authentication/sessions/session-7.4.4-log.md | 2 ++
+ 1 file changed, 2 insertions(+)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-log.md b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
+index f1df1eb2..631fea78 100644
+--- a/.project-manager/features/authentication/sessions/session-7.4.4-log.md
++++ b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
+@@ -196,3 +196,5 @@ index 157a2bf2..f15db795 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
 ```
 <!-- /harness:anchor:commit-preview -->
