@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.5.4.1: Audit batch B routes (mounts 12–17)
+- [x] #### Task 8.5.4.1: Audit batch B routes (mounts 12–17)
 **Goal:** Enumerate all POST/PUT/PATCH in batch B scope; classify as COVERED/LOCAL_PATTERN/GAP; document findings in planning doc.
 **Files:** 
 - `server/src/routes/internal/index.ts` (read-only — mount order)
