@@ -43,7 +43,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 8.5.3.1: Audit internal routes (batch A)
+- [x] #### Task 8.5.3.1: Audit internal routes (batch A)
 **Goal:** Inventory POST/PUT/PATCH handlers in the first half of `server/src/routes/internal` that lack `validateRequest`; note ordering vs CSRF/ownership middleware.
 **Files:**
 - `server/src/routes/internal/**/*.ts` (first half of tree, per playbook)
