@@ -977,49 +977,49 @@
           "reason": "Entity card form setup; depth accepted (remaining repairs Batch 4)"
         },
         {
-          "file": "client/src/composables/admin/useRelationshipCollectionField",
+          "file": "client/src/composables/admin/useRelationshipCollectionField.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 5: top-level admin collection field orchestrator → useBaseCollectionField → bindings → core → useAdmin; intentional layered decomposition."
         },
         {
-          "file": "client/src/composables/booking/useBookingWizardSetup",
+          "file": "client/src/composables/booking/useBookingWizardSetup.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 5: wizard entry point → useWizardDateAvailability → useComputedAvailability → wiring → watches; intentional orchestrator layering."
         },
         {
-          "file": "client/src/composables/admin/useBaseCollectionField",
+          "file": "client/src/composables/admin/useBaseCollectionField.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 4: collection field → bindings → core → useAdmin; structural admin collection hierarchy."
         },
         {
-          "file": "client/src/composables/booking/useAvailabilityOrchestratorFormsPhase",
+          "file": "client/src/composables/booking/useAvailabilityOrchestratorFormsPhase.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 4: forms-phase orchestrator → formsBundle → emptyState → wizardSettings; intentional phase decomposition."
         },
         {
-          "file": "client/src/composables/booking/useAvailabilityOrchestratorSlotsPhase",
+          "file": "client/src/composables/booking/useAvailabilityOrchestratorSlotsPhase.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 4: slots-phase orchestrator → slotsBundle → appointmentSlots → shape; intentional phase decomposition."
         },
         {
-          "file": "client/src/composables/booking/useWizardDateAvailability",
+          "file": "client/src/composables/booking/useWizardDateAvailability.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
           "reason": "Depth 4: date availability → computedAvailability → wiring → watches; intentional availability pipeline."
         },
         {
-          "file": "client/src/composables/fieldContext/useFieldContext",
+          "file": "client/src/composables/fieldContext/useFieldContext.ts",
           "ruleIds": [
             "composableChainDepth"
           ],
