@@ -43,85 +43,156 @@
 **Next Task:**
 - 7.4.4.3
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (7): `.project-manager/features/authentication/sessions/session-7.4.4-guide.md`, `.project-manager/features/authentication/sessions/session-7.4.4-log.md`, `server/docs/INTERNAL_API_ENACTMENT_MATRIX.md`, `server/src/routes/internal/appointments/appointmentRouter.ts`, `.project-manager/GAP_CLOSURE_CHECKLIST.md`, `.project-manager/features/authentication/sessions/task-7.4.4.2-handoff.md`, `.project-manager/features/authentication/sessions/task-7.4.4.2-planning.md`
+Paths (7): `.project-manager/features/authentication/sessions/session-7.4.4-guide.md`, `.project-manager/features/authentication/sessions/session-7.4.4-log.md`, `.project-manager/features/authentication/sessions/session-7.4.4-planning.md`, `.project-manager/features/authentication/sessions/task-7.4.4.1-planning.md`, `.project-manager/features/authentication/sessions/task-7.4.4.2-planning.md`, `.project-manager/features/authentication/planning-archive/`, `.project-manager/features/authentication/sessions/session-7.4.4-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../authentication/sessions/session-7.4.4-guide.md       |  2 +-
- .../authentication/sessions/session-7.4.4-log.md         | 15 +++++++++++++++
- server/docs/INTERNAL_API_ENACTMENT_MATRIX.md             | 16 ++++++++++++----
- .../routes/internal/appointments/appointmentRouter.ts    | 10 +++++++++-
- 4 files changed, 37 insertions(+), 6 deletions(-)
+.../authentication/sessions/session-7.4.4-guide.md |   4 +-
+ .../authentication/sessions/session-7.4.4-log.md   |   6 +
+ .../sessions/session-7.4.4-planning.md             | 324 ++++++++++++---------
+ .../sessions/task-7.4.4.1-planning.md              | 142 ---------
+ .../sessions/task-7.4.4.2-planning.md              | 136 ---------
+ 5 files changed, 202 insertions(+), 410 deletions(-)
 ```
 
 ### `git diff HEAD`
+_(diff truncated to cap)_
 
 ```diff
 diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-guide.md b/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
-index 14b91772..a42affdd 100644
+index a42affdd..e7735cc6 100644
 --- a/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
 +++ b/.project-manager/features/authentication/sessions/session-7.4.4-guide.md
-@@ -50,7 +50,7 @@ These sections contain session-specific content:
- **Approach:** [Approach to take]
- **Checkpoint:** [What needs to be verified]
+@@ -403,4 +403,6 @@ Break each session into focused tasks:
  
--- [ ] #### Task 7.4.4.2: [Task Name]
-+- [x] #### Task 7.4.4.2: [Task Name]
- **Goal:** [Task goal]
- **Files:** 
- - [Files to work with]
+ ## Notes
+ 
+-[Session-specific notes, patterns, architectural decisions]
+\ No newline at end of file
++[Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
 diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-log.md b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
-index 6f6194fe..8f3585ca 100644
+index 936cb02e..78cc86ac 100644
 --- a/.project-manager/features/authentication/sessions/session-7.4.4-log.md
 +++ b/.project-manager/features/authentication/sessions/session-7.4.4-log.md
-@@ -19,6 +19,14 @@
- 
- ## Explicit priorities for enactment (7.4.4.2+)
- 
--1. **`GET /api/v1/internal/appointments/list-for-admin-entry`** — **must not** remain world-readable; gate with **`requireAuth`** + **`requireRole`** (internal staff / admin — match product role constants).
-+1. ~~**`GET /api/v1/internal/appointments/list-for-admin-entry`**~~ — **Done (2026-03-25):** **`requireAuth`** + **`requireRole`** in `appointmentRouter.ts`.
- 2. **`POST /api/v1/internal/availability/computed-data`** — **must remain** callable for the wizard with **anonymous** user identity (session + CSRF only), unless product explicitly changes — **do not** add blanket `requireAuth` here without a wizard alternative.
- 3. **Settings GETs** used during booking (`wizard-settings`, `calendar-settings`, `organization-defaults`, `business-settings/availability_settings`) — typically **readable** without named user; **mutations** remain **staff/admin**.
- 
-@@ -79,3 +79,11 @@ Mounted **before** the generic `/internal` stack: `v1Router.use("/internal/auth"
- ## Related docs
- 
- - `server/docs/SECURITY_STUBS.md` — CSRF, `requireAuth`, `requireRole`, `checkOwnership` behavior and smoke tables
+@@ -125,3 +125,9 @@ index b6880290..e570f6b3 100644
+  router.use('/force-create', forceCreateRouter)
+ ```
+ <!-- /harness:anchor:commit-preview -->
 +
-+---
 +
-+## Changelog
 +
-+| Date | Change |
-+|------|--------|
-+| 2026-03-25 | **7.4.4.2:** `GET /appointments/list-for-admin-entry` — `requireAuth` + `requireRole(USER_ROLE_AGENT, 'transaction_manager', 'seller', 'admin')` (`appointmentRouter.ts`). |
-diff --git a/server/src/routes/internal/appointments/appointmentRouter.ts b/server/src/routes/internal/appointments/appointmentRouter.ts
-index b6880290..e570f6b3 100644
---- a/server/src/routes/internal/appointments/appointmentRouter.ts
-+++ b/server/src/routes/internal/appointments/appointmentRouter.ts
-@@ -1,11 +1,19 @@
- import { Router } from 'express'
-+import { USER_ROLE_AGENT } from '../../../constants/userRoles.js'
-+import { requireAuth, requireRole } from '../../../middlewares/security.js'
- import { AppointmentCrudRouter } from './appointmentCrudRouter.js'
- import { forceCreateRouter } from './forceCreateRouter.js'
- import { listForAdminEntryHandler } from './listForAdminEntryHandler.js'
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/authentication/sessions/session-7.4.4-planning.md b/.project-manager/features/authentication/sessions/session-7.4.4-planning.md
+index 157a2bf2..f15db795 100644
+--- a/.project-manager/features/authentication/sessions/session-7.4.4-planning.md
++++ b/.project-manager/features/authentication/sessions/session-7.4.4-planning.md
+@@ -1,122 +1,18 @@
+-# Plan: session 7.4.4 — Enactment GC-7-E1 — Selective requireAuth/requireRole on internal routes per product rules; maintain anonymous allowlist for booking wizard paths; document router-level policy in handoff; align with appointment ownership and CSRF ordering; update GAP_CLOSURE_CHECKLIST GC-7-E1 to done or split follow-up rows when verified (lint + smoke).
+-
+-## Contract
+-- **Tier:** session | **ID:** 7.4.4
+-- **Scope:** Enactment GC-7-E1 — Selective requireAuth/requireRole on internal routes per product rules; maintain anonymous allowlist for booking wizard paths; document router-level policy in handoff; align with appointment ownership and CSRF ordering; update GAP_CLOSURE_CHECKLIST GC-7-E1 to done or split follow-up rows when verified (lint + smoke).
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Return surface has 15 properties; decompose into focused composables
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Phase **7.4** parent guide was created to host harness sessions; **7.4.1–7.4.3** are checked complete (historical GC-7.4 client tranche, no session handoffs). **8.6 / 8.7** delivered real **CSRF** and **appointment `checkOwnership`** on the server. **GC-7-E1** remains open: internal APIs are not uniformly gated by **`requireAuth` / `requireRole`**, and a global blanket on `/internal` would break the anonymous booking wizard.
++<!-- harness-planning-rollup tier=session id=7.4.4 consolidatedAt=2026-03-25T19:36:40.555Z -->
  
- const router = Router()
- 
--router.get('/list-for-admin-entry', listForAdminEntryHandler)
-+/** WHY: Admin-only list — must not be world-readable (GC-7-E1 / task 7.4.4.2). Align roles with internal staff + admin usage (see forceCreateRouter). */
-+router.get(
-+  '/list-for-admin-entry',
-+  requireAuth,
-+  requireRole(USER_ROLE_AGENT, 'transaction_manager', 'seller', 'admin'),
-+  listForAdminEntryHandler
-+)
- router.use('/', AppointmentCrudRouter)
- router.use('/force-create', forceCreateRouter)
+-## Story
+-**This session delivers** a documented **router-level enactment policy** (which internal routes stay anonymous for the wizard vs require authenticated staff/admin) and **selective middleware** on Express routers **so that** admin configuration and dangerous mutations are identity-gated without breaking public booking flows **and** **GC-7-E1** can move to **done** after lint + smoke.
+-**Estimated size:** M
+-
+----
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving) | Auth contracts in `@shared` as they stabilize |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
+-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
+-
+----
+-
+-## 3. Data flow
+-
+-Canonical path:
+-
+-1. **Vue view** → **presentational component**
+-2. **Composable** (state + orchestration; thin components)
+-3. **Client HTTP**
+-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
+-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
+-4. **Express route** (`routes/internal/*` or `routes/external/*`)
+-5. **Service** (`server/src/services/`)
+-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
+-7. **Sequelize model** (`server/src/db/models/`)
+-
+-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
+-
+----
+-
+-## 4. Type boundaries
+-
+-| Layer | Location | Use when |
+-|-------|----------|----------|
+-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
+-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, wizard step types, transformer helpers, form field types. **Never** imported by server. |
+-| **Server-only** | `server/src/types/` | Handler params, repository types, internal DTOs. **Never** imported by client. |
+-
+-**Rule:** If both sides need it → `@shared`. If only one side → keep it local.
+-
+-**Reactivity boundaries:** Prefer `ComputedRef<T>
+… (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->
