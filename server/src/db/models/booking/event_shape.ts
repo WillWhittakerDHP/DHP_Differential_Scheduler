@@ -33,7 +33,7 @@ export class EventShape extends Model<
   declare active: CreationOptional<boolean>;
   declare isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
   declare ternaryDefault: CreationOptional<'true' | 'false' | 'override' | null>; // Default ternary value (null means fail gracefully)
-  declare differentialRole: CreationOptional<'major' | 'minor' | 'moveable' | null>;
+  declare differentialRole: CreationOptional<'major' | 'minor' | 'moveable' | 'margin' | null>;
   declare includeRescheduleLink: CreationOptional<boolean>;
   declare includeCancelLink: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
@@ -79,10 +79,10 @@ export function EventShapeFactory(sequelize: Sequelize) {
         comment: 'Default ternary value to use when value cannot be determined (null means fail gracefully)',
       },
       differentialRole: {
-        type: DataTypes.ENUM('major', 'minor', 'moveable'),
+        type: DataTypes.ENUM('major', 'minor', 'moveable', 'margin'),
         allowNull: true,
         defaultValue: null,
-        comment: 'Direct role declaration: major, minor, moveable, or null (none)',
+        comment: 'Direct role declaration: major, minor, moveable, margin, or null (none)',
       },
       includeRescheduleLink: {
         type: DataTypes.BOOLEAN,

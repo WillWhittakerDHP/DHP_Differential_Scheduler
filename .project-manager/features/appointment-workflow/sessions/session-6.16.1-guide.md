@@ -52,7 +52,7 @@ These sections contain session-specific content:
 **Approach:** Add `'margin'` to type unions, labels, select options, and update guards (`isDifferentialRoleStorage`, `isDifferentialRoleOverrideValue`).
 **Checkpoint:** Types compile; guards accept `'margin'`; labels and select options include Margin
 
-- [ ] #### Task 6.16.1.2: Server model + migration
+- [x] #### Task 6.16.1.2: Server model + migration
 **Goal:** Add `'margin'` to the `event_shape` Sequelize model TypeScript union and ENUM; author DB migration.
 **Files:** 
 - `server/src/db/models/booking/event_shape.ts`
