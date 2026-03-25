@@ -91,6 +91,12 @@ index 8420a949..a12118d1 100644
 ```
 <!-- /harness:anchor:commit-preview -->
 
+
++
++
+```
+<!-- /harness:anchor:commit-preview -->
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
@@ -108,10 +114,10 @@ Paths (2): `.project-manager/features/appointment-workflow/phases/phase-6.16-log
 
 ```diff
 diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
-index e03e187b..af63b648 100644
+index af63b648..00cae071 100644
 --- a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
 +++ b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
-@@ -33,6 +33,14 @@
+@@ -41,6 +41,14 @@
  
  
  
@@ -127,10 +133,10 @@ index e03e187b..af63b648 100644
  **Completed:** 2026-03-25
  **Tasks Completed:** All tasks completed
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
-index 29e151fb..65f46eaf 100644
+index ece25fcb..257374e1 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
-@@ -132,3 +132,5 @@ index b03ef219..feabe816 100644
+@@ -138,3 +138,5 @@ index 29e151fb..65f46eaf 100644
  +
  ```
  <!-- /harness:anchor:commit-preview -->
