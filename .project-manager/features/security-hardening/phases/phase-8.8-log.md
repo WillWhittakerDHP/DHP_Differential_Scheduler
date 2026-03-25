@@ -99,3 +99,166 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (6): `.project-manager/features/security-hardening/across-ladder.json`, `.project-manager/features/security-hardening/feature-security-hardening-handoff.md`, `.project-manager/features/security-hardening/phases/phase-8.8-handoff.md`, `.project-manager/features/security-hardening/phases/phase-8.8-planning.md`, `.project-manager/features/security-hardening/sessions/session-8.8.1-planning.md`, `.project-manager/features/security-hardening/planning-archive/phase/8.8/`
+
+### `git diff --stat HEAD`
+
+```text
+.../features/security-hardening/across-ladder.json |  14 +-
+ .../feature-security-hardening-handoff.md          |   4 +-
+ .../security-hardening/phases/phase-8.8-handoff.md |   4 +-
+ .../phases/phase-8.8-planning.md                   | 211 ++++++++------------
+ .../sessions/session-8.8.1-planning.md             | 214 ---------------------
+ 5 files changed, 93 insertions(+), 354 deletions(-)
+```
+
+### `git diff HEAD`
+_(diff truncated to cap)_
+
+```diff
+diff --git a/.project-manager/features/security-hardening/across-ladder.json b/.project-manager/features/security-hardening/across-ladder.json
+index 0d36924b..c4dad4a4 100644
+--- a/.project-manager/features/security-hardening/across-ladder.json
++++ b/.project-manager/features/security-hardening/across-ladder.json
+@@ -1,8 +1,8 @@
+ {
+   "schemaVersion": 1,
+   "feature": "security-hardening",
+-  "derivedAt": "2026-03-25T20:21:06.718Z",
+-  "sourceTier": "session_end",
++  "derivedAt": "2026-03-25T20:21:51.220Z",
++  "sourceTier": "phase_end",
+   "phasesOnDisk": [
+     "8.1",
+     "8.2",
+@@ -53,10 +53,10 @@
+       "8.8.1"
+     ]
+   },
+-  "focusSessionId": "8.8.1",
+-  "sessionAcrossTotal": 1,
+-  "sessionIndex0Based": 0,
++  "focusSessionId": null,
++  "sessionAcrossTotal": null,
++  "sessionIndex0Based": null,
+   "nextSessionAcross": null,
+-  "taskAcrossTotal": 2,
+-  "nextTaskAcross": "8.8.1.1"
++  "taskAcrossTotal": null,
++  "nextTaskAcross": null
+ }
+diff --git a/.project-manager/features/security-hardening/feature-security-hardening-handoff.md b/.project-manager/features/security-hardening/feature-security-hardening-handoff.md
+index 02a236c3..c0e149fa 100644
+--- a/.project-manager/features/security-hardening/feature-security-hardening-handoff.md
++++ b/.project-manager/features/security-hardening/feature-security-hardening-handoff.md
+@@ -35,11 +35,9 @@ Phase 8.2 (Inbound Rate Limiting) complete. General limiter (100 req/15 min) and
+ 
+ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+ 
+-- **Feature:** `security-hardening` · **Source:** session_end · **Derived:** 2026-03-25T20:21:06.718Z
++- **Feature:** `security-hardening` · **Source:** phase_end · **Derived:** 2026-03-25T20:21:51.220Z
+ - **Phases on disk (8):** 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8
+ - **Focus phase:** `8.8` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+-- **Focus session:** `8.8.1` · **Session 1/1 in phase** · **Next session across:** _(then /phase-end)_
+-- **Tasks in session (detected):** 2 · **Next task across:** `8.8.1.1` → `/task-start` / cascade
+ - **Manifest:** `.project-manager/features/security-hardening/across-ladder.json`
+ <!-- harness-across-ladder:end -->
+ 
+diff --git a/.project-manager/features/security-hardening/phases/phase-8.8-handoff.md b/.project-manager/features/security-hardening/phases/phase-8.8-handoff.md
+index 45dd2546..3bc81712 100644
+--- a/.project-manager/features/security-hardening/phases/phase-8.8-handoff.md
++++ b/.project-manager/features/security-hardening/phases/phase-8.8-handoff.md
+@@ -69,10 +69,8 @@ Continue with next step. [Fill in.]
+ 
+ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+ 
+-- **Feature:** `security-hardening` · **Source:** session_end · **Derived:** 2026-03-25T20:21:06.718Z
++- **Feature:** `security-hardening` · **Source:** phase_end · **Derived:** 2026-03-25T20:21:51.220Z
+ - **Phases on disk (8):** 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8
+ - **Focus phase:** `8.8` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+-- **Focus session:** `8.8.1` · **Session 1/1 in phase** · **Next session across:** _(then /phase-end)_
+-- **Tasks in session (detected):** 2 · **Next task across:** `8.8.1.1` → `/task-start` / cascade
+ - **Manifest:** `.project-manager/features/security-hardening/across-ladder.json`
+ <!-- harness-across-ladder:end -->
+diff --git a/.project-manager/features/security-hardening/phases/phase-8.8-planning.md b/.project-manager/features/security-hardening/phases/phase-8.8-planning.md
+index fa277b17..3d24d487 100644
+--- a/.project-manager/features/security-hardening/phases/phase-8.8-planning.md
++++ b/.project-manager/features/security-hardening/phases/phase-8.8-planning.md
+@@ -1,117 +1,13 @@
+-# Plan: phase 8.8 — 8.8
+-
+-## Contract
+-- **Tier:** phase | **ID:** 8.8
+-- **Scope:** 8.8
+-- **Governance (harness snapshot):**
+-  - Governance Context (Phase)
+-  - Type Inventory Issues
+-  - Duplication Hotspots (top 4)
+-  - Import Graph
+-  - **25** fan-in violations: `client/src/constants/entities` (212), `client/src/types/entities` (175), `client/src/utils/logger` (146)
+-  - **22** composable chain depth violations (max depth exceeded)
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** architectural
+-- **Governance domains:** docs, architecture
+-- **Gate profile:** decomposition
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** light
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Phase 8.7 completed with sessions: 8.7.1, 8.7.2. — Context from tier-up guide: **Warning: Feature guide not found or phase 8.8 not listed.** Planning will proceed with minimal context.
++<!-- harness-planning-rollup tier=phase id=8.8 consolidatedAt=2026-03-25T20:22:30.202Z -->
+ 
+-## Story
+-**As a** server security maintainer, **I want** Joi request body validation on all remaining unvalidated CRUD routes, **so that** malformed or malicious payloads are rejected at the middleware layer before reaching Sequelize.
+-**Estimated size:** S
+-
+----
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving) | Auth contracts in `@shared` as they stabilize |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
+-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
+-
+----
+-
+-## 3. Data flow
+-
+-Canonical path:
+-
+-1. **Vue view** → **presentational component**
+-2. **Composable** (state + orchestration; thin components)
+-3. **Client HTTP**
+-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
+-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
+-4. **Express route** (`routes/internal/*` or `routes/external/*`)
+-5. **Service** (`server/src/services/`)
+-6. **Repository** (`server/src/repositories/`) o
+… (truncated)
+```
+<!-- /harness:anchor:commit-preview -->
