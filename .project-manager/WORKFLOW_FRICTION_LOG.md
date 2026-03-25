@@ -420,3 +420,50 @@ nextAction:
 
 - Phase guide does not exist or is unreadable at: .project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
 - Create the phase guide first using /phase-plan 6.16
+
+### 2026-03-25 — 8.5.5 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 8.5.5
+- **featureName:** security-hardening
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=8.5.5; featureName=security-hardening
+
+nextAction:
+## Session Validation
+# Session 8.5.5 Validation
+
+❌ **Status:** Cannot start - Previous session not completed
+
+## Details
+
+- Session 8.5.4 is not marked as complete in phase guide
+- Session 8.5.5 cannot be started until Session 8.5.4 is complete
+- Complete Session 8.5.4 first with /session-end 8.5.4
+
+### 2026-03-25 — 8.5.4 — session — start — sessionStart requires separate featureRef; should derive from F.P.S identifier
+
+- **reasonCodeRaw:** HARNESS_WORKFLOW_FRICTION
+- **reasonCodeNormalized:** unhandled_error
+- **isFailureReason:** false
+- **tier:** session
+- **action:** start
+- **identifier:** 8.5.4
+- **featureName:** security-hardening
+- **stepPath:** session.ts sessionStart, featureRef parameter
+
+- **Symptom:** `sessionStart('8.5.4')` crashed with `TypeError: Cannot read properties of undefined (reading 'trim')` because the function signature is `sessionStart(sessionId: string, featureRef: string, description?, options?)` — `featureRef` is a **required second argument**. The agent had to know to pass `'8'` as the second argument. By contrast, **`tier-add`** (`sessionAdd`, `taskAdd`) derives the feature from the session ID automatically via `WorkflowId.parseSessionId(identifier).feature` and `WorkflowCommandContext.contextFromParams` — no separate feature argument needed.
+- **Context:**
+  - **`session.ts` composite** (`.cursor/commands/tiers/session/composite/session.ts` line 70–81): `sessionStart(sessionId, featureRef, description?, options?)` passes `featureRef.trim()` directly as `featureId`. No fallback parse from `sessionId`.
+  - **`tier-add.ts`** (`.cursor/commands/tiers/shared/tier-add.ts` line 68–77): `parseAndValidate('session', identifier)` calls `WorkflowId.parseSessionId(identifier)` and returns `{ featureId: parsed.feature }`. The feature is derived from the first segment of the `F.P.S` identifier automatically.
+  - **`phaseStart`** and **`taskStart`** in their composites: need to verify whether they also require an explicit `featureRef` or derive it. If they derive it, session-start is the outlier.
+  - The agent invocation pattern (`npx tsx -e "...sessionStart('8.5.4', '8')..."`) works but is fragile — every caller must know to split the F segment out of the F.P.S string and pass it separately, which is redundant information already encoded in the session ID.
+- **What we tried:** First call without `featureRef` → crash. Second call with `'8'` → success.
+- **Outcome / workaround:** Pass the feature number as the second argument (e.g. `'8'` for session `8.5.4`). Works but inconsistent with `tier-add` and potentially with phase/task start.
+- **Suggestion:** Align `sessionStart` (and `sessionEnd`) to match `tier-add` and other composites: parse `featureId` from the session ID using `WorkflowId.parseSessionId(sessionId).feature` when `featureRef` is not provided. Make `featureRef` optional with a fallback: `const resolvedFeature = featureRef?.trim() || WorkflowId.parseSessionId(sessionId)?.feature`. This removes the redundant parameter requirement and makes the agent invocation pattern consistent across all tiers: `sessionStart('8.5.4')` should just work, same as `sessionAdd('8.5.4', description)` does.
