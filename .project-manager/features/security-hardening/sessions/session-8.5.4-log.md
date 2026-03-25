@@ -106,7 +106,7 @@ index 6579f549..2ce59eec 100644
 **Next Task:**
 - 8.5.4.4
 
-<!-- harness:anchor:commit-preview -->
+
 ## Harness: commit preview (in-scope diff)
 
 Paths (5): `.project-manager/GAP_CLOSURE_CHECKLIST.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.3-handoff.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.3-planning.md`
@@ -161,3 +161,152 @@ index f6362c7b..e630409d 100644
 +++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
 @@ -19,6 +19,14 @@
  
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (10): `.project-manager/features/security-hardening/phases/phase-8.5-guide.md`, `.project-manager/features/security-hardening/phases/phase-8.5-log.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-planning.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.1-planning.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.2-planning.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.3-planning.md`, `.project-manager/features/security-hardening/planning-archive/session/8.5.4/`, `.project-manager/features/security-hardening/sessions/session-8.5.4-handoff.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../security-hardening/phases/phase-8.5-guide.md   |   2 +-
+ .../security-hardening/phases/phase-8.5-log.md     |   8 +
+ .../sessions/session-8.5.4-guide.md                |   2 +
+ .../sessions/session-8.5.4-log.md                  |   7 +-
+ .../sessions/session-8.5.4-planning.md             | 372 ++++++++++++++-------
+ .../sessions/task-8.5.4.1-planning.md              | 205 ------------
+ .../sessions/task-8.5.4.2-planning.md              | 168 ----------
+ .../sessions/task-8.5.4.3-planning.md              | 153 ---------
+ 8 files changed, 259 insertions(+), 658 deletions(-)
+```
+
+### `git diff HEAD`
+_(diff truncated to cap)_
+
+```diff
+diff --git a/.project-manager/features/security-hardening/phases/phase-8.5-guide.md b/.project-manager/features/security-hardening/phases/phase-8.5-guide.md
+index d7ed1306..cfa079bf 100644
+--- a/.project-manager/features/security-hardening/phases/phase-8.5-guide.md
++++ b/.project-manager/features/security-hardening/phases/phase-8.5-guide.md
+@@ -51,7 +51,7 @@
+ - Checklist closure with evidence
+ 
+ ---
+-- [ ] ### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
++- [x] ### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+ **Description:** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+ **Tasks:** [To be planned]
+ **Focus:**
+diff --git a/.project-manager/features/security-hardening/phases/phase-8.5-log.md b/.project-manager/features/security-hardening/phases/phase-8.5-log.md
+index 93c31dba..a6caa350 100644
+--- a/.project-manager/features/security-hardening/phases/phase-8.5-log.md
++++ b/.project-manager/features/security-hardening/phases/phase-8.5-log.md
+@@ -17,6 +17,14 @@
+ 
+ ## Completed Sessions
+ 
++### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke). ✅
++**Completed:** 2026-03-25
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
++
++
++
+ ### Session 8.5.3: Joi gap closure — internal routes batch A ✅
+ **Completed:** 2026-03-25
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
+index 26f33d87..ac70bea3 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
+@@ -411,3 +411,5 @@ Break each session into focused tasks:
+ ## Notes
+ 
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+index 0bfbcd88..7626c094 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+@@ -160,4 +160,9 @@ index f6362c7b..e630409d 100644
+ --- a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+ +++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+ @@ -19,6 +19,14 @@
+- 
+\ No newline at end of file
++ 
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-planning.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-planning.md
+index d1575571..40a50583 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.4-planning.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-planning.md
+@@ -1,118 +1,13 @@
+-# Plan: session 8.5.4 — Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+-
+-## Contract
+-- **Tier:** session | **ID:** 8.5.4
+-- **Scope:** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Return surface has 15 properties; decompose into focused composables
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Completed Task - Begin Session <!-- harness-across-ladder:start -->
++<!-- harness-planning-rollup tier=session id=8.5.4 consolidatedAt=2026-03-25T18:52:49.010Z -->
+ 
+-## Story
+-**This session delivers** Joi validation coverage on the remaining internal mutating routes (batch B — mounts 12–17) and a final cross-batch closure assessment **so that** GC-8-JOI can be marked done with evidence that every internal POST/PUT/PATCH route is validated or explicitly exempted.
+-**Estimated size:** M
+-
+----
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / W
+… (truncated)
+```
+<!-- /harness:anchor:commit-preview -->

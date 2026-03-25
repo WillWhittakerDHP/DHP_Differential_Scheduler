@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke). ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+
+
+
 ### Session 8.5.3: Joi gap closure — internal routes batch A ✅
 **Completed:** 2026-03-25
 **Tasks Completed:** All tasks completed
