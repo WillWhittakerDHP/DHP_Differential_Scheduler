@@ -59,7 +59,7 @@ These sections contain session-specific content:
 **Approach:** Create Joi-based validators matching model fields. Wire `validateRequest` callbacks + `sanitizeInput` into `createCrudRouter` configs. Server lint.
 **Checkpoint:** Property mapping routes reject invalid bodies with 400. Valid requests work. Server lint passes.
 
-- [ ] #### Task 8.5.4.3: Verify + close GC-8-JOI
+- [x] #### Task 8.5.4.3: Verify + close GC-8-JOI
 **Goal:** Verify app starts + lint; produce combined A+B summary; update GC-8-JOI to done.
 **Files:** 
 - `.project-manager/GAP_CLOSURE_CHECKLIST.md` (modify)

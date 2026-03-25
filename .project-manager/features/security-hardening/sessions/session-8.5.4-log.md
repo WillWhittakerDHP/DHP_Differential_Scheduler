@@ -19,6 +19,14 @@
 
 ## Completed Tasks
 
+### Task 8.5.4.3: Task 8.5.4.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.5.4.4
+
+
+
 ### Task 8.5.4.2: Task 8.5.4.2 ✅
 **Goal:** Task completed
 
@@ -43,7 +51,7 @@
 **Next Task:**
 - 8.5.4.3
 
-<!-- harness:anchor:commit-preview -->
+
 ## Harness: commit preview (in-scope diff)
 
 Paths (7): `.project-manager/HARNESS_CHARTER.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `server/src/routes/internal/property-mappings/propertyMappingsRouter.ts`, `.project-manager/features/security-hardening/sessions/task-8.5.4.2-handoff.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.2-planning.md`, `server/src/routes/internal/property-mappings/propertyMappingsValidators.ts`
@@ -88,6 +96,67 @@ index fc6f083c..61892dae 100644
  - `server/src/routes/internal/property-mappings/propertyMappingsValidators.ts` (new)
 diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
 index 6579f549..2ce59eec 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+@@ -19,6 +19,14 @@
+ 
+### Task 8.5.4.3: Task 8.5.4.3 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.5.4.4
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (5): `.project-manager/GAP_CLOSURE_CHECKLIST.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.3-handoff.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.3-planning.md`
+
+### `git diff --stat HEAD`
+
+```text
+.project-manager/GAP_CLOSURE_CHECKLIST.md                |  4 ++--
+ .../security-hardening/sessions/session-8.5.4-guide.md   |  2 +-
+ .../security-hardening/sessions/session-8.5.4-log.md     | 16 +++++++++++++++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/GAP_CLOSURE_CHECKLIST.md b/.project-manager/GAP_CLOSURE_CHECKLIST.md
+index 80cca7f8..a72b75e8 100644
+--- a/.project-manager/GAP_CLOSURE_CHECKLIST.md
++++ b/.project-manager/GAP_CLOSURE_CHECKLIST.md
+@@ -63,7 +63,7 @@ flowchart LR
+ | GC-8.5.2 | F8 | Helmet **Content-Security-Policy** tuned for API + Vue SPA; no violations in dev/prod builds. | [session-8.5.2-guide.md](features/security-hardening/sessions/session-8.5.2-guide.md) | `server/src/app.ts` | done | security-hardening | Baseline CSP; iterate `connect-src`/`img-src` in staging if needed |
+ | GC-8.6 | F8 | Replace `csrfProtection` stub with real CSRF (state-changing routes). | session 8.6.1 / [phase-8.6-guide.md](features/security-hardening/phases/phase-8.6-guide.md) | `server/src/middlewares/csrfTokens.ts`, `security.ts` | done | PROJECT_PLAN F8 step 6 | Client: `authStore` + `apiClientCore` |
+ | GC-8.7 | F8 | Replace `checkOwnership` stub with resource ownership checks. | session 8.7.1 / [phase-8.7-guide.md](features/security-hardening/phases/phase-8.7-guide.md) | `server/src/middlewares/ownershipChecks.ts` | done | PROJECT_PLAN F8 step 7 | Appointments first |
+-| GC-8-JOI | F8 | Joi (or equivalent) on remaining internal POST/PUT bodies missing `validateRequest`. | session TBD | `server/src/routes/internal/**` | pending | PROJECT_PLAN F8 step 5 | Parallel / ongoing |
++| GC-8-JOI | F8 | Joi (or equivalent) on remaining internal POST/PUT bodies missing `validateRequest`. | [session-8.5.4-guide.md](features/security-hardening/sessions/session-8.5.4-guide.md) | `server/src/routes/internal/**` | done | PROJECT_PLAN F8 step 5 | Batch A: session 8.5.3 (users + audit table). Batch B: session 8.5.4 (property mappings Joi). See task planning 8.5.3.x / 8.5.4.1–8.5.4.2. |
+ | GC-10-NOTE | Cross | `GIT_MCP_SERVER` / PAT hygiene in root `.env` (Feature 10 security note). | optional | `.env.example` | pending | PROJECT_PLAN Feature 10 Security Note | Optional hygiene |
+ 
+ **Excluded by policy:** Feature 6 (appointment workflow, org defaults, phases 6.x).
+@@ -76,4 +76,4 @@ Items **GC-DOC-7**, **GC-DOC-8** capture **stale PROJECT_PLAN** narrative vs imp
+ 
+ ---
+ 
+-_Last updated: 2026-03-25 (tranches A–C + enactment partial; Joi sweep open)_
++_Last updated: 2026-03-25 (GC-8-JOI closed: internal Joi sweep batches A+B)_
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
+index 61892dae..26f33d87 100644
+--- a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
++++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
+@@ -59,7 +59,7 @@ These sections contain session-specific content:
+ **Approach:** Create Joi-based validators matching model fields. Wire `validateRequest` callbacks + `sanitizeInput` into `createCrudRouter` configs. Server lint.
+ **Checkpoint:** Property mapping routes reject invalid bodies with 400. Valid requests work. Server lint passes.
+ 
+-- [ ] #### Task 8.5.4.3: Verify + close GC-8-JOI
++- [x] #### Task 8.5.4.3: Verify + close GC-8-JOI
+ **Goal:** Verify app starts + lint; produce combined A+B summary; update GC-8-JOI to done.
+ **Files:** 
+ - `.project-manager/GAP_CLOSURE_CHECKLIST.md` (modify)
+diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
+index f6362c7b..e630409d 100644
 --- a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
 +++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
 @@ -19,6 +19,14 @@
