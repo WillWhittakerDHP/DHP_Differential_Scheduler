@@ -13,7 +13,7 @@
 **Description:** Review and tune Helmet configuration; add Content-Security-Policy for API and Vue SPA; document in SECURITY_STUBS.
 
 **Duration:** ~1–2 weeks
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -35,15 +35,34 @@
 - HSTS, referrer policy, safe defaults
 - SECURITY_STUBS documentation
 
-- [ ] ### Session 8.5.2: CSP implementation
+- [x] ### Session 8.5.2: CSP implementation
 **Description:** Add Content-Security-Policy via Helmet; configure for API and Vue SPA; verify app loads.
 **Tasks:** 2
 **Focus:**
 - CSP directives (default-src, script-src, style-src, connect-src)
 - App verification and CSP violation check
 
----
+- [x] ### Session 8.5.3: Joi gap closure — internal routes batch A
+**Description:** Audit first half of `server/src/routes/internal` for POST/PUT/PATCH missing `validateRequest`; add Joi schemas; preserve CSRF/ownership middleware order; update **GC-8-JOI** when verified.
+**Tasks:** 3
+**Focus:**
+- Route audit vs GAP_CLOSURE **GC-8-JOI**
+- Schema alignment with existing server patterns
+- Checklist closure with evidence
 
+---
+- [x] ### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+**Description:** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+**Tasks:** [To be planned]
+**Focus:**
+- [To be identified during planning]
+
+- [x] ### Session 8.5.5: Joi gap closure batch C — verification + documentation (auth mount, stragglers); GC-8-JOI already done in 8.5.4.
+**Description:** Optional batch C: verify `internal/auth` and paths outside batch A/B mount list; server lint; extend GC-8-JOI Notes. See `session-8.5.5-planning.md`, `session-8.5.5-log.md`.
+**Tasks:** 2 (8.5.5.1 evidence, 8.5.5.2 lint + checklist)
+**Focus:**
+- Auth POST routes + inline Joi on relationship PATCH handlers
+- No code changes unless new gap (none found)
 ## Dependencies
 
 **Prerequisites:**
@@ -57,11 +76,11 @@
 
 ## Success Criteria
 
-- [ ] All sessions completed
+- [x] All sessions completed
 - [ ] Helmet configured with HSTS, referrer policy
 - [ ] CSP header applied; Vue app loads without CSP violations
 - [ ] SECURITY_STUBS updated
-- [ ] Ready for next phase
+- [x] Ready for next phase
 
 ---
 
@@ -121,4 +140,6 @@ After completing all sessions in a phase:
 
 ## Tasks
 
-Sessions 8.5.1 and 8.5.2. See Sessions Breakdown above.
+Sessions 8.5.1, 8.5.2, and 8.5.3. See Sessions Breakdown above.
+
+<!-- end excerpt phase -->

@@ -13,7 +13,7 @@
 **Description:** Session cookie usage from the SPA (`withCredentials`), Pinia auth store and composables, `/login` and magic-link verify UX, admin vs anonymous paths, and selective `requireAuth` / `requireRole` on internal routes aligned with CSRF and ownership middleware order.
 
 **Duration:** TBD  
-**Status:** Complete
+**Status:** In progress
 
 ---
 
@@ -40,22 +40,22 @@ Sessions and tasks for this phase are listed under **Sessions Breakdown** below.
 - See checklist **GC-7.4** / prior implementation under `client/src/stores/authStore.ts`, `client/src/router/index.ts`
 
 - [x] ### Session 7.4.2: Client auth tranche (historical — placeholder)
-**Description:** Reserved for intermediate 7.4 client work outside numbered session guides; marked complete for harness sequencing.
+**Description:** Reserved for any intermediate 7.4 client work done outside numbered session guides; marked complete so **7.4.4** can start per harness sequential rule.
 **Tasks:** N/A
 **Focus:**
-- No separate guide
+- No separate guide; align with feature handoff if split is needed later
 
 - [x] ### Session 7.4.3: Client auth tranche (historical — placeholder)
-**Description:** Harness sequential rule placeholder before **7.4.4**.
+**Description:** Same as 7.4.2 — harness requires **7.4.3** checkbox complete before **7.4.4** `session-start`.
 **Tasks:** N/A
 **Focus:**
-- Superseded by **7.4.4**
+- Superseded by explicit **7.4.4** enactment session
 
-- [x] ### Session 7.4.4: Enactment GC-7-E1 — Selective requireAuth/requireRole on internal routes per product rules; maintain anonymous allowlist for booking wizard paths; document router-level policy in handoff; align with appointment ownership and CSRF ordering; update GAP_CLOSURE_CHECKLIST GC-7-E1 to done or split follow-up rows when verified (lint + smoke).
-**Description:** Matrix (`server/docs/INTERNAL_API_ENACTMENT_MATRIX.md`); gate **`GET /appointments/list-for-admin-entry`**; **GC-7-E1** closed per checklist.
-**Tasks:** 7.4.4.1 (matrix), 7.4.4.2 (middleware)
+- [ ] ### Session 7.4.4: Enactment GC-7-E1 — Selective requireAuth/requireRole on internal routes per product rules; maintain anonymous allowlist for booking wizard paths; document router-level policy in handoff; align with appointment ownership and CSRF ordering; update GAP_CLOSURE_CHECKLIST GC-7-E1 to done or split follow-up rows when verified (lint + smoke).
+**Description:** Enactment GC-7-E1 — Selective requireAuth/requireRole on internal routes per product rules; maintain anonymous allowlist for booking wizard paths; document router-level policy in handoff; align with appointment ownership and CSRF ordering; update GAP_CLOSURE_CHECKLIST GC-7-E1 to done or split follow-up rows when verified (lint + smoke).
+**Tasks:** [To be planned]
 **Focus:**
-- See session log and `INTERNAL_API_ENACTMENT_MATRIX.md`
+- [To be identified during planning]
 
 ---
 
@@ -69,14 +69,14 @@ Sessions and tasks for this phase are listed under **Sessions Breakdown** below.
 **Downstream Impact:**
 
 - Phase 7.5 (deferred): password strategy
-- Gap closure: **GC-7-E1** (addressed in session **7.4.4**)
+- Gap closure: **GC-7-E1** (enactment / internal API policy)
 
 ---
 
 ## Success Criteria
 
-- [x] Internal API enactment matrix published and priority route gated (session **7.4.4**)
-- [ ] Client auth store and guards fully aligned (ongoing / prior tranches)
+- [ ] Client auth store and guards match server session semantics
+- [ ] Internal API policy documented (handoff + checklist) and verified (lint + smoke)
 - [ ] Booking wizard paths remain usable without admin session where product rules require it
 
 ---
@@ -90,6 +90,6 @@ Sessions and tasks for this phase are listed under **Sessions Breakdown** below.
 
 ## Notes
 
-Session **7.4.4** completed tasks **7.4.4.1**–**7.4.4.2** (matrix + `list-for-admin-entry` auth). Further per-route gates follow `INTERNAL_API_ENACTMENT_MATRIX.md`.
+Prior **GC-7.4** client tranche (cookie, store, login UX) may predate this guide file; this document is the canonical phase parent for new **7.4.x** harness sessions (e.g. **7.4.4** — enactment).
 
 <!-- end excerpt phase -->

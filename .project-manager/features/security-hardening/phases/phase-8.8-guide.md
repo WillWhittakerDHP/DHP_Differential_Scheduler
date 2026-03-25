@@ -13,7 +13,7 @@
 **Description:** Three `createCrudRouter` configurations accept unvalidated request bodies on all mutating routes (POST/PUT/PATCH/DELETE): `userCrudRouter.ts`, and both field-mappings and feature-mappings CRUD in `propertyMappingsRouter.ts`. This phase adds Joi schemas and `validateRequest` callbacks to close the gap.
 
 **Duration:** Single session
-**Status:** In Progress
+**Status:** Complete
 
 ---
 
@@ -28,7 +28,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 8.8.1: Joi schemas and CRUD validateRequest wiring
+- [x] ### Session 8.8.1: Joi schemas and CRUD validateRequest wiring
 **Description:** Create Joi schema files, wire validateRequest callbacks into userCrudRouter and propertyMappingsRouter (both CRUD instances), run server lint, update checklist.
 **Tasks:** 2–3
 **Focus:**
@@ -81,3 +81,5 @@
 - Gap checklist: `.project-manager/GAP_CLOSURE_CHECKLIST.md` (GC-8-JOI row)
 - Existing schema pattern: `server/src/routes/schemas/entitySchemas.ts`
 - CRUD factory types: `server/src/routes/helpers/crudRouterTypes.ts`
+
+<!-- end excerpt phase -->

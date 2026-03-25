@@ -401,4 +401,6 @@ Break each session into focused tasks:
 
 ## Notes
 
-[Session-specific notes, patterns, architectural decisions]
+- Cross-reference: [GAP_CLOSURE_CHECKLIST.md](../../../GAP_CLOSURE_CHECKLIST.md) row **GC-8.5.2**.
+
+<!-- end excerpt session -->

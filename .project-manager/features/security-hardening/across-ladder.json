@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "security-hardening",
-  "derivedAt": "2026-03-25T20:02:17.948Z",
-  "sourceTier": "phase",
+  "derivedAt": "2026-03-25T20:23:11.224Z",
+  "sourceTier": "phase_end",
   "phasesOnDisk": [
     "8.1",
     "8.2",
@@ -36,7 +36,10 @@
     ],
     "8.5": [
       "8.5.1",
-      "8.5.2"
+      "8.5.2",
+      "8.5.3",
+      "8.5.4",
+      "8.5.5"
     ],
     "8.6": [
       "8.6.1",
@@ -45,6 +48,9 @@
     "8.7": [
       "8.7.1",
       "8.7.2"
+    ],
+    "8.8": [
+      "8.8.1"
     ]
   },
   "focusSessionId": null,

@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-03-15
+**Last Updated:** 2026-03-25
 **Status:** Active Planning Document
 
 ---
@@ -304,6 +304,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 | 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
 | 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (exhaustive audit, optional badges, Phase 3.0 test checklist). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
 | 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight dependency inspection; reusable admin delete wizard; resolve/finalize API; policy registry; wire generic CRUD delete. Sessions 6.17.1–6.17.5. See `features/appointment-workflow/phases/phase-6.17-guide.md`. Complements Phase 6.6 (soft vs hard delete). |
+| 6.18 | User role catalog & block alignment | Not Started | Single `@shared` catalog for `user_role`; rename `seller` → `owner`; audit all hardcoded role lists; Session 6.18.2 admin alignment of canonical roles ↔ user-type block instances. See `features/appointment-workflow/phases/phase-6.18-guide.md`. Coordinates with Feature 7 Enactment. |
 
 ### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
@@ -383,6 +384,10 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 1. **Coupon fee calculation and finalizer integration:** The coupon block shape (`BLOCK_SHAPE_TYPES.COUPON`) and cascade dropdown on step 5 are implemented (Session 6.10.1). However, coupon discount is still a placeholder (0) in `confirmationStepData.ts` — the actual fee reduction (e.g. percentage off, negative base fee) is not wired into the finalizers (`createBlockFinal` / `createPartFinals`). Planned as **Session 6.10.4** (phase-6.10-guide.md): "add percentage column to part instance, adjust Part/Block Finals for percentage off (e.g. 10% off) and negative base fee." *(Design decision needed: should coupons reduce the fee via a percentage column on the part instance, a flat discount, or both? How does this interact with the pricing cascade?)*
 
+2. **`user_role` ENUM vs configurable user types:** `users.user_role` is a **small PostgreSQL ENUM** validated by Joi and duplicated in several UI layers. **User-type** semantics in booking also depend on **block instances** (state-control shapes) via `getUserTypeBlockIdForRole` / `ROLE_TO_BLOCK_NAME`. Adding a new **block instance** in admin does **not** automatically add a new API role — ENUM + migration + shared catalog would still be required for a new first-class role. **Phase 6.18** delivers a **single shared catalog** (`@shared`), renames **`seller` → `owner`**, and adds **Session 6.18.2** (admin alignment of canonical roles ↔ user-type instances). A future architecture might narrow ENUM to coarse gates (e.g. staff vs client) and lean on instance IDs for display; that split is out of scope for 6.18 unless explicitly added.
+
+3. **Fixed role lists — single import path:** Every location that enumerates allowed roles (Joi, Sequelize ENUM args, `VSelect` items, type unions) must consume **`USER_ROLE_VALUES` / exports from `@shared`** after Phase 6.18 Session 6.18.1 — no ad hoc parallel arrays.
+
 ### Key Files
 - **Workflow:** Feature 6 appointment-workflow planning (see Related Documents)
 - **Calculations:** confirmationStepData, partsTotals, pricingCascadeResolver, appointmentTimeCalculations, useTimeSlotCalculations, BlockFinal/PartFinals (booking utils)
@@ -398,6 +403,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Phase 6.11 Guide: `features/appointment-workflow/phases/phase-6.11-guide.md` (Drive Time Fee Line Item)
 - Phase 6.14 Guide: `features/appointment-workflow/phases/phase-6.14-guide.md` (Organization Defaults & Resolved Numeric Policy)
 - Phase 6.17 Guide: `features/appointment-workflow/phases/phase-6.17-guide.md` (Generalized Dependency-Aware Delete Wizard)
+- Phase 6.18 Guide: `features/appointment-workflow/phases/phase-6.18-guide.md` (User role catalog, owner rename, block-instance alignment); sessions `session-6.18.1-planning.md`, `session-6.18.2-planning.md`
 - LAUNCH_CHECKLIST.md Phase 8A (force-create detail)
 - Feature 6 workflow: `features/appointment-workflow/`; archived booking-calculations planning: `features/booking-calculations/`
 
@@ -445,8 +451,8 @@ Implement the following so that authenticated users and roles are used where oth
 
 - [ ] **Enact held/override (Feature 6 stubs):** Wire role checks into Feature 6 stubs so trusted agents and admins can hold slots and admins can override blockages.
 - [ ] **Enact scheduled-by auto-population (Feature 6.6):** Set `scheduled_by_id` from the current logged-in user on appointment create; optionally set `updated_by` (or equivalent) on edit. Use `req.user` (or client auth context) and persist via appointment API.
-- [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules.
-- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.8; agentPermissions in Session 6.8.5).
+- [ ] **Role-based access:** Restrict admin panel (and any admin-only routes) to authenticated users with appropriate roles (e.g. agent, transaction_manager) per product rules. **Role vocabulary:** Use the same canonical `user_role` strings as **`@shared`** / **Phase 6.18** (`USER_ROLE_VALUES`); after 6.18.1, **`owner`** replaces **`seller`** in examples and guards.
+- [ ] **Expose user role to client:** Provide user identity and role (e.g. admin) to the client so the booking wizard and admin appointments UI can show/hide role-gated actions: Hold Slot, Override constraints, Force schedule (Feature 6 Phase 6.8; agentPermissions in Session 6.8.5). **Types:** Import or mirror **shared** role unions so client auth state does not drift from API/DB.
 - [ ] **Guided alpha / feedback:** Where Feature 9 (Guided Alpha Testing) or Feature 15 (Beta Feedback Response) need user identity or email (e.g. show tasks when authenticated, send notifications to reporter), wire in auth (current user, session) so those features can rely on it.
 - [ ] **CSRF:** Replace `csrfProtection` stub with real implementation once session-based auth is active (existing route wiring stays).
 - [ ] **Ownership:** Replace `checkOwnership` stub so it verifies `req.user` against resource owner (existing route wiring stays).
@@ -458,6 +464,7 @@ Implement the following so that authenticated users and roles are used where oth
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2A
+- **Feature 6 Phase 6.18:** `features/appointment-workflow/phases/phase-6.18-guide.md` — shared `USER_ROLE_VALUES`, `seller` → `owner`, role ↔ user-type block alignment (coordinates with Enactment above)
 
 ---
 
@@ -524,6 +531,8 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 
 1. **Out-of-state testers and address generation:** Some alpha testers will be out of state and unable to enter a local property address. Should the wizard include a "show random address" button that generates a random address in the metro area or pulls one from the appointment database? *(Needs design decision — affects Property Details step UI and data seeding strategy.)*
 
+2. **Alpha cohorts vs `user_role`:** Internal labels (e.g. **dev**, **agent**, **friend**) map to **`users.user_role`** values for auth and UI gates. **Agent** maps to the existing `agent` role. **Dev** / **friend** may map onto existing ENUM values (e.g. `client`, `inspector`) for alpha **without** schema changes, or use dedicated roles after **Feature 6 Phase 6.18** and ENUM work — document the chosen mapping in task seeds and onboarding copy. See Feature 6 Open Question (ENUM vs block instances).
+
 ### Phase 9.1: Wizard Flow Diagram (Mermaid)
 
 **Goal:** One diagram of the entire booking wizard flow and all logical branches so we can review for bad loops, dead ends, and wrong logic.
@@ -545,7 +554,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 - **Task id** (e.g. UUID or short code).
 - **Title / description** (e.g. "Complete wizard in quote mode and hold quote").
 - **Category** (e.g. "Booking – new," "Booking – quote," "Booking – reschedule," "Admin – confirmation," "Admin – override").
-- **Wizard path** (optional): which steps, which mode, which role.
+- **Wizard path** (optional): which steps, which mode, which role (use **canonical `user_role`** values from **Phase 6.18** / `@shared`, e.g. `owner` not `seller` after 6.18.1).
 - **Acceptance / verification** (what "done" looks like; becomes the E2E assertion list).
 - **Depends on** (e.g. "Auth," "Reschedule API") so tasks are not assigned before the feature exists.
 - **Assignment** (for guided alpha): tester id, assigned date, status (not started / in progress / done / skipped).
@@ -590,7 +599,7 @@ We need to know **what to test** before writing E2E tests. Guided Alpha Testing 
 ### Related Documents
 
 - LAUNCH_CHECKLIST.md Phase 6A (guided testing; update to "Guided Alpha")
-- Feature 6 (Appointment Workflow) — wizard steps, modes; admin entry in Phase 6.8 Session 6.8.6
+- Feature 6 (Appointment Workflow) — wizard steps, modes; admin entry in Phase 6.8 Session 6.8.6; **Phase 6.18** — canonical `user_role` catalog and role ↔ block-instance alignment (`features/appointment-workflow/phases/phase-6.18-guide.md`)
 - Feature 10 (Testing & Quality Validation) — E2E tests derived from alpha task list
 - **Feature 9 Session 9.4.1:** `features/guided-alpha-testing/sessions/session-9.4.1-guide.md` — User Feedback & Error Wiring (rename to user_feedback, wire all feedback/errors)
 - **Feature 9 Guide:** `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` — phases 9.1–9.4, implementation order, session 9.4.1 (mirrors this section).
@@ -913,7 +922,7 @@ Trusted dev friends get more than the in-app alpha flow: a way to **read** the p
 3. **New Admin panel:** New route, layout, and components. Only business admin: users, roles, permissions, org settings. Flat, focused UI.
 4. **Move CONTROLS:** Decide whether Business Controls (rules, calendar, holds, wizard) live in Developer or Admin.
 
-**Caveats:** User role `admin` (access control) — keep or introduce `developer` role? API paths may be external contracts. DB models: keep names vs. migrations.
+**Caveats:** User role `admin` (access control) — keep or introduce `developer` role? API paths may be external contracts. DB models: keep names vs. migrations. **Feature 6 Phase 6.18** may deliver role ↔ user-type block alignment in current admin surfaces first; the new Admin panel (this feature) should consume the same persisted alignment and **`@shared` role catalog** when it ships.
 
 ### Planned Phases
 0. **Admin vs Developer Split** — Rename current admin → Developer; create new Admin panel (business admin only)

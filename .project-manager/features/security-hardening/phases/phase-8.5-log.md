@@ -17,6 +17,62 @@
 
 ## Completed Sessions
 
+### Session 8.5.5: Joi gap closure batch C — verification + documentation (auth mount, stragglers); GC-8-JOI already done in 8.5.4. ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Joi gap closure batch C — Misc internal routes, dev-only routers, and edge POST/PUT paths missed in 8.5.3–8.5.4; final pass to mark GC-8-JOI done. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+
+
+
+### Session 8.5.5: Joi gap closure batch C — verification + documentation (auth mount, stragglers); GC-8-JOI already done in 8.5.4. ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Joi gap closure batch C — Misc internal routes, dev-only routers, and edge POST/PUT paths missed in 8.5.3–8.5.4; final pass to mark GC-8-JOI done. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+
+
+
+### Session 8.5.4: Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke). ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Joi gap closure batch B — Audit remaining server/src/routes/internal routers for missing validateRequest; same constraints as 8.5.3; close or narrow GC-8-JOI when all targeted mutating routes are covered or explicitly exempted with documented rationale. Consult GAP_CLOSURE_HARNESS_ADD_PROMPTS.md and then update GAP_CLOSURE_CHECKLIST GC-8-JOI when batch is verified (lint + smoke).
+
+
+
+### Session 8.5.3: Joi gap closure — internal routes batch A ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Joi gap closure — internal routes batch A
+
+
+
+### Session 8.5.2: CSP implementation ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** CSP implementation — add Content-Security-Policy for API and Vue SPA, verify app loads
+
+
+
+### Session 8.5.2: CSP implementation ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** CSP implementation — add Content-Security-Policy for API and Vue SPA, verify app loads
+
+
+
+### Session 8.5.2: CSP implementation ✅
+**Completed:** 2026-03-25
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** CSP implementation — add Content-Security-Policy for API and Vue SPA, verify app loads
+
+
+
 ### Session 8.5.1: Helmet configuration ✅
 **Completed:** 2026-03-22
 **Tasks Completed:** All tasks completed
@@ -96,9 +152,9 @@
 
 ## Phase Completion Summary
 
-**Sessions Completed:** [List all session IDs]
-**Total Tasks Completed:** [Number]
-**Success Criteria Met:** [Yes/No with details]
+**Sessions Completed:** 8.5.1, 8.5.2, 8.5.3, 8.5.4, 8.5.5
+**Total Tasks Completed:** 0
+**Success Criteria Met:** Yes - All success criteria met
 
 **Workflow Feedback:** (Optional - only document if issues encountered)
 - **User feedback:** [Any problems managing phase workflow or issues with results]
@@ -107,3 +163,10 @@
 - **Template updates:** [Any template improvements suggested]
 - **Cross-tier feedback:** [If phase-level issues suggest improvements needed at session or task level]
 
+<!-- end excerpt phase -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+_No in-scope paths (or clean)._
+<!-- /harness:anchor:commit-preview -->
