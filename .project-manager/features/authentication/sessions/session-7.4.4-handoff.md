@@ -27,7 +27,20 @@ Start Session  (see session guide and phase guide for scope).
 Completed Task 
 
 **What you need to start:**
-- Begin Session 
+- Begin Session
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-25T19:39:11.206Z
+- **Phases on disk (4):** 7.1, 7.2, 7.3, 7.4
+- **Focus phase:** `7.4` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus session:** `7.4.4` · **Session 4/4 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `7.4.4.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/authentication/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 <!-- end excerpt session -->
 

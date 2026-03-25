@@ -13,7 +13,7 @@
 **Description:** Session cookie usage from the SPA (`withCredentials`), Pinia auth store and composables, `/login` and magic-link verify UX, admin vs anonymous paths, and selective `requireAuth` / `requireRole` on internal routes aligned with CSRF and ownership middleware order.
 
 **Duration:** TBD  
-**Status:** In progress
+**Status:** Complete
 
 ---
 

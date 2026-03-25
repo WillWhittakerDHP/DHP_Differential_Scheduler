@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
   "feature": "authentication",
-  "derivedAt": "2026-03-25T19:26:57.756Z",
-  "sourceTier": "session",
+  "derivedAt": "2026-03-25T19:39:11.206Z",
+  "sourceTier": "session_end",
   "phasesOnDisk": [
     "7.1",
     "7.2",
-    "7.3"
+    "7.3",
+    "7.4"
   ],
-  "phaseAcrossTotal": 3,
+  "phaseAcrossTotal": 4,
   "focusPhaseId": "7.4",
   "nextPhaseAcross": null,
-  "prevPhaseId": null,
+  "prevPhaseId": "7.3",
   "sessionsByPhase": {
     "7.1": [
       "7.1.1",
@@ -26,11 +27,17 @@
       "7.3.1",
       "7.3.2",
       "7.3.3"
+    ],
+    "7.4": [
+      "7.4.1",
+      "7.4.2",
+      "7.4.3",
+      "7.4.4"
     ]
   },
   "focusSessionId": "7.4.4",
-  "sessionAcrossTotal": 0,
-  "sessionIndex0Based": null,
+  "sessionAcrossTotal": 4,
+  "sessionIndex0Based": 3,
   "nextSessionAcross": null,
   "taskAcrossTotal": 2,
   "nextTaskAcross": "7.4.4.1"

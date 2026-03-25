@@ -84,9 +84,11 @@ Keep this file minimal; detail stays in the **feature log** and phase/session gu
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `authentication` · **Source:** phase_end · **Derived:** 2026-03-23T19:26:04.375Z
-- **Phases on disk (3):** 7.1, 7.2, 7.3
-- **Focus phase:** `7.3` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Feature:** `authentication` · **Source:** session_end · **Derived:** 2026-03-25T19:39:11.206Z
+- **Phases on disk (4):** 7.1, 7.2, 7.3, 7.4
+- **Focus phase:** `7.4` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus session:** `7.4.4` · **Session 4/4 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `7.4.4.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/authentication/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
