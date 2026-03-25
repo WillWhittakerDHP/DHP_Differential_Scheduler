@@ -99,6 +99,13 @@ Research phase not yet started — architectural decisions to be documented in t
 
 ---
 
+
+- [ ] ### Phase 8.8: Guide — Joi validateRequest Gap Closure
+**Description:** Guide — Joi validateRequest Gap Closure
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
+
 ## Success Criteria (Feature-Level)
 
 - [ ] CORS locked to production and dev origins
