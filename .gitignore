@@ -50,3 +50,5 @@ client/.audit-reports/**
 .project-manager/.merge-incident-log
 .project-manager/.write-log
 .project-manager/.tier-scope
+# Ephemeral harness-repair plan (plan mode; removed after successful execute)
+.project-manager/features/*/harness-repair-plan.md
