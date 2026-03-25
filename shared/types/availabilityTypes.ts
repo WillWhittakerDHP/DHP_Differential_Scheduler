@@ -388,7 +388,7 @@ export interface ComputedAvailabilityData {
 
 /**
  * Minimal slot time shape (start, end, duration).
- * WHY: TimeRange, MoveableSlot, SelectedTimeSlot, LoadedTimeSlot, ServerTimeSlot, ComputedSlot extend or align (TYPE_SIMILARITY_PROPOSAL § 1.7).
+ * WHY: TimeRange, MinimizerSlot, SelectedTimeSlot, LoadedTimeSlot, ServerTimeSlot, ComputedSlot extend or align (TYPE_SIMILARITY_PROPOSAL § 1.7).
  */
 export interface SlotTimeBounds {
   startTime: RFC3339DateTime

@@ -4,7 +4,7 @@ import type { DifferentialRole } from '../types/differentialRole'
 export const DIFFERENTIAL_ROLE_LABELS: Record<DifferentialRole, string> = {
   major: 'Major',
   minor: 'Minor',
-  moveable: 'Moveable',
+  minimizer: 'Minimizer',
   margin: 'Margin',
   none: 'None',
 }
@@ -14,6 +14,6 @@ export const DIFFERENTIAL_ROLE_SELECT_OPTIONS: ReadonlyArray<{ value: string | n
   { value: null, label: DIFFERENTIAL_ROLE_LABELS.none },
   { value: 'major', label: DIFFERENTIAL_ROLE_LABELS.major },
   { value: 'minor', label: DIFFERENTIAL_ROLE_LABELS.minor },
-  { value: 'moveable', label: DIFFERENTIAL_ROLE_LABELS.moveable },
+  { value: 'minimizer', label: DIFFERENTIAL_ROLE_LABELS.minimizer },
   { value: 'margin', label: DIFFERENTIAL_ROLE_LABELS.margin },
 ]

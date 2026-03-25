@@ -5,16 +5,16 @@
 export interface WizardCopyLabelFields {
   majorLabel?: string
   minorLabel?: string
-  moveableFallbackLabel?: string
+  minimizerFallbackLabel?: string
   differentialGraphDefaultLabel?: string
   majorStateLabel?: string
   minorStateLabel?: string
   subStepLabelPickDay?: string
   subStepLabelOptions?: string
   subStepLabelPickTime?: string
-  subStepLabelConfirmMoveable?: string
-  /** Booking wizard: when Yes+deadline moveable grid has no completion slots after load. */
-  moveableNoFeasibleCompletionSlotsMessage?: string
+  subStepLabelConfirmMinimizer?: string
+  /** Booking wizard: when Yes+deadline minimizer grid has no completion slots after load. */
+  minimizerNoFeasibleCompletionSlotsMessage?: string
 }
 
 /** Singleton wizard display config (stored as one JSON document). */

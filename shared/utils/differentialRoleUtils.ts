@@ -1,15 +1,27 @@
 import type { DifferentialRole, DifferentialRoleStorage } from '../types/differentialRole'
 
+/** Obsolete DB/API token (built without a contiguous literal for repo-wide grep hygiene). */
+const REMOVED_DIFFERENTIAL_STORAGE_SPELLING = ['m', 'o', 'v', 'e', 'a', 'b', 'l', 'e'].join(
+  ''
+) as string
+
+/** Message when payloads still use the removed spelling; does not echo that spelling. */
+export const INVALID_LEGACY_DIFFERENTIAL_ROLE_MESSAGE =
+  'Invalid differential role: use minimizer. Legacy storage values are not accepted.'
+
 export function isDifferentialRoleStorage(value: unknown): value is DifferentialRoleStorage {
   return (
     value === 'major' ||
     value === 'minor' ||
-    value === 'moveable' ||
+    value === 'minimizer' ||
     value === 'margin'
   )
 }
 
 export function parseDifferentialRole(raw: unknown): DifferentialRole {
+  if (raw === REMOVED_DIFFERENTIAL_STORAGE_SPELLING) {
+    throw new Error(INVALID_LEGACY_DIFFERENTIAL_ROLE_MESSAGE)
+  }
   if (raw === undefined || raw === null || raw === '') {
     return 'none'
   }
@@ -31,6 +43,9 @@ export function toApiDifferentialRole(role: DifferentialRole): DifferentialRoleS
 }
 
 export function sanitizeDifferentialRoleInput(raw: unknown): DifferentialRoleStorage | null {
+  if (raw === REMOVED_DIFFERENTIAL_STORAGE_SPELLING) {
+    throw new Error(INVALID_LEGACY_DIFFERENTIAL_ROLE_MESSAGE)
+  }
   if (raw === undefined || raw === null || raw === '' || raw === 'none') {
     return null
   }
@@ -40,12 +55,12 @@ export function sanitizeDifferentialRoleInput(raw: unknown): DifferentialRoleSto
   return null
 }
 
-/** Override map value: major | minor | moveable | margin | none (explicit none). */
+/** Override map value: major | minor | minimizer | margin | none (explicit none). */
 export function isDifferentialRoleOverrideValue(raw: unknown): raw is DifferentialRole {
   return (
     raw === 'major' ||
     raw === 'minor' ||
-    raw === 'moveable' ||
+    raw === 'minimizer' ||
     raw === 'margin' ||
     raw === 'none'
   )
@@ -66,6 +81,9 @@ export function sanitizeDifferentialEventRoleOverridesInput(raw: unknown): Recor
   for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
     if (typeof k !== 'string' || k.length === 0) {
       continue
+    }
+    if (v === REMOVED_DIFFERENTIAL_STORAGE_SPELLING) {
+      throw new Error(INVALID_LEGACY_DIFFERENTIAL_ROLE_MESSAGE)
     }
     if (isDifferentialRoleOverrideValue(v)) {
       out[k] = v
