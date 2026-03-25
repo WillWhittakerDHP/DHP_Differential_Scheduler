@@ -161,11 +161,11 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-03-25T21:19:46.650Z
+- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-03-25T22:34:22.408Z
 - **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
 - **Focus phase:** `6.16` · **Next phase across:** `6.17` → `/phase-start 6.17`
-- **Focus session:** `6.16.1` · **Session 1/3 in phase** · **Next session across:** `6.16.2` → `/session-start 6.16.2`
-- **Tasks in session (detected):** 4 · **Next task across:** `6.16.1.1` → `/task-start` / cascade
+- **Focus session:** `6.16.2` · **Session 2/3 in phase** · **Next session across:** `6.16.3` → `/session-start 6.16.3`
+- **Tasks in session (detected):** 2 · **Next task across:** `6.16.2.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
 

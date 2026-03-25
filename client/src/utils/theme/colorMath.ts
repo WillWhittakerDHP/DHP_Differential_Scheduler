@@ -71,6 +71,17 @@ export function mixHueToward(color: Oklch, targetHueDeg: number, t: number): Okl
 }
 
 /**
+ * Rotate OKLCH hue by `deltaDeg` (wrap 0–360). Achromatic colors are unchanged.
+ */
+export function rotateHueOklch(color: Oklch, deltaDeg: number): Oklch {
+  if (color.c < 0.001 || color.h === undefined) {
+    return color
+  }
+  const h = (color.h + deltaDeg + 360) % 360
+  return { mode: 'oklch', l: color.l, c: color.c, h, alpha: color.alpha }
+}
+
+/**
  * Pick on-surface text for a background using OKLCH lightness (perceptual).
  */
 export function pickOnColorForBackground(bgHex: string): '#000000' | '#FFFFFF' {

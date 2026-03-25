@@ -228,6 +228,8 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
       brandPrimaryHex,
       brandSecondaryHex,
       logoUrl: wizardLogoUrl,
+      brandModePaletteDeltas,
+      brandWarningPaletteAdjusters,
     },
   } = bookingFlow.wizardSettings
 
@@ -242,6 +244,8 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
     useDhpColors: useDhpBrandColors,
     brandPrimaryHex,
     brandSecondaryHex,
+    brandModePaletteDeltas,
+    brandWarningPaletteAdjusters,
   })
 
   const isQuoteMode = computed(() => wizard.isQuoteMode.value)

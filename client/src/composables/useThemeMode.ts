@@ -14,7 +14,14 @@ import {
 import type { WizardModePalette } from '@/plugins/5.vuetify/theme'
 import type { UseBookingWizardReturn } from '@/types/wizard'
 import type { WizardMode } from '@/types/wizard'
-import { buildWizardModePaletteFromAnchors, type WizardBrandMode } from '@/utils/theme'
+import {
+  buildWizardModePaletteFromAnchors,
+  mergeBrandModePaletteDeltas,
+  mergeBrandWarningPaletteAdjusters,
+  type BrandModePaletteDeltas,
+  type BrandWarningPaletteAdjusters,
+  type WizardBrandMode,
+} from '@/utils/theme'
 import { normalizeBrandHex } from '@/utils/wizardBrand/normalizeBrandHex'
 import { setCSSVariable, removeCSSVariable } from '@/utils/dom/cssVariables'
 
@@ -68,6 +75,10 @@ interface UseThemeModeOptions {
   /** Admin-configured anchors from GET /wizard-settings; when missing or invalid, `dhpPalette` defaults apply. */
   brandPrimaryHex?: Ref<string | null> | ComputedRef<string | null>
   brandSecondaryHex?: Ref<string | null> | ComputedRef<string | null>
+  /** Quote/reschedule hue + chroma deltas from wizard_settings (merged defaults). */
+  brandModePaletteDeltas?: ComputedRef<BrandModePaletteDeltas>
+  /** Warning hue + chroma on top of mode-adjusted secondary. */
+  brandWarningPaletteAdjusters?: ComputedRef<BrandWarningPaletteAdjusters>
 }
 
 const HEX6_ANCHOR = /^#[0-9A-Fa-f]{6}$/
@@ -86,13 +97,17 @@ function isUsableAnchorHex(raw: string | null | undefined): boolean {
 function resolveDhpPaletteForMode(
   modeKey: WizardBrandMode,
   primaryRaw: string | null | undefined,
-  secondaryRaw: string | null | undefined
+  secondaryRaw: string | null | undefined,
+  deltas: BrandModePaletteDeltas,
+  warningAdjusters: BrandWarningPaletteAdjusters
 ): WizardModePalette {
   if (isUsableAnchorHex(primaryRaw) && isUsableAnchorHex(secondaryRaw)) {
     return buildWizardModePaletteFromAnchors({
       primary: normalizeBrandHex(primaryRaw!),
       secondary: normalizeBrandHex(secondaryRaw!),
       mode: modeKey,
+      deltas,
+      warningAdjusters,
     })
   }
   return dhpPalette[modeKey]
@@ -108,11 +123,13 @@ function resolvePalette(
   secondaryAnchor: string | null | undefined,
   _themePrimary: string,
   _themeSecondary: string,
-  _themeWarning: string
+  _themeWarning: string,
+  deltas: BrandModePaletteDeltas,
+  warningAdjusters: BrandWarningPaletteAdjusters
 ): WizardModePalette | null {
   if (useDhp) {
     const key: WizardBrandMode = wizardMode === 'new' ? 'standard' : wizardMode
-    return resolveDhpPaletteForMode(key, primaryAnchor, secondaryAnchor)
+    return resolveDhpPaletteForMode(key, primaryAnchor, secondaryAnchor, deltas, warningAdjusters)
   }
   if (wizardMode === 'quote') return quoteModeColors
   if (wizardMode === 'reschedule') return rescheduleModeColors
@@ -129,12 +146,27 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
   const useDhpColorsRef = options?.useDhpColors
   const brandPrimaryRef = options?.brandPrimaryHex
   const brandSecondaryRef = options?.brandSecondaryHex
+  const brandModePaletteDeltasRef = options?.brandModePaletteDeltas
+  const brandWarningPaletteAdjustersRef = options?.brandWarningPaletteAdjusters
 
   const theme = useTheme()
   const wizardMode = computed<WizardMode>(() => wizard?.wizardMode.value ?? 'new')
   const useDhpColors = computed(() => useDhpColorsRef?.value ?? false)
   const brandPrimaryHex = computed(() => brandPrimaryRef?.value ?? null)
   const brandSecondaryHex = computed(() => brandSecondaryRef?.value ?? null)
+  const brandModePaletteDeltas = computed<BrandModePaletteDeltas>(() => {
+    if (brandModePaletteDeltasRef) {
+      return brandModePaletteDeltasRef.value
+    }
+    return mergeBrandModePaletteDeltas(null)
+  })
+
+  const brandWarningPaletteAdjusters = computed<BrandWarningPaletteAdjusters>(() => {
+    if (brandWarningPaletteAdjustersRef) {
+      return brandWarningPaletteAdjustersRef.value
+    }
+    return mergeBrandWarningPaletteAdjusters(null)
+  })
 
   const isQuoteMode = computed(() => wizardMode.value === 'quote')
   const isRescheduleMode = computed(() => wizardMode.value === 'reschedule')
@@ -153,7 +185,9 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
       brandSecondaryHex.value,
       primary,
       secondary,
-      warning
+      warning,
+      brandModePaletteDeltas.value,
+      brandWarningPaletteAdjusters.value
     )
   })
 
@@ -174,7 +208,7 @@ export function useThemeMode(options?: UseThemeModeOptions): UseThemeModeReturn 
   })
 
   watch(
-    [wizardMode, useDhpColors, resolvedPalette],
+    resolvedPalette,
     () => {
       const palette = resolvedPalette.value
       if (palette) {

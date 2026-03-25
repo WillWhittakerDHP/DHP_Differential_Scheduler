@@ -5,6 +5,10 @@
 import { computed, ref, watchEffect, type ComputedRef, type Ref } from 'vue'
 import { getWizardSettings } from '@/configs/wizardSettings'
 import type { WizardSettingsData } from '@/configs/wizardSettings'
+import {
+  resolveBrandModePaletteDeltasFromWizardSettings,
+  resolveBrandWarningPaletteAdjustersFromWizardSettings,
+} from '@/utils/theme'
 import type {
   UseWizardSettingsFlagsReturn,
   UseWizardSettingsLabelsReturn,
@@ -163,6 +167,12 @@ function buildWizardSettingsFlags(
     return String(raw).trim()
   })
 
+  const brandModePaletteDeltas = computed(() => resolveBrandModePaletteDeltasFromWizardSettings(wizardData.value))
+
+  const brandWarningPaletteAdjusters = computed(() =>
+    resolveBrandWarningPaletteAdjustersFromWizardSettings(wizardData.value)
+  )
+
   function setUseBrandColors(value: boolean): void {
     if (brandColorsBinding) brandColorsBinding.value = value
   }
@@ -175,6 +185,8 @@ function buildWizardSettingsFlags(
     brandPrimaryHex,
     brandSecondaryHex,
     logoUrl,
+    brandModePaletteDeltas,
+    brandWarningPaletteAdjusters,
   }
 }
 

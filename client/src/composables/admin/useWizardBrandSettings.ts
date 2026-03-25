@@ -56,7 +56,11 @@ export function useWizardBrandSettings(
   }
 
   const previewPalettes = computed(() =>
-    buildBrandPreviewPalettes(formData.value?.brandPrimaryHex, formData.value?.brandSecondaryHex)
+    buildBrandPreviewPalettes(
+      formData.value?.brandPrimaryHex,
+      formData.value?.brandSecondaryHex,
+      formData.value ?? undefined
+    )
   )
 
   return {

@@ -1,6 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 import type { WizardSettingsData } from '@/configs/wizardSettings'
 import type { UseAdminSettingsFormReturnBase } from '@/types/admin/adminSettingsFormReturnBase'
+import type { BrandModePaletteDeltas, BrandWarningPaletteAdjusters } from '@/utils/theme'
 
 /** Sub-step index → admin-configured label (availability mini-wizard). */
 export interface WizardSubStepLabels {
@@ -28,6 +29,10 @@ export interface UseWizardSettingsFlagsReturn {
   brandSecondaryHex: ComputedRef<string | null>
   /** Public logo URL/path from GET /wizard-settings; null when unset. */
   logoUrl: ComputedRef<string | null>
+  /** Quote/reschedule OKLCH deltas from settings (merged with defaults). Used by booking theme + admin preview. */
+  brandModePaletteDeltas: ComputedRef<BrandModePaletteDeltas>
+  /** Warning hue/chroma on top of mode-adjusted secondary. */
+  brandWarningPaletteAdjusters: ComputedRef<BrandWarningPaletteAdjusters>
 }
 
 /** Wizard copy from /wizard-settings (labels, sub-step strings, minimizer fallback). */

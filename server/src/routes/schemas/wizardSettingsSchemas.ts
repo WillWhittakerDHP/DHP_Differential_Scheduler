@@ -31,6 +31,12 @@ const wizardSettingsDataSchema = Joi.object({
   brandSecondaryHex: optionalHexColor.optional(),
   logoUrl: Joi.string().max(2048).allow(null, '').optional(),
   selectionCardTooltipOpenDelayMs: Joi.number().integer().min(0).max(600_000).optional(),
+  brandQuoteHueCircleFraction: Joi.number().min(0).max(1).optional(),
+  brandQuoteChromaFactor: Joi.number().min(0.05).max(2.5).optional(),
+  brandRescheduleHueCircleFraction: Joi.number().min(0).max(1).optional(),
+  brandRescheduleChromaFactor: Joi.number().min(0.05).max(2.5).optional(),
+  brandWarningHueCircleFraction: Joi.number().min(0).max(1).optional(),
+  brandWarningChromaFactor: Joi.number().min(0.05).max(2.5).optional(),
 }).unknown(true)
 
 /** PUT /wizard-settings: requires setting_value object. */

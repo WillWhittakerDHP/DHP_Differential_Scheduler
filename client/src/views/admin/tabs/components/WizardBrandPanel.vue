@@ -8,6 +8,7 @@ import { WIZARD_FORM_DATA_KEY } from '../businessControlsStateKey'
 import { useWizardBrandSettings } from '@/composables/admin/useWizardBrandSettings'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { createLogger } from '@/utils/logger'
+import { DEFAULT_BRAND_MODE_PALETTE_DELTAS, DEFAULT_BRAND_WARNING_PALETTE_ADJUSTERS } from '@/utils/theme'
 
 const logger = createLogger('WizardBrandPanel')
 
@@ -21,6 +22,99 @@ const previewStandard = computed(() => (brand ? brand.previewPalettes.value.stan
 const lastFile = ref<File | null>(null)
 const localError = ref<string | null>(null)
 const extracting = ref(false)
+
+const D = DEFAULT_BRAND_MODE_PALETTE_DELTAS
+const W = DEFAULT_BRAND_WARNING_PALETTE_ADJUSTERS
+
+const quoteHuePercent = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const fr = row?.brandQuoteHueCircleFraction
+    const v = typeof fr === 'number' && !Number.isNaN(fr) ? fr : D.quoteHueCircleFraction
+    return Math.round(v * 1000) / 10
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandQuoteHueCircleFraction = Math.min(100, Math.max(0, n)) / 100
+  },
+})
+
+const quoteChromaFactor = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const x = row?.brandQuoteChromaFactor
+    const v = typeof x === 'number' && !Number.isNaN(x) ? x : D.quoteChromaFactor
+    return Math.round(v * 1000) / 1000
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandQuoteChromaFactor = Math.min(2.5, Math.max(0.05, n))
+  },
+})
+
+const rescheduleHuePercent = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const fr = row?.brandRescheduleHueCircleFraction
+    const v = typeof fr === 'number' && !Number.isNaN(fr) ? fr : D.rescheduleHueCircleFraction
+    return Math.round(v * 1000) / 10
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandRescheduleHueCircleFraction = Math.min(100, Math.max(0, n)) / 100
+  },
+})
+
+const rescheduleChromaFactor = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const x = row?.brandRescheduleChromaFactor
+    const v = typeof x === 'number' && !Number.isNaN(x) ? x : D.rescheduleChromaFactor
+    return Math.round(v * 1000) / 1000
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandRescheduleChromaFactor = Math.min(2.5, Math.max(0.05, n))
+  },
+})
+
+const warningHuePercent = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const fr = row?.brandWarningHueCircleFraction
+    const v = typeof fr === 'number' && !Number.isNaN(fr) ? fr : W.warningHueCircleFraction
+    return Math.round(v * 1000) / 10
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandWarningHueCircleFraction = Math.min(100, Math.max(0, n)) / 100
+  },
+})
+
+const warningChromaFactor = computed({
+  get(): number {
+    const row = wizardFormRef?.value
+    const x = row?.brandWarningChromaFactor
+    const v = typeof x === 'number' && !Number.isNaN(x) ? x : W.warningChromaFactor
+    return Math.round(v * 1000) / 1000
+  },
+  set(v: number) {
+    if (!wizardFormRef?.value) return
+    const n = Number(v)
+    if (!Number.isFinite(n)) return
+    wizardFormRef.value.brandWarningChromaFactor = Math.min(2.5, Math.max(0.05, n))
+  },
+})
 
 function onFilePicked(files: File | File[] | null): void {
   if (!files) {
@@ -118,6 +212,96 @@ async function handleExtract(): Promise<void> {
         {{ UI.extractButton }}
       </VBtn>
     </div>
+
+    <div class="text-body-small text-medium-emphasis mb-2 mt-2">{{ UI.modeDeltasTitle }}</div>
+    <div class="text-body-small text-medium-emphasis mb-4">{{ UI.modeDeltasHint }}</div>
+
+    <VRow class="mb-2">
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="quoteHuePercent"
+          type="number"
+          min="0"
+          max="100"
+          step="0.1"
+          :label="UI.quoteHuePercentLabel"
+          :hint="UI.quoteHuePercentHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="quoteChromaFactor"
+          type="number"
+          min="0.05"
+          max="2.5"
+          step="0.05"
+          :label="UI.quoteChromaLabel"
+          :hint="UI.quoteChromaHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="rescheduleHuePercent"
+          type="number"
+          min="0"
+          max="100"
+          step="0.1"
+          :label="UI.rescheduleHuePercentLabel"
+          :hint="UI.rescheduleHuePercentHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="rescheduleChromaFactor"
+          type="number"
+          min="0.05"
+          max="2.5"
+          step="0.05"
+          :label="UI.rescheduleChromaLabel"
+          :hint="UI.rescheduleChromaHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+    </VRow>
+
+    <div class="text-body-small text-medium-emphasis mb-2 mt-2">{{ UI.warningAdjustersTitle }}</div>
+    <div class="text-body-small text-medium-emphasis mb-4">{{ UI.warningAdjustersHint }}</div>
+
+    <VRow class="mb-2">
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="warningHuePercent"
+          type="number"
+          min="0"
+          max="100"
+          step="0.1"
+          :label="UI.warningHuePercentLabel"
+          :hint="UI.warningHuePercentHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+      <VCol cols="12" sm="6">
+        <VTextField
+          v-model.number="warningChromaFactor"
+          type="number"
+          min="0.05"
+          max="2.5"
+          step="0.05"
+          :label="UI.warningChromaLabel"
+          :hint="UI.warningChromaHint"
+          persistent-hint
+          density="comfortable"
+        />
+      </VCol>
+    </VRow>
 
     <VRow>
       <VCol cols="12" sm="6">

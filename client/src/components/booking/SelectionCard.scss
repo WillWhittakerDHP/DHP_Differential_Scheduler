@@ -31,12 +31,13 @@
 
   &.selection-card-bordered {
     border: 1px solid rgb(var(--v-theme-on-surface-variant));
-    background-color: rgb(var(--v-theme-surface));
+    /* WHY: Very light primary wash (booking wizard maps --v-theme-primary from brand palette). */
+    background-color: rgba(var(--v-theme-primary), 0.05);
     border-radius: 4px;
 
     &:hover {
       border-color: rgb(var(--v-theme-primary));
-      background-color: rgba(var(--v-theme-primary), 0.04);
+      background-color: rgba(var(--v-theme-primary), 0.1);
     }
   }
 
@@ -62,7 +63,7 @@
 
   &.active {
     border-color: rgb(var(--v-theme-primary));
-    background-color: rgba(var(--v-theme-primary), 0.08);
+    background-color: rgba(var(--v-theme-primary), 0.14);
     box-shadow: 0 2px 8px rgba(var(--v-theme-primary), 0.2);
 
     .v-radio {

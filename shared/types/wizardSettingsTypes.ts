@@ -29,6 +29,24 @@ export interface WizardSettingsData extends WizardCopyLabelFields {
   /** Public URL or path to uploaded wizard logo, nullable when unset. */
   logoUrl?: string | null
   /**
+   * Quote mode OKLCH tweak: fraction of full hue circle rotated clockwise (0–1). Default 0.2 (= 20%).
+   */
+  brandQuoteHueCircleFraction?: number | null
+  /** Quote mode: chroma multiplier vs anchors (e.g. 0.8 = 20% less saturated). Default 0.8. */
+  brandQuoteChromaFactor?: number | null
+  /**
+   * Reschedule mode: fraction of full hue circle rotated counter-clockwise (0–1). Default 0.2.
+   */
+  brandRescheduleHueCircleFraction?: number | null
+  /** Reschedule mode: chroma multiplier (e.g. 1.2 = 20% more saturated). Default 1.2. */
+  brandRescheduleChromaFactor?: number | null
+  /**
+   * Warning slot: extra OKLCH tweak on top of mode-adjusted secondary (clockwise hue, 0–1 of circle). Default 0.
+   */
+  brandWarningHueCircleFraction?: number | null
+  /** Warning: chroma multiplier vs mode-adjusted secondary. Default 1. */
+  brandWarningChromaFactor?: number | null
+  /**
    * Booking selection cards: ms to wait before showing CARD_TOOLTIP overlay on hover.
    * Omit or invalid → client default (3000).
    */

@@ -2,7 +2,12 @@
  * Preview palettes for admin brand anchors (aligns with `theme.ts` DHP defaults when unset).
  */
 import type { WizardModePalette } from '@/plugins/5.vuetify/theme'
-import { buildWizardModePaletteFromAnchors } from '@/utils/theme'
+import type { WizardSettingsData } from '@shared/types/wizardSettingsTypes'
+import {
+  buildWizardModePaletteFromAnchors,
+  resolveBrandModePaletteDeltasFromWizardSettings,
+  resolveBrandWarningPaletteAdjustersFromWizardSettings,
+} from '@/utils/theme'
 import { normalizeBrandHex } from './normalizeBrandHex'
 
 /** Same defaults as `dhpPalette` / theme anchors for preview when DB fields are empty. */
@@ -24,16 +29,34 @@ export interface BrandPreviewPalettes {
 
 /**
  * Builds standard / quote / reschedule wizard palettes from optional anchor hex (falls back to DHP defaults).
+ * Optional `settings` supplies admin-configured quote/reschedule hue + chroma deltas.
  */
 export function buildBrandPreviewPalettes(
   primaryHex: string | null | undefined,
-  secondaryHex: string | null | undefined
+  secondaryHex: string | null | undefined,
+  settings?: Pick<
+    WizardSettingsData,
+    | 'brandQuoteHueCircleFraction'
+    | 'brandQuoteChromaFactor'
+    | 'brandRescheduleHueCircleFraction'
+    | 'brandRescheduleChromaFactor'
+    | 'brandWarningHueCircleFraction'
+    | 'brandWarningChromaFactor'
+  > | null
 ): BrandPreviewPalettes {
   const primary = resolvedAnchorHex(primaryHex, DEFAULT_BRAND_PRIMARY_ANCHOR)
   const secondary = resolvedAnchorHex(secondaryHex, DEFAULT_BRAND_SECONDARY_ANCHOR)
+  const deltas = resolveBrandModePaletteDeltasFromWizardSettings(settings ?? undefined)
+  const warningAdjusters = resolveBrandWarningPaletteAdjustersFromWizardSettings(settings ?? undefined)
   return {
-    standard: buildWizardModePaletteFromAnchors({ primary, secondary, mode: 'standard' }),
-    quote: buildWizardModePaletteFromAnchors({ primary, secondary, mode: 'quote' }),
-    reschedule: buildWizardModePaletteFromAnchors({ primary, secondary, mode: 'reschedule' }),
+    standard: buildWizardModePaletteFromAnchors({ primary, secondary, mode: 'standard', deltas, warningAdjusters }),
+    quote: buildWizardModePaletteFromAnchors({ primary, secondary, mode: 'quote', deltas, warningAdjusters }),
+    reschedule: buildWizardModePaletteFromAnchors({
+      primary,
+      secondary,
+      mode: 'reschedule',
+      deltas,
+      warningAdjusters,
+    }),
   }
 }
