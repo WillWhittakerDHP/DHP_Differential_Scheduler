@@ -85,6 +85,12 @@ index 8420a949..a12118d1 100644
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 
+
++
++
+```
+<!-- /harness:anchor:commit-preview -->
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
@@ -102,10 +108,10 @@ Paths (2): `.project-manager/features/appointment-workflow/phases/phase-6.16-log
 
 ```diff
 diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
-index ba6c98cc..e03e187b 100644
+index e03e187b..af63b648 100644
 --- a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
 +++ b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
-@@ -25,6 +25,14 @@
+@@ -33,6 +33,14 @@
  
  
  
@@ -121,11 +127,11 @@ index ba6c98cc..e03e187b 100644
  **Completed:** 2026-03-25
  **Tasks Completed:** All tasks completed
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
-index b03ef219..feabe816 100644
+index 29e151fb..65f46eaf 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.2-log.md
-@@ -255,3 +255,5 @@ index dfd3ba6d..33c5db98 100644
- … (truncated)
+@@ -132,3 +132,5 @@ index b03ef219..feabe816 100644
+ +
  ```
  <!-- /harness:anchor:commit-preview -->
 +
