@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Match checklist scope; document gaps without changing behavior yet.
 **Checkpoint:** Written audit list aligned with GC-8-JOI acceptance criteria.
 
-- [ ] #### Task 8.5.3.2: Add Joi schemas and wire validation
+- [x] #### Task 8.5.3.2: Add Joi schemas and wire validation
 **Goal:** Add schemas and `validateRequest` for audited routes; follow existing server validation patterns; no silent fallbacks.
 **Files:**
 - `server/src/routes/internal/**/*.ts`
