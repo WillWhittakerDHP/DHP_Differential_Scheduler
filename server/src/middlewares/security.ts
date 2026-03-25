@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { resolveAuthenticatedUserForRequest } from '../auth/resolveAuthenticatedUser.js'
 import { createLogger } from '../utils/logger.js'
+import { verifyCsrfToken } from './csrfTokens.js'
+import { checkOwnershipHandler } from './ownershipChecks.js'
 
 const authLogger = createLogger('middleware.requireAuth')
 const roleLogger = createLogger('middleware.requireRole')
@@ -10,13 +12,22 @@ const AUTH_401_MESSAGE = 'Authentication required'
 const AUTH_500_MESSAGE = 'Authentication check failed'
 const ROLE_403_MESSAGE = 'Insufficient permissions'
 
+const csrfLogger = createLogger('middleware.csrfProtection')
+
 /**
- * WHY: CSRF Protection Middleware (Stub)
-WHY: Wires CSRF protection into all st...
+ * CSRF for unsafe HTTP methods: requires `csrf_secret` cookie + `X-CSRF-Token` (or body `_csrf`).
+ * Obtain token via `GET /api/v1/internal/auth/csrf-token`.
  */
 export function csrfProtection(req: Request, res: Response, next: NextFunction): void {
-  // Stub: see docs/SECURITY_STUBS.md
-  next()
+  if (verifyCsrfToken(req)) {
+    next()
+    return
+  }
+  csrfLogger.warn('csrf rejected', { method: req.method, path: req.path })
+  res.status(403).json({
+    code: AUTH_FAILURE_CODES.FORBIDDEN,
+    message: 'Invalid or missing CSRF token',
+  })
 }
 
 /**
@@ -104,11 +115,8 @@ export function requireRole(
  */
 export function checkOwnership(
   modelName: string,
-  _paramKey: string = 'id',
-  _ownerField: string = 'userId'
-) {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    // Stub: see docs/SECURITY_STUBS.md
-    next()
-  }
+  paramKey: string = 'id',
+  ownerField: string = 'userId'
+): (req: Request, res: Response, next: NextFunction) => Promise<void> {
+  return checkOwnershipHandler(modelName, paramKey, ownerField)
 }

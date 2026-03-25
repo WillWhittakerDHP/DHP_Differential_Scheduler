@@ -1,6 +1,10 @@
-# Security middleware stubs
+# Security middleware
 
-Most middleware in `src/middlewares/security.ts` are **intentional no-op stubs** until fully enacted. **`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in. **`csrfProtection`** and **`checkOwnership`** remain stubs.
+**`requireAuth`** is **session-backed** (Feature 7 **7.2.3.1**); **`requireRole`** is a real factory (**7.2.3.2**) and must run **after** `requireAuth`. Neither is global — routes opt in.
+
+**`csrfProtection`** validates **`X-CSRF-Token`** (or body `_csrf`) against the **`csrf_secret`** httpOnly cookie. Obtain a token with **`GET /api/v1/internal/auth/csrf-token`** before unsafe methods.
+
+**`checkOwnership`** enforces access for **appointments** when `req.user` is present and the user is not privileged (`admin`, `transaction_manager`, `inspector`, `seller`): the user must match **`scheduledById`** or **`heldBy`**. Anonymous requests still pass (booking wizard). Other resource names are unchanged until extended in `ownershipChecks.ts`.
 
 ---
 

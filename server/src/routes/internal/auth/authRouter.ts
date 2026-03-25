@@ -6,7 +6,7 @@
  * Keep mutating routes behind **`csrfProtection`** + **`validateRequest`** where applicable.
  */
 
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, type NextFunction } from 'express'
 import Joi from 'joi'
 import { validateRequest } from '../../../middlewares/validateRequest.js'
 import { csrfProtection, requireAuth, requireRole } from '../../../middlewares/security.js'
@@ -15,12 +15,14 @@ import {
   buildAuthPlaceholder501Body,
 } from '../../../auth/strategies/strategyTypes.js'
 import {
+  clearAuthSessionWithCookie,
   issueAuthSessionWithCookie,
   magicLinkRequestBodySchema,
   magicLinkStrategy,
   submitMagicLinkRequest,
   type AuthRequestContext,
 } from '../../../auth/index.js'
+import { createCsrfTokenForRequest } from '../../../middlewares/csrfTokens.js'
 import { getAuthConfig } from '../../../config/authConfig.js'
 import { USER_ROLE_AGENT } from '../../../constants/userRoles.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -36,6 +38,23 @@ const loginBodySchema = Joi.object({
 }).unknown(true)
 
 const MAGIC_LINK_AUTH_CONTEXT: AuthRequestContext = {}
+
+/** Issue CSRF secret cookie + token for SPA (safe method; no CSRF header required). */
+router.get('/csrf-token', (req: Request, res: Response): void => {
+  const token = createCsrfTokenForRequest(req, res)
+  res.status(200).json({ csrfToken: token })
+})
+
+/** Revoke session and clear session cookie (requires CSRF on POST). */
+router.post('/logout', csrfProtection, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    await clearAuthSessionWithCookie(req, res)
+    res.status(204).send()
+  } catch (err: unknown) {
+    logger.error('logout handler failed', { err })
+    next(err)
+  }
+})
 
 function httpStatusForMagicLinkVerifyFailure(code: string): number {
   if (code === AUTH_FAILURE_CODES.VALIDATION) {

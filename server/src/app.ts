@@ -20,6 +20,8 @@ import {
   getWizardLogoUploadDir,
   WIZARD_LOGO_PUBLIC_PATH,
 } from './config/wizardLogoUploadConfig.js'
+import { envConfig } from './config/envConfig.js'
+import { NODE_ENV } from './constants/appConstants.js'
 
 const logger = createLogger('app')
 const app = express()
@@ -41,6 +43,7 @@ const startServer = async (): Promise<void> => {
 startServer()
 
 app.use(morgan('dev'))
+const isDev = envConfig.NODE_ENV === NODE_ENV.DEVELOPMENT
 app.use(
   helmet({
     hsts: {
@@ -50,6 +53,21 @@ app.use(
     },
     referrerPolicy: {
       policy: 'strict-origin-when-cross-origin',
+    },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: isDev ? ["'self'", "'unsafe-inline'", "'unsafe-eval'"] : ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'", 'data:'],
+        objectSrc: ["'none'"],
+        frameSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        upgradeInsecureRequests: isDev ? null : [],
+      },
     },
   })
 )

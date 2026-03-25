@@ -104,12 +104,12 @@ Other tiers use a single approve step (`approve_execute`); only task has this ex
 - **Across ladder (cascade guardrails):** `/.cursor/commands/utils/across-ladder.ts` writes **`.project-manager/features/<feature>/across-ladder.json`** (phase/session counts, `nextPhaseAcross`, `nextSessionAcross`, task totals) on **feature-start**, **phase-start**, **session-start**, **phase-end**, and **session-end**. A matching **## Across ladder (harness)** block (between HTML comment markers) is merged into handoff(s) when verification allows. **Phase-end** cascade prefers **across** (`/phase-start <next>`) when a next phase exists on disk or in params, then **up** (`/feature-end`) only when last. Agents should align suggested next commands with the manifest.
 - **Git — tier-start (`ensureTierBranch`):** Uncommitted changes may block checkout. Paths classified as **auto-committable** (including **non-transient** `.project-manager/` workflow docs and certain other workflow paths per `isAutoCommittable` in `tier-branch-manager.ts`) can be **committed on the current branch** so the checkout can proceed; **blocking** paths (e.g. under `client/` / `server/` when mixed with blockers) require the user to commit, stash, or discard. After checkout onto an **existing** tier branch, when remote sync is enabled, the harness runs **`git pull origin <branch>`**. **`recoverPlanningArtifactsAfterCheckout`** runs after `ensure_branch` in `run-start-steps.ts`; when the pre-switch resolution recorded **`autoCommittedPaths`**, recovery can prefer those paths.
 - **`.cursor` submodule (tier-start):** Optional sync runs **only inside** `.cursor/commands/git/**` (`syncCursorSubmodule` / `ensureTierBranch` option `submoduleCursor`). In **plan** mode, submodule commands are off; in **execute** mode, default is **parent** gitlink (`submodule sync` + `submodule update --init .cursor`). Opt-in **remote** via `TIER_START_SUBMODULE_CURSOR=remote` or `params.options.submoduleCursor: 'remote'` (may dirty the parent if the submodule HEAD advances). **No automatic submodule push.**
-- **Tier-end resume:** `runTierEndWorkflow` honors `params.options.resumeEndAfterStep` for a narrow allowlist (`commit_remaining`, `git`, `end_audit`) after **always** re-running the conflict-marker guard; audit **prewarm** stays **outside** step guards (same position as today). **`continuePastVerification`** remains separate (verification gate). Control-plane **`nextInvoke`** merges options via `buildEndReinvokeParams` for `wrong_branch_before_commit`, `audit_fix_commit_failed`, and **`git_failed`** when `tierEndGitResumable` is set on the outcome.
+- **Tier-end resume:** `runTierEndWorkflow` honors `params.options.resumeEndAfterStep` for a narrow allowlist (`gap_analysis`, `commit_remaining`, `git`, `end_audit`) after **always** re-running the conflict-marker guard; audit **prewarm** stays **outside** step guards (same position as today). **`continuePastVerification`** remains separate (verification gate). **`continuePastGapAnalysis`** lives under **`params.options`** (and `WorkflowSpec.userChoices` when threaded through tier-end); it bypasses the **`gap_analysis`** soft gate after review. Control-plane **`nextInvoke`** for **`gap_analysis_pending`** merges options via `buildEndReinvokeParams` with `resumeEndAfterStep: 'gap_analysis'` and `continuePastGapAnalysis: true`. Control-plane **`nextInvoke`** also merges options via `buildEndReinvokeParams` for `wrong_branch_before_commit`, `audit_fix_commit_failed`, and **`git_failed`** when `tierEndGitResumable` is set on the outcome.
 - **Git boundary:** New raw `git` subprocess usage belongs only under `.cursor/commands/git/**`; harness/tiers/utils call **`git-manager`** (or re-exports) for tier git behavior.
 - **Git — tier-end (`commitRemaining` / `commitUncommittedNonCursor`):** Branches are created at **tier-start** (`ensureTierBranch`); tier-end does **not** create missing phase/session/feature branches. After resolving the expected branch name (`getExpectedBranchForTier`, including prefix match), if that branch **does not exist locally**, tier-end fails with **`expected_branch_missing_run_tier_start`** and an actionable message (run **`/feature-start`**, **`/phase-start`**, or **`/session-start`** as appropriate, plus optional **`git fetch`** if the branch exists only on the remote). Otherwise, before committing remaining work, the workflow ensures checkout matches the expected branch. The commit step (`commitUncommittedNonCursor` in `git/shared/tier-branch-manager.ts`) stages touched files only when they fall under **`client/`**, **`server/`**, or **`.project-manager/`** (`DEFAULT_ALLOWED_COMMIT_PREFIXES`). It **never** stages: paths under **`.cursor/`** (submodule; commit inside the `.cursor` repo), **`client/.audit-reports/`**, or **transient** `.project-manager/` harness files (e.g. `.git-ops-log`, `.write-log`, `.tier-scope`, `.current-feature`, `.merge-incident-log`, `.audit-baseline-log.jsonl`). Non-transient `.project-manager/` documentation (guides, plans, handoffs) **is** auto-committed when modified. If the branch exists but the current branch differs, tier-end returns `wrong_branch_before_commit` and the playbook directs the user to checkout the correct branch and re-run.
 - **nextInvoke shape:** Control-plane decision uses `nextInvoke: { tier, action, params }` (not a full `WorkflowSpec`). Params carry tier identifiers and `params.options` for execution toggles (e.g. `mode: 'execute'`).
 - **Workflow scope resolution:** `resolveWorkflowScope` (`.cursor/commands/utils/workflow-scope.ts`) is the **only** resolver for normalized feature directory name, tier + identifier, and optional `.tier-scope`. **Phase, session, and task** invocations **must** include **`featureId` or `featureName`** (numeric `#` or directory slug from `PROJECT_PLAN.md` Feature Summary). The harness does **not** infer feature from git branch. Pending state (`.tier-start-pending.json`, `.task-start-pending.json`) must carry feature for phase/session/task re-invocation (`/accepted-plan`, `/accepted-build`, `/accepted-code`). `WorkflowCommandContext.contextFromParams` delegates to `resolveWorkflowScope` only. For **feature-only** lookups (utilities, audits, scripts), use **`resolveFeatureDirectoryFromPlan(ref)`** (# or slug → directory); for **continue last explicit scope** (no ref), use **`resolveActiveFeatureDirectory()`** (reads `.project-manager/.tier-scope` from tier-start — not git).
-- **Workflow friction (non-git):** Classified harness failures append to **`.project-manager/WORKFLOW_FRICTION_LOG.md`** via `.cursor/commands/utils/workflow-friction-log.ts` (policy: `parseReasonCode` + failure taxonomy; `HARNESS_WORKFLOW_FRICTION`). Read/filter: `npx tsx .cursor/commands/utils/read-workflow-friction.ts`. Aligns with governance context redesign (Pillar 5: agent-maintained friction parallel to git JSONL). See **START_END_PLAYBOOK_STRUCTURE.md** → *Workflow / planning friction*.
+- **Workflow friction (non-git):** Classified harness failures append to **`.project-manager/WORKFLOW_FRICTION_LOG.md`** via `.cursor/commands/utils/workflow-friction-log.ts` (policy: `parseReasonCode` + failure taxonomy; `HARNESS_WORKFLOW_FRICTION`). Read/filter: `npx tsx .cursor/commands/utils/read-workflow-friction.ts`. **`gap_analysis_pending`** is an expected flow stop and is **not** auto-logged (suppressed like `verification_suggested`). Internal errors in the **`gap_analysis`** step use **`gap_analysis_failed`** with `recordWorkflowFriction` (`forcePolicy: true`), non-gating. Aligns with governance context redesign (Pillar 5: agent-maintained friction parallel to git JSONL). See **START_END_PLAYBOOK_STRUCTURE.md** → *Workflow / planning friction*.
 
 ---
 
@@ -256,6 +256,7 @@ export interface WorkflowSpec {
   // User-choice params set by caller when re-invoking after confirmation
   userChoices?: {
     continuePastVerification?: boolean;
+    continuePastGapAnalysis?: boolean;
     pushConfirmed?: boolean;
     cascadeConfirmed?: boolean;
   };
@@ -620,6 +621,7 @@ export type QuestionKey =
   | 'push_confirmation'
   | 'cascade_confirmation'
   | 'verification_options'
+  | 'gap_analysis_options'
   | 'failure_options'
   | 'uncommitted_changes'
   | 'reopen_options'
@@ -660,6 +662,7 @@ export type FlowReasonCode =
   | 'task_complete'
   | 'pending_push'
   | 'verification_suggested'
+  | 'gap_analysis_pending'
   | 'reopen_ok'
   | 'uncommitted_blocking';
 
@@ -688,6 +691,7 @@ export type ReasonCode = FlowReasonCode | FailureReasonCode;
 | `task_complete` | if cascade | `cascade_confirmation` | cascade spec |
 | `pending_push` | true | `push_confirmation` | none (user runs /accepted-push or /skip-push) |
 | `verification_suggested` | true | `verification_options` | re-invoke with `continuePastVerification` |
+| `gap_analysis_pending` | true | `gap_analysis_options` | re-invoke with `nextInvoke` (sets `resumeEndAfterStep: 'gap_analysis'` and `continuePastGapAnalysis` in `params.options`) or manual re-run with `continuePastGapAnalysis: true` under `params.options` |
 | `reopen_ok` | true | `reopen_options` | see reopen mapping below |
 | `uncommitted_blocking` | true | `uncommitted_changes` | same spec after commit/stash |
 | `validation_failed` | true | `failure_options` | none |
