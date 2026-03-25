@@ -42,6 +42,14 @@
 - CSP directives (default-src, script-src, style-src, connect-src)
 - App verification and CSP violation check
 
+- [ ] ### Session 8.5.3: Joi gap closure — internal routes batch A
+**Description:** Audit first half of `server/src/routes/internal` for POST/PUT/PATCH missing `validateRequest`; add Joi schemas; preserve CSRF/ownership middleware order; update **GC-8-JOI** when verified.
+**Tasks:** 3
+**Focus:**
+- Route audit vs GAP_CLOSURE **GC-8-JOI**
+- Schema alignment with existing server patterns
+- Checklist closure with evidence
+
 ---
 
 ## Dependencies
@@ -121,4 +129,4 @@ After completing all sessions in a phase:
 
 ## Tasks
 
-Sessions 8.5.1 and 8.5.2. See Sessions Breakdown above.
+Sessions 8.5.1, 8.5.2, and 8.5.3. See Sessions Breakdown above.

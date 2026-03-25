@@ -337,3 +337,36 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useA
 
 …(truncated)
+
+### 2026-03-25 — 8.5.3 / 8.5 — cross-cutting — tier-add vs across-ladder manifest and session-end cascade
+
+- **reasonCodeRaw:** HARNESS_WORKFLOW_FRICTION
+- **reasonCodeNormalized:** unhandled_error
+- **isFailureReason:** false
+- **tier:** session / phase (cross-cutting)
+- **action:** add + end (orchestrator sequencing)
+- **identifier:** 8.5.3 / 8.5
+- **featureName:** security-hardening
+- **stepPath:** sessionAdd, appendChildToParentDoc, refreshAcrossLadderArtifacts (session_end), sessionEndImpl cascade
+
+- **Symptom:** After registering **session 8.5.3** via **`/session-add`**, operators expected **`across-ladder.json`** (and handoff “next session across”) to show **8.5.3** as the next step. Instead, **`session-end 8.5.2`** completed with cascade **`/phase-end 8.5`**, and the manifest showed **`nextSessionAcross: null`** for focus **8.5.2**, as if phase 8.5 had only two sessions. That felt like “we forgot to update the ladder on tier-add.”
+
+- **Context (explicit, code-backed):**
+  1. **`tier-add` / `sessionAdd` does not refresh the ladder.** Implementation: `.cursor/commands/tiers/shared/tier-add.ts` calls **`appendChildToParentDoc`** and planning/advisory output only. It does **not** invoke `refreshAcrossLadderArtifacts` (`.cursor/commands/utils/across-ladder.ts`). So **`across-ladder.json` is not updated at add time** by design today.
+  2. **The manifest is derived from phase guide text.** `buildAcrossLadderManifest` → **`loadSessionsByPhaseMap`** → **`extractSessionIdsFromPhaseGuide`** for each `phase-*-guide.md`. Session IDs in **`sessionsByPhase["8.5"]`** must appear in that guide.
+  3. **`nextSessionAcross` rule:** For `focusSessionId` **8.5.2**, `nextSessionAcross = sessions[idx + 1]` **only if** `idx < sessions.length - 1`. If the guide lists only **8.5.1** and **8.5.2**, then **`nextSessionAcross` is `null`** (correct for “last session in list”), and the formatted handoff line reads like **next session across → then /phase-end** (`formatHandoffMarkdown` in `across-ladder.ts`).
+  4. **Session-end cascade** (`pending_push` → **`/phase-end 8.5`**) comes from **tier-end** completion of **8.5.2**, not from re-checking whether **8.5.3** was later registered. It can align with “close the phase” even when the playbook still plans **8.5.3**, if the phase guide manifest does not list **8.5.3**.
+  5. **On-disk state checked (2026-03-25):** `.project-manager/features/security-hardening/phases/phase-8.5-guide.md` **Sessions Breakdown** contained only **8.5.1** and **8.5.2** (no **8.5.3** line). So either **`appendChildToParentDoc` for 8.5.3 never persisted** in this tree, or it was **lost** (e.g. restore from `doc-archive`, stash/merge, branch switch). That is **separate** from “ladder refresh forgot” — without **8.5.3** in the guide, **`refreshAcrossLadderArtifacts` after `session_end` correctly** omits it.
+
+- **What we tried:** Traced **`sessionAdd`** output path vs **`across-ladder`** write path; read **`across-ladder.json`** and **`phase-8.5-guide.md`**; compared to **`buildAcrossLadderManifest`** logic.
+
+- **Outcome / workaround:**
+  - **Not a missing ladder hook inside tier-add** — tier-add intentionally does not write **`across-ladder.json`**; refresh happens on tier boundaries that call **`refreshAcrossLadderArtifacts`** (e.g. **session_end**).
+  - **Operational workaround:** After **`/session-add`**, **verify** the new session line exists under **Sessions Breakdown** in **`phases/phase-8.5-guide.md`**, commit if needed, then rely on the **next** refresh (e.g. **`/session-start`** / **`/session-end`**) to republish **`across-ladder.json`**.
+  - If **8.5.3** is missing from the guide, **re-run `sessionAdd('8.5.3', …)`** or **manually append** the session row per harness template, then refresh manifest by a tier event.
+
+- **Suggestion:**
+  1. **Docs / HARNESS_CHARTER or START_END_PLAYBOOK:** State explicitly: **`/{tier}-add` updates parent guide only; `across-ladder.json` updates on tier start/end (and listed events), not on add.**
+  2. **Optional harness enhancement:** After successful **`appendChildToParentDoc`** in **`tier-add`**, call **`refreshAcrossLadderArtifacts`** (feature scope) so **`nextSessionAcross`** updates immediately — tradeoff: more writes and possible handoff inject attempts.
+  3. **Agents:** Post-**session-add**, **`grep` / read** **`phase-X.Y-guide.md`** for the new session id before assuming the ladder is current.
+
