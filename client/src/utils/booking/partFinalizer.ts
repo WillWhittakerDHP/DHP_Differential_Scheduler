@@ -105,6 +105,9 @@ function resolvePartShapeDifferentialFlags(
       minor = 'true'
     } else if (role === 'moveable') {
       minimizer = 'true'
+    } else if (role === 'margin') {
+      // WHY: PartFinal.minimizer 'override' = pre-major margin segment (phase 6.16), not minimizer 'true' (moveable path).
+      minimizer = 'override'
     }
   }
   return { major, minor, minimizer }

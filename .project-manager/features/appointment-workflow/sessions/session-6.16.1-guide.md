@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** Add `'margin'` to TypeScript union and `DataTypes.ENUM`; author migration `ALTER TYPE differential_role_enum ADD VALUE 'margin'`; do NOT run (remote DB).
 **Checkpoint:** Server compiles; model accepts `'margin'`; migration file authored
 
-- [ ] #### Task 6.16.1.3: Part finalizer pipeline — margin branch
+- [x] #### Task 6.16.1.3: Part finalizer pipeline — margin branch
 **Goal:** Add `'margin'` branch in `resolvePartShapeDifferentialFlags` so margin maps to `minimizer: 'override'`.
 **Files:** 
 - `client/src/utils/booking/partFinalizer.ts`
