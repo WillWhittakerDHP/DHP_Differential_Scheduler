@@ -9,6 +9,7 @@
 ## Entry template
 
 ```markdown
+
 ### YYYY-MM-DD — [feature/phase/session/task id] — [slash command or step] — Short title
 
 - **Symptom:** What went wrong or was unclear
@@ -26,8 +27,6 @@
 | `WORKFLOW_FRICTION_LOG.md` | Agents | Gates, parsers, audits, ARCHITECTURE.md drift, doc contradictions |
 
 ---
-
-
 
 ### 2026-03-24 — 6.15 — phase — start — validation_failed
 
@@ -370,7 +369,6 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
   2. **Optional harness enhancement:** After successful **`appendChildToParentDoc`** in **`tier-add`**, call **`refreshAcrossLadderArtifacts`** (feature scope) so **`nextSessionAcross`** updates immediately — tradeoff: more writes and possible handoff inject attempts.
   3. **Agents:** Post-**session-add**, **`grep` / read** **`phase-X.Y-guide.md`** for the new session id before assuming the ladder is current.
 
-
 ### 2026-03-25 — 6.16.1 — session — start — validation_failed
 
 - **reasonCodeRaw:** validation_failed
@@ -467,3 +465,22 @@ nextAction:
 - **What we tried:** First call without `featureRef` → crash. Second call with `'8'` → success.
 - **Outcome / workaround:** Pass the feature number as the second argument (e.g. `'8'` for session `8.5.4`). Works but inconsistent with `tier-add` and potentially with phase/task start.
 - **Suggestion:** Align `sessionStart` (and `sessionEnd`) to match `tier-add` and other composites: parse `featureId` from the session ID using `WorkflowId.parseSessionId(sessionId).feature` when `featureRef` is not provided. Make `featureRef` optional with a fallback: `const resolvedFeature = featureRef?.trim() || WorkflowId.parseSessionId(sessionId)?.feature`. This removes the redundant parameter requirement and makes the agent invocation pattern consistent across all tiers: `sessionStart('8.5.4')` should just work, same as `sessionAdd('8.5.4', description)` does.
+
+### 2026-03-25 — meta — harness-repair — smoke — execute verification (intentional test entry)
+
+- **reasonCodeRaw:** harness_repair_execute_smoke
+- **reasonCodeNormalized:** unhandled_error
+- **isFailureReason:** false
+- **tier:** harness-repair
+- **action:** end
+- **identifier:** smoke
+- **featureName:** security-hardening
+- **stepPath:** —
+
+- **Symptom:** Intentional entry to verify **harness-repair** execute mode (Policy A: pending parent SHA → stamp) without marking unrelated friction as addressed.
+- **Context:** Operator-requested smoke test; safe to mark **addressed** after verification.
+- **Suggestion:** None — meta only.
+- **harnessRepairAddressed:** 2026-03-25T18:53:19.539Z
+- **harnessRepairNote:** Smoke test: harness-repair execute Policy A
+- **parentRepoCommit:** pending
+- **cursorSubmoduleCommit:** 4ca844f
