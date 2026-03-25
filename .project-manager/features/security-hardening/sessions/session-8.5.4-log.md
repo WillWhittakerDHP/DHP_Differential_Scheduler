@@ -19,6 +19,14 @@
 
 ## Completed Tasks
 
+### Task 8.5.4.2: Task 8.5.4.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.5.4.3
+
+
+
 ### Task 8.5.4.1: Task 8.5.4.1 ✅
 **Goal:** Task completed
 
@@ -27,83 +35,60 @@
 
 <!-- end excerpt session -->
 
+
+
+### Task 8.5.4.2: Task 8.5.4.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 8.5.4.3
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (5): `.project-manager/features/security-hardening/across-ladder.json`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.1-handoff.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.1-planning.md`
+Paths (7): `.project-manager/HARNESS_CHARTER.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md`, `.project-manager/features/security-hardening/sessions/session-8.5.4-log.md`, `server/src/routes/internal/property-mappings/propertyMappingsRouter.ts`, `.project-manager/features/security-hardening/sessions/task-8.5.4.2-handoff.md`, `.project-manager/features/security-hardening/sessions/task-8.5.4.2-planning.md`, `server/src/routes/internal/property-mappings/propertyMappingsValidators.ts`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../features/security-hardening/across-ladder.json     |  4 ++--
- .../security-hardening/sessions/session-8.5.4-guide.md |  2 +-
- .../security-hardening/sessions/session-8.5.4-log.md   | 18 ++++++++++++++++++
- 3 files changed, 21 insertions(+), 3 deletions(-)
+.project-manager/HARNESS_CHARTER.md                       |  1 +
+ .../security-hardening/sessions/session-8.5.4-guide.md    |  2 +-
+ .../security-hardening/sessions/session-8.5.4-log.md      | 15 +++++++++++++++
+ .../internal/property-mappings/propertyMappingsRouter.ts  | 10 +++++++++-
+ 4 files changed, 26 insertions(+), 2 deletions(-)
 ```
 
 ### `git diff HEAD`
 
 ```diff
-diff --git a/.project-manager/features/security-hardening/across-ladder.json b/.project-manager/features/security-hardening/across-ladder.json
-index b8ea5f50..16ae90be 100644
---- a/.project-manager/features/security-hardening/across-ladder.json
-+++ b/.project-manager/features/security-hardening/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "security-hardening",
--  "derivedAt": "2026-03-25T18:03:29.886Z",
-+  "derivedAt": "2026-03-25T18:22:35.854Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "8.1",
-@@ -53,6 +53,6 @@
-   "sessionAcrossTotal": 5,
-   "sessionIndex0Based": 3,
-   "nextSessionAcross": "8.5.5",
--  "taskAcrossTotal": 2,
-+  "taskAcrossTotal": 3,
-   "nextTaskAcross": "8.5.4.1"
- }
+diff --git a/.project-manager/HARNESS_CHARTER.md b/.project-manager/HARNESS_CHARTER.md
+index 27651e3a..7519d47c 100644
+--- a/.project-manager/HARNESS_CHARTER.md
++++ b/.project-manager/HARNESS_CHARTER.md
+@@ -111,6 +111,7 @@ Other tiers use a single approve step (`approve_execute`); only task has this ex
+ - **nextInvoke shape:** Control-plane decision uses `nextInvoke: { tier, action, params }` (not a full `WorkflowSpec`). Params carry tier identifiers and `params.options` for execution toggles (e.g. `mode: 'execute'`).
+ - **Workflow scope resolution:** `resolveWorkflowScope` (`.cursor/commands/utils/workflow-scope.ts`) is the **only** resolver for normalized feature directory name, tier + identifier, and optional `.tier-scope`. **Phase, session, and task** invocations **must** include **`featureId` or `featureName`** (numeric `#` or directory slug from `PROJECT_PLAN.md` Feature Summary). The harness does **not** infer feature from git branch. Pending state (`.tier-start-pending.json`, `.task-start-pending.json`) must carry feature for phase/session/task re-invocation (`/accepted-plan`, `/accepted-build`, `/accepted-code`). `WorkflowCommandContext.contextFromParams` delegates to `resolveWorkflowScope` only. For **feature-only** lookups (utilities, audits, scripts), use **`resolveFeatureDirectoryFromPlan(ref)`** (# or slug → directory); for **continue last explicit scope** (no ref), use **`resolveActiveFeatureDirectory()`** (reads `.project-manager/.tier-scope` from tier-start — not git).
+ - **Workflow friction (non-git):** Classified harness failures append to **`.project-manager/WORKFLOW_FRICTION_LOG.md`**. **Harness code** imports **`.cursor/commands/harness/workflow-friction-manager.ts`**: use **`initiateWorkflowFrictionWrite`** when execution is unclear or the agent struggles; **`recordOrchestratorFailureFriction`** for tier start/end orchestrator failures; **`recordHarnessVerboseWarning`** for verbose-only step advisories. Low-level append/format lives in **`.cursor/commands/utils/workflow-friction-log.ts`** (policy: `parseReasonCode` + failure taxonomy; `HARNESS_WORKFLOW_FRICTION`). Read/filter: `npx tsx .cursor/commands/utils/read-workflow-friction.ts`. **`gap_analysis_pending`** is an expected flow stop and is **not** auto-logged (suppressed like `verification_suggested`). Internal errors in the **`gap_analysis`** step use **`gap_analysis_failed`** with `forcePolicy: true`, non-gating. Aligns with governance context redesign (Pillar 5: agent-maintained friction parallel to git JSONL). See **START_END_PLAYBOOK_STRUCTURE.md** → *Workflow / planning friction*.
++- **`/harness-repair`:** Plan mode analyzes the friction log (open vs addressed, recurrence clusters) and injects **`buildTierAdvisoryContext`** (via **`classifyWorkProfile`** + **`workflow_bug_fix`**). Execute mode writes stable **addressed** bullets (`harnessRepairAddressed`, note, `parentRepoCommit`, `cursorSubmoduleCommit`) in-place and uses **Policy A**: commit with **`parentRepoCommit: pending`**, then stamp the real parent SHA in a second commit. **`.cursor`** submodule commits for harness changes go through **`git-manager`** (`getCursorSubmoduleStatus`, **`commitCursorSubmoduleAndStageParentGitlink`**). **Session-end:** When the outcome is **`pending_push_confirmation`** and **`hasOpenWorkflowFrictionEntries()`** is true, **`nextAction`** appends a requirement to run **`/harness-repair`** in **plan** mode before **`/accepted-push`** (no execute inside `runTierEndWorkflow`). See **`.cursor/commands/harness-repair.md`**.
+ 
+ ---
+ 
 diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
-index b611fd29..fc6f083c 100644
+index fc6f083c..61892dae 100644
 --- a/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
 +++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-guide.md
-@@ -43,7 +43,7 @@ These sections contain session-specific content:
+@@ -51,7 +51,7 @@ These sections contain session-specific content:
+ **Approach:** Walk each batch B mount's router files. For each `router.post`/`.put`/`.patch`, inspect middleware chain. Classify and record.
+ **Checkpoint:** Audit table complete with all batch B mutating routes classified.
  
- ### Tasks
- 
--- [ ] #### Task 8.5.4.1: Audit batch B routes (mounts 12–17)
-+- [x] #### Task 8.5.4.1: Audit batch B routes (mounts 12–17)
- **Goal:** Enumerate all POST/PUT/PATCH in batch B scope; classify as COVERED/LOCAL_PATTERN/GAP; document findings in planning doc.
+-- [ ] #### Task 8.5.4.2: Add Joi validators for property mapping GAPs
++- [x] #### Task 8.5.4.2: Add Joi validators for property mapping GAPs
+ **Goal:** Create validators and wire `validateRequest` factory callbacks for the 6 GAP routes in field-mappings and feature-mappings.
  **Files:** 
- - `server/src/routes/internal/index.ts` (read-only — mount order)
+ - `server/src/routes/internal/property-mappings/propertyMappingsValidators.ts` (new)
 diff --git a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
-index e60d9cf5..d68f5539 100644
+index 6579f549..2ce59eec 100644
 --- a/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
 +++ b/.project-manager/features/security-hardening/sessions/session-8.5.4-log.md
-@@ -8,3 +8,21 @@
- ## Session Goal
+@@ -19,6 +19,14 @@
  
- [Document concrete session goal]
-+
-+### Task 8.5.4.1: Task 8.5.4.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 8.5.4.2
-+
-+
-+
-+## Completed Tasks
-+
-+### Task 8.5.4.1: Task 8.5.4.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 8.5.4.2
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-```
-<!-- /harness:anchor:commit-preview -->

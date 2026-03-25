@@ -51,7 +51,7 @@ These sections contain session-specific content:
 **Approach:** Walk each batch B mount's router files. For each `router.post`/`.put`/`.patch`, inspect middleware chain. Classify and record.
 **Checkpoint:** Audit table complete with all batch B mutating routes classified.
 
-- [ ] #### Task 8.5.4.2: Add Joi validators for property mapping GAPs
+- [x] #### Task 8.5.4.2: Add Joi validators for property mapping GAPs
 **Goal:** Create validators and wire `validateRequest` factory callbacks for the 6 GAP routes in field-mappings and feature-mappings.
 **Files:** 
 - `server/src/routes/internal/property-mappings/propertyMappingsValidators.ts` (new)
