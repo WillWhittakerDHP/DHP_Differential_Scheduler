@@ -1046,3 +1046,22 @@ Read these governance docs to ensure fixes comply with project patterns:
 Read each l
 
 …(truncated)
+
+### 2026-03-26 — 6.16.3 — session — end — app_not_running
+
+- **reasonCodeRaw:** app_not_running
+- **reasonCodeNormalized:** app_not_running
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 6.16.3
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness end failed (reasonCode=app_not_running).
+- **Context:** tier=session; identifier=6.16.3; featureName=appointment-workflow
+
+nextAction:
+App not fully running — server :3001, client :3002 not responding.
+Start the dev environment in a terminal: `npm run start:dev`
+Then re-run the command.
