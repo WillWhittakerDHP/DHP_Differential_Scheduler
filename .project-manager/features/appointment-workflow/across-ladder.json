@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "appointment-workflow",
-  "derivedAt": "2026-03-26T02:05:37.546Z",
-  "sourceTier": "session",
+  "derivedAt": "2026-03-26T02:29:07.279Z",
+  "sourceTier": "session_end",
   "phasesOnDisk": [
     "6.2",
     "6.3",

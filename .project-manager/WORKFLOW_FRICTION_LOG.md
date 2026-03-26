@@ -890,6 +890,10 @@ Read these governance docs to ensure fixes comply with project patterns:
 Read each l
 
 …(truncated)
+- **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
+- **harnessRepairNote:** Your short note per policy
+- **parentRepoCommit:** pending
+- **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-25 — 6.16.2 — session — end — audit_failed
 
@@ -968,6 +972,10 @@ Read these governance docs to ensure fixes comply with project patterns:
 Read each l
 
 …(truncated)
+- **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
+- **harnessRepairNote:** Your short note per policy
+- **parentRepoCommit:** pending
+- **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-25 — 6.16.2 — session — end — audit_failed
 
@@ -1046,6 +1054,10 @@ Read these governance docs to ensure fixes comply with project patterns:
 Read each l
 
 …(truncated)
+- **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
+- **harnessRepairNote:** Your short note per policy
+- **parentRepoCommit:** pending
+- **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-26 — 6.16.3 — session — end — app_not_running
 
@@ -1065,3 +1077,7 @@ nextAction:
 App not fully running — server :3001, client :3002 not responding.
 Start the dev environment in a terminal: `npm run start:dev`
 Then re-run the command.
+- **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
+- **harnessRepairNote:** Your short note per policy
+- **parentRepoCommit:** pending
+- **cursorSubmoduleCommit:** 02c2606
