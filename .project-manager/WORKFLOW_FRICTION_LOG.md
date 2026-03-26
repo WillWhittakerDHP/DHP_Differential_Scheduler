@@ -892,7 +892,7 @@ Read each l
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
 - **harnessRepairNote:** Your short note per policy
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 598b8bd91c51c4e2ffecb4dd5f76169b7053e2e6
 - **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-25 — 6.16.2 — session — end — audit_failed
@@ -974,7 +974,7 @@ Read each l
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
 - **harnessRepairNote:** Your short note per policy
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 598b8bd91c51c4e2ffecb4dd5f76169b7053e2e6
 - **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-25 — 6.16.2 — session — end — audit_failed
@@ -1056,7 +1056,7 @@ Read each l
 …(truncated)
 - **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
 - **harnessRepairNote:** Your short note per policy
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 598b8bd91c51c4e2ffecb4dd5f76169b7053e2e6
 - **cursorSubmoduleCommit:** 02c2606
 
 ### 2026-03-26 — 6.16.3 — session — end — app_not_running
@@ -1079,5 +1079,5 @@ Start the dev environment in a terminal: `npm run start:dev`
 Then re-run the command.
 - **harnessRepairAddressed:** 2026-03-26T02:32:57.274Z
 - **harnessRepairNote:** Your short note per policy
-- **parentRepoCommit:** pending
+- **parentRepoCommit:** 598b8bd91c51c4e2ffecb4dd5f76169b7053e2e6
 - **cursorSubmoduleCommit:** 02c2606
