@@ -125,3 +125,5 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**: 
 - `features/calendar-appointment-availability/sessions/session-3.6.2-guide.md` — `differentialRole` on `EventShape`
 - `client/src/types/booking/partFinal.ts` — **`PartFinal.minimizer`**
 - `client/src/utils/booking/partFinalizer.ts` — role → flags
+
+<!-- end excerpt phase -->
