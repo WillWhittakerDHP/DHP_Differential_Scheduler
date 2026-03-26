@@ -33,98 +33,171 @@
 **Next Task:**
 - 6.16.3.3
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (8): `.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md`, `client/src/utils/booking/availabilityStepHandlers.ts`, `server/src/db/models/booking/event_shape.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.16.3.2-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.16.3.2-planning.md`
+Paths (8): `.project-manager/features/appointment-workflow/phases/phase-6.16-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-planning.md`, `.project-manager/features/appointment-workflow/sessions/task-6.16.3.1-planning.md`, `.project-manager/features/appointment-workflow/sessions/task-6.16.3.2-planning.md`, `.project-manager/features/appointment-workflow/planning-archive/session/6.16.3/`, `.project-manager/features/appointment-workflow/sessions/session-6.16.3-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../phases/phase-6.16-guide.md                     |  24 ++---
- .../session-6.16.3-downstream-inventory.md         |  23 ++++-
- .../sessions/session-6.16.3-guide.md               |   2 +-
- .../sessions/session-6.16.3-log.md                 | 108 +++------------------
- .../src/utils/booking/availabilityStepHandlers.ts  |   2 +-
- server/src/db/models/booking/event_shape.ts        |   4 +-
- 6 files changed, 48 insertions(+), 115 deletions(-)
+.../appointment-workflow/phases/phase-6.16-log.md  |   8 +
+ .../sessions/session-6.16.3-guide.md               |   2 +
+ .../sessions/session-6.16.3-log.md                 |   6 +
+ .../sessions/session-6.16.3-planning.md            | 258 ++++++++++-----------
+ .../sessions/task-6.16.3.1-planning.md             | 164 -------------
+ .../sessions/task-6.16.3.2-planning.md             | 164 -------------
+ 6 files changed, 136 insertions(+), 466 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md b/.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
-index 1aaee846..cb616c08 100644
---- a/.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
-+++ b/.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md
-@@ -13,7 +13,7 @@
- **Description:** Add a **`margin`** differential role (deterministic **pre-major** temporal position — work that sits at the **front** of the anchored appointment window). Support **multiple minimizer** segments with **sequential boundary chaining** in scheduling composables. Align **`PartFinal.minimizer: TernaryBoolean`** (`'false'` plain timeline, `'true'` minimizer, `'override'` margin). Inventory and extend **downstream** behavior: appointment persistence, **Google Calendar event creation** (what stays on the main event vs a separate calendar event), API payloads, and confirmation copy. Execute or document phased **moveable → minimizer** rename with migrations for stored JSON.
+diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
+index 00cae071..b40ec2e0 100644
+--- a/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
++++ b/.project-manager/features/appointment-workflow/phases/phase-6.16-log.md
+@@ -17,6 +17,14 @@
  
- **Duration:** 3 sessions (6.16.1 margin foundation, 6.16.2 multiple minimizers, 6.16.3 integration + rename) — see `phases/phase-6.16-planning.md`.  
--**Status:** Not started
-+**Status:** Sessions 6.16.1–6.16.2 complete; session 6.16.3 tasks documented (integration inventory + rename tranche audit). Run **`/session-end 6.16.3`** to close the session tier.
+ ## Completed Sessions
  
- **Related planning artifact (local Cursor plan, not in repo):** `~/.cursor/plans/differential_role_generalization_7884ea5f.plan.md` — use if present for session decomposition detail.
++### Session 6.16.3: Integration + rename tranches ✅
++**Completed:** 2026-03-26
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Integration + rename tranches
++
++
++
+ ### Session 6.16.2: Multiple minimizers — segments, composable, orchestrator ✅
+ **Completed:** 2026-03-25
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md
+index 98bebc48..1430e81f 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-guide.md
+@@ -402,3 +402,5 @@ Break each session into focused tasks:
+ ## Notes
  
-@@ -54,9 +54,9 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**:
- | **`'true'`** | **Minimizer** — participates in the **separately scheduled** segment (completion window, second temporal band, optional extra calendar event). |
- | **`'override'`** | **Margin** — **pre-major** anchor (work pushed to the **front** of the appointment window relative to the major segment), not the free-floating minimizer window. |
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md
+index b098e454..4af9196d 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-log.md
+@@ -128,3 +128,9 @@ index fec1284c..103d65dd 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-planning.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-planning.md
+index e0da1cdc..fe04d59a 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-planning.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-planning.md
+@@ -1,126 +1,16 @@
+-# Plan: session 6.16.3 — Integration + rename tranches
+-
+-## Contract
+-- **Tier:** session | **ID:** 6.16.3
+-- **Scope:** End-to-end verification of margin + multi-minimizer scheduling; downstream inventory (persistence, calendar, API, confirmation UX); close rename/migration tranches so there is no half-renamed public API (execute migrations on **localhost** only per project rules).
+-- **Governance (harness snapshot):**
+-  - Function / component governance: clean at last session audit.
+-  - Composable governance: advisory — `useAvailabilitySubStepContent.ts` and `useMinimizerPartsScheduling.ts` still flagged oversized return; **do not expand** return surfaces in 6.16.3 unless a task explicitly refactors them.
+-  - Testing: **suspended** project-wide — no new test files; verification is manual / checklist.
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** booking, architecture, integrations (documentation)
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Session **6.16.2** complete: multi-segment minimizer detection utilities, summed duration, labels, `useMinimizerPartsScheduling` + `useMinimizerAvailableDayKeys`, orchestrator alignment. Session **6.16.1** landed **margin** on `DifferentialRole`, `PartFinal.minimizer: 'override'`, pipeline + admin overrides. Phase guide session **6.16.3** row is the active focus.
++<!-- harness-planning-rollup tier=session id=6.16.3 consolidatedAt=2026-03-26T02:29:05.692Z -->
  
--**Resolution today:** `enrichBlockFinalsWithDifferentialRoles` sets **`minimizer: 'true'`** when an assigned event shape's effective differential role is **`moveable`** (until DB enum is renamed). **`'override'`** is reserved for Phase 6.16 **margin** role wiring; until then it is not emitted from role resolution.
-+**Resolution today:** `enrichBlockFinalsWithDifferentialRoles` maps storage role **`minimizer`** to **`PartFinal.minimizer: 'true'`** and **`margin`** to **`'override'`** per shared differential-role utilities (obsolete storage spellings rejected at parse).
+----
++# Consolidated planning: session 6.16.3
++
++## Session 6.16.3 (parent)
  
--**Interaction with `differentialEventRoleOverrides`:** Block-instance overrides (Phase 6.12.5) already divert **major / minor / moveable / none** per event shape. Phase 6.16 extends the same override map for **margin** and multiple minimizer shapes once the role enum and admin UI exist.
-+**Interaction with `differentialEventRoleOverrides`:** Block-instance overrides (Phase 6.12.5) divert **major / minor / minimizer / margin / none** per event shape in admin and booking resolution.
+ ## Story
++
+ **This session delivers** verified integration of margin + multi-minimizer flows and a closed book on **minimizer** rename/storage alignment **so that** phase 6.16 can complete without undocumented downstream gaps or a split public vocabulary (`moveable` vs `minimizer`).
+ **Estimated size:** M
  
  ---
  
-@@ -76,7 +76,7 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**:
- - Perspective resolver: emit `PartFinal.minimizer === 'override'` for margin; update `enrichBlockFinalsWithDifferentialRoles`.
- - Admin dropdown / override surface: margin option in differential role override matrix.
- - Multi-minimizer detection utilities and segment types.
--- Composable refactor: `useMoveablePartsScheduling` → sequential multi-segment boundaries; orchestrator/sub-step wiring.
-+- Composable refactor: `useMinimizerPartsScheduling` + sequential multi-segment boundaries; orchestrator/sub-step wiring.
- - Downstream inventory: appointment persistence, calendar event split, API payloads, confirmation UX (implement or document gaps).
- - Mechanical rename: moveable → minimizer pass executed or tranched with migration notes.
- - Client lint + app start; update session logs and handoff per workflow.
-@@ -89,11 +89,11 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**:
- **Focus:** Foundation: margin in storage/types/pipeline/admin; no silent fallback in resolver.
- 
- - [x] ### Session 6.16.2: Multiple minimizers — segments, composable, orchestrator
--**Description:** Detection utilities for multiple minimizer shapes; `MinimizerSegment`-style types (or rename from `MoveableSegment`); `useMoveablePartsScheduling` multi-segment refactor with sequential boundary chaining; orchestrator / availability sub-step wiring.
-+**Description:** Detection utilities for multiple minimizer shapes; `MinimizerSegment`-style types; `useMinimizerPartsScheduling` multi-segment refactor with sequential boundary chaining; orchestrator / availability sub-step wiring.
- **Tasks:** Multi-minimizer detection; segment types; composable refactor; sequential boundaries; orchestrator wiring; lint + app start.
- **Focus:** Ordered multi-segment scheduling with correct inner/outer boundaries.
- 
--- [ ] ### Session 6.16.3: Integration + rename tranches
-+- [x] ### Session 6.16.3: Integration + rename tranches
- **Description:** End-to-end verification with test event-shape data; sequential scheduling verification; downstream inventory (persistence, calendar events, API, confirmation UX); mechanical minimizer rename pass executed or documented per tranche.
- **Tasks:** E2E data verification; downstream checklist; rename/migration execution or documentation; lint + app start; phase handoff.
- **Focus:** No half-renamed API; downstream behavior documented or implemented; honest phase close.
-@@ -108,12 +108,12 @@ Use the same **`TernaryBoolean`** type as `major` / `minor` on **`PartFinal`**:
- 
- ## Success Criteria
- 
--- [ ] `margin` (or agreed name) exists in **DifferentialRole** storage and admin UI; **`PartFinal.minimizer === 'override'`** when margin applies.
--- [ ] Multiple minimizer shapes schedule in **order** with correct inner/outer boundaries.
--- [ ] Calendar invite pipeline documents which shapes create **separate** events vs **inline** on the main appointment.
--- [ ] **`differentialEventRoleOverrides`** path supports margin / multi-minimizer per phase guide.
--- [ ] Mechanical **minimizer** rename completed or explicitly phased with migration notes (no half-renamed public API).
--- [ ] Lint and app start pass.
-+- [x] `margin` (or agreed name) exists in **DifferentialRole** storage and admin UI; **`PartFinal.minimizer === 'override'`** when margin applies. *(Sessions 6.16.1 / pipeline.)*
-+- [x] Multiple minimizer shapes schedule in **order** with correct inner/outer boundaries. *(Session 6.16.2 — aggregate duration + segment ordering utilities; per-segment inner chaining deferred per planning.)*
-+- [ ] Calendar invite pipeline documents which shapes create **separate** events vs **inline** on the main appointment. *(Gap: EventInstance-driven invites documented in `session-6.16.3-downstream-inventory.md`; product mapping for “one event per minimizer segment” not defined.)*
-+- [x] **`differentialEventRoleOverrides`** path supports margin / multi-minimizer per phase guide. *(Admin `DifferentialEventRoleOverridesField.vue` includes `margin`; overrides apply in booking resolution.)*
-+- [x] Mechanical **minimizer** rename completed or explicitly phased with migration notes (no half-renamed public API). *(Migration `20260432_000049_rename_moveable_to_minimizer.mjs` + grep audit in `session-6.16.3-downstream-inventory.md`.)*
-+- [x] Lint and app start pass. *(Lint run at task close; app start per session-end checklist.)*
- 
- ---
- 
-diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md b/.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md
-index fec1284c..103d65dd 100644
---- a/.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md
-+++ b/.project-manager/features
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Phase 6.18) |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
+-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
+-
+----
+-
+-## 3. Data flow
+-
+-Canonical path:
+-
+-1. **Vue view** → **presentational component**
+-2. **Composable** (state + orchestration; thin components)
+-3. **Client HTTP**
+-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
+-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
+-4. **Express route** (`routes/internal/*` or `routes/external/*`)
+-5. **Service** (`server/src/services/`)
+-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
+-7. **Sequelize model** (`server/src/db/models/`)
+-
+-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
+-
+----
+-
+-## 4. Type boundaries
+-
+-| Layer | Location | Use when |
+-|-------|----------|----------|
+-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
+-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, w
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

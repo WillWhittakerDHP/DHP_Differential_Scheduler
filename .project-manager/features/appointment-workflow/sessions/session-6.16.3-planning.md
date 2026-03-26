@@ -1,123 +1,13 @@
-# Plan: session 6.16.3 — Integration + rename tranches
+<!-- harness-planning-rollup tier=session id=6.16.3 consolidatedAt=2026-03-26T02:29:05.692Z -->
 
-## Contract
-- **Tier:** session | **ID:** 6.16.3
-- **Scope:** End-to-end verification of margin + multi-minimizer scheduling; downstream inventory (persistence, calendar, API, confirmation UX); close rename/migration tranches so there is no half-renamed public API (execute migrations on **localhost** only per project rules).
-- **Governance (harness snapshot):**
-  - Function / component governance: clean at last session audit.
-  - Composable governance: advisory — `useAvailabilitySubStepContent.ts` and `useMinimizerPartsScheduling.ts` still flagged oversized return; **do not expand** return surfaces in 6.16.3 unless a task explicitly refactors them.
-  - Testing: **suspended** project-wide — no new test files; verification is manual / checklist.
+# Consolidated planning: session 6.16.3
 
-## Work Profile
-- **Execution intent:** plan
-- **Action type:** decomposition
-- **Scope shape:** cross_cutting
-- **Governance domains:** booking, architecture, integrations (documentation)
-- **Gate profile:** standard
-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
-- **Recommended context pack:** decomposition_pack
-- **Planning artifact action:** create
-- **Decomposition mode:** moderate
-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
-
-## Where we left off
-Session **6.16.2** complete: multi-segment minimizer detection utilities, summed duration, labels, `useMinimizerPartsScheduling` + `useMinimizerAvailableDayKeys`, orchestrator alignment. Session **6.16.1** landed **margin** on `DifferentialRole`, `PartFinal.minimizer: 'override'`, pipeline + admin overrides. Phase guide session **6.16.3** row is the active focus.
-
----
+## Session 6.16.3 (parent)
 
 ## Story
+
 **This session delivers** verified integration of margin + multi-minimizer flows and a closed book on **minimizer** rename/storage alignment **so that** phase 6.16 can complete without undocumented downstream gaps or a split public vocabulary (`moveable` vs `minimizer`).
 **Estimated size:** M
-
----
-
-## Architecture context (harness-injected)
-
-## 1. System overview
-
-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
-
-- **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
-
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
-
----
-
-## 2. Domain map
-
-| Domain | Client paths | Server paths | Key models / areas | Shared types |
-|--------|----------------|-------------|---------------------|--------------|
-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Phase 6.18) |
-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
-
----
-
-## 3. Data flow
-
-Canonical path:
-
-1. **Vue view** → **presentational component**
-2. **Composable** (state + orchestration; thin components)
-3. **Client HTTP**
-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
-4. **Express route** (`routes/internal/*` or `routes/external/*`)
-5. **Service** (`server/src/services/`)
-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
-7. **Sequelize model** (`server/src/db/models/`)
-
-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
-
----
-
-## 4. Type boundaries
-
-| Layer | Location | Use when |
-|-------|----------|----------|
-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, wizard step types, transformer helpers, form field types. **Never** imported by server. |
-| **Server-only** | `server/src/types/` | Handler params, repository types, internal DTOs. **Never** imported by client. |
-
-**Rule:** If both sides need it → `@shared`. If only one side → keep it local.
-
-**Reactivity boundaries:** Prefer `ComputedRef<T>` for read-only consumer APIs; `Ref<T>` for internal mutable state; avoid leaking `Ref | ComputedRef` unions at public composable boundaries (see type governance rule + TYPE_AUTHORING_PLAYBOOK).
-
----
-
-## 5. Per-domain conventions
-
-### Booking / wizard
-
-- **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
-- **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin metadata (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**.
-
-### Admin
-
-- **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Generic admin components + config objects + transformers.
-
-### Auth
-
-- **Emerging domain;** keep route and model changes aligned with `routes/internal/auth` and `db/models/auth`. Consumed by all domains via middleware/guards over time.
-
-### Users / `user_role`
-
-- **`users.user_role`** is a **small closed set** (PostgreSQL ENUM + Joi + client types). **Planned (Feature 6 Phase 6.18):** a single **`@shared`** module exports **`USER_ROLE_VALUES`** and per-role constants; server and client **import** that list — no duplicate hardcoded arrays. Product rename **`seller` → `owner`** is part of Phase 6.18 Session 6.18.1.
-- **User-type block instances** (state-control shapes) drive scheduling/display semantics; **`getUserTypeBlockIdForRole`** maps **DB role** → block instance. **Session 6.18.2** adds **admin-persisted alignment** (role → `block_instance_id`) so mappings are configurable without code edits where product allows. See `features/appointment-workflow/phases/phase-6.18-guide.md`.
-- **Feature 7 Enactment** exposes role to the client using the **same** shared vocabulary as the API.
-
-### Integrations
-
-- Prefer **dedicated services** and **external routes**; avoid mixing full-URL axios into `apiClient` call sites without reason.
-
-### Beta
-
-- Isolated feedback capture; keep `beta` paths grouped under composables/views/components/beta.
 
 ---
 
@@ -135,7 +25,7 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 2. **Inventory** downstream: appointment persistence payloads, relevant internal APIs, confirmation UX strings, and calendar/invite touchpoints; **document** Google Calendar split behavior (separate events vs inline) per phase guide or file a concise gap in session log.
 3. **Rename / storage tranches:** Align remaining **public** API and stored JSON with **`minimizer`** vocabulary; confirm migration `server/src/db/migrations/20260432_000049_rename_moveable_to_minimizer.mjs` scope; grep for stale **`moveable`** in user-facing or cross-boundary surfaces; update phase/session docs when tranches complete.
 
-## Files (expected touch set)
+## Files
 
 | Area | Paths |
 |------|--------|
@@ -169,37 +59,129 @@ Before **session-end:** app starts; client + server lint clean for touched code;
 - [ ] `client` + `server` lint pass for touched files; `npm run start:dev` verified for session closeout.
 - [ ] Session log + handoff updated; child tasks completed via task-end cascade.
 
-## Decomposition
+---
 
-- **Task 6.16.3.1:** **E2E verification + downstream inventory** — Exercise booking wizard with margin + multi-minimizer shapes; trace persistence and API surfaces; audit confirmation copy; document calendar/invite split or log gaps; update session log.
-- **Task 6.16.3.2:** **Rename / migration tranches + phase closure** — Verify `20260432_000049_rename_moveable_to_minimizer.mjs` and code alignment; eliminate stale `moveable` on public boundaries; localhost migration only; lint + app start; update `phase-6.16-guide.md` / handoff as appropriate.
+## Task 6.16.3.1 (source: task-6.16.3.1-planning.md)
 
-## Definition of Done
+### Story
 
-- [ ] App starts (`npm run start:dev`)
-- [ ] Lint passes (`cd client && npm run lint`, `cd server && npm run lint`)
-- [ ] Governance score maintained or improved (no optional large composable splits unless scoped)
-- [ ] All child tasks complete
-- [ ] Session log and handoff updated
+**This task changes** project documentation and the session log **because** stakeholders need a traceable checklist of how margin and multi-minimizer data flows through save paths, APIs, and integrations before rename tranches are finalized in 6.16.3.2.
 
 ---
 
-## Reference (read before execute — governance and inventory compliance)
+### Analysis
 
-- TierUp guide: `.project-manager/features/appointment-workflow/phases/phase-6.16-guide.md`
-- Phase contract: `.project-manager/features/appointment-workflow/phases/phase-6.16-planning.md`
-- Prior handoff: `.project-manager/features/appointment-workflow/sessions/session-6.16.2-handoff.md`
-- Architecture: `.project-manager/ARCHITECTURE.md`
-- Workflow friction log: `.project-manager/WORKFLOW_FRICTION_LOG.md`
-- Agent model preferences: `.project-manager/agent-model-config.json`
-- Governance reports: `client/.audit-reports/`
-- Playbooks: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `COMPOSABLE_AUTHORING_PLAYBOOK.md`, `FUNCTION_AUTHORING_PLAYBOOK.md`, `COMPONENT_AUTHORING_PLAYBOOK.md`
-- Friction reader: `npx tsx .cursor/commands/utils/read-workflow-friction.ts --last 20`
+Phase 6.16.3 closes **integration honesty**: downstream surfaces (persistence, calendar, API, copy) must be inventoried and calendar split behavior **documented** or **gapped**. Rename/migration closure is **task 6.16.3.2**.
 
 ---
 
-## Coverage check (agent)
+### Goal
 
-**If this is the goal, have we outlined enough steps to enact it?** **Yes.** **6.16.3.1** covers behavioral verification and downstream documentation; **6.16.3.2** covers storage/rename closure and phase checklist updates. Together they map to `phase-6.16-guide.md` session 6.16.3 description and phase success criteria without duplicating 6.16.1/6.16.2 implementation work.
+- Produce a **single downstream inventory document** plus **session log** update that satisfies session **6.16.3** acceptance criteria for inventory and calendar documentation (or explicit gaps).
+- Confirm **multi-segment + margin** behavior is **not silently reduced** to first segment only in the client pipeline (cite code paths—already implemented in 6.16.2; this task **verifies by reference**, not rewrites).
 
-When ready, **run `/accepted-plan`** (then **`/accepted-build`** if Gate 2 applies for this feature profile).
+### Files
+
+| Area | Paths |
+|------|--------|
+| New / updated docs | `.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md` (create), `session-6.16.3-log.md` (update) |
+| Read-only references (cite in inventory) | `client/src/utils/transformers/` (appointment ↔ wizard), `client/src/composables/booking/useAvailabilityOrchestrator*.ts`, `server/src/routes/internal/appointments/`, `server/src/services/google/` or calendar invite code, `shared/types` for appointment payloads |
+
+### Approach
+
+1. Search and read persistence/transform paths for appointment creation/update and minimizer-related fields.
+2. Draft the inventory markdown with evidence-based rows.
+3. Add manual verification bullets aligned with 6.16.2 composable behavior.
+4. Update session log; run **client + server lint** if any TS/MD-adjacent edits are not applicable—**docs-only** task: lint only if touched code.
+
+### Checkpoint
+
+Inventory file exists and is linked from session log; session guide task checkbox can move to **in progress** / **done** at task-end.
+
+### Deliverables
+
+- **`session-6.16.3-downstream-inventory.md`** with downstream table + manual check narrative + calendar/invite subsection.
+- **`session-6.16.3-log.md`** updated with task 6.16.3.1 completion summary.
+
+### Acceptance Criteria
+
+- [ ] Inventory covers **persistence**, **API**, **confirmation copy**, and **calendar/invite** with honest **verified** vs **gap** labels.
+- [ ] Multi-segment minimizer **not** silently collapsed to first shape only is **addressed** (reference to existing code or explicit gap if missing).
+- [ ] Session log reflects task 6.16.3.1 completion.
+- [ ] No unauthorized migration or test files added.
+
+### Design
+
+1. **Inventory artifact:** Add or extend **`.project-manager/features/appointment-workflow/sessions/session-6.16.3-downstream-inventory.md`** with a table: **Surface** | **Path / entrypoint** | **Notes** | **Status (verified / gap / N/A)** covering:
+   - Wizard → persisted appointment payload (fields carrying `PartFinal`, minimizer scheduling, contingency).
+   - Internal API routes used on confirm or autosave.
+   - User-facing confirmation copy that references minimizer/margin (grep-driven list of strings).
+   - Google Calendar / invite pipeline: which module builds events, whether multiple minimizer segments map to multiple events vs one block (document **current behavior** or **not wired**).
+2. **Session log:** Update **`session-6.16.3-log.md`** with **### Task 6.16.3.1** completed, date, and pointer to the inventory file.
+3. **Verification narrative:** In the inventory doc, include a short **Manual wizard check** subsection: expected steps to see multi-segment duration + margin path without silent collapse (references `useMinimizerPartsScheduling` / orchestrator behavior from 6.16.2).
+4. **Code exploration:** Use repository search to list concrete files; no behavioral code changes unless a **documentation-only** comment is needed (avoid scope creep).
+
+---
+
+## Task 6.16.3.2 (source: task-6.16.3.2-planning.md)
+
+### Story
+
+**This task changes** documentation and light source hygiene **because** phase 6.16 success criteria require an honest **rename tranche** status and **no** misleading `moveable` naming in active booking code comments where `minimizer` is the product term.
+
+---
+
+### Analysis
+
+Session **6.16.3** requires **rename discipline**: no half-renamed public API; migration notes for DB. **`differentialRoleUtils`** already rejects the obsolete storage spelling without embedding it as a grep-attracting literal. Remaining work is **audit + docs +** optional **cosmetic** renames in live source (comments, UI copy keys already migrated to `minimizer*` in wizard settings).
+
+---
+
+### Goal
+
+- Publish a **rename tranche summary** tied to migration **`20260432_000049_rename_moveable_to_minimizer.mjs`** and a **clean grep** of active source for obsolete public naming.
+- Align **phase 6.16** documentation with **actual** completion state without checking boxes for undelivered calendar-split product work.
+
+### Files
+
+| Area | Paths |
+|------|--------|
+| Docs | `session-6.16.3-downstream-inventory.md` (append) or new `session-6.16.3-rename-tranche.md`, `session-6.16.3-log.md`, `phases/phase-6.16-guide.md` |
+| Client (optional) | `client/src/utils/booking/availabilityStepHandlers.ts` — comment only |
+| Reference (read-only) | `server/src/db/migrations/20260432_000049_rename_moveable_to_minimizer.mjs`, `shared/utils/differentialRoleUtils.ts`, `server/src/db/models/booking/event_shape.ts` |
+
+### Approach
+
+1. Run scoped grep; record results in the rename tranche doc.
+2. Apply minimal comment edit if grep shows only benign leftovers in target file.
+3. Update phase guide checkboxes conservatively.
+4. Update session log; run lint if TS changed.
+
+### Checkpoint
+
+Session 6.16.3 ready for **session-end** after this task and user acceptance of doc accuracy.
+
+### Deliverables
+
+- **Rename tranche** subsection or standalone markdown under **`.project-manager/features/appointment-workflow/sessions/`**.
+- **Session log** entry for 6.16.3.2.
+- **Phase guide** updated where criteria are **actually** met.
+
+### Acceptance Criteria
+
+- [ ] Grep audit of **active** source documented; migration file identified as canonical rename path.
+- [ ] No **new** `moveable` / `Moveable` identifiers introduced in **product** TS/Vue under `client/src` / `server/src` (excluding migrations); any intentional historical reference in migrations left untouched.
+- [ ] Phase **6.16** guide reflects honest status (rename tranche + prior session work); calendar split criterion remains **unchecked** if still a documented gap.
+- [ ] Client + server lint pass after code edits.
+- [ ] Migration **not** run against remote DB from this environment.
+
+### Design
+
+1. **Grep pass:** `client/src`, `server/src` (exclude `server/src/db/migrations`), `shared` for `moveable` / `Moveable` in **source**; classify: **historical migration** (ignore), **comment/UI string** (fix if in active booking path), **data** (N/A).
+2. **Artifact:** Append **“Rename tranche (6.16.3.2)”** subsection to **`session-6.16.3-downstream-inventory.md`** OR add **`session-6.16.3-rename-tranche.md`** with: migration id, grep summary, “DB execution: localhost only” note.
+3. **Hygiene:** Replace stale **“Moveable flow”** wording in **`client/src/utils/booking/availabilityStepHandlers.ts`** comment with **minimizer** terminology (task 6.9.4.2 reference preserved by session id).
+4. **Phase guide:** Update **`phase-6.16-guide.md`** success criteria checkboxes **only** for items satisfied by prior sessions + this audit (e.g. mechanical rename + margin + multi-minimizer where verified); leave calendar-split doc item **unchecked** if still gap per 6.16.3.1 inventory.
+5. **Session log:** Add **### Task 6.16.3.2** with summary and pointers.
+6. **Lint:** `cd client && npm run lint`, `cd server && npm run lint` after any TS edits.
+
+---
