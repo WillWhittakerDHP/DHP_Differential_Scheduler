@@ -18,7 +18,7 @@ export function useAvailabilityStepHandlers(
     startTimeType
   } = params
 
-  /** Task 6.9.4.2: Moveable flow is in-step (5th sub-step); no modal open. */
+  /** Task 6.9.4.2: Minimizer scheduling flow is in-step (5th sub-step); no modal open. */
   const handleAppointmentSlotClick = (buttonIndex: number): void => {
     appointmentSlotOrderIndex.value = buttonIndex
   }

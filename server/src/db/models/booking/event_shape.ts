@@ -28,7 +28,7 @@ export class EventShape extends Model<
   InferCreationAttributes<EventShape>
 > {
   declare id: CreationOptional<string>;
-  declare name: string; // e.g., 'OnSite', 'Moveable', 'ClientPresent'
+  declare name: string; // e.g., 'OnSite', 'Minimizer segment', 'ClientPresent'
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
   declare isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
@@ -53,7 +53,7 @@ export function EventShapeFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        comment: 'Event shape name (e.g., OnSite, Moveable, ClientPresent)',
+        comment: 'Event shape name (e.g., OnSite, Minimizer segment, ClientPresent)',
       },
       orderIndex: {
         type: DataTypes.INTEGER,

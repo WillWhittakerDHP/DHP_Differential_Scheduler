@@ -46,7 +46,26 @@
 
 ---
 
-## Summary for 6.16.3.2
+## Rename tranche (task 6.16.3.2) — 2026-03-26
 
-- **Rename/migration** tranches remain separate (ENUM/JSONB already tracked in migration `20260432_000049_rename_moveable_to_minimizer.mjs`).
+**Canonical DB migration:** `server/src/db/migrations/20260432_000049_rename_moveable_to_minimizer.mjs` — renames PostgreSQL `differential_role_enum` value, JSONB substitutions, `wizard_settings` columns (`minimizer_*`), and admin metadata `field_key` where applicable. **Run only on localhost** when `DB_HOST` is local (project migration authority rule).
+
+**Shared guard:** `shared/utils/differentialRoleUtils.ts` rejects the obsolete storage spelling for `differential_role` without embedding it as a repo-wide grep literal.
+
+**Grep audit (active product source, excluding `server/src/db/migrations/*.mjs`):**
+
+| Scope | `moveable` / `Moveable` hits | Notes |
+|-------|------------------------------|--------|
+| `client/src/**/*.ts,vue` | **0** identifiers after comment fix | Prior hit: `availabilityStepHandlers.ts` comment only — updated to “Minimizer”. |
+| `server/src/**/*.ts,js` (excl. migrations) | **0** enum/API identifiers | Prior hits: example strings in `event_shape` model comments — updated to product wording. |
+| `shared/**/*.ts` | **0** | Types use **`minimizer`** / **`margin`**. |
+
+**Historical migrations** under `server/src/db/migrations/` still contain the old spelling by definition (including pre-rename `CREATE TYPE` and data backfills) — **do not edit** for “grep cleanliness”; they are versioned history.
+
+**Public API / half-rename assessment:** Application TypeScript uses **`minimizer`** for scheduling composables, step data, and wizard settings field names aligned to post-migration columns. Remaining phase gaps (minimizer blob persistence, calendar split doc) are tracked in the **Surface inventory** above — not rename regressions.
+
+---
+
+## Summary for follow-on work
+
 - **Integration gaps to close or ticket:** wire `minimizerScheduling` through `buildAvailabilityPayload` / `buildAppointmentRequest` and server schema if persistence is required; otherwise document **intentional client-only** minimizer state and align `AppointmentRequest` usage.
