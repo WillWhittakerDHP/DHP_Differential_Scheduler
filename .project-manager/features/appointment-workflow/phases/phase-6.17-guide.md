@@ -117,7 +117,7 @@ Start with a **small** set; expand via registry:
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.17.1: Delete dependency model + API contract  
+- [x] ### Session 6.17.1: Delete dependency model + API contract  
 **Description:** Shared types for dependency graph, policy categories, preflight/finalize request–response shapes; OpenAPI-level or internal contract doc; alignment with `entityCrudRouter` extension points.  
 **Focus:** Contracts first; no “hidden” cascade semantics.
 
