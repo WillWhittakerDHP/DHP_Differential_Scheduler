@@ -81,6 +81,6 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-6.15.2-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.15.2-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-6.15-handoff.md` (for phase-level context)
+- Session Guide: `.project-manager/features/appointment-workflow/sessions/session-6.15.2-guide.md` (detailed instructions and patterns)
+- Session Log: `.project-manager/features/appointment-workflow/sessions/session-6.15.2-log.md`
+- Phase Handoff: `.project-manager/features/appointment-workflow/phases/phase-6.15-handoff.md` (for phase-level context)

@@ -96,6 +96,6 @@ Completed Task 1.3.4: Relationship API Composables. Created composables for pare
 
 ## Related Documents
 
-- Session Guide: `.cursor/project-manager/features/vue-migration/sessions/session-6.4.4-guide.md` (detailed instructions and patterns)
-- Session Log: `.cursor/project-manager/features/vue-migration/sessions/session-6.4.4-log.md`
-- Phase Handoff: `.cursor/project-manager/features/vue-migration/phases/phase-6.4-handoff.md` (for phase-level context)
+- Session Guide: `.project-manager/features/appointment-workflow/sessions/session-6.4.4-guide.md` (detailed instructions and patterns)
+- Session Log: `.project-manager/features/appointment-workflow/sessions/session-6.4.4-log.md`
+- Phase Handoff: `.project-manager/features/appointment-workflow/phases/phase-6.4-handoff.md` (for phase-level context)

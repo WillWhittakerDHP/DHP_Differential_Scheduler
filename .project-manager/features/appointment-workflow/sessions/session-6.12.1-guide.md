@@ -246,7 +246,7 @@ All tasks complete. Ready to run end-of-session workflow?
 3. **Commit** - Git commit and push (`/git-commit [message]` and `/git-push` or manual)
 4. **Handoff** - Create compact prompt for next session:
    ```
-   @.cursor/project-manager/features/vue-migration/handoff.md Continue Vue migration - start Session [X.Y] ([Description])
+   @.project-manager/features/appointment-workflow/feature-appointment-workflow-handoff.md Continue Feature 6 (appointment workflow) - start Session [X.Y] ([Description])
    ```
 5. **Feedback** - Optional workflow feedback (only if issues encountered):
    - Were there any problems managing this session workflow or issues with results?
@@ -410,9 +410,9 @@ Break each session into focused tasks:
 
 ## Related Documents
 
-- **Session Log:** `.cursor/project-manager/features/vue-migration/sessions/session-[X.Y]-log.md` (templates and historical record)
-- **Session Handoff:** `.cursor/project-manager/features/vue-migration/sessions/session-[X.Y]-handoff.md` (transition context)
-- **Phase Guide:** `.cursor/project-manager/features/vue-migration/phases/phase-[X]-guide.md` (phase-level context)
+- **Session Log:** `.project-manager/features/appointment-workflow/sessions/session-[X.Y]-log.md` (templates and historical record)
+- **Session Handoff:** `.project-manager/features/appointment-workflow/sessions/session-[X.Y]-handoff.md` (transition context)
+- **Phase Guide:** `.project-manager/features/appointment-workflow/phases/phase-[X]-guide.md` (phase-level context)
 
 ---
 
