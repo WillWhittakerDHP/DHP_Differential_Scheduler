@@ -1185,3 +1185,22 @@ Then re-run the command.
 - **What we tried:** Re-ran **`acceptedCode()`** from repo root; confirmed **`start_ok`** and **Implementation Orders** pulled the correct goal/files from the **task planning doc** despite the noisy preamble.
 - **Outcome / workaround:** Treat **`outcome.reasonCode`** and **`controlPlaneDecision.message`** as authoritative; ignore stale-looking guide placeholders in the same blob unless **`planning_doc_incomplete`** or **`stop: true`**. Optionally align the **session 6.17.1 guide** task row (Goal / Files / Approach / Checkpoint) so future **`task-start`** output is less confusing — that is **hygiene**, not required for **`start_ok`**.
 - **Suggestion:** Harness or planning plugin could suppress or shorten session-guide placeholder warnings when the **task planning doc** passes **`isPlanningDocFilled`**, or clearly label them “informational (guide not synced)”.
+
+### 2026-04-01 — x — feature — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** feature
+- **action:** start
+- **identifier:** x
+- **featureName:** x
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=r1; harnessAction=start
+
+---
+---
+**test advisory**
+---
