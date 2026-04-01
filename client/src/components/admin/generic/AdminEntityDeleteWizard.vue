@@ -6,7 +6,7 @@
   <VDialog
     :model-value="modelValue"
     max-width="560"
-    :persistent="isBusy"
+    :persistent="state.isBusy"
     @update:model-value="onDialogUpdate"
   >
     <VCard>
@@ -15,7 +15,7 @@
         <VBtn
           icon
           variant="text"
-          :disabled="isBusy"
+          :disabled="state.isBusy"
           aria-label="Close"
           @click="closeDialog"
         >
@@ -25,7 +25,7 @@
 
       <VCardText class="pa-4">
         <div
-          v-if="phase === 'loading_preflight' || phase === 'finalizing'"
+          v-if="state.phase === 'loading_preflight' || state.phase === 'finalizing'"
           class="d-flex justify-center py-8"
         >
           <VProgressCircular
@@ -35,7 +35,7 @@
           />
         </div>
 
-        <template v-else-if="phase === 'blocked'">
+        <template v-else-if="state.phase === 'blocked'">
           <VAlert
             type="warning"
             variant="tonal"
@@ -45,11 +45,11 @@
             This item still has blocking dependencies. Resolve them in the admin UI, then try again.
           </VAlert>
           <ul
-            v-if="dependencySummaryLines.length > 0"
+            v-if="state.dependencySummaryLines.length > 0"
             class="text-body-medium pl-4 mb-0"
           >
             <li
-              v-for="(line, index) in dependencySummaryLines"
+              v-for="(line, index) in state.dependencySummaryLines"
               :key="index"
             >
               {{ line }}
@@ -57,16 +57,16 @@
           </ul>
         </template>
 
-        <template v-else-if="phase === 'ready'">
+        <template v-else-if="state.phase === 'ready'">
           <p class="text-body-medium mb-4">
             Are you sure you want to delete "{{ entityLabel }}"? This action cannot be undone.
           </p>
           <ul
-            v-if="dependencySummaryLines.length > 0"
+            v-if="state.dependencySummaryLines.length > 0"
             class="text-body-small text-medium-emphasis pl-4 mb-0"
           >
             <li
-              v-for="(line, index) in dependencySummaryLines"
+              v-for="(line, index) in state.dependencySummaryLines"
               :key="index"
             >
               {{ line }}
@@ -75,16 +75,16 @@
         </template>
 
         <VAlert
-          v-else-if="phase === 'error' && lastError"
+          v-else-if="state.phase === 'error' && state.lastError"
           type="error"
           variant="tonal"
           class="mb-0"
         >
-          {{ lastError }}
+          {{ state.lastError }}
         </VAlert>
 
         <VAlert
-          v-else-if="phase === 'success'"
+          v-else-if="state.phase === 'success'"
           type="success"
           variant="tonal"
           class="mb-0"
@@ -96,22 +96,22 @@
       <VCardActions class="pa-4">
         <VSpacer />
         <VBtn
-          v-if="phase !== 'success'"
+          v-if="state.phase !== 'success'"
           variant="outlined"
-          :disabled="isBusy"
+          :disabled="state.isBusy"
           @click="closeDialog"
         >
           Cancel
         </VBtn>
         <VBtn
-          v-if="phase === 'ready' && canConfirmDelete"
+          v-if="state.phase === 'ready' && state.canConfirmDelete"
           color="error"
           @click="onConfirmDelete"
         >
           Delete
         </VBtn>
         <VBtn
-          v-if="phase === 'success'"
+          v-if="state.phase === 'success'"
           color="primary"
           variant="elevated"
           @click="onDone"
@@ -144,24 +144,15 @@ interface Emits {
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const {
-  phase,
-  lastError,
-  canConfirmDelete,
-  isBusy,
-  dependencySummaryLines,
-  reset,
-  runPreflight,
-  confirmFinalize,
-} = useAdminEntityDeleteWizard()
+const { state, actions } = useAdminEntityDeleteWizard()
 
 watch(
   () => props.modelValue,
   (open) => {
     if (open) {
-      void runPreflight(props.entityKey, props.entityId)
+      void actions.runPreflight(props.entityKey, props.entityId)
     } else {
-      reset()
+      actions.reset()
     }
   }
 )
@@ -169,24 +160,24 @@ watch(
 function onDialogUpdate(value: boolean): void {
   if (!value) {
     emit('cancel')
-    reset()
+    actions.reset()
   }
   emit('update:modelValue', value)
 }
 
 function closeDialog(): void {
   emit('cancel')
-  reset()
+  actions.reset()
   emit('update:modelValue', false)
 }
 
 async function onConfirmDelete(): Promise<void> {
-  await confirmFinalize(props.entityKey, props.entityId)
+  await actions.confirmFinalize(props.entityKey, props.entityId)
 }
 
 function onDone(): void {
   emit('finalized', { entityId: props.entityId })
-  reset()
+  actions.reset()
   emit('update:modelValue', false)
 }
 </script>

@@ -3,7 +3,7 @@
  * WHY: Single state machine for 6.17.4 wiring; thin components call named actions only.
  */
 
-import { computed, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, reactive, ref, type ComputedRef, type Ref } from 'vue'
 import type {
   DeleteContractErrorCode,
   DeletePreflightResponse,
@@ -18,7 +18,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('useAdminEntityDeleteWizard')
 
-export type AdminEntityDeleteWizardPhase =
+type AdminEntityDeleteWizardPhase =
   | 'idle'
   | 'loading_preflight'
   | 'ready'
@@ -27,7 +27,8 @@ export type AdminEntityDeleteWizardPhase =
   | 'success'
   | 'error'
 
-export interface UseAdminEntityDeleteWizardReturn {
+/** Read-only wizard state (computed refs unwrap in templates when accessed via `reactive`). */
+interface AdminEntityDeleteWizardState {
   phase: ComputedRef<AdminEntityDeleteWizardPhase>
   preflight: ComputedRef<DeletePreflightResponse | null>
   lastError: ComputedRef<string | null>
@@ -36,9 +37,17 @@ export interface UseAdminEntityDeleteWizardReturn {
   canConfirmDelete: ComputedRef<boolean>
   isBusy: ComputedRef<boolean>
   dependencySummaryLines: ComputedRef<string[]>
+}
+
+interface AdminEntityDeleteWizardActions {
   reset: () => void
   runPreflight: (entityKey: string, entityId: string) => Promise<void>
   confirmFinalize: (entityKey: string, entityId: string) => Promise<void>
+}
+
+interface UseAdminEntityDeleteWizardReturn {
+  state: AdminEntityDeleteWizardState
+  actions: AdminEntityDeleteWizardActions
 }
 
 function buildDependencySummaryLines(preflight: DeletePreflightResponse | null): string[] {
@@ -148,16 +157,20 @@ export function useAdminEntityDeleteWizard(): UseAdminEntityDeleteWizardReturn {
   }
 
   return {
-    phase,
-    preflight,
-    lastError,
-    lastErrorCode,
-    isBlocked,
-    canConfirmDelete,
-    isBusy,
-    dependencySummaryLines,
-    reset,
-    runPreflight,
-    confirmFinalize,
+    state: reactive({
+      phase,
+      preflight,
+      lastError,
+      lastErrorCode,
+      isBlocked,
+      canConfirmDelete,
+      isBusy,
+      dependencySummaryLines,
+    }),
+    actions: {
+      reset,
+      runPreflight,
+      confirmFinalize,
+    },
   }
 }

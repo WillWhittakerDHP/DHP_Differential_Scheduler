@@ -57,20 +57,6 @@ export function scaleChroma(color: Oklch, factor: number): Oklch {
 }
 
 /**
- * Shortest-path hue interpolation (degrees).
- */
-export function mixHueToward(color: Oklch, targetHueDeg: number, t: number): Oklch {
-  if (color.c < 0.001 || color.h === undefined) {
-    return color
-  }
-  const a = color.h
-  const b = targetHueDeg
-  const diff = ((b - a + 540) % 360) - 180
-  const h = (a + diff * t + 360) % 360
-  return { mode: 'oklch', l: color.l, c: color.c, h, alpha: color.alpha }
-}
-
-/**
  * Rotate OKLCH hue by `deltaDeg` (wrap 0–360). Achromatic colors are unchanged.
  */
 export function rotateHueOklch(color: Oklch, deltaDeg: number): Oklch {

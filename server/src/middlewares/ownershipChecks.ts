@@ -3,7 +3,7 @@
  * WHY: Anonymous booking flows stay open; authenticated non-privileged users cannot read others' appointments by id.
  */
 
-import type { Request, Response, NextFunction } from 'express'
+import type { Request, Response } from 'express'
 import { Appointment } from '../config/app.js'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { createLogger } from '../utils/logger.js'
@@ -88,22 +88,4 @@ export async function runOwnershipCheck(
     return checkAppointmentOwnership(req, res, paramKey)
   }
   return true
-}
-
-export function checkOwnershipHandler(
-  modelName: string,
-  paramKey: string = 'id',
-  _ownerField: string = 'userId'
-): (req: Request, res: Response, next: NextFunction) => Promise<void> {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const ok = await runOwnershipCheck(modelName, paramKey, req, res)
-      if (ok) {
-        next()
-      }
-    } catch (error: unknown) {
-      logger.error('checkOwnership failed', { modelName, error })
-      next(error)
-    }
-  }
 }

@@ -7,7 +7,7 @@
 import Joi from 'joi'
 
 /** Match types for feature mapping (includes `greater_than` beyond PROPERTY_MATCH_TYPE). */
-export const PROPERTY_FEATURE_MATCH_TYPES = [
+const PROPERTY_FEATURE_MATCH_TYPES = [
   'exists',
   'contains',
   'equals',

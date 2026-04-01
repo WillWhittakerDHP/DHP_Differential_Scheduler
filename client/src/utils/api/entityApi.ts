@@ -4,7 +4,6 @@
  */
 const ENTITY_DELETE_SEGMENTS = {
   PREFLIGHT: 'delete-preflight',
-  RESOLVE: 'delete-resolve',
   FINALIZE: 'delete-finalize',
 } as const
 
@@ -30,10 +29,6 @@ export function getEntitiesBatchEndpoint(): string {
 
 export function getDeletePreflightEndpoint(entityKey: string, id: string): string {
   return `/entities/${entityKey}/${id}/${ENTITY_DELETE_SEGMENTS.PREFLIGHT}`
-}
-
-export function getDeleteResolveEndpoint(entityKey: string, id: string): string {
-  return `/entities/${entityKey}/${id}/${ENTITY_DELETE_SEGMENTS.RESOLVE}`
 }
 
 export function getDeleteFinalizeEndpoint(entityKey: string, id: string): string {

@@ -6,7 +6,7 @@
 import { google } from 'googleapis'
 import { oauth2Client } from '../../../config/googleOAuth.js'
 
-export type SendGmailRawMessageInput = {
+type SendGmailRawMessageInput = {
   from: string
   to: string
   subject: string

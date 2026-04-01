@@ -10,16 +10,10 @@ import type {
   DeleteFinalizeRequest,
   DeleteFinalizeResponse,
   DeletePreflightResponse,
-  DeleteResolveRequest,
-  DeleteResolveResponse,
 } from '@shared/types/adminDeleteDependency'
 import { createLogger } from '@/utils/logger'
 import apiClient from './apiClientCore'
-import {
-  getDeleteFinalizeEndpoint,
-  getDeletePreflightEndpoint,
-  getDeleteResolveEndpoint,
-} from './entityApi'
+import { getDeleteFinalizeEndpoint, getDeletePreflightEndpoint } from './entityApi'
 
 const logger = createLogger('entityDeleteContractApi')
 
@@ -122,15 +116,6 @@ async function runDeleteContractCall<T>(fn: () => Promise<AxiosResponse<T>>): Pr
 export async function fetchDeletePreflight(entityKey: string, entityId: string): Promise<DeletePreflightResponse> {
   const url = getDeletePreflightEndpoint(entityKey, entityId)
   return runDeleteContractCall(() => apiClient.get<DeletePreflightResponse>(url))
-}
-
-export async function postDeleteResolve(
-  entityKey: string,
-  entityId: string,
-  body: DeleteResolveRequest
-): Promise<DeleteResolveResponse> {
-  const url = getDeleteResolveEndpoint(entityKey, entityId)
-  return runDeleteContractCall(() => apiClient.post<DeleteResolveResponse>(url, body))
 }
 
 export async function postDeleteFinalize(

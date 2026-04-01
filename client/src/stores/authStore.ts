@@ -6,7 +6,7 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('authStore')
 
-export type AuthUser = { userId: string; role: string }
+type AuthUser = { userId: string; role: string }
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<AuthUser | null>(null)
@@ -81,11 +81,6 @@ export const useAuthStore = defineStore('auth', () => {
     syncCsrfToGlobal()
   }
 
-  function setGuest(): void {
-    user.value = null
-    sessionLoaded.value = true
-  }
-
   return {
     user,
     sessionLoaded,
@@ -97,7 +92,6 @@ export const useAuthStore = defineStore('auth', () => {
     requestMagicLink,
     verifyMagicLinkToken,
     logout,
-    setGuest,
     syncCsrfToGlobal,
   }
 })

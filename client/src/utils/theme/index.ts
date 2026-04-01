@@ -14,7 +14,6 @@ export {
 export {
   darkenOklch,
   hexToOklch,
-  mixHueToward,
   oklchToHex,
   pickOnColorForBackground,
   rotateHueOklch,

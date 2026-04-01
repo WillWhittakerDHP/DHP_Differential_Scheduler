@@ -10,7 +10,7 @@ import type {
 } from '@shared/types/adminDeleteDependency.js'
 import type { PreflightTokenPayload } from './deleteContractPreflightTokenStore.js'
 
-export type EntityConfigContext = NonNullable<Request['entityConfig']>
+type EntityConfigContext = NonNullable<Request['entityConfig']>
 
 export type DependencyDeletePreflightArgs = {
   entityConfig: EntityConfigContext
