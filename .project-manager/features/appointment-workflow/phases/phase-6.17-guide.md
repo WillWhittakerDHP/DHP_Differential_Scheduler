@@ -129,7 +129,7 @@ Start with a **small** set; expand via registry:
 **Description:** Wizard UI shell, composable that runs preflight → drives steps → calls finalize; reusable across admin surfaces.  
 **Focus:** Thin components; orchestration in composable/services per project governance.
 
-- [ ] ### Session 6.17.4: Wire generic delete entry points (list + entity card)  
+- [x] ### Session 6.17.4: Wire generic delete entry points (list + entity card)  
 **Description:** Replace/adapt one-shot delete in `entityListDelete`, entity card persistence, and `useEntityCrud` mutations to use the new flow when entity is registered.  
 **Focus:** Single funnel into the wizard for supported keys.
 
