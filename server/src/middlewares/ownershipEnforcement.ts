@@ -5,7 +5,12 @@ import type { Request, Response } from 'express'
 import type { Model, ModelStatic } from 'sequelize'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { AVAILABILITY_SETTINGS_KEY } from '../constants/appConstants.js'
-import { USER_ROLE_AGENT } from '../constants/userRoles.js'
+import {
+  USER_ROLE_ADMIN,
+  USER_ROLE_AGENT,
+  USER_ROLE_OWNER,
+  USER_ROLE_TRANSACTION_MANAGER,
+} from '../constants/userRoles.js'
 import {
   Appointment,
   AppointmentFeeSummary,
@@ -47,7 +52,7 @@ function idsEqual(a: unknown, b: unknown): boolean {
   return String(a) === String(b)
 }
 
-/** Agent, admin, transaction_manager, and seller may mutate internal admin resources without a per-row user owner. */
+/** Agent, admin, transaction_manager, and owner (legacy seller) may mutate internal admin resources without a per-row user owner. */
 function isInternalStaffRole(role: string | undefined): boolean {
   if (role === undefined || role === '') {
     return false
@@ -55,10 +60,10 @@ function isInternalStaffRole(role: string | undefined): boolean {
   if (role === USER_ROLE_AGENT) {
     return true
   }
-  if (role === 'admin') {
+  if (role === USER_ROLE_ADMIN) {
     return true
   }
-  if (role === 'transaction_manager' || role === 'seller') {
+  if (role === USER_ROLE_TRANSACTION_MANAGER || role === USER_ROLE_OWNER) {
     return true
   }
   return false

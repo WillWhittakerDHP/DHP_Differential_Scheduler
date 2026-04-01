@@ -2,16 +2,22 @@
 import { BlockInstance, BlockShape } from '../config/app.js';
 import { Op } from 'sequelize';
 import { createLogger } from './logger.js';
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT, ATTENDEE_ROLE_AGENT } from '../constants/userRoles.js';
+import {
+  USER_ROLE_AGENT,
+  USER_ROLE_CLIENT,
+  USER_ROLE_OWNER,
+  ATTENDEE_ROLE_AGENT,
+} from '../constants/userRoles.js';
 
 const logger = createLogger('UserTypeMapping');
 
 const ROLE_TO_BLOCK_NAME: Record<string, string> = {
-  [USER_ROLE_CLIENT]: 'Buyer',           // Primary client = Buyer in real estate context
+  [USER_ROLE_CLIENT]: 'Buyer', // Primary client = Buyer in real estate context
   [USER_ROLE_AGENT]: ATTENDEE_ROLE_AGENT, // Real estate agent
-  'transaction_manager': 'Transaction Manager',
-  'seller': 'Seller',
-  'inspector': 'Inspector',    // The service provider/technician
+  transaction_manager: 'Transaction Manager',
+  // WHY: API role is `owner`; user-type block instance name may still be "Seller" until seed/admin rename (6.18.2+).
+  [USER_ROLE_OWNER]: 'Seller',
+  inspector: 'Inspector',
 };
 
 let userTypeBlockCache: Map<string, string> | null = null;

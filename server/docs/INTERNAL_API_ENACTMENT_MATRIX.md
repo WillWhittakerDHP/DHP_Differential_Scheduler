@@ -31,7 +31,7 @@ Express mounts **`InternalRouter`** at `v1Router.use("/internal", …)` (`server
 | `/relationships` | Admin + booking (instances, annotations) | Mixed — wizard reads relationship data | **Mutations:** staff / ownership per route | See relationship CRUD routers |
 | `/properties` | Wizard (property selection); admin | Mixed | **Mutations:** staff-scoped / ownership per registry | `property` / `propertyType` rules in `ownershipRegistry.ts` |
 | `/users` | Admin; rare wizard | **Default:** no for CRUD | **Yes** for user record access | Tighten with `requireAuth` + role where not already implied |
-| `/appointments` | Wizard (create/update); admin tables | **Yes** for core booking flows | **Ownership** via `checkOwnership('appointment', …)`; **not** a blanket `requireAuth` on the router | **`GET /list-for-admin-entry`:** **`requireAuth`** + **`requireRole(agent, transaction_manager, seller, admin)`** (task **7.4.4.2**) |
+| `/appointments` | Wizard (create/update); admin tables | **Yes** for core booking flows | **Ownership** via `checkOwnership('appointment', …)`; **not** a blanket `requireAuth` on the router | **`GET /list-for-admin-entry`:** **`requireAuth`** + **`requireRole(agent, transaction_manager, owner, admin)`** (task **7.4.4.2**; Phase 6.18.1 renamed **`seller`** → **`owner`**) |
 | `/appointment-fee-summaries` | Admin / appointment flows | TBD | **Likely staff** for sensitive fee data | Confirm callers; align with `appointmentFeeSummary` ownership |
 | `/availability` | Wizard — **`POST /availability/computed-data`** | **Yes** (core wizard) | — | Route uses `csrfProtection` + `validateRequest` today |
 | `/business-settings` | Admin; wizard **GET** availability policy | **GET** `availability_settings` often yes for booking UX | **PUT/PATCH** mutations **staff/admin** | `businessSetting` special cases in ownership registry |
@@ -86,4 +86,5 @@ Mounted **before** the generic `/internal` stack: `v1Router.use("/internal/auth"
 
 | Date | Change |
 |------|--------|
-| 2026-03-25 | **7.4.4.2:** `GET /appointments/list-for-admin-entry` — `requireAuth` + `requireRole(USER_ROLE_AGENT, 'transaction_manager', 'seller', 'admin')` (`appointmentRouter.ts`). |
+| 2026-03-25 | **7.4.4.2:** `GET /appointments/list-for-admin-entry` — `requireAuth` + `requireRole` with staff roles (`appointmentRouter.ts`). |
+| 2026-04-01 | **6.18.1.1:** `user_role` enum + `requireRole` use **`owner`** (renamed from **`seller`**) (`appointmentRouter.ts`, migration `20260432_000056_*`). |

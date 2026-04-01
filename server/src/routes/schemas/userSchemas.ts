@@ -4,15 +4,7 @@
  */
 
 import Joi from 'joi'
-
-const USER_ROLE_VALUES = [
-  'client',
-  'agent',
-  'transaction_manager',
-  'seller',
-  'inspector',
-  'admin',
-] as const
+import { USER_ROLE_VALUES } from '@shared/constants/roleConstants.js'
 
 const userMutableFields = {
   firstName: Joi.string().trim().min(1).required(),

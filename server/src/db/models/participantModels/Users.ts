@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 import { NODE_ENV } from '../../../constants/appConstants.js';
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../../../constants/userRoles.js';
+import { USER_ROLE_VALUES, type UserRoleValue } from '../../../constants/userRoles.js';
 import { manualCreatedUpdatedAtColumns } from '../shared/manualCreatedUpdatedAtColumns.js';
 
 export class User extends Model<
@@ -20,13 +20,7 @@ export class User extends Model<
   declare lastName: string;
   declare email: string;
   declare phone: string | null;
-  declare userRole:
-    | typeof USER_ROLE_CLIENT
-    | typeof USER_ROLE_AGENT
-    | 'transaction_manager'
-    | 'seller'
-    | 'inspector'
-    | 'admin';
+  declare userRole: UserRoleValue;
   declare loginId: ForeignKey<number> | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -61,14 +55,7 @@ export function UserFactory(sequelize: Sequelize) {
         allowNull: true,
       },
       userRole: {
-        type: DataTypes.ENUM(
-          USER_ROLE_CLIENT,
-          USER_ROLE_AGENT,
-          'transaction_manager',
-          'seller',
-          'inspector',
-          'admin'
-        ),
+        type: DataTypes.ENUM(...USER_ROLE_VALUES),
         allowNull: false,
         field: 'user_role',
       },

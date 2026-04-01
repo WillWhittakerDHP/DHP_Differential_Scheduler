@@ -8,6 +8,12 @@ import { Appointment } from '../config/app.js'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { createLogger } from '../utils/logger.js'
 import { paramString } from '../routes/helpers/requestHelpers.js'
+import {
+  USER_ROLE_ADMIN,
+  USER_ROLE_INSPECTOR,
+  USER_ROLE_OWNER,
+  USER_ROLE_TRANSACTION_MANAGER,
+} from '../constants/userRoles.js'
 
 const logger = createLogger('middleware.ownership')
 
@@ -19,10 +25,10 @@ function isPrivilegedRole(role: string | undefined): boolean {
     return false
   }
   return (
-    role === 'admin' ||
-    role === 'transaction_manager' ||
-    role === 'inspector' ||
-    role === 'seller'
+    role === USER_ROLE_ADMIN ||
+    role === USER_ROLE_TRANSACTION_MANAGER ||
+    role === USER_ROLE_INSPECTOR ||
+    role === USER_ROLE_OWNER
   )
 }
 

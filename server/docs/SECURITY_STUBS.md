@@ -352,7 +352,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 2. **`dynamic_entity`** — Used for **`entity`** CRUD: requires `req.entityConfig` (from entity route setup) and **`findByPk`** on the configured model. **Mutations are allowed only for internal staff roles** (see below); others get **403**.
 3. **`special`** — Custom logic in `ownershipEnforcement.ts` (e.g. **`businessSetting`** keyed by `key` param + availability constant; **`calendarSetting`** / **`wizardSetting`** singleton admin paths; **`appointmentFeeSummary`** via parent **`Appointment.scheduledById`**; **`property`** / **`propertyType`** / staff-scoped integration models). See registry `reason` / `notes` for intent; behavior is defined in code.
 
-**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`seller`** (`isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
+**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`owner`** (DB/API rename from legacy **`seller`**, Phase 6.18.1 — `isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
 
 **Logging:** Denials and misconfiguration (e.g. `req.user` missing, unknown `resourceName`, unhandled special resource) are logged at **warn** or **error** with stable messages — see `ownershipLogger` / `checkOwnership:` prefixes in code.
 
@@ -374,7 +374,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
 | 2 | **User row:** Same method on **`/api/v1/internal/users/{userA_id}`**. | Success (**2xx**) if body is valid |
 | 3 | **Appointment:** `GET` **`/api/v1/internal/appointments/{appointment_owned_by_B}`** as User A (session on GET). | **403** ownership denial (appointment uses `scheduledById` in registry) |
 | 4 | **Appointment:** `GET` **`/api/v1/internal/appointments/{random-uuid}`** as User A. | **404** `{ error: "Resource not found" }` |
-| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `seller`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
+| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `owner`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
 | 6 | **Entity:** Repeat **5** as an internal staff user with a valid **`entityType`** and existing **`id`**. | **2xx** if payload valid and row exists (**404** if id missing) |
 | 7 | **Registry fail-closed (optional):** If you temporarily add a route with `checkOwnership('nonexistent', 'id')` in dev, expect **403** and a **`checkOwnership: unknown resourceName`** log — remove the route after the check. | **403** |
 
