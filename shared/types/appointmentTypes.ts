@@ -1,7 +1,13 @@
 /**
  * Shared appointment-related types for client and server.
  */
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../constants/roleConstants'
+import {
+  USER_ROLE_AGENT,
+  USER_ROLE_CLIENT,
+  USER_ROLE_INSPECTOR,
+  USER_ROLE_OWNER,
+  USER_ROLE_TRANSACTION_MANAGER,
+} from '../constants/roleConstants'
 import type { SlotTimeBounds } from './availabilityTypes'
 
 /** Canonical one-slot payload for API and `appointment_time_slots` rows (ISO start/end, optional duration minutes). */
@@ -14,7 +20,12 @@ export interface AttendeeRequest {
   userId: string
   userTypeBlockInstanceId?: string | null
   shouldReceiveInvitation?: boolean
-  role?: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | 'transaction_manager' | 'seller' | 'inspector'
+  role?:
+    | typeof USER_ROLE_CLIENT
+    | typeof USER_ROLE_AGENT
+    | typeof USER_ROLE_TRANSACTION_MANAGER
+    | typeof USER_ROLE_OWNER
+    | typeof USER_ROLE_INSPECTOR
 }
 
 /**
