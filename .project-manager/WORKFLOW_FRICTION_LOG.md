@@ -1596,3 +1596,24 @@ If you are not already using this model, consider switching before proceeding.
 *Express profile: minimal gates, prioritize speed*
 If you are not already using this model, consider switching before proceeding.
 ---
+
+### 2026-04-01 — 6.17.3 — session — end — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** session
+- **action:** end
+- **identifier:** 6.17.3
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_session_end_6_17_3_1775079952638; harnessAction=end
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Express profile: minimal gates, prioritize speed*
+If you are not already using this model, consider switching before proceeding.
+---

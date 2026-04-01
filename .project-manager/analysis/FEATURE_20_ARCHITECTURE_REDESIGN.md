@@ -3,7 +3,7 @@
 > **Status:** Draft rewrite aligned to locked canonical principles.
 > **Locked source of truth:** `ARCHITECTURE_PRINCIPLES.md` is immutable and authoritative.
 > **Purpose:** This file covers only implementation planning: what to build, adapt, delete, migrate, and review.
-> **Replacement rule:** Keep this as `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` until the replacement readiness gate passes.
+> **Replacement rule:** Keep this as `FEATURE_20_ARCHITECTURE_REDESIGN.md` until the replacement readiness gate passes.
 
 ---
 

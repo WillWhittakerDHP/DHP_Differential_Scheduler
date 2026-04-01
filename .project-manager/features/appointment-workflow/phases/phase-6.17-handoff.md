@@ -55,10 +55,10 @@ Run `/phase-start 6.17` when ready to open phase branch and create phase plannin
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-01T18:16:58.542Z
+- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-01T21:46:09.418Z
 - **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
 - **Focus phase:** `6.17` · **Next phase across:** `6.18` → `/phase-start 6.18`
-- **Focus session:** `6.17.2` · **Session 2/5 in phase** · **Next session across:** `6.17.3` → `/session-start 6.17.3`
-- **Tasks in session (detected):** 2 · **Next task across:** `6.17.2.1` → `/task-start` / cascade
+- **Focus session:** `6.17.3` · **Session 3/5 in phase** · **Next session across:** `6.17.4` → `/session-start 6.17.4`
+- **Tasks in session (detected):** 2 · **Next task across:** `6.17.3.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
