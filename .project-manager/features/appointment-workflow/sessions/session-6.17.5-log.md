@@ -1,15 +1,14 @@
 # Session 6.17.5: Entity-policy rollout + documentation
 
+## Completed Tasks
 
-### Task 6.17.5.1: Task 6.17.5.1 ✅
+### Task 6.17.5.2: Task 6.17.5.2 ✅
 **Goal:** Task completed
 
 **Next Task:**
-- 6.17.5.2
+- 6.17.5.3
 
 
-
-## Completed Tasks
 
 ### Task 6.17.5.1: Task 6.17.5.1 ✅
 **Goal:** Task completed
@@ -19,158 +18,158 @@
 
 <!-- end excerpt session -->
 
+### Task 6.17.5.2: Task 6.17.5.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.17.5.3
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (12): `.project-manager/features/appointment-workflow/across-ladder.json`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md`, `server/src/routes/internal/entities/entityConstants.ts`, `server/src/routes/internal/entities/entityCrudRouter.ts`, `server/src/services/entityDelete/dependencyDeleteRegistry.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.1-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.1-planning.md`, `server/src/services/annotations/countAnnotationShapeDeleteDependencies.ts`, `server/src/services/blockShapes/`, `server/src/services/entityDelete/strategies/annotationShapeDependencyDeleteStrategy.ts`, `server/src/services/entityDelete/strategies/blockShapeDependencyDeleteStrategy.ts`
+Paths (7): `.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md`, `client/src/utils/admin/dependencyDeleteContractKeys.ts`, `client/src/views/admin/entities/BlockShapeList.vue`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.2-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.2-planning.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../features/appointment-workflow/across-ladder.json  |  2 +-
- .../sessions/session-6.17.5-guide.md                  |  2 +-
- .../sessions/session-6.17.5-log.md                    | 18 ++++++++++++++++++
- .../src/routes/internal/entities/entityConstants.ts   |  5 ++++-
- .../src/routes/internal/entities/entityCrudRouter.ts  | 19 +++++++++++--------
- .../services/entityDelete/dependencyDeleteRegistry.ts |  4 ++++
- 6 files changed, 39 insertions(+), 11 deletions(-)
+.../docs/delete-preflight-api-v1.md                |  22 ++-
+ .../sessions/session-6.17.5-guide.md               |   2 +-
+ .../sessions/session-6.17.5-log.md                 | 164 +--------------------
+ .../utils/admin/dependencyDeleteContractKeys.ts    |   6 +-
+ client/src/views/admin/entities/BlockShapeList.vue |  41 +++++-
+ 5 files changed, 68 insertions(+), 167 deletions(-)
 ```
 
 ### `git diff HEAD`
+_(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/appointment-workflow/across-ladder.json b/.project-manager/features/appointment-workflow/across-ladder.json
-index c3f7c4e7..cb08bcea 100644
---- a/.project-manager/features/appointment-workflow/across-ladder.json
-+++ b/.project-manager/features/appointment-workflow/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "appointment-workflow",
--  "derivedAt": "2026-04-01T23:05:09.793Z",
-+  "derivedAt": "2026-04-01T23:07:03.952Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "6.2",
+diff --git a/.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md b/.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md
+index 34a7d342..5bfe3fda 100644
+--- a/.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md
++++ b/.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md
+@@ -1,6 +1,11 @@
+ # Delete preflight API — v1 (contract)
+ 
+-**Status:** Specification only. Handlers are implemented in Phase **6.17.2** (Session 6.17.2).  
++**Status:** **Implemented** — HTTP handlers ship with entity routes (Phase **6.17.2**). Per-entity behavior is registered in **`server/src/services/entityDelete/dependencyDeleteRegistry.ts`** (`DependencyDeleteStrategy`: preflight, resolve, finalize).
++
++**Rolled-out entity types (server registry, Phase 6.17.5):** **`partShape`**, **`blockShape`**, **`annotationShape`**. Other `entityType` values return **404** from contract routes until a strategy is registered.
++
++**Client allowlist (must match registry):** `client/src/utils/admin/dependencyDeleteContractKeys.ts` — `DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS`. List and card entry points use **`AdminEntityDeleteWizard`** when the key is listed.
++
+ **Shared types:** `@shared/types/adminDeleteDependency` (`DeletePreflightResponse`, `DeleteResolveRequest`, `DeleteResolveResponse`, `DeleteFinalizeRequest`, `DeleteFinalizeResponse`, `DeleteContractErrorCode`, `DeleteDependencyPolicy`, …).  
+ **Policy semantics:** See `.project-manager/features/appointment-workflow/phases/phase-6.17-guide.md` — do not introduce synonym policy strings; use the shared type literals only.
+ 
+@@ -8,6 +13,18 @@
+ 
+ ---
+ 
++## Adding a new entity key (checklist)
++
++1. **Server — dependency counts:** Add a small module (e.g. `count*DeleteDependencies`) that returns buckets and a **`totalCount`** aligned with FK / validity tables.
++2. **Server — strategy:** Implement **`DependencyDeleteStrategy`** (`preflight`, `resolve`, `finalize`) under `server/src/services/entityDelete/strategies/`, mirroring **`partShapeDependencyDeleteStrategy.ts`** for v1 noop-only resolve and transactional finalize with a re-count guard.
++3. **Server — registry:** Register the strategy in **`dependencyDeleteRegistry.ts`** using the same string as CRUD **`entityType`** (`ENTITY_KEYS` / camelCase as used in routes).
++4. **Client — allowlist:** Append the **`GlobalEntityKey`** to **`DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS`** and keep the **SYNC** comment pointed at **`dependencyDeleteRegistry.ts`**.
++5. **Client — surfaces:** For each **list** that calls **`entityListDelete`** / **`entityList`**, pass **`contractDelete`** that opens **`AdminEntityDeleteWizard`** (see **`PartShapeList.vue`** / **`BlockShapeList.vue`**). **Entity cards** pick up the wizard automatically via **`usesDependencyDeleteContract`** in **`useEntityCardActions`** when the key is allowlisted.
++6. **Server — legacy `DELETE` (optional):** If the entity already has a guard on raw **`DELETE /:entityType/:id`**, align it with the same dependency rules as preflight/finalize so one-shot delete does not bypass policy.
++7. **Docs:** Update this file’s **Rolled-out entity types** line when the key ships.
++
++---
++
+ ## Base URL and auth
+ 
+ | Item | Value |
+@@ -181,5 +198,6 @@ Handlers should return JSON useful for admin UI. Align with existing entity rout
+ ## Implementation pointer
+ 
+ - **Contract doc (this file):** `.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md`
+-- **Router comment:** `server/src/routes/internal/entities/entityCrudRouter.ts` (planned mount location for 6.17.2).
++- **Router / facade:** `server/src/routes/internal/entities/entityCrudRouter.ts` and `entityDeleteContractFacade.ts` (delete-preflight, delete-resolve, delete-finalize).
++- **Registry:** `server/src/services/entityDelete/dependencyDeleteRegistry.ts`
+ - **Constants:** `ENTITY_DELETE_ROUTE_SEGMENTS` in `entityConstants.ts`.
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
-index 4f2041a4..8e61bdc5 100644
+index 8e61bdc5..a340ce2c 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
-@@ -52,7 +52,7 @@ These sections contain session-specific content:
+@@ -59,7 +59,7 @@ These sections contain session-specific content:
+ **Approach:** [Approach to take]
+ **Checkpoint:** [What needs to be verified]
  
- ### Tasks
- 
--- [ ] #### Task 6.17.5.1: [Task Name]
-+- [x] #### Task 6.17.5.1: [Task Name]
+-- [ ] #### Task 6.17.5.2: [Task Name]
++- [x] #### Task 6.17.5.2: [Task Name]
  **Goal:** [Task goal]
  **Files:** 
  - [Files to work with]
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md
-index 45d85722..a806d438 100644
+index d7f2600d..3ebd6d52 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md
-@@ -1,2 +1,20 @@
+@@ -1,16 +1,15 @@
  # Session 6.17.5: Entity-policy rollout + documentation
  
-+
-+### Task 6.17.5.1: Task 6.17.5.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 6.17.5.2
-+
-+
-+
 +## Completed Tasks
-+
-+### Task 6.17.5.1: Task 6.17.5.1 ✅
+ 
+-### Task 6.17.5.1: Task 6.17.5.1 ✅
++### Task 6.17.5.2: Task 6.17.5.2 ✅
+ **Goal:** Task completed
+ 
+ **Next Task:**
+-- 6.17.5.2
++- 6.17.5.3
+ 
+ 
+ 
+-## Completed Tasks
+-
+ ### Task 6.17.5.1: Task 6.17.5.1 ✅
+ **Goal:** Task completed
+ 
+@@ -19,158 +18,9 @@
+ 
+ 
+-<!-- harness:anchor:commit-preview -->
+-## Harness: commit preview (in-scope diff)
+-
+-Paths (12): `.project-manager/features/appointment-workflow/across-ladder.json`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.17.5-log.md`, `server/src/routes/internal/entities/entityConstants.ts`, `server/src/routes/internal/entities/entityCrudRouter.ts`, `server/src/services/entityDelete/dependencyDeleteRegistry.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.1-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.17.5.1-planning.md`, `server/src/services/annotations/countAnnotationShapeDeleteDependencies.ts`, `server/src/services/blockShapes/`, `server/src/services/entityDelete/strategies/annotationShapeDependencyDeleteStrategy.ts`, `server/src/services/entityDelete/strategies/blockShapeDependencyDeleteStrategy.ts`
+-
+-### `git diff --stat HEAD`
+-
+-```text
+-.../features/appointment-workflow/across-ladder.json  |  2 +-
+- .../sessions/session-6.17.5-guide.md                  |  2 +-
+- .../sessions/session-6.17.5-log.md                    | 18 ++++++++++++++++++
+- .../src/routes/internal/entities/entityConstants.ts   |  5 ++++-
+- .../src/routes/internal/entities/entityCrudRouter.ts  | 19 +++++++++++--------
+- .../services/entityDelete/dependencyDeleteRegistry.ts |  4 ++++
+- 6 files changed, 39 insertions(+), 11 deletions(-)
+-```
++### Task 6.17.5.2: Task 6.17.5.2 ✅
 +**Goal:** Task completed
-+
+ 
+-### `git diff HEAD`
 +**Next Task:**
-+- 6.17.5.2
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-diff --git a/server/src/routes/internal/entities/entityConstants.ts b/server/src/routes/internal/entities/entityConstants.ts
-index 681a7566..f6491607 100644
---- a/server/src/routes/internal/entities/entityConstants.ts
-+++ b/server/src/routes/internal/entities/entityConstants.ts
-@@ -33,10 +33,13 @@ export const ERROR_MESSAGES = {
-   /** DELETE annotation shape blocked by referencing annotation instances */
-   ANNOTATION_SHAPE_IN_USE: 'Annotation shape is in use',
-   ANNOTATION_SHAPE_IN_USE_DETAILS:
--    'Cannot delete this annotation shape because {dependentCount} annotation instance(s) still reference it. Remove or reassign those instances first.',
-+    'Cannot delete this annotation shape because {annotationInstanceCount} annotation instance(s) reference it and {validAnnotationAssignmentChildCount} valid annotation assignment link(s) use it on the annotation side. Remove or reassign those records first.',
-   /** FK violation after pre-count (rare race): omit exact count */
-   ANNOTATION_SHAPE_IN_USE_DETAILS_RACE:
-     'Cannot delete this annotation shape because one or more annotation instances still reference it. Remove or reassign those instances first.',
-+  BLOCK_SHAPE_IN_USE: 'Block shape is in use',
-+  BLOCK_SHAPE_IN_USE_DETAILS:
-+    'Cannot delete this block shape because it is still referenced by {blockInstanceCount} block instance(s), {validBookingCascadeCount} valid booking cascade link(s), {validPartCascadeParentCount} valid part cascade link(s) as parent, {validAnnotationAssignmentParentCount} valid annotation assignment link(s) as parent block, and {validEventCascadeParentCount} valid event cascade link(s) as parent. Remove or reassign those records first.',
-   PART_SHAPE_IN_USE: 'Part shape is in use',
-   PART_SHAPE_IN_USE_DETAILS:
-     'Cannot delete this part shape because it is still referenced by {partInstanceCount} part instance(s), {validPartCascadeCount} valid part cascade link(s), and {validPricingCascadeCount} pricing cascade link(s). Remove or reassign those records first.',
-diff --git a/server/src/routes/internal/entities/entityCrudRouter.ts b/server/src/routes/internal/entities/entityCrudRouter.ts
-index 744e5987..be563359 100644
---- a/server/src/routes/internal/entities/entityCrudRouter.ts
-+++ b/server/src/routes/internal/entities/entityCrudRouter.ts
-@@ -19,7 +19,7 @@ import {
-   syncAnnotationInstanceContentRows,
- } from '../../../services/annotations/annotationInstanceContentSync.js'
- import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
--import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
-+import { countAnnotationShapeDeleteDependencies } from '../../../services/annotations/countAnnotationShapeDeleteDependencies.js'
- import { countPartShapeDeleteDependencies } from '../../../services/partShapes/countPartShapeDeleteDependencies.js'
- import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
- import { createLogger } from '../../../utils/logger.js'
-@@ -363,20 +363,23 @@ router.delete(
-           sendBadRequest(res, idValidation.error, idValidation.details?.message as string, entityId)
-           return
-         }
--        const dependentCount = await countAnnotationInstancesForShape(entityId)
--        if (dependentCount > 0) {
--          logger.warn('Annotation shape delete blocked: instances still reference shape', {
-+        const annotationShapeDependencyCounts = await countAnnotationShapeDeleteDependencies(entityId)
-+        if (annotationShapeDependencyCounts.totalCount > 0) {
-+          logger.warn('Annotation shape delete blocked: dependent records still reference shape', {
-             shapeId: entityId,
--            dependentCount,
-+            ...annotationShapeDependencyCounts,
-           })
-           res.status(HTTP_STATUS_CODES.CONFLICT).json({
-             error: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE,
-             details: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE_DETAILS.replace(
--              '{dependentCount}',
--              String(dependentCount)
-+              '{annotationInstanceCount}',
-+              String(annotationShapeDependencyCounts.annotationInstanceCount)
-+            ).replace(
-+              '{validAnnotationAssignmentChildCount}',
-+              String(annotationShapeDependencyCounts.validAnnotationAssignmentChildCount)
-             ),
-             shapeId: entityId,
--            dependentCount,
-+            ...annotationShapeDependencyCounts,
-           })
-           return
-         }
-diff --git a/server/src/services/entityDelete/dependencyDeleteRegistry.ts b/server/src/services/entityDelete/dependencyDeleteRegistry.ts
-index e3de37a0..6b17dd49 100644
---- a/server/src/services/entityDelete/dependencyDeleteRegistry.ts
-+++ b/server/src/services/entityDelete/dependencyDeleteRegistry.ts
-@@ -1,9 +1,13 @@
- import { ENTITY_KEYS } from '../../constants/entities.js'
- import type { DependencyDeleteStrategy } from './dependencyDeleteStrategyTypes.js'
-+import { annotationShapeDependencyDeleteStrategy } from './strategies/annotationShapeDependencyDeleteStrategy.js'
-+import { blockShapeDependencyDeleteStrategy } from './strategies/blockShapeDependencyDeleteStrategy.js'
- import { partShapeDependencyDeleteStrategy } from './strategies/partShapeDependencyDeleteStrategy.js'
++- 6.17.5.3
  
- const strategies: Record<string, DependencyDeleteStrategy> = {
-   [ENTITY_KEYS.PART_SHAPE]: partShapeDependencyDeleteStrategy,
-+  [ENTITY_KEYS.BLOCK_SHAPE]: blockShapeDependencyDeleteStrategy,
-+  [ENTITY_KEYS.ANNOTATION_SHAPE]: annotationShapeDependencyDeleteStrategy,
- }
- 
- export function getDependencyDeleteStrategy(entityType: string): DependencyDeleteStrategy | undefined {
+-```diff
+-diff --git a/.project-manager/features/appointment-workflow/across-ladder.json b/.project-manager/features/appointment-workflow/across-ladder.json
+-index c3f7c4e7..cb08bcea 100644
+---- a/.project-manager/features/appointment-workflow/across-ladder.json
+-+++ b/.project-manager/features/appointment-workflow/across-ladder.json
+-@@ -1,7 +1,7 @@
+- {
+-   "schemaVersion": 1,
+-   "feature": "appointment-workflow",
+--  "derivedAt": "2026-04-01T23:05:09.793Z",
+-+  "derivedAt": "2026-04-01T23:07:03.952Z",
+-   "sourceTier": "session",
+-   "phasesOnDisk": [
+-     "6.2",
+-diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
+-index 4f2041a4..8e61bdc5 100644
+---- a/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
+-+++ b/.project-manager/features/appointment-workflow/sessions/session-6.17.5-guide.md
+-@@ -52,7 +52,7 @@ These sections contain sessio
+… (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

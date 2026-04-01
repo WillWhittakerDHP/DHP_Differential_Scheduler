@@ -6,7 +6,11 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
 
-export const DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS: readonly GlobalEntityKey[] = ['partShape']
+export const DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS: readonly GlobalEntityKey[] = [
+  'partShape',
+  'blockShape',
+  'annotationShape',
+]
 
 export function usesDependencyDeleteContract(entityKey: GlobalEntityKey): boolean {
   return DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS.includes(entityKey)

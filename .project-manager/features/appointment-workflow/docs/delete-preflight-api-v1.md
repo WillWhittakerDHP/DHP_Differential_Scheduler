@@ -1,10 +1,27 @@
 # Delete preflight API — v1 (contract)
 
-**Status:** Specification only. Handlers are implemented in Phase **6.17.2** (Session 6.17.2).  
+**Status:** **Implemented** — HTTP handlers ship with entity routes (Phase **6.17.2**). Per-entity behavior is registered in **`server/src/services/entityDelete/dependencyDeleteRegistry.ts`** (`DependencyDeleteStrategy`: preflight, resolve, finalize).
+
+**Rolled-out entity types (server registry, Phase 6.17.5):** **`partShape`**, **`blockShape`**, **`annotationShape`**. Other `entityType` values return **404** from contract routes until a strategy is registered.
+
+**Client allowlist (must match registry):** `client/src/utils/admin/dependencyDeleteContractKeys.ts` — `DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS`. List and card entry points use **`AdminEntityDeleteWizard`** when the key is listed.
+
 **Shared types:** `@shared/types/adminDeleteDependency` (`DeletePreflightResponse`, `DeleteResolveRequest`, `DeleteResolveResponse`, `DeleteFinalizeRequest`, `DeleteFinalizeResponse`, `DeleteContractErrorCode`, `DeleteDependencyPolicy`, …).  
 **Policy semantics:** See `.project-manager/features/appointment-workflow/phases/phase-6.17-guide.md` — do not introduce synonym policy strings; use the shared type literals only.
 
 **Versioning:** v1 is **additive-only** for compatible clients unless a future version is explicitly documented.
+
+---
+
+## Adding a new entity key (checklist)
+
+1. **Server — dependency counts:** Add a small module (e.g. `count*DeleteDependencies`) that returns buckets and a **`totalCount`** aligned with FK / validity tables.
+2. **Server — strategy:** Implement **`DependencyDeleteStrategy`** (`preflight`, `resolve`, `finalize`) under `server/src/services/entityDelete/strategies/`, mirroring **`partShapeDependencyDeleteStrategy.ts`** for v1 noop-only resolve and transactional finalize with a re-count guard.
+3. **Server — registry:** Register the strategy in **`dependencyDeleteRegistry.ts`** using the same string as CRUD **`entityType`** (`ENTITY_KEYS` / camelCase as used in routes).
+4. **Client — allowlist:** Append the **`GlobalEntityKey`** to **`DEPENDENCY_DELETE_CONTRACT_ENTITY_KEYS`** and keep the **SYNC** comment pointed at **`dependencyDeleteRegistry.ts`**.
+5. **Client — surfaces:** For each **list** that calls **`entityListDelete`** / **`entityList`**, pass **`contractDelete`** that opens **`AdminEntityDeleteWizard`** (see **`PartShapeList.vue`** / **`BlockShapeList.vue`**). **Entity cards** pick up the wizard automatically via **`usesDependencyDeleteContract`** in **`useEntityCardActions`** when the key is allowlisted.
+6. **Server — legacy `DELETE` (optional):** If the entity already has a guard on raw **`DELETE /:entityType/:id`**, align it with the same dependency rules as preflight/finalize so one-shot delete does not bypass policy.
+7. **Docs:** Update this file’s **Rolled-out entity types** line when the key ships.
 
 ---
 
@@ -181,5 +198,6 @@ Handlers should return JSON useful for admin UI. Align with existing entity rout
 ## Implementation pointer
 
 - **Contract doc (this file):** `.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md`
-- **Router comment:** `server/src/routes/internal/entities/entityCrudRouter.ts` (planned mount location for 6.17.2).
+- **Router / facade:** `server/src/routes/internal/entities/entityCrudRouter.ts` and `entityDeleteContractFacade.ts` (delete-preflight, delete-resolve, delete-finalize).
+- **Registry:** `server/src/services/entityDelete/dependencyDeleteRegistry.ts`
 - **Constants:** `ENTITY_DELETE_ROUTE_SEGMENTS` in `entityConstants.ts`.
