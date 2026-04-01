@@ -61,12 +61,22 @@
         </v-card>
       </v-col>
     </v-row>
+    <AdminEntityDeleteWizard
+      v-model="deleteWizardOpen"
+      entity-key="partShape"
+      :entity-id="deleteWizardEntityId"
+      :entity-label="deleteWizardEntityLabel"
+      @finalized="onDeleteWizardFinalized"
+    />
   </v-container>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQueryClient } from '@tanstack/vue-query'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import AdminEntityDeleteWizard from '@/components/admin/generic/AdminEntityDeleteWizard.vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { entityListDelete } from '@/utils/admin/entityListDelete'
 import { useNotification } from '@/composables/useNotification'
@@ -74,15 +84,35 @@ import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('PartShapeList')
 const router = useRouter()
+const queryClient = useQueryClient()
 const { error: notifyError } = useNotification()
 const { entities, isLoading, error, remove } = useEntityCrud('partShape')
+
+const deleteWizardOpen = ref(false)
+const deleteWizardEntityId = ref('')
+const deleteWizardEntityLabel = ref('')
+
 const handleDelete = entityListDelete({
   remove,
   confirmMessage: 'Are you sure you want to delete this part type?',
   errorMessage: 'Failed to delete part type',
   logger,
   notifyError,
+  contractDelete: async (id: GlobalEntityId): Promise<void> => {
+    const row = entities.value.find((e) => e.id === id)
+    deleteWizardEntityId.value = String(id)
+    deleteWizardEntityLabel.value =
+      row?.name != null && row.name !== '' ? row.name : `Part Shape ${id}`
+    deleteWizardOpen.value = true
+  },
 })
+
+function onDeleteWizardFinalized(): void {
+  void queryClient.invalidateQueries({ queryKey: ['globalData'] })
+  deleteWizardOpen.value = false
+  deleteWizardEntityId.value = ''
+  deleteWizardEntityLabel.value = ''
+}
 
 function goToCreate(): void {
   router.push({ name: 'part-type-create' })

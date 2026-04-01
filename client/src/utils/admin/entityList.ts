@@ -19,6 +19,8 @@ interface EntityListOptions {
   }
   deleteConfirmation?: string | ((entityId: GlobalEntityId) => string)
   deleteErrorMessage?: string | ((error: unknown) => string)
+  /** When set, skips confirm + `remove`; caller runs contract delete flow (e.g. wizard). */
+  contractDelete?: (id: GlobalEntityId) => void | Promise<void>
 }
 
 export interface EntityListReturn {
@@ -64,6 +66,18 @@ export function entityList(options: EntityListOptions): EntityListReturn {
   }
 
   const handleDelete = async (id: GlobalEntityId): Promise<void> => {
+    if (contractDelete != null) {
+      try {
+        await contractDelete(id)
+      } catch (err) {
+        logger.error('Delete entity failed', { err })
+        const errorMsg = getDeleteErrorMessage(err)
+        notifyError(errorMsg)
+        throw err
+      }
+      return
+    }
+
     const confirmation = getDeleteConfirmation(id)
 
     if (!confirm(confirmation)) {
