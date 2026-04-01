@@ -58,7 +58,7 @@ These sections contain session-specific content:
 **Approach:** Single import path; `RENAME VALUE` migration on PG 10+.
 **Checkpoint:** Server lint + types; no `seller` in server role checks except migration/docs.
 
-- [x] - [x] #### Task 6.18.1.2: Client + booking audit closure
+- [x] #### Task 6.18.1.2: Client + booking audit closure
 **Goal:** Grep triage, session log audit note, ARCHITECTURE alignment; no `seller` as live API `user_role` outside legacy wizard reads.
 **Files:** `session-6.18.1-log.md`, `.project-manager/ARCHITECTURE.md` (Users bullet).
 **Approach:** `rg seller` on `client/src`, `server/src`, `shared/`; allowlist documented.
