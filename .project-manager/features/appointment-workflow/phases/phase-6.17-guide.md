@@ -121,7 +121,7 @@ Start with a **small** set; expand via registry:
 **Description:** Shared types for dependency graph, policy categories, preflight/finalize request–response shapes; OpenAPI-level or internal contract doc; alignment with `entityCrudRouter` extension points.  
 **Focus:** Contracts first; no “hidden” cascade semantics.
 
-- [ ] ### Session 6.17.2: Server preflight / resolution / finalize infrastructure  
+- [x] ### Session 6.17.2: Server preflight / resolution / finalize infrastructure  
 **Description:** Implement preflight query per entity registry; transactional resolve + final delete; structured errors; relationship helpers.  
 **Focus:** Correctness and transactions; explicit policy handling.
 
