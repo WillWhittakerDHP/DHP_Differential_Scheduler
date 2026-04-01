@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] #### Task 6.17.4.1: [Task Name]
+- [x] - [x] #### Task 6.17.4.1: [Task Name]
 **Goal:** [Task goal]
 **Files:** 
 - [Files to work with]

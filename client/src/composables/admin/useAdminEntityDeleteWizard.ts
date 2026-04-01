@@ -3,7 +3,7 @@
  * WHY: Single state machine for 6.17.4 wiring; thin components call named actions only.
  */
 
-import { computed, reactive, ref, type ComputedRef, type Ref } from 'vue'
+import { computed, reactive, ref, type Ref } from 'vue'
 import type {
   DeleteContractErrorCode,
   DeletePreflightResponse,
@@ -27,16 +27,18 @@ type AdminEntityDeleteWizardPhase =
   | 'success'
   | 'error'
 
-/** Read-only wizard state (computed refs unwrap in templates when accessed via `reactive`). */
-interface AdminEntityDeleteWizardState {
-  phase: ComputedRef<AdminEntityDeleteWizardPhase>
-  preflight: ComputedRef<DeletePreflightResponse | null>
-  lastError: ComputedRef<string | null>
-  lastErrorCode: ComputedRef<DeleteContractErrorCode | undefined>
-  isBlocked: ComputedRef<boolean>
-  canConfirmDelete: ComputedRef<boolean>
-  isBusy: ComputedRef<boolean>
-  dependencySummaryLines: ComputedRef<string[]>
+/**
+ * Read-only wizard state after `reactive({ ...computed })` — Vue unwraps refs; this matches script/template types for vue-tsc.
+ */
+export interface AdminEntityDeleteWizardState {
+  phase: AdminEntityDeleteWizardPhase
+  preflight: DeletePreflightResponse | null
+  lastError: string | null
+  lastErrorCode: DeleteContractErrorCode | undefined
+  isBlocked: boolean
+  canConfirmDelete: boolean
+  isBusy: boolean
+  dependencySummaryLines: string[]
 }
 
 interface AdminEntityDeleteWizardActions {
@@ -156,17 +158,19 @@ export function useAdminEntityDeleteWizard(): UseAdminEntityDeleteWizardReturn {
     }
   }
 
+  const state = reactive({
+    phase,
+    preflight,
+    lastError,
+    lastErrorCode,
+    isBlocked,
+    canConfirmDelete,
+    isBusy,
+    dependencySummaryLines,
+  }) as AdminEntityDeleteWizardState
+
   return {
-    state: reactive({
-      phase,
-      preflight,
-      lastError,
-      lastErrorCode,
-      isBlocked,
-      canConfirmDelete,
-      isBusy,
-      dependencySummaryLines,
-    }),
+    state,
     actions: {
       reset,
       runPreflight,

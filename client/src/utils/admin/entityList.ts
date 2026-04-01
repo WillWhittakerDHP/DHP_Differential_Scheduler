@@ -37,7 +37,8 @@ export function entityList(options: EntityListOptions): EntityListReturn {
     notifyError,
     routes = {},
     deleteConfirmation = 'Are you sure you want to delete this item?',
-    deleteErrorMessage = 'Failed to delete item'
+    deleteErrorMessage = 'Failed to delete item',
+    contractDelete,
   } = options
 
   const createRouteName = routes.create || `${entityKey}-create`
