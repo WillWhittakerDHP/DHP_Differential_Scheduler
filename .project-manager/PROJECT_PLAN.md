@@ -44,6 +44,8 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 | 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + v2 redesign execution |
+| 21 | Smoke | 📋 Planning | `features/test-feature-xyz-smoke/` | — |
+
 
 ---
 

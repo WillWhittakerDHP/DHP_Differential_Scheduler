@@ -1177,3 +1177,11 @@ nextAction:
 App not fully running — server :3001, client :3002 not responding.
 Start the dev environment in a terminal: `npm run start:dev`
 Then re-run the command.
+
+### 2026-04-01 — 6.17.1.1 — /accepted-code — Verbose harness output while `start_ok`
+
+- **Symptom:** After **`/accepted-code`** for task **6.17.1.1**, the harness returned **`success: true`** / **`reasonCode: start_ok`**, but the long **`output`** block still included alarming-looking sections: session guide **placeholders** (`[Task Name]`, `[Task goal]`, empty **Files:**), “Implementation plan fields need to be filled”, planning checklist items, and downstream “already planned” excerpts from sessions 6.17.2–6.17.4. That reads like a **blocker** even though the gate passed.
+- **Context:** Tier **task**; `task-6.17.1.1-planning.md` was filled and implementation (`shared/types/adminDeleteDependency.ts`) was already present; pending state from **`task-start 6.17.1.1`**. Command: **`/accepted-code`** (harness `acceptedCode()`).
+- **What we tried:** Re-ran **`acceptedCode()`** from repo root; confirmed **`start_ok`** and **Implementation Orders** pulled the correct goal/files from the **task planning doc** despite the noisy preamble.
+- **Outcome / workaround:** Treat **`outcome.reasonCode`** and **`controlPlaneDecision.message`** as authoritative; ignore stale-looking guide placeholders in the same blob unless **`planning_doc_incomplete`** or **`stop: true`**. Optionally align the **session 6.17.1 guide** task row (Goal / Files / Approach / Checkpoint) so future **`task-start`** output is less confusing — that is **hygiene**, not required for **`start_ok`**.
+- **Suggestion:** Harness or planning plugin could suppress or shorten session-guide placeholder warnings when the **task planning doc** passes **`isPlanningDocFilled`**, or clearly label them “informational (guide not synced)”.
