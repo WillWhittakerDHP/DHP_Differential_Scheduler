@@ -12,7 +12,7 @@ import { validateBulkUpdateArray } from './entityValidators.js'
 import { ensureBlockInstanceVersionsBeforeBulkUpdate } from './entityHelpers.js'
 import { entityTypeParamHandler } from './entityParamMiddleware.js'
 import { paramString } from '../../helpers/requestHelpers.js'
-import { csrfProtection } from '../../../middlewares/security.js'
+import { csrfProtection, requireAuth } from '../../../middlewares/security.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
@@ -21,7 +21,7 @@ const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
 
-router.patch('/:entityType/order_index', csrfProtection, validateRequest(entityOrderIndexPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRequest(entityOrderIndexPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })
@@ -54,7 +54,7 @@ router.patch('/:entityType/order_index', csrfProtection, validateRequest(entityO
   }
 })
 
-router.patch('/:entityType/bulk', csrfProtection, validateRequest(entityBulkPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
+router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(entityBulkPatchBodySchema), async (req: Request, res: Response): Promise<void> => {
   const { entityConfig } = req
   if (!entityConfig) {
     res.status(500).json({ error: ERROR_MESSAGES.ENTITY_CONFIG_MISSING })

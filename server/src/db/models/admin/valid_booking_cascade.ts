@@ -8,9 +8,9 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export class ValidEvent extends Model<
-  InferAttributes<ValidEvent>,
-  InferCreationAttributes<ValidEvent>
+export class ValidBookingCascade extends Model<
+  InferAttributes<ValidBookingCascade>,
+  InferCreationAttributes<ValidBookingCascade>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -23,8 +23,8 @@ export class ValidEvent extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function ValidEventFactory(sequelize: Sequelize) {
-  ValidEvent.init(
+export function ValidBookingCascadeFactory(sequelize: Sequelize) {
+  ValidBookingCascade.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -35,8 +35,8 @@ export function ValidEventFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "validEvents";
-        }
+          return 'validBookingCascades';
+        },
       },
       parentKind: {
         type: DataTypes.VIRTUAL,
@@ -47,7 +47,7 @@ export function ValidEventFactory(sequelize: Sequelize) {
       childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return 'eventShape';
+          return 'blockShape';
         },
       },
       parentId: {
@@ -62,7 +62,7 @@ export function ValidEventFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'event_shapes',
+          model: 'block_shapes',
           key: 'id',
         },
       },
@@ -86,17 +86,17 @@ export function ValidEventFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'valid_event',
-      tableName: 'valid_events',
+      modelName: 'valid_booking_cascade',
+      tableName: 'valid_booking_cascades',
       indexes: [
         {
           unique: true,
-          fields: ['parentId', 'childId']
-        }
+          fields: ['parentId', 'childId'],
+        },
       ],
       freezeTableName: true,
     }
   );
 
-  return ValidEvent;
+  return ValidBookingCascade;
 }

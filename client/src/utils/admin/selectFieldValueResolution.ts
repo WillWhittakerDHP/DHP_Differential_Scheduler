@@ -51,13 +51,13 @@ export function normalizeSingleSelectFieldValue(
   fieldKey: string
 ): string | null {
   if (value === null || value === undefined || value === '') {
-    if (value === null && fieldKey === 'ternaryDefault') {
+    if (value === null && fieldKey === 'differentialRole') {
       return '__NULL__'
     }
     return null
   }
   const stringValue = String(value)
-  if (stringValue === '__NULL__' && fieldKey === 'ternaryDefault') {
+  if (stringValue === '__NULL__' && fieldKey === 'differentialRole') {
     return '__NULL__'
   }
   return optionValues.has(stringValue) ? stringValue : null

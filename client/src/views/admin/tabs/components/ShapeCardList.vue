@@ -16,8 +16,9 @@ const props = withDefaults(
     dragClass?: string
     /** When false, only render EntityCards (parent wraps in VExpansionPanels). */
     wrapInPanels?: boolean
+    showShapeListDragHandle?: boolean
   }>(),
-  { dragClass: '', wrapInPanels: true }
+  { dragClass: '', wrapInPanels: true, showShapeListDragHandle: true }
 )
 
 defineEmits<{
@@ -45,6 +46,7 @@ const expandedModel = computed({
       :entity-key="props.entityKey"
       :entity="item"
       :expanded="props.isPanelExpanded(String(item.id))"
+      :show-shape-list-drag-handle="props.showShapeListDragHandle"
       @saved="(e: GlobalEntity<GlobalEntityKey>) => $emit('saved', e)"
       @delete="(id: string) => $emit('delete', id)"
     />
@@ -58,6 +60,7 @@ const expandedModel = computed({
       :entity-key="props.entityKey"
       :entity="item"
       :expanded="props.isPanelExpanded(String(item.id))"
+      :show-shape-list-drag-handle="props.showShapeListDragHandle"
       @saved="(e: GlobalEntity<GlobalEntityKey>) => $emit('saved', e)"
       @delete="(id: string) => $emit('delete', id)"
     />

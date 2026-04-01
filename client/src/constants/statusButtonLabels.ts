@@ -31,7 +31,6 @@ export const STATUS_BUTTON_LABELS: Record<
   canHaveParts: { true: 'Has Parts', false: 'No Parts' },
   isStateControl: { true: 'State Control', false: 'Not State Control' },
   zeroOutPart: { true: 'Zero Out', false: 'Keep Value' },
-  isTernary: { true: 'Ternary', false: 'Binary' },
   major: { true: 'Major', false: 'Not Major', override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS },
   minor: { true: 'Minor', false: 'Not Minor', override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS }
 }

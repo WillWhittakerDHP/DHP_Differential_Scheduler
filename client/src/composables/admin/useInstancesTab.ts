@@ -33,7 +33,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
     blockInstancesCountByShape,
     blockShapeComposable,
     blockShapeStateControl,
-    blockShapeValidCascades,
+    blockShapeValidBookingCascades,
   } = instanceGroupingComposable
 
   const expansionStateComposable = useExpansionState()
@@ -144,7 +144,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
   void eventInstancesContainer.value
 
   function shapeCascadeColor(blockShape: { id: string }): 'info' | 'default' {
-    return asEmptyArray(blockShapeValidCascades.value.get(blockShape.id)).length > 0 ? 'info' : 'default'
+    return asEmptyArray(blockShapeValidBookingCascades.value.get(blockShape.id)).length > 0 ? 'info' : 'default'
   }
 
   const eventInstanceFieldsGlobalEntity = computed((): GlobalEntity<'eventInstance'> => ({
@@ -173,7 +173,7 @@ export function useInstancesTab(): UseInstancesTabReturn {
   const instancesTabContext: InstancesTabContext = {
     blockShapeComposable,
     blockShapeStateControl,
-    blockShapeValidCascades,
+    blockShapeValidBookingCascades,
     bulkEditMode,
     toggleBulkEditMode,
     shapeEditModalOpen,

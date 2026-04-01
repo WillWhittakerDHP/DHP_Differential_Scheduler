@@ -1,8 +1,8 @@
 export const RELATIONSHIP_KEYS = {
-  validCascades: true,
-  validParts: true,
-  validAnnotations: true,
-  validEvents: true,
+  validBookingCascades: true,
+  validPartCascades: true,
+  validAnnotationAssignments: true,
+  validEventCascades: true,
   validPricingCascades: true,
   dependentInstances: true,
   bookingCascades: true,

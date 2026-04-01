@@ -11,10 +11,10 @@ export default {
       SET render_as = 'multiselect', updated_at = NOW()
       WHERE metadata_type = 'relationship'
         AND field_key IN (
-          'validParts',
-          'validAnnotations',
-          'validCascades',
-          'validEvents',
+          'validPartCascades',
+          'validAnnotationAssignments',
+          'validBookingCascades',
+          'validEventCascades',
           'validPricingCascades'
         )
         AND render_as IS DISTINCT FROM 'multiselect';

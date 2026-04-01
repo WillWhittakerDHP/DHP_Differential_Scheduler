@@ -83,11 +83,11 @@ export function useInstanceGrouping(
 
   /**
    */
-  const blockShapeValidCascades = computed(() => {
+  const blockShapeValidBookingCascades = computed(() => {
     const globalData = getGlobalData()
     const blockShapes = getEntities('blockShape')
     
-    if (!globalData || !globalData.relationships || !globalData.relationships.validCascades) {
+    if (!globalData || !globalData.relationships || !globalData.relationships.validBookingCascades) {
       return blockShapes.reduce((map, blockShape) => {
         map.set(blockShape.id, [])
         return map
@@ -97,11 +97,11 @@ export function useInstanceGrouping(
     // WHY: Functional approach avoids forEach with Map mutations
     // PATTERN: Reduce blockShapes into a Map of valid cascade names
     return blockShapes.reduce((map, blockShape) => {
-      const validCascadeRels = globalData.relationships.validCascades.filter(
+      const validBookingCascadeRels = globalData.relationships.validBookingCascades.filter(
         rel => rel.parent.id === blockShape.id
       )
       
-      const cascadeNames = validCascadeRels
+      const cascadeNames = validBookingCascadeRels
         .flatMap(rel => rel.children)
         .map(child => child.name)
         .filter(Boolean) as string[]
@@ -127,6 +127,6 @@ export function useInstanceGrouping(
     blockInstancesCountByShape,
     blockShapeComposable,
     blockShapeStateControl,
-    blockShapeValidCascades
+    blockShapeValidBookingCascades
   }
 }

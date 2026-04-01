@@ -9,7 +9,6 @@ import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
 import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/booking/durationRounding'
 import { toGlobalEntityId } from '@/utils/globalEntity'
-import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import type { AppLogger } from '@/utils/logger'
 
 type AccumulatedRawDurations = {
@@ -21,7 +20,7 @@ export function accumulateRawDurationsFromBlockFinals(
   blockFinals: BlockFinal[],
   eventAssignmentsByPartShape: Record<string, EventInstance[]>,
   eventShapeById: Map<string, EventShape>,
-  logger: AppLogger
+  _logger: AppLogger
 ): AccumulatedRawDurations {
   const eventRawDurationsByShapeId = new Map<string, number>()
 
@@ -43,26 +42,8 @@ export function accumulateRawDurationsFromBlockFinals(
 
             const eventShapeId = eventShape.id
 
-            if (eventShape.isTernary) {
-              const ternaryValue = eventShape.ternaryDefault
-              if (ternaryValue === null) {
-                logger.error('Cannot determine ternary value for event shape - ternaryDefault is null', {
-                  eventShapeName: eventShape.name,
-                  eventShapeId: eventShape.id,
-                })
-                continue
-              }
-
-              const isActive = toBoolean(ternaryValue, 'strict')
-
-              if (isActive) {
-                const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
-                updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
-              }
-            } else {
-              const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
-              updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
-            }
+            const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
+            updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
           }
 
           return {

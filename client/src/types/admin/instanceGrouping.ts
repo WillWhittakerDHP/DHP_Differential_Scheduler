@@ -11,5 +11,5 @@ export interface UseInstanceGroupingReturn {
   blockInstancesCountByShape: ComputedRef<Map<string, number>>
   blockShapeComposable: ComputedRef<Map<string, boolean>>
   blockShapeStateControl: ComputedRef<Map<string, boolean>>
-  blockShapeValidCascades: ComputedRef<Map<string, string[]>>
+  blockShapeValidBookingCascades: ComputedRef<Map<string, string[]>>
 }

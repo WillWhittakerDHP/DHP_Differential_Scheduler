@@ -8,9 +8,10 @@ import {
 } from 'sequelize';
 
 import { FIELD_NAMES, ERROR_MESSAGES } from '../../../routes/internal/entities/entityConstants.js';
-import { ValidPart } from './valid_part';
-import { ValidCascade } from './valid_cascade';
-import { ValidEvent } from './valid_event';
+import { ValidPartCascade } from './valid_part_cascade';
+import { ValidBookingCascade } from './valid_booking_cascade';
+import { ValidEventCascade } from './valid_event_cascade';
+import { ValidAnnotationAssignment } from './valid_annotation_assignment';
 
 export class BlockShape extends Model<
   InferAttributes<BlockShape>,
@@ -26,10 +27,11 @@ export class BlockShape extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare valid_parts?: ValidPart[];
-  declare valid_cascades?: ValidCascade[];
-  declare default_parts?: ValidPart[];
-  declare valid_events?: ValidEvent[];
+  declare validPartCascades?: ValidPartCascade[];
+  declare validBookingCascades?: ValidBookingCascade[];
+  declare default_parts?: ValidPartCascade[];
+  declare validEventCascades?: ValidEventCascade[];
+  declare validAnnotationAssignments?: ValidAnnotationAssignment[];
 }
 
 export function BlockShapeFactory(sequelize: Sequelize) {

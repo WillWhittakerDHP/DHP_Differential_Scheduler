@@ -13,6 +13,7 @@ if (c === undefined) {
 
 const {
   expandedShapes,
+  annotationShapesList,
   annotationShapeMetadataModalOpen,
   annotationInstanceMetadataModalOpen,
   toggleAnnotationShapeMetadataModal,
@@ -57,13 +58,13 @@ const {
         </VBtn>
       </div>
     </div>
-    <div ref="annotationShapesContainer" class="drag-drop-container">
+    <div :ref="c.annotationShapesContainer" class="drag-drop-container">
       <div v-if="isLoadingAnnotationShapes" class="text-center py-4">
         <VProgressCircular indeterminate />
       </div>
       <VExpansionPanels
         v-else-if="isCreatingAnnotationShape || filteredAnnotationShapes.length > 0"
-        ref="annotationShapesPanelsContainer"
+        :ref="c.annotationShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >
@@ -102,13 +103,14 @@ const {
           </template>
         </VExpansionPanel>
         <EntityCard
-          v-for="annotationShape in filteredAnnotationShapes"
+          v-for="annotationShape in annotationShapesList"
           :key="String(annotationShape.id)"
           :class="`draggable-annotation-shape`"
           :data-drag-id="String(annotationShape.id)"
           entity-key="annotationShape"
           :entity="annotationShape"
           :expanded="isPanelExpanded(String(annotationShape.id))"
+          show-shape-list-drag-handle
           @saved="handleExistingShapeSaved"
           @delete="handleDeleteAnnotationShape"
         />

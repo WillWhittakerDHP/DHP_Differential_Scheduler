@@ -8,9 +8,9 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export class ValidCascade extends Model<
-  InferAttributes<ValidCascade>,
-  InferCreationAttributes<ValidCascade>
+export class ValidEventCascade extends Model<
+  InferAttributes<ValidEventCascade>,
+  InferCreationAttributes<ValidEventCascade>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -23,8 +23,8 @@ export class ValidCascade extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function ValidCascadeFactory(sequelize: Sequelize) {
-  ValidCascade.init(
+export function ValidEventCascadeFactory(sequelize: Sequelize) {
+  ValidEventCascade.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -35,8 +35,8 @@ export function ValidCascadeFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "validCascades";
-        }
+          return 'validEventCascades';
+        },
       },
       parentKind: {
         type: DataTypes.VIRTUAL,
@@ -47,7 +47,7 @@ export function ValidCascadeFactory(sequelize: Sequelize) {
       childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return 'blockShape';
+          return 'eventShape';
         },
       },
       parentId: {
@@ -62,7 +62,7 @@ export function ValidCascadeFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'block_shapes',
+          model: 'event_shapes',
           key: 'id',
         },
       },
@@ -86,18 +86,17 @@ export function ValidCascadeFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'valid_cascade',
-      tableName: 'valid_cascades',
+      modelName: 'valid_event_cascade',
+      tableName: 'valid_event_cascades',
       indexes: [
         {
           unique: true,
-          fields: ['parentId', 'childId']
-        }
+          fields: ['parentId', 'childId'],
+        },
       ],
       freezeTableName: true,
     }
   );
 
-  return ValidCascade;
+  return ValidEventCascade;
 }
-

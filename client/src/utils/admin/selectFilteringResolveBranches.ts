@@ -18,11 +18,11 @@ import type { ComponentEntityData } from '@/utils/admin/selectFilteringResolveTy
 const logger = createLogger('selectFilteringResolveBranches')
 
 const VALID_CHILDREN_KEY_BY_TARGET: Partial<Record<string, ValidChildrenKey>> = {
-  bookingCascades: 'validCascades',
-  partAssignments: 'validParts',
-  annotationAssignments: 'validAnnotations',
+  bookingCascades: 'validBookingCascades',
+  partAssignments: 'validPartCascades',
+  annotationAssignments: 'validAnnotationAssignments',
   pricingCascades: 'validPricingCascades',
-  eventAssignments: 'validEvents',
+  eventAssignments: 'validEventCascades',
 }
 
 function resolveValidChildrenKey(fieldKey: string, selectConfig: unknown): ValidChildrenKey {
@@ -38,10 +38,10 @@ function resolveValidChildrenKey(fieldKey: string, selectConfig: unknown): Valid
     return mapped
   }
   if (target === 'bookingCascades') {
-    return 'validCascades'
+    return 'validBookingCascades'
   }
-  logger.debug('resolveValidChildrenKey: unmapped target, falling back to validParts', { target, fieldKey })
-  return 'validParts'
+  logger.debug('resolveValidChildrenKey: unmapped target, falling back to validPartCascades', { target, fieldKey })
+  return 'validPartCascades'
 }
 
 export function resolveInstanceComponentsBranch(

@@ -8,9 +8,9 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export class ValidAnnotation extends Model<
-  InferAttributes<ValidAnnotation>,
-  InferCreationAttributes<ValidAnnotation>
+export class ValidPartCascade extends Model<
+  InferAttributes<ValidPartCascade>,
+  InferCreationAttributes<ValidPartCascade>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -23,8 +23,8 @@ export class ValidAnnotation extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function ValidAnnotationFactory(sequelize: Sequelize) {
-  ValidAnnotation.init(
+export function ValidPartCascadeFactory(sequelize: Sequelize) {
+  ValidPartCascade.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -35,8 +35,8 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "validAnnotations";
-        }
+          return 'validPartCascades';
+        },
       },
       parentKind: {
         type: DataTypes.VIRTUAL,
@@ -47,7 +47,7 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
       childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return 'annotationShape';
+          return 'partShape';
         },
       },
       parentId: {
@@ -62,7 +62,7 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'annotation_shapes',
+          model: 'part_shapes',
           key: 'id',
         },
       },
@@ -74,13 +74,11 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'created_at',
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'updated_at',
       },
     },
     {
@@ -88,25 +86,17 @@ export function ValidAnnotationFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'valid_annotation',
-      tableName: 'valid_annotations',
+      modelName: 'valid_part_cascade',
+      tableName: 'valid_part_cascades',
       indexes: [
         {
           unique: true,
           fields: ['parentId', 'childId'],
-        },
-        {
-          fields: ['parentId'],
-          name: 'idx_valid_annotations_parent_id',
-        },
-        {
-          fields: ['childId'],
-          name: 'idx_valid_annotations_child_id',
         },
       ],
       freezeTableName: true,
     }
   );
 
-  return ValidAnnotation;
+  return ValidPartCascade;
 }

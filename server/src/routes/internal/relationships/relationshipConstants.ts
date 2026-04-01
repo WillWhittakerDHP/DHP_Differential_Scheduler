@@ -1,9 +1,9 @@
 
 import {
-  ValidCascade,
-  ValidPart,
-  ValidAnnotation,
-  ValidEvent,
+  ValidBookingCascade,
+  ValidPartCascade,
+  ValidAnnotationAssignment,
+  ValidEventCascade,
   ValidPricingCascade,
   DependentInstance,
   BookingCascade,
@@ -16,7 +16,7 @@ import {
 } from '../../../config/app.js'
 import { Model, ModelStatic } from 'sequelize'
 
-export type RelationshipKind = 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
+export type RelationshipKind = 'validBookingCascades' | 'validPartCascades' | 'validAnnotationAssignments' | 'validEventCascades' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
 
 export interface RelationshipConfig {
   model: ModelStatic<Model>
@@ -26,27 +26,27 @@ export interface RelationshipConfig {
 }
 
 export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig> = {
-  validCascades: {
-    model: ValidCascade,
-    displayName: 'Valid Cascade',
+  validBookingCascades: {
+    model: ValidBookingCascade,
+    displayName: 'Valid Booking Cascade',
     parentEntity: 'blockShape',
     childEntity: 'blockShape'
   },
-  validParts: {
-    model: ValidPart,
-    displayName: 'Valid Part',
+  validPartCascades: {
+    model: ValidPartCascade,
+    displayName: 'Valid Part Cascade',
     parentEntity: 'blockShape',
     childEntity: 'partShape'
   },
-  validAnnotations: {
-    model: ValidAnnotation,
-    displayName: 'Valid Annotation',
+  validAnnotationAssignments: {
+    model: ValidAnnotationAssignment,
+    displayName: 'Valid Annotation Assignment',
     parentEntity: 'blockShape',
     childEntity: 'annotationShape'
   },
-  validEvents: {
-    model: ValidEvent,
-    displayName: 'Valid Event',
+  validEventCascades: {
+    model: ValidEventCascade,
+    displayName: 'Valid Event Cascade',
     parentEntity: 'blockShape',
     childEntity: 'eventShape'
   },

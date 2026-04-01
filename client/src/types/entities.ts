@@ -47,11 +47,11 @@ export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
   composable: boolean;
   canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
   isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
-  validCascades?: GlobalEntityId[];
-  validParts?: GlobalEntityId[];
-  validAnnotations?: GlobalEntityId[];
-  /** Which event shapes are allowed for block instances of this shape (valid_events.parent_id = block_shape). */
-  validEvents?: GlobalEntityId[];
+  validBookingCascades?: GlobalEntityId[];
+  validPartCascades?: GlobalEntityId[];
+  validAnnotationAssignments?: GlobalEntityId[];
+  /** Which event shapes are allowed for block instances of this shape (`valid_event_cascades.parent_id` = block shape). */
+  validEventCascades?: GlobalEntityId[];
 }
 
 export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
@@ -67,8 +67,6 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
 export type PartShapeEntity = GlobalEntityBase<"partShape">
 
 export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
-  isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
-  ternaryDefault: 'true' | 'false' | 'override' | null; // Default ternary value (null means fail gracefully)
   /** DB NULL = none (normalized on API hydrate). */
   differentialRole: DifferentialRole;
   /** When false, calendar invite templates strip `{rescheduleLink}` for instances of this shape. */

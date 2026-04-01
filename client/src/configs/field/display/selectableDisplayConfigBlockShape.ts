@@ -8,26 +8,26 @@ import { RelationshipSelectTypeEnum, RelationshipSelectModeEnum } from '@/types/
 
 export const selectableDisplayBlockShapeSection = {
     [ENTITY_KEY_BLOCK_SHAPE]: {  
-      validCascades: {
+      validBookingCascades: {
         targetMode: "relationship",
-        targetKey: "validCascades",
-        globalField: "validCascades",
+        targetKey: "validBookingCascades",
+        globalField: "validBookingCascades",
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_BLOCK_SHAPE,
-        selectedChildPath: ["validCascades"],
+        selectedChildPath: ["validBookingCascades"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,                
         candidateParentPath: [],                        
         candidateChildKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateChildPath: [],                         
 
-        selectType: RelationshipSelectTypeEnum.ValidCascadeSelect,
+        selectType: RelationshipSelectTypeEnum.ValidBookingCascadeSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         label: "Valid Booking Cascade",
         placeholder: "No valid cascades",
-        tooltip: "Defines which block shapes can be selected as children in booking cascades. BlockInstances of this BlockShape can only select from these valid cascades in their 'Active Cascades' field. This controls the hierarchical relationship options available during booking.",
+        tooltip: "Defines which block shapes can be selected as children in booking cascades. BlockInstances of this BlockShape can only select from these valid booking cascades in their 'Active Cascades' field. This controls the hierarchical relationship options available during booking.",
         inline: false,
         stacked: true,
         width: "100%",
@@ -44,21 +44,21 @@ export const selectableDisplayBlockShapeSection = {
         },
       },
 
-      validParts: {
+      validPartCascades: {
         targetMode: "relationship",
-        targetKey: "validParts",
-        globalField: "validParts",
+        targetKey: "validPartCascades",
+        globalField: "validPartCascades",
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_PART_SHAPE,
-        selectedChildPath: ["validParts"],
+        selectedChildPath: ["validPartCascades"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],                         
         candidateChildKey: ENTITY_KEY_PART_SHAPE,
         candidateChildPath: [],                           
 
-        selectType: RelationshipSelectTypeEnum.ValidPartSelect,
+        selectType: RelationshipSelectTypeEnum.ValidPartCascadeSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         label: "Valid Part Shapes",
@@ -79,21 +79,21 @@ export const selectableDisplayBlockShapeSection = {
         },
       },
 
-      validAnnotations: {
+      validAnnotationAssignments: {
         targetMode: "relationship",
-        targetKey: "validAnnotations",
-        globalField: "validAnnotations",
+        targetKey: "validAnnotationAssignments",
+        globalField: "validAnnotationAssignments",
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
-        selectedChildPath: ["validAnnotations"],
+        selectedChildPath: ["validAnnotationAssignments"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],
         candidateChildKey: ENTITY_KEY_ANNOTATION_SHAPE,
         candidateChildPath: [],
 
-        selectType: RelationshipSelectTypeEnum.ValidAnnotationSelect,
+        selectType: RelationshipSelectTypeEnum.ValidAnnotationAssignmentSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
 
         label: "Valid Annotation Shapes",
@@ -114,21 +114,21 @@ export const selectableDisplayBlockShapeSection = {
         },
       },
 
-      validEvents: {
+      validEventCascades: {
         targetMode: "relationship",
-        targetKey: "validEvents",
-        globalField: "validEvents",
+        targetKey: "validEventCascades",
+        globalField: "validEventCascades",
 
         selectedParentKey: ENTITY_KEY_BLOCK_SHAPE,
         selectedChildKey: ENTITY_KEY_EVENT_SHAPE,
-        selectedChildPath: ["validEvents"],
+        selectedChildPath: ["validEventCascades"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_SHAPE,
         candidateParentPath: [],
         candidateChildKey: ENTITY_KEY_EVENT_SHAPE,
         candidateChildPath: [],
 
-        selectType: RelationshipSelectTypeEnum.ValidEventSelect,
+        selectType: RelationshipSelectTypeEnum.ValidEventCascadeSelect,
         selectMode: RelationshipSelectModeEnum.Multiple,
 
         label: "Valid Events",

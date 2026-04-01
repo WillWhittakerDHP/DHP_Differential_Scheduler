@@ -13,10 +13,10 @@ const logger = createLogger('selectFilterStrategies')
 
 /** Type for valid-children allowlist field on a parent shape (blockShape or partShape for pricing). */
 export type ValidChildrenKey =
-  | 'validCascades'
-  | 'validParts'
-  | 'validAnnotations'
-  | 'validEvents'
+  | 'validBookingCascades'
+  | 'validPartCascades'
+  | 'validAnnotationAssignments'
+  | 'validEventCascades'
   | 'validPricingCascades'
 
 /** Maps option entity kind to the FK field that points at its shape (for allowlist filtering). */
@@ -52,8 +52,8 @@ export function filterByActiveChildSelect(
 ): GlobalEntity<GlobalEntityKey>[] {
   const validChildrenRefs = getEntityFieldValue(parentTypeEntity, validChildrenKey)
   if (validChildrenRefs === undefined || !Array.isArray(validChildrenRefs) || validChildrenRefs.length === 0) {
-    if (validChildrenKey === 'validCascades') {
-      logger.debug('[hypothesis A] validCascades empty or missing', {
+    if (validChildrenKey === 'validBookingCascades') {
+      logger.debug('[hypothesis A] validBookingCascades empty or missing', {
         parentShapeId: parentTypeEntity?.id,
         validChildrenKey,
         validChildrenRefsType: typeof validChildrenRefs,
@@ -65,7 +65,7 @@ export function filterByActiveChildSelect(
   const validChildrenSet = new Set(validChildrenRefs.map((id: unknown) => String(id)))
   const candidateTypeRefKey = resolveCandidateTypeRefKey(optionEntityKey)
 
-  if (validChildrenKey === 'validCascades') {
+  if (validChildrenKey === 'validBookingCascades') {
     const uniqueCandidateRefs = new Set<string>()
     const rejectedRefs = new Set<string>()
     allEntities.forEach((candidate) => {
@@ -76,12 +76,12 @@ export function filterByActiveChildSelect(
         if (!validChildrenSet.has(refStr)) rejectedRefs.add(refStr)
       }
     })
-    logger.debug('[hypothesis A] validCascades filter', {
+    logger.debug('[hypothesis A] validBookingCascades filter', {
       parentShapeId: parentTypeEntity?.id,
-      validCascadesIds: [...validChildrenSet],
+      validBookingCascadesIds: [...validChildrenSet],
       allEntitiesCount: allEntities.length,
       uniqueBlockShapeRefsInInstances: [...uniqueCandidateRefs],
-      rejectedBlockShapeRefsNotInValidCascades: rejectedRefs.size > 0 ? [...rejectedRefs] : undefined
+      rejectedBlockShapeRefsNotInValidBookingCascades: rejectedRefs.size > 0 ? [...rejectedRefs] : undefined
     })
   }
 

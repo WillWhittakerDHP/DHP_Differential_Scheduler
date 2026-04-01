@@ -1,7 +1,7 @@
 /**
  * PATTERN: Pure admin helper — one matrix row per active event shape.
  * WHY: Admins create event shapes first; rows must appear immediately. Allowlists use
- * blockShape.validEvents; scheduling still depends on block-level eventAssignments and roles.
+ * blockShape.validEventCascades; scheduling still depends on block-level eventAssignments and roles.
  */
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { BlockInstanceEntity, EventShapeEntity } from '@/types/entities'

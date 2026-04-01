@@ -31,8 +31,6 @@ export class EventShape extends Model<
   declare name: string; // e.g., 'OnSite', 'Minimizer segment', 'ClientPresent'
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
-  declare isTernary: boolean; // Indicates if this event shape uses ternary logic (true/false/override)
-  declare ternaryDefault: CreationOptional<'true' | 'false' | 'override' | null>; // Default ternary value (null means fail gracefully)
   declare differentialRole: CreationOptional<'major' | 'minor' | 'minimizer' | 'margin' | null>;
   declare includeRescheduleLink: CreationOptional<boolean>;
   declare includeCancelLink: CreationOptional<boolean>;
@@ -67,22 +65,12 @@ export function EventShapeFactory(sequelize: Sequelize) {
         defaultValue: true,
         comment: 'Whether this event shape is active/enabled',
       },
-      isTernary: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        comment: 'Indicates if this event shape uses ternary logic (true/false/override)',
-      },
-      ternaryDefault: {
-        type: DataTypes.STRING(10),
-        allowNull: true,
-        comment: 'Default ternary value to use when value cannot be determined (null means fail gracefully)',
-      },
       differentialRole: {
         type: DataTypes.ENUM('major', 'minor', 'minimizer', 'margin'),
         allowNull: true,
         defaultValue: null,
-        comment: 'Direct role declaration: major, minor, minimizer, margin, or null (none)',
+        comment:
+          'Scheduling role for this event shape (major/minor/minimizer/margin); null = none. Distinct from PartFinal ternary flags (major/minor/minimizer placement).',
       },
       includeRescheduleLink: {
         type: DataTypes.BOOLEAN,

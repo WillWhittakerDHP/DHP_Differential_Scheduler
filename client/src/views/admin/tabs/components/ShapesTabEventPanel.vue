@@ -13,6 +13,7 @@ if (c === undefined) {
 
 const {
   expandedShapes,
+  eventShapesList,
   eventShapeMetadataModalOpen,
   eventInstanceMetadataModalOpen,
   toggleEventShapeMetadataModal,
@@ -62,8 +63,9 @@ const {
       <div v-if="isLoadingEventShapes" class="text-center py-4">
         <VProgressCircular indeterminate />
       </div>
+      <div v-else-if="isCreatingEventShape || safeEventShapes.length > 0" :ref="c.eventShapesContainer" class="drag-drop-container">
       <VExpansionPanels
-        v-else-if="isCreatingEventShape || safeEventShapes.length > 0"
+        :ref="c.eventShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >
@@ -102,17 +104,19 @@ const {
           </template>
         </VExpansionPanel>
         <EntityCard
-          v-for="eventShape in safeEventShapes"
+          v-for="eventShape in eventShapesList"
           :key="String(eventShape.id)"
           :class="`draggable-event-shape`"
           :data-drag-id="String(eventShape.id)"
           entity-key="eventShape"
           :entity="eventShape"
           :expanded="isPanelExpanded(String(eventShape.id))"
+          show-shape-list-drag-handle
           @saved="handleExistingShapeSaved"
           @delete="handleDeleteEventShape"
         />
       </VExpansionPanels>
+      </div>
       <VAlert v-else type="info" variant="tonal" class="mt-4">
         No event shapes found. Create one to get started.
       </VAlert>

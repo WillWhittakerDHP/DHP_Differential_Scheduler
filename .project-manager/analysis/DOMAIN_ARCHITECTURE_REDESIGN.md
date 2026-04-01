@@ -1,40 +1,31 @@
-# Domain architecture redesign
+# Domain architecture redesign — implementation plan
 
-> **Status:** Design draft — canonical reference while we decide what to build, rewrite, relocate, and delete.
+> **Status:** Implementation plan — what to build, adapt, and delete.
+> **Principles:** [ARCHITECTURE_PRINCIPLES.md](ARCHITECTURE_PRINCIPLES.md) — the source of truth for architectural rules. This plan references those principles by section number.
 
 ---
 
 ## 1. The idea
 
-The system has five block shape types. Each owns one scheduling concern. Part instances are the **ledger**: they accumulate defaults, minimums, and resolved values from the block instances that handle them. Block instances are **handlers**, not storage for final calculations.
-
-Services split into two layers: a **composite orchestrator** that controls validity and floors, and **atomic** services that carry the actual part instance bags with real defaults. Downstream block types fill in domain-specific values.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §1 (Domain model) and §2 (Three-property model) -->
+> **Principle content extracted to [ARCHITECTURE_PRINCIPLES.md](ARCHITECTURE_PRINCIPLES.md) §1, §2, §3.** This section retains only implementation-specific details (rename mappings, "Renamed?" column).
 
 ### 1.1 Block type domain map
 
-Every non-user block shape has three independent boolean properties (see §1.5 for details):
+> See [ARCHITECTURE_PRINCIPLES.md §1](ARCHITECTURE_PRINCIPLES.md#1-domain-model) for the domain model and [§2](ARCHITECTURE_PRINCIPLES.md#2-three-property-model) for the three-property model.
 
-- **`composite`** — structural: contains child block instances
-- **`orchestrator`** — behavioral: top-level entry point that controls the validity graph for its type
-- **`wizardVisible`** — presentation: appears in the booking wizard for user selection
+**Rename mappings** (implementation detail):
 
-These are independent axes. A composite can be an orchestrator ("Buyer's Inspection Package") or a non-orchestrator add-on ("Additional Units"). An atomic can be wizard-visible ("Radon Testing") or invisible ("Square Footage").
-
-| Type | Layer | Renamed? | Domain | Responsibility |
-| --- | --- | --- | --- | --- |
-| `service` | **composite** | No | **Orchestration** | Validity hub: which atomic services, which downstream time/price/event profiles are valid. Defaults and minimums. E.g. "Buyer's Inspection Package", "Commercial Inspection Package". |
-| `service` | **atomic** | No | **Structure** | The part instance bag. Fills default/minimum values on parts for time, fee, and event. The **convergence point** where all domain values are visible inline. E.g. "Roof Inspection", "Exterior Inspection", "Interior Inspection". |
-| `time` | **composite** | **Yes** (from `property`) | **Property type** | Bundles property characteristics into a property-type package. E.g. "Single-Family Home" (bundles foundation + sqft + HVAC + roof), "Condo/Co-op", "Multi-Family Home". Add-on composites like "Deck", "Additional Units". |
-| `time` | **atomic** | **Yes** (from `property`) | **Property characteristic** | A single physical trait of the property that drives duration. Each contributes a time component to part instances. E.g. "Square Footage" (min/sqft), "Foundation" (crawl/slab/basement → duration modifier), "Roof Type" (flat/pitched/complex), "HVAC Equipment" (count/type), "Additional Client Time", "No Report", "Additional Reports". Reads input values from `property_details` (populated by MLS enrichment or wizard). MLS auto-selects time block instances via `property_feature_mappings` (see §7.8). Configured **inline** on the atomic service. |
-| `price` | **composite** | **Yes** (from `coupon`) | **Fee package** | Bundles fee drivers into a pricing context. E.g. "Standard Fee Schedule", "Weekend/Rush Surcharge Package". Validity: which fee drivers apply. |
-| `price` | **atomic** | **Yes** (from `coupon`) | **Fee driver** | A single fee component applied to part instances. E.g. "Base Inspection Fee" (flat per service), "Per-Unit Fee" (rate × sqft), "Rush Surcharge", "Discount". Each contributes a fee component. Configured **inline** on the atomic service. |
-| `event` | **composite** | **Yes** (from `option`) | **Routing package** | Bundles routing profiles. E.g. "Routing Options" bundles "Standard" + "Minimize Time On Site". Validity: which profiles are available. |
-| `event` | **atomic** | **Yes** (from `option`) | **Routing profile** | Segment manager: which parts feed which calendar segments, placement, attendees. E.g. "Standard" (all parts → Primary), "Minimize Time On Site" (split parts across segments). Configured **inline** on the atomic service. |
-| `user` | _(neither)_ | No | **Identity** | Attendee identity. No part instance values. No composite/atomic distinction. |
+| Type | Renamed from |
+| --- | --- |
+| `time` | `property` |
+| `price` | `coupon` |
+| `event` | `option` |
 
 ### 1.2 What lives on part instances
 
-Part instances become the **single value surface**. Block instances write into them; the booking pipeline reads from them.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §4 (Part instances as value ledger) -->
+> See [ARCHITECTURE_PRINCIPLES.md §4](ARCHITECTURE_PRINCIPLES.md#4-part-instances-as-value-ledger) for the principle. Below is the **migration mapping** (current → target fields):
 
 | Concern | Current fields on part instances | Target additions/relocations |
 | --- | --- | --- |
@@ -44,137 +35,28 @@ Part instances become the **single value surface**. Block instances write into t
 
 ### 1.3 Universal composite / atomic model
 
-Every non-user block type follows the same two-layer pattern. **Composite** shapes (structural) own children; **orchestrator** shapes (behavioral) define the root validity graph. The **atomic service is the convergence point** where all domain values are visible and editable in one place. See §1.5 for the full three-property model.
-
-```mermaid
-flowchart TB
-  subgraph orchestrators [Orchestrator_shapes_composite_orchestrator_true]
-    CS["Service_orchestrator<br/>e.g._Buyers_Inspection_Package"]
-    CT["Time_orchestrator<br/>e.g._Single_Family_Home"]
-    CP["Price_orchestrator<br/>e.g._Standard_Fee_Schedule"]
-    CE["Event_orchestrator<br/>e.g._Routing_Options"]
-  end
-  subgraph addons [Non_orchestrator_composites_composite_true_orchestrator_false]
-    CA["Add_on_composite<br/>e.g._Additional_Units_Deck"]
-  end
-  subgraph atomics [Atomic_shapes_composite_false]
-    AS["Atomic_service<br/>e.g._Roof_Inspection"]
-    AT["Atomic_time<br/>e.g._Square_Footage_Roof_Type"]
-    AP["Atomic_price<br/>e.g._Base_Fee_Rush_Surcharge"]
-    AE["Atomic_event<br/>e.g._Minimize_Time_On_Site"]
-  end
-  CS -->|"valid atomics"| AS
-  CS -->|"valid property types"| CT
-  CS -->|"valid fee packages"| CP
-  CS -->|"valid routing packages"| CE
-  CT -->|"valid characteristics"| AT
-  CT -->|"valid add-ons"| CA
-  CA -->|"bundles characteristics"| AT
-  CP -->|"valid fee drivers"| AP
-  CE -->|"valid routing profiles"| AE
-  AS -->|"part_assignments"| PI["Part_instances_value_ledger"]
-  AT -.->|"time per characteristic (inline)"| PI
-  AP -.->|"fee per driver (inline)"| PI
-  AE -->|"owns segments"| EI["Event_instances_named_segments"]
-  EI -->|"event_assignments (inline)"| PI
-```
-
-**Orchestrator shapes (composite + orchestrator = true) own:**
-- **Root validity graph:** which atomics of this type and downstream types are available
-- Service orchestrator: which atomic services, which property types, fee packages, routing packages are valid
-- Time orchestrator: which property characteristics apply to this property type (e.g. "Single-Family Home" bundles sqft + foundation + roof + HVAC)
-- Price orchestrator: which fee drivers apply in this pricing context
-- Event orchestrator: which routing profiles are available
-- Defaults and minimums that flow down unless overridden at the atomic level
-
-**Non-orchestrator composites (composite = true, orchestrator = false) own:**
-- A subtree of children — but are **not** the root of a validity graph. They are nested packages (e.g. "Additional Units" under "Multi-Family Home") that bundle atomics without being top-level entry points.
-- Appear on the Orchestration tab only as children of their parent orchestrator, not as standalone top-level nodes.
-
-**Atomic service owns (the convergence point):**
-- The actual `part_assignments` (part instance bag)
-- Default and minimum values for its part instances
-- **Inline view of all downstream domain values** for its parts: time per characteristic (from atomic time), fee per driver (from atomic price), event routing (from atomic event)
-- The admin configures everything in one place — no tab-hopping
-
-**Atomic time instances own:**
-- A time component per part: duration contribution from one property characteristic (e.g. "Square Footage" contributes X min/1000 sqft to each applicable part)
-- Multiple time atomics compose additively on a part instance
-
-**Atomic price instances own:**
-- A fee component per part: fee contribution from one fee driver (e.g. "Base Fee" = $200 flat, "Per-Unit Fee" = $0.08/sqft)
-- Multiple price atomics compose additively on a part instance (discounts/surcharges as adjustments)
-
-**Atomic event instances own:**
-- The segment manager: named segments (event instances) with placement types and part assignments
-- Configured inline on the atomic service editor
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §3 (Layering: shape → block instance → part instance) -->
+> See [ARCHITECTURE_PRINCIPLES.md §3](ARCHITECTURE_PRINCIPLES.md#3-layering-shape--block-instance--part-instance) for the layering model, Mermaid diagram, and ownership descriptions.
 
 ### 1.4 Placement-slot model (event shapes as placement types)
 
-Event shapes are **not dropped**. They become **admin-managed placement types** — each row defines a placement kind and anchor edge that the booking pipeline uses for time-axis layout. The system ships with seven default rows, but admins can **add, rename, or remove** placement types as scheduling needs evolve:
-
-| Default event shape | Placement kind | Anchor edge | Description |
-| --- | --- | --- | --- |
-| **Primary** | `primary` | — | The main segment. Time-axis anchor point. |
-| **FrontSecondary** | `secondary` | `start` | Secondary segment anchored at the start of primary. |
-| **BackSecondary** | `secondary` | `end` | Secondary segment anchored at the end of primary. |
-| **FrontMarginal** | `marginal` | `start` | Marginal segment overlapping/abutting the front of primary. |
-| **BackMarginal** | `marginal` | `end` | Marginal segment overlapping/abutting the back of primary. |
-| **FrontFloating** | `floating` | `start` | Floating segment preferring before primary. |
-| **BackFloating** | `floating` | `end` | Floating segment preferring after primary. |
-
-These rows **materialize the `DifferentialPlacement` discriminated union** as database rows. No JSON placement column is needed on any table — the event shape **is** the placement. Because `placement_kind` and `anchor_edge` are structured columns on event shapes (§2.4), the pipeline is **parameterized by data**: adding a new placement type (e.g. a "BackMarginalFloating" hybrid) requires only a new event shape row with the right columns — no code changes to the layout engine as long as it handles the placement-kind/anchor-edge combination.
-
-Event instances are **named segments** owned by an event block instance:
-
-```
-Event block instance (type='event', e.g. "Minimize Time On Site")
-  └─ owns EventInstances (named segments):
-       ├─ "EarlyArrival"       → event_shape_ref = FrontMarginal
-       ├─ "Primary"            → event_shape_ref = Primary
-       ├─ "ClientPresentation" → event_shape_ref = BackSecondary
-       └─ "OffSite"            → event_shape_ref = FrontFloating
-            └─ each has event_assignments → part instances
-```
-
-The booking pipeline does **no placement calculation** — it reads the event assignment graph, groups part durations by event instance, and looks up each event instance's placement kind from its event shape ref. Routing is data, not computation.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §5 (Placement-slot model) -->
+> See [ARCHITECTURE_PRINCIPLES.md §5](ARCHITECTURE_PRINCIPLES.md#5-placement-slot-model) for the placement-slot model, default types, segment ownership, and routing-is-data principle.
 
 ### 1.5 Three independent shape properties: composite, orchestrator, wizardVisible
 
-Block shapes have three independent boolean properties that replace the legacy `composable`, `isStateControl`, and `canHaveParts` flags:
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §2 (Three-property model) -->
+> See [ARCHITECTURE_PRINCIPLES.md §2](ARCHITECTURE_PRINCIPLES.md#2-three-property-model) for the full three-property model, 2×2 grid, wizardVisible examples, and rules.
 
-| Property | Meaning | Replaces |
-| --- | --- | --- |
-| **`composite`** | Structural: instances of this shape contain child block instances (validity graph, bundles) | `block_instances.composite` (moved to shape level) |
-| **`orchestrator`** | Behavioral: this shape is the top-level entry point for its block type. Orchestrators define the root validity graph — which children, which downstream profiles are valid. Only orchestrators appear on the Orchestration tab. | `block_shapes.isStateControl` (partially) |
-| **`wizardVisible`** | Presentation: instances of this shape appear in the booking wizard for user selection. Can be combined with either composite or atomic. | `block_instances.bookingMode` (simplified from ternary to boolean on shape) |
+**Legacy column mapping** (implementation detail — what the new properties replace):
 
-**Columns dropped:** `block_shapes.composable`, `block_shapes.isStateControl`, `block_shapes.canHaveParts`. These were flexibility scaffolding for early development. The three new properties express the same concepts more cleanly.
+| New property | Replaces |
+| --- | --- |
+| `block_shapes.composite` | `block_instances.composite` (moved to shape level) |
+| `block_shapes.orchestrator` | `block_shapes.isStateControl` (partially) |
+| `block_shapes.wizardVisible` | `block_instances.bookingMode` (simplified from ternary to boolean on shape) |
 
-**The 2×2 grid — composite × orchestrator:**
-
-| | Orchestrator (top-level validity root) | Non-orchestrator (nested / add-on) |
-| --- | --- | --- |
-| **Composite** | "Buyer's Inspection Package" (service), "Single-Family Home" (time), "Standard Fee Schedule" (price), "Routing Options" (event) | "Additional Units" (time add-on under Multi-Family — bundles sqft + HVAC + electrical), "Deck" (time add-on) |
-| **Atomic** | _(rare — an orchestrator is usually composite)_ | "Square Footage" (time characteristic), "Roof Type", "Base Fee" (price driver), "Standard" (event routing profile), "Roof Inspection" (service) |
-
-**wizardVisible is orthogonal:**
-
-| Example | composite | orchestrator | wizardVisible | Why |
-| --- | --- | --- | --- | --- |
-| "Buyer's Inspection Package" | ✓ | ✓ | ✓ | Top-level service the user picks |
-| "Single-Family Home" | ✓ | ✓ | ✓ | Top-level property type the user picks |
-| "Additional Units" | ✓ | ✗ | ✓ | Add-on package visible in wizard, but only valid under Multi-Family |
-| "Radon Testing" | ✗ | ✗ | ✓ | Atomic service add-on the user can directly select |
-| "Square Footage" | ✗ | ✗ | ✗ | Property characteristic — never directly selected, always part of a property type package |
-| "Minimize Time On Site" | ✗ | ✗ | ✓ | Atomic event routing profile the user can select as an option |
-| "Routing Options" | ✓ | ✓ | ✗ | Orchestrator for event routing — admin-only, not shown in wizard |
-
-**Key rules:**
-- `orchestrator` implies `composite` (an orchestrator always has children). The reverse is not true — "Additional Units" is composite but not an orchestrator.
-- `wizardVisible` is independent of both — any combination is valid.
-- The admin Orchestration tab (§3.3) shows only blocks where `orchestrator = true`.
-- The booking wizard shows only blocks where `wizardVisible = true`, filtered by the validity graph of the selected orchestrators.
+**Columns dropped:** `block_shapes.composable`, `block_shapes.isStateControl`, `block_shapes.canHaveParts`.
 
 ---
 
@@ -277,7 +159,8 @@ AdminPanel
 
 ### 3.3 Target admin structure
 
-The admin has two modes: **orchestration setup** (infrequent — defining what's valid) and **atomic service configuration** (day-to-day — setting actual values). The atomic service is the convergence point where all domain values are visible and editable inline.
+<!-- PRINCIPLE EXTRACTED to ARCHITECTURE_PRINCIPLES.md §7 (Admin architecture principles) — two-mode admin, convergence point, metadata deprecation -->
+> See [ARCHITECTURE_PRINCIPLES.md §7](ARCHITECTURE_PRINCIPLES.md#7-admin-architecture-principles) for the principles behind this structure. Below is the **implementation target** (component tree, UX details).
 
 ```
 AdminPanel
@@ -371,9 +254,10 @@ By the time an event block instance is being configured, all atomic services and
 
 ### 3.4 EntityCard and metadata system deprecation — DECIDED
 
-**Decision:** Replace the generic `EntityCard` + database-driven metadata pipeline with **domain-specific editors** that use Vuetify components directly. Keep metadata only for annotations.
+<!-- PRINCIPLE EXTRACTED to ARCHITECTURE_PRINCIPLES.md §7.1 + §7.4 — domain-specific editors replace EntityCard, metadata survives for annotations only -->
+> See [ARCHITECTURE_PRINCIPLES.md §7.1](ARCHITECTURE_PRINCIPLES.md#71-domain-specific-editors-replace-entitycard) for the principle. Below retains the **implementation details**: what the metadata system does, the replacement editors, migration strategy, and deletion inventory.
 
-**Why now:** The metadata system was the right call when the domain was undefined. You didn't know what fields a "property" block shape would need vs a "coupon" block shape — making it database-configurable let you iterate without code changes. Now the domain has crystallized: every entity type has known fields with known rendering needs. The flexibility is no longer earning its keep; it's just indirection.
+**Decision:** Ratified. Domain-specific editors replace EntityCard. Metadata survives for annotations only. Principle in ARCHITECTURE_PRINCIPLES.md §7.
 
 **What the metadata system currently does (and why it's overkill):**
 
@@ -497,9 +381,20 @@ The first two steps of the old pipeline (`buildEventAssignmentsByPartShape` + `e
 ### 4.4 What stays unchanged
 
 - `createBlockFinals` / `createPartFinals` — aggregation of part instances into totals per part shape per block. These are sound.
-- `filterZeroedParts` / `filterZeroedBlocks` — zero-out logic stays.
+- `filterZeroedParts` / `filterZeroedBlocks` — zero-out stays; apply **after** per-part numeric resolution and base floor so excluded parts drop out of rollups last (ARCHITECTURE_PRINCIPLES §4.4 step 5, §4.8).
 - `applyShapeToTime` conceptually stays (map shape to clock times) but its input type changes.
 - Constraint pipeline (`Constraint[]`, `ConstraintCheckResult`, slot computation) — interface unchanged; inputs become segment-based durations.
+
+### 4.5 Correlation, zero-out order, client vs server
+
+Aligned with **ARCHITECTURE_PRINCIPLES** §4.2.1, §4.3–§4.8, invariant 3d–3f.
+
+| Topic | Decision |
+| --- | --- |
+| **Correlation** | **Lineage** — bucket part rows by atomic service / appointment line using the **same cascade graph** the wizard uses. Do not key joins on `part_shape` alone when collisions are possible. **Do not** introduce `resolution_group_id` (single column is too rigid; arrays reintroduce complexity). |
+| **Zero-out** | **Last numeric step per part** — after `base + perUnit` math and **base floor**, then zero-out forces zero contribution (PEMDAS-style: final “Z” after the rest). **Admin:** parts stay visible in admin grids; only booking totals/rollups drop them. |
+| **Server** | **No server-side time/fee resolution for booking.** APIs return configuration and raw rows; the **client PartFinalizer** computes resolved numbers; **submit** persists a full appointment payload. Avoid a second calculator on the server unless a future non-booking feature explicitly requires it. |
+| **Seed / diagram** | Block instance **names** in seed data should not duplicate the **same label** for two different roles (orchestrator vs composite package). The architecture doc Mermaid uses distinct examples (`Inspection_Fee_Context` vs `Standard_Add_On_Fee_Bundle`). |
 
 ---
 
@@ -748,60 +643,35 @@ These currently support event instances as standalone entities. They are **reloc
 
 ### 7.1 Three-property model: composite, orchestrator, wizardVisible — RESOLVED
 
-**Decision:** Block shapes have three independent boolean properties that fully describe their structural, behavioral, and presentation roles. These replace the legacy `composable`, `isStateControl`, `canHaveParts` flags on `block_shapes` and `composite`/`bookingMode` on `block_instances`. Full specification in §1.5.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §2 (Three-property model) + §8 invariants 2, 10, 11 -->
+> See [ARCHITECTURE_PRINCIPLES.md §2](ARCHITECTURE_PRINCIPLES.md#2-three-property-model) for the canonical specification. Below retains the **decision rationale** and **migration detail**.
 
-**Why three, not one:** Early development used `composable`, `isStateControl`, and `canHaveParts` as separate flexibility knobs because the domain model was still being discovered. Now that the composite/atomic/orchestrator pattern has crystallized, the three properties express orthogonal concerns cleanly:
+**Decision:** Ratified. Three independent boolean properties on `block_shapes`. Full principle in ARCHITECTURE_PRINCIPLES.md §2.
 
-| Property | Axis | Question it answers |
-| --- | --- | --- |
-| `composite` | Structure | Does this shape own child block instances? |
-| `orchestrator` | Behavior | Is this shape the root of a validity graph for its type? |
-| `wizardVisible` | Presentation | Should instances appear in the booking wizard? |
-
-**Shape-level enforcement:** All three properties live on `block_shapes`, not `block_instances`. A shape's structural nature (`composite`) is intrinsic — every instance inherits it. This prevents accidental misclassification (e.g. someone toggling `composite` on a single instance). `orchestrator` implies `composite` (enforced at creation / validation).
-
-**Composite/atomic examples across all block types:**
-
-| Block type | Composite example | Atomic example |
-| --- | --- | --- |
-| `service` | "Buyer's Inspection Package", "Commercial Inspection Package" | "Roof Inspection", "Exterior Inspection", "Interior Inspection" |
-| `time` | "Single-Family Home", "Condo/Co-op", "Multi-Family Home", add-ons: "Deck", "Additional Units" | "Square Footage", "Foundation", "Roof Type", "HVAC Equipment", "Additional Client Time", "No Report", "Additional Reports" |
-| `price` | "Standard Fee Schedule", "Weekend/Rush Surcharge Package" | "Base Inspection Fee", "Per-Unit Fee", "Rush Surcharge", "Discount" |
-| `event` | "Routing Options" | "Standard", "Minimize Time On Site" |
-
-**Orchestrator role:** The top-level validity root for its block type. Controls which children, which downstream profiles are valid. Only orchestrators appear on the admin Orchestration tab (§3.3). Most orchestrators are composites ("Buyer's Inspection Package"), but the property is explicit so the system can distinguish between a composite that orchestrates ("Single-Family Home") and a composite that is just an add-on package ("Additional Units").
-
-**wizardVisible role:** Controls booking wizard presentation. Independent of the other two — an atomic add-on like "Radon Testing" can be wizard-visible, while an atomic characteristic like "Square Footage" is not. A composite orchestrator like "Routing Options" is also not wizard-visible (admin-only).
+**Why three, not one:** Early development used `composable`, `isStateControl`, and `canHaveParts` as flexibility knobs. Now that the domain has crystallized, the three properties express orthogonal concerns.
 
 **Columns dropped:** `block_shapes.composable`, `block_shapes.isStateControl`, `block_shapes.canHaveParts`, `block_instances.composite`, `block_instances.bookingMode`. See §2.3.
 
 **Columns added:** `block_shapes.composite`, `block_shapes.orchestrator`, `block_shapes.wizardVisible`. See §2.4.
 
-**User block shapes** do not participate in this model — they represent attendee identities and have no composite/atomic/orchestrator role.
+**User block shapes** do not participate in this model.
 
-### 7.2 How time and price atomics compose on part instances
+### 7.2 How time and price atomics compose on part instances — RESOLVED
 
-**Question:** Multiple atomic time blocks (Square Footage, Foundation, Roof Type) and multiple atomic price blocks (Base Fee, Per-Unit Fee, Rush Surcharge) can all touch the same part instance. How do their values compose?
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §4.1 (Additive composition) + §8 invariant 5 -->
+> See [ARCHITECTURE_PRINCIPLES.md §4.1](ARCHITECTURE_PRINCIPLES.md#41-additive-composition) for the principle and examples.
 
-**Notes — Time:** Each property characteristic contributes a **time component** to part durations. Components are additive: "Roof Inspection → Data Collection" gets 12 min/1000 sqft from Square Footage + 15 min modifier from Roof Type (complex). The total part duration is the sum of all applicable time atomic contributions. The atomic service sets a base/default duration; time atomics layer on top.
-
-**Notes — Price:** Same pattern. Each fee driver contributes a **fee component** to part costs. "Roof Inspection → Data Collection" gets a $200 base from Base Inspection Fee + $0.08/sqft from Per-Unit Fee. Discounts and surcharges are also fee drivers that apply as adjustments (percentage or flat). The atomic service sets a base/default fee; price atomics layer on top.
-
-**Key principle:** Neither time nor price atomics **overwrite** — they **contribute components** that compose additively (or multiplicatively for percentage-based adjustments). Part instances store the **resolved total** after all contributions. This mirrors the real world: the time it takes to inspect a roof depends on the roof type **and** the square footage **and** the foundation access — these are independent, additive characteristics.
+**Decision:** Ratified. Atomics compose additively. Part instances store the resolved total. Principle and examples in ARCHITECTURE_PRINCIPLES.md §4.
 
 ### 7.3 Event routing storage format — RESOLVED
 
-**Decision:** Use the existing `event_assignments` through-table. No new table needed.
-
-Event assignments already link event instances to part instances. With the placement-slot model, the chain is: event block instance → event instances (named segments, each with `event_shape_ref` pointing at a placement slot) → event_assignments → part instances. This reuses all existing relationship CRUD and admin UI collection patterns.
+<!-- PRINCIPLE: routing is data → ARCHITECTURE_PRINCIPLES.md §5.3. Implementation: use existing event_assignments through-table. -->
+> See [ARCHITECTURE_PRINCIPLES.md §5.3](ARCHITECTURE_PRINCIPLES.md#53-routing-is-data-not-computation). Routing uses the existing `event_assignments` through-table — no new table needed. Chain: event block instance → event instances → event_assignments → part instances.
 
 ### 7.4 Slice model for partial part-shape routing — RESOLVED
 
-**Decision:** No special slicing mechanism needed. The natural structure of atomic services provides routing granularity.
-
-Each atomic service block instance has its own part instances. "Roof Inspection → Data Collection" and "Interior Inspection → Data Collection" are **already distinct part instances** even though they share the same part shape. The segment manager (§3.5) assigns individual part instances — not part shapes — to segments. The admin can route "Roof Inspection → Data Collection" to EarlyArrival and "Interior Inspection → Data Collection" to Primary without any splitting infrastructure, tags, or filter expressions.
-
-This eliminates the need for separate part shapes, routing tags, or filter rules. If a future need arises for finer-grained splitting within a single atomic service's part instance set, option 2 (tags) remains available as an evolution.
+<!-- PRINCIPLE: atomic service granularity provides routing granularity → ARCHITECTURE_PRINCIPLES.md §3.3 (atomic service owns part instances) + §8 invariant 4 -->
+> See [ARCHITECTURE_PRINCIPLES.md §3.3](ARCHITECTURE_PRINCIPLES.md#33-what-each-layer-owns). Atomic services provide natural routing granularity. The segment manager assigns individual **part instances** (not part shapes) to segments. No slicing infrastructure needed.
 
 ### 7.5 Default routing when no event block is selected
 
@@ -816,68 +686,44 @@ This eliminates the need for separate part shapes, routing tags, or filter rules
 
 ### 7.6 Admin metadata system + EntityCard deprecation — RESOLVED
 
-**Covered in §3.4.** Short version: **deprecate EntityCard and the metadata pipeline.** Replace with domain-specific editors using Vuetify components directly. Keep metadata only for annotations. See §6.8 for the full ~120-file deletion inventory.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §7.1 + §7.4 -->
+> See [ARCHITECTURE_PRINCIPLES.md §7](ARCHITECTURE_PRINCIPLES.md#7-admin-architecture-principles). Implementation detail in §3.4 and §6.8.
 
 ### 7.7 Calendar API mapping, invite policy, location, and attendees — RESOLVED
 
-**Decisions:** Event instances (named segments) become **fully self-describing calendar segment configurations**. All operational properties live on the event instance, not on the event shape (which defines the placement type — how the segment is positioned on the time axis).
+<!-- PRINCIPLE EXTRACTED to ARCHITECTURE_PRINCIPLES.md §5.4 (Event instances are self-describing calendar segments) + §8 invariant 8 -->
+> See [ARCHITECTURE_PRINCIPLES.md §5.4](ARCHITECTURE_PRINCIPLES.md#54-event-instances-are-self-describing-calendar-segments) for the principle. Below retains the **migration mapping** (what moves, what stays, attendee FK pattern).
 
-**What moves to event instances:**
+**Decision:** Ratified. Event instances carry all calendar/location/attendee properties. Event shapes define placement only.
+
+**What moves to event instances (migration detail):**
 
 | Property | Source | Notes |
 | --- | --- | --- |
-| `includeRescheduleLink` | Migrated from `event_shapes` | Per-segment: "Primary" includes links, "EarlyArrival" might not. |
-| `includeCancelLink` | Migrated from `event_shapes` | Same. |
-| `locationType` | New enum: `on_site \| off_site \| remote \| virtual` | Replaces the `onSite` boolean. Per-segment: "Primary" is on-site, "OffSite" is off-site. Pipeline uses this for drive-time, overlap, and constraint decisions. |
-| `locationPlaceId` / `locationAddress` / `locationLat` / `locationLng` | New, nullable | Populated when `locationType = 'off_site'` and admin picks a location via the existing Places API integration (same pattern as `AvailabilitySetting.defaultLocationPlaceId`). On-site segments derive location from the appointment property. Remote/virtual have no physical location. |
-| Attendees | Migrated from `event_shape_attendees` → `event_instance_attendees` | Per-segment attendee list. FK targets **user block instances** — the attendee type is the user block shape the instance belongs to (inspector, client, agent). |
+| `includeRescheduleLink` | Migrated from `event_shapes` | Per-segment. |
+| `includeCancelLink` | Migrated from `event_shapes` | Per-segment. |
+| `locationType` | New enum: `on_site \| off_site \| remote \| virtual` | Replaces `onSite` boolean. |
+| `locationPlaceId` / `locationAddress` / `locationLat` / `locationLng` | New, nullable | For `locationType = 'off_site'`. Uses existing Places API pattern. |
+| Attendees | Migrated from `event_shape_attendees` → `event_instance_attendees` | FK targets user block instances. |
 
-**What stays on event instances (already there):**
+**What stays on event instances (already there):** All existing Google Calendar properties — `titleTemplate`, `descriptionTemplate`, `locationTemplate`, `visibility`, `transparency`, `guestsCanModify`, `guestsCanInviteOthers`, `guestsCanSeeOtherGuests`, `addConferenceLink`, `sendUpdates`, `colorId`, `status`, `reminderOverrides`.
 
-All existing Google Calendar properties — `titleTemplate`, `descriptionTemplate`, `locationTemplate`, `visibility`, `transparency` (free/busy), `guestsCanModify`, `guestsCanInviteOthers`, `guestsCanSeeOtherGuests`, `addConferenceLink`, `sendUpdates`, `colorId`, `status`, `reminderOverrides`. These are already per-segment and don't need to move.
-
-**Attendee assignment pattern:** Attendees are assigned by referencing user **block instances** (which derive their type from their block shape — inspector, client, agent, etc.). This uses the same `userTypeBlockInstanceId` FK pattern as the current `event_shape_attendees` table, just re-pointed to event instances. The admin selects which user types attend each segment in the segment manager UI (§3.5).
-
-**Result:** Each event instance is a **complete calendar event specification** — placement, location, attendees, title, visibility, free/busy, links, reminders. The calendar creation service iterates event instances and has everything in one join.
+**Attendee FK pattern:** `event_instance_attendees.user_type_block_instance_id` → `block_instances.id` (user block instances). Attendee type is derived from the user block shape.
 
 ### 7.8 MLS enrichment and property details — RESOLVED
 
-**Decision:** `property_details` stays as an **appointment-scoped input surface**. Time atomics read from it; they do not replace it.
+<!-- EXTRACTED to ARCHITECTURE_PRINCIPLES.md §6 (MLS enrichment architecture) + §8 invariant 9 -->
+> See [ARCHITECTURE_PRINCIPLES.md §6](ARCHITECTURE_PRINCIPLES.md#6-mls-enrichment-architecture) for the three-table architecture, data flow diagram, and separation principle.
 
-**Current architecture (three tables):**
+**Decision:** Ratified. `property_details` stays as an appointment-scoped input surface. Time atomics define rates; property details provide inputs. These are separate concerns.
 
-| Table | Role | FK |
-| --- | --- | --- |
-| `property_details` | Flat record of a property version's physical characteristics: `mls_number`, `square_footage`, `bedrooms`, `bathrooms`, `foundation_access`, `additional_units`. Written by MLS enrichment API (`source = 'api'`), admin (`source = 'manual'`), or booking wizard (`source = 'client'`). | `property_version_id` → `property_versions` |
-| `property_feature_mappings` | Auto-selection rules: "when MLS field X matches value Y, select `block_instance_id` Z." Used by the enrichment response's `suggestedBlockInstanceIds` to auto-pick block instances in the wizard. | `block_instance_id` → `block_instances` |
-| `property_field_mappings` | Value population rules: "when MLS field X arrives, write it to `property_details.target_field` Y with optional `value_mapping` transform." | _(no FK — targets field names)_ |
+**Implementation detail — what changes under the redesign:**
 
-**What changes under the redesign:**
+- **`property_feature_mappings.block_instance_id`** re-scoped to target **time block instances** after rename. No structural schema change.
+- **`property_field_mappings`** stays as-is.
+- **`property_details`** stays as-is.
 
-- **`property_feature_mappings.block_instance_id`** currently points at `property` (→ `time`) block instances. After the rename, it targets **time block instances** — both composites ("Single-Family Home") and atomics ("Deck"). The MLS enrichment auto-selects the right property type package and characteristic add-ons based on listing data. No structural schema change — the FK already targets `block_instances`; only the data needs re-pointing if any rows reference non-time block instances.
-
-- **`property_field_mappings`** stays exactly as-is. It writes MLS values to `property_details` columns (sqft, bedrooms, foundation, etc.). These are the **input values** that time atomics consume.
-
-- **`property_details`** stays as the appointment-scoped data surface. This is important: property details describe the **actual property being inspected** (appointment data), while time atomics define the **admin-configured rates and rules** (configuration data). Keeping them separate means:
-  - The booking wizard can show "2,400 sqft, basement, complex roof" as a property summary independent of which time atomics are selected.
-  - Time atomics read `property_details.square_footage` to calculate their duration contribution (e.g. `2400 × 0.012 min/sqft = 28.8 min`), but the input value is never stored on the time block instance itself.
-  - MLS enrichment writes once to `property_details`; time atomics compute from that on every recalculation. No duplication.
-
-**Data flow:**
-
-```
-MLS API → property_field_mappings → property_details (sqft, foundation, roof, etc.)
-                                          ↓ (read by)
-                                    Time atomics (duration = f(property_details))
-                                          ↓ (contribute to)
-                                    Part instances (resolved total duration)
-
-MLS API → property_feature_mappings → suggestedBlockInstanceIds
-                                          ↓ (auto-select in wizard)
-                                    Time block instances (composites + atomics)
-```
-
-**Booking wizard flow:** User enters address → Places API resolves → MLS enrichment fetches listing → `property_field_mappings` populates `property_details` → `property_feature_mappings` suggests time block instances → wizard auto-selects "Single-Family Home" + "Deck" → time atomics read property details to compute durations.
+**Booking wizard flow (implementation):** User enters address → Places API resolves → MLS enrichment fetches listing → `property_field_mappings` populates `property_details` → `property_feature_mappings` suggests time block instances → wizard auto-selects → time atomics read property details to compute durations.
 
 ---
 
@@ -903,4 +749,4 @@ The old "big cut" (dropping all event tables) is gone. The migration path is now
 
 ---
 
-_Last updated: revised — §3.4 rewritten as EntityCard + metadata deprecation decision. Domain-specific editors replace the 160-file generic pipeline. §6.8 added with full deletion inventory (~120 files). §3.2 updated. §7.6 resolved. Phases E and H updated to reflect domain editor build and EntityCard cleanup._
+_Last updated: Principle content extracted to [ARCHITECTURE_PRINCIPLES.md](ARCHITECTURE_PRINCIPLES.md). Sections §1.1–§1.5, §7.1–§7.8 now contain pointers to the principles doc and retain only implementation-specific details (migration mappings, column changes, deletion inventories). §3.3 and §3.4 retain implementation targets with principle pointers._

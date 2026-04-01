@@ -7,10 +7,10 @@ export type SequelizeModelsBag = {
   BlockInstance: ModelCtor<Model>
   BlockInstanceVersion: ModelCtor<Model>
   PartInstanceVersion: ModelCtor<Model>
-  ValidCascade: ModelCtor<Model>
-  ValidPart: ModelCtor<Model>
-  ValidAnnotation: ModelCtor<Model>
-  ValidEvent: ModelCtor<Model>
+  ValidBookingCascade: ModelCtor<Model>
+  ValidPartCascade: ModelCtor<Model>
+  ValidAnnotationAssignment: ModelCtor<Model>
+  ValidEventCascade: ModelCtor<Model>
   DependentInstance: ModelCtor<Model>
   BookingCascade: ModelCtor<Model>
   PricingCascade: ModelCtor<Model>

@@ -2,7 +2,7 @@
  * WHY: Single source of truth for Shapes tab API; compose from sub-composable return types
  * to avoid duplication (duplication-audit, COMPOSABLE_AUTHORING_PLAYBOOK).
  */
-import type { ComputedRef, Ref } from 'vue'
+import type { ComponentPublicInstance, ComputedRef, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseShapesTabModalsReturn } from '@/composables/admin/useShapesTabModals'
@@ -15,14 +15,18 @@ export interface UseShapesTabReturn
   extends UseShapesTabModalsReturn,
     UseShapesTabCreationFlat {
   activeTab: Ref<string>
-  blockShapesContainer: Ref<HTMLElement | null>
-  partShapesContainer: Ref<HTMLElement | null>
-  annotationShapesContainer: Ref<HTMLElement | null>
-  partShapesPanelsContainer: Ref<HTMLElement | null>
-  blockShapesPanelsContainer: Ref<HTMLElement | null>
-  annotationShapesPanelsContainer: Ref<HTMLElement | null>
+  blockShapesContainer: Ref<HTMLElement | undefined>
+  partShapesContainer: Ref<HTMLElement | undefined>
+  annotationShapesContainer: Ref<HTMLElement | undefined>
+  eventShapesContainer: Ref<HTMLElement | undefined>
+  partShapesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | undefined>
+  blockShapesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | undefined>
+  annotationShapesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | undefined>
+  eventShapesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | undefined>
   blockShapesList: Ref<GlobalEntity<'blockShape'>[]>
   partShapesList: Ref<GlobalEntity<'partShape'>[]>
+  annotationShapesList: Ref<GlobalEntity<'annotationShape'>[]>
+  eventShapesList: Ref<GlobalEntity<'eventShape'>[]>
   expandedShapes: Ref<string[]>
   isPanelExpanded: (id: string) => boolean
   blockShapesTabLabel: ComputedRef<string>

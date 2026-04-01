@@ -215,8 +215,8 @@ const placeholderText = computed(() => {
 
 const emptyStateMessage = computed(() => {
   const typeMap: Record<CollectionType, string> = {
-    parts: 'No valid PartShapes configured for this BlockShape. Configure validParts on the BlockShape to add PartInstances.',
-    annotations: 'No valid AnnotationShapes configured for this BlockShape. Configure validAnnotations on the BlockShape to add AnnotationInstances.',
+    parts: 'No valid PartShapes configured for this BlockShape. Configure validPartCascades on the BlockShape to add PartInstances.',
+    annotations: 'No valid AnnotationShapes configured for this BlockShape. Configure validAnnotationAssignments on the BlockShape to add AnnotationInstances.',
     events: `No valid ${effectiveCollectionType.value === 'events' ? 'EventShapes' : 'Shapes'} configured. Configure valid options to add instances.`
   }
   return typeMap[effectiveCollectionType.value]

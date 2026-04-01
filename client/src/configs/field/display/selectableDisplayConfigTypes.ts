@@ -16,7 +16,7 @@ type ChildFieldKey =
   | GlobalFieldKey<'eventInstance'>
 
 type ValidRelationshipKeys<GE extends GlobalEntityKey> =
-  GE extends 'blockShape' ? 'validCascades' | 'validParts' | 'validAnnotations' | 'validEvents' :
+  GE extends 'blockShape' ? 'validBookingCascades' | 'validPartCascades' | 'validAnnotationAssignments' | 'validEventCascades' :
   GE extends 'blockInstance'
     ? 'bookingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'instanceComponents' | 'dependentInstances'
     : GE extends 'partInstance' ? 'pricingCascades' : GE extends 'partShape' ? 'validPricingCascades' : never

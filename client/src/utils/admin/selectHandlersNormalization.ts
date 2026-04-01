@@ -37,7 +37,7 @@ export function normalizeSelectChangeValue(
     normalizedValue = value.length > 0 ? String(value[0]) : undefined
   } else {
     const stringValue = String(value)
-    if (stringValue === '__NULL__' && fieldKey === 'ternaryDefault') {
+    if (stringValue === '__NULL__' && fieldKey === 'differentialRole') {
       normalizedValue = undefined
     } else {
       normalizedValue = stringValue

@@ -435,10 +435,10 @@ CREATE TYPE public.user_role_enum AS ENUM (
 
 
 --
--- Name: cleanup_booking_cascades_on_valid_cascade_delete(); Type: FUNCTION; Schema: public; Owner: -
+-- Name: cleanup_booking_cascades_on_valid_booking_cascade_delete(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.cleanup_booking_cascades_on_valid_cascade_delete() RETURNS trigger
+CREATE FUNCTION public.cleanup_booking_cascades_on_valid_booking_cascade_delete() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
@@ -455,10 +455,10 @@ CREATE FUNCTION public.cleanup_booking_cascades_on_valid_cascade_delete() RETURN
 
 
 --
--- Name: cleanup_part_assignments_on_valid_part_delete(); Type: FUNCTION; Schema: public; Owner: -
+-- Name: cleanup_part_assignments_on_valid_part_cascade_delete(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.cleanup_part_assignments_on_valid_part_delete() RETURNS trigger
+CREATE FUNCTION public.cleanup_part_assignments_on_valid_part_cascade_delete() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
       BEGIN
@@ -1939,10 +1939,10 @@ COMMENT ON COLUMN public.valid_annotations.child_id IS 'Foreign key to annotatio
 
 
 --
--- Name: valid_cascades; Type: TABLE; Schema: public; Owner: -
+-- Name: valid_booking_cascades; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.valid_cascades (
+CREATE TABLE public.valid_booking_cascades (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     parent_id uuid NOT NULL,
     child_id uuid NOT NULL,
@@ -1954,10 +1954,10 @@ CREATE TABLE public.valid_cascades (
 
 
 --
--- Name: valid_events; Type: TABLE; Schema: public; Owner: -
+-- Name: valid_event_cascades; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.valid_events (
+CREATE TABLE public.valid_event_cascades (
     id uuid NOT NULL,
     parent_id uuid NOT NULL,
     child_id uuid NOT NULL,
@@ -1968,31 +1968,31 @@ CREATE TABLE public.valid_events (
 
 
 --
--- Name: COLUMN valid_events.parent_id; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN valid_event_cascades.parent_id; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.valid_events.parent_id IS 'Foreign key to part_shapes table';
-
-
---
--- Name: COLUMN valid_events.child_id; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.valid_events.child_id IS 'Foreign key to event_shapes table';
+COMMENT ON COLUMN public.valid_event_cascades.parent_id IS 'Foreign key to block_shapes table';
 
 
 --
--- Name: COLUMN valid_events.disabled; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN valid_event_cascades.child_id; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.valid_events.disabled IS 'Whether this relationship is disabled';
+COMMENT ON COLUMN public.valid_event_cascades.child_id IS 'Foreign key to event_shapes table';
 
 
 --
--- Name: valid_parts; Type: TABLE; Schema: public; Owner: -
+-- Name: COLUMN valid_event_cascades.disabled; Type: COMMENT; Schema: public; Owner: -
 --
 
-CREATE TABLE public.valid_parts (
+COMMENT ON COLUMN public.valid_event_cascades.disabled IS 'Whether this relationship is disabled';
+
+
+--
+-- Name: valid_part_cascades; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.valid_part_cascades (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     parent_id uuid NOT NULL,
     child_id uuid NOT NULL,
@@ -2460,27 +2460,27 @@ ALTER TABLE ONLY public.valid_annotations
 
 
 --
--- Name: valid_cascades valid_blocks_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_booking_cascades valid_booking_cascades_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_cascades
-    ADD CONSTRAINT valid_blocks_parent_id_child_id_key UNIQUE (parent_id, child_id);
-
-
---
--- Name: valid_cascades valid_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.valid_cascades
-    ADD CONSTRAINT valid_blocks_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.valid_booking_cascades
+    ADD CONSTRAINT valid_booking_cascades_parent_id_child_id_key UNIQUE (parent_id, child_id);
 
 
 --
--- Name: valid_events valid_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_booking_cascades valid_booking_cascades_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_events
-    ADD CONSTRAINT valid_events_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.valid_booking_cascades
+    ADD CONSTRAINT valid_booking_cascades_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: valid_event_cascades valid_event_cascades_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_event_cascades
+    ADD CONSTRAINT valid_event_cascades_pkey PRIMARY KEY (id);
 
 
 --
@@ -2492,19 +2492,19 @@ ALTER TABLE ONLY public.dependent_instances
 
 
 --
--- Name: valid_parts valid_parts_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_part_cascades valid_part_cascades_parent_id_child_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_parts
-    ADD CONSTRAINT valid_parts_parent_id_child_id_key UNIQUE (parent_id, child_id);
+ALTER TABLE ONLY public.valid_part_cascades
+    ADD CONSTRAINT valid_part_cascades_parent_id_child_id_key UNIQUE (parent_id, child_id);
 
 
 --
--- Name: valid_parts valid_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_part_cascades valid_part_cascades_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_parts
-    ADD CONSTRAINT valid_parts_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.valid_part_cascades
+    ADD CONSTRAINT valid_part_cascades_pkey PRIMARY KEY (id);
 
 
 --
@@ -3022,24 +3022,24 @@ CREATE INDEX idx_valid_annotations_parent_id ON public.valid_annotations USING b
 
 
 --
--- Name: idx_valid_events_child_id; Type: INDEX; Schema: public; Owner: -
+-- Name: idx_valid_event_cascades_child_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_valid_events_child_id ON public.valid_events USING btree (child_id);
-
-
---
--- Name: idx_valid_events_parent_child_unique; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX idx_valid_events_parent_child_unique ON public.valid_events USING btree (parent_id, child_id);
+CREATE INDEX idx_valid_event_cascades_child_id ON public.valid_event_cascades USING btree (child_id);
 
 
 --
--- Name: idx_valid_events_parent_id; Type: INDEX; Schema: public; Owner: -
+-- Name: idx_valid_event_cascades_parent_child_unique; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_valid_events_parent_id ON public.valid_events USING btree (parent_id);
+CREATE UNIQUE INDEX idx_valid_event_cascades_parent_child_unique ON public.valid_event_cascades USING btree (parent_id, child_id);
+
+
+--
+-- Name: idx_valid_event_cascades_parent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_valid_event_cascades_parent_id ON public.valid_event_cascades USING btree (parent_id);
 
 
 --
@@ -3134,31 +3134,31 @@ CREATE UNIQUE INDEX valid_annotations_parent_id_child_id_unique ON public.valid_
 
 
 --
--- Name: valid_blocks_child_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: valid_booking_cascades_child_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX valid_blocks_child_id_idx ON public.valid_cascades USING btree (child_id);
-
-
---
--- Name: valid_blocks_parent_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX valid_blocks_parent_id_idx ON public.valid_cascades USING btree (parent_id);
+CREATE INDEX valid_booking_cascades_child_id_idx ON public.valid_booking_cascades USING btree (child_id);
 
 
 --
--- Name: valid_parts_child_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: valid_booking_cascades_parent_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX valid_parts_child_id_idx ON public.valid_parts USING btree (child_id);
+CREATE INDEX valid_booking_cascades_parent_id_idx ON public.valid_booking_cascades USING btree (parent_id);
 
 
 --
--- Name: valid_parts_parent_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: valid_part_cascades_child_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX valid_parts_parent_id_idx ON public.valid_parts USING btree (parent_id);
+CREATE INDEX valid_part_cascades_child_id_idx ON public.valid_part_cascades USING btree (child_id);
+
+
+--
+-- Name: valid_part_cascades_parent_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX valid_part_cascades_parent_id_idx ON public.valid_part_cascades USING btree (parent_id);
 
 
 --
@@ -3176,17 +3176,17 @@ CREATE INDEX valid_pricing_cascades_parent_id_idx ON public.valid_pricing_cascad
 
 
 --
--- Name: valid_cascades trg_cleanup_booking_cascades; Type: TRIGGER; Schema: public; Owner: -
+-- Name: valid_booking_cascades trg_cleanup_booking_cascades; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trg_cleanup_booking_cascades AFTER DELETE ON public.valid_cascades FOR EACH ROW EXECUTE FUNCTION public.cleanup_booking_cascades_on_valid_cascade_delete();
+CREATE TRIGGER trg_cleanup_booking_cascades AFTER DELETE ON public.valid_booking_cascades FOR EACH ROW EXECUTE FUNCTION public.cleanup_booking_cascades_on_valid_booking_cascade_delete();
 
 
 --
--- Name: valid_parts trg_cleanup_part_assignments; Type: TRIGGER; Schema: public; Owner: -
+-- Name: valid_part_cascades trg_cleanup_part_assignments; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER trg_cleanup_part_assignments AFTER DELETE ON public.valid_parts FOR EACH ROW EXECUTE FUNCTION public.cleanup_part_assignments_on_valid_part_delete();
+CREATE TRIGGER trg_cleanup_part_assignments AFTER DELETE ON public.valid_part_cascades FOR EACH ROW EXECUTE FUNCTION public.cleanup_part_assignments_on_valid_part_cascade_delete();
 
 
 --
@@ -3549,51 +3549,51 @@ ALTER TABLE ONLY public.valid_annotations
 
 
 --
--- Name: valid_cascades valid_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_booking_cascades valid_booking_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_cascades
-    ADD CONSTRAINT valid_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.block_shapes(id) ON DELETE CASCADE;
-
-
---
--- Name: valid_cascades valid_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.valid_cascades
-    ADD CONSTRAINT valid_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.valid_booking_cascades
+    ADD CONSTRAINT valid_booking_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.block_shapes(id) ON DELETE CASCADE;
 
 
 --
--- Name: valid_events valid_events_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_booking_cascades valid_booking_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_events
-    ADD CONSTRAINT valid_events_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.event_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: valid_events valid_events_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.valid_events
-    ADD CONSTRAINT valid_events_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.part_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.valid_booking_cascades
+    ADD CONSTRAINT valid_booking_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON DELETE CASCADE;
 
 
 --
--- Name: valid_parts valid_parts_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_event_cascades valid_event_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_parts
-    ADD CONSTRAINT valid_parts_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.part_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.valid_event_cascades
+    ADD CONSTRAINT valid_event_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.event_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: valid_parts valid_parts_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: valid_event_cascades valid_event_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.valid_parts
-    ADD CONSTRAINT valid_parts_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.valid_event_cascades
+    ADD CONSTRAINT valid_event_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: valid_part_cascades valid_part_cascades_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_part_cascades
+    ADD CONSTRAINT valid_part_cascades_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.part_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: valid_part_cascades valid_part_cascades_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valid_part_cascades
+    ADD CONSTRAINT valid_part_cascades_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.block_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

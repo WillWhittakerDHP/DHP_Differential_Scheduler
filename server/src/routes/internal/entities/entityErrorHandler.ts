@@ -44,7 +44,7 @@ function handleDatabaseConstraintError(
     }
     if (
       constraint === CONSTRAINT_NAMES.PART_INSTANCES_PART_SHAPE_REF_FKEY ||
-      constraint === CONSTRAINT_NAMES.VALID_PARTS_CHILD_ID_FKEY ||
+      constraint === CONSTRAINT_NAMES.VALID_PART_CASCADES_CHILD_ID_FKEY ||
       constraint === CONSTRAINT_NAMES.VALID_PRICING_CASCADES_PARENT_ID_FKEY ||
       constraint === CONSTRAINT_NAMES.VALID_PRICING_CASCADES_CHILD_ID_FKEY
     ) {

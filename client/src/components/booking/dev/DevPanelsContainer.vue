@@ -2,12 +2,10 @@
 
 import { ref, computed, provide, unref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { createLogger } from '@/utils/logger'
 import { isDevModeEnabled } from '@/utils/env/devMode'
 import { useDevPanelData } from '@/composables/booking/useAvailabilityDevPanel'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { EventShape } from '@/types/events'
-import { toBoolean } from '@/utils/ternary/ternaryUtils'
 import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useDevPanelsComputed } from '@/composables/booking/useDevPanelsComputed'
@@ -31,7 +29,6 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isDevMode = isDevModeEnabled()
-const logger = createLogger('DevPanelsContainer')
 const activeTab = ref<'slotShape' | 'instances' | 'constraints'>('slotShape')
 const activeInstancesSubTab = ref<'parts' | 'blocks'>('parts')
 const panelRef = ref<HTMLElement | null>(null)
@@ -119,15 +116,6 @@ const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean
   })
 
   if (!matchingEvent) return false
-
-  if (eventShape.isTernary) {
-    const ternaryValue = eventShape.ternaryDefault
-    if (ternaryValue === null) {
-      logger.error('Cannot determine ternary value for event shape', { name: eventShape.name, id: eventShape.id })
-      return false // Graceful failure
-    }
-    return toBoolean(ternaryValue, 'strict')
-  }
 
   return true
 }

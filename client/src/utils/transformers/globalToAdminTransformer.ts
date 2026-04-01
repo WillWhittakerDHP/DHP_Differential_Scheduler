@@ -13,10 +13,10 @@ import { safeArray } from './transformerPrimitives'
 export type { AdminObject, AdminObjectMap } from '@/types/transformers/adminObject'
 
 const RELATIONSHIP_KEYS = [
-  'validCascades',
-  'validParts',
-  'validAnnotations',
-  'validEvents',
+  'validBookingCascades',
+  'validPartCascades',
+  'validAnnotationAssignments',
+  'validEventCascades',
   'bookingCascades',
   'pricingCascades',
   'validPricingCascades',
@@ -32,10 +32,10 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
   globalRelationships: Record<string, GlobalRelationship[]>
 ): Partial<GlobalEntity<GE>> {
   const relationshipMappings: Record<string, string> = {
-    validCascades: 'validCascades',
-    validParts: 'validParts',
-    validAnnotations: 'validAnnotations',
-    validEvents: 'validEvents',
+    validBookingCascades: 'validBookingCascades',
+    validPartCascades: 'validPartCascades',
+    validAnnotationAssignments: 'validAnnotationAssignments',
+    validEventCascades: 'validEventCascades',
     bookingCascades: 'bookingCascades',
     pricingCascades: 'pricingCascades',
     validPricingCascades: 'validPricingCascades',

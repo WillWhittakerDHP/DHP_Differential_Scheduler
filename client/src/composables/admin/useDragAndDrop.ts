@@ -81,8 +81,8 @@ export function useDragAndDrop(params: UseDragAndDropParams): UseDragAndDropRetu
   })
 
   onUnmounted(() => {
-    containerRef.value = null
-    panelsContainerRef.value = null
+    containerRef.value = undefined
+    panelsContainerRef.value = undefined
   })
 
   return {

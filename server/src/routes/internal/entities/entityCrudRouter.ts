@@ -31,7 +31,7 @@ import {
   applyAnnotationShapeUiSlotNormalization,
 } from './entityCrudRouterAnnotationBody.js'
 import { registerEntityCrudReadRoutes } from './entityCrudRouterReads.js'
-import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { csrfProtection, checkOwnership, requireAuth } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import {
   reconcileBlockInstanceStateControlEligibility,
@@ -49,6 +49,7 @@ registerEntityCrudReadRoutes(router)
 router.post(
   '/:entityType',
   csrfProtection,
+  requireAuth,
   validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
@@ -96,6 +97,7 @@ router.post(
 router.put(
   '/:entityType/:id',
   csrfProtection,
+  requireAuth,
   checkOwnership('entity', 'id'),
   validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
@@ -186,6 +188,7 @@ router.put(
 router.patch(
   '/:entityType/:id',
   csrfProtection,
+  requireAuth,
   checkOwnership('entity', 'id'),
   validateRequest(entityBodySchema),
   async (req: Request, res: Response): Promise<void> => {
@@ -297,8 +300,9 @@ router.patch(
 
 router.delete(
   '/:entityType/:id',
-  csrfProtection, // Security middleware: CSRF protection
-  checkOwnership('entity', 'id'), // Security middleware: ownership check (stub)
+  csrfProtection,
+  requireAuth,
+  checkOwnership('entity', 'id'),
   async (req: Request, res: Response): Promise<void> => {
     const { entityConfig } = req
     if (!entityConfig) {
@@ -352,7 +356,7 @@ router.delete(
             error: ERROR_MESSAGES.PART_SHAPE_IN_USE,
             details: ERROR_MESSAGES.PART_SHAPE_IN_USE_DETAILS
               .replace('{partInstanceCount}', String(dependencyCounts.partInstanceCount))
-              .replace('{validPartCount}', String(dependencyCounts.validPartCount))
+              .replace('{validPartCascadeCount}', String(dependencyCounts.validPartCascadeCount))
               .replace('{validPricingCascadeCount}', String(validPricingCascadeCount)),
             shapeId: entityId,
             ...dependencyCounts,

@@ -31,8 +31,8 @@ export const eventShapeDisplays = {
   },
 
   differentialRole: {
-    label: "Differential Role",
-    placeholder: "Select differential role",
+    label: "Differential role",
+    placeholder: "Select scheduling role (or none)",
     inline: true,
     stacked: false,
   },

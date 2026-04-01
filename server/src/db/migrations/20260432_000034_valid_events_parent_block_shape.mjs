@@ -1,11 +1,25 @@
 /**
  * Reparent valid_events: part_shape -> block_shape (via valid_parts).
  * Orphan rows (part shape not in any valid_parts) are dropped.
+ *
+ * Skips when `public.valid_events` is absent (e.g. fresh load from baseline that already uses `valid_event_cascades`).
  */
 
 export default {
   async up(queryInterface) {
     const sequelize = queryInterface.sequelize
+    const { Sequelize } = await import('sequelize')
+    const { QueryTypes } = Sequelize
+    const rows = await sequelize.query(
+      `SELECT 1 FROM information_schema.tables
+       WHERE table_schema = 'public' AND table_name = 'valid_events'
+       LIMIT 1`,
+      { type: QueryTypes.SELECT }
+    )
+    if (rows.length === 0) {
+      return
+    }
+
     await sequelize.transaction(async (transaction) => {
       await sequelize.query(
         `

@@ -1,8 +1,8 @@
-import { PartInstance, ValidPart, ValidPricingCascade } from '../../config/app.js'
+import { PartInstance, ValidPartCascade, ValidPricingCascade } from '../../config/app.js'
 
 export interface PartShapeDeleteDependencyCounts {
   partInstanceCount: number
-  validPartCount: number
+  validPartCascadeCount: number
   validPricingCascadeParentCount: number
   validPricingCascadeChildCount: number
   totalCount: number
@@ -17,24 +17,24 @@ export async function countPartShapeDeleteDependencies(
 ): Promise<PartShapeDeleteDependencyCounts> {
   const [
     partInstanceCount,
-    validPartCount,
+    validPartCascadeCount,
     validPricingCascadeParentCount,
     validPricingCascadeChildCount,
   ] = await Promise.all([
     PartInstance.count({ where: { partShapeRef: shapeId } }),
-    ValidPart.count({ where: { childId: shapeId } }),
+    ValidPartCascade.count({ where: { childId: shapeId } }),
     ValidPricingCascade.count({ where: { parentId: shapeId } }),
     ValidPricingCascade.count({ where: { childId: shapeId } }),
   ])
 
   return {
     partInstanceCount,
-    validPartCount,
+    validPartCascadeCount,
     validPricingCascadeParentCount,
     validPricingCascadeChildCount,
     totalCount:
       partInstanceCount +
-      validPartCount +
+      validPartCascadeCount +
       validPricingCascadeParentCount +
       validPricingCascadeChildCount,
   }

@@ -253,6 +253,10 @@ const { getInputConfigData, updateInputConfigField } = inputConfigEditor({
 })
 
 function hasSelectRenderAs(fieldKey: string): boolean {
+  const dt = getEffectiveFieldMetadata(fieldKey)?.dataType
+  if (dt === 'boolean' || dt === 'ternary' || dt === 'number') {
+    return false
+  }
   const r = derivedRenderAs(fieldKey)
   if (!r) return false
   return (

@@ -3,10 +3,10 @@ import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
 
 export type AdminObject<GE extends GlobalEntityKey> = GlobalEntity<GE> & {
-  validCascades?: GlobalEntityId[]
-  validParts?: GlobalEntityId[]
-  validAnnotations?: GlobalEntityId[]
-  validEvents?: GlobalEntityId[]
+  validBookingCascades?: GlobalEntityId[]
+  validPartCascades?: GlobalEntityId[]
+  validAnnotationAssignments?: GlobalEntityId[]
+  validEventCascades?: GlobalEntityId[]
   bookingCascades?: GlobalEntityId[]
   pricingCascades?: GlobalEntityId[]
   validPricingCascades?: GlobalEntityId[]

@@ -46,10 +46,10 @@ const {
         </VBtn>
       </div>
     </div>
-    <div ref="blockShapesContainer" class="drag-drop-container">
+    <div :ref="c.blockShapesContainer" class="drag-drop-container">
       <VExpansionPanels
         v-if="isCreatingBlockShape || blockShapesList.length > 0"
-        ref="blockShapesPanelsContainer"
+        :ref="c.blockShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >

@@ -8,9 +8,9 @@ import {
   Sequelize,
 } from 'sequelize';
 
-export class ValidPart extends Model<
-  InferAttributes<ValidPart>,
-  InferCreationAttributes<ValidPart>
+export class ValidAnnotationAssignment extends Model<
+  InferAttributes<ValidAnnotationAssignment>,
+  InferCreationAttributes<ValidAnnotationAssignment>
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
@@ -23,8 +23,8 @@ export class ValidPart extends Model<
   declare updatedAt: CreationOptional<Date>;
 }
 
-export function ValidPartFactory(sequelize: Sequelize) {
-  ValidPart.init(
+export function ValidAnnotationAssignmentFactory(sequelize: Sequelize) {
+  ValidAnnotationAssignment.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -35,8 +35,8 @@ export function ValidPartFactory(sequelize: Sequelize) {
       kind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return "validParts";
-        }
+          return 'validAnnotationAssignments';
+        },
       },
       parentKind: {
         type: DataTypes.VIRTUAL,
@@ -47,7 +47,7 @@ export function ValidPartFactory(sequelize: Sequelize) {
       childKind: {
         type: DataTypes.VIRTUAL,
         get() {
-          return 'partShape';
+          return 'annotationShape';
         },
       },
       parentId: {
@@ -62,7 +62,7 @@ export function ValidPartFactory(sequelize: Sequelize) {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: 'part_shapes',
+          model: 'annotation_shapes',
           key: 'id',
         },
       },
@@ -74,11 +74,13 @@ export function ValidPartFactory(sequelize: Sequelize) {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'created_at',
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        field: 'updated_at',
       },
     },
     {
@@ -86,17 +88,25 @@ export function ValidPartFactory(sequelize: Sequelize) {
       timestamps: false,
       underscored: true,
       schema: 'public',
-      modelName: 'valid_part',
-      tableName: 'valid_parts',
+      modelName: 'valid_annotation_assignment',
+      tableName: 'valid_annotation_assignments',
       indexes: [
         {
           unique: true,
-          fields: ['parentId', 'childId']
-        }
+          fields: ['parentId', 'childId'],
+        },
+        {
+          fields: ['parentId'],
+          name: 'idx_valid_annotation_assignments_parent_id',
+        },
+        {
+          fields: ['childId'],
+          name: 'idx_valid_annotation_assignments_child_id',
+        },
       ],
       freezeTableName: true,
     }
   );
 
-  return ValidPart;
+  return ValidAnnotationAssignment;
 }

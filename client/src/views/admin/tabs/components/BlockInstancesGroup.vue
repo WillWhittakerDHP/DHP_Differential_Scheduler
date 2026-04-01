@@ -22,7 +22,7 @@ const expandedInstances = ctx.expandedInstances
 
 const blockShapeComposableMap = computed(() => ctx.blockShapeComposable.value)
 const blockShapeStateControlMap = computed(() => ctx.blockShapeStateControl.value)
-const blockShapeValidCascadesMap = computed(() => ctx.blockShapeValidCascades.value)
+const blockShapeValidBookingCascadesMap = computed(() => ctx.blockShapeValidBookingCascades.value)
 const bulkEditModeMap = computed(() => ctx.bulkEditMode.value)
 const shapeEditModalOpenMap = computed(() => ctx.shapeEditModalOpen.value)
 const blockInstances = computed(() => {
@@ -38,7 +38,7 @@ const groupedInstances = computed(() => {
 })
 const hasMainOrGrouped = computed(() => blockInstances.value.length > 0 || groupedInstances.value.length > 0)
 const cascadeLabel = computed(() => {
-  const cascades = asEmptyArray(blockShapeValidCascadesMap.value.get(props.blockShape.id))
+  const cascades = asEmptyArray(blockShapeValidBookingCascadesMap.value.get(props.blockShape.id))
   return cascades.length > 0 ? `Cascades: ${cascades.join(', ')}` : 'No Cascades'
 })
 

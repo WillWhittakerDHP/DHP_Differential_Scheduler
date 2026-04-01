@@ -38,36 +38,8 @@ function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string
   return sanitized
 }
 
-const TERNARY_DEFAULT_ALLOWED = new Set(['true', 'false', 'override'])
-
-/**
- * DB check_ternary_default_valid: NULL or one of true/false/override — never ''.
- */
-function sanitizeEventShapeTernaryDefault(raw: unknown): string | null {
-  if (raw === undefined || raw === null) {
-    return null
-  }
-  if (typeof raw !== 'string') {
-    return null
-  }
-  const t = raw.trim()
-  if (t === '' || t === 'null') {
-    return null
-  }
-  if (TERNARY_DEFAULT_ALLOWED.has(t)) {
-    return t
-  }
-  return null
-}
-
 function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
-  if ('ternaryDefault' in sanitized) {
-    sanitized.ternaryDefault = sanitizeEventShapeTernaryDefault(sanitized.ternaryDefault)
-  }
-  if ('ternary_default' in sanitized) {
-    sanitized.ternary_default = sanitizeEventShapeTernaryDefault(sanitized.ternary_default)
-  }
   if (FIELD_NAMES.DIFFERENTIAL_ROLE in sanitized) {
     sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE] = sanitizeDifferentialRoleInput(
       sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE]

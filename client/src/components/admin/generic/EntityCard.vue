@@ -47,6 +47,8 @@ interface Props<GE extends GlobalEntityKey> {
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /** Set when this card is a child inside RelationshipCollection; true if parent block shape is state control (user type). */
   parentBlockShapeIsStateControl?: boolean
+  /** Shapes tab reorder grip; pairs with FormKit `dragHandle: '.shape-list-drag-handle'`. */
+  showShapeListDragHandle?: boolean
 }
 
 const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
@@ -55,6 +57,7 @@ const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   disableAutoSave: false,
   useExpansionPanel: true,
   parentBlockShapeIsStateControl: false,
+  showShapeListDragHandle: false,
 })
 
 interface Emits {
@@ -292,11 +295,11 @@ defineExpose({
       />
     </span>
     <!--
-      WHY: FormKit drag on the whole panel steals clicks from VExpansionPanelTitle; grip + dragHandle matches Instances tab.
-      PATTERN: Same floated grip as blockInstance; used only for block/part shape lists in ShapesTab.
+      WHY: FormKit drag on the whole panel steals clicks from VExpansionPanelTitle; grip + dragHandle matches Shapes tab lists.
+      PATTERN: Parent sets showShapeListDragHandle when this card sits in a reorderable shape list.
     -->
     <span
-      v-else-if="entityKey === 'blockShape' || entityKey === 'partShape'"
+      v-else-if="showShapeListDragHandle"
       class="shape-list-drag-handle shape-list-drag-handle--floated"
       role="img"
       aria-label="Drag to reorder"

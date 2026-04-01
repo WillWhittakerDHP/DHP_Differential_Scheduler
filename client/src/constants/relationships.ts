@@ -2,27 +2,27 @@
 import type { GlobalEntityKey } from './entities'
 
 export const RELATIONSHIP_KEYS = {
-  validCascades: {
-    backendName: 'valid_cascades',
-    frontendKey: 'validCascades',
+  validBookingCascades: {
+    backendName: 'valid_booking_cascades',
+    frontendKey: 'validBookingCascades',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'blockShape' as GlobalEntityKey,
   },
-  validParts: {
-    backendName: 'valid_parts',
-    frontendKey: 'validParts',
+  validPartCascades: {
+    backendName: 'valid_part_cascades',
+    frontendKey: 'validPartCascades',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'partShape' as GlobalEntityKey,
   },
-  validAnnotations: {
-    backendName: 'valid_annotations',
-    frontendKey: 'validAnnotations',
+  validAnnotationAssignments: {
+    backendName: 'valid_annotation_assignments',
+    frontendKey: 'validAnnotationAssignments',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'annotationShape' as GlobalEntityKey,
   },
-  validEvents: {
-    backendName: 'valid_events',
-    frontendKey: 'validEvents',
+  validEventCascades: {
+    backendName: 'valid_event_cascades',
+    frontendKey: 'validEventCascades',
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'eventShape' as GlobalEntityKey,
   },

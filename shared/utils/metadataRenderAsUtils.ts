@@ -39,6 +39,15 @@ export function computeRenderAs(
     return 'relationshipCollection'
   }
 
+  // WHY: Boolean/ternary/number are intrinsic primitives. Stale inputConfig (selectMode,
+  // options, targetMode) on metadata rows must not route them to select/multiselect/reference.
+  if (dataType === 'boolean' || dataType === 'ternary') {
+    return 'statusButton'
+  }
+  if (dataType === 'number') {
+    return 'number'
+  }
+
   if (inputConfig && typeof inputConfig === 'object') {
     const ic = inputConfig as Record<string, unknown>
     if (ic.selectMode === 'multiple') {
@@ -50,15 +59,9 @@ export function computeRenderAs(
     if (Array.isArray(ic.options)) {
       return 'select'
     }
-    // inputConfig without select shape (e.g. multiline, hint) — treat as text primitive
+    // inputConfig without select shape (e.g. multiline, hint) — fall through
   }
 
-  if (dataType === 'boolean' || dataType === 'ternary') {
-    return 'statusButton'
-  }
-  if (dataType === 'number') {
-    return 'number'
-  }
   if (dataType === 'array') {
     return 'reference'
   }

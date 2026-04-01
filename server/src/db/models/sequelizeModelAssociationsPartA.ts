@@ -9,10 +9,10 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
     BlockInstance,
     BlockInstanceVersion,
     PartInstanceVersion,
-    ValidCascade,
-    ValidPart,
-    ValidAnnotation,
-    ValidEvent,
+    ValidBookingCascade,
+    ValidPartCascade,
+    ValidAnnotationAssignment,
+    ValidEventCascade,
     DependentInstance,
     BookingCascade,
     PricingCascade,
@@ -68,21 +68,21 @@ PartShape.hasMany(PartInstance, { foreignKey: 'part_shape_ref', as: 'part_instan
   BlockShape.hasMany(BlockInstance, { foreignKey: 'block_shape_ref', as: 'block_instances' });
   BlockInstance.belongsTo(BlockShape, { foreignKey: 'block_shape_ref', as: 'block_shape' });
 
-  BlockShape.hasMany(ValidCascade, { foreignKey: 'parent_id', as: 'valid_cascades' });
-  ValidCascade.belongsTo(BlockShape, { foreignKey: 'child_id', as: 'valid_cascade_shape' });
+  BlockShape.hasMany(ValidBookingCascade, { foreignKey: 'parent_id', as: 'validBookingCascades' });
+  ValidBookingCascade.belongsTo(BlockShape, { foreignKey: 'child_id', as: 'valid_booking_cascade_shape' });
 
   PartShape.hasMany(ValidPricingCascade, { foreignKey: 'parent_id', as: 'valid_pricing_cascades' });
   ValidPricingCascade.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_pricing_cascade_shape' });
 
-  BlockShape.hasMany(ValidPart, { foreignKey: 'parent_id', as: 'valid_parts' });
-  ValidPart.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_part_shape' });
+  BlockShape.hasMany(ValidPartCascade, { foreignKey: 'parent_id', as: 'validPartCascades' });
+  ValidPartCascade.belongsTo(PartShape, { foreignKey: 'child_id', as: 'valid_part_cascade_shape' });
 
-  BlockShape.hasMany(ValidAnnotation, { foreignKey: 'parent_id', as: 'valid_annotations' });
-  ValidAnnotation.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
+  BlockShape.hasMany(ValidAnnotationAssignment, { foreignKey: 'parent_id', as: 'validAnnotationAssignments' });
+  ValidAnnotationAssignment.belongsTo(AnnotationShape, { foreignKey: 'child_id', as: 'valid_annotation_shape' });
 
-  BlockShape.hasMany(ValidEvent, { foreignKey: 'parent_id', as: 'valid_events' });
-  ValidEvent.belongsTo(BlockShape, { foreignKey: 'parent_id', as: 'block_shape' });
-  ValidEvent.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_shape' });
+  BlockShape.hasMany(ValidEventCascade, { foreignKey: 'parent_id', as: 'validEventCascades' });
+  ValidEventCascade.belongsTo(BlockShape, { foreignKey: 'parent_id', as: 'block_shape' });
+  ValidEventCascade.belongsTo(EventShape, { foreignKey: 'child_id', as: 'valid_event_cascade_shape' });
 
   BlockInstance.hasMany(DependentInstance, { foreignKey: 'parent_id', as: 'dependent_instances' });
   DependentInstance.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'dependent_instance' });

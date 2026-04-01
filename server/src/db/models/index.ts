@@ -5,11 +5,11 @@ import { BlockShapeFactory } from "./admin/block_shape.js";
 import { BlockInstanceFactory } from "./booking/block_instance.js";
 import { BlockInstanceVersionFactory } from "./booking/block_instance_version.js";
 import { PartInstanceVersionFactory } from "./booking/part_instance_version.js";
-import { ValidCascadeFactory } from "./admin/valid_cascade.js";
+import { ValidBookingCascadeFactory } from "./admin/valid_booking_cascade.js";
 import { ValidPricingCascadeFactory } from "./admin/valid_pricing_cascade.js";
-import { ValidPartFactory } from "./admin/valid_part.js";
-import { ValidAnnotationFactory } from "./admin/valid_annotation.js";
-import { ValidEventFactory } from "./admin/valid_event.js";
+import { ValidPartCascadeFactory } from "./admin/valid_part_cascade.js";
+import { ValidAnnotationAssignmentFactory } from "./admin/valid_annotation_assignment.js";
+import { ValidEventCascadeFactory } from "./admin/valid_event_cascade.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
 import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
@@ -71,10 +71,10 @@ export function initializeModels(sequelize: Sequelize) {
   const BlockInstanceVersion = BlockInstanceVersionFactory(sequelize);
   const PartInstanceVersion = PartInstanceVersionFactory(sequelize);
   
-  const ValidCascade = ValidCascadeFactory(sequelize);
-  const ValidPart = ValidPartFactory(sequelize);
-  const ValidAnnotation = ValidAnnotationFactory(sequelize);
-  const ValidEvent = ValidEventFactory(sequelize);
+  const ValidBookingCascade = ValidBookingCascadeFactory(sequelize);
+  const ValidPartCascade = ValidPartCascadeFactory(sequelize);
+  const ValidAnnotationAssignment = ValidAnnotationAssignmentFactory(sequelize);
+  const ValidEventCascade = ValidEventCascadeFactory(sequelize);
   const DependentInstance = DependentInstanceFactory(sequelize);
 
   const BookingCascade = BookingCascadeFactory(sequelize);
@@ -172,7 +172,7 @@ export function initializeModels(sequelize: Sequelize) {
 
   associateSequelizeModels({
     PartShape, PartInstance, BlockShape, BlockInstance, BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, DependentInstance,
+    ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, DependentInstance,
     BookingCascade, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee, AppointmentAttendee,
@@ -191,7 +191,7 @@ export function initializeModels(sequelize: Sequelize) {
     PartInstance, PartShape,
     BlockInstance, BlockShape,
     BlockInstanceVersion, PartInstanceVersion,
-    ValidCascade, ValidPart, ValidAnnotation, ValidEvent, ValidPricingCascade, DependentInstance,
+    ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, ValidPricingCascade, DependentInstance,
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventShapeAttendee,

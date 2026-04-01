@@ -74,7 +74,7 @@ export function AdminRelationshipMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'relationship_key',
-        comment: 'Relationship name/key (e.g., partAssignments, validCascades)',
+        comment: 'Relationship name/key (e.g., partAssignments, validBookingCascades)',
       },
       dataType: {
         type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),

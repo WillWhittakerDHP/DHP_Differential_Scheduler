@@ -14,7 +14,7 @@ export function getRelationshipKeysForParent(entityKey: GlobalEntityKey): Global
   return getRelationshipKeysForParentCore(entityKey)
 }
 
-/** Frontend form/store keys for those relationships (e.g. validAnnotations). */
+/** Frontend form/store keys for those relationships (e.g. validAnnotationAssignments). */
 export function getRelationshipFrontendKeysForParent(entityKey: GlobalEntityKey): string[] {
   return getRelationshipKeysForParentCore(entityKey).map((k) => RELATIONSHIP_KEYS[k].frontendKey)
 }

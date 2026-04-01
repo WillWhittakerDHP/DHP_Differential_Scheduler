@@ -30,9 +30,9 @@ export function buildPartsSummaryForSubPanel(
     return formatTruncatedListCore(resolvers.namesForPartInstanceIds(partAssignments))
   }
   if (entityKey === 'blockShape') {
-    const validParts = values.validParts
-    if (!Array.isArray(validParts) || validParts.length === 0) return ''
-    return formatTruncatedListCore(resolvers.namesForPartShapeIds(validParts))
+    const validPartCascades = values.validPartCascades
+    if (!Array.isArray(validPartCascades) || validPartCascades.length === 0) return ''
+    return formatTruncatedListCore(resolvers.namesForPartShapeIds(validPartCascades))
   }
   return ''
 }
@@ -54,7 +54,7 @@ export function buildRelationshipTypesForSubPanel(
     return relationshipTypes
   }
   if (entityKey === 'blockShape') {
-    appendIfNonEmptyArray(formValues.validCascades, relationshipTypes, 'Valid Cascades')
+    appendIfNonEmptyArray(formValues.validBookingCascades, relationshipTypes, 'Valid Booking Cascades')
     return relationshipTypes
   }
   if (entityKey === 'partInstance') {

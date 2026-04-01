@@ -38,7 +38,7 @@ export const ruleFormDialogContextKey: InjectionKey<RuleFormDialogContext> =
 export interface InstancesTabContext {
   blockShapeComposable: ComputedRef<Map<string, boolean>>
   blockShapeStateControl: ComputedRef<Map<string, boolean>>
-  blockShapeValidCascades: ComputedRef<Map<string, string[]>>
+  blockShapeValidBookingCascades: ComputedRef<Map<string, string[]>>
   bulkEditMode: Ref<Map<string, boolean>>
   toggleBulkEditMode: (blockShapeId: string) => void
   shapeEditModalOpen: Ref<Map<string, boolean>>

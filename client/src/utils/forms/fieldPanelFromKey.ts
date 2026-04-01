@@ -7,19 +7,19 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
     if (fieldKey === RELATIONSHIP_KEYS.partAssignments.frontendKey) {
       return 'parts'
     }
-    if (fieldKey === RELATIONSHIP_KEYS.validParts.frontendKey) {
+    if (fieldKey === RELATIONSHIP_KEYS.validPartCascades.frontendKey) {
       return 'parts'
     }
     if (fieldKey === RELATIONSHIP_KEYS.annotationAssignments.frontendKey) {
       return FIELD_NAMES.ANNOTATIONS
     }
-    if (fieldKey === RELATIONSHIP_KEYS.validAnnotations.frontendKey) {
+    if (fieldKey === RELATIONSHIP_KEYS.validAnnotationAssignments.frontendKey) {
       return FIELD_NAMES.ANNOTATIONS
     }
     if (fieldKey === RELATIONSHIP_KEYS.eventAssignments.frontendKey) {
       return 'events'
     }
-    if (fieldKey === RELATIONSHIP_KEYS.validEvents.frontendKey) {
+    if (fieldKey === RELATIONSHIP_KEYS.validEventCascades.frontendKey) {
       return 'events'
     }
     return 'relationships'
