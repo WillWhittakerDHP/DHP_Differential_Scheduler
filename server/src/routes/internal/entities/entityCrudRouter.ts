@@ -39,6 +39,12 @@ import {
   removeDifferentialAttendeesForBlockInstanceIds,
 } from '../../../repositories/availabilityDifferentialAttendeeCleanup.js'
 
+/**
+ * Dependency-aware delete (preflight → resolve → finalize) will mount here in Phase 6.17.2.
+ * API v1: `.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md`
+ * Route segments: `ENTITY_DELETE_ROUTE_SEGMENTS` in `entityConstants.ts`
+ * DTOs: `@shared/types/adminDeleteDependency`
+ */
 const logger = createLogger('EntityRouter')
 
 const router = Router()

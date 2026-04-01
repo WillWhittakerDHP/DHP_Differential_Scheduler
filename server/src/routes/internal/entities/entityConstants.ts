@@ -60,6 +60,18 @@ export const TEMPORARY_ID_PATTERNS = {
   NULL_UUID: '00000000-0000-0000-0000-000000000000',
 } as const
 
+/**
+ * URL segments for dependency-aware delete (preflight / resolve / finalize).
+ * Full paths: `/api/v1/internal/entities/:entityType/:id/<segment>`
+ * Spec: `.project-manager/features/appointment-workflow/docs/delete-preflight-api-v1.md`
+ * Handlers: Phase 6.17.2 — constants only until then.
+ */
+export const ENTITY_DELETE_ROUTE_SEGMENTS = {
+  PREFLIGHT: 'delete-preflight',
+  RESOLVE: 'delete-resolve',
+  FINALIZE: 'delete-finalize',
+} as const
+
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   BOOKING_MODE: 'bookingMode',
