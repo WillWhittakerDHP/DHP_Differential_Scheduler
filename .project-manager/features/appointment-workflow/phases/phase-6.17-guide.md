@@ -13,7 +13,7 @@
 **Description:** Today, many admin deletes are **synchronous and binary** (success or generic failure). That is too rigid for entities with referential dependencies. This phase delivers a **product-safe middle path** between “raw cascade delete everywhere” and “undeletable forever”: **preflight dependency analysis**, **explicit user decisions**, **reassignment** where policy requires it, **relationship cleanup** where appropriate, then **final delete**. The workflow is **generalized** (registry/config-driven, typed contracts), not a one-off for a single shape table.
 
 **Duration:** Five sessions (6.17.1 — 6.17.5)  
-**Status:** Not Started
+**Status:** Complete
 
 **Relation to Phase 6.6 (Soft Delete vs Hard Delete):** Phase 6.6 addresses **appointment lifecycle** policy (cancelled vs deleted, retention, audit). Phase 6.17 addresses **admin CRUD** deletion UX and server contracts for **any supported entity type** using the generic admin stack. They should align on terminology (“delete” vs “soft delete”) but **6.17 is not** “partShape only” — it is the reusable **dependency-aware delete** layer.
 
@@ -155,3 +155,5 @@ Session detail (Goal / Files / Approach / Checkpoint) lives in **Sessions (tierD
 - `feature-appointment-workflow-guide.md` (Phase 6.17 row)
 - `.project-manager/PROJECT_PLAN.md` (Feature 6 — Phase 6.17)
 - Client/server files listed under **Baseline integration seam**
+
+<!-- end excerpt phase -->

@@ -39,7 +39,20 @@ Start Session  (see session guide and phase guide for scope).
 Completed Task 
 
 **What you need to start:**
-- Begin Session 
+- Begin Session
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-01T23:24:06.909Z
+- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
+- **Focus phase:** `6.17` · **Next phase across:** `6.18` → `/phase-start 6.18`
+- **Focus session:** `6.17.5` · **Session 5/5 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `6.17.5.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 <!-- end excerpt session -->
 
