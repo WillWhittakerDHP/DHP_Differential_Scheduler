@@ -33,10 +33,13 @@ export const ERROR_MESSAGES = {
   /** DELETE annotation shape blocked by referencing annotation instances */
   ANNOTATION_SHAPE_IN_USE: 'Annotation shape is in use',
   ANNOTATION_SHAPE_IN_USE_DETAILS:
-    'Cannot delete this annotation shape because {dependentCount} annotation instance(s) still reference it. Remove or reassign those instances first.',
+    'Cannot delete this annotation shape because {annotationInstanceCount} annotation instance(s) reference it and {validAnnotationAssignmentChildCount} valid annotation assignment link(s) use it on the annotation side. Remove or reassign those records first.',
   /** FK violation after pre-count (rare race): omit exact count */
   ANNOTATION_SHAPE_IN_USE_DETAILS_RACE:
     'Cannot delete this annotation shape because one or more annotation instances still reference it. Remove or reassign those instances first.',
+  BLOCK_SHAPE_IN_USE: 'Block shape is in use',
+  BLOCK_SHAPE_IN_USE_DETAILS:
+    'Cannot delete this block shape because it is still referenced by {blockInstanceCount} block instance(s), {validBookingCascadeCount} valid booking cascade link(s), {validPartCascadeParentCount} valid part cascade link(s) as parent, {validAnnotationAssignmentParentCount} valid annotation assignment link(s) as parent block, and {validEventCascadeParentCount} valid event cascade link(s) as parent. Remove or reassign those records first.',
   PART_SHAPE_IN_USE: 'Part shape is in use',
   PART_SHAPE_IN_USE_DETAILS:
     'Cannot delete this part shape because it is still referenced by {partInstanceCount} part instance(s), {validPartCascadeCount} valid part cascade link(s), and {validPricingCascadeCount} pricing cascade link(s). Remove or reassign those records first.',

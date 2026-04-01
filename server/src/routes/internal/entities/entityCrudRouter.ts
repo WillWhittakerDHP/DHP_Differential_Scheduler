@@ -19,7 +19,7 @@ import {
   syncAnnotationInstanceContentRows,
 } from '../../../services/annotations/annotationInstanceContentSync.js'
 import type { AnnotationContentRow } from '@shared/types/annotationContentRow.js'
-import { countAnnotationInstancesForShape } from '../../../services/annotations/countAnnotationInstancesForShape.js'
+import { countAnnotationShapeDeleteDependencies } from '../../../services/annotations/countAnnotationShapeDeleteDependencies.js'
 import { countPartShapeDeleteDependencies } from '../../../services/partShapes/countPartShapeDeleteDependencies.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
 import { createLogger } from '../../../utils/logger.js'
@@ -363,20 +363,23 @@ router.delete(
           sendBadRequest(res, idValidation.error, idValidation.details?.message as string, entityId)
           return
         }
-        const dependentCount = await countAnnotationInstancesForShape(entityId)
-        if (dependentCount > 0) {
-          logger.warn('Annotation shape delete blocked: instances still reference shape', {
+        const annotationShapeDependencyCounts = await countAnnotationShapeDeleteDependencies(entityId)
+        if (annotationShapeDependencyCounts.totalCount > 0) {
+          logger.warn('Annotation shape delete blocked: dependent records still reference shape', {
             shapeId: entityId,
-            dependentCount,
+            ...annotationShapeDependencyCounts,
           })
           res.status(HTTP_STATUS_CODES.CONFLICT).json({
             error: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE,
             details: ERROR_MESSAGES.ANNOTATION_SHAPE_IN_USE_DETAILS.replace(
-              '{dependentCount}',
-              String(dependentCount)
+              '{annotationInstanceCount}',
+              String(annotationShapeDependencyCounts.annotationInstanceCount)
+            ).replace(
+              '{validAnnotationAssignmentChildCount}',
+              String(annotationShapeDependencyCounts.validAnnotationAssignmentChildCount)
             ),
             shapeId: entityId,
-            dependentCount,
+            ...annotationShapeDependencyCounts,
           })
           return
         }
