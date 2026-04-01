@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "feature": "domain-architecture-alignment",
+  "derivedAt": "2026-04-01T16:27:29.874Z",
+  "sourceTier": "feature",
+  "phasesOnDisk": [
+    "20.1",
+    "20.2",
+    "20.3",
+    "20.4",
+    "20.5",
+    "20.6"
+  ],
+  "phaseAcrossTotal": 6,
+  "focusPhaseId": null,
+  "nextPhaseAcross": "20.1",
+  "prevPhaseId": null,
+  "sessionsByPhase": {},
+  "focusSessionId": null,
+  "sessionAcrossTotal": null,
+  "sessionIndex0Based": null,
+  "nextSessionAcross": null,
+  "taskAcrossTotal": null,
+  "nextTaskAcross": null
+}

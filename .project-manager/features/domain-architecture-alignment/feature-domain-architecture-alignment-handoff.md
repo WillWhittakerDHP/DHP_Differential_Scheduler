@@ -28,3 +28,14 @@
 ## Required sections (harness)
 
 Fill **Current Status**, **Next Action**, and **Transition Context** at each feature-tier checkpoint per `.project-manager/REQUIRED_DOC_SECTIONS.md`.
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** feature · **Derived:** 2026-04-01T16:27:29.874Z
+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+- **Next phase across:** `20.1` → `/phase-start 20.1`
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
