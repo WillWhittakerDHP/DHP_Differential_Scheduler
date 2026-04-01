@@ -10,11 +10,12 @@
 
 | Command | ID format | Parent document updated |
 |--------|-----------|-------------------------|
+| `/feature-add` | Directory slug (e.g. `my-feature`) | **`.project-manager/PROJECT_PLAN.md`** — Feature Summary table (does not create `features/<slug>/` on disk) |
 | `/phase-add` | `X.Y` (e.g. `8.8`) | Feature guide — **Phases Breakdown** (`feature-*-guide.md`) |
 | `/session-add` | `X.Y.Z` (e.g. `8.5.3`) | **Phase guide** (`phases/phase-X.Y-guide.md`) |
 | `/task-add` | `X.Y.Z.A` (e.g. `8.5.3.1`) | **Session guide** (`sessions/session-X.Y.Z-guide.md`) |
 
-- There is **no** `/feature-add` in `tier-add.ts`; new work hangs under **Feature 7** or **Feature 8** via phase/session/task IDs.
+- **`/feature-add`** is implemented as **`featureAdd`** in [`.cursor/commands/tiers/shared/tier-add.ts`](../.cursor/commands/tiers/shared/tier-add.ts) (re-exported from `feature/composite/feature.ts`). Most gap work still hangs under **Feature 7** or **Feature 8** via phase/session/task IDs.
 - Optional **description** text after the ID is passed to planning resolution (same family as tier-start). Include enough detail for the agent and future you.
 - On success, the harness prints **`Next: /{tier}-start …`** — run **`/session-start` / `/phase-start` / `/task-start`** when you are ready to branch, planning docs, and `/accepted-plan` / `/accepted-code` per your gates ([`.cursor/skills/tier-workflow-agent/SKILL.md`](../.cursor/skills/tier-workflow-agent/SKILL.md)).
 - **`session-add` will fail** if the parent file **`.project-manager/features/<feature>/phases/phase-X.Y-guide.md`** does not exist or cannot be read. **`phase-add` alone does not create that file.**

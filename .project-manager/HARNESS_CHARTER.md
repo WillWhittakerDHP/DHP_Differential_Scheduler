@@ -74,7 +74,7 @@ The harness must preserve the broad goals already represented in:
 - **Pending state:** `/.cursor/commands/tiers/shared/pending-state.ts` (tier-start and task-start pending for accepted commands)
 - **Audits:** `/.cursor/commands/audit/run-start-audit-for-tier.ts`, `run-end-audit-for-tier.ts`
 
-**Programmatic tier calls (`npx tsx -e`):** Prefer a `.then()` chain on the dynamic import promise — **top-level `await` in `-e` often fails** with CJS output (“Top-level await is currently not supported”). Example: `import('./.cursor/commands/tiers/shared/tier-add.ts').then(m => m.sessionAdd('8.5.3', 'desc')).then(console.log)`.
+**Programmatic tier calls (`npx tsx -e`):** Prefer a `.then()` chain on the dynamic import promise — **top-level `await` in `-e` often fails** with CJS output (“Top-level await is currently not supported”). Examples: `import('./.cursor/commands/tiers/shared/tier-add.ts').then(m => m.sessionAdd('8.5.3', 'desc')).then(console.log)`; `import('./.cursor/commands/tiers/shared/tier-add.ts').then(m => m.featureAdd('my-new-feature', 'Short title')).then(console.log)` (registers a Feature Summary row in `PROJECT_PLAN.md` — remove test rows after smoke checks).
 
 ### Intent categories to preserve
 

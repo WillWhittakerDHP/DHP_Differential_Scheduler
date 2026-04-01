@@ -1158,3 +1158,22 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | Domain | Client paths | Server paths | Key models / areas | S
 
 …(truncated)
+
+### 2026-04-01 — 6.17.1 — session — start — app_not_running
+
+- **reasonCodeRaw:** app_not_running
+- **reasonCodeNormalized:** app_not_running
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 6.17.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness start failed (reasonCode=app_not_running).
+- **Context:** tier=session; identifier=6.17.1; featureName=appointment-workflow
+
+nextAction:
+App not fully running — server :3001, client :3002 not responding.
+Start the dev environment in a terminal: `npm run start:dev`
+Then re-run the command.
