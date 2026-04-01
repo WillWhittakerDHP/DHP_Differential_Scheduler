@@ -52,19 +52,17 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] - [x] #### Task 6.18.1.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 6.18.1.1: Shared role catalog + migration + server alignment
+**Goal:** `@shared` `USER_ROLE_VALUES`, ENUM migration `seller` → `owner`, server Joi/model/middleware/routes.
+**Files:** `shared/constants/roleConstants.ts`, `server/src/db/migrations/20260432_000056_*`, `userSchemas`, `Users`, `userTypeMapping`, appointment router, ownership middleware.
+**Approach:** Single import path; `RENAME VALUE` migration on PG 10+.
+**Checkpoint:** Server lint + types; no `seller` in server role checks except migration/docs.
 
-- [ ] #### Task 6.18.1.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] - [x] #### Task 6.18.1.2: Client + booking audit closure
+**Goal:** Grep triage, session log audit note, ARCHITECTURE alignment; no `seller` as live API `user_role` outside legacy wizard reads.
+**Files:** `session-6.18.1-log.md`, `.project-manager/ARCHITECTURE.md` (Users bullet).
+**Approach:** `rg seller` on `client/src`, `server/src`, `shared/`; allowlist documented.
+**Checkpoint:** `vue-tsc`, server `tsc --noEmit`, client + server lint pass.
 
 ---
 
