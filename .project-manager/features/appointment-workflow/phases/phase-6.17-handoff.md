@@ -49,3 +49,14 @@ Phase 6.17 registered in feature guide and PROJECT_PLAN; scope and five-session 
 ## Next Action
 
 Run `/phase-start 6.17` when ready to open phase branch and create phase planning workflow artifacts; then `/session-add` / `/session-start 6.17.1` per tier workflow.
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `appointment-workflow` · **Source:** phase · **Derived:** 2026-04-01T16:42:49.048Z
+- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
+- **Focus phase:** `6.17` · **Next phase across:** `6.18` → `/phase-start 6.18`
+- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
+<!-- harness-across-ladder:end -->

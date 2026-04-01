@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "appointment-workflow",
-  "derivedAt": "2026-04-01T16:18:35.402Z",
-  "sourceTier": "phase_end",
+  "derivedAt": "2026-04-01T16:42:49.048Z",
+  "sourceTier": "phase",
   "phasesOnDisk": [
     "6.2",
     "6.3",
@@ -23,9 +23,9 @@
     "6.18"
   ],
   "phaseAcrossTotal": 17,
-  "focusPhaseId": "6.16",
-  "nextPhaseAcross": "6.17",
-  "prevPhaseId": "6.15",
+  "focusPhaseId": "6.17",
+  "nextPhaseAcross": "6.18",
+  "prevPhaseId": "6.16",
   "sessionsByPhase": {
     "6.2": [
       "6.2.1"

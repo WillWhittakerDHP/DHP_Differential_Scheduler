@@ -12,8 +12,15 @@
 
 ## Current Status
 
-**Feature 20:** Planning — not started
-**Next phase to run:** 20.1 (Schema alignment) after `/phase-start 20.1`
+**Feature 20:** Planning — not started  
+**Last completed phase:** —  
+**Next phase to run:** 20.1 (Schema alignment)
+
+---
+
+## Next Action
+
+- After feature planning is accepted (`/accepted-plan`), run **`/phase-start 20.1`** and use [phases/phase-20.1-guide.md](./phases/phase-20.1-guide.md) as the phase authority surface.
 
 ---
 

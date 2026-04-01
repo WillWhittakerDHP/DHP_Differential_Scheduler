@@ -83,7 +83,7 @@ The harness must preserve the broad goals already represented in:
 3. **Outcome routing**: reason-code-driven control-plane behavior.
 4. **Quality gates**: governance, audit, testing checks.
 5. **Human collaboration**: predictable prompts and stop points.
-6. **Documentation coherence**: guides/handoffs/logs remain synchronized.
+6. **Documentation coherence**: guides/handoffs/logs remain synchronized. Tier **guide templates** under `.cursor/commands/tiers/{feature,phase,session}/templates/*-guide.md` include a **Canonical sources (absolute truth)** block linking `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md` and `DOMAIN_ARCHITECTURE_REDESIGN_v2.md`; preserve it through `ensureGuide` and template application unless project policy explicitly changes.
 7. **Generative planning**: tier-start planning **builds** the plan and tierDown steps from tierUp context; it does not **evaluate** existing tierDown docs. Goals → steps → assign to tierDown → discuss with operator.
 
 ### Task-start two-phase flow

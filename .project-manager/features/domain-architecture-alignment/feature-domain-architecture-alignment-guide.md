@@ -49,6 +49,15 @@
 
 **Phase guides:** [phases/](./phases/) — `phase-20.1-guide.md` … `phase-20.6-guide.md`.
 
+**Harness decomposition:** `/feature-start` scans this guide for lines matching `Phase X.Y:`. The following lines are intentional so tier-down output lists every implementation pass in order:
+
+Phase 20.1: Pass 1 — Schema alignment  
+Phase 20.2: Pass 2 — API alignment  
+Phase 20.3: Pass 3 — Admin UX alignment  
+Phase 20.4: Pass 4 — Booking pipeline alignment  
+Phase 20.5: Pass 5 — Migration planning and data conversion  
+Phase 20.6: Pass 6 — Rollout and cleanup  
+
 ---
 
 ## Phase 20.0 (governance — no separate guide required initially)
