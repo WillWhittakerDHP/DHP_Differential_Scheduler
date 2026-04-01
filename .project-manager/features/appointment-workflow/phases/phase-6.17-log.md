@@ -25,6 +25,14 @@
 
 
 
+### Session 6.17.5: Entity-policy rollout + documentation ✅
+**Completed:** 2026-04-01
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Entity-policy rollout + documentation
+
+
+
 ### Session 6.17.4: Wire generic delete entry points (list + entity card) ✅
 **Completed:** 2026-04-01
 **Tasks Completed:** All tasks completed
