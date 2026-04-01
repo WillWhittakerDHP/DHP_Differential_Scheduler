@@ -133,7 +133,7 @@ Start with a **small** set; expand via registry:
 **Description:** Replace/adapt one-shot delete in `entityListDelete`, entity card persistence, and `useEntityCrud` mutations to use the new flow when entity is registered.  
 **Focus:** Single funnel into the wizard for supported keys.
 
-- [ ] ### Session 6.17.5: Entity-policy rollout + documentation  
+- [x] ### Session 6.17.5: Entity-policy rollout + documentation  
 **Description:** Register policies for `partShape`, `blockShape`, `annotationShape` (and related); document extension guide for new entities; client lint + app start.  
 **Focus:** Prove end-to-end on real admin paths; handoff for future entities.
 
