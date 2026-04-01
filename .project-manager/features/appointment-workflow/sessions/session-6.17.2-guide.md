@@ -52,19 +52,20 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 6.17.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 6.17.2.1: Delete-contract HTTP routes + structured errors
+**Goal:** Mount preflight/resolve/finalize routes; middleware parity with CRUD; delete-contract error helper; behavior for unregistered entity keys.
+**Files:**
+- `server/src/routes/internal/entities/entityCrudRouter.ts` and/or `entityDeleteRouter.ts`, `entityRouter.ts`
+- `entityConstants.ts`, `entityErrorHandler.ts` (or small `entityDeleteErrors.ts`)
+**Approach:** Use `ENTITY_DELETE_ROUTE_SEGMENTS`; thin handlers → facade; no domain graph in this task beyond stubs/delegation.
+**Checkpoint:** All three paths return JSON; consistent `code` field on error paths; server lint clean.
 
-- [ ] #### Task 6.17.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 6.17.2.2: Registry + transactional resolve/finalize
+**Goal:** Strategy registry; preflight graph; apply resolutions; finalize in transaction; optional pilot entity strategy.
+**Files:**
+- New service/registry module(s) under `server/src/services/` or `entities/`
+**Approach:** Sequelize transactions; reuse existing delete/count helpers where possible; register pilot key or document extension point per session planning.
+**Checkpoint:** At least one end-to-end server path through preflight → resolve → finalize **or** explicit documented stub with follow-up in 6.17.5 (per task planning lock-in).
 
 ---
 

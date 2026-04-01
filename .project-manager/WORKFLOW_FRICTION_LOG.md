@@ -1204,3 +1204,45 @@ Then re-run the command.
 ---
 **test advisory**
 ---
+
+### 2026-04-01 — 6.17.1 — session — end — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** session
+- **action:** end
+- **identifier:** 6.17.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_session_end_6_17_1_1775065740465; harnessAction=end
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Express profile: minimal gates, prioritize speed*
+If you are not already using this model, consider switching before proceeding.
+---
+
+### 2026-04-01 — 6.17.2 — session — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** session
+- **action:** start
+- **identifier:** 6.17.2
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_session_start_6_17_2_1775065842756; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer
+*Strong implementation focus for session work*
+If you are not already using this model, consider switching before proceeding.
+---
