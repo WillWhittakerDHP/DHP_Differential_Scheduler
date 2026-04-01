@@ -25,10 +25,15 @@ export interface UseEntityCardSaveAndActionsReturn {
   handleSave: () => Promise<void>
   handleUndo: () => void
   showDeleteDialog: Ref<boolean>
+  showContractDeleteWizard: Ref<boolean>
+  contractDeleteEntityId: Ref<string>
+  contractDeleteEntityLabel: Ref<string>
   handleDeleteClick: () => void
   handleDelete: () => Promise<void>
   handleCancelDelete: () => void
   handleCancel: () => void
+  handleContractDeleteWizardModelUpdate: (open: boolean) => void
+  handleContractDeleteWizardFinalized: (payload: { entityId: string }) => void
   handleDuplicate: () => Promise<void>
   unifiedSaveState: UseEntityCardSaveStateReturn
 }

@@ -17,6 +17,9 @@ export interface UseEntityCardActionsReturn {
   canSave: Ref<boolean>
   hasChanges: Ref<boolean>
   showDeleteDialog: Ref<boolean>
+  showContractDeleteWizard: Ref<boolean>
+  contractDeleteEntityId: Ref<string>
+  contractDeleteEntityLabel: Ref<string>
   isNew: boolean
   handleSave: () => Promise<void>
   handleUndo: () => void
@@ -24,4 +27,6 @@ export interface UseEntityCardActionsReturn {
   handleDelete: () => Promise<void>
   handleCancelDelete: () => void
   handleCancel: () => void
+  handleContractDeleteWizardModelUpdate: (open: boolean) => void
+  handleContractDeleteWizardFinalized: (payload: { entityId: string }) => void
 }

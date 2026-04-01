@@ -34,12 +34,17 @@ export function useEntityCardSaveAndActions(
 
   const {
     showDeleteDialog,
+    showContractDeleteWizard,
+    contractDeleteEntityId,
+    contractDeleteEntityLabel,
     handleSave: _handleSave,
     handleUndo: _handleUndo,
     handleDeleteClick,
     handleDelete,
     handleCancelDelete,
     handleCancel,
+    handleContractDeleteWizardModelUpdate,
+    handleContractDeleteWizardFinalized,
   } = entityCardActions
 
   const unifiedSaveState = useEntityCardSaveState({
@@ -75,10 +80,15 @@ export function useEntityCardSaveAndActions(
     handleSave: saveHandlers.handleSave,
     handleUndo: saveHandlers.handleUndo,
     showDeleteDialog,
+    showContractDeleteWizard,
+    contractDeleteEntityId,
+    contractDeleteEntityLabel,
     handleDeleteClick,
     handleDelete,
     handleCancelDelete,
     handleCancel,
+    handleContractDeleteWizardModelUpdate,
+    handleContractDeleteWizardFinalized,
     handleDuplicate,
     unifiedSaveState,
   }

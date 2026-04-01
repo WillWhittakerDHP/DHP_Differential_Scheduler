@@ -29,6 +29,8 @@ import { entityCardTitleKeydown } from '@/utils/admin/entityCardTitleKeydown'
 import { createLogger } from '@/utils/logger'
 import { useEntityCardPrimaryTitleModels } from '@/composables/admin/useEntityCardPrimaryTitleModels'
 import { useEntityCardAnnotationComposedMetadata } from '@/composables/admin/useEntityCardAnnotationComposedMetadata'
+import AdminEntityDeleteWizard from '@/components/admin/generic/AdminEntityDeleteWizard.vue'
+import { usesDependencyDeleteContract } from '@/utils/admin/dependencyDeleteContractKeys'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
 
@@ -151,10 +153,15 @@ const {
   handleSave,
   handleUndo,
   showDeleteDialog,
+  showContractDeleteWizard,
+  contractDeleteEntityId,
+  contractDeleteEntityLabel,
   handleDeleteClick,
   handleDelete,
   handleCancelDelete,
   handleCancel,
+  handleContractDeleteWizardModelUpdate,
+  handleContractDeleteWizardFinalized,
   handleDuplicate,
   unifiedSaveState,
 } = useEntityCardSaveAndActions({
@@ -371,6 +378,19 @@ defineExpose({
       </VCardActions>
     </VCard>
   </VDialog>
+  <!--
+    WHY: partShape (and future registry keys) use dependency-delete preflight/finalize instead of raw remove.
+    PATTERN: Same wizard as PartShapeList; orchestration in useEntityCardActions (session 6.17.4.2).
+  -->
+  <AdminEntityDeleteWizard
+    v-if="usesDependencyDeleteContract(entityKey)"
+    :model-value="showContractDeleteWizard"
+    :entity-key="entityKey"
+    :entity-id="contractDeleteEntityId"
+    :entity-label="contractDeleteEntityLabel"
+    @update:model-value="handleContractDeleteWizardModelUpdate"
+    @finalized="handleContractDeleteWizardFinalized"
+  />
 </template>
 
 <style scoped>

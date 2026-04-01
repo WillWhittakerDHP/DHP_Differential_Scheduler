@@ -17,6 +17,18 @@ import {
   executeEntityCardDelete,
   executeEntityCardSave,
 } from '@/composables/admin/entityCardActionsPersistence'
+import { usesDependencyDeleteContract } from '@/utils/admin/dependencyDeleteContractKeys'
+
+function contractDeleteCardLabel(entityKey: GlobalEntityKey, row: GlobalEntity<GlobalEntityKey>): string {
+  const rec = row as { id: string; name?: string | null }
+  if (rec.name != null && rec.name !== '') {
+    return rec.name
+  }
+  if (entityKey === 'partShape') {
+    return `Part Shape ${rec.id}`
+  }
+  return `${entityKey} ${rec.id}`
+}
 
 export function useEntityCardActions(options: UseEntityCardActionsOptions): UseEntityCardActionsReturn {
   const { entityKey, entity: entityOption, form: formRef, isNew = false, onDelete, onSaved, onCancelled } = options
@@ -38,6 +50,9 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
   const { getEntitySuccessMessage, getEntityCreateMessage, getEntityDeleteTitle } = entityDisplay(useAdminConfig())
 
   const showDeleteDialog = ref(false)
+  const showContractDeleteWizard = ref(false)
+  const contractDeleteEntityId = ref('')
+  const contractDeleteEntityLabel = ref('')
 
   const entityFormComposable = useEntityForm({
     entityKey,
@@ -71,10 +86,36 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
   }
 
   const handleDeleteClick = (): void => {
+    if (usesDependencyDeleteContract(entityKey) && !isNew) {
+      const row = entity.value
+      contractDeleteEntityId.value = String((row as { id: string }).id)
+      contractDeleteEntityLabel.value = contractDeleteCardLabel(entityKey, row)
+      showContractDeleteWizard.value = true
+      return
+    }
     showDeleteDialog.value = true
   }
 
+  const handleContractDeleteWizardModelUpdate = (open: boolean): void => {
+    showContractDeleteWizard.value = open
+    if (!open) {
+      contractDeleteEntityId.value = ''
+      contractDeleteEntityLabel.value = ''
+    }
+  }
+
+  const handleContractDeleteWizardFinalized = (payload: { entityId: string }): void => {
+    void queryClient.invalidateQueries({ queryKey: ['globalData'] })
+    onDelete?.(payload.entityId)
+    showContractDeleteWizard.value = false
+    contractDeleteEntityId.value = ''
+    contractDeleteEntityLabel.value = ''
+  }
+
   const handleDelete = async (): Promise<void> => {
+    if (usesDependencyDeleteContract(entityKey) && !isNew) {
+      return
+    }
     await executeEntityCardDelete<GlobalEntityKey>({
       entityKey,
       entity,
@@ -101,6 +142,9 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
     canSave,
     hasChanges,
     showDeleteDialog,
+    showContractDeleteWizard,
+    contractDeleteEntityId,
+    contractDeleteEntityLabel,
     isNew,
     handleSave,
     handleUndo,
@@ -108,5 +152,7 @@ export function useEntityCardActions(options: UseEntityCardActionsOptions): UseE
     handleDelete,
     handleCancelDelete,
     handleCancel,
+    handleContractDeleteWizardModelUpdate,
+    handleContractDeleteWizardFinalized,
   }
 }
