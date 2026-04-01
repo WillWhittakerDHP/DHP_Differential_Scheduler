@@ -1,4 +1,5 @@
 export * from './entityApi'
+export * from './entityDeleteContractApi'
 export * from './relationshipApi'
 export * from './relationshipApiHelpers'
 export * from './appointmentApi'
