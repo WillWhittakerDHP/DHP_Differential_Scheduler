@@ -125,7 +125,7 @@ Start with a **small** set; expand via registry:
 **Description:** Implement preflight query per entity registry; transactional resolve + final delete; structured errors; relationship helpers.  
 **Focus:** Correctness and transactions; explicit policy handling.
 
-- [ ] ### Session 6.17.3: Reusable client delete wizard + composable/service  
+- [x] ### Session 6.17.3: Reusable client delete wizard + composable/service  
 **Description:** Wizard UI shell, composable that runs preflight → drives steps → calls finalize; reusable across admin surfaces.  
 **Focus:** Thin components; orchestration in composable/services per project governance.
 
