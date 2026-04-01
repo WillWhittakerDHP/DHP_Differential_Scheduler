@@ -6,7 +6,7 @@ const STAFF_ROLES_FOR_ADMIN_HOME = new Set([
   'admin',
   'agent',
   'transaction_manager',
-  'seller',
+  'owner',
   'inspector',
 ])
 

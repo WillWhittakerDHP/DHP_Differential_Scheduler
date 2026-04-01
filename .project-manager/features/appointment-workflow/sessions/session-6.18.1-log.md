@@ -17,128 +17,153 @@
 **Next Task:**
 - 6.18.1.2
 
+
+
+### Task 6.18.1.1: Task 6.18.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.18.1.2
+
 <!-- end excerpt session -->
+
+
+
+### Task 6.18.1.1: Task 6.18.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 6.18.1.2
 
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (15): `.project-manager/features/appointment-workflow/across-ladder.json`, `.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md`, `server/docs/INTERNAL_API_ENACTMENT_MATRIX.md`, `server/docs/SECURITY_STUBS.md`, `server/src/constants/userRoles.ts`, `server/src/db/models/participantModels/Users.ts`, `server/src/middlewares/ownershipChecks.ts`, `server/src/middlewares/ownershipEnforcement.ts`, `server/src/routes/internal/appointments/appointmentRouter.ts`, `server/src/routes/schemas/userSchemas.ts`, `server/src/utils/userTypeMapping.ts`, `.project-manager/features/appointment-workflow/sessions/task-6.18.1.1-handoff.md`, `.project-manager/features/appointment-workflow/sessions/task-6.18.1.1-planning.md`, `server/src/db/migrations/20260432_000056_rename_users_user_role_seller_to_owner.mjs`
+Paths (17): `.project-manager/WORKFLOW_FRICTION_LOG.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md`, `client/src/components/booking/steps/ContactFormSection.vue`, `client/src/composables/booking/useContactsStepData.ts`, `client/src/constants/attendeeRoles.ts`, `client/src/types/booking/appointmentDataBuilders.ts`, `client/src/types/booking/contactsStepData.ts`, `client/src/types/booking/injectionContexts.ts`, `client/src/types/booking/wizardStateData.ts`, `client/src/types/user.ts`, `client/src/utils/authRedirect.ts`, `client/src/utils/booking/appointmentDataBuilders.ts`, `client/src/utils/booking/wizardContactsStepFromState.ts`, `client/src/utils/transformers/appointmentToWizardTransformer.ts`, `client/src/views/admin/tabs/components/InlineEditUserRoleCell.vue`, `client/src/views/admin/tabs/components/UserCreateForm.vue`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../features/appointment-workflow/across-ladder.json  |  2 +-
- .../sessions/session-6.18.1-guide.md                  |  2 +-
- .../sessions/session-6.18.1-log.md                    | 18 ++++++++++++++++++
- server/docs/INTERNAL_API_ENACTMENT_MATRIX.md          |  5 +++--
- server/docs/SECURITY_STUBS.md                         |  4 ++--
- server/src/constants/userRoles.ts                     | 11 ++++++++---
- server/src/db/models/participantModels/Users.ts       | 19 +++----------------
- server/src/middlewares/ownershipChecks.ts             | 14 ++++++++++----
- server/src/middlewares/ownershipEnforcement.ts        | 13 +++++++++----
- .../routes/internal/appointments/appointmentRouter.ts | 14 ++++++++++++--
- server/src/routes/schemas/userSchemas.ts              | 10 +---------
- server/src/utils/userTypeMapping.ts                   | 16 +++++++++++-----
- 12 files changed, 79 insertions(+), 49 deletions(-)
+.project-manager/WORKFLOW_FRICTION_LOG.md          | 73 ++++++++++++++++++++++
+ .../sessions/session-6.18.1-guide.md               |  2 +-
+ .../sessions/session-6.18.1-log.md                 | 15 +++++
+ .../booking/steps/ContactFormSection.vue           |  4 +-
+ .../src/composables/booking/useContactsStepData.ts | 14 +++--
+ client/src/constants/attendeeRoles.ts              | 11 +++-
+ .../src/types/booking/appointmentDataBuilders.ts   |  2 +-
+ client/src/types/booking/contactsStepData.ts       |  2 +-
+ client/src/types/booking/injectionContexts.ts      |  2 +-
+ client/src/types/booking/wizardStateData.ts        |  3 +-
+ client/src/types/user.ts                           | 17 ++++-
+ client/src/utils/authRedirect.ts                   |  2 +-
+ .../src/utils/booking/appointmentDataBuilders.ts   | 10 ++-
+ .../utils/booking/wizardContactsStepFromState.ts   |  4 +-
+ .../transformers/appointmentToWizardTransformer.ts | 14 +++--
+ .../tabs/components/InlineEditUserRoleCell.vue     |  9 ++-
+ .../views/admin/tabs/components/UserCreateForm.vue |  3 +-
+ 17 files changed, 157 insertions(+), 30 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/appointment-workflow/across-ladder.json b/.project-manager/features/appointment-workflow/across-ladder.json
-index 42717f69..dc3b8f89 100644
---- a/.project-manager/features/appointment-workflow/across-ladder.json
-+++ b/.project-manager/features/appointment-workflow/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "appointment-workflow",
--  "derivedAt": "2026-04-01T23:32:59.460Z",
-+  "derivedAt": "2026-04-01T23:36:42.389Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "6.2",
+diff --git a/.project-manager/WORKFLOW_FRICTION_LOG.md b/.project-manager/WORKFLOW_FRICTION_LOG.md
+index 1706e1a1..b9436031 100644
+--- a/.project-manager/WORKFLOW_FRICTION_LOG.md
++++ b/.project-manager/WORKFLOW_FRICTION_LOG.md
+@@ -1691,3 +1691,76 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
+ TanStack **Vue Query*
+ 
+ …(truncated)
++
++### 2026-04-01 — 6.18.1.1 — task — end — audit_failed
++
++- **reasonCodeRaw:** audit_failed
++- **reasonCodeNormalized:** audit_failed
++- **isFailureReason:** true
++- **tier:** task
++- **action:** end
++- **identifier:** 6.18.1.1
++- **featureName:** appointment-workflow
++- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
++
++- **Symptom:** Harness end failed (reasonCode=audit_failed).
++- **Context:** tier=task; identifier=6.18.1.1; featureName=appointment-workflow
++
++nextAction:
++Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
++
++deliverables (excerpt):
++# Task Audit: 6.18.1.1
++
++**Overall Status:** WARN
++**Report:** .cursor/project-manager/features/appointment-workflow/audits/task-6.18.1.1-audit.md
++
++*Note: Task audits run tier-task group (typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security) with --changed-only.*
++
++## External Signals (captured)
++
++- **Location:** `.cursor/project-manager/features/appointment-workflow/audits/external/task-6.18.1.1/2026-04-01T23-44-52Z`
++- **Copied:** 6 file(s)
++- **Missing:** 3 file(s) (signals not present yet)
++
++## Results Summary
++
++- ⚠️ **tier-quality**: warn (90/100)
++
++## Autofix
++
++Tier task: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
++
++**Agent directives:**
++- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
++
++---
++
++## 📋 Review Request
++
++**Please review the audit report with me:**
++
++📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/appointment-workflow/audits/task-6.18.1.1-audit.md`
++
++**Questions to consider:**
++- Are the audit findings accurate?
++- Are there false positives or missing issues?
++- How can we improve the audit checks?
++- What workflow refinements do the audits suggest?
++
++*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
++
++---
++
++## Architecture context (harness-injected)
++
++## 1. System overview
++
++Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
++
++- **Public booking users** — wizard-style scheduling and property/availability flows.
++- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
++
++TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. route
++
++…(truncated)
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md
-index 72d8a377..eb18cef1 100644
+index eb18cef1..3a450919 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-guide.md
 @@ -52,7 +52,7 @@ These sections contain session-specific content:
  
  ### Tasks
  
--- [ ] #### Task 6.18.1.1: [Task Name]
-+- [x] #### Task 6.18.1.1: [Task Name]
+-- [x] #### Task 6.18.1.1: [Task Name]
++- [x] - [x] #### Task 6.18.1.1: [Task Name]
  **Goal:** [Task goal]
  **Files:** 
  - [Files to work with]
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
-index d807c7cb..d5494ba5 100644
+index fc5fd717..38fe7907 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
-@@ -1,2 +1,20 @@
- # Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit
+@@ -11,6 +11,14 @@
  
-+
-+### Task 6.18.1.1: Task 6.18.1.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 6.18.1.2
-+
-+
-+
-+## Completed Tasks
-+
-+### Task 6.18.1.1: Task 6.18.1.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 6.18.1.2
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-diff --git a/server/docs/INTERNAL_API_ENACTMENT_MATRIX.md b/server/docs/INTERNAL_API_ENACTMENT_MATRIX.md
-index 87f735ca..3e4828e8 100644
---- a/server/docs/INTERNAL_API_ENACTMENT_MATRIX.md
-+++ b/server/docs/INTERNAL_API_ENACTMENT_MATRIX.md
-@@ -31,7 +31,7 @@ Express mounts **`InternalRouter`** at `v1Router.use("/internal", …)` (`server
- | `/relationships` | Admin + booking (instances, annotations) | Mixed — wizard reads relationship data | **Mutations:** staff / ownership per route | See relationship CRUD routers |
- | `/properties` | Wizard (property selection); admin | Mixed | **Mutations:** staff-scoped / ownership per registry | `property` / `propertyType` rules in `ownershipRegistry.ts` |
- | `/users` | Admin; rare wizard | **Default:** no for CRUD | **Yes** for user record access | Tighten with `requireAuth` + role where not already implied |
--| `/appointments` | Wizard (create/update); admin tables | **Yes** for core booking flows | **Ownership** via `checkOwnership('appointment', …)`; **not** a blanket `requireAuth` on the router | **`GET /list-for-admin-entry`:** **`requireAuth`** + **`requireRole(agent, transaction_manager, seller, admin)`** (task **7.4.4.2**) |
-+| `/appointments` | Wizard (create/update); admin tables | **Yes** for core booking flows | **Ownership** via `checkOwnership('appointment', …)`; **not** a blanket `requireAuth` on the router | **`GET /list-for-admin-entry`:** **`requireAuth`** + **`requireRole(agent, transaction_manager, owner, admin)`** (task **7.4.4.2**; Phase 6.18.1 renamed **`seller`** → **`owner`**) |
- | `/appointment-fee-summaries` | Admin / appointment flows | TBD | **Likely staff** for sensitive fee data | Confirm callers; align with `appointmentFeeSummary` ownership |
- | `/availability` | Wizard — **`POST /availability/computed-data`** | **Yes** (core wizard) | — | Route uses `csrfProtection` + `validateRequest` today |
- | `/business-settings` | Admin; wizard **GET** availability policy | **GET** `availability_settings` often yes for booking UX | **PUT/PATCH** mutations **staff/admin** | `businessSetting` special cases in ownership registry |
-@@ -86,4 +86,5 @@ Mounted **before** the generic `/internal` stack: `v1Router.use("/internal/auth"
- 
- | Date | Change |
- |------|--------|
--| 2026-03-25 | **7.4.4.2:** `GET /appointments/list-for-admin-entry` — `requireAuth` + `requireRole(USER_ROLE_AGENT, 'transaction_manager', 'seller', 'admin')` (`appointmentRouter.ts`). |
-+| 2026-03-25 | **7.4.4.2:** `GET /appointments/list-for-admin-entry` — `requireAuth` + `requireRole` with staff roles (`appointmentRouter.ts`). |
-+| 2026-04-01 | **6.18.1.1:** `user_role` enum + `requireRole` use **`owner`** (renamed from **`seller`**) (`appointmentRouter.ts`, migration `20260432_000056_*`). |
-diff --git a/server/docs/SECURITY_STUBS.md b/server/docs/SECURITY_STUBS.md
-index f205e3bc..ca47ba9c 100644
---- a/server/docs/SECURITY_STUBS.md
-+++ b/server/docs/SECURITY_STUBS.md
-@@ -352,7 +352,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
- 2. **`dynamic_entity`** — Used for **`entity`** CRUD: requires `req.entityConfig` (from entity route setup) and **`findByPk`** on the configured model. **Mutations are allowed only for internal staff roles** (see below); others get **403**.
- 3. **`special`** — Custom logic in `ownershipEnforcement.ts` (e.g. **`businessSetting`** keyed by `key` param + availability constant; **`calendarSetting`** / **`wizardSetting`** singleton admin paths; **`appointmentFeeSummary`** via parent **`Appointment.scheduledById`**; **`property`** / **`propertyType`** / staff-scoped integration models). See registry `reason` / `notes` for intent; behavior is defined in code.
- 
--**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`seller`** (`isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
-+**Internal staff roles** (bypass or replace strict row-level user match where enforcement implements it): **`agent`**, **`transaction_manager`**, **`owner`** (DB/API rename from legacy **`seller`**, Phase 6.18.1 — `isInternalStaffRole` in `ownershipEnforcement.ts`). Product rules may still require a loaded row to exist (404 when missing).
- 
- **Logging:** Denials and misconfiguration (e.g. `req.user` missing, unknown `resourceName`, unhandled special resource) are logged at **warn** or **error** with stable messages — see `ownershipLogger` / `checkOwnership:` prefixes in code.
- 
-@@ -374,7 +374,7 @@ Expect `400` with JSON body containing `error: 'Validation failed'` and `details
- | 2 | **User row:** Same method on **`/api/v1/internal/users/{userA_id}`**. | Success (**2xx**) if body is valid |
- | 3 | **Appointment:** `GET` **`/api/v1/internal/appointments/{appointment_owned_by_B}`** as User A (session on GET). | **403** ownership denial (appointment uses `scheduledById` in registry) |
- | 4 | **Appointment:** `GET` **`/api/v1/internal/appointments/{random-uuid}`** as User A. | **404** `{ error: "Resource not found" }` |
--| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `seller`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
-+| 5 | **Entity (staff gate):** `PUT` or `PATCH` **`/api/v1/internal/entities/{entityType}/{id}`** as User A when A’s **`user_role`** is **not** `agent` / `transaction_manager` / `owner`. | **403** `{ code: FORBIDDEN, message: "Access denied" }` (dynamic entity is staff-only for mutations) |
- | 6 | **Entity:** Repeat **5** as an internal staff user with a valid **`entityType`** and existing **`id`**. | **2xx** if payload valid and row exists (**404** if id missing) |
- | 7 | **Registry fail-closed (optional):** If you temporarily add a route with `checkOwnership('nonexistent', 'id')` in dev, expect **403** and a **`checkOwnership: unknown resourceName`** log — remove the rout
-… (truncated)
-```
-<!-- /harness:anchor:commit-preview -->

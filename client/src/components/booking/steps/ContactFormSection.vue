@@ -198,7 +198,7 @@
             size="small"
             variant="text"
             class="ml-2"
-            @click="toggleSection('seller', false)"
+            @click="toggleSection('owner', false)"
           >
             <VIcon icon="tabler-trash" />
           </VBtn>
@@ -264,7 +264,7 @@
           variant="outlined"
           size="small"
           :disabled="showSeller"
-          @click="toggleSection('seller', true)"
+          @click="toggleSection('owner', true)"
         >
           Add Seller
         </VBtn>

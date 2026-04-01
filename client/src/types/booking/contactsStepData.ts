@@ -42,5 +42,5 @@ export interface UseContactsStepDataReturn {
     showTransactionManager: boolean
     showSeller: boolean
   }>
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
+  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'owner', show: boolean) => void
 }

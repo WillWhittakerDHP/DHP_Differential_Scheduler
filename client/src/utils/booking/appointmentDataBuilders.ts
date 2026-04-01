@@ -1,5 +1,9 @@
 
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import {
+  USER_ROLE_AGENT,
+  USER_ROLE_CLIENT,
+  USER_ROLE_OWNER,
+} from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import { isValidTransition } from '@/constants/appointmentStatus'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
@@ -20,7 +24,7 @@ export type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, Avai
 /** Attendee roles used in specs; centralize to satisfy hardcoding audit. */
 const APPOINTMENT_ATTENDEE_ROLES = {
   transactionManager: 'transaction_manager' as const,
-  seller: 'seller' as const,
+  owner: USER_ROLE_OWNER,
 }
 
 export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyRequest {
@@ -86,7 +90,7 @@ function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
     { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
     { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-    { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.seller, shouldCreate: contacts.showSeller },
+    { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.owner, shouldCreate: contacts.showSeller },
   ]
 }
 

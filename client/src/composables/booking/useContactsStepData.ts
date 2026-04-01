@@ -25,11 +25,13 @@ function contactField(value: string | null | undefined, context: string): string
 
 function populateContactFromAdditional(
   additionalContacts: Array<{ firstName: string; lastName: string; email: string; role: string }>,
-  role: 'anotherClient' | 'transactionManager' | 'seller',
+  role: 'anotherClient' | 'transactionManager' | 'owner',
   infoRef: Ref<ContactInfo>,
   showRef: Ref<boolean>
 ): void {
-  const contact = additionalContacts.find((c) => c.role === role)
+  const contact = additionalContacts.find((c) =>
+    role === 'owner' ? c.role === 'owner' || c.role === 'seller' : c.role === role
+  )
   if (!contact) return
   infoRef.value = {
     firstName: contactField(contact.firstName, `${role}.firstName`),
@@ -74,7 +76,7 @@ function loadContactsFromWizardState(newState: WizardStateData | null, refs: Con
     )
     populateContactFromAdditional(
       contacts.additionalContacts,
-      'seller',
+      'owner',
       refs.sellerInfo,
       refs.showSeller
     )
@@ -126,14 +128,14 @@ export function useContactsStepData(
   const showTransactionManager = ref(false)
   const showSeller = ref(false)
 
-  const sectionMap: Record<'anotherClient' | 'transactionManager' | 'seller', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
+  const sectionMap: Record<'anotherClient' | 'transactionManager' | 'owner', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
     anotherClient: { show: showAnotherClient, info: anotherClientInfo },
     transactionManager: { show: showTransactionManager, info: transactionManagerInfo },
-    seller: { show: showSeller, info: sellerInfo },
+    owner: { show: showSeller, info: sellerInfo },
   }
 
   const toggleSection = (
-    section: 'anotherClient' | 'transactionManager' | 'seller',
+    section: 'anotherClient' | 'transactionManager' | 'owner',
     show: boolean
   ): void => {
     const entry = sectionMap[section]

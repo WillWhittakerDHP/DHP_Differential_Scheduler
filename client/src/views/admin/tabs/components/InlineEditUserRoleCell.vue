@@ -14,7 +14,14 @@ const emit = defineEmits<{
   'update:modelValue': [value: UserRequest['userRole'] | undefined]
 }>()
 
-const ROLE_ITEMS = ['client', 'agent', 'transaction_manager', 'seller', 'inspector'] as const
+const ROLE_ITEMS = [
+  'client',
+  'agent',
+  'transaction_manager',
+  'owner',
+  'inspector',
+  'admin',
+] as const satisfies readonly UserRequest['userRole'][]
 </script>
 
 <template>

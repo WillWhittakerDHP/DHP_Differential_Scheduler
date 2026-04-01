@@ -63,15 +63,21 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
   )
   const mappedAdditionalContacts = otherAttendees.map((attendee) => {
     const user = attendee.user
-    const role =
+    const rawName =
       typeof attendee.userTypeBlockInstance?.name === 'string'
-        ? attendee.userTypeBlockInstance.name.toLowerCase()
-        : 'anotherClient'
+        ? attendee.userTypeBlockInstance.name.toLowerCase().replace(/\s+/g, '')
+        : ''
+    let role: 'anotherClient' | 'transactionManager' | 'owner' = 'anotherClient'
+    if (rawName === 'transactionmanager') {
+      role = 'transactionManager'
+    } else if (rawName === 'seller' || rawName === 'owner') {
+      role = 'owner'
+    }
     return {
       firstName: extractOptionalString(user?.firstName, 'additionalContact.firstName'),
       lastName: extractOptionalString(user?.lastName, 'additionalContact.lastName'),
       email: extractOptionalString(user?.email, 'additionalContact.email'),
-      role: role as 'anotherClient' | 'transactionManager' | 'seller',
+      role,
     }
   })
   return {

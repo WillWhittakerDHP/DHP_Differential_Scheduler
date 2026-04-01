@@ -5,7 +5,7 @@ import type { ISO8601Date } from '@shared/types/primitiveBrands'
 import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
 
 /** Literal union for appointment-specific attendee roles; matches APPOINTMENT_ATTENDEE_ROLES in utils. */
-export type AppointmentAttendeeRoleLiteral = 'transaction_manager' | 'seller'
+export type AppointmentAttendeeRoleLiteral = 'transaction_manager' | 'owner'
 
 export interface AttendeeSpecInput {
   info: { firstName: string; lastName: string; email: string }

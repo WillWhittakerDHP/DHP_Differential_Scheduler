@@ -40,7 +40,7 @@
         <VCol cols="12" md="6">
           <VSelect
             :model-value="userRole"
-            :items="['client', 'agent', 'transaction_manager', 'seller', 'inspector']"
+            :items="[...USER_ROLE_VALUES]"
             label="Role"
             @update:model-value="setUserRole"
           />
@@ -68,6 +68,7 @@
 import { computed } from 'vue'
 import type { Ref } from 'vue'
 import type { UserRequest } from '@/types/user'
+import { USER_ROLE_VALUES } from '@/constants/attendeeRoles'
 import { asEmptyString } from '@/utils/safeDefaults'
 
 const props = defineProps<{

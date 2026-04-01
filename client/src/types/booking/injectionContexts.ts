@@ -38,7 +38,7 @@ export interface InstancesPanelContext {
 export interface ContactsFormContext extends ContactRefs {
   validationRules: ComputedRef<Record<string, ValidationRule[]>>
   fieldErrors: Ref<Record<string, string>>
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'seller', show: boolean) => void
+  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'owner', show: boolean) => void
 }
 
 /** Context for AvailabilitySubStepContent (orchestrator + handlers). Provider: AvailabilityStep. */

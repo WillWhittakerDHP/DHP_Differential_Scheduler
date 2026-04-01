@@ -24,13 +24,13 @@ export function contactsStepDataFromWizardContacts(
         email: '',
       },
     sellerInfo:
-      contacts.additionalContacts.find((c) => c.role === 'seller') ?? {
+      contacts.additionalContacts.find((c) => c.role === 'owner' || c.role === 'seller') ?? {
         firstName: '',
         lastName: '',
         email: '',
       },
     showAnotherClient: contacts.additionalContacts.some((c) => c.role === 'anotherClient'),
     showTransactionManager: contacts.additionalContacts.some((c) => c.role === 'transactionManager'),
-    showSeller: contacts.additionalContacts.some((c) => c.role === 'seller'),
+    showSeller: contacts.additionalContacts.some((c) => c.role === 'owner' || c.role === 'seller'),
   }
 }
