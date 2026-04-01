@@ -7,7 +7,7 @@ import {
 } from '../../helpers/dataController.js'
 import { validateRequest } from '../../../middlewares/validateRequest.js'
 import { entityBodySchema } from '../../schemas/entitySchemas.js'
-import { ERROR_MESSAGES } from './entityConstants.js'
+import { ENTITY_DELETE_ROUTE_SEGMENTS, ERROR_MESSAGES } from './entityConstants.js'
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
 import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './entitySanitizers.js'
@@ -31,6 +31,11 @@ import {
   applyAnnotationShapeUiSlotNormalization,
 } from './entityCrudRouterAnnotationBody.js'
 import { registerEntityCrudReadRoutes } from './entityCrudRouterReads.js'
+import {
+  handleDeleteContractFinalize,
+  handleDeleteContractPreflight,
+  handleDeleteContractResolve,
+} from './entityDeleteContractFacade.js'
 import { csrfProtection, checkOwnership, requireAuth } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 import {
@@ -51,6 +56,35 @@ const router = Router()
 
 router.param('entityType', entityTypeParamHandler)
 registerEntityCrudReadRoutes(router)
+
+router.get(
+  `/:entityType/:id/${ENTITY_DELETE_ROUTE_SEGMENTS.PREFLIGHT}`,
+  requireAuth,
+  checkOwnership('entity', 'id'),
+  (req: Request, res: Response): void => {
+    handleDeleteContractPreflight(req, res)
+  }
+)
+
+router.post(
+  `/:entityType/:id/${ENTITY_DELETE_ROUTE_SEGMENTS.RESOLVE}`,
+  csrfProtection,
+  requireAuth,
+  checkOwnership('entity', 'id'),
+  (req: Request, res: Response): void => {
+    handleDeleteContractResolve(req, res)
+  }
+)
+
+router.post(
+  `/:entityType/:id/${ENTITY_DELETE_ROUTE_SEGMENTS.FINALIZE}`,
+  csrfProtection,
+  requireAuth,
+  checkOwnership('entity', 'id'),
+  (req: Request, res: Response): void => {
+    handleDeleteContractFinalize(req, res)
+  }
+)
 
 router.post(
   '/:entityType',

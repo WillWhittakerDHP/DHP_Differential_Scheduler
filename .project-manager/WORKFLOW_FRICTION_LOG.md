@@ -1246,3 +1246,80 @@ If you are not already using this model, consider switching before proceeding.
 *Strong implementation focus for session work*
 If you are not already using this model, consider switching before proceeding.
 ---
+
+### 2026-04-01 — 6.17.2 — session — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** session
+- **action:** start
+- **identifier:** 6.17.2
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_session_start_6_17_2_1775066012871; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer
+*Strong implementation focus for session work*
+If you are not already using this model, consider switching before proceeding.
+---
+
+### 2026-04-01 — 6.17.2 — /accepted-plan — Planning-check noise, wrong decomposition line, handoff inject skipped
+
+- **Symptom:** After **`/accepted-plan`** for session **6.17.2**, the run returned **`success: true`** / **`start_ok`**, but the console and long **`output`** included several misleading or noisy lines agents should not treat as blockers.
+- **Context:** Command: `acceptedPlan()` from repo root; feature **`appointment-workflow`**; session **6.17.2** (server delete infrastructure).
+
+**Noise items (recorded):**
+
+1. **Documentation / pattern-reuse checks (ENOENT + path bug):** Warnings such as *Could not read generic components directory* for `client/src/admin/components/generic` — **wrong path for this repo**; generic admin Vue components live under **`client/src/components/admin/generic/`**. Transformer checks also logged **doubled absolute paths** in “Full Path” (e.g. `.../Differential_Scheduler/Users/districthomepro/...`), suggesting a path-join bug in the checker. Checklist output still referenced **React** filenames (`FieldRenderer.tsx`, etc.) in a **Vue** repo — confusing for agents.
+2. **Wrong task ids in “Decomposition” text:** A line listed tasks **`6.17.2.1`, `6.17.2.2`, `6.16.1.1`, `6.16.1.2`** — the **6.16.1.x** entries are **not** part of session 6.17.2; likely parser/template bleed. Canonical tasks: **`session-6.17.2-planning.md`** / **`session-6.17.2-guide.md`** (**6.17.2.1**, **6.17.2.2** only).
+3. **`[across-ladder] handoff inject skipped`:** `session-6.17.2-handoff.md` missing (**ENOENT**) until first session-end (or manual create). Expected for a new session; not a failure.
+
+- **Outcome / workaround:** Trust **`outcome.reasonCode`** / **`controlPlaneDecision`** for gate state. Ignore ENOENT planning-check warnings when the session is **server-only**. Ignore stray **6.16.1.x** in decomposition blobs; use session planning + guide. Treat handoff skip as normal until handoff exists.
+- **Suggestion:** Fix transformer “Full Path” construction; align generic-component and transformer scan paths with the **Vue** layout; filter decomposition output to **current session** task ids only; label planning-check failures as **advisory** when tier scope is non-client.
+
+### 2026-04-01 — 6.17.2.1 — task — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** start
+- **identifier:** 6.17.2.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_task_start_6_17_2_1_1775066220924; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Speed-optimized for focused task changes*
+If you are not already using this model, consider switching before proceeding.
+---
+
+### 2026-04-01 — 6.17.2.1 — task — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** start
+- **identifier:** 6.17.2.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_task_start_6_17_2_1_1775066414007; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Speed-optimized for focused task changes*
+If you are not already using this model, consider switching before proceeding.
+---

@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 6.17.2.1: Delete-contract HTTP routes + structured errors
+- [x] #### Task 6.17.2.1: Delete-contract HTTP routes + structured errors
 **Goal:** Mount preflight/resolve/finalize routes; middleware parity with CRUD; delete-contract error helper; behavior for unregistered entity keys.
 **Files:**
 - `server/src/routes/internal/entities/entityCrudRouter.ts` and/or `entityDeleteRouter.ts`, `entityRouter.ts`
