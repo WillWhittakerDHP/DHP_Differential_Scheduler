@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** Use `ENTITY_DELETE_ROUTE_SEGMENTS`; thin handlers → facade; no domain graph in this task beyond stubs/delegation.
 **Checkpoint:** All three paths return JSON; consistent `code` field on error paths; server lint clean.
 
-- [ ] #### Task 6.17.2.2: Registry + transactional resolve/finalize
+- [x] #### Task 6.17.2.2: Registry + transactional resolve/finalize
 **Goal:** Strategy registry; preflight graph; apply resolutions; finalize in transaction; optional pilot entity strategy.
 **Files:**
 - New service/registry module(s) under `server/src/services/` or `entities/`

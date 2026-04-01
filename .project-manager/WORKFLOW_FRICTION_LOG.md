@@ -1323,3 +1323,66 @@ If you are not already using this model, consider switching before proceeding.
 *Speed-optimized for focused task changes*
 If you are not already using this model, consider switching before proceeding.
 ---
+
+### 2026-04-01 — 6.17.2.1 — task — end — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** end
+- **identifier:** 6.17.2.1
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_task_end_6_17_2_1_1775066601779; harnessAction=end
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Express profile: minimal gates, prioritize speed*
+If you are not already using this model, consider switching before proceeding.
+---
+
+### 2026-04-01 — 6.17.2.2 — task — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** start
+- **identifier:** 6.17.2.2
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_task_start_6_17_2_2_1775066719352; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Speed-optimized for focused task changes*
+If you are not already using this model, consider switching before proceeding.
+---
+
+### 2026-04-01 — 6.17.2.2 — task — start — harness_plugin_advisory
+
+- **reasonCodeRaw:** harness_plugin_advisory
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** start
+- **identifier:** 6.17.2.2
+- **featureName:** appointment-workflow
+- **stepPath:** —
+
+- **Symptom:** Harness appended plugin advisory to control-plane message (run success=true).
+- **Context:** runId=run_task_start_6_17_2_2_1775066881270; harnessAction=start
+
+---
+---
+**Recommended agent/model for this run:** Composer (fast)
+*Speed-optimized for focused task changes*
+If you are not already using this model, consider switching before proceeding.
+---

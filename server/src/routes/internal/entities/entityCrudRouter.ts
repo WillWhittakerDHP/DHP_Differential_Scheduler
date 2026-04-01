@@ -61,8 +61,8 @@ router.get(
   `/:entityType/:id/${ENTITY_DELETE_ROUTE_SEGMENTS.PREFLIGHT}`,
   requireAuth,
   checkOwnership('entity', 'id'),
-  (req: Request, res: Response): void => {
-    handleDeleteContractPreflight(req, res)
+  async (req: Request, res: Response): Promise<void> => {
+    await handleDeleteContractPreflight(req, res)
   }
 )
 
@@ -71,8 +71,8 @@ router.post(
   csrfProtection,
   requireAuth,
   checkOwnership('entity', 'id'),
-  (req: Request, res: Response): void => {
-    handleDeleteContractResolve(req, res)
+  async (req: Request, res: Response): Promise<void> => {
+    await handleDeleteContractResolve(req, res)
   }
 )
 
@@ -81,8 +81,8 @@ router.post(
   csrfProtection,
   requireAuth,
   checkOwnership('entity', 'id'),
-  (req: Request, res: Response): void => {
-    handleDeleteContractFinalize(req, res)
+  async (req: Request, res: Response): Promise<void> => {
+    await handleDeleteContractFinalize(req, res)
   }
 )
 
