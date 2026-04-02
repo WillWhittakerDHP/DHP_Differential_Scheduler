@@ -53,7 +53,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] - [x] #### Task 20.4.1.1: Pipeline map + consumer inventory
+- [x] #### Task 20.4.1.1: Pipeline map + consumer inventory
 **Goal:** Author §4.2 alignment table + grep-backed consumer list in `session-20.4.1-log.md` (or `DOMAIN_REWRITE_WORKLOG.md` if preferred).
 **Files:** `session-20.4.1-planning.md`, `session-20.4.1-log.md`, `client/src/utils/booking/` (pipeline modules), `client/src/utils/transformers/globalToBookingTransformer.ts`, `shared/utils/eventPlacementUtils.ts`, `shared/utils/differentialRoleUtils.ts`
 **Approach:** Read `buildAppointmentShape` chain; crosswalk to FEATURE_20 §4.1–4.2; document; grep `DifferentialRole`, `enrichBlockFinalsWithDifferentialRoles`, `PartFinal` major/minor/minimizer, override maps.
