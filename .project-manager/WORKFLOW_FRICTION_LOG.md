@@ -1982,3 +1982,20 @@ Expected tier branch **feature/appointment-workflow** is not present locally (no
 Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
 
 If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
+
+### 2026-04-02 — 20.1 — phase — start — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** ensure_branch, ensure_guide_from_plan
+
+- **Symptom:** Harness start failed (reasonCode=guide_materialization_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
