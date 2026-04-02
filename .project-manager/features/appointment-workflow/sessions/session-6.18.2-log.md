@@ -93,45 +93,27 @@ index 346d4f6e..fe55dc44 100644
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (9): `.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md`, `.project-manager/features/appointment-workflow/phases/phase-6.18-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-guide.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-planning.md`, `.project-manager/features/appointment-workflow/sessions/task-6.18.2.1-planning.md`, `.project-manager/features/appointment-workflow/sessions/task-6.18.2.2-planning.md`, `.project-manager/features/appointment-workflow/planning-archive/session/6.18.2/`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md`
+Paths (3): `.project-manager/features/appointment-workflow/phases/phase-6.18-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../phases/phase-6.18-guide.md                     |   2 +-
- .../appointment-workflow/phases/phase-6.18-log.md  |   8 +
- .../sessions/session-6.18.2-guide.md               |   2 +
- .../sessions/session-6.18.2-log.md                 |   7 +-
- .../sessions/session-6.18.2-planning.md            | 114 +++++++------
- .../sessions/task-6.18.2.1-planning.md             | 162 ------------------
- .../sessions/task-6.18.2.2-planning.md             | 188 ---------------------
- 7 files changed, 76 insertions(+), 407 deletions(-)
+.../appointment-workflow/phases/phase-6.18-log.md  |  8 +++++++
+ .../sessions/session-6.18.2-handoff.md             | 27 +++++++++++-----------
+ .../sessions/session-6.18.2-log.md                 |  2 ++
+ 3 files changed, 23 insertions(+), 14 deletions(-)
 ```
 
 ### `git diff HEAD`
-_(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md b/.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md
-index 76f2e1d7..f41f0e56 100644
---- a/.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md
-+++ b/.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md
-@@ -47,7 +47,7 @@
- **Description:** Add/extend `@shared` constants (array + per-role const exports as needed); migration to alter ENUM `seller` → `owner` and update existing `users.user_role` rows; update `Users` model, `userSchemas.ts`, `userTypeMapping.ts`, `client/src/types/user.ts`, `UserCreateForm.vue` and any `VSelect` role lists, `appointmentDataBuilders`, tests of behavior, seeds; grep for `seller` and hardcoded role arrays; align **Feature 7** enactment docs that mention role examples (`transaction_manager`, etc.).  
- **Focus:** One import path for allowed values; rename complete across API/DB/client.
- 
--- [ ] ### Session 6.18.2: Admin alignment — canonical roles ↔ user-type block instances  
-+- [x] ### Session 6.18.2: Admin alignment — canonical roles ↔ user-type block instances  
- **Description:** Design minimal persistence (e.g. JSON on `wizard_settings`, `organization_defaults`, or a small `user_role_block_alignment` table) mapping **canonical role key** → **block_instance_id** (user-type shape). Admin UI: table or matrix “Role → User-type instance” with pickers sourced from state-control user-type instances (`getUserTypeBlockIdForRole` reads config first, then legacy name map). Document seed expectations for default rows (“Owner”, “Buyer”, …).  
- **Focus:** Operators can add/rename user-type instances without a deploy for mapping-only changes (where product allows).
- 
 diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
-index b04df748..bb381aae 100644
+index bb381aae..ab52404d 100644
 --- a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
 +++ b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
-@@ -17,6 +17,14 @@
+@@ -25,6 +25,14 @@
  
- ## Completed Sessions
+ 
  
 +### Session 6.18.2: Admin alignment — canonical roles ↔ user-type block instances ✅
 +**Completed:** 2026-04-02
@@ -144,96 +126,59 @@ index b04df748..bb381aae 100644
  ### Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit ✅
  **Completed:** 2026-04-02
  **Tasks Completed:** All tasks completed
-diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-guide.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-guide.md
-index 435fe444..d718b4a9 100644
---- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-guide.md
-+++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-guide.md
-@@ -413,3 +413,5 @@ Break each session into focused tasks:
- ## Notes
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
+index adc5f5aa..c7bd1c03 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
+@@ -10,6 +10,18 @@
  
- [Session-specific notes, patterns, architectural decisions]
+ ---
+ 
++## Across ladder (harness)
 +
-+<!-- end excerpt session -->
-\ No newline at end of file
++_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
++
++- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-02T01:01:38.945Z
++- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
++- **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
++- **Focus session:** `6.18.2` · **Session 2/2 in phase** · **Next session across:** _(then /phase-end)_
++- **Tasks in session (detected):** 2 · **Next task across:** `6.18.2.1` → `/task-start` / cascade
++- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
++<!-- harness-across-ladder:end -->
++
+ ## Current Status
+ 
+ **Last Completed:** Task 
+@@ -27,20 +39,7 @@ Start Session  (see session guide and phase guide for scope).
+ Completed Task 
+ 
+ **What you need to start:**
+-- Begin Session
+-
+-<!-- harness-across-ladder:start -->
+-## Across ladder (harness)
+-
+-_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+-
+-- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-02T01:01:38.945Z
+-- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
+-- **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+-- **Focus session:** `6.18.2` · **Session 2/2 in phase** · **Next session across:** _(then /phase-end)_
+-- **Tasks in session (detected):** 2 · **Next task across:** `6.18.2.1` → `/task-start` / cascade
+-- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
+-<!-- harness-across-ladder:end -->
++- Begin Session 
+ 
+ 
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
-index 3ef76e54..76c42098 100644
+index bc1233a7..89e0f094 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
-@@ -83,4 +83,9 @@ index 346d4f6e..fe55dc44 100644
- --- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
- +++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
- @@ -11,6 +11,14 @@
-- 
-\ No newline at end of file
-+ 
+@@ -237,3 +237,5 @@ index d5e474ef..45c4a792 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
 +
 +
-+## Test Status
-+
-+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
-diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-planning.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-planning.md
-index d5e474ef..45c4a792 100644
---- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-planning.md
-+++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-planning.md
-@@ -1,9 +1,8 @@
--# Session 6.18.2 — Admin alignment: canonical roles ↔ user-type block instances
-+<!-- harness-planning-rollup tier=session id=6.18.2 consolidatedAt=2026-04-02T01:01:37.442Z -->
- 
--## Contract
-+# Consolidated planning: session 6.18.2
- 
--- **Tier:** session | **ID:** 6.18.2 | **Parent phase:** 6.18  
--- **Depends on:** Session **6.18.1** — `@shared` `USER_ROLE_VALUES`, API/DB `owner`, `userTypeMapping` name map in place.
-+## Session 6.18.2 (parent)
- 
- ## Story
- 
-@@ -17,28 +16,11 @@ Operators need to **choose which user-type block instance** backs each canonical
- - **Patterns:** Mirror **`business-settings`** key pattern (`businessSettingsCrudRouter`, `checkOwnership('businessSetting', …)`) for a dedicated key (e.g. `user_role_block_alignment`) **or** introduce a small table if JSON size/auditing warrants it — **decide in task 6.18.2.1** with preference for **one JSONB row** keyed like availability unless multiple writers conflict.
- - **No silent fallback:** Unmapped role → keep current **warn** + `null`; unknown UUID in payload → **400** with clear error.
- 
--## Codebase recon
--
--**Paths reviewed (server):**
--
--- `server/src/utils/userTypeMapping.ts` — `ROLE_TO_BLOCK_NAME`, `getUserTypeBlockIdForRole`, `findUserTypeBlockByName`, in-memory cache by **block name** (TTL 5m).
--- `server/src/routes/internal/appointments/appointmentPersistenceHelpers.ts` — calls `getUserTypeBlockIdForRole(attendee.role)` when persisting attendees.
--- `server/src/db/models/admin/block_shape.ts` — `isStateControl`, `type: 'user' | …`.
--- `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` — GET/PATCH patterns, `validateSettingValue`, ownership.
--- `server/src/middlewares/ownershipEnforcement.ts` — `businessSetting` param handling.
--
--**Paths reviewed (client):**
--
--- `client/src/utils/booking/cascadeFilterPipeline.ts` — `getUserTypeBlocks` for wizard user-type options.
--- `client/src/composables/booking/useWizardFilteredOptions.ts` — consumes `getUserTypeBlocks`.
--
--**Gaps / decisions for tasks:** Exact **settings key** vs **new table**; admin **route/tab** placement (reuse Developer “Business Controls” vs new sub-view); whether **client booking** needs to read alignment (likely **no** — server resolves on persist; wizard already loads instances from global data).
--
- ## Goal
- 
- Let operators **align** each canonical **`user_role`** to a **user-type block instance** via admin UI and persisted config, so **`getUserTypeBlockIdForRole`** uses **stored `block_instance_id` first** and falls back to the **legacy name-based map** when unset.
- 
--## Files (primary)
-+## Files
- 
- | Layer | Paths (expected touch) |
- |--------|-------------------------|
-@@ -66,51 +48,73 @@ After **6.18.2.1:** API returns/saves alignment; server resolves attendees using
- - `getUserTypeBlockIdForRole` reads config first; legacy map fallback; cache safety.
- - Brief doc/seed note for defaults.
- 
--## Acceptance criteria
-+---
-+
-+## Task 6.18.2.2 (source: task-6.18.2.2-planning.md)
-+
-+### Story
- 
--- [ ] Saving alignment changes which block instance is used for new/updated attendee rows using that role (server path), without redeploy for mapping-only edits.
--- [ ] Legacy `ROLE_TO_BLOCK_NAME` + name lookup still applies when a role has **no** stored override.
--- [ ] Invalid instance IDs rejected at API with clear errors; unknown roles logged as today.
--- [ ] `npm run lint` (client + server) and local app start succeed.
-+**This task adds** an admin settings panel **because** staff must view and edit which **user-type block instance** each canonical **`user_role`** maps to, using the existing internal API, with picke
-… (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->
