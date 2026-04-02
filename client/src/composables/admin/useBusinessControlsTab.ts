@@ -27,7 +27,12 @@ import type {
 } from '@/types/availabilitySettingsParams'
 import { BUSINESS_CONTROLS_TAB_STRINGS } from '@/configs/businessControlsTabStrings'
 import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
-import type { BusinessControlsState, BusinessControlsSaveButtonProps } from '@/types/admin/businessControlsState'
+import type { BusinessControlsState } from '@/types/admin/businessControlsState'
+import { useBusinessControlsTabSaveAndStatus } from '@/composables/admin/useBusinessControlsTabSaveAndStatus'
+import {
+  useBusinessControlsPersistedSaveButtons,
+  type BusinessControlsPersistedSaveButtons,
+} from '@/composables/admin/useBusinessControlsPersistedSaveButtons'
 
 export interface UseBusinessControlsTabReturn {
   loading: ComputedRef<boolean>
@@ -37,8 +42,7 @@ export interface UseBusinessControlsTabReturn {
   clearAllErrors: () => void
   currentMainTab: Ref<string>
   businessControlsState: BusinessControlsState
-  organizationSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
-  roleAlignmentSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
+  persistedSaveButtons: ComputedRef<BusinessControlsPersistedSaveButtons>
   UI_STRINGS: typeof BUSINESS_CONTROLS_TAB_STRINGS
 }
 
@@ -103,56 +107,16 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
   )
   const userRoleBlockAlignment = useAdminUserRoleBlockAlignment({ enabled: roleAlignmentEnabled })
 
-  const loading = computed(
-    () =>
-      availability.loading.value ||
-      calendar.loading.value ||
-      wizard.loading.value ||
-      organization.loading.value ||
-      userRoleBlockAlignment.loading.value
-  )
-  const error = computed(
-    () =>
-      availability.error.value ??
-      calendar.error.value ??
-      wizard.error.value ??
-      organization.error.value ??
-      userRoleBlockAlignment.error.value
-  )
-  const success = computed(
-    () =>
-      availability.success.value ??
-      calendar.success.value ??
-      wizard.success.value ??
-      organization.success.value ??
-      userRoleBlockAlignment.success.value
-  )
+  const { loading, error, success, handleSave, clearAllErrors } = useBusinessControlsTabSaveAndStatus({
+    currentMainTab,
+    availability,
+    calendar,
+    wizard,
+    organization,
+    userRoleBlockAlignment,
+  })
 
-  async function handleSave(): Promise<void> {
-    if (currentMainTab.value === 'constraints') {
-      await availability.saveSettings()
-    } else if (currentMainTab.value === 'calendar') {
-      await calendar.saveSettings()
-      await availability.saveSettings()
-      if (wizard.formData.value) {
-        await wizard.saveSettings()
-      }
-    } else if (currentMainTab.value === 'wizard') {
-      await wizard.saveSettings()
-    } else if (currentMainTab.value === 'organization') {
-      await organization.saveSettings()
-    } else if (currentMainTab.value === 'roleAlignment') {
-      await userRoleBlockAlignment.saveSettings()
-    }
-  }
-
-  function clearAllErrors(): void {
-    availability.error.value = null
-    calendar.error.value = null
-    wizard.error.value = null
-    organization.error.value = null
-    userRoleBlockAlignment.error.value = null
-  }
+  const persistedSaveButtons = useBusinessControlsPersistedSaveButtons(organization, userRoleBlockAlignment)
 
   const maxBusinessHours = computed(() => {
     if (!availability.formData.value) {
@@ -208,29 +172,6 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
   provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)
   provide(WIZARD_FORM_DATA_KEY, wizard.formData)
 
-  const organizationSaveButtonProps = computed(
-    () =>
-      ({
-        type: 'submit' as const,
-        color: 'primary' as const,
-        loading: organization.saving.value,
-        disabled: organization.saving.value,
-      }) satisfies BusinessControlsSaveButtonProps
-  )
-
-  const roleAlignmentSaveButtonProps = computed(
-    () =>
-      ({
-        type: 'submit' as const,
-        color: 'primary' as const,
-        loading: userRoleBlockAlignment.saving.value,
-        disabled:
-          userRoleBlockAlignment.saving.value ||
-          userRoleBlockAlignment.loading.value ||
-          userRoleBlockAlignment.formData.value === null,
-      }) satisfies BusinessControlsSaveButtonProps
-  )
-
   return {
     loading,
     error,
@@ -239,8 +180,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
     clearAllErrors,
     currentMainTab,
     businessControlsState: businessControlsState as BusinessControlsState,
-    organizationSaveButtonProps,
-    roleAlignmentSaveButtonProps,
+    persistedSaveButtons,
     UI_STRINGS: BUSINESS_CONTROLS_TAB_STRINGS,
   }
 }

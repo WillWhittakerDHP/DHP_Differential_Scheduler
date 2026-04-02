@@ -1848,3 +1848,81 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 - **Public booking users** — wizard-style scheduling and proper
 
 …(truncated)
+
+### 2026-04-02 — 6.18.2 — session — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 6.18.2
+- **featureName:** appointment-workflow
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=session; identifier=6.18.2; featureName=appointment-workflow
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Session Audit: 6.18.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/appointment-workflow/audits/session-6.18.2-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/appointment-workflow/audits/external/session-6.18.2/2026-04-02T01-03-15Z`
+- **Copied:** 6 file(s)
+- **Missing:** 3 file(s) (signals not present yet)
+
+## Score Comparison
+
+- ➡️ **type-constant-inventory**: 0 → 0 (+0)
+- ❌ **composable-governance**: 94 → 92 (-2)
+- ➡️ **function-governance**: 100 → 100 (+0)
+- ➡️ **component-governance**: 100 → 100 (+0)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (88/100)
+- ✅ **docs**: pass (100/100)
+- ✅ **vue-architecture**: pass (100/100)
+
+## Autofix
+
+Tier session: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Extract complex logic from /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/composables-logic-audit.json into composables. Target: reduce complexity score below 20.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/appointment-workflow/audits/session-6.18.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+---
+
+## Required reading before fixes
+
+Read these governance docs to ensure fixes comply with project patterns:
+
+- **Composable governance**: `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/composable-governance.mdc`)
+- **Type governance**: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/type-governance.mdc`)
+- **Coding standards**: `.cursor/rules/coding-standards.mdc`
+
+Read each
+
+…(truncated)

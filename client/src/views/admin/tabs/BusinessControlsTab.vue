@@ -18,8 +18,7 @@ const {
   clearAllErrors,
   currentMainTab,
   businessControlsState,
-  organizationSaveButtonProps,
-  roleAlignmentSaveButtonProps,
+  persistedSaveButtons,
   UI_STRINGS,
 } = useBusinessControlsTab()
 </script>
@@ -73,7 +72,7 @@ const {
 
         <VWindowItem key="organization" value="organization">
           <div v-if="businessControlsState.organizationDefaults.formData" class="d-flex flex-wrap gap-2 mb-4">
-            <VBtn v-bind="organizationSaveButtonProps">{{ UI_STRINGS.buttons.saveOrganizationDefaults }}</VBtn>
+            <VBtn v-bind="persistedSaveButtons.organization">{{ UI_STRINGS.buttons.saveOrganizationDefaults }}</VBtn>
           </div>
           <BusinessControlsOrganizationSection
             v-if="businessControlsState.organizationDefaults.formData"
@@ -83,7 +82,7 @@ const {
 
         <VWindowItem key="roleAlignment" value="roleAlignment">
           <div v-if="businessControlsState.userRoleBlockAlignment.formData" class="d-flex flex-wrap gap-2 mb-4">
-            <VBtn v-bind="roleAlignmentSaveButtonProps">{{ UI_STRINGS.buttons.saveRoleAlignment }}</VBtn>
+            <VBtn v-bind="persistedSaveButtons.roleAlignment">{{ UI_STRINGS.buttons.saveRoleAlignment }}</VBtn>
           </div>
           <BusinessControlsRoleAlignmentSection
             v-if="businessControlsState.userRoleBlockAlignment.formData"
