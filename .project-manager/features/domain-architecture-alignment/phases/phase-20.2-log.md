@@ -25,6 +25,14 @@
 
 
 
+### Session 20.2.2: Event shape & event instance entity routes ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Event shape & event instance entity routes — placement-only shapes; parent-owned segments; §5.4 validation; no differential-role in API.
+
+
+
 ### Session 20.2.1: Block shape & block instance entity routes ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
