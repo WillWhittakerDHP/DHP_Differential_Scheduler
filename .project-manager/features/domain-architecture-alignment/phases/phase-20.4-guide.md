@@ -84,7 +84,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Session planning → implement replacement → update types/usages → lint / booking smoke.
 
-- [ ] ### Session 20.4.3: Slot shape + time axis
+- [x] ### Session 20.4.3: Slot shape + time axis
 
 **Description:** **`calculateSlotShape`**, **`partFinalizerSlotShape`**, **`applyShapeToTime`** (and related) driven by **placement** and instance grouping, not computed role flags.
 
