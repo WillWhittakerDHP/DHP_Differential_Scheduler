@@ -19,6 +19,14 @@
 
 ### Session 20.2.4: Appointments, calendar integration & API cleanup ✅
 **Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** **Appointments + calendar + cleanup** — appointment persistence helpers/routers; calendar creation reads segment identity and placement policy; remove or isolate **differential-role** route helpers per §5.3; final lint + drift checklist; prepare phase guide / handoff for phase-end.
+
+
+
+### Session 20.2.4: Appointments, calendar integration & API cleanup ✅
+**Completed:** 2026-04-02
 **Tasks Completed:** 20.2.4.1, 20.2.4.2
 **Key Accomplishments:**
 - Invite/calendar orchestration orders segments by `event_shapes` placement; segment link-strip helper naming; appointment persistence boundary documented.

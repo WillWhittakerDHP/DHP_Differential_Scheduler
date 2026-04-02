@@ -35,186 +35,150 @@
 **Next Task:**
 - 20.2.4.3
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (12): `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md`, `server/src/routes/internal/entities/entityConstants.ts`, `server/src/routes/internal/entities/entitySanitizers.ts`, `server/src/routes/internal/entities/eventShapeEntityValidation.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.4.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.4.2-planning.md`, `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts`
+Paths (8): `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.4.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.4.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.2.4/`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../analysis/DOMAIN_REWRITE_WORKLOG.md             | 15 ++++++
- .../phases/phase-20.2-guide.md                     | 12 ++---
- .../phases/phase-20.2-handoff.md                   | 58 ++++++++--------------
- .../phases/phase-20.2-log.md                       | 11 +++-
- .../sessions/session-20.2.4-guide.md               |  4 +-
- .../sessions/session-20.2.4-log.md                 | 15 ++++++
- .../routes/internal/entities/entityConstants.ts    |  2 -
- .../routes/internal/entities/entitySanitizers.ts   |  8 ++-
- .../entities/eventShapeEntityValidation.ts         | 12 +++--
- 9 files changed, 83 insertions(+), 54 deletions(-)
+.../phases/phase-20.2-log.md                       |   8 +
+ .../sessions/session-20.2.4-guide.md               |   2 +
+ .../sessions/session-20.2.4-log.md                 |   6 +
+ .../sessions/session-20.2.4-planning.md            | 324 +++++++--------------
+ .../sessions/task-20.2.4.1-planning.md             | 163 -----------
+ .../sessions/task-20.2.4.2-planning.md             | 164 -----------
+ 6 files changed, 123 insertions(+), 544 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-index 95e2a5f1..1d250ddf 100644
---- a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-+++ b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-@@ -110,3 +110,18 @@
-   - Replace `DOMAIN_ARCHITECTURE_REDESIGN.md` only if the review gate passes.
- - Resume sentence:
-   - Resume at `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9.3; complete principle coverage and manual review before any redesign file swap.
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
+index f5a263b9..602e9b33 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
+@@ -17,6 +17,14 @@
+ 
+ ## Completed Sessions
+ 
++### Session 20.2.4: Appointments, calendar integration & API cleanup ✅
++**Completed:** 2026-04-02
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** ** **Appointments + calendar + cleanup** — appointment persistence helpers/routers; calendar creation reads segment identity and placement policy; remove or isolate **differential-role** route helpers per §5.3; final lint + drift checklist; prepare phase guide / handoff for phase-end.
 +
-+## Checkpoint 8
 +
-+- Section completed: Feature 20 **Phase 20.2** (Pass 2 — API alignment) closed on branch `feature/domain-architecture-alignment`
-+- Decisions made (with principles refs):
-+  - Internal entity/relationship/appointment/invite paths align with Phase 20.1 schema and FEATURE_20 **§5.1–5.2** (persistence + raw rows; no server PartFinalizer).
-+  - Event-shape legacy **`differentialRole`** API keys are isolated in `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts` while preserving reject/strip behavior (**§5.3**).
-+- Open questions:
-+  - None for Phase 20.2 closure.
-+- Next 3 actions:
-+  - Run **`/phase-start 20.3`** (Pass 3 — Admin UX per **§8.3**).
-+  - Keep feature handoff **`across-ladder.json`** in sync after tier starts.
-+  - Continue client/admin work per **`phase-20.3-guide.md`** execution sequence.
-+- Resume sentence:
-+  - Continue Feature 20 at **Phase 20.3** — admin UX alignment (`PlacementTypeEditor`, `ServiceAtomicEditor`, segment manager under event block instance, EntityCard replacement sequence).
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
-index aabae770..cfb17a34 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
-@@ -52,16 +52,16 @@ Align with **ARCHITECTURE_PRINCIPLES.md** §4 (persistence vs resolution), §5 (
- **Phase Number:** 20.2
- **Phase Name:** ** Pass 2 — API alignment (routes, validation, shared contracts §8.2 / §5).
- **Description:** Align internal entity/relationship routes and validators with Phase 20.1 schema; scope event instances to parent event block instances; no server-side booking resolution.
--**Status:** Not Started
-+**Status:** Complete (2026-04-02)
- 
- ---
- 
- ## Objectives
- 
--- [ ] Entity and relationship routes accept Phase 20.1 schema: renamed block-shape `type` values and instance `composite` / `orchestrator` / `wizardVisible`.
--- [ ] Event-shape APIs expose placement fields only; event instances scoped with `parent_block_instance_id` and segment payload fields per Principles §5.4.
--- [ ] No server-side booking-total or PartFinalizer-equivalent logic in any route touched in this phase.
--- [ ] Preview, appointment persistence, and calendar integration read configuration and raw rows only (plan §5.2).
-+- [x] Entity and relationship routes accept Phase 20.1 schema: renamed block-shape `type` values and instance `composite` / `orchestrator` / `wizardVisible`.
-+- [x] Event-shape APIs expose placement fields only; event instances scoped with `parent_block_instance_id` and segment payload fields per Principles §5.4.
-+- [x] No server-side booking-total or PartFinalizer-equivalent logic in any route touched in this phase.
-+- [x] Preview, appointment persistence, and calendar integration read configuration and raw rows only (plan §5.2).
- 
- ---
- 
-@@ -88,7 +88,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
- 
- **Tasks:** Task blocks added at session-start.
- 
--- [ ] ### Session 20.2.4: Appointments, calendar integration & API cleanup
-+- [x] ### Session 20.2.4: Appointments, calendar integration & API cleanup
- **Description:** Appointment persistence without recomputing totals; calendar services read segment identity and placement policy; remove differential-role-specific route helpers per §5.3 where safe.
- 
- **Tasks:** Task blocks added at session-start.
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-handoff.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-handoff.md
-index ee2fa303..b65ef2bd 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-handoff.md
-@@ -1,78 +1,64 @@
--# Phase [N] Handoff
-+# Phase 20.2 Handoff → Phase 20.3
- 
- **Purpose:** Transition context between phases (large-scale concerns only)
- 
- **Tier:** Phase (Tier 1 - High-Level)
- 
--**Last Updated:** [Date]
--**Phase Status:** [Complete / In Progress]
--**Next Phase:** [N+1]
-+**Last Updated:** 2026-04-02
-+**Phase Status:** Complete
-+**Next Phase:** 20.3 (Pass 3 — Admin UX alignment)
- 
- ---
- 
- ## Current Status
- 
--**Phase [N]:** [Complete / In Progress]
--**Last Completed Session:** 20.2
--**Next Phase:** [N+1]
-+**Phase 20.2:** Complete — API alignment (FEATURE_20 §8.2 / §5)
-+**Last Completed Session:** 20.2.4
-+**Next Phase:** 20.3
- 
- ---
- 
- ## Transition Context
- 
- **Where we left off:**
--[Minimal notes about phase completion - 2-3 sentences max]
-+Phase 20.2 delivered aligned internal routes and validators: block/event entities, relationships, event-instance preview by segment id, appointment persistence boundary documentation, calendar invite ordering by placement, and isolated legacy `differentialRole` keys for event shapes only.
- 
--**What you need to start Phase [N+1]:**
--- [Brief bullet point about context needed]
--- [Brief bullet point about dependencies]
--- [Brief bullet point about any blockers or considerations]
-+**What you need to start Phase 20.3:**
-+- Read **`phase-20.3-guide.md`** (§8.3 — admin UX: orchestration editors, atomic service editor, segment manager under event block instance, EntityCard replacement order).
-+- Branch: **`feature/domain-architecture-alignment`** (confirm with `across-ladder.json` before **`/phase-start 20.3`**).
- 
- **Plan Changes Affecting Downstream Phases:**
--- [Only include if plan changed and affects later phases]
--- [Brief description of change and impact]
-+- None recorded; follow **`FEATURE_20_ARCHITECTURE_REDESIGN.md`** §8.3 execution sequence.
- 
- ---
- 
- ## Phase Summary
- 
--**Sessions Completed:** [List session IDs]
-+**Sessions Completed:** 20.2.1, 20.2.2, 20.2.3, 20.2.4
 +
- **Key Accomplishments:**
--- [Major accomplishment 1]
--- [Major accomplishment 2]
-+- Entity + relationship APIs match Phase 20.1 schema; preview and invites scoped to persisted segments and placement policy.
-+- Legacy event-shape differential-role keys colocated in `eventShapeLegacyDifferentialRoleKeys.ts` (reject/strip unchanged).
- 
- **Decisions Made:**
--- [Decision that affects downstream phases]
-+- Server remains persistence/configuration boundary; no server-side booking total resolution in this phase.
- 
- ---
- 
+ ### Session 20.2.4: Appointments, calendar integration & API cleanup ✅
+ **Completed:** 2026-04-02
+ **Tasks Completed:** 20.2.4.1, 20.2.4.2
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md
+index 6bfae4de..88b0e1ca 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-guide.md
+@@ -414,3 +414,5 @@ Break each session into focused tasks:
  ## Notes
  
--**Keep minimal** - Detailed notes belong in phase log, not handoff.
-+Keep minimal — detail lives in **`phase-20.2-log.md`** and session logs.
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md
+index 781fdc22..36e874c0 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-log.md
+@@ -218,3 +218,9 @@ index ee2fa303..b65ef2bd 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-planning.md
+index 22139871..68a764c5 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-planning.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.4-planning.md
+@@ -1,284 +1,174 @@
+-# Plan: session 20.2.4 — Appointments, calendar integration & API cleanup
+-
+-## Contract
+-- **Tier:** session | **ID:** 20.2.4
+-- **Scope:** Appointment persistence helpers/routers (store client-submitted booking context; no server PartFinalizer); calendar / invite pipeline reads **event instance** segment identity and **event shape** placement policy (`placementKind`, `anchorEdge`); remove or isolate **event-shape differential-role** API remnants per FEATURE_20 **§5.3** where safe; phase **20.2** drift checklist + guide/handoff prep for **`/phase-end 20.2`**.
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
+-  - … _(truncated)_
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture, booking
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Completed Task - Begin Session 20.2.4 <!-- harness-across-ladder:start -->
++<!-- harness-planning-rollup tier=session id=20.2.4 consolidatedAt=2026-04-02T18:36:28.141Z -->
++
++# Consolidated planning: session 20.2.4
++
++## Session 20.2.4 (parent)
+ 
+ ## Story
++
+ **This session delivers** aligned **appointment persistence** and **Google Calendar invite** behavior keyed to **event_instances** + **event_shapes** placement data, and strips remaining **differential-role** noise from the **event-shape entity** API surface, **so that** Phase **20.2** closes with FEATURE_20 **§5.1 / §5.2** satisfied (no server booking calculator; ownership via segments and shapes) and the repo is ready for **20.3** (client-heavy tranche).
+ **Estimated size:** M
  
  ---
- 
- ## Related Documents
- 
--- Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N]-guide.md`
--- Phase Log: `.project-manager/features/appointment-workflow/phases/phase-[N]-log.md`
--- Next Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N+1]-guide.md`
-+- Phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md`
-+- Phase log: `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md`
-+- Next phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.3-guide.md`
- 
- ---
- 
- ## Next Action
- 
--Continue with next step. [Fill in.]
+-## Architecture context (harness-injected)
 -
--<!-- harness-across-ladder:start -->
--## Across ladder (harness)
+-## 1. System overview
 -
--_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
 -
--- **Feature:*
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+ 
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
++## Analysis
+ 
+-## 2. Domain map
++- **Problem / why now:** Sessions **20.2.1–20.2.3** aligned entities, relationships, and preview to Phase **20.1** schema. FEATURE_20 **§5.1** still lists **appointment persistence** and **calendar event creation** as route areas that must use **raw rows + client payload**, and **§5.3** calls for removing **differential-role-specific** event-shape helpers. This session closes that gap and finishes **phase 20.2** checklist items before **`/phase-end 20.2`**.
++- **Boundaries:** **Booking** (appointments, invites, Google Calendar) + **admin config** (event shapes) on the server; **no** PartFinalizer port; **no** conflation with **availability “differential”** (major/minor perspectives) unless an explicit alias to event-shape role is found.
++- **Patterns to follow:** Keep persistence in repositories/routers **thin** — validate shape, ownership consistency, and required fields; reuse existing `appointmentIncludes` and invite normalization. Calendar code: extend **`inviteOrchestrationService`** / shared helpers rather than duplicating segment lookup.
++- **Risks:** Multi-segment timing: today **one** slot drives **all** Google events — changing to per-segment windows may require **client** payload fields; if so, document and split minimal server read path only (still no resolution math).
++- **Alternatives:** Key calendar events only by `eventInstanceId` (already true per loop); sort instances by `placementKind` / `anchorEdge` using `@shared` placement ordering helpers if present — prefer shared utility over ad hoc compares.
+ 
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@sha
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->
