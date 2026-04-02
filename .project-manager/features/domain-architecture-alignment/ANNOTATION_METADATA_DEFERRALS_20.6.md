@@ -18,3 +18,4 @@
 
 - `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` — §6.3, §6.3a
 - `sessions/task-20.3.5.1-planning.md`
+- **`ENTITY_CARD_CONSUMERS_20.6.md`** — remaining `EntityCard.vue` import sites + façade note (task 20.3.5.2)

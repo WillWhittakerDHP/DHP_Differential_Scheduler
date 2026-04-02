@@ -2,7 +2,7 @@
   WHY: Annotation shapes VWindow body extracted from ShapesTab (component-health: oversized template).
 -->
 <script setup lang="ts">
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AnnotationShapeListCard from '@/components/admin/generic/AnnotationShapeListCard.vue'
 import { inject } from 'vue'
 import { shapesTabInjectionKey } from '../shapesTabContext'
 
@@ -102,15 +102,13 @@ const {
             </div>
           </template>
         </VExpansionPanel>
-        <EntityCard
+        <AnnotationShapeListCard
           v-for="annotationShape in annotationShapesList"
           :key="String(annotationShape.id)"
           :class="`draggable-annotation-shape`"
           :data-drag-id="String(annotationShape.id)"
-          entity-key="annotationShape"
           :entity="annotationShape"
           :expanded="isPanelExpanded(String(annotationShape.id))"
-          show-shape-list-drag-handle
           @saved="handleExistingShapeSaved"
           @delete="handleDeleteAnnotationShape"
         />
