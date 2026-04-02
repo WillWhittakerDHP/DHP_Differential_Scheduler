@@ -2,7 +2,7 @@
  * PATTERN: Service-only part rows for admin atomic / convergence table (session 20.3.2).
  * Same partAssignments resolution lineage as usePartsTotals; gated on blockShape.type === 'service'.
  */
-import { computed } from 'vue'
+import { computed, toValue, type MaybeRefOrGetter } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
@@ -17,13 +17,14 @@ import {
 
 const logger = createLogger('useServiceAtomicPartRows')
 
-export function useServiceAtomicPartRows(blockInstanceId: string): UseServiceAtomicPartRowsReturn {
+export function useServiceAtomicPartRows(blockInstanceId: MaybeRefOrGetter<string>): UseServiceAtomicPartRowsReturn {
   const { getGlobalEntityById } = useGlobal()
   const { relationships: partAssignments } = useRelationshipCrud('partAssignments')
   const { entities: partInstances } = useEntityCrud('partInstance')
 
   const isServiceBlockInstance = computed((): boolean => {
-    const blockInstance = getGlobalEntityById('blockInstance', blockInstanceId)
+    const id = toValue(blockInstanceId)
+    const blockInstance = getGlobalEntityById('blockInstance', id)
     if (!blockInstance) {
       return false
     }
@@ -36,16 +37,17 @@ export function useServiceAtomicPartRows(blockInstanceId: string): UseServiceAto
   })
 
   const rows = computed((): ServiceAtomicPartRow[] => {
+    const id = toValue(blockInstanceId)
     if (!isServiceBlockInstance.value) {
       return []
     }
     const { childIds, hadDuplicates, beforeDedup } = activeChildIdsForBlockParent(
       partAssignments.value ?? null,
-      blockInstanceId
+      id
     )
     if (hadDuplicates) {
       logger.warn('Found duplicate child_ids', {
-        entityId: blockInstanceId,
+        entityId: id,
         beforeDedup,
         afterDedup: childIds,
         duplicates: beforeDedup.filter((id, index) => beforeDedup.indexOf(id) !== index),
@@ -53,14 +55,14 @@ export function useServiceAtomicPartRows(blockInstanceId: string): UseServiceAto
     }
     const { resolved, missingIds } = resolvePartInstancesByChildIds(partInstances.value, childIds)
     if (missingIds.length > 0) {
-      logger.warn('Missing part instances', { entityId: blockInstanceId, missingIds })
+      logger.warn('Missing part instances', { entityId: id, missingIds })
     }
     return resolved.map((entity) => {
       const partInstance = entity as PartInstanceEntity
       const partShape = getGlobalEntityById('partShape', partInstance.partShapeRef)
       if (!partShape) {
         logger.debug('Missing part shape for part instance', {
-          blockInstanceId,
+          blockInstanceId: id,
           partInstanceId: partInstance.id,
           partShapeRef: partInstance.partShapeRef,
         })

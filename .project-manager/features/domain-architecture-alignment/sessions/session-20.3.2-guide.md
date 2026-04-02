@@ -61,7 +61,7 @@ These sections contain session-specific content:
 **Approach:** Pure composable + explicit return type; document column mapping vs `PartInstanceEntity`; logger on failure paths.
 **Checkpoint:** Composable returns stable rows for a real service instance in dev; no UI required.
 
-- [ ] #### Task 20.3.2.2: ServiceAtomicEditor UI + EntityCard integration
+- [x] #### Task 20.3.2.2: ServiceAtomicEditor UI + EntityCard integration
 **Goal:** **VCard + VDataTable** (or equivalent) mounted from `EntityCardContent` for **service** instances only; surface convergence columns; save via existing **partInstance** update path; convergence-oriented labels.
 **Files:**
 - `client/src/components/admin/generic/ServiceAtomicEditor.vue` (new)

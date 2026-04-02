@@ -7,6 +7,7 @@ import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
+import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -89,6 +90,11 @@ defineProps<Props>()
   </VRow>
 
   <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
+
+  <ServiceAtomicEditor
+    v-if="entityKey === 'blockInstance' && !isNew"
+    :block-instance-id="entityId"
+  />
 
   <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
     <FieldRenderer
