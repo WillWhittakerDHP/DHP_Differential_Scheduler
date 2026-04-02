@@ -1,17 +1,8 @@
-# Plan: session 20.4.1 — Pipeline audit + safe dead-code (booking)
+<!-- harness-planning-rollup tier=session id=20.4.1 consolidatedAt=2026-04-02T21:30:35.596Z -->
 
-## Contract
-- **Tier:** session | **ID:** 20.4.1
-- **Scope:** Map the client booking pipeline (`globalToBooking` → `buildAppointmentShape` / PartFinalizer) against FEATURE_20 **§4.1–4.2**; inventory **`DifferentialRole`**, **`enrichBlockFinalsWithDifferentialRoles`**, **`PartFinal.major|minor|minimizer`**, and override maps; apply only **confirmed** dead-code cleanup (no behavioral change).
-- **Governance:** Booking + architecture docs; thin edits; explicit return types on touched exports; logger in any new catch paths (N/A if no try/catch added).
+# Consolidated planning: session 20.4.1
 
-## Work Profile
-- **Execution intent:** plan → tasks
-- **Gate profile:** standard
-- **Downstream:** Tasks **20.4.1.1** then **20.4.1.2**; later sessions **20.4.2+** own role-removal refactors.
-
-## Where we left off
-Phase **20.4** accepted; **`/accepted-plan`** completed for the phase. First session is **read-only mapping** plus **minimal** deletion/inline of dead plumbing.
+## Session 20.4.1 (parent)
 
 ## Story
 
@@ -20,29 +11,6 @@ Phase **20.4** accepted; **`/accepted-plan`** completed for the phase. First ses
 **Estimated size:** M (audit + small safe edits)
 
 ---
-
-## Architecture pointers (read with code — not a substitute for recon)
-
-- **FEATURE_20** §4.1 (current chain), §4.2 (target numbered steps), §4.3 (removals), §4.4 (ordering).
-- **ARCHITECTURE.md** §10 (PartFinalizer client boundary), §8–9 (block / instance model).
-- Full text: `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md`.
-
-## Codebase recon
-
-- **Paths reviewed:**
-  - **Global → booking:** `client/src/utils/transformers/globalToBookingTransformer.ts` (`transformGlobalToBooking`), `globalToBookingTransformerBlocks.ts`, `globalToBookingPartInstanceTransform.ts`
-  - **Appointment shape / slots:** `client/src/utils/booking/appointmentSlotBuilder.ts` (`buildAppointmentShape`, `applyShapeToTime`), `appointmentTimeCalculations.ts`
-  - **Block/part finals:** `client/src/utils/booking/blockFinalizer.ts`, `BlockFinal.ts`, `partFinalizer.ts` (`createPartFinals`, `filterZeroedParts`, `enrichBlockFinalsWithDifferentialRoles`, `mergeBlockDifferentialRoleOverrides`), `PartFinal.ts`, `client/src/types/booking/partFinal.ts`
-  - **Slot math:** `partFinalizerSlotShape.ts` (`calculateSlotShape`), `partFinalizerSlotShapeHelpers.ts` (`accumulateRawDurationsFromBlockFinals`, `computeDifferentialOffsetsFromMaps`, role-based major/minor pick via `getEventShapeByRoleWithOverrides`)
-  - **Perspective / minimizer (downstream):** `perspectiveResolver.ts`, `minimizerEventShapes.ts`, `client/src/composables/booking/useAppointmentShape.ts` (calls `buildAppointmentShape`)
-  - **Shared role / placement:** `shared/utils/eventPlacementUtils.ts` (`eventShapeDifferentialRoleFromPlacementFields`), `shared/utils/differentialRoleUtils.ts`, `shared/types/differentialRole.ts`
-  - **Wizard models:** `client/src/types/appointmentModels.ts` (`differentialEventRoleOverrides`, perspective kinds)
-  - **Admin (out of execute scope but referenced):** `client/src/utils/admin/differentialRoleMatrixRows.ts`, `DifferentialEventRoleOverridesField.vue`
-- **Patterns / call sites:**
-  - **`buildAppointmentShape`** runs `createBlockFinals` → `filterZeroedBlocks` → `buildEventAssignmentsByPartShape` (when event data provided) → **`enrichBlockFinalsWithDifferentialRoles`** (placement → `DifferentialRole` → **`PartFinal.major|minor|minimizer`**) → **`mergeBlockDifferentialRoleOverrides`** → **`calculateSlotShape`**. Slot duration rollup uses **`eventAssignmentsByPartShape` × `baseTime` per part shape**, not the ternary flags directly; **differential offsets** still resolve **major/minor event shapes** via **`getEventShapeByRoleWithOverrides`** and an override map (today always `{}` from merge).
-  - **`mergeBlockDifferentialRoleOverrides`** is implemented as **`return {}`** with a comment that block-level overrides were removed — **dead by design**; only caller is `appointmentSlotBuilder.ts`.
-  - **`enrichBlockFinalsWithDifferentialRoles`** is only called from **`buildAppointmentShape`**; it folds **event instance → event shape → placement → `effectiveDifferentialRole(..., null)`** into part-level ternaries.
-- **Gaps / unknowns:** Whether any **runtime** path still supplies non-empty **`differentialEventRoleOverrides`** on **`AppointmentShape`** from outside `buildAppointmentShape` (search at task time). Minimizer / perspective chains to be fully traced in **20.4.1.1** deliverable table.
 
 ## Analysis
 
@@ -86,24 +54,100 @@ Produce an **authoritative pipeline map** (current vs §4.2) and a **consumer in
 - [ ] Any code deletion is **provably** no-op; **client lint** passes on touched paths.
 - [ ] No change to **zero-out** order or **lineage** semantics.
 
-## Decomposition
+---
 
-- **Task 20.4.1.1: Pipeline map + consumer inventory** — Author the §4.2 alignment table and grep-backed file list in **`session-20.4.1-log.md`** (or **`DOMAIN_REWRITE_WORKLOG.md`** if you prefer one running doc); include **FEATURE_20 §4.1** diagram cross-check.
-- **Task 20.4.1.2: Safe dead-code (merge overrides)** — Inline empty **`differentialEventRoleOverrides`**, remove **`mergeBlockDifferentialRoleOverrides`** if unused elsewhere; verify **`AppointmentShape`** type still satisfied; **`cd client && npm run lint`** on touched files.
+## Task 20.4.1.1 (source: task-20.4.1.1-planning.md)
 
-## Definition of Done
+### Story
 
-- [ ] App starts (`npm run start:dev`) when any code changed
-- [ ] Lint passes (`cd client && npm run lint`, `cd server && npm run lint`)
-- [ ] All child tasks complete
-- [ ] Session log and handoff updated
+**This task delivers** a **durable map and inventory** in the session log **so that** refactors in **20.4.2+** can cite concrete files and §4.2 alignment without re-grepping blind.
+
+### Analysis
+
+- **Why now:** Phase plan orders audit before deleting **`enrichBlockFinalsWithDifferentialRoles`**.
+- **Boundaries:** `.project-manager/` only for deliverable body; read-only on `client/` / `shared/` for this task.
+- **Risks:** Inventory drifts if imports move — log dated; re-grep at session-end if large refactors land same week.
+
+### Goal
+
+Record authoritative **pipeline vs §4.2** and **differential-role / override / PartFinal** consumer lists in **`session-20.4.1-log.md`**.
+
+### Files
+
+- **Write:** `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md`
+- **Reference:** `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-planning.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` §4.1–4.3
+
+### Approach
+
+1. Normalize session log title.
+2. Insert **Pipeline map** and **Consumer inventory** from verified greps + file reads.
+3. Add **Task 20.4.1.1 status** checkbox completed.
+
+### Checkpoint
+
+- Session **20.4.2** planning can link to this log.
+
+### Deliverables
+
+- Updated **`session-20.4.1-log.md`** with both sections and status.
+
+### Acceptance Criteria
+
+- [ ] Log contains a **§4.2 crosswalk table** covering at least `transformGlobalToBooking` → `applyShapeToTime` and naming **enrichment** as §4.3 removal target.
+- [ ] Log lists **every client file** that imports `DifferentialRole` from `@shared` (as of task execution) and **all** `enrich` / `merge` call sites.
+- [ ] Log states explicitly whether **PartFinal.major/minor/minimizer** have **readers** outside enrichment (expect: **none** for slot math).
+
+### Design
+
+Add two sections to **`session-20.4.1-log.md`**:
+
+1. **Pipeline map** — Markdown table: current symbols ↔ §4.2 step index or “§4.3 remove / dead / downstream”; short narrative on **PartFinal** ternary **write-only** finding.
+2. **Consumer inventory** — Subsections A–E: enrichment/merge call sites, client `DifferentialRole` imports, shared package, override map flow, server validation footnote.
+
+Fix session log H1 to drop harness `** **` artifacts.
 
 ---
 
-## Reference
+## Task 20.4.1.2 (source: task-20.4.1.2-planning.md)
 
-- `phases/phase-20.4-guide.md`, `phases/phase-20.4-planning.md`
-- `.project-manager/ARCHITECTURE.md` §8–§14
-- `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`
-- `.project-manager/WORKFLOW_FRICTION_LOG.md`
-- `.project-manager/agent-model-config.json` (harness model advisory only)
+### Story
+
+**This task removes** a dead **`mergeBlockDifferentialRoleOverrides`** export **because** block-level differential overrides are gone and the function always returned `{}`, adding noise before phase **20.4.2** refactors.
+
+### Analysis
+
+- **Risk:** Low — single call site; types unchanged on `AppointmentShape`.
+- **Out of scope:** `enrichBlockFinalsWithDifferentialRoles`, `PartFinal` ternaries (session **20.4.2**).
+
+### Goal
+
+Remove dead merge helper; keep runtime output identical.
+
+### Files
+
+- `client/src/utils/booking/appointmentSlotBuilder.ts`
+- `client/src/utils/booking/partFinalizer.ts`
+- `sessions/session-20.4.1-log.md` (inventory note only)
+
+### Checkpoint
+
+- Session **20.4.1** can proceed to **`/session-end`** after both tasks closed.
+
+### Deliverables
+
+- No `mergeBlockDifferentialRoleOverrides` symbol in `client/src`.
+- Lint clean on touched client files.
+
+### Acceptance Criteria
+
+- [x] Grep shows **zero** `mergeBlockDifferentialRoleOverrides` under `client/`.
+- [x] `buildAppointmentShape` still passes an empty `Record<string, DifferentialRole>` into `calculateSlotShape`.
+- [x] Client lint passes.
+
+### Design
+
+1. In **`appointmentSlotBuilder.ts`**: import `DifferentialRole` from `@shared`; set `const differentialEventRoleOverrides: Record<string, DifferentialRole> = {}`; drop `mergeBlockDifferentialRoleOverrides` import.
+2. In **`partFinalizer.ts`**: delete `mergeBlockDifferentialRoleOverrides` and its JSDoc block.
+3. Refresh **`session-20.4.1-log.md`** inventory lines that name the merge function as live code (mark as removed in **20.4.1.2**).
+
+---

@@ -72,7 +72,7 @@ Run sessions **in order** (see **phase-20.4-planning.md** § Decomposition). Cas
 
 Harness expects each session below as `### Session X.Y.Z:` (do not remove headings — tier-start uses them to sync decomposition and scaffold session guides).
 
-- [ ] ### Session 20.4.1: Pipeline audit + safe dead-code
+- [x] ### Session 20.4.1: Pipeline audit + safe dead-code
 
 **Description:** Document the current PartFinalizer / booking chain vs **§4.2**; inventory every **DifferentialRole** / role-enrichment / **PartFinal** major-minor-minimizer consumer; remove only **confirmed** dead branches without behavior change elsewhere.
 
