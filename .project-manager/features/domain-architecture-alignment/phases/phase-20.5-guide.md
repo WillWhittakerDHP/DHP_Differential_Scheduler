@@ -49,19 +49,34 @@ Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **p
 
 ## Overview
 
-**Phase Number:** 20.5
-**Phase Name:** ** Pass 5 — Migration planning and data conversion (§8.5).
-**Description:** [Fill in]
-**Status:** Not Started
+**Phase Number:** 20.5  
+**Phase Name:** Pass 5 — Migration planning and data conversion (§8.5).  
+**Description:** Consolidate **FEATURE_20 §8.5** into written artifacts: ordered migration/data narrative tied to **`20260432_*`** migrations, explicit **baseline placement + event-orchestrator** expectations, and **legacy → replacement** mapping so **§9.5 / §9.6** risks (especially implicit default routing) are closed in documentation—not assumed from code.  
+**Status:** In progress (planning)
 
 ---
 
 ## Objectives
 
-- [ ] Objectives to be planned. Add key outcomes for this phase.
+- [ ] **Migration sequence** documented and mapped to **§9.5** (see `phase-20.5-planning.md` → Deliverables).
+- [ ] **Baseline event routing** and **seed expectations** stated explicitly (**§8.5** acceptance).
+- [ ] **Legacy assumptions** (**§0.2 / §2**) removed or mapped to replacement storage in writing.
+- [ ] **No undocumented implicit defaults** in any described migration or seed step.
+
+---
+
+## Sessions breakdown
+
+| Session | Focus |
+|--------|--------|
+| **20.5.1** | Inventory **`20260432_*`** chain vs **§9.5**; choose worklog vs `MIGRATION_SEQUENCE.md`; draft ordered sequence table. |
+| **20.5.2** | Baseline **placement types** + **event-orchestrator** data for fresh/upgraded DBs; mitigate **§9.6** implicit-routing risk in prose. |
+| **20.5.3** | Legacy closure table; final **§8.5** checklist; phase handoff → **20.6**. |
+
+**Harness order:** `/session-start 20.5.1` → … → `/session-end` each → `/phase-end 20.5` when all sessions complete.
 
 ---
 
 ## Tasks
 
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; keep this phase guide objectives in sync at session-end.
