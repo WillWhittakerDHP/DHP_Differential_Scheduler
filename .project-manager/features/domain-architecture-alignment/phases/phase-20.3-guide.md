@@ -80,12 +80,34 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). 
 
 Run sessions **in order** (see **phase-20.3-planning.md** § Decomposition). Cascade: `session-end` → next `session-start` → `phase-end 20.3` when all sessions complete.
 
-### Sessions breakdown
+Harness expects each session below as `### Session X.Y.Z:` (do not remove headings — tier-start uses them to sync decomposition and scaffold session guides).
 
-| Session | Focus (FEATURE_20 §8.3 sequence) |
-|--------|-----------------------------------|
-| **20.3.1** | PlacementTypeEditor / event-shape placement UX |
-| **20.3.2** | ServiceAtomicEditor |
-| **20.3.3** | Remaining domain instance editors |
-| **20.3.4** | Segment-manager relocation into event block-instance editing |
-| **20.3.5** | Annotation metadata narrowing + EntityCard replacement start |
+- [ ] ### Session 20.3.1: Placement type editor (§8.3 #1)
+
+**Description:** PlacementTypeEditor (or equivalent) for **eventShape** `placementKind` / `anchorEdge`; align `eventShapeDisplays` and admin copy with placement semantics; avoid differential-role-primary framing on shape surfaces.
+
+**Tasks:** Session planning → implement focused editor + field display alignment → manual smoke on Shapes tab event panel.
+
+- [ ] ### Session 20.3.2: Service atomic editor (§8.3 #2)
+
+**Description:** ServiceAtomicEditor (or equivalent) for service block-instance convergence / atomic editing aligned with the three-property instance model.
+
+**Tasks:** Session planning → composables/components for service-instance UX → verify against `ENTITY_CONFIGS` / generic admin patterns.
+
+- [ ] ### Session 20.3.3: Remaining domain editors (§8.3 #3)
+
+**Description:** Instance-level orchestration UIs for other shape types (**time** / **price** / **event**) using validity-constrained selection language.
+
+**Tasks:** Reuse patterns from 20.3.1–20.3.2; keep shapes structural, instances behavioral.
+
+- [ ] ### Session 20.3.4: Segment manager relocation (§8.3 #4)
+
+**Description:** Move or embed segment / **eventInstance** management from Instances tab “Events” island into **event block-instance** editing; stay aligned with Phase **20.2** APIs.
+
+**Tasks:** UX design in session plan → wire `EventInstancesSection` / block-instance flows → regression pass on Instances + Shapes tabs.
+
+- [ ] ### Session 20.3.5: Annotation metadata + EntityCard wave (§8.3 #5)
+
+**Description:** Annotation-only metadata narrowing where plan allows; first high-confidence **EntityCard** replacement slice; document remaining debt for **20.6**.
+
+**Tasks:** Session plan → narrow scope → replace lowest-risk EntityCard call site(s) → update phase log / handoff notes.
