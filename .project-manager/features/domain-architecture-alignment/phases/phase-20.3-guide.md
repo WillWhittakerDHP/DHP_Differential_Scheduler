@@ -82,7 +82,7 @@ Run sessions **in order** (see **phase-20.3-planning.md** § Decomposition). Cas
 
 Harness expects each session below as `### Session X.Y.Z:` (do not remove headings — tier-start uses them to sync decomposition and scaffold session guides).
 
-- [ ] ### Session 20.3.1: Placement type editor (§8.3 #1)
+- [x] ### Session 20.3.1: Placement type editor (§8.3 #1)
 
 **Description:** PlacementTypeEditor (or equivalent) for **eventShape** `placementKind` / `anchorEdge`; align `eventShapeDisplays` and admin copy with placement semantics; avoid differential-role-primary framing on shape surfaces.
 
