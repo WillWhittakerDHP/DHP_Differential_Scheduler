@@ -11,6 +11,11 @@ import { ENTITY_DELETE_ROUTE_SEGMENTS, ERROR_MESSAGES } from './entityConstants.
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
 import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './entitySanitizers.js'
+import {
+  isBlockShapeEntityType,
+  validateBlockShapeCreateBody,
+  validateBlockShapeUpdateBody,
+} from './blockShapeEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -108,6 +113,14 @@ router.post(
         bodyForCreate = pulled.rest
       }
 
+      if (isBlockShapeEntityType(createEntityType)) {
+        const blockShapeErr = validateBlockShapeCreateBody(bodyForCreate)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
@@ -157,6 +170,14 @@ router.put(
         const pulled = pullAnnotationContentRowsFromBody(bodyForPut)
         annotationPutContentRows = pulled.rows
         bodyForPut = pulled.rest
+      }
+
+      if (isBlockShapeEntityType(putEntityTypeEarly)) {
+        const blockShapeErr = validateBlockShapeUpdateBody(bodyForPut)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
       }
 
       // PATTERN: Convert empty strings for known enum fields to their default values
@@ -265,6 +286,14 @@ router.patch(
         const pulled = pullAnnotationContentRowsFromBody(updateData)
         annotationPatchContentRows = pulled.rows
         updateData = pulled.rest
+      }
+
+      if (isBlockShapeEntityType(entityType)) {
+        const blockShapeErr = validateBlockShapeUpdateBody(updateData)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
       }
 
       const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType) as Record<string, unknown>
