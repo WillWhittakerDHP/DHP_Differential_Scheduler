@@ -161,7 +161,7 @@ function resolveBlockCategories(
   const propertyTypeBlocks = resolveBlockCategory({
     ids: propertyTypeBlockIds,
     bookingData,
-    blockShapeType: 'PROPERTY',
+    blockShapeType: 'TIME',
     versionsData,
     categoryKey: 'properties',
     logger,
@@ -171,7 +171,7 @@ function resolveBlockCategories(
   const optionTypeBlocks = resolveBlockCategory({
     ids: optionTypeBlockIds,
     bookingData,
-    blockShapeType: 'OPTION',
+    blockShapeType: 'EVENT',
     versionsData,
     categoryKey: 'options',
     logger,
