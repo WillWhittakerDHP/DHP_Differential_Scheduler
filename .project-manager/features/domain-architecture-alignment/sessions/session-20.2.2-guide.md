@@ -1,4 +1,4 @@
-# Session 20.2.2 Guide: ** **Event shape & event instance** entity routes — placement-only surface for shapes; require/validate **`parent_block_instance_id`** for instances; segment field validation per Principles §5.4; ensure serializers omit legacy differential-role.
+# Session 20.2.2 Guide: Event shape & event instance entity routes
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -44,27 +44,32 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 20.2.2
-**Session Name:** ** **Event shape & event instance** entity routes — placement-only surface for shapes; require/validate **`parent_block_instance_id`** for instances; segment field validation per Principles §5.4; ensure serializers omit legacy differential-role.
-**Description:** [Brief description of session objectives]
+**Session Name:** Event shape & event instance entity routes — placement-only shapes; parent-owned segments; §5.4 validation; no differential-role in API.
+**Description:** Align **`eventShape`** / **`eventInstance`** on internal entity CRUD (+ bulk) with Phase 20.2 §8.2 and Principles §5.1–§5.4. Out of scope: relationships, preview, appointments (**20.2.3–20.2.4**).
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** M (2 tasks)
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 20.2.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.2.2.1: Event shape — placement invariants & no differential-role leakage
+**Goal:** Enforce **`placementKind`** + **`anchorEdge`** rules on writes; reject **`differentialRole`** on body; ensure **`eventShape`** JSON responses omit legacy differential-role.
+**Files:**
+- `server/src/routes/internal/entities/eventShapeEntityValidation.ts` (new, or combined module)
+- `server/src/routes/internal/entities/entityCrudRouter.ts`, `entityBulkRouter.ts`
+- `server/src/routes/internal/entities/entitySanitizers.ts`, `shared/utils/eventPlacementUtils.ts` (reuse)
+- Read/batch path if responses still expose **`differentialRole`** (e.g. `entityCrudRouterReads.ts` or batch assembler)
+**Approach:** Mirror **20.2.1** pre-sanitize validators; defense-in-depth **400** on forbidden keys; strip or exclude legacy keys on read if needed.
+**Checkpoint:** Invalid placement pairs **400**; valid saves unchanged; server lint clean.
 
-- [ ] #### Task 20.2.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.2.2.2: Event instance — `parentBlockInstanceId` + §5.4 segment fields
+**Goal:** **POST** requires **`parentBlockInstanceId`**; validate segment/calendar field types when present; wire CRUD + **`entityBulkRouter`** for **`eventInstance`**.
+**Files:**
+- `server/src/routes/internal/entities/eventInstanceEntityValidation.ts` (new)
+- `server/src/routes/internal/entities/entityCrudRouter.ts`, `entityBulkRouter.ts`
+- `server/src/db/models/booking/event_instance.ts` (reference)
+**Approach:** UUID/string checks for parent; strict typing for booleans/enums/numbers per §5.4 when keys are sent; bulk row loop like **20.2.1.2**.
+**Checkpoint:** Create without parent **400**; valid segment payloads persist; server lint clean.
 
 ---
 
@@ -413,4 +418,4 @@ Break each session into focused tasks:
 
 ## Notes
 
-[Session-specific notes, patterns, architectural decisions]
+- Session planning: `sessions/session-20.2.2-planning.md`. No server-side PartFinalizer or booking totals.
