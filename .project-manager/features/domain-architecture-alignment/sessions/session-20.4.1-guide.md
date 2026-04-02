@@ -49,7 +49,7 @@ These sections contain session-specific content:
 **Description:** Map live pipeline vs FEATURE_20 §4.2; inventory differential-role / PartFinal layout consumers; optional inline removal of no-op `mergeBlockDifferentialRoleOverrides`.
 
 **Duration:** ~0.5–1 day
-**Status:** In Progress
+**Status:** Complete
 
 ### Tasks
 

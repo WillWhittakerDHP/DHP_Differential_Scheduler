@@ -61,9 +61,9 @@ Remove dead merge helper; keep runtime output identical.
 
 ## Acceptance Criteria
 
-- [ ] Grep shows **zero** `mergeBlockDifferentialRoleOverrides` under `client/`.
-- [ ] `buildAppointmentShape` still passes an empty `Record<string, DifferentialRole>` into `calculateSlotShape`.
-- [ ] Client lint passes.
+- [x] Grep shows **zero** `mergeBlockDifferentialRoleOverrides` under `client/`.
+- [x] `buildAppointmentShape` still passes an empty `Record<string, DifferentialRole>` into `calculateSlotShape`.
+- [x] Client lint passes.
 
 ## Checkpoint
 
