@@ -45,3 +45,37 @@ Acceptance checks:
 Enforce **ARCHITECTURE_PRINCIPLES.md** §1 (domain separation), §2 (three-property instance model), §3–§5 as cited in plan §2. At session boundaries run **plan §9.1** and confirm **§9.1a** invariants (especially instance-level three-property storage and relational `event_assignments`).
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.1
+**Phase Name:** Pass 1 — Schema alignment (models, enums, instance fields per plan §8.1 / doc §2).
+**Description:** Align PostgreSQL schema and Sequelize models with locked domain principles: rename block shape types, add instance-level three-property columns, add event placement/ownership columns, drop legacy columns, rename attendee table.
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Block shape type enum renamed (`property`->`time`, `coupon`->`price`, `option`->`event`)
+- [ ] `block_instances` carries `composite`, `orchestrator`, `wizardVisible`; legacy columns removed
+- [ ] `event_shapes` has `placement_kind` + `anchor_edge`; legacy `differential_role` removed
+- [ ] `event_instances` has `parent_block_instance_id` + location fields; calendar toggles moved from event_shapes
+- [ ] `event_shape_attendees` renamed to `event_instance_attendees`
+- [ ] Legacy shape-level booleans (`composable`, `isStateControl`, `canHaveParts`) removed from `block_shapes`
+- [ ] Client constants and entity types updated to match schema
+- [ ] App starts and lint passes
+
+---
+
+## Sessions Breakdown
+
+Session 20.1.1: Block shape type enum rename
+Session 20.1.2: Block instance three-property alignment and legacy cleanup
+Session 20.1.3: Event schema alignment (placement, ownership, attendee rename)
+
+## Tasks
+
+Run `/session-start 20.1.1` to begin the first session. Each session covers one logical group of schema changes per the phase planning doc.

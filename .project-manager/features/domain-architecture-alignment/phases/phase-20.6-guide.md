@@ -54,3 +54,24 @@ Acceptance checks:
 **Cleanup follows replacement, not the reverse** (plan §8.6). Enforce **ARCHITECTURE_PRINCIPLES.md** §7 (domain editors). Run **plan §9.1** / **§9.1a** through rollout.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.6
+**Phase Name:** ** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
+**Description:** [Fill in]
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Objectives to be planned. Add key outcomes for this phase.
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. [See Sessions Breakdown below.]

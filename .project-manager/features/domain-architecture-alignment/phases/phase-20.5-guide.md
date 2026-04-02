@@ -44,3 +44,24 @@ Acceptance checks:
 Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **plan §9.2** stop conditions if a step would invent behavior. Run **§9.1** / **§9.1a** at session boundaries.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.5
+**Phase Name:** ** Pass 5 — Migration planning and data conversion (§8.5).
+**Description:** [Fill in]
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Objectives to be planned. Add key outcomes for this phase.
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. [See Sessions Breakdown below.]

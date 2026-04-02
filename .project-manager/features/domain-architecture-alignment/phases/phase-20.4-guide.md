@@ -44,3 +44,24 @@ Acceptance checks:
 Anchor on **ARCHITECTURE_PRINCIPLES.md** §4 (two-tier resolution, PartFinalizer client-only, **§4.4** order). Run **plan §9.1** / **§9.1a** at session boundaries.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.4
+**Phase Name:** ** Pass 4 — Booking pipeline alignment (finalizer, transformers, steps §8.4 / §4).
+**Description:** [Fill in]
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Objectives to be planned. Add key outcomes for this phase.
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. [See Sessions Breakdown below.]

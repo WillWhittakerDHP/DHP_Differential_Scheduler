@@ -53,3 +53,24 @@ Acceptance checks:
 Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). Run **plan §9.1** / **§9.1a**; keep orchestrators as assignment selectors, not validity definers, in UI copy and behavior.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.3
+**Phase Name:** ** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
+**Description:** [Fill in]
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Objectives to be planned. Add key outcomes for this phase.
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. [See Sessions Breakdown below.]

@@ -93,3 +93,30 @@ Use this index so work does not rely only on §8 pass text.
 
 - **Handoff:** [feature-domain-architecture-alignment-handoff.md](./feature-domain-architecture-alignment-handoff.md)
 - **Log:** [feature-domain-architecture-alignment-log.md](./feature-domain-architecture-alignment-log.md)
+
+---
+
+## Overview
+
+**Feature:** . Feature: domain-architecture-alignment
+
+---
+
+## Implementation Plan
+
+Phases and implementation order. [Fill in from feature plan.]
+
+---
+
+## Feature Objectives
+
+- Deliver **Feature: domain-architecture-alignment** end-to-end per PROJECT_PLAN and phase guides (migrations, server, client, and docs as scoped).
+- Meet LAUNCH_CHECKLIST and security gates that apply before beta or production cutover.
+- Publish stable contracts for downstream features (APIs, session/identity semantics, or docs) defined under **Dependencies** / **Implementation Plan**.
+
+
+- [ ] ### Phase 1: Feature: domain-architecture-alignment
+**Description:** Feature: domain-architecture-alignment
+**Sessions:** [To be planned]
+**Success Criteria:**
+- [To be defined]
