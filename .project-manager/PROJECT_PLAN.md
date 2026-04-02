@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-04-01
+**Last Updated:** 2026-04-02
 **Status:** Active Planning Document
 
 ---
@@ -29,7 +29,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 3 | Calendar & Appointment Availability | ✅ Complete | `features/calendar-appointment-availability/` | Completed 2026-02-21 |
 | 4 | Pricing Cascades | ✅ Complete | — (sub-feature) | Completed 2026-02-13 |
 | 5 | Property Enrichment & Mappings | ✅ Complete | — (sub-feature) | Completed 2026-02-11 |
-| 6 | Appointment Workflow & Booking Calculations | ✅ Complete | `features/appointment-workflow/` | Phase 1 complete Jan 2026 |
+| 6 | Appointment Workflow & Booking Calculations | ✅ Complete | `features/appointment-workflow/` | Feature-end Apr 2026; merged develop + main |
 | 7 | Authentication | ✅ Complete | `features/authentication/` | — |
 | 8 | Security Hardening | ✅ Complete | `features/security-hardening/` | — |
 | 9 | Guided Alpha Testing | 📋 Planning | `features/guided-alpha-testing/` | — |
@@ -44,7 +44,6 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
 | 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + v2 redesign execution |
-| 21 | Smoke | 📋 Planning | `features/test-feature-xyz-smoke/` | — |
 
 
 ---
@@ -286,28 +285,34 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 
 ## Feature 6: Appointment Workflow & Booking Calculations
 
-**Status:** ⏳ Partial (Phase 1 Complete for workflow; core complete for calculations)
-**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; plus fee and time calculation logic for the booking wizard. Booking calculation logic is implemented; workflow Phase 1 complete.
-**Branch:** `feature/appointment-workflow`
+**Status:** ✅ **Complete** (feature-end **2026-04-02** — merged to `develop` and `main`; branch `feature/appointment-workflow` removed on remote when present)
+**Description:** Appointment status workflow with 8 statuses, user tracking, and UI enhancements; fee and time calculation logic for the booking wizard; org defaults, delete wizard, role catalog, and related admin/wizard tranches per phase guides.
+**Branch:** Was `feature/appointment-workflow` (integrated).
+
+**Authoritative per-phase status** lives in each `phase-6.*-guide.md`. The table below is the PROJECT_PLAN rollup after feature-end (remaining gaps are explicit).
 
 ### Appointment Workflow Phases
 
-| Phase | Name | Status | What |
+| Phase | Name | Status | Notes |
 |-------|------|--------|------|
-| 6.1 | Status Workflow & UI Enhancements | ✅ Complete (Jan 2026) | — |
-| 6.2 | Held & Override Stubs | ✅ Complete | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
-| 6.3 | Confirmation Routine | ✅ Complete | submitted to confirmed; admin or auto confirm; notifications. |
-| 6.4 | Moveable Modal & preClosing | ⏳ Not Started | preClosing property; differential consolidation; modal gate logic; UX softening; re-enable MoveablePartsModal; unified required-confirmation modal shell (6.4.4). |
-| 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard (same flow as quote/dev load at step 3); bypass current appointment as constraint (`reschedulingAppointmentId`); UI indicator for original inspection slot. |
-| 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
-| 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
-| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. Sessions 6.8.5 (block-level agentPermissions), 6.8.6 (admin entry: Start new \| Edit quote \| Reschedule + dropdown). |
-| 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time; responsive expandable panels on narrow screens. |
-| 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Add new block shapes button on admin Shapes tab (6.10.1 ✅); admin toggle to show/hide apply-coupon in wizard (6.10.2 ✅); fee preview bar on availability step (6.10.3 not started); coupon fee calculation (6.10.4 not started). |
-| 6.11 | Drive Time Fee Line Item | Not Started | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
-| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (exhaustive audit, optional badges, Phase 3.0 test checklist). See `features/appointment-workflow/phases/phase-6.14-guide.md`. |
-| 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight dependency inspection; reusable admin delete wizard; resolve/finalize API; policy registry; wire generic CRUD delete. Sessions 6.17.1–6.17.5. See `features/appointment-workflow/phases/phase-6.17-guide.md`. Complements Phase 6.6 (soft vs hard delete). |
-| 6.18 | User role catalog & block alignment | Not Started | Single `@shared` catalog for `user_role`; rename `seller` → `owner`; audit all hardcoded role lists; Session 6.18.2 admin alignment of canonical roles ↔ user-type block instances. See `features/appointment-workflow/phases/phase-6.18-guide.md`. Coordinates with Feature 7 Enactment. |
+| 6.1 | Status Workflow & UI Enhancements | ✅ Complete | Jan 2026 |
+| 6.2 | Held & Override Stubs | ✅ Complete | Feature 7 enacts hold/override |
+| 6.3 | Confirmation Routine | ✅ Complete | — |
+| 6.4 | Moveable Modal & preClosing | ✅ Complete | See `phase-6.4-guide.md` |
+| 6.5 | Rescheduling Flow | ⏳ Partial | Session **6.5.1** still open in guide; 6.5.2+ delivered — see `phase-6.5-guide.md` |
+| 6.6 | Soft Delete vs Hard Delete | ✅ Complete | See `phase-6.6-guide.md` |
+| 6.7 | Scheduled By Auto-Population | ✅ Complete | See `phase-6.7-guide.md` |
+| 6.8 | Admin Force-Create & Constraint Overrides | ✅ Complete | 6.8.5–6.8.6; see `phase-6.8-guide.md` |
+| 6.9 | Availability Step Mini-Wizard | Not Started | UX sub-steps — see `phase-6.9-guide.md` |
+| 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | Shapes/toggle/sessions per `phase-6.10-guide.md`; coupon finalizer (6.10.4) still open |
+| 6.11 | Drive Time Fee Line Item | ✅ Complete | See `phase-6.11-guide.md` |
+| 6.12 | Annotation Content Layer | ✅ Complete | See `phase-6.12-guide.md` |
+| 6.13 | Wizard Theme Tokens & Brand Palettes | ✅ Complete | See `phase-6.13-guide.md` |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | ✅ Complete | Sessions 6.14.1–6.14.3 — see `phase-6.14-guide.md` |
+| 6.15 | Admin Brand Customization (logo & anchors) | ✅ Complete | See `phase-6.15-guide.md` |
+| 6.16 | Differential Role Generalization | ✅ Complete | Sessions 6.16.1–6.16.3 — see `phase-6.16-guide.md` |
+| 6.17 | Generalized Dependency-Aware Delete Wizard | ✅ Complete | Sessions 6.17.1–6.17.5 — see `phase-6.17-guide.md` |
+| 6.18 | User role catalog & block alignment | ✅ Complete | Sessions 6.18.1–6.18.2 — see `phase-6.18-guide.md` |
 
 ### Phase 6.1 Completed (Workflow)
 - Updated status ENUM from 5 to 8 values (started, held, rescheduling, quoted, submitted, confirmed, cancelled, deleted)
@@ -315,7 +320,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Interactive tooltips and cross-tab navigation in admin UI
 - Color-coded status chips
 
-### Phase 6.4: Moveable Modal Refinement & preClosing Property (Not Started)
+### Phase 6.4: Moveable Modal Refinement & preClosing Property (Complete — see phase guide)
 - Add `preClosing` boolean to block_instances (full stack: migration → model → types → transformer) to distinguish services with pre-closing work
 - Consolidate three parallel differential derivations into one canonical `isDifferentialBooking` computed (derive once, propagate everywhere)
 - Gate the moveable modal so it only opens for `preClosing` services; show the completion time grid only when a closing date is provided; allow passthrough without timeslot selection
@@ -323,7 +328,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Re-enable the currently-disabled MoveablePartsModal and verify full integration
 - Session 6.4.4: Unified required-confirmation modal shell — one shell component for all "must complete before next step" modals (property, moveable, future submit); MoveablePartsModal and PropertyConfirmationModal use it; transitions/sizing live in the shell only
 
-### Phase 6.5: Rescheduling Flow (Not Started)
+### Phase 6.5: Rescheduling Flow (Partial — session 6.5.1 pending per guide)
 - **Wizard mode:** Single source of truth for flow type: `initial` (new booking), `quote` (new quote), `reschedule` (editing existing). Drives themes, submit button label (“Submit” | “Send quote” | “Update appointment”), submit action (create vs update), and availability params (e.g. `reschedulingAppointmentId`). User role (post–Feature 7) is a separate axis: admin vs non-admin drives visibility of “Hold Slot,” “Override constraints,” “Force schedule,” etc.
 - **Same flow as quote and dev load:** Appointment loads at step 3 (Availability); user adjusts and saves/holds quote or books/reschedules. No new wizard steps; reuse `handleLoadAppointment` and update path.
 - **Bypass current appointment as constraint:** Add `reschedulingAppointmentId` to computed-availability request. Server excludes that appointment’s calendar event (and its drive buffers) from the overlap list used in slot computation, while still returning it in `calendarEvents` so it stays visible on the calendar.
@@ -344,7 +349,7 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - Narrow screens: collapse each sub-step into an expandable card; current sub-step expanded by default; completed sub-steps show a done indicator when collapsed.
 - Dependencies: Option-type blocks and differential logic already drive availability; no new backend. UX and layout only.
 
-### Phase 6.10: Fee Preview & Coupon Visibility (Not Started)
+### Phase 6.10: Fee Preview & Coupon Visibility (In progress — see phase-6.10-guide.md)
 - **Coupon list ↔ Coupons block shape:** When we show or wire the list of coupons (Apply Coupon dropdown or cascade), **connect to the "Coupons" block shape** and reuse the same **block-shape-filtered instances** strategy as service, property, and option in the wizard: identify the block shape (for Coupons, by name e.g. "Coupons" via `bookingData.blockShapes.find(bs => bs.name === 'Coupons')` or a helper), then filter `bookingData.blockInstances` by `blockShapeRef === shapeId`. Reference: `getBlockShapeIdByType`, `cascadeShapePipeline`, `useWizardFilteredOptions` (see phase 6.10 guide).
 - **Fee preview bar on availability step:** A bar at the top of the Appointment Availability (step 3) wizard showing total fee as a preview (e.g. "Fee preview: $X.XX"). On hover, show fee details in a popover — same structure as step 5 (Confirmation): Bag Total, optional Coupon Discount row (and Apply Coupon button when enabled by admin), Order Total, line items, Total. No submit buttons in the popover.
 - **Apply coupon toggle in admin:** Business Controls → **Calendar** → **Confirmation & Holds** subtab. Add a switch "Show apply coupon in wizard" so the Coupon Discount row and Apply Coupon button can be shown or hidden in the booking flow. Persist the setting with availability/business settings (e.g. `showApplyCouponInWizard` in payload and types); wizard reads it via availability settings and shows the coupon row in Confirmation step and in the availability-step fee popover only when the toggle is on.
@@ -353,20 +358,20 @@ Production OAuth token storage and MLS activation (credentials, validation, end-
 - **Session 6.10.3:** Availability-step fee bar and popover — compute `priceData` with `buildConfirmationPriceData` in `AvailabilityStep.vue` (wizard + propertyDetailsStepData); add compact bar at top; add hover popover with fee details; show coupon row in popover only when `showApplyCouponInWizard`; wrap Confirmation step coupon row in same conditional.
 - **See:** `features/appointment-workflow/phases/phase-6.10-guide.md` and sessions `session-6.10.1-guide.md`, `session-6.10.2-guide.md`, `session-6.10.3-guide.md`.
 
-### Phase 6.11: Drive Time Fee Line Item (Not Started)
+### Phase 6.11: Drive Time Fee Line Item (Complete — see phase guide)
 - **Admin-configurable settings (Business Controls / business rules area):** **Complimentary drive time (minutes)** — drive below this is not charged. **Driving rate per hour ($)** — (rounded billable minutes / 60) × rate. **Rounding (minutes)** — round billable drive to nearest N minutes (configurable in admin). If driving logic or fee-related config lives in Business Controls (e.g. Calendar → Confirmation & Holds or a Driving / Business Rules tab), add these three settings there; persist with business/availability settings API.
 - **Calculation:** Total drive to candidate + total drive from candidate (for the selected slot) in minutes. Billable = max(0, totalDrive − complimentary). Round billable to configured interval; drive time fee = (roundedBillable / 60) × drivingRatePerHour. Add **"Drive time"** line item to fee breakdown; include in order total. Selected-slot drive minutes must be available in wizard/confirmation context (from availability step data or slot payload); extend types if needed.
 - **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single **system "Drive time" block instance** (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the **actual amount is stored only in the fee entry**: when persisting, add one `appointment_fee_entries` row with that block’s id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
 - **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
 - **See:** `features/appointment-workflow/phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`.
 
-### Phase 6.14: Organization Defaults & Resolved Numeric Policy (In Progress)
+### Phase 6.14: Organization Defaults & Resolved Numeric Policy (Complete)
 
 - **Goal:** One canonical **organization defaults** object merged at read time with availability/calendar payloads so numeric policy (minute increments, duration rounding, drive-time fee, holds, admin entry timeout, lead time, buffers, optional constraint baselines) resolves on client and server from a single module—no silent Vue-only fallbacks.
 - **Sessions:** **6.14.1** — types, resolver, persistence (`organization_defaults` JSONB + API), admin surface, merge-at-read on computed availability (server). **6.14.2** — primary booking/validation wiring + client alignment. **6.14.3** — exhaustive audit (wire or document), optional legacy “org default” badges, Phase 3.0 resolver test checklist in docs. See `sessions/session-6.14.1-planning.md` (*Outcome*), `sessions/session-6.14.2-planning.md`, and `sessions/session-6.14.3-planning.md`.
 - **See:** `features/appointment-workflow/phases/phase-6.14-guide.md`, `features/appointment-workflow/phases/phase-6.14-planning.md`.
 
-### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Not Started)
+### Phase 6.17: Generalized Dependency-Aware Delete Wizard (Complete)
 
 - **Goal:** Replace one-shot synchronous delete for supported admin entities with a **dependency-aware workflow**: preflight → wizard (reassign / remove / cancel) → server applies resolution in transaction → final delete → client cache refresh.
 - **Scope:** Generalized cross-entity admin architecture (not a single-entity patch). Typed contracts, registry/config-driven policies, shared server + client layers.
@@ -1123,7 +1128,7 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 - **Google APIs (Feature 2) is Complete** — Calendar and Maps fully working, MLS infrastructure built (returns 503 until configured). Production OAuth storage and MLS activation are tracked in Feature 13 (Alpha Launch).
 - **Calendar & Availability (Feature 3) is Complete** — full server-side computation, client-side UI, invite configuration, and template pipeline working for booking flow
 - **Features 4–5 (Pricing Cascades, Property Enrichment)** are complete sub-features without dedicated directories
-- **Feature 6 (Appointment Workflow & Booking Calculations)** — workflow Phase 1 complete; booking calculation logic core complete, needs consolidation composable
+- **Feature 6 (Appointment Workflow & Booking Calculations)** — **complete** at feature-end 2026-04-02 (merged `develop`/`main`). Remaining optional work: Phase **6.9** mini-wizard, **6.5** session 6.5.1, **6.10** coupon finalizer / fee bar — tracked in phase guides, not blocking feature closure.
 - **Launch infrastructure** is tracked in LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)
 - **Feature 18 (Admin Assistance Wizard)** replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency
 - **Feature 19 (CRM / Inspection Platform Integration)** is part of beta-launch work: research (Spectora + ISN) and API set-up must be done so we can loop the scheduler into inspection creation (Spectora, ISN, or own CRM). See Phase 19.1–19.2 for detail; Phase 19.3 (full wiring) can follow during or after beta.
