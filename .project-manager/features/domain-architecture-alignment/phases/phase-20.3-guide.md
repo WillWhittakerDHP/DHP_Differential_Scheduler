@@ -59,18 +59,33 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). 
 ## Overview
 
 **Phase Number:** 20.3
-**Phase Name:** ** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
-**Description:** [Fill in]
+**Phase Name:** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
+**Description:** Align admin UI with FEATURE_20 **§8.3**: placement-first event-shape editing, service atomic / orchestration editors, segment UX on event block instances, and start EntityCard replacement + annotation metadata narrowing per **§6.3**.
 **Status:** Not Started
 
 ---
 
 ## Objectives
 
-- [ ] Objectives to be planned. Add key outcomes for this phase.
+- [ ] **Placement** — Event-shape admin uses clear **placementKind / anchorEdge** editing (PlacementTypeEditor or equivalent); copy avoids differential-role-as-primary framing on shapes.
+- [ ] **Service atomic** — Service-instance **convergence / atomic** editor delivered (ServiceAtomicEditor or equivalent).
+- [ ] **Domain editors** — Remaining instance-level orchestration UIs follow validity-constrained selection language.
+- [ ] **Segments** — Segment / event-instance management relocated into **event block-instance** context where planned; **Shapes** remain structural-only for validity.
+- [ ] **EntityCard / annotations** — First high-confidence EntityCard replacement slice; annotation-only metadata narrowing per plan.
+- [ ] **Quality** — Lint clean, app starts, phase log + handoff updated for **20.4**.
 
 ---
 
 ## Tasks
 
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+Run sessions **in order** (see **phase-20.3-planning.md** § Decomposition). Cascade: `session-end` → next `session-start` → `phase-end 20.3` when all sessions complete.
+
+### Sessions breakdown
+
+| Session | Focus (FEATURE_20 §8.3 sequence) |
+|--------|-----------------------------------|
+| **20.3.1** | PlacementTypeEditor / event-shape placement UX |
+| **20.3.2** | ServiceAtomicEditor |
+| **20.3.3** | Remaining domain instance editors |
+| **20.3.4** | Segment-manager relocation into event block-instance editing |
+| **20.3.5** | Annotation metadata narrowing + EntityCard replacement start |
