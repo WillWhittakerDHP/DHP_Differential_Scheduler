@@ -9,13 +9,20 @@
 ## Phase Status
 
 **Phase:** 20.2
-**Status:** [In Progress / Complete]
+**Status:** Complete
 **Started:** [Date]
-**Completed:** [Date] (if complete)
+**Completed:** 2026-04-02
 
 ---
 
 ## Completed Sessions
+
+### Session 20.2.4: Appointments, calendar integration & API cleanup ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** 20.2.4.1, 20.2.4.2
+**Key Accomplishments:**
+- Invite/calendar orchestration orders segments by `event_shapes` placement; segment link-strip helper naming; appointment persistence boundary documented.
+- Legacy `differentialRole` / `differential_role` keys isolated to `eventShapeLegacyDifferentialRoleKeys` (FEATURE_20 §5.3); phase guide/log/handoff closed for 20.3.
 
 ### Session 20.2.3: Relationships & event-instance preview ✅
 **Completed:** 2026-04-02

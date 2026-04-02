@@ -110,3 +110,18 @@
   - Replace `DOMAIN_ARCHITECTURE_REDESIGN.md` only if the review gate passes.
 - Resume sentence:
   - Resume at `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9.3; complete principle coverage and manual review before any redesign file swap.
+
+## Checkpoint 8
+
+- Section completed: Feature 20 **Phase 20.2** (Pass 2 — API alignment) closed on branch `feature/domain-architecture-alignment`
+- Decisions made (with principles refs):
+  - Internal entity/relationship/appointment/invite paths align with Phase 20.1 schema and FEATURE_20 **§5.1–5.2** (persistence + raw rows; no server PartFinalizer).
+  - Event-shape legacy **`differentialRole`** API keys are isolated in `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts` while preserving reject/strip behavior (**§5.3**).
+- Open questions:
+  - None for Phase 20.2 closure.
+- Next 3 actions:
+  - Run **`/phase-start 20.3`** (Pass 3 — Admin UX per **§8.3**).
+  - Keep feature handoff **`across-ladder.json`** in sync after tier starts.
+  - Continue client/admin work per **`phase-20.3-guide.md`** execution sequence.
+- Resume sentence:
+  - Continue Feature 20 at **Phase 20.3** — admin UX alignment (`PlacementTypeEditor`, `ServiceAtomicEditor`, segment manager under event block instance, EntityCard replacement sequence).

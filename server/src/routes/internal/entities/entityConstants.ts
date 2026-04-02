@@ -78,8 +78,6 @@ export const FIELD_NAMES = {
   WIZARD_VISIBLE_SNAKE: 'wizard_visible',
   AGENT_PERMISSIONS: 'agentPermissions',
   AGENT_PERMISSIONS_SNAKE: 'agent_permissions',
-  DIFFERENTIAL_ROLE: 'differentialRole',
-  DIFFERENTIAL_ROLE_SNAKE: 'differential_role',
   PLACEMENT_KIND: 'placementKind',
   PLACEMENT_KIND_SNAKE: 'placement_kind',
   ANCHOR_EDGE: 'anchorEdge',

@@ -52,16 +52,16 @@ Align with **ARCHITECTURE_PRINCIPLES.md** §4 (persistence vs resolution), §5 (
 **Phase Number:** 20.2
 **Phase Name:** ** Pass 2 — API alignment (routes, validation, shared contracts §8.2 / §5).
 **Description:** Align internal entity/relationship routes and validators with Phase 20.1 schema; scope event instances to parent event block instances; no server-side booking resolution.
-**Status:** Not Started
+**Status:** Complete (2026-04-02)
 
 ---
 
 ## Objectives
 
-- [ ] Entity and relationship routes accept Phase 20.1 schema: renamed block-shape `type` values and instance `composite` / `orchestrator` / `wizardVisible`.
-- [ ] Event-shape APIs expose placement fields only; event instances scoped with `parent_block_instance_id` and segment payload fields per Principles §5.4.
-- [ ] No server-side booking-total or PartFinalizer-equivalent logic in any route touched in this phase.
-- [ ] Preview, appointment persistence, and calendar integration read configuration and raw rows only (plan §5.2).
+- [x] Entity and relationship routes accept Phase 20.1 schema: renamed block-shape `type` values and instance `composite` / `orchestrator` / `wizardVisible`.
+- [x] Event-shape APIs expose placement fields only; event instances scoped with `parent_block_instance_id` and segment payload fields per Principles §5.4.
+- [x] No server-side booking-total or PartFinalizer-equivalent logic in any route touched in this phase.
+- [x] Preview, appointment persistence, and calendar integration read configuration and raw rows only (plan §5.2).
 
 ---
 
@@ -88,7 +88,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
 
 **Tasks:** Task blocks added at session-start.
 
-- [ ] ### Session 20.2.4: Appointments, calendar integration & API cleanup
+- [x] ### Session 20.2.4: Appointments, calendar integration & API cleanup
 **Description:** Appointment persistence without recomputing totals; calendar services read segment identity and placement policy; remove differential-role-specific route helpers per §5.3 where safe.
 
 **Tasks:** Task blocks added at session-start.

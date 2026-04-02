@@ -5,6 +5,10 @@ import {
 } from '../../../../../shared/utils/eventPlacementUtils.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { FIELD_NAMES } from './entityConstants.js'
+import {
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL,
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE,
+} from './eventShapeLegacyDifferentialRoleKeys.js'
 
 export function isEventShapeEntityType(entityType: string): boolean {
   return entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape'
@@ -38,10 +42,10 @@ function isEmptyAnchorValue(value: unknown): boolean {
 }
 
 export function validateEventShapeForbiddenKeys(body: Record<string, unknown>): string | null {
-  if (Object.prototype.hasOwnProperty.call(body, FIELD_NAMES.DIFFERENTIAL_ROLE)) {
+  if (Object.prototype.hasOwnProperty.call(body, EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL)) {
     return 'Event shape does not accept differentialRole; use placementKind and anchorEdge.'
   }
-  if (Object.prototype.hasOwnProperty.call(body, FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE)) {
+  if (Object.prototype.hasOwnProperty.call(body, EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE)) {
     return 'Event shape does not accept differential_role; use placement_kind and anchor_edge.'
   }
   return null
@@ -99,6 +103,6 @@ export function validateEventShapeWritePayload(body: Record<string, unknown>): s
 }
 
 export function stripLegacyEventShapeResponseFields(row: Record<string, unknown>): void {
-  delete row[FIELD_NAMES.DIFFERENTIAL_ROLE]
-  delete row[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE]
+  delete row[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL]
+  delete row[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE]
 }

@@ -3,6 +3,10 @@ import {
   sanitizeEventPlacementKindInput,
 } from '../../../../../shared/utils/eventPlacementUtils.js'
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
+import {
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL,
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE,
+} from './eventShapeLegacyDifferentialRoleKeys.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
 function sanitizeBlockInstancePrimitiveFields(data: Record<string, unknown>): Record<string, unknown> {
@@ -39,8 +43,8 @@ function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string,
       sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE]
     )
   }
-  delete sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE]
-  delete sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE]
+  delete sanitized[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL]
+  delete sanitized[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE]
   return sanitized
 }
 

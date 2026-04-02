@@ -1,78 +1,64 @@
-# Phase [N] Handoff
+# Phase 20.2 Handoff → Phase 20.3
 
 **Purpose:** Transition context between phases (large-scale concerns only)
 
 **Tier:** Phase (Tier 1 - High-Level)
 
-**Last Updated:** [Date]
-**Phase Status:** [Complete / In Progress]
-**Next Phase:** [N+1]
+**Last Updated:** 2026-04-02
+**Phase Status:** Complete
+**Next Phase:** 20.3 (Pass 3 — Admin UX alignment)
 
 ---
 
 ## Current Status
 
-**Phase [N]:** [Complete / In Progress]
-**Last Completed Session:** 20.2
-**Next Phase:** [N+1]
+**Phase 20.2:** Complete — API alignment (FEATURE_20 §8.2 / §5)
+**Last Completed Session:** 20.2.4
+**Next Phase:** 20.3
 
 ---
 
 ## Transition Context
 
 **Where we left off:**
-[Minimal notes about phase completion - 2-3 sentences max]
+Phase 20.2 delivered aligned internal routes and validators: block/event entities, relationships, event-instance preview by segment id, appointment persistence boundary documentation, calendar invite ordering by placement, and isolated legacy `differentialRole` keys for event shapes only.
 
-**What you need to start Phase [N+1]:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
+**What you need to start Phase 20.3:**
+- Read **`phase-20.3-guide.md`** (§8.3 — admin UX: orchestration editors, atomic service editor, segment manager under event block instance, EntityCard replacement order).
+- Branch: **`feature/domain-architecture-alignment`** (confirm with `across-ladder.json` before **`/phase-start 20.3`**).
 
 **Plan Changes Affecting Downstream Phases:**
-- [Only include if plan changed and affects later phases]
-- [Brief description of change and impact]
+- None recorded; follow **`FEATURE_20_ARCHITECTURE_REDESIGN.md`** §8.3 execution sequence.
 
 ---
 
 ## Phase Summary
 
-**Sessions Completed:** [List session IDs]
+**Sessions Completed:** 20.2.1, 20.2.2, 20.2.3, 20.2.4
+
 **Key Accomplishments:**
-- [Major accomplishment 1]
-- [Major accomplishment 2]
+- Entity + relationship APIs match Phase 20.1 schema; preview and invites scoped to persisted segments and placement policy.
+- Legacy event-shape differential-role keys colocated in `eventShapeLegacyDifferentialRoleKeys.ts` (reject/strip unchanged).
 
 **Decisions Made:**
-- [Decision that affects downstream phases]
+- Server remains persistence/configuration boundary; no server-side booking total resolution in this phase.
 
 ---
 
 ## Notes
 
-**Keep minimal** - Detailed notes belong in phase log, not handoff.
+Keep minimal — detail lives in **`phase-20.2-log.md`** and session logs.
 
 ---
 
 ## Related Documents
 
-- Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N]-guide.md`
-- Phase Log: `.project-manager/features/appointment-workflow/phases/phase-[N]-log.md`
-- Next Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N+1]-guide.md`
+- Phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md`
+- Phase log: `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md`
+- Next phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.3-guide.md`
 
 ---
 
 ## Next Action
 
-Continue with next step. [Fill in.]
-
-<!-- harness-across-ladder:start -->
-## Across ladder (harness)
-
-_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
-
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T18:14:42.192Z
-- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
-- **Focus phase:** `20.2` · **Next phase across:** `20.3` → `/phase-start 20.3`
-- **Focus session:** `20.2.3` · **Session 3/4 in phase** · **Next session across:** `20.2.4` → `/session-start 20.2.4`
-- **Tasks in session (detected):** 2 · **Next task across:** `20.2.3.1` → `/task-start` / cascade
-- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
-<!-- harness-across-ladder:end -->
+Run **`/phase-start 20.3`** when ready to begin Pass 3 — Admin UX alignment.
