@@ -162,6 +162,86 @@
 ---
 
 
+### Completed Phases
+
+## Completed Phases
+
+### Phase [N]: [Phase Name] ✅
+**Completed:** 2026-02-23
+**Sessions Completed:** [List of session IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+**Decisions Made:**
+- [Decision that affects feature]
+
+### Phase [N+1]: [Phase Name] ✅
+**Completed:** 2026-02-23
+**Sessions Completed:** [List of session IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+**Decisions Made:**
+- [Decision that affects feature]
+
+---
+
+
+### Key Decisions
+
+## Key Decisions
+
+### Decision 2026-02-23
+**Context:** [What decision was needed]
+**Decision:** [What was decided]
+**Rationale:** [Why this decision was made]
+**Impact:** [How this affects the feature and downstream work]
+
+---
+
+
+### Completed Phases
+
+## Completed Phases
+
+### Phase [N]: [Phase Name] ✅
+**Completed:** 2026-02-23
+**Sessions Completed:** [List of session IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+**Decisions Made:**
+- [Decision that affects feature]
+
+### Phase [N+1]: [Phase Name] ✅
+**Completed:** 2026-02-23
+**Sessions Completed:** [List of session IDs]
+**Key Accomplishments:**
+- [Accomplishment 1]
+- [Accomplishment 2]
+
+**Decisions Made:**
+- [Decision that affects feature]
+
+---
+
+
+### Key Decisions
+
+## Key Decisions
+
+### Decision 2026-02-23
+**Context:** [What decision was needed]
+**Decision:** [What was decided]
+**Rationale:** [Why this decision was made]
+**Impact:** [How this affects the feature and downstream work]
+
+---
+
+
 ## Related Documents
 
 - Feature Guide: `.project-manager/features/[name]/feature-[name]-guide.md`

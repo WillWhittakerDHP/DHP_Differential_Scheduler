@@ -1926,3 +1926,59 @@ Read these governance docs to ensure fixes comply with project patterns:
 Read each
 
 …(truncated)
+
+### 2026-04-02 — appointment-workflow — feature — end — expected_branch_missing_run_tier_start
+
+- **reasonCodeRaw:** expected_branch_missing_run_tier_start
+- **reasonCodeNormalized:** expected_branch_missing_run_tier_start
+- **isFailureReason:** true
+- **tier:** feature
+- **action:** end
+- **identifier:** appointment-workflow
+- **featureName:** appointment-workflow
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining
+
+- **Symptom:** Harness end failed (reasonCode=expected_branch_missing_run_tier_start).
+- **Context:** tier=feature; identifier=appointment-workflow; featureName=appointment-workflow
+
+nextAction:
+Expected tier branch **feature/appointment-workflow** is not present locally (no matching prefix branch).
+
+Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
+
+If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
+
+deliverables (excerpt):
+Expected tier branch **feature/appointment-workflow** is not present locally (no matching prefix branch).
+
+Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
+
+If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
+
+### 2026-04-02 — appointment-workflow — feature — end — expected_branch_missing_run_tier_start
+
+- **reasonCodeRaw:** expected_branch_missing_run_tier_start
+- **reasonCodeNormalized:** expected_branch_missing_run_tier_start
+- **isFailureReason:** true
+- **tier:** feature
+- **action:** end
+- **identifier:** appointment-workflow
+- **featureName:** appointment-workflow
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining
+
+- **Symptom:** Harness end failed (reasonCode=expected_branch_missing_run_tier_start).
+- **Context:** tier=feature; identifier=appointment-workflow; featureName=appointment-workflow
+
+nextAction:
+Expected tier branch **feature/appointment-workflow** is not present locally (no matching prefix branch).
+
+Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
+
+If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
+
+deliverables (excerpt):
+Expected tier branch **feature/appointment-workflow** is not present locally (no matching prefix branch).
+
+Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
+
+If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
