@@ -19,6 +19,12 @@ export interface ServiceAtomicPartRow {
   partInstance: PartInstanceEntity
 }
 
+/** Generic gate + rows for any block shape type(s) that use the same part-ledger columns. */
+export interface UseAtomicPartLedgerRowsReturn {
+  matchesShapeGate: ComputedRef<boolean>
+  rows: ComputedRef<ServiceAtomicPartRow[]>
+}
+
 export interface UseServiceAtomicPartRowsReturn {
   isServiceBlockInstance: ComputedRef<boolean>
   rows: ComputedRef<ServiceAtomicPartRow[]>

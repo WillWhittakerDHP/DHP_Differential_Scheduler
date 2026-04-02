@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.3.3.1: Time & price atomic part editors (mirror 20.3.2)
+- [x] #### Task 20.3.3.1: Time & price atomic part editors (mirror 20.3.2)
 **Goal:** Part-ledger VCard + table for **time** and **price** `blockInstance`, same resolution/update pattern as **ServiceAtomicEditor**.
 **Files:**
 - `client/src/composables/admin/` (composable(s))

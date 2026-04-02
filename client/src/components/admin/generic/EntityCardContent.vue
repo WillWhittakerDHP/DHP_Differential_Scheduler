@@ -8,6 +8,7 @@ import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
 import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
+import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -92,6 +93,11 @@ defineProps<Props>()
   <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
 
   <ServiceAtomicEditor
+    v-if="entityKey === 'blockInstance' && !isNew"
+    :block-instance-id="entityId"
+  />
+
+  <TimePriceAtomicPartLedgerEditor
     v-if="entityKey === 'blockInstance' && !isNew"
     :block-instance-id="entityId"
   />
