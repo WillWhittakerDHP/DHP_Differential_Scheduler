@@ -104,7 +104,7 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 
 ---
 
-- [ ] ### Session 20.1.2: Block instance three-property alignment and legacy cleanup
+- [x] ### Session 20.1.2: Block instance three-property alignment and legacy cleanup
 
 **Goal:** Add `orchestrator` and `wizardVisible` boolean columns to `block_instances`; drop legacy columns from both `block_instances` and `block_shapes` (per plan §2.3, §2.4). Update Sequelize models and client types.
 
