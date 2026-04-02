@@ -78,7 +78,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Session planning → grep-backed inventory → minimal removals → lint / smoke.
 
-- [ ] ### Session 20.4.2: Remove role enrichment; narrow PartFinal
+- [x] ### Session 20.4.2: Remove role enrichment; narrow PartFinal
 
 **Description:** Replace differential-role enrichment of block finals with **event assignments + placement + segments**; migrate first-party consumers in the same slice per **§4.3**.
 

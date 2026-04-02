@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.4.2: Remove role enrichment; narrow PartFinal ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Remove differential-role enrichment; narrow PartFinal (§8.4 / §4.3).
+
+
+
 ### Session 20.4.1: Pipeline audit + safe dead-code ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
