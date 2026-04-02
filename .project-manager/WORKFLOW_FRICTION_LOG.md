@@ -2974,6 +2974,23 @@ Read these governance docs to ensure fixes comply with project patterns:
 
 - **Composable governance**: `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/composable-governance.mdc`)
 - **Type governance**: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/type-governance.mdc`)
-- **Coding standards**: `.cursor/rules/codin
+- **Coding standards**: `.cursor/rules/coding-standards.mdc`
 
-…(truncated)
+
+### 2026-04-02 — 20.4.2.1 / 20.4.2.2 / session 20.4.2 — task-end — Tier-end stderr noise + session log commit-preview pollution
+
+- **reasonCodeRaw:** task_complete (success path; material confusion / repo hygiene)
+- **reasonCodeNormalized:** task_complete
+- **isFailureReason:** false
+- **tier:** task → session
+- **action:** end
+- **identifier:** 20.4.2.1, 20.4.2.2, 20.4.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** tier-end, commit_remaining, git, session log rollup
+
+- **Symptom:** Tier-end output includes **noisy stderr** (`compareBranchToRemote-behind`, `git merge-base --is-ancestor`, `[commitUncommitted-diff]`, `[gitCommit] Command failed`) while the harness still returns **`success: true`** — operators may think the run failed.
+- **Symptom (repo hygiene):** **`session-20.4.2-log.md`** (and earlier **`session-20.4.1-log.md`**) was **polluted** after **task-end** with **`<!-- harness:anchor:commit-preview -->`** blocks (large inline diffs) and **duplicate / stub** “Task completed” entries, requiring **manual cleanup** before commit hygiene is acceptable.
+- **Context:** Slash commands **`/task-end 20.4.2.1`**, **`/task-end 20.4.2.2`**; PM paths under `.project-manager/features/domain-architecture-alignment/sessions/`.
+- **What we tried:** Agent **post-pass**: rewrite **`session-20.4.2-log.md`** to a single **Completed Tasks** narrative + commit hashes; **strip** harness anchor through **`<!-- /harness:anchor:commit-preview -->`**; separate **`docs(pm): … strip harness commit-preview`** commit.
+- **Outcome / workaround:** Treat stderr as **non-fatal** when outcome is success; **always inspect** session logs after task-end for **commit-preview** injection and **dedupe** task sections.
+- **Suggestion:** Harness should **not write** commit-preview bodies **into** `session-*-log.md` (keep preview in stdout or ephemeral artifact only), or **auto-remove** the anchor block after the PM commit step. Reduce **merge-base** noise when branch is **expected ahead of origin**.
