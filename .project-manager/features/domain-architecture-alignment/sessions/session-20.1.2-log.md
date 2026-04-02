@@ -144,6 +144,12 @@ index 6438b21c..cf0f7659 100644
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 
+
++
++
+```
+<!-- /harness:anchor:commit-preview -->
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
@@ -162,10 +168,10 @@ Paths (3): `.project-manager/features/domain-architecture-alignment/phases/phase
 
 ```diff
 diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
-index e18e4df1..c125a5d1 100644
+index c125a5d1..91d167c0 100644
 --- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
-@@ -33,6 +33,14 @@
+@@ -41,6 +41,14 @@
  
  
  
@@ -181,10 +187,10 @@ index e18e4df1..c125a5d1 100644
  **Completed:** 2026-04-02
  **Tasks Completed:** All tasks completed
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
-index 6dfddea5..daf5bd38 100644
+index 57001fdd..0305c448 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
-@@ -22,6 +22,18 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+@@ -34,6 +34,18 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
  - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
  <!-- harness-across-ladder:end -->
  
@@ -192,7 +198,7 @@ index 6dfddea5..daf5bd38 100644
 +
 +_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 +
-+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:18.982Z
++- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:48.831Z
 +- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 +- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 +- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
@@ -203,7 +209,7 @@ index 6dfddea5..daf5bd38 100644
  ## Current Status
  
  **Last Completed:** Task 
-@@ -41,19 +53,6 @@ Completed Task
+@@ -53,19 +65,6 @@ Completed Task
  **What you need to start:**
  - Begin Session 20.1.3
  
@@ -212,7 +218,7 @@ index 6dfddea5..daf5bd38 100644
 -
 -_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 -
--- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:18.982Z
+-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:48.831Z
 -- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 -- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 -- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
@@ -223,11 +229,11 @@ index 6dfddea5..daf5bd38 100644
  
  ## Document Structure Guidelines
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-index 1926319c..2e75ee48 100644
+index 43d7f0f9..3111bf15 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-@@ -254,3 +254,5 @@ index 0fa3804d..855c26db 100644
- … (truncated)
+@@ -234,3 +234,5 @@ index 1926319c..2e75ee48 100644
+ +
  ```
  <!-- /harness:anchor:commit-preview -->
 +
