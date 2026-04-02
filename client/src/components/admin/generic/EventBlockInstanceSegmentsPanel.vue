@@ -1,10 +1,13 @@
 <!--
   WHY: FEATURE_20 §8.3 — segments edited on event block instance cards (parentBlockInstanceId scope).
-  PATTERN: Thin shell; logic in useBlockInstanceEventSegments; reuse Instances-tab child components.
+  PATTERN: Thin shell; focused composables (parent filter, drag order, panels); reuse Instances-tab children.
 -->
 <script setup lang="ts">
 import { toRef } from 'vue'
-import { useBlockInstanceEventSegments } from '@/composables/admin/useBlockInstanceEventSegments'
+import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { useBlockInstanceEventInstancesForParent } from '@/composables/admin/useBlockInstanceEventInstancesForParent'
+import { useBlockInstanceEventSegmentDragOrder } from '@/composables/admin/useBlockInstanceEventSegmentDragOrder'
+import { useBlockInstanceEventSegmentPanels } from '@/composables/admin/useBlockInstanceEventSegmentPanels'
 import EventInstanceBuilderBody from '@/views/admin/tabs/components/EventInstanceBuilderBody.vue'
 import EventInstanceListItem from '@/views/admin/tabs/components/EventInstanceListItem.vue'
 
@@ -12,25 +15,43 @@ const props = defineProps<{
   blockInstanceId: string
 }>()
 
-const {
-  expandedInstances,
-  eventInstancesDisplay,
+const blockIdRef = toRef(props, 'blockInstanceId')
+const parent = useBlockInstanceEventInstancesForParent(blockIdRef)
+const { entities: eventShapes } = useEntityCrud('eventShape')
+
+const drag = useBlockInstanceEventSegmentDragOrder({
+  filteredEventInstances: parent.filteredEventInstances,
+  patchEventInstanceOrderIndex: parent.patchEventInstanceOrderIndex,
+})
+
+const segmentPanels = useBlockInstanceEventSegmentPanels({
+  blockInstanceId: parent.blockInstanceId,
+  filteredEventInstances: parent.filteredEventInstances,
   eventShapes,
-  hasEventInstances,
-  isLoadingEventInstances,
+  createEventInstance: parent.createEventInstance,
+  removeEventInstance: parent.removeEventInstance,
+})
+
+const { expandedInstances, isPanelExpanded } = segmentPanels.expansion
+const {
   isCreatingEventInstance,
   newEventInstanceData,
   isCreatingEventInstanceLoading,
   canSubmitNewEventInstance,
   newSegmentPanelValue,
-  isPanelExpanded,
+} = segmentPanels.draft
+const {
   openCreateEventInstanceForm,
   handleEventInstanceCreate,
   handleEventInstanceCancelled,
   handleDeleteEventInstance,
+} = segmentPanels.actions
+const {
+  eventInstancesDisplay,
   bindEventInstancesContainer,
   bindEventInstancesPanelsContainer,
-} = useBlockInstanceEventSegments(toRef(props, 'blockInstanceId'))
+} = drag
+const { hasEventInstances, isLoadingEventInstances } = parent
 </script>
 
 <template>
