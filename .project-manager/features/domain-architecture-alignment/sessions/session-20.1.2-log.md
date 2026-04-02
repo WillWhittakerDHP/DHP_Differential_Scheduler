@@ -147,29 +147,25 @@ index 6438b21c..cf0f7659 100644
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (7): `.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.2.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.2.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.1.2/`
+Paths (3): `.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../phases/phase-20.1-log.md                       |   8 +
- .../sessions/session-20.1.2-handoff.md             |  25 +-
- .../sessions/session-20.1.2-log.md                 |   2 +
- .../sessions/session-20.1.2-planning.md            | 364 ++++++++-------------
- .../sessions/task-20.1.2.1-planning.md             | 174 ----------
- .../sessions/task-20.1.2.2-planning.md             | 187 -----------
- 6 files changed, 160 insertions(+), 600 deletions(-)
+.../phases/phase-20.1-log.md                       |  8 +++++++
+ .../sessions/session-20.1.2-handoff.md             | 25 +++++++++++-----------
+ .../sessions/session-20.1.2-log.md                 |  2 ++
+ 3 files changed, 22 insertions(+), 13 deletions(-)
 ```
 
 ### `git diff HEAD`
-_(diff truncated to cap)_
 
 ```diff
 diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
-index ace6ce16..e18e4df1 100644
+index e18e4df1..c125a5d1 100644
 --- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
-@@ -25,6 +25,14 @@
+@@ -33,6 +33,14 @@
  
  
  
@@ -185,18 +181,18 @@ index ace6ce16..e18e4df1 100644
  **Completed:** 2026-04-02
  **Tasks Completed:** All tasks completed
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
-index 59997eff..f7c9515c 100644
+index 6dfddea5..daf5bd38 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
-@@ -10,6 +10,18 @@
- 
- ---
+@@ -22,6 +22,18 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+ - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+ <!-- harness-across-ladder:end -->
  
 +## Across ladder (harness)
 +
 +_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 +
-+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:38:07.749Z
++- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:18.982Z
 +- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 +- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 +- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
@@ -207,7 +203,7 @@ index 59997eff..f7c9515c 100644
  ## Current Status
  
  **Last Completed:** Task 
-@@ -29,19 +41,6 @@ Completed Task
+@@ -41,19 +53,6 @@ Completed Task
  **What you need to start:**
  - Begin Session 20.1.3
  
@@ -216,7 +212,7 @@ index 59997eff..f7c9515c 100644
 -
 -_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 -
--- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:38:07.749Z
+-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:39:18.982Z
 -- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 -- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 -- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
@@ -227,30 +223,14 @@ index 59997eff..f7c9515c 100644
  
  ## Document Structure Guidelines
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-index 0fa3804d..855c26db 100644
+index 1926319c..2e75ee48 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-@@ -301,3 +301,5 @@ index 3c80a8e7..61912144 100644
- ## Story
+@@ -254,3 +254,5 @@ index 0fa3804d..855c26db 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
 +
- **This session delivers** block-instance three-property schema alignment and block-shape legacy cleanup across migrations, Sequelize models, and directly impacted type/validation consumers **so that** later passes can treat `block_instances` as the home of `composite` / `orchestrator` / `wizardVisible` without carrying legacy shape booleans or stale instance fields.
- **Estimated size:** M
- 
- ---
--## Architecture context (harness-injected)
--
--## 1. System overview
- 
--Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
--
--- **Public booking users** — wizard-style scheduling and property/availability flows.
--- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
--
--TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
-+## Analysis
- 
-----
-+- **Problem / why now:** Session 20.1.1 renamed the type vocabulary; 
-… (truncated)
++
 ```
 <!-- /harness:anchor:commit-preview -->
