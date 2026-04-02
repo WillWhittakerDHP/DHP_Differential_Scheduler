@@ -11,6 +11,14 @@
 
 ## Completed Tasks
 
+### Task 20.2.2.2: Task 20.2.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.2.2.3
+
+
+
 ### Task 20.2.2.1: Task 20.2.2.1 ✅
 **Goal:** Task completed
 
@@ -35,7 +43,7 @@
 **Next Task:**
 - 20.2.2.2
 
-<!-- harness:anchor:commit-preview -->
+
 ## Harness: commit preview (in-scope diff)
 
 Paths (4): `.project-manager/WORKFLOW_FRICTION_LOG.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md`, `server/src/routes/internal/entities/entityBatchRouter.ts`
@@ -149,6 +157,49 @@ index bf198001..cb072319 100644
  - `server/src/routes/internal/entities/eventShapeEntityValidation.ts` (new, or combined module)
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
 index a5a6ed39..82454a17 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+@@ -11,6 +11,14 @@
+ 
+### Task 20.2.2.2: Task 20.2.2.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.2.2.3
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (7): `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md`, `server/src/routes/internal/entities/entityBulkRouter.ts`, `server/src/routes/internal/entities/entityCrudRouter.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.2.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.2.2-planning.md`, `server/src/routes/internal/entities/eventInstanceEntityValidation.ts`
+
+### `git diff --stat HEAD`
+
+```text
+.../sessions/session-20.2.2-guide.md               |  2 +-
+ .../sessions/session-20.2.2-log.md                 | 16 ++++++++++++-
+ .../routes/internal/entities/entityBulkRouter.ts   | 24 +++++++++++++++++--
+ .../routes/internal/entities/entityCrudRouter.ts   | 28 ++++++++++++++++++++++
+ 4 files changed, 66 insertions(+), 4 deletions(-)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
+index cb072319..9e1d9b9f 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
+@@ -62,7 +62,7 @@ These sections contain session-specific content:
+ **Approach:** Mirror **20.2.1** pre-sanitize validators; defense-in-depth **400** on forbidden keys; strip or exclude legacy keys on read if needed.
+ **Checkpoint:** Invalid placement pairs **400**; valid saves unchanged; server lint clean.
+ 
+-- [ ] #### Task 20.2.2.2: Event instance — `parentBlockInstanceId` + §5.4 segment fields
++- [x] #### Task 20.2.2.2: Event instance — `parentBlockInstanceId` + §5.4 segment fields
+ **Goal:** **POST** requires **`parentBlockInstanceId`**; validate segment/calendar field types when present; wire CRUD + **`entityBulkRouter`** for **`eventInstance`**.
+ **Files:**
+ - `server/src/routes/internal/entities/eventInstanceEntityValidation.ts` (new)
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+index d9c16caf..f1a08627 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
 @@ -11,6 +11,14 @@

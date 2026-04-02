@@ -62,7 +62,7 @@ These sections contain session-specific content:
 **Approach:** Mirror **20.2.1** pre-sanitize validators; defense-in-depth **400** on forbidden keys; strip or exclude legacy keys on read if needed.
 **Checkpoint:** Invalid placement pairs **400**; valid saves unchanged; server lint clean.
 
-- [ ] #### Task 20.2.2.2: Event instance — `parentBlockInstanceId` + §5.4 segment fields
+- [x] #### Task 20.2.2.2: Event instance — `parentBlockInstanceId` + §5.4 segment fields
 **Goal:** **POST** requires **`parentBlockInstanceId`**; validate segment/calendar field types when present; wire CRUD + **`entityBulkRouter`** for **`eventInstance`**.
 **Files:**
 - `server/src/routes/internal/entities/eventInstanceEntityValidation.ts` (new)

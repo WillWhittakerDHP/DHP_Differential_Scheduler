@@ -26,6 +26,10 @@ import {
   stripLegacyEventShapeResponseFields,
   validateEventShapeWritePayload,
 } from './eventShapeEntityValidation.js'
+import {
+  isEventInstanceEntityType,
+  validateEventInstanceWritePayload,
+} from './eventInstanceEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -147,6 +151,14 @@ router.post(
         }
       }
 
+      if (isEventInstanceEntityType(createEntityType)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(bodyForCreate, 'create')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
@@ -224,6 +236,14 @@ router.put(
         const eventShapeErr = validateEventShapeWritePayload(bodyForPut)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
+      if (isEventInstanceEntityType(putEntityTypeEarly)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(bodyForPut, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
         }
       }
@@ -356,6 +376,14 @@ router.patch(
         const eventShapeErr = validateEventShapeWritePayload(updateData)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
+      if (isEventInstanceEntityType(entityType)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(updateData, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
         }
       }

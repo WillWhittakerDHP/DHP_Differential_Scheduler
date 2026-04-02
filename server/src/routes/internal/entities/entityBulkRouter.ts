@@ -18,6 +18,7 @@ import { normalizeAnnotationShapeWritePayload } from '../../../services/annotati
 import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { validateBlockInstanceBooleanFields } from './blockInstanceEntityValidation.js'
 import { validateEventShapeWritePayload } from './eventShapeEntityValidation.js'
+import { validateEventInstanceWritePayload } from './eventInstanceEntityValidation.js'
 
 const router = Router()
 
@@ -56,11 +57,20 @@ router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRe
         }
       }
     }
-    if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
+    if (entityType === ENTITY_KEYS.EVENT_SHAPE) {
       for (const row of body) {
         const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+    }
+    if (entityType === ENTITY_KEYS.EVENT_INSTANCE) {
+      for (const row of body) {
+        const eventInstanceErr = validateEventInstanceWritePayload(row as Record<string, unknown>, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
         }
       }
@@ -122,11 +132,21 @@ router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(e
       }
     }
 
-    if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
+    if (entityType === ENTITY_KEYS.EVENT_SHAPE) {
       for (const row of updates) {
         const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+    }
+
+    if (entityType === ENTITY_KEYS.EVENT_INSTANCE) {
+      for (const row of updates) {
+        const eventInstanceErr = validateEventInstanceWritePayload(row as Record<string, unknown>, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
         }
       }
