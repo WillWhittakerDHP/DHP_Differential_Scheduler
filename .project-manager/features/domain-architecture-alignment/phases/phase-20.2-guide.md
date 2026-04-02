@@ -73,7 +73,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
 
 ## Sessions breakdown
 
-- [ ] ### Session 20.2.1: Block shape & block instance entity routes
+- [x] ### Session 20.2.1: Block shape & block instance entity routes
 **Description:** Align `blockShape` / `blockInstance` internal CRUD and validators with Phase 20.1 (`type` enum, `composite`, `orchestrator`, `wizardVisible`).
 
 **Tasks:** Task blocks added at session-start.
