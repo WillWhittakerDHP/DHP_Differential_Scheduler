@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.3.2.1: Service atomic row model (composable)
+- [x] #### Task 20.3.2.1: Service atomic row model (composable)
 **Goal:** Resolve typed **part-instance rows** for a **service** `blockInstance` using existing `partAssignments` resolution (`blockInstancePartsTotalsResolution` / same lineage as `usePartsTotals`); gate on `blockShape.type === 'service'`.
 **Files:**
 - `client/src/utils/admin/blockInstancePartsTotalsResolution.ts` (reuse)
