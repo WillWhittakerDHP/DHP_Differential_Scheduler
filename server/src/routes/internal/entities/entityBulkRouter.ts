@@ -17,6 +17,7 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { validateBlockInstanceBooleanFields } from './blockInstanceEntityValidation.js'
+import { validateEventShapeWritePayload } from './eventShapeEntityValidation.js'
 
 const router = Router()
 
@@ -51,6 +52,15 @@ router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRe
         const blockInstanceErr = validateBlockInstanceBooleanFields(row as Record<string, unknown>)
         if (blockInstanceErr !== null) {
           sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+    }
+    if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
+      for (const row of body) {
+        const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
         }
       }
@@ -109,6 +119,16 @@ router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(e
           delete row[key]
         }
         Object.assign(row, next)
+      }
+    }
+
+    if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
+      for (const row of updates) {
+        const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
       }
     }
 

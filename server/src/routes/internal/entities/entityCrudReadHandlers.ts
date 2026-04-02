@@ -1,3 +1,4 @@
+import type { Model } from 'sequelize';
 import type { Request, Response } from 'express';
 import { fetchAll, fetchById } from '../../helpers/dataController.js';
 import { ERROR_MESSAGES } from './entityConstants.js';
@@ -11,6 +12,9 @@ import { getModelAttributes } from '../../../utils/sequelizeHelpers.js';
 import { sendSuccess, sendNotFound, sendError } from '../../helpers/routerResponseHelpers.js';
 import { paramString } from '../../helpers/requestHelpers.js';
 import { HTTP_STATUS_CODES } from '../../../constants/router.js';
+import {
+  stripLegacyEventShapeResponseFields,
+} from './eventShapeEntityValidation.js';
 
 export async function handleEntityCrudList(req: Request, res: Response): Promise<void> {
   const { entityConfig } = req;
@@ -43,6 +47,16 @@ export async function handleEntityCrudList(req: Request, res: Response): Promise
       const formatted = (data as InstanceType<typeof AnnotationInstance>[]).map((row) => {
         const plain = row.get({ plain: true }) as AnnotationWithContentPlain & Record<string, unknown>;
         plain.text = resolveAnnotationTextForAssignment(plain, null);
+        return plain;
+      });
+      sendSuccess(res, formatted);
+      return;
+    }
+
+    if (entityTypeParam === ENTITY_KEYS.EVENT_SHAPE || entityTypeParam === 'eventShape') {
+      const formatted = (data as Model[]).map((row) => {
+        const plain = row.get({ plain: true }) as Record<string, unknown>;
+        stripLegacyEventShapeResponseFields(plain);
         return plain;
       });
       sendSuccess(res, formatted);
@@ -95,6 +109,13 @@ export async function handleEntityCrudGetById(req: Request, res: Response): Prom
     if (!record) {
       const errorMessage = ERROR_MESSAGES.ENTITY_NOT_FOUND.replace('{displayName}', entityConfig.displayName);
       sendNotFound(res, errorMessage, id);
+      return;
+    }
+
+    if (entityTypeParam === ENTITY_KEYS.EVENT_SHAPE || entityTypeParam === 'eventShape') {
+      const plain = (record as Model).get({ plain: true }) as Record<string, unknown>;
+      stripLegacyEventShapeResponseFields(plain);
+      sendSuccess(res, plain);
       return;
     }
 

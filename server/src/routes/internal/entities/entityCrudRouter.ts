@@ -1,3 +1,4 @@
+import type { Model } from 'sequelize'
 import { Router, Request, Response } from 'express'
 import {
   createRecord,
@@ -20,6 +21,11 @@ import {
   isBlockInstanceEntityType,
   validateBlockInstanceBooleanFields,
 } from './blockInstanceEntityValidation.js'
+import {
+  isEventShapeEntityType,
+  stripLegacyEventShapeResponseFields,
+  validateEventShapeWritePayload,
+} from './eventShapeEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -133,6 +139,14 @@ router.post(
         }
       }
 
+      if (isEventShapeEntityType(createEntityType)) {
+        const eventShapeErr = validateEventShapeWritePayload(bodyForCreate)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
@@ -150,6 +164,12 @@ router.post(
         } else {
           await syncAnnotationInstanceContentFromLegacyColumns(createdInst)
         }
+      }
+      if (isEventShapeEntityType(createEntityType)) {
+        const plain = (created as Model).get({ plain: true }) as Record<string, unknown>
+        stripLegacyEventShapeResponseFields(plain)
+        sendCreated(res, plain)
+        return
       }
       sendCreated(res, created)
     } catch (error) {
@@ -196,6 +216,14 @@ router.put(
         const blockInstanceErr = validateBlockInstanceBooleanFields(bodyForPut)
         if (blockInstanceErr !== null) {
           sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
+      if (isEventShapeEntityType(putEntityTypeEarly)) {
+        const eventShapeErr = validateEventShapeWritePayload(bodyForPut)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
         }
       }
@@ -320,6 +348,14 @@ router.patch(
         const blockInstanceErr = validateBlockInstanceBooleanFields(updateData)
         if (blockInstanceErr !== null) {
           sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
+      if (isEventShapeEntityType(entityType)) {
+        const eventShapeErr = validateEventShapeWritePayload(updateData)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
         }
       }
