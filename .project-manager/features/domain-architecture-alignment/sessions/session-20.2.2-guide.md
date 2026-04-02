@@ -419,3 +419,5 @@ Break each session into focused tasks:
 ## Notes
 
 - Session planning: `sessions/session-20.2.2-planning.md`. No server-side PartFinalizer or booking totals.
+
+<!-- end excerpt session -->

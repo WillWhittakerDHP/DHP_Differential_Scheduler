@@ -78,7 +78,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
 
 **Tasks:** Task blocks added at session-start.
 
-- [ ] ### Session 20.2.2: Event shape & event instance entity routes
+- [x] ### Session 20.2.2: Event shape & event instance entity routes
 **Description:** Placement-only surfaces for event shapes; event instances require parent event block context and validate segment fields per §5.4.
 
 **Tasks:** Task blocks added at session-start.

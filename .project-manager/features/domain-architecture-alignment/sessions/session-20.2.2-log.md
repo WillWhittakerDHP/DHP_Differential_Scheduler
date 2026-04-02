@@ -167,7 +167,7 @@ index a5a6ed39..82454a17 100644
 **Next Task:**
 - 20.2.2.3
 
-<!-- harness:anchor:commit-preview -->
+
 ## Harness: commit preview (in-scope diff)
 
 Paths (7): `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md`, `server/src/routes/internal/entities/entityBulkRouter.ts`, `server/src/routes/internal/entities/entityCrudRouter.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.2.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.2.2-planning.md`, `server/src/routes/internal/entities/eventInstanceEntityValidation.ts`
@@ -204,3 +204,157 @@ index d9c16caf..f1a08627 100644
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
 @@ -11,6 +11,14 @@
  
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (7): `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.2.2.2-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-handoff.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../phases/phase-20.2-guide.md                     |   2 +-
+ .../phases/phase-20.2-log.md                       |   8 +
+ .../sessions/session-20.2.2-guide.md               |   2 +
+ .../sessions/session-20.2.2-log.md                 |   7 +-
+ .../sessions/session-20.2.2-planning.md            | 288 ---------------------
+ .../sessions/task-20.2.2.2-planning.md             | 164 ------------
+ 6 files changed, 17 insertions(+), 454 deletions(-)
+```
+
+### `git diff HEAD`
+_(diff truncated to cap)_
+
+```diff
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
+index 42acbf89..bdb7e93b 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-guide.md
+@@ -78,7 +78,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
+ 
+ **Tasks:** Task blocks added at session-start.
+ 
+-- [ ] ### Session 20.2.2: Event shape & event instance entity routes
++- [x] ### Session 20.2.2: Event shape & event instance entity routes
+ **Description:** Placement-only surfaces for event shapes; event instances require parent event block context and validate segment fields per §5.4.
+ 
+ **Tasks:** Task blocks added at session-start.
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
+index 6c6ed5ce..927f0270 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.2-log.md
+@@ -17,6 +17,14 @@
+ 
+ ## Completed Sessions
+ 
++### Session 20.2.2: Event shape & event instance entity routes ✅
++**Completed:** 2026-04-02
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Event shape & event instance entity routes — placement-only shapes; parent-owned segments; §5.4 validation; no differential-role in API.
++
++
++
+ ### Session 20.2.1: Block shape & block instance entity routes ✅
+ **Completed:** 2026-04-02
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
+index 9e1d9b9f..7b789a09 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-guide.md
+@@ -419,3 +419,5 @@ Break each session into focused tasks:
+ ## Notes
+ 
+ - Session planning: `sessions/session-20.2.2-planning.md`. No server-side PartFinalizer or booking totals.
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+index 233ff325..dcae1bc0 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+@@ -203,4 +203,9 @@ index d9c16caf..f1a08627 100644
+ --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+ +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-log.md
+ @@ -11,6 +11,14 @@
+- 
+\ No newline at end of file
++ 
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-planning.md
+deleted file mode 100644
+index d178bfd3..00000000
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.2.2-planning.md
++++ /dev/null
+@@ -1,288 +0,0 @@
+-# Plan: session 20.2.2 — Event shape & event instance entity routes (API alignment)
+-
+-## Contract
+-- **Tier:** session | **ID:** 20.2.2
+-- **Scope:** Internal **`/internal/entities`** (and **`entityBulkRouter`** where applicable) for **`eventShape`** and **`eventInstance`**: placement-only writes for shapes; **`parentBlockInstanceId`** required for new segments; segment payload validation per **Principles §5.4**; responses must not surface legacy **`differentialRole`** on event shapes.
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
+-  - … _(truncated)_
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture, booking
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Completed Task - Begin Session 20.2.2 <!-- harness-across-ladder:start -->
+-
+-## Story
+-**This session delivers** server-side validation and response hygiene for **`eventShape`** and **`eventInstance`** on generic entity CRUD **so that** admin and preview consumers see **Feature 20** contracts only (placement fields on shapes, owned segments on instances) and **§8.2** acceptance checks hold before **20.2.3** (relationships + preview).
+-
+-**Estimated size:** M
+-
+----
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
+-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, 
+… (truncated)
+```
+<!-- /harness:anchor:commit-preview -->
