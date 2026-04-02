@@ -85,7 +85,7 @@ Continue Phase 20.3: run **`/session-start 20.3.5`** on branch `feature/domain-a
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T22:34:55.115Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T22:37:30.804Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.4` · **Next phase across:** `20.5` → `/phase-start 20.5`
 - **Focus session:** `20.4.4` · **Session 4/4 in phase** · **Next session across:** _(then /phase-end)_

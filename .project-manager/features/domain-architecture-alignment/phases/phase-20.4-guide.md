@@ -52,7 +52,7 @@ Anchor on **ARCHITECTURE_PRINCIPLES.md** §4 (two-tier resolution, PartFinalizer
 **Phase Number:** 20.4  
 **Phase Name:** Pass 4 — Booking pipeline alignment (PartFinalizer, slot/time, minimizer, perspective; §8.4 / §4).  
 **Description:** Remove differential-role **pipeline** enrichment; drive grouping, slot layout, time-axis application, minimizer bounds, and perspective from **event instances + placement** while preserving **lineage** correlation and **zero-out** ordering. **PartFinalizer stays client-side.**  
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
