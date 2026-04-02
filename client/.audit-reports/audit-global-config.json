@@ -315,11 +315,6 @@
       ],
       "specific": [
         {
-          "file": "client/src/composables/admin/useBusinessRuleForm.ts",
-          "ruleId": "unhelpful-default-nullish",
-          "reason": "Optional form field; empty string default intentional"
-        },
-        {
           "file": "client/src/composables/admin/useDifferentialPerspectives.ts",
           "ruleId": "unhelpful-default-nullish",
           "reason": "Optional form field; empty array/string default intentional"
@@ -333,35 +328,6 @@
           "file": "server/src/scripts/helpers/calendarParsingHelpers.ts",
           "ruleId": "unhelpful-default-or",
           "reason": "Comment/docs only; no runtime || '' in code"
-        },
-        {
-          "file": "client/src/utils/booking/confirmationStepData.ts",
-          "ruleIds": [
-            "chaining-fallback",
-            "unhelpful-default-nullish"
-          ],
-          "reason": "Intentional optional chaining and empty-array default for optional wizard arrays"
-        },
-        {
-          "file": "client/src/utils/safeDefaults.ts",
-          "ruleIds": [
-            "unhelpful-default-nullish",
-            "unhelpful-default-or"
-          ],
-          "reason": "Centralized safe defaults; fallback is logged"
-        },
-        {
-          "file": "server/src/utils/safeDefaults.ts",
-          "ruleIds": [
-            "unhelpful-default-nullish",
-            "unhelpful-default-or"
-          ],
-          "reason": "Centralized safe defaults; fallback is logged"
-        },
-        {
-          "file": "server/src/constants/appConstants.ts",
-          "ruleId": "unhelpful-default-or",
-          "reason": "Constants file; intentional default (hotspot triage allowlist)"
         }
       ]
     },
