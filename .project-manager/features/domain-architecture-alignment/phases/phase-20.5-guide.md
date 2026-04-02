@@ -80,3 +80,18 @@ Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **p
 ## Tasks
 
 Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; keep this phase guide objectives in sync at session-end.
+
+- [ ] ### Session 20.5.1: Migration chain inventory
+**Description:** Map existing **`20260432_*`** migrations to **FEATURE_20 §9.5** ordering; choose **DOMAIN_REWRITE_WORKLOG** vs **`MIGRATION_SEQUENCE.md`**; draft the ordered sequence table.
+
+**Tasks:** [To be planned]
+
+- [ ] ### Session 20.5.2: Baseline placement and event routing
+**Description:** Document **seed expectations** and explicit **baseline event-orchestrator / placement** behavior for fresh and upgraded DBs; address **§9.6** implicit default routing in prose.
+
+**Tasks:** [To be planned]
+
+- [ ] ### Session 20.5.3: Legacy assumption closure
+**Description:** Complete **§0.2 / §2** legacy-to-target mapping; final **§8.5** acceptance checklist; **phase handoff** → **20.6**.
+
+**Tasks:** [To be planned]
