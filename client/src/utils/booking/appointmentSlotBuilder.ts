@@ -11,13 +11,13 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
+import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
 import {
   calculateSlotShape,
   enrichBlockFinalsWithDifferentialRoles,
-  mergeBlockDifferentialRoleOverrides,
 } from './partFinalizer'
 import {
   createBlockFinals,
@@ -153,7 +153,8 @@ export function buildAppointmentShape(
 
   const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
 
-  const differentialEventRoleOverrides = mergeBlockDifferentialRoleOverrides(nonZeroedBlockFinals)
+  // Block-instance differential role overrides were removed; slot math uses event-shape placement only.
+  const differentialEventRoleOverrides: Record<string, DifferentialRole> = {}
 
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,

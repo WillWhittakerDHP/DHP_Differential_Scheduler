@@ -1,6 +1,6 @@
 # Session 20.4.1: Pipeline audit + safe dead-code (booking)
 
-**Last updated:** 2026-04-02
+**Last updated:** 2026-04-02 (inventory amended after task **20.4.1.2**)
 
 ---
 
@@ -28,8 +28,8 @@
 | `filterZeroedBlocks` / `filterZeroedParts` (`blockFinalizer.ts`, `partFinalizer.ts`) | **5** (partial) | Drops zeroed parts/blocks before slot math — related to zero-out semantics; not identical to “applyZeroOutLast” ordering in principles (see §4.4). |
 | `buildEventAssignmentsByPartShape` (`appointmentSlotBuilder.ts`) | **4** (supporting structure) | Produces `eventAssignmentsByPartShape` from relationships + instances. Feeds enrichment and duration rollup by event shape. |
 | `enrichBlockFinalsWithDifferentialRoles` (`partFinalizer.ts`) | **§4.3 remove** | Derives `PartFinal.major` / `minor` / `minimizer` from placement → `DifferentialRole`. Target: replace with placement + instance grouping only. |
-| `mergeBlockDifferentialRoleOverrides` (`partFinalizer.ts`) | Dead plumbing | Always returns `{}`; block-level overrides removed per comment. |
-| `calculateSlotShape` + `partFinalizerSlotShapeHelpers` (`partFinalizerSlotShape.ts`) | **6–8** (partial) | `accumulateRawDurationsFromBlockFinals` uses **part `baseTime`** × event assignments, **not** `PartFinal.major/minor/minimizer`. Differential **offsets** use `getEventShapeByRoleWithOverrides(..., 'major'/'minor', mergedRoleOverrides)` — role labels, with overrides map currently always empty from merge. |
+| ~~`mergeBlockDifferentialRoleOverrides`~~ | Removed **20.4.1.2** | Was no-op `{}`; inlined in `buildAppointmentShape`. |
+| `calculateSlotShape` + `partFinalizerSlotShapeHelpers` (`partFinalizerSlotShape.ts`) | **6–8** (partial) | `accumulateRawDurationsFromBlockFinals` uses **part `baseTime`** × event assignments, **not** `PartFinal.major/minor/minimizer`. Differential **offsets** use `getEventShapeByRoleWithOverrides(..., 'major'/'minor', mergedRoleOverrides)` — role labels; overrides map still `{}` from `buildAppointmentShape`. |
 | `applyShapeToTime` (`appointmentSlotBuilder.ts`) | **8 → slot instance** | Builds `AppointmentSlot` with time ranges; calls `resolveEventShapes` / `adjustMinorTimeRange` / perspective-related paths. |
 | `perspectiveResolver` / `derivePerspective` | **9** (downstream) | Uses event shapes + optional `differentialEventRoleOverrides` on models. |
 | `minimizerEventShapes`, minimizer scheduling composables | **10** (downstream) | Uses `effectiveDifferentialRole` + placement for shape selection in minimizer path. |
@@ -40,20 +40,21 @@
 
 ## Consumer inventory (grep-backed, 2026-04-02)
 
-### A. `enrichBlockFinalsWithDifferentialRoles` / `mergeBlockDifferentialRoleOverrides`
+### A. `enrichBlockFinalsWithDifferentialRoles` (and former merge helper)
 
 | File | Role |
 |------|------|
-| `client/src/utils/booking/partFinalizer.ts` | Defines both. |
-| `client/src/utils/booking/appointmentSlotBuilder.ts` | Only caller of both. |
+| `client/src/utils/booking/partFinalizer.ts` | Defines `enrichBlockFinalsWithDifferentialRoles` only (**20.4.1.2** removed `mergeBlockDifferentialRoleOverrides`). |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | Calls enrichment; inlines `{}` for `differentialEventRoleOverrides`. |
 | `client/src/utils/booking/PartFinal.ts` | Comment references enrichment defaults. |
 
 ### B. `DifferentialRole` type imports (`@shared/types/differentialRole`) — client
 
 | File | Role |
 |------|------|
-| `client/src/utils/booking/partFinalizer.ts` | Merge map + enrichment. |
+| `client/src/utils/booking/partFinalizer.ts` | Enrichment + resolve helpers. |
 | `client/src/utils/booking/partFinalizerSlotShape.ts` | `calculateSlotShape` param `mergedRoleOverrides`. |
+| `client/src/utils/booking/appointmentSlotBuilder.ts` | `DifferentialRole` for empty overrides map on `AppointmentShape`. |
 | `client/src/utils/booking/partFinalizerSlotShapeHelpers.ts` | `computeDifferentialOffsetsFromMaps` param. |
 | `client/src/utils/booking/perspectiveResolver.ts` | Optional overrides on resolve helpers. |
 | `client/src/utils/booking/minimizerEventShapes.ts` | Template + effective role per event shape. |
@@ -74,7 +75,7 @@
 
 ### D. `differentialEventRoleOverrides` / `mergedRoleOverrides` flow
 
-- **Produced:** `buildAppointmentShape` sets `differentialEventRoleOverrides` from `mergeBlockDifferentialRoleOverrides` → always `{}`.
+- **Produced:** `buildAppointmentShape` sets `differentialEventRoleOverrides` to `{}` (inlined after **20.4.1.2**; former merge helper removed).
 - **Consumed:** Passed into `calculateSlotShape` as `mergedRoleOverrides`; forwarded on `AppointmentShape` for perspective / UI models. Non-empty path would require future wiring from appointment payload or admin overrides (not present in merge today).
 
 ### E. Server (legacy / validation only for this audit)

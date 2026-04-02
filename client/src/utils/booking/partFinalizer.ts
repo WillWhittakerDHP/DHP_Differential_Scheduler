@@ -15,14 +15,6 @@ export { calculateSlotShape } from './partFinalizerSlotShape'
 
 const logger = createLogger('partFinalizer')
 
-/**
- * Merge per-block differential role overrides for slot math (AppointmentShape).
- * Block-instance–level overrides were removed in domain alignment; roles come from event shape templates only.
- */
-export function mergeBlockDifferentialRoleOverrides(_blockFinals: BlockFinal[]): Record<string, DifferentialRole> {
-  return {}
-}
-
 function partShapeKey(part: BookingPartInstance): string {
   const raw = part.partShape
   if (raw === undefined || raw === null || raw === '') {
