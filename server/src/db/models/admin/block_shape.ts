@@ -20,7 +20,7 @@ export class BlockShape extends Model<
   declare id: CreationOptional<string>;
   declare orderIndex: CreationOptional<number>;
   declare name: string;
-  declare type: 'user' | 'service' | 'property' | 'option' | 'coupon';
+  declare type: 'user' | 'service' | 'time' | 'event' | 'price';
   declare composable: boolean;
   declare canHaveParts: boolean;
   declare isStateControl: boolean; // If true, acts as state selector in wizard (mutually exclusive with canHaveParts)
@@ -49,7 +49,7 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         unique: true,
       },
       type: {
-        type: DataTypes.ENUM('user', 'service', 'property', 'option', 'coupon'),
+        type: DataTypes.ENUM('user', 'service', 'time', 'event', 'price'),
         allowNull: false,
       },
       orderIndex: {

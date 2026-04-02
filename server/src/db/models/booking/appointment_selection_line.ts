@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize'
 
-export type AppointmentSelectionLineKind = 'service' | 'property' | 'option'
+export type AppointmentSelectionLineKind = 'service' | 'time' | 'event'
 
 export class AppointmentSelectionLine extends Model<
   InferAttributes<AppointmentSelectionLine>,

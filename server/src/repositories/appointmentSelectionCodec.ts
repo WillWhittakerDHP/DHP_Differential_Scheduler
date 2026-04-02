@@ -44,7 +44,7 @@ export function emptyFlatSelectionFields(): AppointmentSelectionFlatFields {
 
 function kindRank(k: AppointmentSelectionLineKind): number {
   if (k === 'service') return 0
-  if (k === 'property') return 1
+  if (k === 'time') return 1
   return 2
 }
 
@@ -59,12 +59,12 @@ export function linesToFlatSelectionFields(lines: AppointmentSelectionLine[]): A
   const sorted = [...lines].sort(compareLines)
   const byKind: Record<AppointmentSelectionLineKind, AppointmentSelectionLine[]> = {
     service: [],
-    property: [],
-    option: [],
+    time: [],
+    event: [],
   }
   for (const row of sorted) {
     const k = row.lineKind as AppointmentSelectionLineKind
-    if (k === 'service' || k === 'property' || k === 'option') {
+    if (k === 'service' || k === 'time' || k === 'event') {
       byKind[k].push(row)
     }
   }
@@ -99,8 +99,8 @@ export function linesToFlatSelectionFields(lines: AppointmentSelectionLine[]): A
   }
 
   const svc = pack('service')
-  const prop = pack('property')
-  const opt = pack('option')
+  const prop = pack('time')
+  const opt = pack('event')
 
   return {
     selectedServiceIds: svc.ids,
@@ -193,8 +193,8 @@ export function flatSelectionBodyToLineCreates(
   }
 
   pushKind('service', 'selectedServiceIds', 'serviceQuantities')
-  pushKind('property', 'selectedPropertyIds', 'propertyQuantities')
-  pushKind('option', 'selectedOptionIds', 'optionQuantities')
+  pushKind('time', 'selectedPropertyIds', 'propertyQuantities')
+  pushKind('event', 'selectedOptionIds', 'optionQuantities')
 
   return rows
 }

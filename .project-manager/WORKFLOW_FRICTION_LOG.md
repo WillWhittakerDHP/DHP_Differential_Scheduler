@@ -1999,3 +1999,41 @@ If the branch already exists on the remote, run **`git fetch`** (then **`git che
 
 nextAction:
 Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.1.1.1 — task — end — preflight_branch_failed
+
+- **reasonCodeRaw:** preflight_branch_failed
+- **reasonCodeNormalized:** preflight_branch_failed
+- **isFailureReason:** true
+- **tier:** task
+- **action:** end
+- **identifier:** 20.1.1.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining
+
+- **Symptom:** Harness end failed (reasonCode=preflight_branch_failed).
+- **Context:** tier=task; identifier=20.1.1.1; featureName=domain-architecture-alignment
+
+nextAction:
+git fetch origin feature/domain-architecture-alignment failed: fatal: couldn't find remote ref feature/domain-architecture-alignment
+. Check git remote -v and network.
+
+deliverables (excerpt):
+git fetch origin feature/domain-architecture-alignment failed: fatal: couldn't find remote ref feature/domain-architecture-alignment
+. Check git remote -v and network.
+
+### 2026-04-02 — 20.1.1.1 — task-end — feature branch not auto-pushed by harness
+
+- **Symptom:** Tier-end preflight runs `git fetch origin <feature-branch>`; if the branch has never been pushed, fetch fails with `couldn't find remote ref`, blocking the rest of the end pipeline (commit_remaining, etc.) until the branch exists on `origin`.
+- **Context:** Task `20.1.1.1`, feature `domain-architecture-alignment`, branch `feature/domain-architecture-alignment`. Harness does not push the feature branch for you before that fetch.
+- **What we tried:** Manual `git push -u origin feature/domain-architecture-alignment` after committing work.
+- **Outcome / workaround:** Push the feature branch once from the workstation; then re-run tier-end resume (`options.resumeEndAfterStep` / `continuePastGapAnalysis` per control plane) so preflight can succeed.
+- **Suggestion:** Document in playbook/SKILL: first push of a feature branch may be required before task-end/session-end preflight; `preflight_branch_failed` often means “push or create remote branch.”
+
+### 2026-04-02 — 20.1.1.1 — task-end — LLM review packet (v1) is not automatically executed
+
+- **Symptom:** Expectation that a separate “LLM review” step runs after tier-end; only the harness markdown block appears.
+- **Context:** On `gap_analysis` / tier-end, the harness emits an **LLM review packet (v1)** inside command output (metadata, drift, rubric with **### Review — …** headings). This is **advisory content for the agent or human** to answer in chat — there is no second automated invocation of a review model.
+- **What we tried:** N/A — design is intentional (see `gap-llm-review.ts`, rubric in tier-end output).
+- **Outcome / workaround:** **Trigger “review” manually:** read the packet in the last `/task-end` output (or session log), then reply in chat using the **### Review — Context / Drift / Over-build / Follow-ups / Confidence** headings; or assign a subagent with that packet. To continue the harness after review, re-run tier-end with `options: { resumeEndAfterStep: 'gap_analysis', continuePastGapAnalysis: true }` (or the `nextInvoke` params from `controlPlaneDecision`).
+- **Suggestion:** Optional playbook line: “LLM review packet = fill-in-the-blanks for chat; not a background job.”
