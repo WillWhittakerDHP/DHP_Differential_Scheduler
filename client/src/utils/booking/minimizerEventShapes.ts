@@ -1,14 +1,18 @@
 /**
- * Ordered minimizer (storage role `minimizer`) segments from an appointment shape.
- * WHY: `getEventShapeByRoleWithOverrides` returns only the first match; multi-minimizer templates need every final in `eventFinals` order.
+ * Ordered minimizer (completion-window / **floating** placement) segments from an appointment shape.
+ * WHY: Multi-minimizer templates need every matching final in `eventFinals` order, not only the first.
  * PATTERN: Pure utilities — no Vue refs; safe for composables and tests.
  */
 
 import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
-import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
+import {
+  eventShapeDifferentialRoleFromPlacementFields,
+  sanitizeEventPlacementKindInput,
+} from '@shared/utils/eventPlacementUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { AppointmentShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
+import { hasNonEmptyDifferentialRoleOverrides } from '@/utils/eventAttendeeUtils'
 
 /** One minimizer scheduling segment derived from `slotShape.eventFinals` (completion-window path, not margin). */
 export interface MinimizerSegmentDescriptor {
@@ -24,15 +28,19 @@ export interface MinimizerSegmentDescriptor {
 }
 
 /**
- * Lists every `eventFinal` whose **effective** differential role is **`minimizer`** (storage role),
- * in **`slotShape.eventFinals` array order**.
+ * Lists every `eventFinal` that represents a **minimizer (completion-window) segment**, in
+ * **`slotShape.eventFinals` array order**.
  *
- * **Margin:** Effective role **`margin`** is excluded (pre-major path, not the minimizer completion segment).
+ * **Empty overrides:** **`placement_kind === 'floating'`** (FEATURE_20 — minimizer placement).
+ * **With overrides:** effective role **`minimizer`** (legacy override path).
+ *
+ * **Margin:** **`marginal`** placement → not floating; excluded from this list.
  */
 export function listMinimizerSegmentsFromAppointmentShape(
   shape: AppointmentShape
 ): MinimizerSegmentDescriptor[] {
   const overrides = shape.differentialEventRoleOverrides ?? null
+  const useOverridePath = hasNonEmptyDifferentialRoleOverrides(overrides)
   const finals = shape.slotShape.eventFinals
   const out: MinimizerSegmentDescriptor[] = []
 
@@ -40,13 +48,19 @@ export function listMinimizerSegmentsFromAppointmentShape(
     const ef = finals[i]
     const eventShape = ef.eventShape as EventShapeEntity
     const eventShapeId = String(eventShape.id)
-    const templateRole: DifferentialRole = eventShapeDifferentialRoleFromPlacementFields(
-      eventShape.placementKind,
-      eventShape.anchorEdge
-    )
-    const effective = effectiveDifferentialRole(eventShapeId, templateRole, overrides)
-    if (effective !== 'minimizer') {
-      continue
+    if (!useOverridePath) {
+      if (sanitizeEventPlacementKindInput(eventShape.placementKind) !== 'floating') {
+        continue
+      }
+    } else {
+      const templateRole: DifferentialRole = eventShapeDifferentialRoleFromPlacementFields(
+        eventShape.placementKind,
+        eventShape.anchorEdge
+      )
+      const effective = effectiveDifferentialRole(eventShapeId, templateRole, overrides)
+      if (effective !== 'minimizer') {
+        continue
+      }
     }
     out.push({
       orderIndex: i,

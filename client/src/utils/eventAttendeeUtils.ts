@@ -1,5 +1,8 @@
 import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
-import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
+import {
+  eventShapeDifferentialRoleFromPlacementFields,
+  sanitizeEventPlacementKindInput,
+} from '@shared/utils/eventPlacementUtils'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DifferentialRole, DifferentialRoleStorage } from '@shared/types/differentialRole'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
@@ -45,6 +48,45 @@ export function getEventShapeByRoleWithOverrides(
   return resolveEventShapeEntityForRole(eventShapes, role, overrides)
 }
 
+/** True when appointment-level differential role overrides may change effective roles (non-empty map). */
+export function hasNonEmptyDifferentialRoleOverrides(
+  overrides?: Record<string, DifferentialRole> | null
+): boolean {
+  if (overrides == null) {
+    return false
+  }
+  return Object.keys(overrides).length > 0
+}
+
+/**
+ * WHY (FEATURE_20 / §4.3): Prefer **placement_kind** (primary / secondary) over scanning for
+ * effective role `major` / `minor` when overrides are empty — placement is the source of truth.
+ * When overrides exist, keep legacy **effectiveDifferentialRole** resolution for parity.
+ */
+export function resolvePrimarySecondaryEventShapesForBooking(
+  eventShapes: EventShapeEntity[],
+  overrides?: Record<string, DifferentialRole> | null
+): {
+  primary: EventShapeEntity | null
+  secondary: EventShapeEntity | null
+} {
+  if (hasNonEmptyDifferentialRoleOverrides(overrides)) {
+    return {
+      primary: resolveEventShapeEntityForRole(eventShapes, 'major', overrides),
+      secondary: resolveEventShapeEntityForRole(eventShapes, 'minor', overrides),
+    }
+  }
+  return {
+    primary:
+      eventShapes.find(
+        (es) => (sanitizeEventPlacementKindInput(es.placementKind) ?? 'primary') === 'primary'
+      ) ?? null,
+    secondary:
+      eventShapes.find((es) => sanitizeEventPlacementKindInput(es.placementKind) === 'secondary') ??
+      null,
+  }
+}
+
 /** Both roles resolved — differential scheduling bar/offset path. No logging. */
 type DifferentialMajorMinorFromEventShapes = {
   hasMajorMinorPair: boolean
@@ -56,11 +98,10 @@ export function resolveDifferentialMajorMinorFromEventShapes(
   eventShapes: EventShapeEntity[],
   overrides?: Record<string, DifferentialRole> | null
 ): DifferentialMajorMinorFromEventShapes {
-  const major = resolveEventShapeEntityForRole(eventShapes, 'major', overrides)
-  const minor = resolveEventShapeEntityForRole(eventShapes, 'minor', overrides)
+  const { primary, secondary } = resolvePrimarySecondaryEventShapesForBooking(eventShapes, overrides)
   return {
-    hasMajorMinorPair: major !== null && minor !== null,
-    major,
-    minor,
+    hasMajorMinorPair: primary !== null && secondary !== null,
+    major: primary,
+    minor: secondary,
   }
 }

@@ -6,7 +6,7 @@ import type { EventFinal } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
-import { getEventShapeByRoleWithOverrides } from '@/utils/eventAttendeeUtils'
+import { resolvePrimarySecondaryEventShapesForBooking } from '@/utils/eventAttendeeUtils'
 import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/booking/durationRounding'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { AppLogger } from '@/utils/logger'
@@ -122,16 +122,11 @@ export function computeDifferentialOffsetsFromMaps(
   )
   const candidateEventShapes = eventShapes.filter((es) => participatingIds.has(String(es.id)))
 
-  const majorEventShape = getEventShapeByRoleWithOverrides(
-    candidateEventShapes as EventShapeEntity[],
-    'major',
-    mergedRoleOverrides,
-  )
-  const minorEventShape = getEventShapeByRoleWithOverrides(
-    candidateEventShapes as EventShapeEntity[],
-    'minor',
-    mergedRoleOverrides,
-  )
+  const { primary: majorEventShape, secondary: minorEventShape } =
+    resolvePrimarySecondaryEventShapesForBooking(
+      candidateEventShapes as EventShapeEntity[],
+      mergedRoleOverrides,
+    )
   if (majorEventShape) {
     const majorRawDuration = eventRawDurations.get(majorEventShape.id) || 0
     const majorRoundedDuration = eventRoundedDurationsByShapeId.get(majorEventShape.id) || 0
