@@ -79,11 +79,11 @@
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T17:54:30.611Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T18:14:42.192Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.2` · **Next phase across:** `20.3` → `/phase-start 20.3`
-- **Focus session:** `20.2.2` · **Session 2/4 in phase** · **Next session across:** `20.2.3` → `/session-start 20.2.3`
-- **Tasks in session (detected):** 2 · **Next task across:** `20.2.2.1` → `/task-start` / cascade
+- **Focus session:** `20.2.3` · **Session 3/4 in phase** · **Next session across:** `20.2.4` → `/session-start 20.2.4`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.2.3.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
