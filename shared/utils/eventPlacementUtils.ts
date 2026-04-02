@@ -69,3 +69,57 @@ export function eventShapeDifferentialRoleFromPlacementFields(
   const e = sanitizeEventAnchorEdgeInput(anchorEdge)
   return parseDifferentialRole(differentialRoleFromPlacement(k, e))
 }
+
+/** Minimal shape for ordering calendar invite creation by `event_shapes` placement (FEATURE_20 §5.1). */
+export interface EventSegmentCalendarOrderInput {
+  id: string
+  eventShape?: {
+    placementKind?: unknown
+    anchorEdge?: unknown
+  } | null
+}
+
+function placementKindCalendarRank(kind: EventPlacementKind): number {
+  switch (kind) {
+    case 'primary':
+      return 0
+    case 'secondary':
+      return 1
+    case 'marginal':
+      return 2
+    case 'floating':
+      return 3
+    default:
+      return 0
+  }
+}
+
+/** start → end → null/undefined (stable tie-break after placement kind). */
+function anchorEdgeCalendarRank(edge: EventAnchorEdge | null): number {
+  if (edge === 'start') return 0
+  if (edge === 'end') return 1
+  return 2
+}
+
+/**
+ * Compare two event segments for deterministic Google Calendar insert order.
+ * WHY: Invite orchestration must reflect placement policy from `event_shapes`, not Sequelize row order.
+ */
+export function compareEventSegmentsForCalendarOrder(
+  a: EventSegmentCalendarOrderInput,
+  b: EventSegmentCalendarOrderInput
+): number {
+  const ka = sanitizeEventPlacementKindInput(a.eventShape?.placementKind) ?? 'primary'
+  const kb = sanitizeEventPlacementKindInput(b.eventShape?.placementKind) ?? 'primary'
+  const ra = placementKindCalendarRank(ka)
+  const rb = placementKindCalendarRank(kb)
+  if (ra !== rb) return ra - rb
+
+  const ea = sanitizeEventAnchorEdgeInput(a.eventShape?.anchorEdge)
+  const eb = sanitizeEventAnchorEdgeInput(b.eventShape?.anchorEdge)
+  const sa = anchorEdgeCalendarRank(ea)
+  const sb = anchorEdgeCalendarRank(eb)
+  if (sa !== sb) return sa - sb
+
+  return a.id.localeCompare(b.id)
+}
