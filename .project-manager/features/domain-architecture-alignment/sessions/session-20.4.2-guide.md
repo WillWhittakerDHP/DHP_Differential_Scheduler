@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** Replacement-before-delete; preserve lineage + zero-out ordering; lint after edits.
 **Checkpoint:** No booking call to **`enrichBlockFinalsWithDifferentialRoles`** (or documented bridge); client lint clean.
 
-- [ ] #### Task 20.4.2.2: Slot shape, time axis, perspective, minimizer
+- [x] #### Task 20.4.2.2: Slot shape, time axis, perspective, minimizer
 **Goal:** Rewrite **`calculateSlotShape`**, **`applyShapeToTime`**, **`perspectiveResolver`**, **`minimizerSchedulingBounds`** (and related) to use placement/segment inputs; remove dead **`differentialRole*`** imports where grep-clean for booking.
 **Files:**
 - `client/src/utils/booking/` (slot shape, perspective, minimizer modules — exact paths in task planning)
