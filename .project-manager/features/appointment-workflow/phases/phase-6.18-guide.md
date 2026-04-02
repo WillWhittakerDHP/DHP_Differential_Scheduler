@@ -43,7 +43,7 @@
 
 ## Sessions Breakdown
 
-- [ ] ### Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit  
+- [x] ### Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit  
 **Description:** Add/extend `@shared` constants (array + per-role const exports as needed); migration to alter ENUM `seller` → `owner` and update existing `users.user_role` rows; update `Users` model, `userSchemas.ts`, `userTypeMapping.ts`, `client/src/types/user.ts`, `UserCreateForm.vue` and any `VSelect` role lists, `appointmentDataBuilders`, tests of behavior, seeds; grep for `seller` and hardcoded role arrays; align **Feature 7** enactment docs that mention role examples (`transaction_manager`, etc.).  
 **Focus:** One import path for allowed values; rename complete across API/DB/client.
 
