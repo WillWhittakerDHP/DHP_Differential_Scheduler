@@ -79,7 +79,7 @@
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T19:56:34.624Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T19:59:55.424Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.3` · **Next phase across:** `20.4` → `/phase-start 20.4`
 - **Focus session:** `20.3.2` · **Session 2/5 in phase** · **Next session across:** `20.3.3` → `/session-start 20.3.3`

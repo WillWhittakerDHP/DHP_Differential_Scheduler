@@ -1,4 +1,4 @@
-# Session 20.3.3 Guide: — Remaining domain editors (§8.3 #3):** Other shape-type instance editors: orchestration selection UX for **time** / **price** / **event** instances as needed; shared patterns from 20.3.1–20.3.2.
+# Session 20.3.3 Guide: Remaining domain editors (FEATURE_20 §8.3 #3)
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -44,27 +44,30 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 20.3.3
-**Session Name:** — Remaining domain editors (§8.3 #3):** Other shape-type instance editors: orchestration selection UX for **time** / **price** / **event** instances as needed; shared patterns from 20.3.1–20.3.2.
-**Description:** [Brief description of session objectives]
+**Session Name:** Remaining domain editors (§8.3 #3)
+**Description:** Time & price atomic part editors (mirror 20.3.2); event block-instance orchestration copy/display; no segment relocation (20.3.4).
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** M
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 20.3.3.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.3.3.1: Time & price atomic part editors (mirror 20.3.2)
+**Goal:** Part-ledger VCard + table for **time** and **price** `blockInstance`, same resolution/update pattern as **ServiceAtomicEditor**.
+**Files:**
+- `client/src/composables/admin/` (composable(s))
+- `client/src/components/admin/generic/` (editor component(s))
+- `client/src/components/admin/generic/EntityCardContent.vue`
+**Approach:** Reuse or generalize **20.3.2** patterns; explicit types; logger on failed updates.
+**Checkpoint:** Lint + type-check; manual smoke on Instances tab for time + price shapes.
 
-- [ ] #### Task 20.3.3.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.3.3.2: Event block instance — orchestration copy & display
+**Goal:** Validity-constrained **orchestration** language on **event** block instance cards (labels/descriptions/display metadata).
+**Files:**
+- `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`
+- Optional small presentational component under `client/src/components/admin/generic/`
+**Approach:** Display/metadata-first; avoid RelationshipCollection core refactors.
+**Checkpoint:** Manual smoke on an **event** block instance card; lint clean.
 
 ---
 
