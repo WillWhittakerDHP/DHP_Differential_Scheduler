@@ -78,10 +78,7 @@ export function resolveAppointmentGraphBars(
   }
 
   const eventShapeEntities = shape.slotShape.eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
-  const resolved = resolveDifferentialMajorMinorFromEventShapes(
-    eventShapeEntities,
-    shape.differentialEventRoleOverrides ?? null,
-  )
+  const resolved = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
 
   if (!isDifferentialService || !resolved.hasMajorMinorPair) {
     return {

@@ -58,7 +58,7 @@ These sections contain session-specific content:
 **Approach:** Signature shrink + single call site; grep + client lint.
 **Checkpoint:** No other **`calculateSlotShape`** callers; lint clean.
 
-- [ ] #### Task 20.4.3.2: Time axis (`applyShapeToTime` + `resolveEventShapes`)
+- [x] #### Task 20.4.3.2: Time axis (`applyShapeToTime` + `resolveEventShapes`)
 **Goal:** Stop threading empty **`differentialEventRoleOverrides`** through time application where grep-clean; align with task 20.4.3.1 slot output.
 **Files:** `appointmentSlotBuilder.ts` (`applyShapeToTime`), `perspectiveResolver.ts`, `slotShapeLookups.ts` if needed
 **Approach:** Grep then refactor; preserve **`roundedDifferentialOffset`** / major-minor adjustment behavior.

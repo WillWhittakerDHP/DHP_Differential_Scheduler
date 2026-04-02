@@ -129,10 +129,7 @@ export function derivePerspective(
     return derivePerspectiveNoEventFinals(slot, perspective)
   }
   const eventShapeEntities = eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
-  const pair = resolveDifferentialMajorMinorFromEventShapes(
-    eventShapeEntities,
-    slot.shape.differentialEventRoleOverrides ?? null,
-  )
+  const pair = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
   // WHY: Without a major+minor pair, role-based ranges are not defined; use total for every
   // perspective (including minor). Reusing derivePerspectiveNoEventFinals would return null
   // for minor and show "Unavailable" while totalTimeRange is valid.

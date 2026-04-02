@@ -18,7 +18,7 @@ import { hasNonEmptyDifferentialRoleOverrides } from '@/utils/eventAttendeeUtils
 export interface MinimizerSegmentDescriptor {
   /** Index into `AppointmentShape.slotShape.eventFinals` — stable order for sequential boundary chaining. */
   orderIndex: number
-  /** Event shape id string (matches `differentialEventRoleOverrides` keys). */
+  /** Event shape id string (stable id for segment descriptors). */
   eventShapeId: string
   /** Event shape entity from the corresponding `EventFinal` (same reference as wizard pipeline). */
   eventShape: EventShapeEntity
@@ -39,8 +39,7 @@ export interface MinimizerSegmentDescriptor {
 export function listMinimizerSegmentsFromAppointmentShape(
   shape: AppointmentShape
 ): MinimizerSegmentDescriptor[] {
-  const overrides = shape.differentialEventRoleOverrides ?? null
-  const useOverridePath = hasNonEmptyDifferentialRoleOverrides(overrides)
+  const useOverridePath = hasNonEmptyDifferentialRoleOverrides(shape.differentialEventRoleOverrides)
   const finals = shape.slotShape.eventFinals
   const out: MinimizerSegmentDescriptor[] = []
 

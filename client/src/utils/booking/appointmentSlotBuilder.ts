@@ -11,7 +11,6 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
-import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
@@ -42,7 +41,6 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       roundedDifferentialOffset: 0,
     },
     eventAssignmentsByPartShape: {},
-    differentialEventRoleOverrides: {},
   }
 }
 
@@ -139,9 +137,6 @@ export function buildAppointmentShape(
 
   const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
 
-  // Block-instance differential role overrides were removed; slot math uses event-shape placement only.
-  const differentialEventRoleOverrides: Record<string, DifferentialRole> = {}
-
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
@@ -155,7 +150,6 @@ export function buildAppointmentShape(
     finalizedParts: nonZeroedParts,
     slotShape,
     eventAssignmentsByPartShape,
-    differentialEventRoleOverrides,
   }
 }
 
@@ -189,10 +183,7 @@ export function applyShapeToTime(
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
   const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(
-        effectiveSlotShape.eventFinals,
-        shape.differentialEventRoleOverrides ?? null
-      )
+    ? resolveEventShapes(effectiveSlotShape.eventFinals)
     : {
         majorEventShape: null,
         minorEventShape: null,
