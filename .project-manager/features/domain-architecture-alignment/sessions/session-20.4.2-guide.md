@@ -44,27 +44,29 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 20.4.2
-**Session Name:** ** Remove **differential-role enrichment** of block finals — replace **`enrichBlockFinalsWithDifferentialRoles`** (and related) with **event_assignments + placement + segment**-derived structure; narrow or remove **PartFinal.major / minor / minimizer** per **§4.3** and update first-party consumers in the same vertical slice.
-**Description:** [Brief description of session objectives]
+**Session Name:** Remove differential-role enrichment; narrow PartFinal (§8.4 / §4.3).
+**Description:** Drop **`enrichBlockFinalsWithDifferentialRoles`** from the booking pipeline; drive layout inputs from **event_assignments + placement**; remove or replace **`PartFinal.major` / `minor` / `minimizer`** per FEATURE_20 **§4.3**; then align slot shape, time axis, perspective, and minimizer helpers.
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** ~1–2 sessions of focused work (2 tasks)
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 20.4.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.4.2.1: Remove role enrichment + narrow PartFinal
+**Goal:** Grep inventory of **`enrichBlockFinalsWithDifferentialRoles`** and **`PartFinal` role field** consumers; replace enrichment with placement/instance-derived data; remove enrichment from **`appointmentSlotBuilder`**; update **`PartFinal`** / **`createPartFinal`** / **`partFinalizer`**; fix breakages.
+**Files:**
+- `client/src/utils/booking/partFinalizer.ts`, `appointmentSlotBuilder.ts`, `PartFinal.ts`, `client/src/types/booking/partFinal.ts`
+- Shared touch only if required: `shared/utils/eventPlacementUtils.ts`, `shared/utils/differentialRoleUtils.ts` (prefer minimal)
+**Approach:** Replacement-before-delete; preserve lineage + zero-out ordering; lint after edits.
+**Checkpoint:** No booking call to **`enrichBlockFinalsWithDifferentialRoles`** (or documented bridge); client lint clean.
 
-- [ ] #### Task 20.4.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.4.2.2: Slot shape, time axis, perspective, minimizer
+**Goal:** Rewrite **`calculateSlotShape`**, **`applyShapeToTime`**, **`perspectiveResolver`**, **`minimizerSchedulingBounds`** (and related) to use placement/segment inputs; remove dead **`differentialRole*`** imports where grep-clean for booking.
+**Files:**
+- `client/src/utils/booking/` (slot shape, perspective, minimizer modules — exact paths in task planning)
+- Possibly `shared/**` for §6.2 cleanup when safe
+**Approach:** Follow **§4.2** target ordering; no server-side PartFinalizer.
+**Checkpoint:** Lint clean; manual smoke on availability / minimizer paths if touched.
 
 ---
 
