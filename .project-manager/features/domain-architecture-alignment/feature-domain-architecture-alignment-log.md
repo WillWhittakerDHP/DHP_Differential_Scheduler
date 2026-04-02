@@ -17,7 +17,7 @@
 
 ## Planning baseline
 
-- **Authority:** [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](../../analysis/ARCHITECTURE_PRINCIPLES.md) and [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](../../analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — see feature guide.
+- **Authority:** [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](../../analysis/ARCHITECTURE_PRINCIPLES.md) and [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](../../analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md) — see feature guide.
 - **Phases:** 20.1–20.6 map to v2 §8.1–§8.6 (ordered passes).
 
 ---

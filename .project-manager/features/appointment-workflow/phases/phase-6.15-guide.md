@@ -13,7 +13,7 @@
 **Description:** Logo upload (file storage + public serving); client-side color extraction from the uploaded image; admin verification of primary and secondary anchor hex; DB fields for anchors and logo URL; replace hardcoded `DHP_ANCHOR_PRIMARY` / `DHP_ANCHOR_SECONDARY` with DB-sourced values in `theme.ts` / `useThemeMode`; render the logo in the BookingWizard header. Depends on **Phase 6.13** (wizard theme tokens / OKLCH pipeline).
 
 **Duration:** Three sessions (6.15.1 data + API, 6.15.2 admin UI, 6.15.3 wizard consumption).  
-**Status:** Complete — phase started; run sessions in order, then `/phase-end 6.15 appointment-workflow` when success criteria are met.
+**Status:** ✅ **Complete** (sessions **6.15.1–6.15.3**; phase closed at Feature 6 feature-end **2026-04-02**).
 
 ---
 

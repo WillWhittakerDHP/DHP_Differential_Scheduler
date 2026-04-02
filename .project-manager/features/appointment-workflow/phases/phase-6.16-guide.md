@@ -13,7 +13,7 @@
 **Description:** Add a **`margin`** differential role (deterministic **pre-major** temporal position — work that sits at the **front** of the anchored appointment window). Support **multiple minimizer** segments with **sequential boundary chaining** in scheduling composables. Align **`PartFinal.minimizer: TernaryBoolean`** (`'false'` plain timeline, `'true'` minimizer, `'override'` margin). Inventory and extend **downstream** behavior: appointment persistence, **Google Calendar event creation** (what stays on the main event vs a separate calendar event), API payloads, and confirmation copy. Execute or document phased **moveable → minimizer** rename with migrations for stored JSON.
 
 **Duration:** 3 sessions (6.16.1 margin foundation, 6.16.2 multiple minimizers, 6.16.3 integration + rename) — see `phases/phase-6.16-planning.md`.  
-**Status:** Sessions 6.16.1–6.16.2 complete; session 6.16.3 tasks documented (integration inventory + rename tranche audit). Run **`/session-end 6.16.3`** to close the session tier.
+**Status:** ✅ **Complete** (sessions **6.16.1–6.16.3**; phase closed at Feature 6 feature-end **2026-04-02**).
 
 **Related planning artifact (local Cursor plan, not in repo):** `~/.cursor/plans/differential_role_generalization_7884ea5f.plan.md` — use if present for session decomposition detail.
 

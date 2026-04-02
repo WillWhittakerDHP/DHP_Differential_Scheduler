@@ -2,7 +2,7 @@
 
 **Purpose:** Canonical map of business domains, code boundaries, data flow, type placement, and **locked scheduling/domain rules** (§8–§14). Agents should read relevant sections before planning or decomposing work.
 
-This document is the **codebase map** and the **authoritative domain model** for block shapes, instances, part ledger, PartFinalizer, and booking pipeline boundaries. Ordered implementation passes, migration sequencing, and acceptance checks for large domain rewrites live in the implementation plan: [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md).
+This document is the **codebase map** and the **authoritative domain model** for block shapes, instances, part ledger, PartFinalizer, and booking pipeline boundaries. Ordered implementation passes, migration sequencing, and acceptance checks for large domain rewrites live in the implementation plan: [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md).
 
 ---
 

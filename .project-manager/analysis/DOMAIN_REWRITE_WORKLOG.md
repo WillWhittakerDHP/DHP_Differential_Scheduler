@@ -4,7 +4,7 @@
 
 - Section completed: Outline and execution setup
 - Decisions made (with principles refs):
-  - `FEATURE_20_ARCHITECTURE_REDESIGN.md` will mirror the approved rewrite order and cite `ARCHITECTURE_PRINCIPLES.md` section references in every major section.
+  - `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` will mirror the approved rewrite order and cite `ARCHITECTURE_PRINCIPLES.md` section references in every major section.
   - Conflicting v1 assumptions will be deleted instead of reconciled where they contradict Principles §2, §3, §4, §5, or §7.
 - Open questions:
   - None at this checkpoint.
@@ -63,7 +63,7 @@
   - Use the replacement readiness checklist in v2 section 9.
   - Replace the original redesign file only after manual review passes.
 - Resume sentence:
-  - Resume by opening `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9 and applying the replacement readiness checklist before any file swap.
+  - Resume by opening `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` section 9 and applying the replacement readiness checklist before any file swap.
 
 ## Checkpoint 5
 
@@ -79,7 +79,7 @@
   - Perform manual human review of v2 beside the locked principles before any file replacement.
   - Replace the original redesign file only if the review gate passes.
 - Resume sentence:
-  - Resume at `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9.3 and use the replacement readiness checklist before any swap of the original redesign document.
+  - Resume at `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` section 9.3 and use the replacement readiness checklist before any swap of the original redesign document.
 
 ## Checkpoint 6
 
@@ -94,7 +94,7 @@
   - Manual read of v2 beside `ARCHITECTURE_PRINCIPLES.md`.
   - Replace `DOMAIN_ARCHITECTURE_REDESIGN.md` only if the review gate passes.
 - Resume sentence:
-  - Resume at `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9.3 after gap remediation; complete manual review beside locked principles before replacing the original redesign document.
+  - Resume at `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` section 9.3 after gap remediation; complete manual review beside locked principles before replacing the original redesign document.
 
 ## Checkpoint 7
 
@@ -109,4 +109,4 @@
   - Manual read of v2 beside `ARCHITECTURE_PRINCIPLES.md`.
   - Replace `DOMAIN_ARCHITECTURE_REDESIGN.md` only if the review gate passes.
 - Resume sentence:
-  - Resume at `FEATURE_20_ARCHITECTURE_REDESIGN.md` section 9.3; complete principle coverage and manual review before any redesign file swap.
+  - Resume at `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` section 9.3; complete principle coverage and manual review before any redesign file swap.

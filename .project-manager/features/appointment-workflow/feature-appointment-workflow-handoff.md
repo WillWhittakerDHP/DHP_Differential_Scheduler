@@ -6,86 +6,53 @@
 
 **Last Updated:** 2026-04-02
 **Feature Status:** Complete
-**Current Session:** Session 6.4.2 or 6.4.3 (see Next Action)
-**Next Session:** Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) — after 6.4.2
-**Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
-**Other planned phases (can run in parallel):** Phase 6.10 (Fee Preview & Coupon Visibility) — Sessions 6.10.1 (admin toggle and settings), 6.10.2 (Availability-step fee bar and popover). See [phases/phase-6.10-guide.md](phases/phase-6.10-guide.md). Phase 6.11 (Drive Time Fee Line Item) — Session 6.11.1 (settings, calculation, line item). See [phases/phase-6.11-guide.md](phases/phase-6.11-guide.md).
 
 ## [Next Action]
 
-Continue **Phase 6.17** (generalized dependency-aware delete wizard) from [phases/phase-6.17-guide.md](phases/phase-6.17-guide.md) and the latest session handoff under [sessions/](sessions/). After **session-end**, if workflow friction is still open, run **`/harness-repair`** in **plan** mode before **`/accepted-push`**.
+**Feature 6 is closed.** Pick up the next feature from `.project-manager/PROJECT_PLAN.md`. Optional follow-ups that do **not** block closure: Phase **6.9** (mini-wizard — not started), **6.5** session **6.5.1** (partial per `phase-6.5-guide.md`), **6.10** (fee preview / coupon — in progress per `phase-6.10-guide.md`). For **Feature 7**, enact auth-related stubs using the section **Enactment requirements for Feature 7** below and `server/docs/SECURITY_STUBS.md`.
 
 ---
 
 ## Current Status
 
-**Feature appointment-workflow:** In Progress
-**Current Phase:** Phase 6.4 (Moveable Modal & preClosing Property) — Session 6.4.1 not started
-**Current Session:** Session 6.4.2 / next: 6.4.3
-**Next Action:** Start Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid). See `sessions/session-6.4.3-guide.md`.
-**Next Phase:** Phase 6.5 (Rescheduling Flow)
+**Feature appointment-workflow:** Complete (feature-end **2026-04-02**)
+**Integration:** Work merged to `develop` and `main`; feature branch was `feature/appointment-workflow` (removed on remote when present).
+**Rollup:** `.project-manager/PROJECT_PLAN.md` (Feature 6 section + summary table); per-phase detail: `phases/phase-6.*-guide.md`.
 
 ---
 
 ## Transition Context
 
-**Where we left off:**
-- **4 deferred admin panel components addressed (2026-03-02):** BlockInstanceList, ShapesTab, EventInstancesSection, OverlapConstraintsPanel — logic extracted to useBlockInstanceList, useShapesTab, useEventInstancesSection, useOverlapConstraintsPanel; component-logic Tier1 no longer flags these admin SFCs. See `sessions/admin-panel-four-components.md`.
-Phase 6.3 (Confirmation Routine) complete. Phase 6.4 (Moveable Modal & preClosing Property) is the next phase — Session 6.4.1 not started:
-- **Phase 6.3 complete:** Sessions 6.3.1–6.3.3 — confirmation data model, admin confirm action, auto-confirm, notifications.
-- **Phase 6.4 (Not Started):** Moveable Modal Refinement & `preClosing` Property — add `preClosing` boolean to block_instances, consolidate differential into one canonical derivation, gate modal on preClosing services, soften modal UX, re-enable the disabled MoveablePartsModal.
+**Closure:** PROJECT_PLAN marks Feature 6 complete with an explicit rollup table; phases **6.5** (partial), **6.9** (not started), and **6.10** (in progress) remain documented as follow-ups in guides, not as open feature-tier gates.
 
-**What you need to start Phase 6.4 / Session 6.4.1:**
-- Transition guards are established — `VALID_STATUS_TRANSITIONS` in `appointmentConstants.ts` is the single source of truth
-- The notification service observer pattern (`notificationService.onStatusChange`) fires on all status transitions — extend for rescheduling notifications
-- `confirmed_by` is `null` until Feature 7 provides `req.user`
-- Auto-confirm is a runtime business setting, not a code flag
-- MoveablePartsModal exists but is disabled (see lines 9–16 of `MoveablePartsModal.vue`)
-- `differential` is a `TernaryBoolean` string on block instances — Session 6.4.1 consolidates into one canonical derivation
+**Historical note (2026-03-02):** Admin SFC complexity — BlockInstanceList, ShapesTab, EventInstancesSection, OverlapConstraintsPanel — logic extracted to composables; see `sessions/admin-panel-four-components.md`.
 
-**Plan Changes Affecting Downstream Features:**
-- Phase 6.5 (Rescheduling) depends on transition guards established in 6.3 (`confirmed` → `rescheduling` is a valid transition)
-- **Rescheduling flow (Phase 6.5):** Same as quote and dev load — appointment loads at step 3; user adjusts and reschedules. Implement: (1) `reschedulingAppointmentId` in computed-availability request so the server excludes that appointment’s calendar event from overlap (keeps it on calendar but unblocks its time and drive buffers); (2) original-inspection slot UI indicator (e.g. class `appointment-slot-btn--original-inspection` or overlay) so the current time is visually distinct but selectable. See `phases/phase-6.5-guide.md`.
-- **Block-level `agentPermissions`:** Add `agent_permissions` (TernaryBoolean) to block_instances — full stack (migration, model, client types, transformer). State for tooltips and permissions is (wizard mode, user role, block.agentPermissions); admins get override. **See Session 6.8.5 for agentPermissions; Session 6.8.6 for admin entry.**
-- **Admin entry (Phase 6.8 Session 6.8.6):** Step 0 or pre-wizard for admins: choose Start new inspection | Edit quote | Reschedule; dropdown of non-completed inspections when Edit quote or Reschedule (filtered by status and by admin-configured time-out: scheduling/quote within last X days/weeks); dropdown shows Address, Client name, Agent name per row; sets wizard mode and loadedAppointmentId.
-- Phase 6.8 (Admin Force-Create) will use the same transition validation system; reschedule with overrides adds `allowedExceptions` on top of Phase 6.5’s event exclusion
-- Feature 7 notification expansion points are documented in `server/docs/NOTIFICATION_ARCHITECTURE.md`
+**Downstream:** Rescheduling, org defaults, delete wizard, role catalog, brand/theme tranches, and related wizard/admin work are recorded in phase guides. Feature 7 owns **requireAuth**, **held_by**, **scheduled_by** population from `req.user`, and client visibility of role-gated actions — see **Enactment requirements for Feature 7** and `server/docs/NOTIFICATION_ARCHITECTURE.md`.
 
 ---
 
 ## Feature Summary
 
-**Phases Completed:** 6.1 (Status Workflow & UI), 6.2 (Held & Override Stubs), 6.3 (Confirmation Routine)
-**Phases In Progress:** 6.4 (Moveable Modal & preClosing Property — Session 6.4.1 not started)
-**Key Accomplishments:**
-- 8-value appointment status ENUM with state machine transition guards
-- Confirmation data model with timestamps and actor tracking
-- Admin "Confirm" action with confirmation dialog and in-app notifications
-- Auto-confirm business setting for automatic confirmation on submission
-- Notification service stub with observer pattern for status change events
-- Calendar invite creation for submitted and confirmed appointments
+**Phases (rollup):** 6.1–6.4, 6.6–6.8, 6.11–6.18 complete per PROJECT_PLAN at feature-end; **6.5** partial; **6.9** not started; **6.10** in progress.
 
-**Decisions Made:**
-- State machine pattern for status transitions (explicit allowed transitions map)
-- Observer pattern for notifications (decoupled from CRUD operations)
-- `confirmed_by` deferred to Feature 7 (null until authentication exists)
+**Key accomplishments:**
+- Eight-value appointment status model with guarded transitions
+- Confirmation, notifications, calendar invites, and business settings
+- Wizard modes (initial / quote / reschedule), org defaults resolver, dependency-aware admin delete, role catalog and alignment, brand/theme pipelines, fee and drive-time tooling (see phase guides for scope)
+- Auth-dependent surfaces stubbed with documented Feature 7 enactment steps
 
-**Architecture:**
-Appointments use a state machine (`VALID_STATUS_TRANSITIONS`) with server-side validation in `beforeUpdate` and automatic field population in `sanitizeInput`. The notification service uses an observer pattern — `onStatusChange` fires non-blockingly after any transition, currently logging. Calendar invites are created independently via `inviteOrchestrationService`.
+**Decisions:** State machine for transitions; observer-style notification hooks; shared types and resolver patterns per ARCHITECTURE.md and phase docs.
 
-**Technology Stack:**
-- Vue 3 + Vuetify for admin UI (data tables, dialogs, snackbar notifications)
-- Express + Sequelize for server CRUD with hook-based side effects
-- Observer pattern for decoupled notification delivery
+**Stack:** Vue 3 + Vuetify (wizard, admin); Express + Sequelize (API, appointments, availability, fees).
 
 ---
 
 ## Git Branch Status
 
-**Branch:** `feature/[name]`
-**Status:** [Merged / Deleted]
-**Merged To:** `develop`
-**Merge Date:** 2026-02-23
+**Branch:** Was `feature/appointment-workflow`
+**Status:** Merged; local/remote feature branch removed when applicable
+**Merged to:** `develop`, then `main`
+**Close date:** 2026-04-02
 
 ---
 
@@ -165,9 +132,10 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `appointment-workflow` · **Source:** phase_end · **Derived:** 2026-04-02T01:29:29.637Z
+- **Feature:** `appointment-workflow` · **Status:** Complete (feature-end **2026-04-02**)
+- **Source (manifest):** phase_end · **Derived:** 2026-04-02T01:29:29.637Z
 - **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
-- **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus phase:** _n/a_ (feature closed) · **Next phase across:** _n/a_
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
 <!-- harness-across-ladder:end -->
 

@@ -14,7 +14,7 @@
 **Status:** Complete
 
 **Started:** January 2026 (Phase 6.1)
-**Branch:** `feature/google-apis-integration`
+**Branch:** Was `feature/appointment-workflow` (integrated **2026-04-02**; see `PROJECT_PLAN.md` Feature 6)
 
 ---
 
@@ -37,7 +37,7 @@ Feature 6 spans the Vue client (booking wizard, admin business controls), the No
 
 ## Implementation Plan
 
-Deliver phases incrementally using the tier workflow: `/phase-start` / `/session-start` / `/task-start` for branches and planning artifacts; phase guides list sessions and success criteria. Completed work (e.g. 6.1–6.3) stays documented in guides and logs; in-flight phases (6.4+) follow session breakdowns in each `phase-6.x-guide.md`. Auth-dependent phases (6.7, 6.8) unblock when Feature 7 is available. Keep PROJECT_PLAN and handoff sections updated at session end.
+Feature 6 is **closed** at feature-end **2026-04-02** (merged `develop` / `main`). Use this guide and `phase-6.*-guide.md` as the archive of scope; **PROJECT_PLAN.md** holds the rollup table. Optional follow-ups: **6.9** (not started), **6.5** (partial — session 6.5.1), **6.10** (in progress). For new work, start a new feature branch and tier workflow from the next PROJECT_PLAN feature.
 
 ---
 
@@ -64,23 +64,23 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 | Phase | Name | Status | What |
 |-------|------|--------|------|
 | 6.1 | Status Workflow & UI Enhancements | Complete (Jan 2026) | — |
-| 6.2 | Held & Override Stubs | Complete | Prep held status and admin-override as stubs; Feature 7 enacts when auth is set up (trusted hold; admin override). |
-| 6.3 | Confirmation Routine | Complete | submitted to confirmed; admin or auto confirm; notifications. |
-| 6.4 | Moveable Modal & preClosing | Not Started | preClosing property; differential consolidation; modal gate logic; UX softening; re-enable MoveablePartsModal; unified required-confirmation modal shell (6.4.4). |
-| 6.5 | Rescheduling Flow | Not Started | Reschedule confirmed; reuse wizard (same flow as quote/dev load at step 3); bypass current appointment as constraint (`reschedulingAppointmentId`); UI indicator for original inspection slot. |
-| 6.6 | Soft Delete vs Hard Delete | Not Started | Policy and UI for cancelled vs deleted; retention; audit. |
-| 6.7 | Scheduled By Auto-Population | Not Started (depends on Feature 7 Auth) | Set scheduled_by_id from logged-in user. |
-| 6.8 | Admin Force-Create & Constraint Overrides | Not Started (depends on Feature 7 Auth) | Force-create appointments bypassing blockers; constraint_overrides table; reschedule with exceptions. |
-| 6.9 | Availability Step Mini-Wizard | Not Started | Time-picking as sub-steps: day → options (if any) → perspective (if differential) → time → confirm moveable details (optional); responsive expandable panels on narrow screens. Sessions 6.9.1 (sub-step model & wide layout, optional 5th in model + placeholder), 6.9.2 (narrow expandable cards & state), 6.9.3 (a11y & focus), 6.9.4 (moveable content in 5th, remove modal, deprecate). |
-| 6.10 | Fee Preview & Coupon Visibility | Not Started | Add new block shapes button on admin Shapes tab (6.10.1); fee preview bar on availability step (total + hover with fee details); admin toggle to show/hide apply-coupon in wizard (Business Controls → Calendar → Confirmation & Holds). Sessions 6.10.1 (Shapes tab button), 6.10.2 (admin toggle + settings), 6.10.3 (availability-step fee bar + popover). |
-| 6.11 | Drive Time Fee Line Item | In Progress | Admin-configurable complimentary drive time (min), driving rate per hour ($), and rounding; billable drive = max(0, totalDrive − complimentary); round and multiply by rate; add "Drive time" line item to fees. Business Controls (driving / business rules area). Session 6.11.1. |
-| 6.12 | Annotation Content Layer and Entity Enhancements | Not Started | Event shape link toggles; annotation_instance_content; UI slots registry; wizard pipeline for selection cards and grid overlay. Sessions 6.12.1–6.12.2. |
-| 6.13 | Wizard Theme Tokens & Brand Palettes | Not Started | OKLCH/HSL-derived palettes; quote/reschedule/brand alignment; single pipeline for theme.ts, useThemeMode, BookingWizard.scss. To be sessioned from phase guide. |
-| 6.14 | Organization Defaults & Resolved Numeric Policy | In Progress | Canonical defaults + merge at read for increments, fees, holds, constraint baselines; admin tab; shared types and resolver. Sessions **6.14.1** (foundation) + **6.14.2** (primary wiring) + **6.14.3** (audit, optional badges, Phase 3.0 test doc). |
-| 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Not Started | Logo upload + serving; extract/verify primary+secondary anchors; wizard_settings fields; wire OKLCH pipeline; logo in BookingWizard. Depends on 6.13. Sessions 6.15.1–6.15.3. |
-| 6.16 | Differential Role Generalization: margin + multiple minimizers | Not Started | `PartFinal.minimizer: TernaryBoolean` (plain timeline / minimizer segment / margin); add `margin` to DifferentialRole; DB ENUM; slot pipeline + time ranges; sequential minimizer segments; phased rename moveable→minimizer in code/API; `differentialEventRoleOverrides`. **Guide:** `phases/phase-6.16-guide.md`, `phases/phase-6.16-planning.md`. Sessions 6.16.1–6.16.3. |
-| 6.17 | Generalized Dependency-Aware Delete Wizard | Not Started | Preflight + wizard + resolve/finalize delete for admin CRUD; policy registry; wire `useEntityCrud` / list + card delete. Sessions 6.17.1–6.17.5. See `phases/phase-6.17-guide.md`. Relates to Phase 6.6 (soft vs hard delete). |
-| 6.18 | User role catalog, owner rename, block-instance alignment | Not Started | Single `@shared` `USER_ROLE_VALUES`; `seller` → `owner` migration; audit hardcoded role lists; Session 6.18.2 admin UI for role ↔ user-type block instance mapping. See `phases/phase-6.18-guide.md`. Coordinates with Feature 7 Enactment. |
+| 6.2 | Held & Override Stubs | Complete | Stubs; Feature 7 enacts hold/override |
+| 6.3 | Confirmation Routine | Complete | submitted → confirmed; notifications |
+| 6.4 | Moveable Modal & preClosing | Complete | See `phase-6.4-guide.md` |
+| 6.5 | Rescheduling Flow | ⏳ Partial | Session **6.5.1** open per `phase-6.5-guide.md` |
+| 6.6 | Soft Delete vs Hard Delete | Complete | See `phase-6.6-guide.md` |
+| 6.7 | Scheduled By Auto-Population | Complete | See `phase-6.7-guide.md` |
+| 6.8 | Admin Force-Create & Constraint Overrides | Complete | 6.8.5–6.8.6; see `phase-6.8-guide.md` |
+| 6.9 | Availability Step Mini-Wizard | Not Started | See `phase-6.9-guide.md` |
+| 6.10 | Fee Preview & Coupon Visibility | ⏳ In Progress | See `phase-6.10-guide.md` |
+| 6.11 | Drive Time Fee Line Item | Complete | See `phase-6.11-guide.md` |
+| 6.12 | Annotation Content Layer and Entity Enhancements | Complete | See `phase-6.12-guide.md` |
+| 6.13 | Wizard Theme Tokens & Brand Palettes | Complete | See `phase-6.13-guide.md` |
+| 6.14 | Organization Defaults & Resolved Numeric Policy | Complete | 6.14.1–6.14.3 |
+| 6.15 | Admin Brand Customization: Logo Upload & Color Anchors | Complete | See `phase-6.15-guide.md` |
+| 6.16 | Differential Role Generalization | Complete | See `phase-6.16-guide.md` |
+| 6.17 | Generalized Dependency-Aware Delete Wizard | Complete | See `phase-6.17-guide.md` |
+| 6.18 | User role catalog, owner rename, block-instance alignment | Complete | See `phase-6.18-guide.md` |
 
 ---
 
@@ -112,7 +112,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Auto-confirm business setting toggleable
 - Notification stubs ready for Feature 7 email
 
-- [ ] ### Phase 6.4: Moveable Modal & preClosing Property
+- [x] ### Phase 6.4: Moveable Modal & preClosing Property
 **Description:** Refine MoveablePartsModal; add `preClosing` to block_instances; consolidate differential derivation; gate modal on preClosing services; soften UX; re-enable modal. Session 6.4.4: Unified required-confirmation modal shell — one shell component for all "must complete before next step" modals (property, moveable, future submit); MoveablePartsModal and PropertyConfirmationModal use it; transitions/sizing live in the shell only.
 **Sessions:** 1+ (6.4.1+)
 **Dependencies:** Phase 6.3 (Confirmation Routine)
@@ -136,7 +136,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Status transitions: confirmed → rescheduling → submitted
 **See:** `phases/phase-6.5-guide.md` for implementation details, session breakdown, and relation to Phase 6.8 (allowedExceptions)
 
-- [ ] ### Phase 6.6: Soft Delete vs Hard Delete
+- [x] ### Phase 6.6: Soft Delete vs Hard Delete
 **Description:** Policy and UI for cancelled vs deleted; retention rules; audit trail.
 **Sessions:** To be planned
 **Success Criteria:**
@@ -144,7 +144,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Admin UI for soft delete and hard delete actions
 - Retention and audit behavior documented
 
-- [ ] ### Phase 6.7: Scheduled By Auto-Population
+- [x] ### Phase 6.7: Scheduled By Auto-Population
 **Description:** Set `scheduled_by_id` from logged-in user on appointment creation.
 **Sessions:** To be planned
 **Dependencies:** Feature 7 (Authentication) — requires `req.user`
@@ -152,7 +152,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - `scheduled_by_id` populated from authenticated user on create
 - Displayed in admin appointment details
 
-- [ ] ### Phase 6.8: Admin Force-Create & Constraint Overrides
+- [x] ### Phase 6.8: Admin Force-Create & Constraint Overrides
 **Description:** Force-create appointments bypassing blockers; `constraint_overrides` table; reschedule with exceptions.
 **Sessions:** 4 (6.8.1–6.8.4)
 **Dependencies:** Feature 7 (Authentication) — requires `req.user` for `authorized_by_id`
@@ -189,7 +189,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Confirmation step: Coupon Discount row and Apply Coupon button only visible when `showApplyCouponInWizard` is true
 **See:** `phases/phase-6.10-guide.md`, `sessions/session-6.10.1-guide.md`, `sessions/session-6.10.2-guide.md`, `sessions/session-6.10.3-guide.md`
 
-- [ ] ### Phase 6.11: Drive Time Fee Line Item
+- [x] ### Phase 6.11: Drive Time Fee Line Item
 **Description:** Add a "Drive time" fee line item. Admin configures complimentary drive time (minutes), driving rate per hour ($), and rounding (e.g. nearest 15 min). Billable drive = max(0, total drive to candidate + total drive from candidate − complimentary); round to configured interval; fee = (rounded / 60) × rate. Settings live in Business Controls (driving / business rules or fee area). If driving logic exists in business rules tabs, add these settings there. **Persistence (virtual block instance):** Preserve drive time in the stored fee breakdown by using a single system "Drive time" block instance (one real row in `block_instances` with lineItem block shape, not user-selectable). The block has minimal/zero parts so the normal block fee formula yields 0; the actual amount is stored only in the fee entry: when persisting, add one `appointment_fee_entries` row with that block's id, `block_name` "Drive time", and computed fee in `total_fee`/`base_fee`. This keeps `block_instance_id` required and avoids schema changes; reporting and existing "every entry has a block" assumptions remain valid. Ensure the drive-time block exists (e.g. seed or create per calendar) and is excluded from wizard block selection.
 **Sessions:** 1 (6.11.1: settings, calculation, line item, persistence via virtual block)
 - **Session 6.11.1:** Drive Time Fee — settings (complimentary, rate, rounding) in admin; formula in fee pipeline; pass drive context into `buildConfirmationPriceData`; add line item and persist via virtual block instance when fee breakdown is stored.
@@ -201,14 +201,14 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Stored fee breakdown includes drive time as a fee entry referencing the system Drive time block instance when applicable
 **See:** `phases/phase-6.11-guide.md`, `sessions/session-6.11.1-guide.md`
 
-- [ ] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
+- [x] ### Phase 6.12: Annotation Content Layer and Entity Enhancements
 **Description:** Entity enhancements (event shape reschedule/cancel link toggles; block shapes tab expansion fix); annotation data layer (`annotation_instance_content`, deprecate WithMetadata); annotation shape delete 409 handling; annotation UI slots registry and wizard pipeline (SelectionCard, grid overlay). See phase guide for session 6.12.1 and 6.12.2 breakdown.
 **Sessions:** 2 (6.12.1, 6.12.2)
 **Success Criteria:**
 - As defined in `phases/phase-6.12-guide.md` (event toggles, content table, UI slots, wizard wiring, lint/app start)
 **See:** `phases/phase-6.12-guide.md`
 
-- [ ] ### Phase 6.13: Wizard Theme Tokens & Brand Palettes
+- [x] ### Phase 6.13: Wizard Theme Tokens & Brand Palettes
 **Description:** Perceptual color pipeline (OKLCH or HSL) so primary, secondary, warning, darken-1, on-*, inactive, and optional tertiary/semantic roles share consistent chroma and lightness; distinct quote/reschedule variants when admin **Brand colors** (DHP) is on; unify duplicated hex across `theme.ts`, `useThemeMode`, and `BookingWizard.scss`. Full analysis in `phases/phase-6.13-planning.md`.
 **Sessions:** TBD — set in `phases/phase-6.13-guide.md` after scoping.
 **Success Criteria:**
@@ -218,7 +218,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - Lint and app start pass
 **See:** `phases/phase-6.13-guide.md`, `phases/phase-6.13-planning.md`
 
-- [ ] ### Phase 6.14: Organization Defaults & Resolved Numeric Policy
+- [x] ### Phase 6.14: Organization Defaults & Resolved Numeric Policy
 **Description:** Organization-level defaults model (canonical defaults object + optional overrides, merge at read time) for admin numeric policy scattered across Business Controls. Covers time grid & rounding, drive-time billing, holds & admin entry timeout, and optional constraint baselines.
 **Sessions:** **6.14.1** — foundation (`sessions/session-6.14.1-planning.md`, outcome: delivered vs deferred). **6.14.2** — primary wiring and validation parity (`sessions/session-6.14.2-planning.md`). **6.14.3** — exhaustive audit, optional legacy badges, Phase 3.0 test checklist (`sessions/session-6.14.3-planning.md`).
 **Success Criteria:**
@@ -231,22 +231,13 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 
 ---
 
-
-- [ ] ### Phase 6.13: Guide: Wizard Theme Tokens & Brand Palettes
-**Description:** Guide: Wizard Theme Tokens & Brand Palettes
-**Sessions:** [To be planned]
-**Success Criteria:**
-- [To be defined]
-
-
-- [ ] ### Phase 6.15: Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); admin verification and selection of primary + secondary anchor hex; DB schema for custom brand anchors and logo URL on wizard_settings; wire custom anchors into the existing OKLCH pipeline (replace hardcoded DHP_ANCHOR_PRIMARY / DHP_ANCHOR_SECONDARY with DB-sourced values in theme.ts / useThemeMode); render uploaded logo in BookingWizard header. Depends on 6.13 (OKLCH token pipeline). Sessions: 6.15.1 (DB schema + server API — migration for brand_primary_hex, brand_secondary_hex, logo_url on wizard_settings; multer upload endpoint; GET/PUT brand settings routes), 6.15.2 (Admin UI — logo upload component, color extraction from image, swatch presentation with editable color picker, live palette preview using buildWizardModePaletteFromAnchors, save flow), 6.15.3 (Wizard consumption — replace DHP_ANCHOR constants with DB values in theme.ts / useThemeMode; render logo in BookingWizard.vue; verify all mode × brand combinations with custom colors; client lint).
+- [x] ### Phase 6.15: Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); admin verification and selection of primary + secondary anchor hex; DB schema for custom brand anchors and logo URL on wizard_settings; wire custom anchors into the existing OKLCH pipeline (replace hardcoded DHP_ANCHOR_PRIMARY / DHP_ANCHOR_SECONDARY with DB-sourced values in theme.ts / useThemeMode); render uploaded logo in BookingWizard header. Depends on 6.13 (OKLCH token pipeline). Sessions: 6.15.1 (DB schema + server API — migration for brand_primary_hex, brand_secondary_hex, logo_url on wizard_settings; multer upload endpoint; GET/PUT brand settings routes), 6.15.2 (Admin UI — logo upload component, color extraction from image, swatch presentation with editable color picker, live palette preview using buildWizardModePaletteFromAnchors, save flow), 6.15.3 (Wizard consumption — replace DHP_ANCHOR constants with DB values in theme.ts / useThemeMode; render logo in BookingWizard.vue; verify all mode × brand combinations with custom colors; client lint).
 **Description:** Admin Brand Customization: Logo Upload & Color Anchors — Logo upload (file storage + public serving); client-side color extraction from uploaded logo (e.g. color-thief-browser / Canvas getImageData); admin verification and selection of primary + secondary anchor hex; DB schema for custom brand anchors and logo URL on wizard_settings; wire custom anchors into the existing OKLCH pipeline (replace hardcoded DHP_ANCHOR_PRIMARY / DHP_ANCHOR_SECONDARY with DB-sourced values in theme.ts / useThemeMode); render uploaded logo in BookingWizard header. Depends on 6.13 (OKLCH token pipeline). Sessions: 6.15.1 (DB schema + server API — migration for brand_primary_hex, brand_secondary_hex, logo_url on wizard_settings; multer upload endpoint; GET/PUT brand settings routes), 6.15.2 (Admin UI — logo upload component, color extraction from image, swatch presentation with editable color picker, live palette preview using buildWizardModePaletteFromAnchors, save flow), 6.15.3 (Wizard consumption — replace DHP_ANCHOR constants with DB values in theme.ts / useThemeMode; render logo in BookingWizard.vue; verify all mode × brand combinations with custom colors; client lint).
-**Sessions:** [To be planned]
-**Success Criteria:**
-- [To be defined]
+**Sessions:** 6.15.1–6.15.3 (delivered — see `phase-6.15-guide.md`)
+**Success Criteria:** Met per phase guide at feature-end **2026-04-02**.
 
 
-- [ ] ### Phase 6.16: Differential role generalization (margin + multiple minimizers)
+- [x] ### Phase 6.16: Differential role generalization (margin + multiple minimizers)
 **Description:** Canonical design and terminology: `phases/phase-6.16-guide.md` ( **`PartFinal.minimizer: TernaryBoolean`** — `'false'` plain major/minor timeline, `'true'` separate minimizer scheduling segment, `'override'` margin / pre-major anchor; phased rename of **moveable → minimizer** in identifiers and persisted payloads ). Implement **margin** on **DifferentialRole** (pre-major temporal position); DB ENUM migration; slot pipeline + **SlotShape** margin durations; perspective resolver; admin override dropdown; **multiple minimizer** shapes (`getAllEventShapesByRole` pattern), sequential boundary chaining in **`useMoveablePartsScheduling`** (rename to `useMinimizerPartsScheduling` in the mechanical pass); integration verification and downstream inventory (appointment persistence, **calendar events**, API payload, confirmation UX). Uses **`differentialEventRoleOverrides`** (Phase 6.12.5). Optional local plan file: `~/.cursor/plans/differential_role_generalization_7884ea5f.plan.md`.
 **Sessions:** 6.16.1 (margin + types + pipeline + admin); 6.16.2 (multiple minimizers + orchestrator/sub-step); 6.16.3 (integration + rename/migration tranches as needed)
 **Success Criteria:**
@@ -256,7 +247,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - [ ] Minimizer rename completed or tranched with migration notes; lint and app start pass
 
 
-- [ ] ### Phase 6.17: Generalized Dependency-Aware Delete Wizard — Cross-cutting admin architecture: preflight dependency inspection, reusable delete wizard, typed policy categories, resolve/finalize API (no long-running HTTP DELETE during UI). First rollout `partShape`, `blockShape`, `annotationShape` (+ related generic-delete entities). Full scope: `phases/phase-6.17-guide.md`, `phases/phase-6.17-planning.md`.
+- [x] ### Phase 6.17: Generalized Dependency-Aware Delete Wizard — Cross-cutting admin architecture: preflight dependency inspection, reusable delete wizard, typed policy categories, resolve/finalize API (no long-running HTTP DELETE during UI). First rollout `partShape`, `blockShape`, `annotationShape` (+ related generic-delete entities). Full scope: `phases/phase-6.17-guide.md`, `phases/phase-6.17-planning.md`.
 **Description:** Generalized Dependency-Aware Delete Wizard — Reusable admin delete workflow: preflight dependency inspection, wizard UI for reassignment/removal, resolution/finalize API (not long-running DELETE), registry-driven policies (`reassign_required`, `safe_auto_remove`, `confirm_bulk_remove`, `hard_blocked`, `allow_direct_delete`). Wire `useEntityCrud`, `useEntityCrudMutations`, `entityListDelete`, `entityCardActionsPersistence`; server `entityCrudRouter` and related handlers. Relates to Phase 6.6 (soft vs hard delete). Out of scope unless explicitly added: silent full cascade for all entities, background delete workers, DB-wide FK CASCADE migrations, automated tests (Phase 3.0 policy).
 **Sessions:** 6.17.1 (dependency model + API contract); 6.17.2 (server preflight / resolution / finalize infrastructure); 6.17.3 (reusable client delete wizard + composable/service); 6.17.4 (wire generic delete entry points — list + entity card); 6.17.5 (entity-policy rollout for initial supported entities + doc for adding policies).
 **Success Criteria:**
@@ -267,7 +258,7 @@ Deliver phases incrementally using the tier workflow: `/phase-start` / `/session
 - [ ] Server returns structured dependency + policy payloads (not only generic 500/409)
 - [ ] Phase docs describe how to register new entity types and policies
 
-- [ ] ### Phase 6.18: User role catalog, `owner` rename, block-instance alignment
+- [x] ### Phase 6.18: User role catalog, `owner` rename, block-instance alignment
 **Description:** Centralize allowed `users.user_role` strings in **`@shared`** (`USER_ROLE_VALUES` + const exports); migrate **`seller` → `owner`** (ENUM + data + API + client); grep audit so Joi, Sequelize, admin selects, and transformers **import the same module** — no parallel string arrays. Update `userTypeMapping.ts` keys accordingly. **Session 6.18.2:** Persisted **canonical role → user-type block_instance_id** mapping and admin UI so operators align instances without code changes for mapping-only updates (fallback: legacy name map).
 **Sessions:** 6.18.1 (catalog + rename + audit); 6.18.2 (admin alignment API + UI)
 **Dependencies:** Feature 7 Enactment should use shared role types when exposing identity to the client (see PROJECT_PLAN Feature 7). Alpha cohort ↔ role mapping documented under Feature 9.
@@ -304,39 +295,35 @@ Shared finalization and fee utilities live in `client/src/utils/booking/` and ar
 - Feature 3 (Calendar & Appointment Availability) — slot computation and calendar infrastructure
 
 **Downstream Impact:**
-- Feature 7 (Authentication) enactment activates auth-dependent phases (6.7, 6.8) and populates user fields (`confirmed_by`, `held_by`, `authorized_by_id`, `scheduled_by_id`)
+- Feature 7 (Authentication) **enactment** tightens stubs and populates user fields where still deferred (`confirmed_by`, `held_by`, `authorized_by_id`, and any remaining `scheduled_by` edge cases per `SECURITY_STUBS.md`)
 - Feature 7 must expose **user role** (e.g. admin) to the client so the wizard and admin UI can gate Hold Slot, Override constraints, and Force schedule; state (wizard mode, user role, block.agentPermissions) drives tooltips and permissions
 - Phase 6.18 aligns **canonical `user_role` values** (`@shared`) with **user-type block instances**; Feature 7 Enactment should consume the same shared role vocabulary
 - Phase 6.5 (Rescheduling) integrates with Phase 6.8 constraint relaxation
 
 **External Dependencies:**
-- Feature 7 (Authentication) — Phases 6.7 and 6.8 blocked until auth is in place
+- Feature 7 (Authentication) — enacts **held_by**, **requireAuth**, full **scheduled_by** / **confirmed_by** wiring where still stubbed; see handoff and `SECURITY_STUBS.md`
 
 ---
 
 ## Success Criteria
 
-- [ ] All phases completed
-- [ ] All research questions answered
-- [ ] Architecture decisions documented
-- [ ] Code quality checks passing
-- [ ] Documentation updated
-- [ ] Tests passing
-- [ ] Performance targets met
-- [ ] Ready for production
+- [x] Feature 6 closed at feature-end **2026-04-02** (PROJECT_PLAN + guides); optional follow-ups: **6.9**, **6.5** (6.5.1), **6.10**
+- [x] Architecture and phase decisions documented in `phase-6.*-guide.md` and PROJECT_PLAN
+- [x] Code quality: lint / app start per session standards (testing suspended until Phase 3.0 per project policy)
+- [x] Feature guide, handoff, and log aligned with closure
+- [ ] Launch / production readiness — tracked in `LAUNCH_CHECKLIST.md` and later features (separate from Feature 6 closure)
 
 ---
 
 ## Git Branch Strategy
 
-**Branch Name:** `feature/google-apis-integration` (shared feature branch)
-**Current Working Branch:** `appointment-workflow-phase-6.3-session-6.3.2`
+**Feature branch:** Was `feature/appointment-workflow` (merged **2026-04-02**). New work uses a new feature branch per PROJECT_PLAN.
 
 ---
 
 ## End of Feature Workflow
 
-**CRITICAL: Prompt before ending feature**
+**Feature 6 has ended** (feature-end **2026-04-02**). The following was the pre-close checklist pattern for reference:
 
 After completing all phases in a feature, **prompt the user** before running `/feature-end`:
 
@@ -402,8 +389,8 @@ After completing all phases in a feature:
 ## Notes
 
 - **Phase 6.1 was the only phase completed before the project management system was formalized.** Its session logs don't exist in the current structure.
-- **Booking calculation logic is feature-complete but not consolidated.** The `useFeeCalculations` composable and admin-configurable fee settings are the remaining calculation work.
-- **Phases 6.2–6.4 follow the full session guide structure.** Phase 6.8 has a detailed guide ready for when Feature 7 unblocks it.
+- **Booking calculations:** Core fee/time paths ship; optional consolidation (`useFeeCalculations`) and extra admin-configurable fee knobs may continue under Phase **6.10** or later features.
+- **Phases 6.2–6.18** follow the session guide structure where sessioned; **6.8** is delivered — Feature **7** enacts remaining auth stubs per handoff, not phase reopening.
 
 ---
 

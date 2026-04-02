@@ -13,7 +13,7 @@
 **Description:** Introduce organization-level defaults (option 3: defaults + optional overrides / merge at read) for admin-controlled numeric fields currently spread across Business Controls. Defaults define “what we use when nothing more specific is set”; overrides store only explicit values or deltas where they differ.
 
 **Duration:** 3 sessions (6.14.1 foundation, 6.14.2 primary wiring, 6.14.3 deferred polish / audit) — see `phases/phase-6.14-planning.md` *Planning decomposition note*.  
-**Status:** Session **6.14.3** complete (docs + lint gate in task **6.14.3.3**); run **`/phase-end 6.14`** in the harness when ready to close the phase.
+**Status:** ✅ **Complete** (sessions **6.14.1–6.14.3** delivered; phase closed at Feature 6 feature-end **2026-04-02**).
 
 ---
 
