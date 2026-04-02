@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "feature": "domain-architecture-alignment",
-  "derivedAt": "2026-04-02T17:51:56.821Z",
-  "sourceTier": "session_end",
+  "derivedAt": "2026-04-02T17:56:47.078Z",
+  "sourceTier": "session",
   "phasesOnDisk": [
     "20.1",
     "20.2",
@@ -28,10 +28,10 @@
       "20.2.4"
     ]
   },
-  "focusSessionId": "20.2.2",
+  "focusSessionId": "20.2.3",
   "sessionAcrossTotal": 4,
-  "sessionIndex0Based": 1,
-  "nextSessionAcross": "20.2.3",
+  "sessionIndex0Based": 2,
+  "nextSessionAcross": "20.2.4",
   "taskAcrossTotal": 2,
-  "nextTaskAcross": "20.2.2.1"
+  "nextTaskAcross": "20.2.3.1"
 }
