@@ -52,19 +52,17 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.4.3.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 20.4.3.1: Slot shape + differential offsets (placement-only API)
+**Goal:** Remove **`mergedRoleOverrides`** from **`calculateSlotShape`** / **`computeDifferentialOffsetsFromMaps`**; booking path uses placement-only **`resolvePrimarySecondaryEventShapesForBooking`**.
+**Files:** `partFinalizerSlotShape.ts`, `partFinalizerSlotShapeHelpers.ts`, `appointmentSlotBuilder.ts` (`buildAppointmentShape` call)
+**Approach:** Signature shrink + single call site; grep + client lint.
+**Checkpoint:** No other **`calculateSlotShape`** callers; lint clean.
 
-- [ ] #### Task 20.4.3.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.4.3.2: Time axis (`applyShapeToTime` + `resolveEventShapes`)
+**Goal:** Stop threading empty **`differentialEventRoleOverrides`** through time application where grep-clean; align with task 20.4.3.1 slot output.
+**Files:** `appointmentSlotBuilder.ts` (`applyShapeToTime`), `perspectiveResolver.ts`, `slotShapeLookups.ts` if needed
+**Approach:** Grep then refactor; preserve **`roundedDifferentialOffset`** / major-minor adjustment behavior.
+**Checkpoint:** Lint; manual smoke availability slots if time permits.
 
 ---
 

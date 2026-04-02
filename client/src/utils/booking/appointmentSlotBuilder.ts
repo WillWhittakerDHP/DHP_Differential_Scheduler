@@ -147,7 +147,6 @@ export function buildAppointmentShape(
     eventAssignmentsByPartShape,
     resolvedEventShapes,
     settings ?? null,
-    differentialEventRoleOverrides,
     resolvedTimeRounding,
   )
 
