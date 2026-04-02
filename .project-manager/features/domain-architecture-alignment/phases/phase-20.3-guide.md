@@ -94,7 +94,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Session planning → composables/components for service-instance UX → verify against `ENTITY_CONFIGS` / generic admin patterns.
 
-- [ ] ### Session 20.3.3: Remaining domain editors (§8.3 #3)
+- [x] ### Session 20.3.3: Remaining domain editors (§8.3 #3)
 
 **Description:** Instance-level orchestration UIs for other shape types (**time** / **price** / **event**) using validity-constrained selection language.
 
