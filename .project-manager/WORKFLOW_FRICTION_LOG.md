@@ -2901,3 +2901,79 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 
 nextAction:
 Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.3.4 — session — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 20.3.4
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=session; identifier=20.3.4; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Session Audit: 20.3.4
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/session-20.3.4-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/session-20.3.4/2026-04-02T20-41-18Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+- ➡️ **type-constant-inventory**: 0 → 0 (+0)
+- ❌ **composable-governance**: 94 → 92 (-2)
+- ➡️ **function-governance**: 100 → 100 (+0)
+- ➡️ **component-governance**: 100 → 100 (+0)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (88/100)
+- ✅ **docs**: pass (100/100)
+- ✅ **vue-architecture**: pass (100/100)
+
+## Autofix
+
+Tier session: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Extract complex logic from /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/composables-logic-audit.json into composables. Target: reduce complexity score below 20.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/session-20.3.4-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+---
+
+## Required reading before fixes
+
+Read these governance docs to ensure fixes comply with project patterns:
+
+- **Composable governance**: `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/composable-governance.mdc`)
+- **Type governance**: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/type-governance.mdc`)
+- **Coding standards**: `.cursor/rules/codin
+
+…(truncated)
