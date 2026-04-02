@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.4.2.1: Remove role enrichment + narrow PartFinal
+- [x] #### Task 20.4.2.1: Remove role enrichment + narrow PartFinal
 **Goal:** Grep inventory of **`enrichBlockFinalsWithDifferentialRoles`** and **`PartFinal` role field** consumers; replace enrichment with placement/instance-derived data; remove enrichment from **`appointmentSlotBuilder`**; update **`PartFinal`** / **`createPartFinal`** / **`partFinalizer`**; fix breakages.
 **Files:**
 - `client/src/utils/booking/partFinalizer.ts`, `appointmentSlotBuilder.ts`, `PartFinal.ts`, `client/src/types/booking/partFinal.ts`
