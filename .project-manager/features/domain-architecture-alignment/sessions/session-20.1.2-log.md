@@ -136,168 +136,121 @@ index 6438b21c..cf0f7659 100644
 **Next Task:**
 - 20.1.2.3
 
-<!-- harness:anchor:commit-preview -->
-## Harness: commit preview (in-scope diff)
 
-Paths (4): `.project-manager/WORKFLOW_FRICTION_LOG.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md`, `client/src/utils/admin/statusButtonTogglePayloads.ts`
-
-### `git diff --stat HEAD`
-
-```text
-.project-manager/WORKFLOW_FRICTION_LOG.md          | 73 ++++++++++++++++++++++
- .../sessions/session-20.1.2-guide.md               |  2 +-
- .../sessions/session-20.1.2-log.md                 | 16 ++++-
- .../src/utils/admin/statusButtonTogglePayloads.ts  |  2 +-
- 4 files changed, 90 insertions(+), 3 deletions(-)
-```
-
-### `git diff HEAD`
-
-```diff
-diff --git a/.project-manager/WORKFLOW_FRICTION_LOG.md b/.project-manager/WORKFLOW_FRICTION_LOG.md
-index ad90360e..ca4aa219 100644
---- a/.project-manager/WORKFLOW_FRICTION_LOG.md
-+++ b/.project-manager/WORKFLOW_FRICTION_LOG.md
-@@ -2072,3 +2072,76 @@ nextAction:
- - Session 20.1.1 is not marked as complete in phase guide
- - Session 20.1.2 cannot be started until Session 20.1.1 is complete
- - Complete Session 20.1.1 first with /session-end 20.1.1
-+
-+### 2026-04-02 — 20.1.2.2 — task — end — audit_failed
-+
-+- **reasonCodeRaw:** audit_failed
-+- **reasonCodeNormalized:** audit_failed
-+- **isFailureReason:** true
-+- **tier:** task
-+- **action:** end
-+- **identifier:** 20.1.2.2
-+- **featureName:** domain-architecture-alignment
-+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
-+
-+- **Symptom:** Harness end failed (reasonCode=audit_failed).
-+- **Context:** tier=task; identifier=20.1.2.2; featureName=domain-architecture-alignment
-+
-+nextAction:
-+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
-+
-+deliverables (excerpt):
-+# Task Audit: 20.1.2.2
-+
-+**Overall Status:** WARN
-+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/task-20.1.2.2-audit.md
-+
-+*Note: Task audits run tier-task group (typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security) with --changed-only.*
-+
-+## External Signals (captured)
-+
-+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/task-20.1.2.2/2026-04-02T15-34-18Z`
-+- **Copied:** 7 file(s)
-+- **Missing:** 2 file(s) (signals not present yet)
-+
-+## Results Summary
-+
-+- ⚠️ **tier-quality**: warn (90/100)
-+
-+## Autofix
-+
-+Tier task: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
-+
-+**Agent directives:**
-+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
-+
-+---
-+
-+## 📋 Review Request
-+
-+**Please review the audit report with me:**
-+
-+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/task-20.1.2.2-audit.md`
-+
-+**Questions to consider:**
-+- Are the audit findings accurate?
-+- Are there false positives or missing issues?
-+- How can we improve the audit checks?
-+- What workflow refinements do the audits suggest?
-+
-+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
-+
-+---
-+
-+## Architecture context (harness-injected)
-+
-+## 1. System overview
-+
-+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
-+
-+- **Public booking users** — wizard-style scheduling and property/availability flows.
-+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
-+
-+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often b
-+
-+…(truncated)
-diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-guide.md
-index c29d2b69..ec88a125 100644
---- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-guide.md
-@@ -68,7 +68,7 @@ These sections contain session-specific content:
- **Approach:** Author the `block_instances` migration first, then update the Sequelize model and direct versioning/client consumers in the same pass so removed fields are not left referenced.
- **Checkpoint:** `BlockInstance` / `BlockInstanceEntity` compile with `orchestrator` / `wizardVisible`; no direct reads of removed instance fields remain in touched code; client + server lint pass.
- 
--- [x] #### Task 20.1.2.2: Block shape legacy boolean cleanup
-+- [x] - [x] #### Task 20.1.2.2: Block shape legacy boolean cleanup
- **Goal:** Remove `composable`, `isStateControl`, and `canHaveParts` from `block_shapes`, then update model/client/runtime checks that still depend on those booleans.
- **Files:** 
- - `server/src/db/migrations/` — drop legacy columns from `block_shapes`
-diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-index 1a5e9c95..511750f2 100644
---- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-+++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
-@@ -19,6 +19,14 @@
- 
- 
- 
-+### Task 20.1.2.2: Task 20.1.2.2 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.1.2.3
-+
-+
-+
- ### Task 20.1.2.1: Task 20.1.2.1 ✅
- **Goal:** Task completed
- 
-@@ -121,4 +129,10 @@ index 6438b21c..cf0f7659 100644
- --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
- +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
- @@ -11,6 +11,14 @@
-- 
-\ No newline at end of file
-+ 
-+### Task 20.1.2.2: Task 20.1.2.2 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.1.2.3
-+
-diff --git a/client/src/utils/admin/statusButtonTogglePayloads.ts b/client/src/utils/admin/statusButtonTogglePayloads.ts
-index 3c80a8e7..61912144 100644
---- a/client/src/utils/admin/statusButtonTogglePayloads.ts
-+++ b/client/src/utils/admin/statusButtonTogglePayloads.ts
-@@ -60,7 +60,7 @@ export function buildTernaryTogglePayloads(
- }
- 
- export function buildBooleanTogglePayloads<GE extends GlobalEntityKey>(
--  entityKey: GE,
-+  _entityKey: GE,
-   entity: GlobalEntity<GE>,
-   fieldKey: GlobalFieldKey<GE>,
-   currentRaw: unknown
-```
-<!-- /harness:anchor:commit-preview -->
 
 
 
 ## Test Status
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (7): `.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.2.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.2.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.1.2/`
+
+### `git diff --stat HEAD`
+
+```text
+.../phases/phase-20.1-log.md                       |   8 +
+ .../sessions/session-20.1.2-handoff.md             |  25 +-
+ .../sessions/session-20.1.2-log.md                 |   2 +
+ .../sessions/session-20.1.2-planning.md            | 364 ++++++++-------------
+ .../sessions/task-20.1.2.1-planning.md             | 174 ----------
+ .../sessions/task-20.1.2.2-planning.md             | 187 -----------
+ 6 files changed, 160 insertions(+), 600 deletions(-)
+```
+
+### `git diff HEAD`
+_(diff truncated to cap)_
+
+```diff
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
+index ace6ce16..e18e4df1 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.1-log.md
+@@ -25,6 +25,14 @@
+ 
+ 
+ 
++### Session 20.1.2: Block instance three-property alignment and legacy cleanup ✅
++**Completed:** 2026-04-02
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** ** Block instance three-property alignment and legacy cleanup -- migration: ADD `orchestrator` (bool), ADD `wizardVisible` (bool) to `block_instances`; DROP `bookingMode`, `differential`, `differentialEventRoleOverrides` from `block_instances`; DROP `composable`, `isStateControl`, `canHaveParts` from `block_shapes`; update both Sequelize models; update `BlockInstanceEntity` and `BlockShapeEntity` client types.
++
++
++
+ ### Session 20.1.1: Block shape type enum rename ✅
+ **Completed:** 2026-04-02
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
+index 59997eff..f7c9515c 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-handoff.md
+@@ -10,6 +10,18 @@
+ 
+ ---
+ 
++## Across ladder (harness)
++
++_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
++
++- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:38:07.749Z
++- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
++- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
++- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
++- **Tasks in session (detected):** 2 · **Next task across:** `20.1.2.1` → `/task-start` / cascade
++- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
++<!-- harness-across-ladder:end -->
++
+ ## Current Status
+ 
+ **Last Completed:** Task 
+@@ -29,19 +41,6 @@ Completed Task
+ **What you need to start:**
+ - Begin Session 20.1.3
+ 
+-<!-- harness-across-ladder:start -->
+-## Across ladder (harness)
+-
+-_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+-
+-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T15:38:07.749Z
+-- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+-- **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
+-- **Focus session:** `20.1.2` · **Session 2/3 in phase** · **Next session across:** `20.1.3` → `/session-start 20.1.3`
+-- **Tasks in session (detected):** 2 · **Next task across:** `20.1.2.1` → `/task-start` / cascade
+-- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+-<!-- harness-across-ladder:end -->
+-
+ 
+ ## Document Structure Guidelines
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
+index 0fa3804d..855c26db 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.2-log.md
+@@ -301,3 +301,5 @@ index 3c80a8e7..61912144 100644
+ ## Story
++
+ **This session delivers** block-instance three-property schema alignment and block-shape legacy cleanup across migrations, Sequelize models, and directly impacted type/validation consumers **so that** later passes can treat `block_instances` as the home of `composite` / `orchestrator` / `wizardVisible` without carrying legacy shape booleans or stale instance fields.
+ **Estimated size:** M
+ 
+ ---
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+ 
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
++## Analysis
+ 
+----
++- **Problem / why now:** Session 20.1.1 renamed the type vocabulary; 
+… (truncated)
+```
+<!-- /harness:anchor:commit-preview -->
