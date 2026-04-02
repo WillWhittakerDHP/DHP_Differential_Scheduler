@@ -47,7 +47,7 @@
 **Description:** Add/extend `@shared` constants (array + per-role const exports as needed); migration to alter ENUM `seller` → `owner` and update existing `users.user_role` rows; update `Users` model, `userSchemas.ts`, `userTypeMapping.ts`, `client/src/types/user.ts`, `UserCreateForm.vue` and any `VSelect` role lists, `appointmentDataBuilders`, tests of behavior, seeds; grep for `seller` and hardcoded role arrays; align **Feature 7** enactment docs that mention role examples (`transaction_manager`, etc.).  
 **Focus:** One import path for allowed values; rename complete across API/DB/client.
 
-- [ ] ### Session 6.18.2: Admin alignment — canonical roles ↔ user-type block instances  
+- [x] ### Session 6.18.2: Admin alignment — canonical roles ↔ user-type block instances  
 **Description:** Design minimal persistence (e.g. JSON on `wizard_settings`, `organization_defaults`, or a small `user_role_block_alignment` table) mapping **canonical role key** → **block_instance_id** (user-type shape). Admin UI: table or matrix “Role → User-type instance” with pickers sourced from state-control user-type instances (`getUserTypeBlockIdForRole` reads config first, then legacy name map). Document seed expectations for default rows (“Owner”, “Buyer”, …).  
 **Focus:** Operators can add/rename user-type instances without a deploy for mapping-only changes (where product allows).
 

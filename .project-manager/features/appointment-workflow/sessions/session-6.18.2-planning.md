@@ -1,9 +1,8 @@
-# Session 6.18.2 — Admin alignment: canonical roles ↔ user-type block instances
+<!-- harness-planning-rollup tier=session id=6.18.2 consolidatedAt=2026-04-02T01:01:37.442Z -->
 
-## Contract
+# Consolidated planning: session 6.18.2
 
-- **Tier:** session | **ID:** 6.18.2 | **Parent phase:** 6.18  
-- **Depends on:** Session **6.18.1** — `@shared` `USER_ROLE_VALUES`, API/DB `owner`, `userTypeMapping` name map in place.
+## Session 6.18.2 (parent)
 
 ## Story
 
@@ -17,28 +16,11 @@ Operators need to **choose which user-type block instance** backs each canonical
 - **Patterns:** Mirror **`business-settings`** key pattern (`businessSettingsCrudRouter`, `checkOwnership('businessSetting', …)`) for a dedicated key (e.g. `user_role_block_alignment`) **or** introduce a small table if JSON size/auditing warrants it — **decide in task 6.18.2.1** with preference for **one JSONB row** keyed like availability unless multiple writers conflict.
 - **No silent fallback:** Unmapped role → keep current **warn** + `null`; unknown UUID in payload → **400** with clear error.
 
-## Codebase recon
-
-**Paths reviewed (server):**
-
-- `server/src/utils/userTypeMapping.ts` — `ROLE_TO_BLOCK_NAME`, `getUserTypeBlockIdForRole`, `findUserTypeBlockByName`, in-memory cache by **block name** (TTL 5m).
-- `server/src/routes/internal/appointments/appointmentPersistenceHelpers.ts` — calls `getUserTypeBlockIdForRole(attendee.role)` when persisting attendees.
-- `server/src/db/models/admin/block_shape.ts` — `isStateControl`, `type: 'user' | …`.
-- `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts` — GET/PATCH patterns, `validateSettingValue`, ownership.
-- `server/src/middlewares/ownershipEnforcement.ts` — `businessSetting` param handling.
-
-**Paths reviewed (client):**
-
-- `client/src/utils/booking/cascadeFilterPipeline.ts` — `getUserTypeBlocks` for wizard user-type options.
-- `client/src/composables/booking/useWizardFilteredOptions.ts` — consumes `getUserTypeBlocks`.
-
-**Gaps / decisions for tasks:** Exact **settings key** vs **new table**; admin **route/tab** placement (reuse Developer “Business Controls” vs new sub-view); whether **client booking** needs to read alignment (likely **no** — server resolves on persist; wizard already loads instances from global data).
-
 ## Goal
 
 Let operators **align** each canonical **`user_role`** to a **user-type block instance** via admin UI and persisted config, so **`getUserTypeBlockIdForRole`** uses **stored `block_instance_id` first** and falls back to the **legacy name-based map** when unset.
 
-## Files (primary)
+## Files
 
 | Layer | Paths (expected touch) |
 |--------|-------------------------|
@@ -66,51 +48,73 @@ After **6.18.2.1:** API returns/saves alignment; server resolves attendees using
 - `getUserTypeBlockIdForRole` reads config first; legacy map fallback; cache safety.
 - Brief doc/seed note for defaults.
 
-## Acceptance criteria
+---
 
-- [ ] Saving alignment changes which block instance is used for new/updated attendee rows using that role (server path), without redeploy for mapping-only edits.
-- [ ] Legacy `ROLE_TO_BLOCK_NAME` + name lookup still applies when a role has **no** stored override.
-- [ ] Invalid instance IDs rejected at API with clear errors; unknown roles logged as today.
-- [ ] `npm run lint` (client + server) and local app start succeed.
+## Task 6.18.2.2 (source: task-6.18.2.2-planning.md)
 
-## Decomposition (leaf tasks)
+### Story
 
-### Task 6.18.2.1: Persistence + API + `getUserTypeBlockIdForRole` integration
-
-**Goal:** Store alignment, expose authenticated GET/PUT (or merge into business-settings key), validate instances, update `userTypeMapping.ts` to prefer overrides and clear cache on update.
-
-**Implementation orders (high level):**
-
-1. Choose storage (prefer single `business_settings` JSON key following `availability` patterns unless table is required).
-2. Add shared types for payload if client/server both import.
-3. Implement validation: UUID → `BlockInstance` + `BlockShape` user + state-control checks.
-4. Wire routes + ownership (admin-only).
-5. Change `getUserTypeBlockIdForRole`: lookup override by role → return id; else existing flow.
-6. Add cache invalidation when alignment updates.
-
-### Task 6.18.2.2: Admin UI — role ↔ user-type instance matrix
-
-**Goal:** Operator-facing screen to view/edit alignment; load roles from shared catalog; instance picker from existing global/block metadata APIs used elsewhere in admin.
-
-**Implementation orders (high level):**
-
-1. Add API client methods for alignment GET/PUT.
-2. Build composable for form state + dirty guard + save.
-3. Add view under agreed admin nav (Business Controls or session guide pick); reuse Vuetify table + select/autocomplete patterns from nearby admin screens.
-4. Help copy: point to Instances tab and state-control user shapes.
+**This task adds** an admin settings panel **because** staff must view and edit which **user-type block instance** each canonical **`user_role`** maps to, using the existing internal API, with pickers constrained to the same eligibility rules the server enforces (user-shaped block under a state-control shape).
 
 ---
 
-## Reference
+### Analysis
 
-- `.project-manager/features/appointment-workflow/phases/phase-6.18-guide.md`
-- `.project-manager/ARCHITECTURE.md` (Users / `user_role`, `getUserTypeBlockIdForRole`)
-- `server/src/utils/userTypeMapping.ts`
-- `server/src/routes/internal/appointments/appointmentPersistenceHelpers.ts`
-- `server/src/routes/internal/businessSettings/businessSettingsCrudRouter.ts`
-- `client/src/utils/booking/cascadeFilterPipeline.ts` (`getUserTypeBlocks`)
+- **Why now:** Operators need to change alignment without deploys; persistence and runtime already honor overrides after 6.18.2.1.
+- **Domains:** **Admin client** — settings surface, `apiClient` calls, composable orchestration, Vuetify forms; **Shared** — reuse `USER_ROLE_VALUES`, `UserRoleBlockAlignmentDto` for typing only.
 
-## Out of scope
+### Goal
 
-- Dynamic/unlimited roles (not ENUM-driven) — future architecture.
-- Changing booking wizard client to fetch alignment separately (server remains source of truth on persist unless product later requires client-side preview of resolved id).
+Operators can **view and edit** persisted **user_role → block_instance_id** alignment from admin **without code changes**, using the **6.18.2.1** API, with pickers limited to **user-type state-control** instances.
+
+### Files
+
+| Layer | Paths (expected touch) |
+|--------|-------------------------|
+| Client config | **New** `client/src/configs/userRoleBlockAlignment/api.ts` — `getUserRoleBlockAlignment()`, `putUserRoleBlockAlignment(dto)` using `apiClient` from `@/utils/api` |
+| Client composable | **New** `client/src/composables/admin/useAdminUserRoleBlockAlignment.ts` — load/save, `enabled` option, explicit return type |
+| Client view | **New** `client/src/views/admin/tabs/BusinessControlsRoleAlignmentSection.vue` (or under `tabs/components/`) — thin template |
+| Client wiring | `client/src/views/admin/tabs/BusinessControlsTab.vue` — tab + `VWindowItem` |
+| Client orchestration | `client/src/composables/admin/useBusinessControlsTab.ts` — compose loading/error/success, `handleSave` branch, optional `provide` if section needs shared state |
+| Client strings | `client/src/configs/businessControlsTabStrings.ts` — tab label, help, button labels |
+| Client utils (optional) | Small named helper e.g. `getEligibleUserTypeStateControlInstances(globalData)` next to or reusing patterns from `eventAttendeeUtils.ts` — **only if** it keeps composable under complexity thresholds |
+
+### Approach
+
+1. Implement **`api.ts`**: parse `GET` response `{ alignments }`; `PUT` sends `UserRoleBlockAlignmentDto`; log errors via `createLogger`.
+2. Implement **composable**: refs for draft alignments, loading/saving/error/success; `loadSettings` / `saveSettings`; watch `enabled` like organization defaults.
+3. Build **section component**: iterate `USER_ROLE_VALUES`; each row binds to draft; options computed from global data + block shape filter.
+4. **Wire Business Controls**: new tab value, strings, aggregate loading/error/success, `handleSave` for that tab, clear errors in `clearAllErrors`.
+5. **Verify:** `npm run start:dev`, `cd client && npm run lint` and `vue-tsc` / typecheck as used in repo; no new tests (project: testing suspended).
+
+### Checkpoint
+
+After **6.18.2.2:** Staff user with ownership can open Business Controls → new tab, see current alignments, change a role’s instance, save, reload and see persistence; invalid instance rejected by API shows server message.
+
+### Deliverables
+
+- Config API module for user-role-block-alignment GET/PUT.
+- `useAdminUserRoleBlockAlignment` composable with documented return type.
+- New Business Controls sub-tab UI + strings.
+- No server or shared-type changes unless a missing export is discovered (unlikely).
+
+### Acceptance Criteria
+
+- [ ] `GET` loads existing `alignments` into the form when the tab becomes active (lazy load acceptable).
+- [ ] `PUT` persists changes; success and error feedback visible; CSRF/cookies respected via existing `apiClient`.
+- [ ] Pickers only list block instances that are **user** type under **state-control** shapes (client-side filter aligned with server).
+- [ ] All roles in `USER_ROLE_VALUES` that the UI exposes are saveable as UUID or cleared (`null`).
+- [ ] `useBusinessControlsTab` `loading`/`error`/`success` includes the new composable; Save on that tab invokes alignment save only (not other tabs).
+- [ ] Client lint passes; app starts.
+
+### Design
+
+- Add a **new Business Controls main tab** (e.g. `roles` / “Role & user-type mapping”) with:
+  - Short **help text** explaining that this overrides the legacy name-based map and points to Instances docs for creating user-type state-control block instances.
+  - One row per **`USER_ROLE_VALUE`**: label + **`VSelect`** (or autocomplete) of eligible instances; optional “Clear override” → `null` for that key.
+  - **Load** on tab enable: `GET /user-role-block-alignment` → populate local draft `Partial<Record<UserRoleValue, string | null>>`.
+  - **Save** on primary action for that tab: `PUT` body `UserRoleBlockAlignmentDto` — send **full desired state** for all rows the UI edits (merge loaded + edits so omitted keys are not accidentally wiped — **implement as:** maintain full object keyed by every displayed role, values `string | null`).
+- **Eligible instances (client filter):** From `useGlobal().getGlobalData()`, block instances whose `blockShapeRef` resolves to a `blockShape` with `isStateControl === true` and `type === 'user'` (match server validator). Display label: instance name/title field consistent with other admin selects + id if needed for disambiguation.
+- **UX:** Disable save while loading or saving; show success toast/message pattern consistent with organization defaults (timeout clear optional); dirty detection optional — minimum viable: always PUT on Save with current draft.
+
+---
