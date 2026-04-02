@@ -67,7 +67,7 @@ export function isDifferentialRoleOverrideValue(raw: unknown): raw is Differenti
 }
 
 /**
- * Sanitize JSON map eventShapeId -> role for block_instances.differential_event_role_overrides.
+ * Sanitize JSON map eventShapeId -> role (legacy / AppointmentShape merge keys).
  * Drops invalid keys/values; returns plain object suitable for JSONB.
  */
 export function sanitizeDifferentialEventRoleOverridesInput(raw: unknown): Record<string, DifferentialRole> {
