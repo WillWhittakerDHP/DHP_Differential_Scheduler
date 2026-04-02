@@ -158,7 +158,7 @@ _(diff truncated to cap)_
 ```diff
 diff --git a/client/tsconfig.tsbuildinfo b/client/tsconfig.tsbuildinfo
 deleted file mode 100644
-index 86f2ab91..00000000
+index 428c37ec..00000000
 --- a/client/tsconfig.tsbuildinfo
 +++ /dev/null
 @@ -1 +0,0 @@
