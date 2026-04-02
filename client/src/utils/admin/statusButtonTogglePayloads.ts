@@ -60,7 +60,7 @@ export function buildTernaryTogglePayloads(
 }
 
 export function buildBooleanTogglePayloads<GE extends GlobalEntityKey>(
-  entityKey: GE,
+  _entityKey: GE,
   entity: GlobalEntity<GE>,
   fieldKey: GlobalFieldKey<GE>,
   currentRaw: unknown

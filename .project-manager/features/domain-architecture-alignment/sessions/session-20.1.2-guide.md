@@ -68,7 +68,7 @@ These sections contain session-specific content:
 **Approach:** Author the `block_instances` migration first, then update the Sequelize model and direct versioning/client consumers in the same pass so removed fields are not left referenced.
 **Checkpoint:** `BlockInstance` / `BlockInstanceEntity` compile with `orchestrator` / `wizardVisible`; no direct reads of removed instance fields remain in touched code; client + server lint pass.
 
-- [x] #### Task 20.1.2.2: Block shape legacy boolean cleanup
+- [x] - [x] #### Task 20.1.2.2: Block shape legacy boolean cleanup
 **Goal:** Remove `composable`, `isStateControl`, and `canHaveParts` from `block_shapes`, then update model/client/runtime checks that still depend on those booleans.
 **Files:** 
 - `server/src/db/migrations/` — drop legacy columns from `block_shapes`
