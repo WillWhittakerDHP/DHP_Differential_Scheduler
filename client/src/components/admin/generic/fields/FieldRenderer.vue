@@ -163,6 +163,7 @@ const componentsWithLabel: Array<FieldComponent['type']> = [
   'icon',
   'primitive',
   'select',
+  'eventShapePlacement',
 ]
 
 const fieldShowLabel = computed(() =>

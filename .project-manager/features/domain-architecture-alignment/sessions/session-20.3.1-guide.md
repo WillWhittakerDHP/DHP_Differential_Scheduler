@@ -48,11 +48,11 @@ These sections contain session-specific content:
 **Description:** Event-shape admin: explicit **placementKind** / **anchorEdge** editor; placement-forward display config and copy; reduce differential-role-first labeling on shape surfaces.
 
 **Duration:** ~1–2 days
-**Status:** Not Started
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 20.3.1.1: PlacementTypeEditor integration
+- [x] #### Task 20.3.1.1: PlacementTypeEditor integration
 **Goal:** Grouped placement controls on **eventShape** with **primary** ⇒ null **anchorEdge**; wire through existing admin field rendering.
 **Files:**
 - `client/src/components/admin/generic/fields/` (new editor + map)

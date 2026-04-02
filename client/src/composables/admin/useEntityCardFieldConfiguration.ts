@@ -15,13 +15,19 @@ import { useFieldLocation } from './useFieldLocation'
 export function useEntityCardFieldConfiguration<GE extends GlobalEntityKey = GlobalEntityKey>(
   params: UseEntityCardFieldConfigurationParams<GE>
 ): UseEntityCardFieldConfigurationReturn<GE> {
-  const { fieldKeys, composedFieldMetadata, isExpanded, filteredMetadata } = params
+  const { entityKey, fieldKeys, composedFieldMetadata, isExpanded, filteredMetadata } = params
 
   const finalFieldKeys = computed(() => {
+    let keys: GlobalFieldKey<GE>[]
     if (filteredMetadata && Object.keys(filteredMetadata).length > 0) {
-      return Object.keys(filteredMetadata) as GlobalFieldKey<GE>[]
+      keys = Object.keys(filteredMetadata) as GlobalFieldKey<GE>[]
+    } else {
+      keys = fieldKeys.value
     }
-    return fieldKeys.value
+    if (entityKey === 'eventShape') {
+      return keys.filter((k) => String(k) !== 'anchorEdge')
+    }
+    return keys
   })
 
   const fieldLocation = useFieldLocation<GE>({
