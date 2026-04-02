@@ -40,8 +40,8 @@ export function sanitizeEventAnchorEdgeInput(raw: unknown): EventAnchorEdge | nu
 }
 
 /**
- * WHY: Booking PartFinalizer still keys slot math off DifferentialRole until task 20.1.3.2;
- * derive a stable role from placement so major/minor/minimizer/margin flags stay consistent post-migration.
+ * WHY: `event_shapes` no longer store `differential_role`; booking uses placement_kind + anchor_edge
+ * and derives scheduling role semantics via `eventShapeDifferentialRoleFromPlacementFields`.
  */
 export function differentialRoleFromPlacement(
   kind: EventPlacementKind | null | undefined,
@@ -60,7 +60,7 @@ export function differentialRoleFromPlacement(
   }
 }
 
-/** Client hydrate: API sends placement; normalized differentialRole for legacy consumers. */
+/** Maps stored placement fields to the scheduling role consumed with `effectiveDifferentialRole` overrides. */
 export function eventShapeDifferentialRoleFromPlacementFields(
   placementKind: unknown,
   anchorEdge: unknown
