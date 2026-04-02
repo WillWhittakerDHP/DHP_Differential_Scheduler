@@ -92,3 +92,5 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
 **Description:** Appointment persistence without recomputing totals; calendar services read segment identity and placement policy; remove differential-role-specific route helpers per §5.3 where safe.
 
 **Tasks:** Task blocks added at session-start.
+
+<!-- end excerpt phase -->
