@@ -2540,3 +2540,19 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 TanStack **Vue Query** manages server-state caching. Composables typica
 
 …(truncated)
+
+### 2026-04-02 — 20.1 — /phase-end — Phase tier typecheck audit false positives (resolved)
+
+- **Symptom:** `/phase-end` for phase **20.1** (feature **domain-architecture-alignment**) returned `audit_failed` / tier-quality **WARN** with TypeScript errors in `client/.audit-reports/typecheck/typecheck-audit.json` that did not match source on disk (e.g. diagnostics for `BLOCK_SHAPE_TYPES.OPTION` / `PROPERTY` / `COUPON` on lines that already used `EVENT` / `TIME` / `PRICE`). Manual `vue-tsc` and `npm run typecheck:audit` often passed, so failures looked like application type bugs.
+- **Context:** `reasonCode` **audit_failed**; phase audit under `.cursor/project-manager/features/domain-architecture-alignment/audits/`; typecheck artifact `client/.audit-reports/typecheck/typecheck-audit.json`.
+- **What we tried:** Re-ran `npm run typecheck:audit` alone (clean); confirmed client+server typecheck passed; re-ran `/phase-end` with `continuePastVerification: true` and still saw mismatched diagnostics until the harness/typecheck pipeline was fixed.
+- **Outcome / workaround (landed):**
+  1. **`.cursor/commands/audit/atomic/audit-tier-quality.ts`:** Run `npm run typecheck:audit` **first** (await completion), then spawn remaining phase/task audit scripts in parallel; per-audit spawn timeout **120s → 300s** so `vue-tsc` is less likely to be killed under parallel load.
+  2. **`client/.scripts/typecheck-audit.mjs`:** Run **`vue-tsc -b --clean`** before **`vue-tsc -b --pretty false`** to clear stale incremental state (`tsconfig.tsbuildinfo`) that produced impossible error/line pairings.
+  Phase 20.1 tier-quality then **PASS** (96/100); phase-end reached **`pending_push`**.
+- **Benign noise (same runs, expected / non-blocking):**
+  - **`client/.audit-reports/inventory-annotations.json`:** `ENOENT` in phase-end mid-work — proceeds with empty annotations.
+  - **Git helpers:** `[compareBranchToRemote-behind]` / `[commitUncommitted-diff]` messages — branch/diff checks; noisy but not necessarily a failed tier-end.
+  - **`[gitCommit] Command failed`** for `[phase 20.1] completion` — auto completion commit may not apply if allowed paths are not staged; commit manually if you need that snapshot.
+  - **Across-ladder:** handoff inject skipped when feature/phase handoff files lack a **`[Next Action]`** section.
+- **Suggestion:** Retain clean+sequencing for phase/task typecheck; optionally stub or document optional `inventory-annotations.json` if the ENOENT log line confuses operators.

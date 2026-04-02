@@ -79,7 +79,7 @@
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** phase_end · **Derived:** 2026-04-02T16:35:51.646Z
+- **Feature:** `domain-architecture-alignment` · **Source:** phase_end · **Derived:** 2026-04-02T16:57:02.434Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`

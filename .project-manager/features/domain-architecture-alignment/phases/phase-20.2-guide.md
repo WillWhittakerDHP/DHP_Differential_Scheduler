@@ -51,7 +51,7 @@ Align with **ARCHITECTURE_PRINCIPLES.md** §4 (persistence vs resolution), §5 (
 
 **Phase Number:** 20.2
 **Phase Name:** ** Pass 2 — API alignment (routes, validation, shared contracts §8.2 / §5).
-**Description:** [Fill in]
+**Description:** Align internal entity/relationship routes and validators with Phase 20.1 schema; scope event instances to parent event block instances; no server-side booking resolution.
 **Status:** Not Started
 
 ---
