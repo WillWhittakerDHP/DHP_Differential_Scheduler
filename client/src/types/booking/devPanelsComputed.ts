@@ -1,6 +1,5 @@
 import type { ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/types/transformers/bookingData'
-import type { TernaryBoolean } from '@/types/ternary'
 import type { AppointmentShape, AppointmentSlot, SlotShape } from '@/types/appointment'
 import type { PartFinal } from '@/types/booking/partFinal'
 
@@ -18,8 +17,8 @@ export interface UseDevPanelsComputedOptions {
 
 export interface ServiceSummary {
   name: string
-  differential: TernaryBoolean
-  bookingMode: string
+  orchestrator: boolean
+  wizardVisible: boolean
   baseSqFt: number
   partCount: number
 }

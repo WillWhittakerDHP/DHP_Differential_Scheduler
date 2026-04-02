@@ -4,9 +4,8 @@ export type { GlobalEntityId }
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
-import type { TernaryBoolean } from "./ternary";
 import type { DifferentialRole } from '@shared/types/differentialRole'
-
+import type { TernaryBoolean } from "./ternary";
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface GlobalEntityBase<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
@@ -23,21 +22,20 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   blockShapeRef: string;
   baseSqFt: number;
   active: boolean;
-  /** Stored as ternary_boolean; map to BookingMode at booking boundary. */
-  bookingMode?: TernaryBoolean;
   agentPermissions?: TernaryBoolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
+  /** When true, this block coordinates differential scheduling for selected services. */
+  orchestrator?: boolean;
+  /** When false, instance is add-on / line-item style (not main wizard-visible). */
+  wizardVisible?: boolean;
   annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
   description?: string; // Derived description from annotations for display
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber?: boolean | null;
-  differential?: TernaryBoolean;
   preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
-  /** Per eventShape id: scheduling role override for this block instance; omit key to inherit event shape template. */
-  differentialEventRoleOverrides?: Record<string, DifferentialRole>;
   /** Assigned event instances (parent_kind = blockInstance on event_assignments). */
   eventAssignments?: GlobalEntityId[];
 }

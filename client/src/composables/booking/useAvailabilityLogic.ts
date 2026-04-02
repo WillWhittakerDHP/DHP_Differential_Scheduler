@@ -11,7 +11,6 @@ import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingT
 import type { WizardStateData } from '@/utils/transformers/appointmentToWizardTransformer'
 import type { ISO8601Date, RFC3339DateTime } from '@shared/types/primitiveBrands'
 import type { PropertyDetails } from '@/types/availability'
-import { equals } from '@/utils/ternary/ternaryUtils'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import { buildRfc3339UtcDayRangeForSelectedDate } from '@/utils/booking/availabilityDateRangeForApi'
@@ -34,7 +33,7 @@ export type { TimeSlotsPerDay }
  * and useAvailabilityOrchestrator so we don't duplicate derivation.
  */
 function isDifferentialFromSelectedBlocksCore(blocks: BookingBlockInstance[]): boolean {
-  return blocks.some((s) => equals(s.differential, 'true'))
+  return blocks.some((s) => s.orchestrator === true)
 }
 
 export function isDifferentialFromSelectedBlocks(blocks: BookingBlockInstance[]): boolean {

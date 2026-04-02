@@ -1,24 +1,21 @@
 import type { GlobalRelationship } from '@/types/relationships'
-import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
+import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
-import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
 import type { BookingBlockInstance, BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import {
   safeString,
   convertToTernaryBoolean,
-  convertTernaryToBookingMode,
 } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
 import { isBookingEntityActive } from './globalToBookingEntityActive'
 import { transformPartInstance } from './globalToBookingPartInstanceTransform'
 
-export function getBookingMode(blockInstance: GlobalEntity<'blockInstance'>): BookingMode {
-  return convertTernaryToBookingMode(
-    blockInstance.bookingMode ?? DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
-  )
+export function isWizardMainBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
+  const b = blockInstance as BlockInstanceEntity
+  return b.wizardVisible !== false
 }
 
 export function filterAndSortBlockInstances(
@@ -117,16 +114,15 @@ function resolvePartInstanceIds(
 type BlockInstanceOptionalProps = {
   baseSqFt?: number
   icon?: string
-  bookingMode?: TernaryBoolean
   agentPermissions?: TernaryBoolean
-  differential?: TernaryBoolean
+  orchestrator?: boolean
+  wizardVisible?: boolean
   preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
   requiresUnitNumber?: boolean | null
   isMultiFamily?: boolean
   requiresAgent?: boolean
-  differentialEventRoleOverrides?: Record<string, import('@shared/types/differentialRole').DifferentialRole>
 }
 
 function extractBlockInstanceProps(
@@ -139,18 +135,15 @@ function extractBlockInstanceProps(
   return {
     baseSqFt: b.baseSqFt,
     icon: b.icon,
-    bookingMode: b.bookingMode,
     agentPermissions: b.agentPermissions,
-    differential: b.differential,
+    orchestrator: b.orchestrator,
+    wizardVisible: b.wizardVisible,
     preClosing: b.preClosing,
     number: numberProp,
     allowMultiple: b.allowMultiple,
     requiresUnitNumber: b.requiresUnitNumber,
     isMultiFamily: b.isMultiFamily,
     requiresAgent: b.requiresAgent,
-    ...(b.differentialEventRoleOverrides !== undefined && b.differentialEventRoleOverrides !== null
-      ? { differentialEventRoleOverrides: { ...b.differentialEventRoleOverrides } }
-      : {}),
   }
 }
 
@@ -161,11 +154,9 @@ function buildBookingBlockInstance(
   blockShape: string,
   blockShapeRef: string,
   activeBlockIds: string[],
-  differential: TernaryBoolean
+  orchestrator: boolean,
+  wizardVisible: boolean
 ): BookingBlockInstance {
-  const bookingModeDomain = convertTernaryToBookingMode(
-    props.bookingMode ?? DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
-  )
   const agentPermissions = convertToTernaryBoolean(props.agentPermissions, 'false')
   return {
     id: blockInstance.id,
@@ -174,9 +165,9 @@ function buildBookingBlockInstance(
     active: isBookingEntityActive(blockInstance),
     baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    bookingMode: bookingModeDomain,
     agentPermissions,
-    differential,
+    orchestrator,
+    wizardVisible,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
     blockShape,
@@ -188,12 +179,6 @@ function buildBookingBlockInstance(
       typeof props.requiresUnitNumber === 'boolean' ? props.requiresUnitNumber : null,
     isMultiFamily: props.isMultiFamily ?? false,
     requiresAgent: props.requiresAgent ?? false,
-    ...(props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES] !== undefined
-      ? {
-          [FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES]:
-            props[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES],
-        }
-      : {}),
   }
 }
 
@@ -240,7 +225,8 @@ function transformBlockInstance(
   )
   const activeBlockIds = extractChildIds(bookingCascadesRels)
   const props = extractBlockInstanceProps(blockInstance)
-  const differential = convertToTernaryBoolean(props.differential)
+  const orchestrator = props.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR
+  const wizardVisible = props.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE
   const blockShapeEntity = _blockShapeById.get(blockShapeRef)
   const blockShape = safeString(blockShapeEntity?.name, 'blockShape.name')
 
@@ -251,6 +237,7 @@ function transformBlockInstance(
     blockShape,
     blockShapeRef,
     activeBlockIds,
-    differential
+    orchestrator,
+    wizardVisible
   )
 }

@@ -11,7 +11,7 @@ export interface ComponentItem extends SelectionCardComponentItem {
 
 export interface SelectionCardItemWithComponents extends SelectionCardItem {
   blockShapeName?: string
-  bookingMode?: string
+  wizardVisible?: boolean
   partInstances?: BookingPartInstance[]
 }
 

@@ -2,7 +2,6 @@
 import { ternaryToBookingMode } from '@shared/utils/ternaryAliasUtils'
 import type { TernaryBoolean } from '@/types/ternary'
 import type { BookingMode } from '@/constants/bookingMode'
-import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 
 export function convertToTernaryBoolean(
   value: TernaryBoolean | undefined | null,
@@ -12,10 +11,10 @@ export function convertToTernaryBoolean(
   return defaultValue
 }
 
-/** Maps stored `booking_mode` (ternary) to domain `BookingMode` for booking transforms. */
+/** Maps stored ternary aliases to domain `BookingMode` (legacy helpers; block instances use booleans). */
 export function convertTernaryToBookingMode(
   value: TernaryBoolean | undefined | null,
-  defaultVal: BookingMode = DEFAULT_VALUES.BOOKING_MODE
+  defaultVal: BookingMode = 'standalone'
 ): BookingMode {
   return ternaryToBookingMode(value ?? undefined, defaultVal)
 }

@@ -8,7 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-import { DEFAULT_VALUES, FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
+import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
 import { PartAssignment } from './part_assignment';
 import { BookingCascade } from './booking_cascade';
 
@@ -21,10 +21,10 @@ export class BlockInstance extends Model<
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
   declare active: boolean;
-  declare bookingMode: 'true' | 'false' | 'override';
   declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
-  declare differential: 'true' | 'false' | 'override';
+  declare orchestrator: boolean;
+  declare wizardVisible: boolean;
   declare preClosing: boolean;
   declare icon: string | null;
   declare baseSqFt: number | null;
@@ -32,8 +32,6 @@ export class BlockInstance extends Model<
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
-  /** Per eventShapeId: major | minor | minimizer | none; omit id to inherit template role. */
-  declare differentialEventRoleOverrides: CreationOptional<Record<string, string> | null>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -71,25 +69,26 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: true,
       },
-      bookingMode: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
-        allowNull: false,
-        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
-      },
       agentPermissions: {
         type: DataTypes.ENUM('true', 'false', 'override'),
         allowNull: false,
-        defaultValue: DEFAULT_VALUES.BOOKING_MODE_STORAGE,
+        defaultValue: 'false',
       },
       composite: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
-      differential: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
+      orchestrator: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: 'false',
+        defaultValue: false,
+      },
+      wizardVisible: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'wizard_visible',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,
@@ -123,11 +122,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-      },
-      differentialEventRoleOverrides: {
-        type: DataTypes.JSONB,
-        allowNull: false,
-        defaultValue: {},
       },
       createdAt: {
         type: DataTypes.DATE,

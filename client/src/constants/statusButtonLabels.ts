@@ -10,16 +10,8 @@ export const STATUS_BUTTON_LABELS: Record<
 > = {
   active: { true: ENTITY_STATUS.ACTIVE, false: ENTITY_STATUS.INACTIVE },
   composite: { true: 'Composite', false: 'Atomic' },
-  differential: {
-    true: 'Differential',
-    false: 'Flat',
-    override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS
-  },
-  bookingMode: {
-    true: 'Add-On Only',
-    false: 'Standalone Only',
-    override: 'Standalone or Add-On'
-  },
+  orchestrator: { true: 'Orchestrator', false: 'Not orchestrator' },
+  wizardVisible: { true: 'Wizard visible', false: 'Add-on only' },
   agentPermissions: {
     true: 'Agents Only',
     false: 'Clients Only',

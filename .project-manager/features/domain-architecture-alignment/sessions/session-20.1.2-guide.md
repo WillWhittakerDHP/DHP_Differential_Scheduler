@@ -52,19 +52,38 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.1.2.1: [Task Name]
-**Goal:** [Task goal]
+- [x] - [x] #### Task 20.1.2.1: Block instance three-property columns
+**Goal:** Add `orchestrator` / `wizardVisible` to `block_instances`, remove legacy instance fields (`bookingMode`, `differential`, `differentialEventRoleOverrides`), and update the direct server/client consumers that break when those fields disappear.
 **Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- `server/src/db/migrations/` — new migration for `block_instances`
+- `server/src/db/models/booking/block_instance.ts`
+- `server/src/db/models/booking/block_instance_version.ts`
+- `server/src/services/instanceVersioning.ts`
+- `server/src/services/appointmentSnapshotLoader.ts`
+- `client/src/types/entities.ts`
+- `client/src/utils/transformers/entityTransformers.ts`
+- `client/src/utils/transformers/globalToBookingTransformerBlocks.ts`
+- `client/src/composables/admin/useInstanceFiltering.ts`
+- `client/src/utils/booking/appointmentSlotBuilder.ts`
+**Approach:** Author the `block_instances` migration first, then update the Sequelize model and direct versioning/client consumers in the same pass so removed fields are not left referenced.
+**Checkpoint:** `BlockInstance` / `BlockInstanceEntity` compile with `orchestrator` / `wizardVisible`; no direct reads of removed instance fields remain in touched code; client + server lint pass.
 
-- [ ] #### Task 20.1.2.2: [Task Name]
-**Goal:** [Task goal]
+- [ ] #### Task 20.1.2.2: Block shape legacy boolean cleanup
+**Goal:** Remove `composable`, `isStateControl`, and `canHaveParts` from `block_shapes`, then update model/client/runtime checks that still depend on those booleans.
 **Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- `server/src/db/migrations/` — drop legacy columns from `block_shapes`
+- `server/src/db/models/admin/block_shape.ts`
+- `server/src/routes/internal/entities/entityCrudRouter.ts`
+- `server/src/routes/internal/relationships/relationshipHelpersValidation.ts`
+- `server/src/utils/validateUserRoleBlockAlignmentPayload.ts`
+- `server/src/utils/userTypeMapping.ts`
+- `server/src/repositories/stateControlUserTypeBlockInstanceIds.ts`
+- `server/src/repositories/availabilityDifferentialAttendeeCleanup.ts`
+- `client/src/types/entities.ts`
+- `client/src/utils/eventAttendeeUtils.ts`
+- `client/src/utils/admin/eligibleUserRoleAlignmentBlockInstances.ts`
+**Approach:** Remove the shape booleans from schema/model, then re-home or remove direct runtime checks immediately so the app still has a coherent source of truth.
+**Checkpoint:** `BlockShape` / `BlockShapeEntity` no longer expose the removed booleans; touched runtime checks are updated; client + server lint pass.
 
 ---
 

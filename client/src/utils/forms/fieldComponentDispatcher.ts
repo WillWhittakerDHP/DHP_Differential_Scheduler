@@ -2,7 +2,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { FieldComponent } from '@/types/forms/fieldComponent'
-import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { computeRenderAs } from '@shared/utils/metadataRenderAsUtils'
 
 export type { FieldComponent } from '@/types/forms/fieldComponent'
@@ -12,10 +11,6 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   fieldMetadata: FieldMetadataEntry | undefined
 ): FieldComponent {
-  if (entityKey === 'blockInstance' && String(fieldKey) === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
-    return { type: FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES, reason: 'differentialRoleMatrix' }
-  }
-
   if (!fieldMetadata) {
     return { type: 'unknown', reason: 'notConfigured' }
   }

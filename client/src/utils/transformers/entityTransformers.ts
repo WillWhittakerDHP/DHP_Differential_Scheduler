@@ -6,9 +6,8 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import {
   normalizeBlockInstanceAgentPermissionsFromApi,
-  normalizeBlockInstanceBookingModeFromApi,
-  normalizeBlockInstanceDifferentialFromApi,
-  normalizeBlockInstanceDifferentialEventRoleOverridesFromApi,
+  normalizeBlockInstanceOrchestratorFromApi,
+  normalizeBlockInstanceWizardVisibleFromApi,
   normalizeEventShapeDifferentialRoleFromApi,
 } from './apiEntityFieldNormalization'
 
@@ -37,16 +36,12 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   }
 
   if (entityKey === 'blockInstance') {
-    const bookingRaw = transformed.bookingMode ?? rawEntity.booking_mode
-    transformed.bookingMode = normalizeBlockInstanceBookingModeFromApi(bookingRaw)
     const agentRaw = transformed.agentPermissions ?? rawEntity.agent_permissions
     transformed.agentPermissions = normalizeBlockInstanceAgentPermissionsFromApi(agentRaw)
-    const diffRaw = transformed.differential ?? rawEntity.differential
-    transformed.differential = normalizeBlockInstanceDifferentialFromApi(diffRaw)
-    const overridesRaw =
-      transformed.differentialEventRoleOverrides ?? rawEntity.differential_event_role_overrides
-    transformed.differentialEventRoleOverrides =
-      normalizeBlockInstanceDifferentialEventRoleOverridesFromApi(overridesRaw)
+    const orchestratorRaw = transformed.orchestrator ?? rawEntity.orchestrator
+    transformed.orchestrator = normalizeBlockInstanceOrchestratorFromApi(orchestratorRaw)
+    const wizardRaw = transformed.wizardVisible ?? rawEntity.wizard_visible
+    transformed.wizardVisible = normalizeBlockInstanceWizardVisibleFromApi(wizardRaw)
   }
 
   if (entityKey === 'eventShape') {

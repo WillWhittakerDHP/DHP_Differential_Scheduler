@@ -2,8 +2,7 @@
  * WHY: Keeps useInstanceDragAndDrop thin so composable-logic audit stays within thresholds.
  */
 import type { ComputedRef, Ref } from 'vue'
-import { rawBookingModeIsStandaloneOnly } from '@shared/utils/ternaryAliasUtils'
-import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import type { BlockInstanceEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
@@ -12,11 +11,9 @@ import { groupedInstanceDragZoneKey as groupedInstanceDragZoneKeyUtil } from '@/
 
 const logger = createLogger('useInstanceDragAndDropGrouped')
 
-const DEFAULT_BOOKING_MODE_STORAGE = DEFAULT_VALUES.DEFAULT_TERNARY_BOOKING_MODE
-
 function isAdminStandaloneSectionCore(instance: GlobalEntity<'blockInstance'>): boolean {
-  const mode = instance.bookingMode ?? DEFAULT_BOOKING_MODE_STORAGE
-  return rawBookingModeIsStandaloneOnly(mode)
+  const b = instance as BlockInstanceEntity
+  return b.wizardVisible !== false
 }
 
 export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {

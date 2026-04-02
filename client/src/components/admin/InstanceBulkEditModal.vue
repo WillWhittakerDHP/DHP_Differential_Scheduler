@@ -55,8 +55,8 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
-      differential: undefined as TernaryBoolean | undefined,
-      bookingMode: undefined as TernaryBoolean | undefined,
+      orchestrator: undefined as boolean | undefined,
+      wizardVisible: undefined as boolean | undefined,
       agentPermissions: undefined as TernaryBoolean | undefined,
       isMultiFamily: false,
       requiresAgent: false
@@ -79,8 +79,8 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
-      differential: undefined,
-      bookingMode: undefined,
+      orchestrator: undefined,
+      wizardVisible: undefined,
       agentPermissions: undefined,
       isMultiFamily: false,
       requiresAgent: false

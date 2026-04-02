@@ -14,7 +14,7 @@ export type AnnotationInstanceContentRowPayload = ReadonlyArray<{
   text: string
 }>
 
-/** blockInstance.differentialEventRoleOverrides — eventShape id → scheduling role override. */
+/** Legacy map type; scheduling role overrides for blocks were removed — AppointmentShape may still carry merged runtime keys. */
 export type DifferentialEventRoleOverridesMap = Record<string, DifferentialRole>
 
 export type ValidAdminValue =

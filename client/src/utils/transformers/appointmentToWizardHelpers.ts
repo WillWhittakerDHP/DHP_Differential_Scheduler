@@ -11,7 +11,7 @@ import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { Logger } from '@/utils/logger'
 import { asEmptyArray } from '@/utils/safeDefaults'
-import { safeString, safeNumber, convertToTernaryBoolean, extractOptionalString } from './transformerPrimitives'
+import { safeString, safeNumber, extractOptionalString } from './transformerPrimitives'
 import type { AppointmentVersionsResponse, VersionBlockInstance } from '@/types/transformers/appointmentToWizardHelpers'
 
 export type { AppointmentVersionsResponse } from '@/types/transformers/appointmentToWizardHelpers'
@@ -50,9 +50,9 @@ function transformVersionToBookingInstance(
     id: version.id,
     entityKey: 'blockInstance' as const,
     active: true,
-    bookingMode: DEFAULT_VALUES.BOOKING_MODE,
     agentPermissions: 'false',
-    differential: 'false',
+    orchestrator: DEFAULT_VALUES.ORCHESTRATOR,
+    wizardVisible: DEFAULT_VALUES.WIZARD_VISIBLE,
     preClosing: false,
     orderIndex: 0,
     blockShape: '',
@@ -94,7 +94,8 @@ function transformVersionToBookingInstance(
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
     allowMultiple: version.allowMultiple,
-    differential: convertToTernaryBoolean(currentInstance?.differential, 'false'),
+    orchestrator: currentInstance?.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR,
+    wizardVisible: currentInstance?.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE,
     partInstances,
   } as BookingBlockInstance
 }

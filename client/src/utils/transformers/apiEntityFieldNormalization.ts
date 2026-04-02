@@ -3,7 +3,7 @@
 import { createLogger } from '@/utils/logger'
 import { bookingModeToTernary, isTernaryBoolean } from '@shared/utils/ternaryAliasUtils'
 import type { TernaryBoolean } from '@/types/ternary'
-import { parseDifferentialRole, sanitizeDifferentialEventRoleOverridesInput } from '@shared/utils/differentialRoleUtils'
+import { parseDifferentialRole } from '@shared/utils/differentialRoleUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
 
@@ -16,7 +16,7 @@ function normalizeTernaryStringValue(
   fieldName: string,
   defaultValue: TernaryBoolean
 ): TernaryBoolean {
-  const bookingAliases = [DEFAULT_VALUES.BOOKING_MODE, 'addOn', 'both'] as const
+  const bookingAliases = ['standalone', 'addOn', 'both'] as const
   if ((bookingAliases as readonly string[]).includes(raw)) {
     const t = bookingModeToTernary(raw)
     logger.warn(`[apiEntity] coerced domain bookingMode string to ternary for ${fieldName}`, {
@@ -64,24 +64,26 @@ function normalizeTernaryBooleanField(
   return defaultValue
 }
 
-/** bookingMode on global blockInstance: always TernaryBoolean after hydration. */
-export function normalizeBlockInstanceBookingModeFromApi(raw: unknown): TernaryBoolean {
-  return normalizeTernaryBooleanField(raw, FIELD_NAMES.BOOKING_MODE, DEFAULT_TERNARY)
+function normalizeBooleanFieldWithDefault(raw: unknown, defaultValue: boolean): boolean {
+  if (raw === true || raw === 'true') {
+    return true
+  }
+  if (raw === false || raw === 'false') {
+    return false
+  }
+  return defaultValue
+}
+
+export function normalizeBlockInstanceOrchestratorFromApi(raw: unknown): boolean {
+  return normalizeBooleanFieldWithDefault(raw, DEFAULT_VALUES.ORCHESTRATOR)
+}
+
+export function normalizeBlockInstanceWizardVisibleFromApi(raw: unknown): boolean {
+  return normalizeBooleanFieldWithDefault(raw, DEFAULT_VALUES.WIZARD_VISIBLE)
 }
 
 export function normalizeBlockInstanceAgentPermissionsFromApi(raw: unknown): TernaryBoolean {
   return normalizeTernaryBooleanField(raw, FIELD_NAMES.AGENT_PERMISSIONS, DEFAULT_TERNARY)
-}
-
-export function normalizeBlockInstanceDifferentialFromApi(raw: unknown): TernaryBoolean {
-  return normalizeTernaryBooleanField(raw, 'differential', DEFAULT_TERNARY)
-}
-
-/** blockInstance.differentialEventRoleOverrides: map eventShape id → role. */
-export function normalizeBlockInstanceDifferentialEventRoleOverridesFromApi(
-  raw: unknown
-): Record<string, DifferentialRole> {
-  return sanitizeDifferentialEventRoleOverridesInput(raw)
 }
 
 /** eventShape.differentialRole: DifferentialRole (none when API sent null/omit). */

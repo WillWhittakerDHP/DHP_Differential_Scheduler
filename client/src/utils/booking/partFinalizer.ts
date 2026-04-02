@@ -8,40 +8,18 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
 import type { DifferentialRole } from '@shared/types/differentialRole'
-import { effectiveDifferentialRole, isDifferentialRoleOverrideValue } from '@shared/utils/differentialRoleUtils'
+import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
 
 export { calculateSlotShape } from './partFinalizerSlotShape'
 
 const logger = createLogger('partFinalizer')
 
 /**
- * Merge per-block differential role overrides for slot math. First block wins per eventShapeId; log on conflict.
+ * Merge per-block differential role overrides for slot math (AppointmentShape).
+ * Block-instance–level overrides were removed in domain alignment; roles come from event shape templates only.
  */
-export function mergeBlockDifferentialRoleOverrides(blockFinals: BlockFinal[]): Record<string, DifferentialRole> {
-  const merged: Record<string, DifferentialRole> = {}
-  for (const bf of blockFinals) {
-    const raw = bf.sourceBlockInstance.differentialEventRoleOverrides
-    if (raw === undefined || raw === null || typeof raw !== 'object') {
-      continue
-    }
-    for (const [k, v] of Object.entries(raw)) {
-      if (!isDifferentialRoleOverrideValue(v)) {
-        continue
-      }
-      if (k in merged && merged[k] !== v) {
-        logger.warn('mergeBlockDifferentialRoleOverrides: conflicting override; keeping first', {
-          eventShapeId: k,
-          kept: merged[k],
-          skipped: v,
-        })
-        continue
-      }
-      if (!(k in merged)) {
-        merged[k] = v
-      }
-    }
-  }
-  return merged
+export function mergeBlockDifferentialRoleOverrides(_blockFinals: BlockFinal[]): Record<string, DifferentialRole> {
+  return {}
 }
 
 function partShapeKey(part: BookingPartInstance): string {
@@ -128,7 +106,7 @@ export function enrichBlockFinalsWithDifferentialRoles(
         pf.partShape,
         eventAssignmentsByPartShape,
         shapeById,
-        bf.sourceBlockInstance.differentialEventRoleOverrides ?? null
+        null
       )
       return { ...pf, ...flags }
     }),

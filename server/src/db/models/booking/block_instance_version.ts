@@ -23,7 +23,8 @@ export class BlockInstanceVersion extends Model<
   declare icon: string | null;
   declare baseSqFt: number | null;
   declare allowMultiple: boolean;
-  declare differential: 'true' | 'false' | 'override';
+  declare orchestrator: boolean;
+  declare wizardVisible: boolean;
   declare preClosing: boolean;
   declare createdAt: CreationOptional<Date>;
   
@@ -64,10 +65,16 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         defaultValue: false,
         field: 'allow_multiple',
       },
-      differential: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
+      orchestrator: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: 'false',
+        defaultValue: false,
+      },
+      wizardVisible: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'wizard_visible',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,

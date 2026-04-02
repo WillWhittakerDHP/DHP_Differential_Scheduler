@@ -77,14 +77,13 @@ export const ENTITY_DELETE_ROUTE_SEGMENTS = {
 
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
-  BOOKING_MODE: 'bookingMode',
-  BOOKING_MODE_SNAKE: 'booking_mode',
+  ORCHESTRATOR: 'orchestrator',
+  WIZARD_VISIBLE: 'wizardVisible',
+  WIZARD_VISIBLE_SNAKE: 'wizard_visible',
   AGENT_PERMISSIONS: 'agentPermissions',
   AGENT_PERMISSIONS_SNAKE: 'agent_permissions',
   DIFFERENTIAL_ROLE: 'differentialRole',
   DIFFERENTIAL_ROLE_SNAKE: 'differential_role',
-  DIFFERENTIAL_EVENT_ROLE_OVERRIDES: 'differentialEventRoleOverrides',
-  DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE: 'differential_event_role_overrides',
   CREATED_AT: 'createdAt',
   ID: 'id',
   ANNOTATIONS: 'annotations',

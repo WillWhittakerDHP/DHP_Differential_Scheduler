@@ -29,7 +29,8 @@ export interface BlockInstanceSnapshot {
   icon: string
   baseSqFt: number
   allowMultiple: boolean
-  differential: boolean
+  orchestrator: boolean
+  wizardVisible: boolean
   partInstances: Array<{
     id: string
     name: string
