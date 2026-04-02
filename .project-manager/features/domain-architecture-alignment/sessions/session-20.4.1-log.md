@@ -86,3 +86,85 @@
 ## Task 20.4.1.1 status
 
 - [x] Pipeline map and consumer inventory recorded (this log).
+
+### Task 20.4.1.1: Task 20.4.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.4.1.2
+
+
+
+## Completed Tasks
+
+### Task 20.4.1.1: Task 20.4.1.1 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.4.1.2
+
+<!-- end excerpt session -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (3): `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.4.1.1-handoff.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../sessions/session-20.4.1-guide.md                   |  4 ++--
+ .../sessions/session-20.4.1-log.md                     | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
+index f0ee25ce..e400ab5d 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
+@@ -49,11 +49,11 @@ These sections contain session-specific content:
+ **Description:** Map live pipeline vs FEATURE_20 §4.2; inventory differential-role / PartFinal layout consumers; optional inline removal of no-op `mergeBlockDifferentialRoleOverrides`.
+ 
+ **Duration:** ~0.5–1 day
+-**Status:** Not Started
++**Status:** In Progress
+ 
+ ### Tasks
+ 
+-- [x] #### Task 20.4.1.1: Pipeline map + consumer inventory
++- [x] - [x] #### Task 20.4.1.1: Pipeline map + consumer inventory
+ **Goal:** Author §4.2 alignment table + grep-backed consumer list in `session-20.4.1-log.md` (or `DOMAIN_REWRITE_WORKLOG.md` if preferred).
+ **Files:** `session-20.4.1-planning.md`, `session-20.4.1-log.md`, `client/src/utils/booking/` (pipeline modules), `client/src/utils/transformers/globalToBookingTransformer.ts`, `shared/utils/eventPlacementUtils.ts`, `shared/utils/differentialRoleUtils.ts`
+ **Approach:** Read `buildAppointmentShape` chain; crosswalk to FEATURE_20 §4.1–4.2; document; grep `DifferentialRole`, `enrichBlockFinalsWithDifferentialRoles`, `PartFinal` major/minor/minimizer, override maps.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
+index cf77590d..05081606 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
+@@ -86,3 +86,21 @@
+ ## Task 20.4.1.1 status
+ 
+ - [x] Pipeline map and consumer inventory recorded (this log).
++
++### Task 20.4.1.1: Task 20.4.1.1 ✅
++**Goal:** Task completed
++
++**Next Task:**
++- 20.4.1.2
++
++
++
++## Completed Tasks
++
++### Task 20.4.1.1: Task 20.4.1.1 ✅
++**Goal:** Task completed
++
++**Next Task:**
++- 20.4.1.2
++
++<!-- end excerpt session -->
+\ No newline at end of file
+```
+<!-- /harness:anchor:commit-preview -->
