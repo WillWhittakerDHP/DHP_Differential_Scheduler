@@ -18,6 +18,12 @@
 
 ---
 
+## Next Action
+
+Continue Phase 20.3: run **`/session-start 20.3.5`** on branch `feature/domain-architecture-alignment` after **`/accepted-push`** or **`/skip-push`**. If workflow friction is open for this feature, run **`/harness-repair`** (plan) before push.
+
+---
+
 ## Transition Context
 
 **Where we left off:**
@@ -79,11 +85,11 @@
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T20:22:10.981Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T20:48:08.863Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.3` · **Next phase across:** `20.4` → `/phase-start 20.4`
-- **Focus session:** `20.3.3` · **Session 3/5 in phase** · **Next session across:** `20.3.4` → `/session-start 20.3.4`
-- **Tasks in session (detected):** 2 · **Next task across:** `20.3.3.1` → `/task-start` / cascade
+- **Focus session:** `20.3.4` · **Session 4/5 in phase** · **Next session across:** `20.3.5` → `/session-start 20.3.5`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.3.4.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
