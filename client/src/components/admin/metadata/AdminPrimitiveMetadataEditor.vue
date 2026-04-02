@@ -12,6 +12,11 @@
         <span v-if="entityKey === 'blockShape' || entityKey === 'partShape'">
           Changes apply globally to all {{ entityTypeLabel }} entities.
         </span>
+        <span v-else-if="isAnnotationMetadataEntity">
+          Scope: booking wizard annotations only (labels, layout, visibility)—not blocks, parts, or
+          calendar segments. Aligns with FEATURE_20 metadata plan: annotations stay
+          metadata-driven; broader generic metadata cleanup is phase 20.6.
+        </span>
       </p>
     </div>
 
@@ -213,6 +218,10 @@ function clearPendingState(): void {
 const entityTypeLabel = computed(() => {
   return getEntityTypeLabel(props.entityKey)
 })
+
+const isAnnotationMetadataEntity = computed(
+  () => props.entityKey === 'annotationShape' || props.entityKey === 'annotationInstance'
+)
 
 function getFieldMetadata(fieldKey: string) {
   return fieldMetadata.value[fieldKey]
