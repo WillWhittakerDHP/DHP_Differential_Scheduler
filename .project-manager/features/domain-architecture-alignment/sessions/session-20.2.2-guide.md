@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [x] #### Task 20.2.2.1: Event shape — placement invariants & no differential-role leakage
+- [x] - [x] #### Task 20.2.2.1: Event shape — placement invariants & no differential-role leakage
 **Goal:** Enforce **`placementKind`** + **`anchorEdge`** rules on writes; reject **`differentialRole`** on body; ensure **`eventShape`** JSON responses omit legacy differential-role.
 **Files:**
 - `server/src/routes/internal/entities/eventShapeEntityValidation.ts` (new, or combined module)

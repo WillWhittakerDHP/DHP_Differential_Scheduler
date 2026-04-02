@@ -58,7 +58,7 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
           plain.text = resolveAnnotationTextForAssignment(plain, null)
           return plain
         })
-      } else if (entityKey === ENTITY_KEYS.EVENT_SHAPE || entityKey === 'eventShape') {
+      } else if (entityKey === ENTITY_KEYS.EVENT_SHAPE) {
         acc[entityKey] = (data as Model[]).map((row) => {
           const plain = row.get({ plain: true }) as Record<string, unknown>
           stripLegacyEventShapeResponseFields(plain)
