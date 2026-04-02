@@ -3084,3 +3084,23 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 
 nextAction:
 Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.5.1 — session — start — app_not_running
+
+- **reasonCodeRaw:** app_not_running
+- **reasonCodeNormalized:** app_not_running
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 20.5.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** —
+
+- **Symptom:** Harness start failed (reasonCode=app_not_running).
+- **Context:** tier=session; identifier=20.5.1; featureName=domain-architecture-alignment
+
+nextAction:
+App not fully running — server :3001, client :3002 not responding.
+Start the dev environment in a terminal: `npm run start:dev`
+Then re-run the command.
+Auto-start is off in CI unless you set `HARNESS_AUTO_START_DEV=1`.

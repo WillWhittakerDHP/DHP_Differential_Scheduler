@@ -84,14 +84,25 @@ Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; 
 - [ ] ### Session 20.5.1: Migration chain inventory
 **Description:** Map existing **`20260432_*`** migrations to **FEATURE_20 §9.5** ordering; choose **DOMAIN_REWRITE_WORKLOG** vs **`MIGRATION_SEQUENCE.md`**; draft the ordered sequence table.
 
-**Tasks:** [To be planned]
+**Tasks:**
+- List **`server/src/db/migrations/20260432_*.mjs`** in run order; note dependencies (enum rename before code that assumes `time`/`price`/`event`, three-property on **`block_instances`**, then event schema / placement).
+- For each **§9.5** bullet, add a row: principle → migration id(s) → one-line purpose.
+- Pick the **canonical narrative file** (extend **DOMAIN_REWRITE_WORKLOG.md** or add **`.project-manager/analysis/MIGRATION_SEQUENCE.md`**) and paste the first **ordered table** there.
+- If a **§9.5** step has **no** migration pointer, open a **Decision needed** line (do not assume implicit behavior).
 
 - [ ] ### Session 20.5.2: Baseline placement and event routing
 **Description:** Document **seed expectations** and explicit **baseline event-orchestrator / placement** behavior for fresh and upgraded DBs; address **§9.6** implicit default routing in prose.
 
-**Tasks:** [To be planned]
+**Tasks:**
+- Describe **fresh DB**: what creates minimal **placement** / **event shape** / **routing** data (migrations only vs seed scripts); cite paths.
+- Describe **upgraded DB**: what prior rows mean post-migration; no reliance on “ORM defaults” for routing.
+- Add an explicit subsection: **Baseline event routing** (relational **`event_assignments`**, orchestrator baseline + profile overrides) per **FEATURE_20**; tie to **§9.6** mitigation row.
+- Cross-read **`server/src/db/seeders/**`** if present; note gaps.
 
 - [ ] ### Session 20.5.3: Legacy assumption closure
 **Description:** Complete **§0.2 / §2** legacy-to-target mapping; final **§8.5** acceptance checklist; **phase handoff** → **20.6**.
 
-**Tasks:** [To be planned]
+**Tasks:**
+- Build **legacy → replacement** table for **§0.2** items (shape-level three-property, scalar event on parts, etc.): **removed** | **replaced by** | **evidence** (migration or code path).
+- Walk **§8.5** acceptance checks; tick only when each maps to a **doc paragraph** (not chat-only).
+- Update **`phase-20.5-handoff.md`**: **Current Status**, **Next Action** → **`/phase-start 20.6`**, **Transition Context**.
