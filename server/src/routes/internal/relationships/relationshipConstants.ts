@@ -123,7 +123,8 @@ export const ERROR_MESSAGES = {
   CHILD_NOT_FOUND: 'Child BlockInstance not found',
   BLOCK_INSTANCE_NOT_FOUND: 'BlockInstance not found',
   BLOCK_SHAPE_MISSING: 'BlockInstance missing BlockShape',
-  NOT_COMPOSABLE: 'BlockShape is not composable. Components are only allowed for BlockInstances with composable BlockShapes.',
+  NOT_COMPOSABLE:
+    'Instance components require both BlockInstances to have composite enabled and the same BlockShape.',
   DIFFERENT_BLOCK_SHAPES: 'Components must have the same BlockShape as their parent',
   CIRCULAR_REFERENCE: 'Circular reference detected: adding this component would create a cycle',
   COMPONENT_ALREADY_EXISTS: 'Component relationship already exists',

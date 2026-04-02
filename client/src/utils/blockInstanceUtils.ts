@@ -3,6 +3,7 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('blockInstanceUtils')
@@ -25,27 +26,20 @@ function getBlockInstances(bookingData: BookingData, context: string): BookingBl
   return raw
 }
 
-function getStateControlBlockShapes(
-  bookingData: BookingData
-): BookingBlockShape[] {
-  const blockShapes = getBlockShapes(bookingData, 'getStateControlBlockShapes')
-
-  return blockShapes.filter((blockShape) => blockShape.isStateControl === true)
+function getUserTypeBlockShapes(bookingData: BookingData): BookingBlockShape[] {
+  const blockShapes = getBlockShapes(bookingData, 'getUserTypeBlockShapes')
+  return blockShapes.filter((blockShape) => blockShape.type === BLOCK_SHAPE_TYPES.USER)
 }
 
-export function getStateControlBlockInstances(
-  bookingData: BookingData
-): BookingBlockInstance[] {
-  const stateControlBlockShapes = getStateControlBlockShapes(bookingData)
-  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
+export function getStateControlBlockInstances(bookingData: BookingData): BookingBlockInstance[] {
+  const userBlockShapes = getUserTypeBlockShapes(bookingData)
+  const userBlockShapeIds = new Set(userBlockShapes.map((bs) => bs.id))
 
   const blockInstances = getBlockInstances(bookingData, 'getStateControlBlockInstances')
 
-  const filtered = blockInstances.filter(
-    instance => stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
+  return blockInstances.filter(
+    (instance) => userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
   )
-  
-  return filtered
 }
 
 export function getBlockShapeIdByType(

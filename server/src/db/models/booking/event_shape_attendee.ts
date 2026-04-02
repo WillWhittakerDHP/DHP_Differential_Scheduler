@@ -19,7 +19,7 @@ import { BlockInstance } from './block_instance';
  * 
  * - Many-to-many relationships (one event shape can have many attendees, one user type can attend many events)
  * - Dynamic attendee configuration (admins can configure which user types attend which events)
- * - Type-safe references to UserTypeBlock instances (BlockInstances where blockShape.isStateControl === true)
+ * - Type-safe references to UserTypeBlock instances (BlockInstances whose block shape type is user)
  * 
  * - Flexibility: Event shapes can have multiple attendees
  * - Reusability: Same user type can attend multiple event shapes

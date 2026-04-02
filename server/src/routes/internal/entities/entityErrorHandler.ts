@@ -5,7 +5,7 @@ import {
   handleGeneralError as sharedHandleGeneralError,
   handleRouteError as sharedHandleRouteError,
 } from '../../helpers/routerErrorHandler.js'
-import { ERROR_MESSAGES, CONSTRAINT_NAMES, ERROR_CODES } from './entityConstants.js'
+import { ERROR_MESSAGES, CONSTRAINT_NAMES } from './entityConstants.js'
 
 export function handleSequelizeValidationError(
   error: unknown,
@@ -53,30 +53,6 @@ function handleDatabaseConstraintError(
         details: ERROR_MESSAGES.PART_SHAPE_IN_USE_DETAILS_RACE,
         shapeId: entityId,
       })
-      return true
-    }
-  }
-
-  // Handle mutual exclusivity constraint violation
-  if ('parent' in error &&
-      error.parent &&
-      typeof error.parent === 'object' &&
-      'code' in error.parent &&
-      error.parent.code === ERROR_CODES.CHECK_VIOLATION) {
-    // Check if it's the state control mutual exclusivity constraint
-    if ('constraint' in error.parent && 
-        error.parent.constraint === CONSTRAINT_NAMES.STATE_CONTROL_MUTUAL_EXCLUSIVITY) {
-      const response: { error: string; message: string; details: string; id?: string } = {
-        error: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_VIOLATION,
-        message: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_MESSAGE,
-        details: ERROR_MESSAGES.MUTUAL_EXCLUSIVITY_DETAILS,
-      }
-      
-      if (entityId) {
-        response.id = entityId
-      }
-      
-      res.status(400).json(response)
       return true
     }
   }

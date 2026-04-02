@@ -1,8 +1,11 @@
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { GlobalEntity } from '@/types/entities'
 import { resolveByIds } from '@/utils/collections/resolveByIds'
 
-export function blockShapeAllowsParts(blockShapeEntity: GlobalEntity<'blockShape'> | null | undefined): boolean {
-  return blockShapeEntity?.canHaveParts === true
+export function blockShapeAllowsParts(
+  blockShapeEntity: GlobalEntity<'blockShape'> | null | undefined
+): boolean {
+  return blockShapeEntity !== null && blockShapeEntity !== undefined && blockShapeEntity.type !== BLOCK_SHAPE_TYPES.USER
 }
 
 interface RelationshipLike {

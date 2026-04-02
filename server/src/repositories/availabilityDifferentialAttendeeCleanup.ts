@@ -23,7 +23,7 @@ export async function removeDifferentialAttendeesForBlockInstanceIds(
   })
 }
 
-/** After block_instance row changes: drop availability row if shape is not state-control. */
+/** After block_instance row changes: drop availability row if shape is not user type. */
 export async function reconcileBlockInstanceStateControlEligibility(
   blockInstanceId: string,
   transaction?: Transaction
@@ -36,25 +36,25 @@ export async function reconcileBlockInstanceStateControlEligibility(
     return
   }
   const shape = await BlockShape.findByPk(inst.blockShapeRef, {
-    attributes: ['isStateControl'],
+    attributes: ['type'],
     transaction,
   })
-  if (shape?.isStateControl === true) {
+  if (shape?.type === 'user') {
     return
   }
   await removeDifferentialAttendeesForBlockInstanceIds([String(inst.id)], transaction)
 }
 
-/** After block_shape no longer acts as user type: drop all instances of that shape from differential lists. */
+/** After block_shape is no longer user type: drop all instances of that shape from differential lists. */
 export async function reconcileBlockShapeStateControlEligibility(
   blockShapeId: string,
   transaction?: Transaction
 ): Promise<void> {
   const shape = await BlockShape.findByPk(blockShapeId, {
-    attributes: ['isStateControl'],
+    attributes: ['type'],
     transaction,
   })
-  if (!shape || shape.isStateControl) {
+  if (!shape || shape.type === 'user') {
     return
   }
   const rows = await BlockInstance.findAll({

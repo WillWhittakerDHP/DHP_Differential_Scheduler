@@ -7,7 +7,7 @@ import {
   ValidPricingCascade,
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
-import { ERROR_MESSAGES } from './relationshipConstants.js'
+import { ERROR_MESSAGES as REL_ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
 async function getComponentChildIds(instanceId: string): Promise<string[]> {
@@ -75,7 +75,7 @@ export async function validateBlockInstancesWithShapes(
   })
 
   if (!parentBlockInstance || !childBlockInstance) {
-    throw new Error(ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND)
+    throw new Error(REL_ERROR_MESSAGES.BLOCK_INSTANCE_NOT_FOUND)
   }
 
   const parentBlockShape = (parentBlockInstance as BlockInstanceWithShape).block_shape
@@ -96,24 +96,20 @@ export async function validateBlockInstancesWithShapes(
   }
 }
 
-const NOT_COMPOSABLE_MSG = (name: string): string =>
-  `BlockShape '${name}' is not composable. Components are only allowed for BlockInstances with composable BlockShapes.`
-
 /**
- * WHY: Validate block shapes are composable — components only when both shapes allow it.
+ * WHY: Instance components require both instances composite=true and matching BlockShape (Feature 20).
  */
-export function validateBlockShapesComposable(
+export function validateBlockInstancesCompositeForComponents(
+  parentBlockInstance: BlockInstanceWithShape,
+  childBlockInstance: BlockInstanceWithShape,
   parentBlockShape: InstanceType<typeof BlockShape>,
   childBlockShape: InstanceType<typeof BlockShape>
 ): void {
-  if (!parentBlockShape.composable) {
-    throw new Error(NOT_COMPOSABLE_MSG(parentBlockShape.name))
-  }
-  if (!childBlockShape.composable) {
-    throw new Error(NOT_COMPOSABLE_MSG(childBlockShape.name))
+  if (!parentBlockInstance.composite || !childBlockInstance.composite) {
+    throw new Error(REL_ERROR_MESSAGES.NOT_COMPOSABLE)
   }
   if (parentBlockShape.id !== childBlockShape.id) {
-    throw new Error(ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
+    throw new Error(REL_ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
   }
 }
 
@@ -146,7 +142,7 @@ export async function validatePricingCascadeAgainstShapeRules(
     },
   })
   if (!validRow) {
-    return { valid: false, error: ERROR_MESSAGES.PRICING_CASCADE_SHAPE_NOT_VALID }
+    return { valid: false, error: REL_ERROR_MESSAGES.PRICING_CASCADE_SHAPE_NOT_VALID }
   }
   return { valid: true }
 }
@@ -177,8 +173,8 @@ export async function validateAttendeeAssignmentEntities(
     if (!blockShape) {
       throw new Error(`BlockInstance ${childId} references non-existent BlockShape ${blockInstance.blockShapeRef}`)
     }
-    if (!blockShape.isStateControl) {
-      throw new Error(`BlockInstance ${childId} is not a UserTypeBlock (isStateControl must be true)`)
+    if (blockShape.type !== 'user') {
+      throw new Error(`BlockInstance ${childId} is not a UserTypeBlock (block shape type must be user)`)
     }
   }
 }

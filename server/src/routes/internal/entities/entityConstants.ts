@@ -24,10 +24,6 @@ export const ERROR_MESSAGES = {
   TEMPORARY_ID_ERROR: 'Cannot update {displayName} with temporary ID',
   TEMPORARY_ID_DETAILS: 'Entity ID "{entityId}" is a temporary ID. Use POST to create the entity first.',
   
-  MUTUAL_EXCLUSIVITY_VIOLATION: 'Mutual exclusivity violation',
-  MUTUAL_EXCLUSIVITY_MESSAGE: 'isStateControl and canHaveParts cannot both be true. They are mutually exclusive.',
-  MUTUAL_EXCLUSIVITY_DETAILS: 'Setting one to true requires the other to be false.',
-  
   PART_ASSIGNMENT_CLEANUP_ERROR: 'Error disabling old partAssignments relationships',
 
   /** DELETE annotation shape blocked by referencing annotation instances */
@@ -91,16 +87,11 @@ export const FIELD_NAMES = {
 } as const
 
 export const CONSTRAINT_NAMES = {
-  STATE_CONTROL_MUTUAL_EXCLUSIVITY: 'check_state_control_mutual_exclusivity',
   ANNOTATION_INSTANCES_TYPE_FKEY: 'annotation_instances_type_fkey',
   PART_INSTANCES_PART_SHAPE_REF_FKEY: 'part_instances_part_shape_ref_fkey',
   VALID_PART_CASCADES_CHILD_ID_FKEY: 'valid_part_cascades_child_id_fkey',
   VALID_PRICING_CASCADES_PARENT_ID_FKEY: 'valid_pricing_cascades_parent_id_fkey',
   VALID_PRICING_CASCADES_CHILD_ID_FKEY: 'valid_pricing_cascades_child_id_fkey',
-} as const
-
-export const ERROR_CODES = {
-  CHECK_VIOLATION: '23514',
 } as const
 
 export const SORT_ORDERS = {

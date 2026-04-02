@@ -34,9 +34,6 @@ export type BookingBlockShape = {
   id: string
   name: string
   type: BlockShapeType
-  canHaveParts: boolean
-  isStateControl: boolean
-  composable: boolean
 }
 
 export type BookingBlockInstance = CoreEntity & {

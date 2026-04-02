@@ -42,9 +42,6 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
 
 export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
   type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'time', 'event', 'price'
-  composable: boolean;
-  canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
-  isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
   validBookingCascades?: GlobalEntityId[];
   validPartCascades?: GlobalEntityId[];
   validAnnotationAssignments?: GlobalEntityId[];

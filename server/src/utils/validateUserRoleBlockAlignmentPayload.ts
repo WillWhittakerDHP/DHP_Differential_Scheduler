@@ -16,7 +16,7 @@ export type ValidateAlignmentResult =
 
 /**
  * Validates PUT payload: keys must be USER_ROLE_VALUES only; values null or UUID;
- * each UUID must reference a user-type block instance under a state-control shape.
+ * each UUID must reference a block instance whose shape type is user.
  */
 export async function validateUserRoleBlockAlignmentPayload(
   body: unknown
@@ -51,7 +51,7 @@ export async function validateUserRoleBlockAlignmentPayload(
           model: BlockShape,
           as: 'block_shape',
           required: true,
-          attributes: ['id', 'type', 'isStateControl'],
+          attributes: ['id', 'type'],
         },
       ],
     })
@@ -59,16 +59,16 @@ export async function validateUserRoleBlockAlignmentPayload(
       return { ok: false, error: `block_instance_id not found for role ${key}` }
     }
     const shape = (instance as typeof instance & {
-      block_shape?: { type: string; isStateControl: boolean }
+      block_shape?: { type: string }
     }).block_shape
     if (shape === undefined) {
       logger.warn('BlockInstance missing block_shape include', { blockInstanceId: v })
       return { ok: false, error: `Invalid block instance for role ${key}` }
     }
-    if (shape.type !== 'user' || !shape.isStateControl) {
+    if (shape.type !== 'user') {
       return {
         ok: false,
-        error: `Instance for ${key} must be a user-type block under a state-control shape`,
+        error: `Instance for ${key} must be a user-type block (block shape type user)`,
       }
     }
     normalized[key as UserRoleValue] = v

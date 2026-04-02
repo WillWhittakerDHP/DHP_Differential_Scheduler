@@ -2,22 +2,23 @@ import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DifferentialRole, DifferentialRoleStorage } from '@shared/types/differentialRole'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
 export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[] {
   const blockShapes = asEmptyArray(globalData.entities.blockShape) as BlockShapeEntity[]
-  const stateControlBlockShapes = blockShapes.filter(bs => bs.isStateControl === true)
-  const stateControlBlockShapeIds = new Set(stateControlBlockShapes.map(bs => bs.id))
-  
-  const blockInstances = asEmptyArray(globalData.entities.blockInstance) as BlockInstanceEntity[]
-  const stateControlBlockInstances = blockInstances.filter(
-    instance => 
-      stateControlBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef))
+  const userBlockShapeIds = new Set(
+    blockShapes.filter((bs) => bs.type === BLOCK_SHAPE_TYPES.USER).map((bs) => bs.id)
   )
-  
-  return stateControlBlockInstances.map(instance => instance.id)
+
+  const blockInstances = asEmptyArray(globalData.entities.blockInstance) as BlockInstanceEntity[]
+  const userBlockInstances = blockInstances.filter((instance) =>
+    userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef))
+  )
+
+  return userBlockInstances.map((instance) => instance.id)
 }
 
 /** Major/minor lookup using block-instance overrides when provided. */

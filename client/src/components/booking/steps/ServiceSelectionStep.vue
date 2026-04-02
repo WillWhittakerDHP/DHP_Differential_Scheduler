@@ -93,7 +93,7 @@ const isDevMode = isDevModeEnabled()
     
     <div v-else-if="wizardStateSelector.length === 0" class="text-body-large text-medium-emphasis py-4">
       <div class="mb-2">No user types available.</div>
-      <div class="text-body-small">Please ensure you have block shapes with <code>isStateControl: true</code> and active block instances.</div>
+      <div class="text-body-small">Please ensure you have at least one block shape of type <code>user</code> with active block instances.</div>
       <div v-if="isDevMode" class="text-body-small mt-2">
         Debug: availableUserTypeBlocks count = {{ wizard.availableUserTypeBlocks.value.length }}
       </div>

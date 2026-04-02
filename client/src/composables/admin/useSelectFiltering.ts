@@ -87,14 +87,11 @@ export function useSelectFiltering(options: UseSelectFilteringOptions): UseSelec
       ? useComponentEntity('blockInstance')
       : null
 
-  const getStateControlBlockShapeIds = (): Set<string> => {
+  const getUserTypeBlockShapeIds = (): Set<string> => {
     const allBlockShapes = adminComp.getEntities('blockShape')
     return new Set(
       allBlockShapes
-        .filter((bs: GlobalEntity<'blockShape'>) => {
-          const blockShapeTyped = bs as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
-          return blockShapeTyped.isStateControl === true
-        })
+        .filter((bs: GlobalEntity<'blockShape'>) => bs.type === 'user')
         .map((bs: GlobalEntity<'blockShape'>) => bs.id)
     )
   }
@@ -123,7 +120,7 @@ export function useSelectFiltering(options: UseSelectFilteringOptions): UseSelec
           }
         : null,
       tryReadFormValue,
-      getStateControlBlockShapeIds,
+      getStateControlBlockShapeIds: getUserTypeBlockShapeIds,
     })
   )
 

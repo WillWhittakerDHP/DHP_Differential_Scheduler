@@ -76,9 +76,6 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
       id: blockShape.id,
       name: blockShape.name,
       type: blockShape.type,
-      canHaveParts: blockShape.canHaveParts,
-      isStateControl: blockShape.isStateControl,
-      composable: blockShape.composable,
     })),
     (a, b) => a.name.localeCompare(b.name)
   )

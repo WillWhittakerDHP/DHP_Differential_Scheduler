@@ -117,6 +117,7 @@ import { useRelationshipCollectionField } from '@/composables/admin/useRelations
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { BlockInstanceEntity, BlockShapeEntity, GlobalEntity } from '@/types/entities'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 
 type CollectionType = 'parts' | 'annotations' | 'events'
@@ -146,7 +147,7 @@ const parentEntity = parentContext.parentEntity
 const admin = useAdmin()
 
 /**
- * WHY: Per–user-type annotation copy is keyed off wizard user type; parent is already a user-type instance when its shape is state control — hide that editor (see AnnotationContentEditor).
+ * WHY: Per–user-type annotation copy is keyed off wizard user type; hide editor when parent context is user-type shape (see AnnotationContentEditor).
  */
 const parentBlockShapeIsStateControl = computed((): boolean => {
   const parent = parentEntity.value
@@ -154,10 +155,10 @@ const parentBlockShapeIsStateControl = computed((): boolean => {
   if (parent.entityKey === 'blockInstance') {
     const bi = parent as BlockInstanceEntity
     const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
-    return shape?.isStateControl === true
+    return shape?.type === BLOCK_SHAPE_TYPES.USER
   }
   if (parent.entityKey === 'blockShape') {
-    return (parent as BlockShapeEntity).isStateControl === true
+    return (parent as BlockShapeEntity).type === BLOCK_SHAPE_TYPES.USER
   }
   return false
 })

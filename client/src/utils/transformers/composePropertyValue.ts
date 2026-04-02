@@ -1,6 +1,7 @@
 import type { ComponentStrategy } from '@shared/types/componentTypes'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { COMPONENT_STRATEGIES } from '@/constants/component'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
@@ -96,8 +97,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       strategy = 'first'
     }
     
-    // WHY: State control blockShapes (isStateControl: true) should not contribute to square footage accumulation
-    // PATTERN: For baseSqFt sum operations on blockInstance, exclude components with isStateControl: true blockShapes
+    // WHY: User-type block shapes should not contribute to square footage accumulation
     if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
       const filteredComponents = components.filter(component => {
         const blockInstance = component as GlobalEntity<'blockInstance'>
@@ -109,13 +109,8 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
           return true // Preserve previous behavior: include component if blockShape missing
         }
         if (blockShape.entityKey !== 'blockShape') return true // Defensive: ensure correct narrowing
-        
-        const blockShapeTyped = blockShape as GlobalEntity<'blockShape'> & { isStateControl?: boolean }
-        const isStateControl = blockShapeTyped.isStateControl === true
-        
-        // WHY: State control blockShapes don't contribute to baseSqFt accumulation
-        // PATTERN: Check isStateControl property
-        return !isStateControl
+
+        return blockShape.type !== BLOCK_SHAPE_TYPES.USER
       })
       
       values = filteredComponents

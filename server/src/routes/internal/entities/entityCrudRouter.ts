@@ -267,16 +267,6 @@ router.patch(
         updateData = pulled.rest
       }
 
-      // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
-      if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
-        if (updateData.canHaveParts === true) {
-          updateData = { ...updateData, isStateControl: false }
-        }
-        if (updateData.isStateControl === true) {
-          updateData = { ...updateData, canHaveParts: false }
-        }
-      }
-
       const sanitizedData = sanitizeEntityDataForUpdate(updateData, entityType) as Record<string, unknown>
       if (!applyAnnotationShapeUiSlotNormalization(res, entityType, sanitizedData)) {
         return

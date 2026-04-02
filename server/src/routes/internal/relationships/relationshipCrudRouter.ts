@@ -19,7 +19,7 @@ import {
   mapRelationshipFields,
   hasCircularReference,
   validateBlockInstancesWithShapes,
-  validateBlockShapesComposable,
+  validateBlockInstancesCompositeForComponents,
   validateAttendeeAssignmentEntities,
   validatePricingCascadeAgainstShapeRules,
   updateComponentActiveStates,
@@ -109,8 +109,14 @@ async function handleInstanceComponentCreate(req: Request, res: Response): Promi
       sendNotFound(res, ERROR_MESSAGES.CHILD_NOT_FOUND.replace('{id}', childId), childId)
       return
     }
-    const { parentBlockShape, childBlockShape } = await validateBlockInstancesWithShapes(parentId, childId)
-    validateBlockShapesComposable(parentBlockShape, childBlockShape)
+    const { parentBlockInstance, childBlockInstance, parentBlockShape, childBlockShape } =
+      await validateBlockInstancesWithShapes(parentId, childId)
+    validateBlockInstancesCompositeForComponents(
+      parentBlockInstance,
+      childBlockInstance,
+      parentBlockShape,
+      childBlockShape
+    )
   } catch (error) {
     logger.error('Error validating entities:', error)
     if (error instanceof Error) {
@@ -118,7 +124,10 @@ async function handleInstanceComponentCreate(req: Request, res: Response): Promi
         sendNotFound(res, error.message)
         return
       }
-      if (error.message.includes('not composable') || error.message.includes('same BlockShape')) {
+      if (
+        error.message.includes('composite enabled') ||
+        error.message.includes('same BlockShape')
+      ) {
         sendBadRequest(res, error.message, undefined, (error as { blockShapeId?: string }).blockShapeId)
         return
       }
