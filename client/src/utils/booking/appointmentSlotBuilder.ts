@@ -15,10 +15,7 @@ import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
-import {
-  calculateSlotShape,
-  enrichBlockFinalsWithDifferentialRoles,
-} from './partFinalizer'
+import { calculateSlotShape } from './partFinalizer'
 import {
   createBlockFinals,
   filterZeroedBlocks
@@ -116,7 +113,7 @@ export function buildAppointmentShape(
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  let nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
   const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
     (blockFinal) => blockFinal.finalizedParts
   )
@@ -138,17 +135,6 @@ export function buildAppointmentShape(
   } else {
     logger.debug('buildAppointmentShape: eventShapes missing, using []')
     resolvedEventShapes = []
-  }
-
-  if (
-    Object.keys(eventAssignmentsByPartShape).length > 0 &&
-    resolvedEventShapes.length > 0
-  ) {
-    nonZeroedBlockFinals = enrichBlockFinalsWithDifferentialRoles(
-      nonZeroedBlockFinals,
-      eventAssignmentsByPartShape,
-      resolvedEventShapes
-    )
   }
 
   const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)

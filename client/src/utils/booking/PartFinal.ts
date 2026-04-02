@@ -4,11 +4,6 @@ import { applyPercentageOffToFeeComponent } from '@/utils/booking/pricingPercent
 
 export type { PartFinal } from '@/types/booking/partFinal'
 
-/** Defaults before enrichBlockFinalsWithDifferentialRoles (buildAppointmentShape). */
-const PART_FINAL_DEFAULT_MAJOR = 'false' as const
-const PART_FINAL_DEFAULT_MINOR = 'false' as const
-const PART_FINAL_DEFAULT_MINIMIZER = 'false' as const
-
 export function createPartFinal(
   partShape: string,
   parts: BookingPartInstance[]
@@ -29,9 +24,6 @@ export function createPartFinal(
     baseFee,
     rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
     rateOverBaseFee,
-    major: PART_FINAL_DEFAULT_MAJOR,
-    minor: PART_FINAL_DEFAULT_MINOR,
-    minimizer: PART_FINAL_DEFAULT_MINIMIZER,
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }
