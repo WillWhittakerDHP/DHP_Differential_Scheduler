@@ -41,7 +41,7 @@ function isEmptyAnchorValue(value: unknown): boolean {
   return value === undefined || value === null || value === ''
 }
 
-export function validateEventShapeForbiddenKeys(body: Record<string, unknown>): string | null {
+function validateEventShapeForbiddenKeys(body: Record<string, unknown>): string | null {
   if (Object.prototype.hasOwnProperty.call(body, EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL)) {
     return 'Event shape does not accept differentialRole; use placementKind and anchorEdge.'
   }
@@ -54,7 +54,7 @@ export function validateEventShapeForbiddenKeys(body: Record<string, unknown>): 
 /**
  * When placement or anchor keys are present, enforce Principles §5.1 pairing rules.
  */
-export function validateEventShapePlacementWrite(body: Record<string, unknown>): string | null {
+function validateEventShapePlacementWrite(body: Record<string, unknown>): string | null {
   const kindRd = readDualKey(body, FIELD_NAMES.PLACEMENT_KIND, FIELD_NAMES.PLACEMENT_KIND_SNAKE)
   if (kindRd.err !== null) {
     return kindRd.err

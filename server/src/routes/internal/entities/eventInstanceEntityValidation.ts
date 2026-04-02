@@ -69,7 +69,7 @@ const UPDATE_PARENT_MSG = {
   invalid: parentUuidUpdateErrorMessage(),
 }
 
-export function validateEventInstanceParentForCreate(body: Record<string, unknown>): string | null {
+function validateEventInstanceParentForCreate(body: Record<string, unknown>): string | null {
   const rd = readDualKey(body, PARENT_CAMEL, PARENT_SNAKE)
   if (rd.err !== null) {
     return rd.err
@@ -80,7 +80,7 @@ export function validateEventInstanceParentForCreate(body: Record<string, unknow
   return validatePersistentUuidValue(rd.raw, CREATE_PARENT_MSG)
 }
 
-export function validateEventInstanceParentForUpdate(body: Record<string, unknown>): string | null {
+function validateEventInstanceParentForUpdate(body: Record<string, unknown>): string | null {
   const rd = readDualKey(body, PARENT_CAMEL, PARENT_SNAKE)
   if (rd.err !== null) {
     return rd.err
@@ -136,7 +136,7 @@ function validateLocationCoord(camel: string, raw: unknown): string | null {
   return `Invalid type for ${camel}; expected a finite number or null.`
 }
 
-export function validateEventInstanceSegmentFieldsWhenPresent(body: Record<string, unknown>): string | null {
+function validateEventInstanceSegmentFieldsWhenPresent(body: Record<string, unknown>): string | null {
   for (const [camel, snake] of BOOLEAN_FIELD_PAIRS) {
     const rd = readDualKey(body, camel, snake)
     if (rd.err !== null) {

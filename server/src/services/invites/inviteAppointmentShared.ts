@@ -55,15 +55,6 @@ export function linkStripSetForSegmentLinkFlags(
   return strip
 }
 
-/**
- * @deprecated Use {@link linkStripSetForSegmentLinkFlags}. Link flags live on **event_instances**, not event_shapes.
- */
-export function linkStripSetForEventShape(
-  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
-): Set<string> {
-  return linkStripSetForSegmentLinkFlags(shape)
-}
-
 function asArray<T>(
   value: T[] | null | undefined,
   appointmentId: string,
