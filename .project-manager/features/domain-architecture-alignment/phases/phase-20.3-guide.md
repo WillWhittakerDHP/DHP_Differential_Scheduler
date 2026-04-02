@@ -100,7 +100,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Reuse patterns from 20.3.1–20.3.2; keep shapes structural, instances behavioral.
 
-- [ ] ### Session 20.3.4: Segment manager relocation (§8.3 #4)
+- [x] ### Session 20.3.4: Segment manager relocation (§8.3 #4)
 
 **Description:** Move or embed segment / **eventInstance** management from Instances tab “Events” island into **event block-instance** editing; stay aligned with Phase **20.2** APIs.
 
