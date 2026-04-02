@@ -90,9 +90,61 @@
 
 ## Completed Tasks
 
+### Task 20.4.1.2: Task 20.4.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.4.1.3
+
+
+
 ### Task 20.4.1.1: Pipeline map + consumer inventory ✅
 
 **Completed:** 2026-04-02  
 **Goal:** §4.2 crosswalk + grep-backed consumer inventory in this log (`task-end` harness).  
 **Next task:** 20.4.1.2
 
+
+### Task 20.4.1.2: Task 20.4.1.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.4.1.3
+
+<!-- end excerpt session -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (3): `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.4.1.2-handoff.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../sessions/session-20.4.1-guide.md                     |  2 +-
+ .../sessions/session-20.4.1-log.md                       | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
+index 9b8bbe71..d2ce690b 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-guide.md
+@@ -59,7 +59,7 @@ These sections contain session-specific content:
+ **Approach:** Read `buildAppointmentShape` chain; crosswalk to FEATURE_20 §4.1–4.2; document; grep `DifferentialRole`, `enrichBlockFinalsWithDifferentialRoles`, `PartFinal` major/minor/minimizer, override maps.
+ **Checkpoint:** Map + inventory complete; 20.4.2 can cite them.
+ 
+-- [ ] #### Task 20.4.1.2: Safe dead-code (merge overrides)
++- [x] #### Task 20.4.1.2: Safe dead-code (merge overrides)
+ **Goal:** If still no-op only, inline `{}` for `differentialEventRoleOverrides` and remove `mergeBlockDifferentialRoleOverrides` export.
+ **Files:** `client/src/utils/booking/appointmentSlotBuilder.ts`, `client/src/utils/booking/partFinalizer.ts`
+ **Approach:** Grep confirms single call site; inline; delete function; client lint.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
+index a96c06af..e5b06fa0 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.4.1-log.md
+@@ -90,9 +90,25 @@
+ 

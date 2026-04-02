@@ -59,7 +59,7 @@ These sections contain session-specific content:
 **Approach:** Read `buildAppointmentShape` chain; crosswalk to FEATURE_20 §4.1–4.2; document; grep `DifferentialRole`, `enrichBlockFinalsWithDifferentialRoles`, `PartFinal` major/minor/minimizer, override maps.
 **Checkpoint:** Map + inventory complete; 20.4.2 can cite them.
 
-- [ ] #### Task 20.4.1.2: Safe dead-code (merge overrides)
+- [x] #### Task 20.4.1.2: Safe dead-code (merge overrides)
 **Goal:** If still no-op only, inline `{}` for `differentialEventRoleOverrides` and remove `mergeBlockDifferentialRoleOverrides` export.
 **Files:** `client/src/utils/booking/appointmentSlotBuilder.ts`, `client/src/utils/booking/partFinalizer.ts`
 **Approach:** Grep confirms single call site; inline; delete function; client lint.
