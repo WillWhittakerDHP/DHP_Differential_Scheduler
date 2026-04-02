@@ -4,7 +4,6 @@ import type { AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
 import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
-import type { DifferentialRole } from '@shared/types/differentialRole'
 import { createTimeRange, addMinutes } from './slotTimeUtils'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 import type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
@@ -30,20 +29,14 @@ function resolvedShapesFromMajorMinorPair(
   }
 }
 
-function resolveEventShapesCore(
-  eventFinals: SlotShape['eventFinals'],
-  overrides?: Record<string, DifferentialRole> | null
-): ResolvedEventShapes {
-  const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-  const pair = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities, overrides)
+function resolveEventShapesCore(eventFinals: SlotShape['eventFinals']): ResolvedEventShapes {
+  const eventShapeEntities = eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
+  const pair = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
   return resolvedShapesFromMajorMinorPair(pair)
 }
 
-export function resolveEventShapes(
-  eventFinals: SlotShape['eventFinals'],
-  overrides?: Record<string, DifferentialRole> | null
-): ResolvedEventShapes {
-  return resolveEventShapesCore(eventFinals, overrides)
+export function resolveEventShapes(eventFinals: SlotShape['eventFinals']): ResolvedEventShapes {
+  return resolveEventShapesCore(eventFinals)
 }
 
 export function adjustMinorTimeRange(
@@ -128,17 +121,12 @@ export function derivePerspective(
   if (!eventFinals?.length) {
     return derivePerspectiveNoEventFinals(slot, perspective)
   }
-  const eventShapeEntities = eventFinals.map((ef) => ef.eventShape) as EventShapeEntity[]
-  const pair = resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
+  const resolved = resolveEventShapes(eventFinals)
   // WHY: Without a major+minor pair, role-based ranges are not defined; use total for every
   // perspective (including minor). Reusing derivePerspectiveNoEventFinals would return null
   // for minor and show "Unavailable" while totalTimeRange is valid.
-  if (!pair.hasMajorMinorPair) {
+  if (!resolved.majorEventShape) {
     return slot.totalTimeRange ?? derivePerspectiveNoEventFinals(slot, perspective)
   }
-  return derivePerspectiveWithResolved(
-    slot,
-    perspective,
-    resolvedShapesFromMajorMinorPair(pair),
-  )
+  return derivePerspectiveWithResolved(slot, perspective, resolved)
 }
