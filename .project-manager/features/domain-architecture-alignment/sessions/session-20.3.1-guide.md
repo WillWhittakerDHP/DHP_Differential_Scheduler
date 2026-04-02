@@ -60,7 +60,7 @@ These sections contain session-specific content:
 **Approach:** Add focused component + register for `eventShape` / `placementKind`+`anchorEdge`; mirror server pairing rules in UI.
 **Checkpoint:** Create/edit event shape in Shapes tab; payload shows correct placement fields; anchor hidden or cleared for primary.
 
-- [ ] #### Task 20.3.1.2: Placement-forward copy cleanup
+- [x] #### Task 20.3.1.2: Placement-forward copy cleanup
 **Goal:** `eventShapeDisplays` + **DifferentialEventRoleOverridesField** captions/help use **placement** vocabulary; grep stragglers on shape surfaces.
 **Files:**
 - `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts`

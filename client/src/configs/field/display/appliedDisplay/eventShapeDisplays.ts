@@ -32,14 +32,14 @@ export const eventShapeDisplays = {
 
   placementKind: {
     label: 'Placement kind',
-    placeholder: 'primary | secondary | marginal | floating',
+    placeholder: 'e.g. Primary (main segment), or Secondary / Marginal / Floating',
     inline: true,
     stacked: false,
   },
 
   anchorEdge: {
     label: 'Anchor edge',
-    placeholder: 'start | end (omit for primary)',
+    placeholder: 'For non-primary: start or end of the block time window',
     inline: true,
     stacked: false,
   },

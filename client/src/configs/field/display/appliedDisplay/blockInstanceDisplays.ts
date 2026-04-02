@@ -89,5 +89,15 @@ export const blockInstanceDisplays = {
     align: "left",
   },
 
+  /** Per-block overrides of scheduling weight keyed by event shape id (metadata-driven field). */
+  differentialEventRoleOverrides: {
+    label: "Event segment scheduling overrides",
+    placeholder: "",
+    tooltip:
+      "Each event shape’s placement sets its default scheduling behavior. Override here only for this block instance.",
+    inline: false,
+    stacked: true,
+  },
+
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, DisplayFieldType<"blockInstance", GlobalFieldKey<"blockInstance">>>>;
 
