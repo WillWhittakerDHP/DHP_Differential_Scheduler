@@ -25,6 +25,14 @@
 
 
 
+### Session 20.4.4: Perspective + minimizer + shared cleanup ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** **Perspective + minimizer + shared cleanup** — update **`perspectiveResolver`**, **`minimizerSchedulingBounds`**, **`minimizerEventShapes`**, **`partFinalizerSlotShapeHelpers`** as needed; delete unused **`differentialRole*`** shared/client utilities per **§6.2** when grep-clean.
+
+
+
 ### Session 20.4.3: Slot shape + time axis ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
