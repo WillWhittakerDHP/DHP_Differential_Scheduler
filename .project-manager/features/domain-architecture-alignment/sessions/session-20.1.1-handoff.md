@@ -34,7 +34,7 @@ Completed Task
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T14:51:24.512Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-02T14:51:39.758Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.1` · **Next phase across:** `20.2` → `/phase-start 20.2`
 - **Focus session:** `20.1.1` · **Session 1/3 in phase** · **Next session across:** `20.1.2` → `/session-start 20.1.2`

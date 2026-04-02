@@ -2037,3 +2037,38 @@ git fetch origin feature/domain-architecture-alignment failed: fatal: couldn't f
 - **What we tried:** N/A — design is intentional (see `gap-llm-review.ts`, rubric in tier-end output).
 - **Outcome / workaround:** **Trigger “review” manually:** read the packet in the last `/task-end` output (or session log), then reply in chat using the **### Review — Context / Drift / Over-build / Follow-ups / Confidence** headings; or assign a subagent with that packet. To continue the harness after review, re-run tier-end with `options: { resumeEndAfterStep: 'gap_analysis', continuePastGapAnalysis: true }` (or the `nextInvoke` params from `controlPlaneDecision`).
 - **Suggestion:** Optional playbook line: “LLM review packet = fill-in-the-blanks for chat; not a background job.”
+
+### 2026-04-02 — 20.1.1 — session-end / accepted-push — cascade pointed at same session (`/session-start 20.1.1`)
+
+- **Symptom:** After **`/session-end 20.1.1`** and **`/accepted-push`**, control plane suggested **`/session-start 20.1.1`** even though session **20.1.1** was complete; **`across-ladder.json`** also showed **`focusSessionId`: `20.1.1`** and **`nextTaskAcross`: `20.1.1.1`** (stale relative to completed tasks).
+- **Context:** `deriveNextSession` in `.cursor/commands/tiers/session/composite/session-end-impl.ts` scans the phase guide with `/Session\s+(\d+\.\d+\.\d+):/g` and does **not** dedupe. Phase **20.1** guide lists each session **twice** (plain lines under “Sessions Breakdown” *and* `### Session 20.1.x:` headings). The array becomes e.g. `[20.1.1, 20.1.2, 20.1.3, 20.1.1, …]`. **`indexOf(currentSessionId)`** returns **0**, and **`sortedSessions[currentIndex + 1]`** is the **duplicate** **`20.1.1`**, not **`20.1.2`**. That value is written into **`.tier-end-pending.json`** as **`cascade.command`**, so **`/accepted-push`** replays **`/session-start 20.1.1`**.
+- **What we tried:** Traced `accepted-push` → `pending.cascade`; traced cascade → `getCascade` → `p.nextSession` → `deriveNextSession`.
+- **Outcome / workaround:** **Human:** ignore the bad cascade; run **`/session-start 20.1.2`** for the next session in **phase-20.1-guide**. **Harness:** dedupe `sessionIds` (e.g. `Array.from(new Set(sessionIds))` after collect, then sort), or normalize phase guides to a **single** session-list format so each id appears once.
+- **Suggestion:** Patch `deriveNextSession` to dedupe; add a unit test with duplicated session headings. Optionally lint phase guides for duplicate `Session X.Y.Z:` lines.
+- **Harness fix (2026-04-02):** `deriveNextSession` now dedupes collected session ids (`Set`) in `session-end-impl.ts` so “next session” cannot equal the session just ended when the phase guide lists sessions twice.
+
+### 2026-04-02 — 20.1.2 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 20.1.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=20.1.2; featureName=domain-architecture-alignment
+
+nextAction:
+## Session Validation
+# Session 20.1.2 Validation
+
+❌ **Status:** Cannot start - Previous session not completed
+
+## Details
+
+- Session 20.1.1 is not marked as complete in phase guide
+- Session 20.1.2 cannot be started until Session 20.1.1 is complete
+- Complete Session 20.1.1 first with /session-end 20.1.1

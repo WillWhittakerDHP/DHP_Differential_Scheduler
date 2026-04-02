@@ -82,7 +82,7 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 
 ---
 
-### Session 20.1.1: Block shape type enum rename
+- [x] ### Session 20.1.1: Block shape type enum rename
 
 **Goal:** Rename the PostgreSQL `block_shapes.type` enum from `property`/`coupon`/`option` to `time`/`price`/`event` (per plan §1.1, §2.1). Update the Sequelize model, client constants, and any server validators that reference the old strings.
 
@@ -104,7 +104,7 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 
 ---
 
-### Session 20.1.2: Block instance three-property alignment and legacy cleanup
+- [ ] ### Session 20.1.2: Block instance three-property alignment and legacy cleanup
 
 **Goal:** Add `orchestrator` and `wizardVisible` boolean columns to `block_instances`; drop legacy columns from both `block_instances` and `block_shapes` (per plan §2.3, §2.4). Update Sequelize models and client types.
 
@@ -127,7 +127,7 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 
 ---
 
-### Session 20.1.3: Event schema alignment
+- [ ] ### Session 20.1.3: Event schema alignment
 
 **Goal:** Add placement columns to `event_shapes`, ownership and location fields to `event_instances`, move calendar toggles from shapes to instances, rename `event_shape_attendees` to `event_instance_attendees`, and seed default placement types (per plan §2.2, §2.3, §2.4).
 
