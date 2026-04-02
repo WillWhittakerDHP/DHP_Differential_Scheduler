@@ -3,8 +3,6 @@
 import { createLogger } from '@/utils/logger'
 import { bookingModeToTernary, isTernaryBoolean } from '@shared/utils/ternaryAliasUtils'
 import type { TernaryBoolean } from '@/types/ternary'
-import { parseDifferentialRole } from '@shared/utils/differentialRoleUtils'
-import type { DifferentialRole } from '@shared/types/differentialRole'
 import { DEFAULT_VALUES, FIELD_NAMES } from '@/constants/entityFieldConstants'
 
 const logger = createLogger('apiEntityFieldNormalization')
@@ -84,23 +82,4 @@ export function normalizeBlockInstanceWizardVisibleFromApi(raw: unknown): boolea
 
 export function normalizeBlockInstanceAgentPermissionsFromApi(raw: unknown): TernaryBoolean {
   return normalizeTernaryBooleanField(raw, FIELD_NAMES.AGENT_PERMISSIONS, DEFAULT_TERNARY)
-}
-
-/** eventShape.differentialRole: DifferentialRole (none when API sent null/omit). */
-export function normalizeEventShapeDifferentialRoleFromApi(raw: unknown): DifferentialRole {
-  const parsed = parseDifferentialRole(raw)
-  if (
-    raw !== undefined &&
-    raw !== null &&
-    raw !== '' &&
-    !isDifferentialRoleStorageLoose(raw) &&
-    parsed === 'none'
-  ) {
-    logger.warn('[apiEntity] invalid differentialRole from API, using none', { received: raw })
-  }
-  return parsed
-}
-
-function isDifferentialRoleStorageLoose(raw: unknown): boolean {
-  return raw === 'major' || raw === 'minor' || raw === 'minimizer' || raw === 'margin'
 }

@@ -52,7 +52,7 @@ These sections contain session-specific content:
 
 ### Tasks
 
-- [ ] #### Task 20.1.3.1: Event DDL, seeds, and core models/types
+- [x] #### Task 20.1.3.1: Event DDL, seeds, and core models/types
 **Goal:** Migrations add/drop/rename columns and tables; Sequelize + `app.js` exports + associations match; client `EventShapeEntity` / `EventInstanceEntity` and transformers/sanitizers reflect new fields; no stale model references to dropped shape columns.
 **Files:**
 - `server/src/db/migrations/*.mjs`

@@ -1,7 +1,7 @@
 /**
  * WHY: Admin UI resolves event templates against a real appointment using the same context as invites.
  */
-import { Appointment, BlockInstance, EventShape } from '../../config/app.js'
+import { Appointment, BlockInstance, EventInstance } from '../../config/app.js'
 import { appointmentIncludes } from '../../routes/internal/appointments/appointmentHelpers.js'
 import { buildInviteContext } from './inviteContextBuilder.js'
 import { resolveEventTemplates } from './templateResolver.js'
@@ -36,8 +36,13 @@ export async function previewEventInstanceTemplates(
     throw new Error('Appointment not found')
   }
 
-  const eventShape = await EventShape.findByPk(body.eventShapeRef, {
-    attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
+  const sampleInstance = await EventInstance.findOne({
+    where: { eventShapeRef: body.eventShapeRef },
+    order: [
+      ['orderIndex', 'ASC'],
+      ['id', 'ASC'],
+    ],
+    attributes: ['includeRescheduleLink', 'includeCancelLink'],
   })
 
   const normalized = normalizeAppointmentForInviteFlow(appointment, { logEmptyArrays: false })
@@ -46,7 +51,7 @@ export async function previewEventInstanceTemplates(
   const inviteData = toInviteAppointmentData(normalized)
   const context = buildInviteContext(inviteData, serviceName)
 
-  const stripPlaceholderNames = linkStripSetForEventShape(eventShape)
+  const stripPlaceholderNames = linkStripSetForEventShape(sampleInstance)
   const options = stripPlaceholderNames.size > 0 ? { stripPlaceholderNames } : {}
 
   return resolveEventTemplates(

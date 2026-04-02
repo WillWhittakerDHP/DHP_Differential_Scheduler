@@ -6,7 +6,7 @@ import { getAuthSessionBySid } from '../auth/sessionManager.js'
 import { getSessionIdFromRequest } from '../auth/sessionCookie.js'
 import { createLogger } from '../utils/logger.js'
 import { CSRF_HEADER_NAME, readStoredCsrfToken } from './csrfIssuance.js'
-import { runOwnershipCheck } from './ownershipEnforcement.js'
+import { isInternalStaffRole, runOwnershipCheck } from './ownershipEnforcement.js'
 
 const authLogger = createLogger('middleware.requireAuth')
 const roleLogger = createLogger('middleware.requireRole')
@@ -159,6 +159,43 @@ export function requireRole(
       return
     }
     next()
+  }
+}
+
+/**
+ * Chain **after** `requireAuth`. Internal staff roles skip per-row ownership; everyone else uses the same registry rules as `checkOwnership`.
+ * WHY: Staff-driven flows (e.g. booking wizard loading snapshot versions) must read appointments they did not schedule.
+ */
+export function requireAuthThenStaffOrOwnership(
+  resourceName: string,
+  paramKey: string = 'id'
+): (req: Request, res: Response, next: NextFunction) => Promise<void> {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      if (req.user === undefined) {
+        ownershipLogger.warn(
+          'requireAuthThenStaffOrOwnership: req.user missing; chain requireAuth before this middleware',
+          { resourceName }
+        )
+        res.status(403).json({
+          code: AUTH_FAILURE_CODES.FORBIDDEN,
+          message: 'Access denied',
+        })
+        return
+      }
+      if (isInternalStaffRole(req.user.role)) {
+        next()
+        return
+      }
+      const allowed = await runOwnershipCheck(resourceName, paramKey, req, res, ownershipLogger)
+      if (allowed) {
+        next()
+      }
+    } catch (error: unknown) {
+      const logger = ownershipLogger
+      logger.error('requireAuthThenStaffOrOwnership failed:', error)
+      next(error)
+    }
   }
 }
 

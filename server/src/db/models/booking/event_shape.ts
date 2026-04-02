@@ -5,37 +5,24 @@ import {
   InferCreationAttributes,
   CreationOptional,
   Sequelize,
-} from 'sequelize';
+} from 'sequelize'
 
 /**
- * EventShape Model
- * 
- * Represents event shapes (shape-level: defines what event types can exist).
- * Shapes are fully dynamic and can be created/deleted by admins via CRUD interface.
- * 
- * - Dynamic shape management (admins can create/edit/delete shapes)
- * - Shape validation (ensures event instances use valid shapes)
- * - Shape filtering and organization
- * 
- * - Flexibility: Admins can add new shapes without code changes
- * - Maintainability: Shapes are managed through admin UI
- * - Data integrity: Foreign key constraints ensure valid shapes
- * 
- * PATTERN: Shape-level entity model matching block_shapes/part_shapes/annotation_shapes pattern
+ * EventShape — placement type (Feature 20). Admins define allowed placement kinds + anchor edges;
+ * segments are event_instances scoped to a parent block instance.
  */
 export class EventShape extends Model<
   InferAttributes<EventShape>,
   InferCreationAttributes<EventShape>
 > {
-  declare id: CreationOptional<string>;
-  declare name: string; // e.g., 'OnSite', 'Minimizer segment', 'ClientPresent'
-  declare orderIndex: CreationOptional<number>;
-  declare active: CreationOptional<boolean>;
-  declare differentialRole: CreationOptional<'major' | 'minor' | 'minimizer' | 'margin' | null>;
-  declare includeRescheduleLink: CreationOptional<boolean>;
-  declare includeCancelLink: CreationOptional<boolean>;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare id: CreationOptional<string>
+  declare name: string
+  declare orderIndex: CreationOptional<number>
+  declare active: CreationOptional<boolean>
+  declare placementKind: 'primary' | 'secondary' | 'marginal' | 'floating'
+  declare anchorEdge: CreationOptional<'start' | 'end' | null>
+  declare createdAt: CreationOptional<Date>
+  declare updatedAt: CreationOptional<Date>
 }
 
 export function EventShapeFactory(sequelize: Sequelize) {
@@ -51,7 +38,7 @@ export function EventShapeFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        comment: 'Event shape name (e.g., OnSite, Minimizer segment, ClientPresent)',
+        comment: 'Placement type name (e.g. Primary, FrontSecondary)',
       },
       orderIndex: {
         type: DataTypes.INTEGER,
@@ -65,24 +52,19 @@ export function EventShapeFactory(sequelize: Sequelize) {
         defaultValue: true,
         comment: 'Whether this event shape is active/enabled',
       },
-      differentialRole: {
-        type: DataTypes.ENUM('major', 'minor', 'minimizer', 'margin'),
+      placementKind: {
+        type: DataTypes.STRING(32),
+        allowNull: false,
+        defaultValue: 'primary',
+        field: 'placement_kind',
+        comment: 'primary | secondary | marginal | floating (Principles §5.1)',
+      },
+      anchorEdge: {
+        type: DataTypes.STRING(8),
         allowNull: true,
         defaultValue: null,
-        comment:
-          'Scheduling role for this event shape (major/minor/minimizer/margin); null = none. Distinct from PartFinal ternary flags (major/minor/minimizer placement).',
-      },
-      includeRescheduleLink: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
-        comment: 'Include {rescheduleLink} in calendar invite templates for instances of this shape',
-      },
-      includeCancelLink: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
-        comment: 'Include {cancelLink} in calendar invite templates for instances of this shape',
+        field: 'anchor_edge',
+        comment: 'start | end for non-primary; null for primary',
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -111,7 +93,7 @@ export function EventShapeFactory(sequelize: Sequelize) {
         },
       ],
     }
-  );
+  )
 
-  return EventShape;
+  return EventShape
 }

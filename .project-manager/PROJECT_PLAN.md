@@ -519,6 +519,14 @@ Implement the following so that authenticated users and roles are used where oth
 
 > **Steps 1–5 are independent of Feature 7** and can be done now. Steps 6–7 require working sessions/auth and align with Feature 7's Enactment phase.
 
+### Follow-up: appointment version snapshots access (`GET …/appointments/:id/versions`)
+
+**Current behavior (wizard / domain work):** This route uses `requireAuth`. By default, **`requireAuthThenStaffOrOwnership('appointment','id')`** allows internal staff roles (agent, admin, transaction_manager, owner) to read version payloads for any appointment id; non-staff still require `scheduledById === req.user.id` (registry ownership).
+
+**Temporary escape hatch:** `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP=true` skips the ownership/staff-or-owner step so **any authenticated user** can call the endpoint for any id. Documented in `server/.env.example`. Intended only for local debugging; **do not leave enabled in production**.
+
+**Revisit before release:** Remove `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP` from all deployed envs; confirm product policy (org scoping, audit logging, whether customers may ever need this route without being `scheduledById`). Adjust middleware or split public vs internal paths if requirements change.
+
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2
 

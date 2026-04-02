@@ -27,7 +27,7 @@ function mapAttendeeAssignmentsFields(
   childId: string
 ): Record<string, string> {
   return {
-    eventShapeId: parentId,
+    eventInstanceId: parentId,
     userTypeBlockInstanceId: childId,
   }
 }

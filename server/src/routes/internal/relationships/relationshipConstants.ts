@@ -11,7 +11,7 @@ import {
   PartAssignment,
   AnnotationAssignment,
   EventAssignment,
-  EventShapeAttendee,
+  EventInstanceAttendee,
   InstanceComponent,
 } from '../../../config/app.js'
 import { Model, ModelStatic } from 'sequelize'
@@ -93,9 +93,9 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
     childEntity: 'eventInstance'
   },
   attendeeAssignments: {
-    model: EventShapeAttendee,
+    model: EventInstanceAttendee,
     displayName: 'Attendee Assignment',
-    parentEntity: 'eventShape',
+    parentEntity: 'eventInstance',
     childEntity: 'blockInstance'
   },
   instanceComponents: {

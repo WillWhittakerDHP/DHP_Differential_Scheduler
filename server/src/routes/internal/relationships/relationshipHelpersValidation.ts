@@ -2,7 +2,7 @@ import {
   BlockInstance,
   BlockShape,
   PartInstance,
-  EventShape,
+  EventInstance,
   InstanceComponent,
   ValidPricingCascade,
 } from '../../../config/app.js'
@@ -150,7 +150,7 @@ export async function validatePricingCascadeAgainstShapeRules(
 /**
  * Validate attendee assignment entities
  *
- * @param parentId - Event shape ID
+ * @param parentId - Event instance ID (segment)
  * @param childId - Block instance ID
  * @throws Error if entities don't exist or block instance is not a UserTypeBlock
  */
@@ -158,9 +158,9 @@ export async function validateAttendeeAssignmentEntities(
   parentId: string,
   childId: string
 ): Promise<void> {
-  const eventShape = await EventShape.findByPk(parentId)
-  if (!eventShape) {
-    throw new Error(`EventShape with ID ${parentId} does not exist`)
+  const eventInstance = await EventInstance.findByPk(parentId)
+  if (!eventInstance) {
+    throw new Error(`EventInstance with ID ${parentId} does not exist`)
   }
 
   const blockInstance = await BlockInstance.findByPk(childId)

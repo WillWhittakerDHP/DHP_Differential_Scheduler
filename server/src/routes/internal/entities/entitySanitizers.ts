@@ -1,4 +1,7 @@
-import { sanitizeDifferentialRoleInput } from '../../../../../shared/utils/differentialRoleUtils.js'
+import {
+  sanitizeEventAnchorEdgeInput,
+  sanitizeEventPlacementKindInput,
+} from '../../../../../shared/utils/eventPlacementUtils.js'
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
@@ -18,14 +21,22 @@ function sanitizeBlockInstancePrimitiveFields(data: Record<string, unknown>): Re
 
 function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
-  if (FIELD_NAMES.DIFFERENTIAL_ROLE in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE] = sanitizeDifferentialRoleInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE]
+  if (FIELD_NAMES.PLACEMENT_KIND in sanitized) {
+    sanitized[FIELD_NAMES.PLACEMENT_KIND] = sanitizeEventPlacementKindInput(
+      sanitized[FIELD_NAMES.PLACEMENT_KIND]
     )
   }
-  if (FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE] = sanitizeDifferentialRoleInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE]
+  if (FIELD_NAMES.PLACEMENT_KIND_SNAKE in sanitized) {
+    sanitized[FIELD_NAMES.PLACEMENT_KIND_SNAKE] = sanitizeEventPlacementKindInput(
+      sanitized[FIELD_NAMES.PLACEMENT_KIND_SNAKE]
+    )
+  }
+  if (FIELD_NAMES.ANCHOR_EDGE in sanitized) {
+    sanitized[FIELD_NAMES.ANCHOR_EDGE] = sanitizeEventAnchorEdgeInput(sanitized[FIELD_NAMES.ANCHOR_EDGE])
+  }
+  if (FIELD_NAMES.ANCHOR_EDGE_SNAKE in sanitized) {
+    sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE] = sanitizeEventAnchorEdgeInput(
+      sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE]
     )
   }
   return sanitized

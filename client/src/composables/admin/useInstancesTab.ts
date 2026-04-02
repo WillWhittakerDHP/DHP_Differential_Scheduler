@@ -167,6 +167,9 @@ export function useInstancesTab(): UseInstancesTabReturn {
     colorId: null,
     status: 'confirmed',
     reminderOverrides: null,
+    includeRescheduleLink: true,
+    includeCancelLink: true,
+    parentBlockInstanceId: null,
     scheduledBy: null,
   }))
 

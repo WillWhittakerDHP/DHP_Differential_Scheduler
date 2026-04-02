@@ -1,6 +1,10 @@
 import { Request, Response } from 'express'
 import { Appointment, AppointmentAttendee } from '../../../config/app.js'
-import { checkOwnership } from '../../../middlewares/security.js'
+import {
+  checkOwnership,
+  requireAuth,
+  requireAuthThenStaffOrOwnership,
+} from '../../../middlewares/security.js'
 import { createCrudRouter } from '../../helpers/createCrudRouter.js'
 import { loadAllAppointmentVersionsForAppointmentId } from '../../../services/appointmentSnapshotLoader.js'
 import { createInvitesForAppointment } from '../../../services/invites/inviteOrchestrationService.js'
@@ -38,6 +42,16 @@ import { onStatusChange } from '../../../services/notificationService.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('AppointmentRouter')
+
+/** Temporary: any authenticated user may read version snapshots (not recommended for production). See PROJECT_PLAN.md (appointment versions access). */
+const RELAX_APPOINTMENT_VERSIONS_OWNERSHIP =
+  process.env.RELAX_APPOINTMENT_VERSIONS_OWNERSHIP === 'true'
+
+if (RELAX_APPOINTMENT_VERSIONS_OWNERSHIP) {
+  logger.warn(
+    'RELAX_APPOINTMENT_VERSIONS_OWNERSHIP: GET /appointments/:id/versions skips scheduledById check for authenticated users only'
+  )
+}
 
 const router = createCrudRouter({
   model: Appointment,
@@ -370,29 +384,36 @@ const router = createCrudRouter({
   },
 })
 
-router.get('/:id/versions', checkOwnership('appointment', 'id'), async (req: Request, res: Response): Promise<void> => {
-  try {
-    const id = paramString(req, 'id')
-    const appointment = await Appointment.findByPk(id)
-    
-    if (!appointment) {
-      res.status(HTTP_STATUS_CODES.NOT_FOUND).json({ 
-        error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
-        id
+router.get(
+  '/:id/versions',
+  requireAuth,
+  ...(RELAX_APPOINTMENT_VERSIONS_OWNERSHIP
+    ? []
+    : [requireAuthThenStaffOrOwnership('appointment', 'id')]),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const id = paramString(req, 'id')
+      const appointment = await Appointment.findByPk(id)
+
+      if (!appointment) {
+        res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
+          error: ERROR_MESSAGES.APPOINTMENT_NOT_FOUND,
+          id,
+        })
+        return
+      }
+
+      const { services, properties, options } = await loadAllAppointmentVersionsForAppointmentId(id)
+
+      res.json({
+        services,
+        properties,
+        options,
       })
-      return
+    } catch (error) {
+      handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT_VERSIONS, 'fetching appointment versions')
     }
-    
-    const { services, properties, options } = await loadAllAppointmentVersionsForAppointmentId(id)
-    
-    res.json({
-      services,
-      properties,
-      options,
-    })
-  } catch (error) {
-    handleRouteError(error, res, ERROR_MESSAGES.FETCH_APPOINTMENT_VERSIONS, 'fetching appointment versions')
   }
-})
+)
 
 export { router as AppointmentCrudRouter }

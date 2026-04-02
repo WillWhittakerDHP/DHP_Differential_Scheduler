@@ -30,23 +30,16 @@ export const eventShapeDisplays = {
     stacked: false,
   },
 
-  differentialRole: {
-    label: "Differential role",
-    placeholder: "Select scheduling role (or none)",
+  placementKind: {
+    label: 'Placement kind',
+    placeholder: 'primary | secondary | marginal | floating',
     inline: true,
     stacked: false,
   },
 
-  includeRescheduleLink: {
-    label: "Include reschedule link",
-    placeholder: "Show {rescheduleLink} in calendar invite templates",
-    inline: true,
-    stacked: false,
-  },
-
-  includeCancelLink: {
-    label: "Include cancel link",
-    placeholder: "Show {cancelLink} in calendar invite templates",
+  anchorEdge: {
+    label: 'Anchor edge',
+    placeholder: 'start | end (omit for primary)',
     inline: true,
     stacked: false,
   },

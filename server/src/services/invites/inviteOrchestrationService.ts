@@ -14,7 +14,7 @@ import type { EventInstance as EventInstanceType } from '../../db/models/booking
 import { resolveEventTemplates } from './templateResolver.js'
 import { buildInviteContext } from './inviteContextBuilder.js'
 import {
-  buildAttendeesForEventShape,
+  buildAttendeesForEventInstance,
   markAttendeesAsFailed,
   updateAttendeeRecords,
 } from './inviteAttendeeHelpers.js'
@@ -138,7 +138,7 @@ async function findEventInstancesForBlockInstances(
           {
             model: EventShape,
             as: 'eventShape',
-            attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
+            attributes: ['id', 'name', 'placementKind', 'anchorEdge'],
             required: true,
           },
         ],
@@ -178,10 +178,14 @@ async function createEventForInstance(
   const instanceName = eventInstance.name
 
   try {
-    const eventWithShape = eventInstance as EventInstanceType & {
-      eventShape?: { includeRescheduleLink?: boolean; includeCancelLink?: boolean }
+    const inst = eventInstance as EventInstanceType & {
+      includeRescheduleLink?: boolean
+      includeCancelLink?: boolean
     }
-    const stripPlaceholderNames = linkStripSetForEventShape(eventWithShape.eventShape)
+    const stripPlaceholderNames = linkStripSetForEventShape({
+      includeRescheduleLink: inst.includeRescheduleLink,
+      includeCancelLink: inst.includeCancelLink,
+    })
 
     const resolved = resolveEventTemplates(
       {
@@ -197,10 +201,7 @@ async function createEventForInstance(
     const description = resolved.description || buildDefaultDescription(appointment)
     const location = resolved.location || buildDefaultLocation(appointment)
 
-    const attendees = await buildAttendeesForEventShape(
-      eventInstance.eventShapeRef,
-      appointment
-    )
+    const attendees = await buildAttendeesForEventInstance(eventInstance.id, appointment)
 
     const eventParams: CreateEventParams = {
       calendarId,
@@ -224,11 +225,7 @@ async function createEventForInstance(
 
     const createdEvent = await createEvent(eventParams)
 
-    const attendeesUpdated = await updateAttendeeRecords(
-      appointment,
-      eventInstance.eventShapeRef,
-      createdEvent.id
-    )
+    const attendeesUpdated = await updateAttendeeRecords(appointment, eventInstance.id, createdEvent.id)
 
     logger.info(`Created event for "${instanceName}": ${createdEvent.id}, ${attendeesUpdated} attendees updated`)
 
@@ -245,7 +242,7 @@ async function createEventForInstance(
 
     const failedCount = await markAttendeesAsFailed(
       appointment,
-      eventInstance.eventShapeRef,
+      eventInstance.id,
       error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
     )
 

@@ -140,15 +140,14 @@ export function cascadeShapePipeline(params: PipelineParams): {
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
 
   if (!shapeId) {
-    if (relationshipName === 'availability options') {
-      logger.warn('Option block shape [type: option] not found')
-    } else if (relationshipName === 'property types') {
-      logger.warn('Property block shape [type: property] not found')
-    } else if (relationshipName === 'coupons') {
-      logger.warn('Coupon block shape [type: coupon] not found')
-    } else if (relationshipName === 'services') {
-      logger.warn('Service block shape [type: service] not found')
-    }
+    const typesPresent = [
+      ...new Set((bookingData.blockShapes ?? []).map((bs) => String(bs.type)))
+    ].join(', ')
+    logger.warn('Block shape not found for cascade filter', {
+      relationshipName,
+      shapeType,
+      typesPresent: typesPresent.length > 0 ? typesPresent : '(none)'
+    })
     return { instances: [], error: cascadeResult.success ? null : cascadeResult.error }
   }
 

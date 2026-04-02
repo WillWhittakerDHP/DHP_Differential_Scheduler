@@ -5,6 +5,7 @@ export type { GlobalEntityId }
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
 import type { DifferentialRole } from '@shared/types/differentialRole'
+import type { EventAnchorEdge, EventPlacementKind } from '@shared/utils/eventPlacementUtils'
 import type { TernaryBoolean } from "./ternary";
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface GlobalEntityBase<GE extends GlobalEntityKey> {
@@ -62,13 +63,16 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
 export type PartShapeEntity = GlobalEntityBase<"partShape">
 
 export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
-  /** DB NULL = none (normalized on API hydrate). */
-  differentialRole: DifferentialRole;
-  /** When false, calendar invite templates strip `{rescheduleLink}` for instances of this shape. */
-  includeRescheduleLink: boolean;
-  /** When false, calendar invite templates strip `{cancelLink}` for instances of this shape. */
-  includeCancelLink: boolean;
-  attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
+  /** Feature 20 placement type (event_shapes.placement_kind). */
+  placementKind: EventPlacementKind
+  /** null for primary; start | end for other kinds. */
+  anchorEdge: EventAnchorEdge | null
+  /**
+   * Derived for PartFinalizer / availability until task 20.1.3.2 removes differential-role consumers.
+   * Not stored on event_shapes after migration 000061.
+   */
+  differentialRole: DifferentialRole
+  attendees?: GlobalEntityId[] // Union of segment attendee user-types, merged client-side for booking
 }
 
 export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
@@ -86,6 +90,14 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   colorId: string | null;
   status: 'confirmed' | 'tentative';
   reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
+  parentBlockInstanceId?: string | null;
+  locationType?: string | null;
+  locationPlaceId?: string | null;
+  locationAddress?: string | null;
+  locationLat?: number | null;
+  locationLng?: number | null;
+  includeRescheduleLink: boolean;
+  includeCancelLink: boolean;
   /** Virtual: visibility in metadata controls inclusion in display/export; value from appointment at invite time */
   scheduledBy?: string | null;
 }

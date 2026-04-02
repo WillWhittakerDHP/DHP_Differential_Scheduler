@@ -190,9 +190,9 @@ export function useShapesTab(): UseShapesTabReturn {
     entityKey: 'eventShape',
     orderIndex: 0,
     active: true,
-    differentialRole: 'none',
-    includeRescheduleLink: true,
-    includeCancelLink: true,
+    placementKind: 'primary',
+    anchorEdge: null,
+    differentialRole: 'major',
   }))
 
   return {

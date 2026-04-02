@@ -10,6 +10,8 @@ export const FIELD_NAMES = {
   ANNOTATIONS: 'annotations',
   /** Matches server entityConstants FIELD_NAMES.DIFFERENTIAL_ROLE (event shape / API). */
   DIFFERENTIAL_ROLE: 'differentialRole',
+  PLACEMENT_KIND: 'placementKind',
+  ANCHOR_EDGE: 'anchorEdge',
 } as const
 
 export const TEMPORARY_ID_PATTERNS = {

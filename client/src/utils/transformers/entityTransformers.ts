@@ -8,8 +8,12 @@ import {
   normalizeBlockInstanceAgentPermissionsFromApi,
   normalizeBlockInstanceOrchestratorFromApi,
   normalizeBlockInstanceWizardVisibleFromApi,
-  normalizeEventShapeDifferentialRoleFromApi,
 } from './apiEntityFieldNormalization'
+import {
+  eventShapeDifferentialRoleFromPlacementFields,
+  sanitizeEventAnchorEdgeInput,
+  sanitizeEventPlacementKindInput,
+} from '@shared/utils/eventPlacementUtils'
 
 /**
  * Invite link toggles on event shapes are NOT NULL default true in DB.
@@ -27,7 +31,7 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   rawEntity: Record<string, unknown>,
   entityKey: GE
 ): GlobalEntity<GE> {
-  const skipKeys = new Set(['id', 'entity_key', 'descriptions', 'event_shape_attendees'])
+  const skipKeys = new Set(['id', 'entity_key', 'descriptions', 'event_instance_attendees'])
   const entries = Object.entries(rawEntity).filter(([key]) => !skipKeys.has(key))
   const transformed: Record<string, unknown> = {
     id: rawEntity.id,
@@ -45,8 +49,24 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   }
 
   if (entityKey === 'eventShape') {
-    const roleRaw = transformed.differentialRole ?? rawEntity.differential_role
-    transformed.differentialRole = normalizeEventShapeDifferentialRoleFromApi(roleRaw)
+    const pkRaw = transformed.placementKind ?? rawEntity.placement_kind
+    const aeRaw = transformed.anchorEdge ?? rawEntity.anchor_edge
+    transformed.placementKind = sanitizeEventPlacementKindInput(pkRaw) ?? 'primary'
+    const anchorParsed = sanitizeEventAnchorEdgeInput(aeRaw)
+    transformed.anchorEdge =
+      transformed.placementKind === 'primary' ? null : anchorParsed ?? 'start'
+    transformed.differentialRole = eventShapeDifferentialRoleFromPlacementFields(
+      transformed.placementKind,
+      transformed.anchorEdge
+    )
+    delete transformed.includeRescheduleLink
+    delete transformed.includeCancelLink
+    delete transformed.differential_role
+    delete transformed.include_reschedule_link
+    delete transformed.include_cancel_link
+  }
+
+  if (entityKey === 'eventInstance') {
     const rescheduleRaw = transformed.includeRescheduleLink ?? rawEntity.include_reschedule_link
     const cancelRaw = transformed.includeCancelLink ?? rawEntity.include_cancel_link
     transformed.includeRescheduleLink = normalizeEventShapeInviteLinkFlag(rescheduleRaw)
