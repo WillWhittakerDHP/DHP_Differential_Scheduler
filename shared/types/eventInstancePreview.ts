@@ -3,7 +3,8 @@
  */
 export interface EventInstancePreviewRequestBody {
   appointmentId: string
-  eventShapeRef: string
+  /** Persisted event_instances.id — link strip flags and segment identity come from this row. */
+  eventInstanceId: string
   titleTemplate: string | null
   descriptionTemplate: string | null
   locationTemplate: string | null
