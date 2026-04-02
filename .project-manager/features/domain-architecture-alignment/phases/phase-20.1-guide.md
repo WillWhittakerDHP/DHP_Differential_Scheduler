@@ -127,7 +127,7 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 
 ---
 
-- [ ] ### Session 20.1.3: Event schema alignment
+- [x] ### Session 20.1.3: Event schema alignment
 
 **Goal:** Add placement columns to `event_shapes`, ownership and location fields to `event_instances`, move calendar toggles from shapes to instances, rename `event_shape_attendees` to `event_instance_attendees`, and seed default placement types (per plan §2.2, §2.3, §2.4).
 

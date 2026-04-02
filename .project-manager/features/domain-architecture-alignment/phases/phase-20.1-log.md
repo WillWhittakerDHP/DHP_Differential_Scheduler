@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.1.3: Event schema alignment ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Event schema alignment (placement, segment ownership, instance attendees)
+
+
+
 ### Session 20.1.2: Block instance three-property alignment and legacy cleanup ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
