@@ -88,7 +88,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Session planning → implement focused editor + field display alignment → manual smoke on Shapes tab event panel.
 
-- [ ] ### Session 20.3.2: Service atomic editor (§8.3 #2)
+- [x] ### Session 20.3.2: Service atomic editor (§8.3 #2)
 
 **Description:** ServiceAtomicEditor (or equivalent) for service block-instance convergence / atomic editing aligned with the three-property instance model.
 
