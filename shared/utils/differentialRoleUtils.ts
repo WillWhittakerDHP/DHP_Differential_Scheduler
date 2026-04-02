@@ -34,27 +34,6 @@ export function parseDifferentialRole(raw: unknown): DifferentialRole {
   return 'none'
 }
 
-/** Value for API PATCH/create body: null means none in DB. */
-export function toApiDifferentialRole(role: DifferentialRole): DifferentialRoleStorage | null {
-  if (role === 'none') {
-    return null
-  }
-  return role
-}
-
-export function sanitizeDifferentialRoleInput(raw: unknown): DifferentialRoleStorage | null {
-  if (raw === REMOVED_DIFFERENTIAL_STORAGE_SPELLING) {
-    throw new Error(INVALID_LEGACY_DIFFERENTIAL_ROLE_MESSAGE)
-  }
-  if (raw === undefined || raw === null || raw === '' || raw === 'none') {
-    return null
-  }
-  if (isDifferentialRoleStorage(raw)) {
-    return raw
-  }
-  return null
-}
-
 /** Override map value: major | minor | minimizer | margin | none (explicit none). */
 export function isDifferentialRoleOverrideValue(raw: unknown): raw is DifferentialRole {
   return (
