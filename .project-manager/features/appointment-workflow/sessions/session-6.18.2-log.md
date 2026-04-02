@@ -90,28 +90,33 @@ index 346d4f6e..fe55dc44 100644
 
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 
+
++
++
+```
+<!-- /harness:anchor:commit-preview -->
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (3): `.project-manager/features/appointment-workflow/phases/phase-6.18-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md`
+Paths (2): `.project-manager/features/appointment-workflow/phases/phase-6.18-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../appointment-workflow/phases/phase-6.18-log.md  |  8 +++++++
- .../sessions/session-6.18.2-handoff.md             | 27 +++++++++++-----------
- .../sessions/session-6.18.2-log.md                 |  2 ++
- 3 files changed, 23 insertions(+), 14 deletions(-)
+.../features/appointment-workflow/phases/phase-6.18-log.md        | 8 ++++++++
+ .../features/appointment-workflow/sessions/session-6.18.2-log.md  | 2 ++
+ 2 files changed, 10 insertions(+)
 ```
 
 ### `git diff HEAD`
 
 ```diff
 diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
-index bb381aae..ab52404d 100644
+index ab52404d..efe509d5 100644
 --- a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
 +++ b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
-@@ -25,6 +25,14 @@
+@@ -33,6 +33,14 @@
  
  
  
@@ -126,56 +131,12 @@ index bb381aae..ab52404d 100644
  ### Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit ✅
  **Completed:** 2026-04-02
  **Tasks Completed:** All tasks completed
-diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
-index adc5f5aa..c7bd1c03 100644
---- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
-+++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-handoff.md
-@@ -10,6 +10,18 @@
- 
- ---
- 
-+## Across ladder (harness)
-+
-+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
-+
-+- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-02T01:01:38.945Z
-+- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
-+- **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-+- **Focus session:** `6.18.2` · **Session 2/2 in phase** · **Next session across:** _(then /phase-end)_
-+- **Tasks in session (detected):** 2 · **Next task across:** `6.18.2.1` → `/task-start` / cascade
-+- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
-+<!-- harness-across-ladder:end -->
-+
- ## Current Status
- 
- **Last Completed:** Task 
-@@ -27,20 +39,7 @@ Start Session  (see session guide and phase guide for scope).
- Completed Task 
- 
- **What you need to start:**
--- Begin Session
--
--<!-- harness-across-ladder:start -->
--## Across ladder (harness)
--
--_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
--
--- **Feature:** `appointment-workflow` · **Source:** session_end · **Derived:** 2026-04-02T01:01:38.945Z
--- **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
--- **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
--- **Focus session:** `6.18.2` · **Session 2/2 in phase** · **Next session across:** _(then /phase-end)_
--- **Tasks in session (detected):** 2 · **Next task across:** `6.18.2.1` → `/task-start` / cascade
--- **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
--<!-- harness-across-ladder:end -->
-+- Begin Session 
- 
- 
 diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
-index bc1233a7..89e0f094 100644
+index fc4b748a..39f809a9 100644
 --- a/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
 +++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.2-log.md
-@@ -237,3 +237,5 @@ index d5e474ef..45c4a792 100644
- … (truncated)
+@@ -182,3 +182,5 @@ index bc1233a7..89e0f094 100644
+ +
  ```
  <!-- /harness:anchor:commit-preview -->
 +
