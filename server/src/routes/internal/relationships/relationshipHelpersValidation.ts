@@ -3,7 +3,9 @@ import {
   BlockShape,
   PartInstance,
   EventInstance,
+  EventShape,
   InstanceComponent,
+  ValidEventCascade,
   ValidPricingCascade,
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
@@ -148,6 +150,82 @@ export async function validatePricingCascadeAgainstShapeRules(
 }
 
 /**
+ * WHY: EventAssignment links an event **block instance** to a **segment**; segment ownership and shape graph must match (FEATURE_20 §5.2, §5.1).
+ */
+export async function validateEventAssignmentIntegrity(
+  parentBlockInstanceId: string,
+  eventInstanceId: string
+): Promise<ValidationResult> {
+  const parentBlockInstance = await BlockInstance.findByPk(parentBlockInstanceId, {
+    include: [{ model: BlockShape, as: 'block_shape' }],
+  })
+  if (!parentBlockInstance) {
+    return { valid: false, error: `Parent block instance ${parentBlockInstanceId} not found` }
+  }
+  const parentBlockShape = (parentBlockInstance as BlockInstanceWithShape).block_shape
+  if (!parentBlockShape) {
+    return { valid: false, error: `Block instance ${parentBlockInstanceId} has no block shape` }
+  }
+  if (parentBlockShape.type !== 'event') {
+    return { valid: false, error: 'Event assignment parent must be an event-type block instance' }
+  }
+
+  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
+    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
+  })
+  if (!eventInstance) {
+    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
+  }
+  const segmentParent = eventInstance.parentBlockInstanceId
+  if (segmentParent == null || segmentParent === '') {
+    return {
+      valid: false,
+      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
+    }
+  }
+  if (segmentParent !== parentBlockInstanceId) {
+    return {
+      valid: false,
+      error: 'Event segment parent block instance does not match this relationship parent',
+    }
+  }
+
+  const validRow = await ValidEventCascade.findOne({
+    where: {
+      parentId: parentBlockShape.id,
+      childId: eventInstance.eventShapeRef,
+      disabled: false,
+    },
+  })
+  if (!validRow) {
+    return {
+      valid: false,
+      error:
+        'No active valid event cascade links this event shape to the parent block shape; add one on the block shape first',
+    }
+  }
+  return { valid: true }
+}
+
+/**
+ * WHY: validEventCascades rows reference block shape + event shape ids — reject unknown ids before ORM/FK noise.
+ */
+export async function validateValidEventCascadeShapeIds(
+  blockShapeId: string,
+  eventShapeId: string
+): Promise<ValidationResult> {
+  const blockShape = await BlockShape.findByPk(blockShapeId)
+  if (!blockShape) {
+    return { valid: false, error: `Block shape ${blockShapeId} not found` }
+  }
+  const eventShape = await EventShape.findByPk(eventShapeId)
+  if (!eventShape) {
+    return { valid: false, error: `Event shape ${eventShapeId} not found` }
+  }
+  return { valid: true }
+}
+
+/**
  * Validate attendee assignment entities
  *
  * @param parentId - Event instance ID (segment)
@@ -161,6 +239,12 @@ export async function validateAttendeeAssignmentEntities(
   const eventInstance = await EventInstance.findByPk(parentId)
   if (!eventInstance) {
     throw new Error(`EventInstance with ID ${parentId} does not exist`)
+  }
+
+  if (eventInstance.parentBlockInstanceId == null || eventInstance.parentBlockInstanceId === '') {
+    throw new Error(
+      'Event segment has no parent block instance; set parent on the event instance before attendee links'
+    )
   }
 
   const blockInstance = await BlockInstance.findByPk(childId)

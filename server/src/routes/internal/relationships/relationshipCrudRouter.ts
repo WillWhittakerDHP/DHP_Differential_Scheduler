@@ -21,7 +21,9 @@ import {
   validateBlockInstancesWithShapes,
   validateBlockInstancesCompositeForComponents,
   validateAttendeeAssignmentEntities,
+  validateEventAssignmentIntegrity,
   validatePricingCascadeAgainstShapeRules,
+  validateValidEventCascadeShapeIds,
   updateComponentActiveStates,
 } from './relationshipHelpers.js'
 import { buildRelationshipWhereClause, buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
@@ -206,6 +208,20 @@ router.post(
           return
         }
       }
+      if (normalizedKind === RELATIONSHIP_TYPES.VALID_EVENT_CASCADES) {
+        const vecValidation = await validateValidEventCascadeShapeIds(parentId, childId)
+        if (!vecValidation.valid) {
+          sendBadRequest(res, vecValidation.error)
+          return
+        }
+      }
+      if (normalizedKind === RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS) {
+        const eventAssignValidation = await validateEventAssignmentIntegrity(parentId, childId)
+        if (!eventAssignValidation.valid) {
+          sendBadRequest(res, eventAssignValidation.error)
+          return
+        }
+      }
       if (normalizedKind === RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS) {
         try {
           await validateAttendeeAssignmentEntities(parentId, childId)
@@ -228,6 +244,10 @@ router.post(
                 error.message,
                 paramString(req, 'relationshipType')
               )
+              return
+            }
+            if (error.message.includes('no parent block instance')) {
+              sendBadRequest(res, error.message, error.message, paramString(req, 'relationshipType'))
               return
             }
           }
