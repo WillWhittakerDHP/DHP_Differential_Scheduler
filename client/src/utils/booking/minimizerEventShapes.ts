@@ -56,7 +56,11 @@ export function listMinimizerSegmentsFromAppointmentShape(
         eventShape.placementKind,
         eventShape.anchorEdge
       )
-      const effective = effectiveDifferentialRole(eventShapeId, templateRole, overrides)
+      const effective = effectiveDifferentialRole(
+        eventShapeId,
+        templateRole,
+        shape.differentialEventRoleOverrides ?? null,
+      )
       if (effective !== 'minimizer') {
         continue
       }
