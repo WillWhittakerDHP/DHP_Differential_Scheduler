@@ -10,7 +10,7 @@ import type { EventInstancePreviewRequestBody, EventInstancePreviewResponseBody 
 import {
   type AppointmentWithRelations,
   collectBlockInstanceIds,
-  linkStripSetForEventShape,
+  linkStripSetForSegmentLinkFlags,
   normalizeAppointmentForInviteFlow,
   toInviteAppointmentData,
 } from './inviteAppointmentShared.js'
@@ -50,7 +50,7 @@ export async function previewEventInstanceTemplates(
   const inviteData = toInviteAppointmentData(normalized)
   const context = buildInviteContext(inviteData, serviceName)
 
-  const stripPlaceholderNames = linkStripSetForEventShape(segment)
+  const stripPlaceholderNames = linkStripSetForSegmentLinkFlags(segment)
   const options = stripPlaceholderNames.size > 0 ? { stripPlaceholderNames } : {}
 
   return resolveEventTemplates(

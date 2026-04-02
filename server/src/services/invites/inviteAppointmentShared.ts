@@ -41,17 +41,27 @@ export interface NormalizedAppointmentForInviteFlow {
   attendees: AppointmentAttendeeWithUser[]
 }
 
-export function linkStripSetForEventShape(
-  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
+/** `event_instances` link flags — strip template placeholders when segment disables reschedule/cancel links. */
+export function linkStripSetForSegmentLinkFlags(
+  segment: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
 ): Set<string> {
   const strip = new Set<string>()
-  if (shape?.includeRescheduleLink === false) {
+  if (segment?.includeRescheduleLink === false) {
     strip.add('rescheduleLink')
   }
-  if (shape?.includeCancelLink === false) {
+  if (segment?.includeCancelLink === false) {
     strip.add('cancelLink')
   }
   return strip
+}
+
+/**
+ * @deprecated Use {@link linkStripSetForSegmentLinkFlags}. Link flags live on **event_instances**, not event_shapes.
+ */
+export function linkStripSetForEventShape(
+  shape: { includeRescheduleLink?: boolean; includeCancelLink?: boolean } | null | undefined
+): Set<string> {
+  return linkStripSetForSegmentLinkFlags(shape)
 }
 
 function asArray<T>(

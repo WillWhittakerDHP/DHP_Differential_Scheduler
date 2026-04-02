@@ -22,16 +22,22 @@ import { createLogger } from '../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 import { EMPTY_STRING, nilToEmptyString } from '@shared/utils/nilDefaults.js'
+import { compareEventSegmentsForCalendarOrder } from '@shared/utils/eventPlacementUtils.js'
 import {
   type AppointmentWithRelations,
   type NormalizedAppointmentForInviteFlow,
   collectBlockInstanceIds,
-  linkStripSetForEventShape,
+  linkStripSetForSegmentLinkFlags,
   normalizeAppointmentForInviteFlow,
   toInviteAppointmentData,
 } from './inviteAppointmentShared.js'
 
 const logger = createLogger('InviteOrchestrationService')
+
+/** `findEventInstancesForBlockInstances` eager-loads `eventShape`; Sequelize typings omit the association. */
+type EventSegmentForCalendarSort = EventInstanceType & {
+  eventShape?: { placementKind?: string; anchorEdge?: string | null }
+}
 
 interface SingleEventResult {
   eventInstanceId: string
@@ -156,6 +162,23 @@ async function findEventInstancesForBlockInstances(
     }
   }
 
+  uniqueInstances.sort((left, right) =>
+    compareEventSegmentsForCalendarOrder(
+      left as EventSegmentForCalendarSort,
+      right as EventSegmentForCalendarSort
+    )
+  )
+  logger.debug('Event instances ordered for calendar invites', {
+    order: uniqueInstances.map((i) => {
+      const row = i as EventSegmentForCalendarSort
+      return {
+        id: i.id,
+        placementKind: row.eventShape?.placementKind,
+        anchorEdge: row.eventShape?.anchorEdge,
+      }
+    }),
+  })
+
   return uniqueInstances
 }
 
@@ -182,7 +205,7 @@ async function createEventForInstance(
       includeRescheduleLink?: boolean
       includeCancelLink?: boolean
     }
-    const stripPlaceholderNames = linkStripSetForEventShape({
+    const stripPlaceholderNames = linkStripSetForSegmentLinkFlags({
       includeRescheduleLink: inst.includeRescheduleLink,
       includeCancelLink: inst.includeCancelLink,
     })
@@ -256,6 +279,10 @@ async function createEventForInstance(
   }
 }
 
+/**
+ * WHY: All calendar segments for this appointment currently share the **first** wizard `selectedTimeSlots` row.
+ * Per-segment windows require a client payload + persistence change — server does not recompute from PartFinalizer.
+ */
 function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
   if (!firstSlot?.startTime) {
@@ -264,6 +291,7 @@ function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): stri
   return new Date(firstSlot.startTime).toISOString()
 }
 
+/** @see extractStartTime — same single-slot policy for end time. */
 function extractEndTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ endTime: string }> | null)?.[0]
   if (!firstSlot?.endTime) {
