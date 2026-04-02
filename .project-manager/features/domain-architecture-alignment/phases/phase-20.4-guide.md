@@ -90,7 +90,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** Session planning → helper rewrites → consumer updates → lint / smoke.
 
-- [ ] ### Session 20.4.4: Perspective + minimizer + shared cleanup
+- [x] ### Session 20.4.4: Perspective + minimizer + shared cleanup
 
 **Description:** **`perspectiveResolver`**, **`minimizerSchedulingBounds`**, **`minimizerEventShapes`**, **`partFinalizerSlotShapeHelpers`** as needed; remove **§6.2** **`differentialRole*`** paths when unused.
 
