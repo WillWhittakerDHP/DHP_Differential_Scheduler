@@ -9,6 +9,8 @@ interface BlockInstanceShapeFlags {
   composable: boolean
   /** Non-user shapes participate in part-instance totals (replaces shape canHaveParts). */
   canHaveParts: boolean
+  /** Block shape type is `event` — segment (eventInstance) editor on instance card. */
+  isEventShape: boolean
 }
 
 /**
@@ -20,16 +22,17 @@ export function getBlockInstanceShapeProperties(
 ): BlockInstanceShapeFlags {
   const blockInstance = adminComp.getEntity('blockInstance', toGlobalEntityId(entityIdValue))
   if (!blockInstance) {
-    return { composable: false, canHaveParts: false }
+    return { composable: false, canHaveParts: false, isEventShape: false }
   }
   const bi = blockInstance as GlobalEntity<'blockInstance'>
   const blockShape = adminComp.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef))
   if (!blockShape) {
-    return { composable: false, canHaveParts: false }
+    return { composable: false, canHaveParts: false, isEventShape: false }
   }
   const shape = blockShape as GlobalEntity<'blockShape'>
   return {
     composable: bi.composite === true,
     canHaveParts: shape.type !== BLOCK_SHAPE_TYPES.USER,
+    isEventShape: shape.type === BLOCK_SHAPE_TYPES.EVENT,
   }
 }
