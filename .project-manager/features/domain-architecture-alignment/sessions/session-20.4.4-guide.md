@@ -58,7 +58,7 @@ These sections contain session-specific content:
 **Approach:** Refactor + **`vue-tsc`** / client lint.
 **Checkpoint:** Same perspective behavior for placement-only slots.
 
-- [ ] #### Task 20.4.4.2: Minimizer + grep-gated `@shared` `differentialRole*` cleanup
+- [x] #### Task 20.4.4.2: Minimizer + grep-gated `@shared` `differentialRole*` cleanup
 **Goal:** **`minimizerEventShapes`** — simplify legacy override branch only if grep proves safe; **`shared/`** — remove **only** unreferenced symbols (full-repo grep).
 **Files:** `minimizerEventShapes.ts`, `shared/utils/differentialRoleUtils.ts`, `shared/constants/differentialRoleMappings.ts`, types as needed
 **Approach:** Grep-before-delete; document deferrals in task log if nothing is safe to remove.

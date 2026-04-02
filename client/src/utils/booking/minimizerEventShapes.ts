@@ -4,15 +4,9 @@
  * PATTERN: Pure utilities — no Vue refs; safe for composables and tests.
  */
 
-import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
-import {
-  eventShapeDifferentialRoleFromPlacementFields,
-  sanitizeEventPlacementKindInput,
-} from '@shared/utils/eventPlacementUtils'
-import type { DifferentialRole } from '@shared/types/differentialRole'
+import { sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
 import type { AppointmentShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
-import { hasNonEmptyDifferentialRoleOverrides } from '@/utils/eventAttendeeUtils'
 
 /** One minimizer scheduling segment derived from `slotShape.eventFinals` (completion-window path, not margin). */
 export interface MinimizerSegmentDescriptor {
@@ -31,15 +25,14 @@ export interface MinimizerSegmentDescriptor {
  * Lists every `eventFinal` that represents a **minimizer (completion-window) segment**, in
  * **`slotShape.eventFinals` array order**.
  *
- * **Empty overrides:** **`placement_kind === 'floating'`** (FEATURE_20 — minimizer placement).
- * **With overrides:** effective role **`minimizer`** (legacy override path).
+ * **Selection:** **`placement_kind === 'floating'`** only (FEATURE_20 — minimizer placement; booking path is
+ * placement-only after override map removal from **`AppointmentShape`**).
  *
  * **Margin:** **`marginal`** placement → not floating; excluded from this list.
  */
 export function listMinimizerSegmentsFromAppointmentShape(
   shape: AppointmentShape
 ): MinimizerSegmentDescriptor[] {
-  const useOverridePath = hasNonEmptyDifferentialRoleOverrides(shape.differentialEventRoleOverrides)
   const finals = shape.slotShape.eventFinals
   const out: MinimizerSegmentDescriptor[] = []
 
@@ -47,23 +40,8 @@ export function listMinimizerSegmentsFromAppointmentShape(
     const ef = finals[i]
     const eventShape = ef.eventShape as EventShapeEntity
     const eventShapeId = String(eventShape.id)
-    if (!useOverridePath) {
-      if (sanitizeEventPlacementKindInput(eventShape.placementKind) !== 'floating') {
-        continue
-      }
-    } else {
-      const templateRole: DifferentialRole = eventShapeDifferentialRoleFromPlacementFields(
-        eventShape.placementKind,
-        eventShape.anchorEdge
-      )
-      const effective = effectiveDifferentialRole(
-        eventShapeId,
-        templateRole,
-        shape.differentialEventRoleOverrides ?? null,
-      )
-      if (effective !== 'minimizer') {
-        continue
-      }
+    if (sanitizeEventPlacementKindInput(eventShape.placementKind) !== 'floating') {
+      continue
     }
     out.push({
       orderIndex: i,
