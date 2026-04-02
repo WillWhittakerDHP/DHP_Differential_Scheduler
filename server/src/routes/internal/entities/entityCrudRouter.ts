@@ -16,6 +16,10 @@ import {
   validateBlockShapeCreateBody,
   validateBlockShapeUpdateBody,
 } from './blockShapeEntityValidation.js'
+import {
+  isBlockInstanceEntityType,
+  validateBlockInstanceBooleanFields,
+} from './blockInstanceEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -121,6 +125,14 @@ router.post(
         }
       }
 
+      if (isBlockInstanceEntityType(createEntityType)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(bodyForCreate)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
@@ -176,6 +188,14 @@ router.put(
         const blockShapeErr = validateBlockShapeUpdateBody(bodyForPut)
         if (blockShapeErr !== null) {
           sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
+      }
+
+      if (isBlockInstanceEntityType(putEntityTypeEarly)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(bodyForPut)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
           return
         }
       }
@@ -292,6 +312,14 @@ router.patch(
         const blockShapeErr = validateBlockShapeUpdateBody(updateData)
         if (blockShapeErr !== null) {
           sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
+      }
+
+      if (isBlockInstanceEntityType(entityType)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(updateData)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
           return
         }
       }

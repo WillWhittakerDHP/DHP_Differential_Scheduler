@@ -16,6 +16,7 @@ import { csrfProtection, requireAuth } from '../../../middlewares/security.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
+import { validateBlockInstanceBooleanFields } from './blockInstanceEntityValidation.js'
 
 const router = Router()
 
@@ -43,6 +44,15 @@ router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRe
           delete row[key]
         }
         Object.assign(row, next)
+      }
+    }
+    if (entityType === ENTITY_KEYS.BLOCK_INSTANCE || entityType === 'blockInstance') {
+      for (const row of body) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(row as Record<string, unknown>)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
       }
     }
     // PATTERN: Client sends camelCase (orderIndex); Sequelize model uses underscored: true
@@ -74,8 +84,16 @@ router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(e
     }
 
     const entityType = paramString(req, 'entityType')
-    const isBlockInstance = entityType === ENTITY_KEYS.BLOCK_INSTANCE
+    const isBlockInstance =
+      entityType === ENTITY_KEYS.BLOCK_INSTANCE || entityType === 'blockInstance'
     if (isBlockInstance) {
+      for (const row of updates) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(row as Record<string, unknown>)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
       await ensureBlockInstanceVersionsBeforeBulkUpdate(updates)
     }
 
