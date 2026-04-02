@@ -4,8 +4,8 @@
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
-**Last Updated:** 2026-03-02
-**Feature Status:** In Progress
+**Last Updated:** 2026-04-02
+**Feature Status:** Complete
 **Current Session:** Session 6.4.2 or 6.4.3 (see Next Action)
 **Next Session:** Session 6.4.3 (Moveable Modal — Shared Time-Slot Grid) — after 6.4.2
 **Next Phase:** Phase 6.5 (Rescheduling Flow) — after Phase 6.4 completes
@@ -165,7 +165,7 @@ The appointment-workflow feature leaves **security stubs** that Feature 7 (authe
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `appointment-workflow` · **Source:** phase_end · **Derived:** 2026-04-02T01:17:16.962Z
+- **Feature:** `appointment-workflow` · **Source:** phase_end · **Derived:** 2026-04-02T01:29:29.637Z
 - **Phases on disk (17):** 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 6.10, 6.11, 6.12, 6.13, 6.14, 6.15, 6.16, 6.17, 6.18
 - **Focus phase:** `6.18` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Manifest:** `.project-manager/features/appointment-workflow/across-ladder.json`
