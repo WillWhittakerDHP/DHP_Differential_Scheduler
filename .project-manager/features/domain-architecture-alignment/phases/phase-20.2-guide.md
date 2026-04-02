@@ -58,10 +58,37 @@ Align with **ARCHITECTURE_PRINCIPLES.md** §4 (persistence vs resolution), §5 (
 
 ## Objectives
 
-- [ ] Objectives to be planned. Add key outcomes for this phase.
+- [ ] Entity and relationship routes accept Phase 20.1 schema: renamed block-shape `type` values and instance `composite` / `orchestrator` / `wizardVisible`.
+- [ ] Event-shape APIs expose placement fields only; event instances scoped with `parent_block_instance_id` and segment payload fields per Principles §5.4.
+- [ ] No server-side booking-total or PartFinalizer-equivalent logic in any route touched in this phase.
+- [ ] Preview, appointment persistence, and calendar integration read configuration and raw rows only (plan §5.2).
 
 ---
 
 ## Tasks
 
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-start 20.2.x`** in order.
+
+---
+
+## Sessions breakdown
+
+- [ ] ### Session 20.2.1: Block shape & block instance entity routes
+**Description:** Align `blockShape` / `blockInstance` internal CRUD and validators with Phase 20.1 (`type` enum, `composite`, `orchestrator`, `wizardVisible`).
+
+**Tasks:** Task blocks added at session-start.
+
+- [ ] ### Session 20.2.2: Event shape & event instance entity routes
+**Description:** Placement-only surfaces for event shapes; event instances require parent event block context and validate segment fields per §5.4.
+
+**Tasks:** Task blocks added at session-start.
+
+- [ ] ### Session 20.2.3: Relationships & event-instance preview
+**Description:** `eventAssignments`, instance-level attendees, `validEventCascades`; re-scope preview to segments under a parent event block instance.
+
+**Tasks:** Task blocks added at session-start.
+
+- [ ] ### Session 20.2.4: Appointments, calendar integration & API cleanup
+**Description:** Appointment persistence without recomputing totals; calendar services read segment identity and placement policy; remove differential-role-specific route helpers per §5.3 where safe.
+
+**Tasks:** Task blocks added at session-start.
