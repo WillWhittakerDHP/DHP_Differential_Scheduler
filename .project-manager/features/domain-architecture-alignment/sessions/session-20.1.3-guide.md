@@ -1,4 +1,4 @@
-# Session 20.1.3 Guide: ** Event schema alignment -- migration: ADD `placement_kind`, `anchor_edge` to `event_shapes`, DROP `differential_role`, move `include_reschedule_link`/`include_cancel_link` to `event_instances`; ADD `parent_block_instance_id` + location fields to `event_instances`; rename `event_shape_attendees` -> `event_instance_attendees`; seed default placement types (§2.2); update Sequelize models + client types.
+# Session 20.1.3 Guide: Event schema alignment (placement, segment ownership, instance attendees)
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -44,27 +44,34 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 20.1.3
-**Session Name:** ** Event schema alignment -- migration: ADD `placement_kind`, `anchor_edge` to `event_shapes`, DROP `differential_role`, move `include_reschedule_link`/`include_cancel_link` to `event_instances`; ADD `parent_block_instance_id` + location fields to `event_instances`; rename `event_shape_attendees` -> `event_instance_attendees`; seed default placement types (§2.2); update Sequelize models + client types.
-**Description:** [Brief description of session objectives]
+**Session Name:** Event schema alignment (placement, segment ownership, instance attendees)
+**Description:** Apply FEATURE_20 event model: placement columns on `event_shapes`; segment ownership, location, and per-segment calendar toggles on `event_instances`; rename attendee join to `event_instance_attendees`; update Sequelize, client types, and direct consumers so the app builds.
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** M (two tasks)
+**Status:** In Progress (planning)
 
 ### Tasks
 
-- [ ] #### Task 20.1.3.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.1.3.1: Event DDL, seeds, and core models/types
+**Goal:** Migrations add/drop/rename columns and tables; Sequelize + `app.js` exports + associations match; client `EventShapeEntity` / `EventInstanceEntity` and transformers/sanitizers reflect new fields; no stale model references to dropped shape columns.
+**Files:**
+- `server/src/db/migrations/*.mjs`
+- `server/src/db/models/booking/event_shape.ts`, `event_instance.ts`, attendee model (rename file + table)
+- `server/src/db/models/index.ts`, `sequelizeModelAssociationsPartA.ts`, `server/src/config/app.js`
+- `server/src/routes/internal/entities/entitySanitizers.ts`
+- `client/src/types/entities.ts`, `entityTransformers.ts`, `apiEntityFieldNormalization.ts`
+**Approach:** One coherent migration pass (or sequenced files) per `phase-20.1-guide.md` §Session 20.1.3; backfill `include_*` from shapes to instances before drop; document rule for mapping old attendee rows to `event_instance_id`.
+**Checkpoint:** Server/client typecheck for touched files; models load; migration files ready (run only on localhost DB per policy).
 
-- [ ] #### Task 20.1.3.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.1.3.2: Relationships, validation, and booking/admin consumers
+**Goal:** `attendeeAssignments` parent is **event instance**; client `backendName` and validation match; remove `differentialRole` usage from `partFinalizer`, `eventAttendeeUtils`, admin shapes tab; grep cleanup; `npm run start:dev` + client/server lint clean.
+**Files:**
+- `server/src/routes/internal/relationships/relationshipConstants.ts`, `relationshipHelpersValidation.ts`, related CRUD handlers
+- `client/src/constants/relationships.ts`
+- `client/src/utils/booking/partFinalizer.ts`, `eventAttendeeUtils.ts`
+- `client/src/composables/admin/useShapesTabEventPanel.ts`, `ShapesTabEventPanel.vue`, `useEntityCardFormSetup.ts` as needed
+**Approach:** Update registry and Joi/validation paths first; then rewrite segment ordering and attendee UX to use `placement_kind` / `anchor_edge`; keep event routing relational via `event_assignments`.
+**Checkpoint:** No `differentialRole` on event shapes in TS; attendees keyed to instances; phase-20.1 event checklist items verifiable.
 
 ---
 
