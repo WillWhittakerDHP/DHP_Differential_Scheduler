@@ -41,3 +41,50 @@ Grep triage and session notes; `.project-manager/ARCHITECTURE.md` Users / `user_
 **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 
 <!-- end excerpt session -->
+
+<!-- harness:anchor:commit-preview -->
+## Harness: commit preview (in-scope diff)
+
+Paths (2): `.project-manager/features/appointment-workflow/phases/phase-6.18-log.md`, `.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md`
+
+### `git diff --stat HEAD`
+
+```text
+.../features/appointment-workflow/phases/phase-6.18-log.md        | 8 ++++++++
+ .../features/appointment-workflow/sessions/session-6.18.1-log.md  | 2 ++
+ 2 files changed, 10 insertions(+)
+```
+
+### `git diff HEAD`
+
+```diff
+diff --git a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
+index 0d4e383e..b04df748 100644
+--- a/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
++++ b/.project-manager/features/appointment-workflow/phases/phase-6.18-log.md
+@@ -33,6 +33,14 @@
+ 
+ 
+ 
++### Session 6.18.1: Shared role catalog + `seller` → `owner` + full-stack audit ✅
++**Completed:** 2026-04-02
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Shared role catalog + `seller` → `owner` + full-stack audit
++
++
++
+ ### Session [SESSION_ID]: [SESSION_NAME] ✅
+ **Completed:** [Date]
+ **Tasks Completed:** [List of task IDs]
+diff --git a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
+index 19c73439..58cef233 100644
+--- a/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
++++ b/.project-manager/features/appointment-workflow/sessions/session-6.18.1-log.md
+@@ -41,3 +41,5 @@ Grep triage and session notes; `.project-manager/ARCHITECTURE.md` Users / `user_
+ **Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+ 
++
++
+```
+<!-- /harness:anchor:commit-preview -->
