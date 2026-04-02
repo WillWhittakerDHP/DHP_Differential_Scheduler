@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.3.5: Annotation metadata + EntityCard wave (§8.3 #5) ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** — Annotation metadata + EntityCard wave (§8.3 #5):** Narrow non-annotation metadata scope where plan allows; replace lowest-risk **EntityCard** usage with focused component(s); document remaining EntityCard debt for **20.6**.
+
+
+
 ### Session 20.3.4: Segment manager relocation (§8.3 #4) ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed

@@ -1,231 +1,15 @@
-# Plan: session 20.3.5 — Annotation metadata + EntityCard wave (FEATURE_20 §8.3 #5)
+<!-- harness-planning-rollup tier=session id=20.3.5 consolidatedAt=2026-04-02T21:03:36.828Z -->
 
-## Contract
-- **Tier:** session | **ID:** 20.3.5
-- **Scope:** Narrow non-annotation metadata exposure where the plan allows; replace the **lowest-risk** `EntityCard` usage with a focused domain component; document remaining `EntityCard` debt for phase **20.6** (full deletion per FEATURE_20 §6.3a — out of scope here).
-- **Governance (harness snapshot):**
-  - Governance Context (Session)
-  - Function Governance
-  - Clean — no violations detected.
-  - Component Governance
-  - Clean — no violations detected.
-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
-  - … _(truncated)_
+# Consolidated planning: session 20.3.5
 
-## Work Profile
-- **Execution intent:** plan
-- **Action type:** decomposition
-- **Scope shape:** cross_cutting
-- **Governance domains:** docs, architecture, booking
-- **Gate profile:** standard
-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
-- **Recommended context pack:** decomposition_pack
-- **Planning artifact action:** create
-- **Decomposition mode:** moderate
-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
-
-## Where we left off
-Session **20.3.4** shipped event segment editing on event block instance cards and removed the redundant Instances → Events island; branch pushed. <!-- harness-across-ladder:start -->
+## Session 20.3.5 (parent)
 
 ## Story
+
 **This session delivers** (1) tighter **annotation** metadata surfacing in admin configs/modals and (2) a **first** `EntityCard` replacement at a **single, high-confidence** call site **so that** the admin UI aligns with FEATURE_20 **§8.3** item **#5** and phase **20.6** has an explicit debt list — without deleting the shared `EntityCard` tree yet.
 **Estimated size:** M (metadata audit + one replacement + documentation)
 
 ---
-## Architecture context (harness-injected)
-
-## 1. System overview
-
-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
-
-- **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
-
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
-
----
-
-## 2. Domain map
-
-| Domain | Client paths | Server paths | Key models / areas | Shared types |
-|--------|----------------|-------------|---------------------|--------------|
-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
-
----
-
-## 3. Data flow
-
-Canonical path:
-
-1. **Vue view** → **presentational component**
-2. **Composable** (state + orchestration; thin components)
-3. **Client HTTP**
-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
-4. **Express route** (`routes/internal/*` or `routes/external/*`)
-5. **Service** (`server/src/services/`)
-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
-7. **Sequelize model** (`server/src/db/models/`)
-
-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
-
-**Booking resolution boundary:** The server serves **configuration and raw storage rows** (e.g. part instances, relationships) plus appointment-scoped inputs such as `property_details`. **PartFinalizer** on the **client** resolves wizard time, fee, and segment placement for the live booking flow. On submit, the client sends a **full appointment payload**; the server **persists** it and does **not** re-run PartFinalizer to recompute or “verify” those totals. Do not introduce a second booking calculator on the server for the same contract (see §10).
-
----
-
-## 4. Type boundaries
-
-| Layer | Location | Use when |
-|-------|----------|----------|
-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, wizard step types, transformer helpers, form field types. **Never** imported by server. |
-| **Server-only** | `server/src/types/` | Handler params, repository types, internal DTOs. **Never** imported by client. |
-
-**Rule:** If both sides need it → `@shared`. If only one side → keep it local.
-
-**Reactivity boundaries:** Prefer `ComputedRef<T>` for read-only consumer APIs; `Ref<T>` for internal mutable state; avoid leaking `Ref | ComputedRef` unions at public composable boundaries (see type governance rule + TYPE_AUTHORING_PLAYBOOK).
-
----
-
-## 5. Per-domain conventions
-
-### Booking / wizard
-
-- **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
-- **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin metadata (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**.
-- **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
-
-### Admin
-
-- **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Generic admin components + config objects + transformers.
-- **Shape vs instance:** Structural validity (`valid_*` relationships) is edited on the **shapes** side; orchestration editors **select** active assignments from that universe — they do not redefine structural possibility (see §9).
-
-### Auth
-
-- **Emerging domain;** keep route and model changes aligned with `routes/internal/auth` and `db/models/auth`. Consumed by all domains via middleware/guards over time.
-
-### Users / `user_role`
-
-- **`users.user_role`** is a **small closed set** (PostgreSQL ENUM + Joi + client types). **Delivered (Feature 6 Session 6.18.1):** **`@shared`** exports **`USER_ROLE_VALUES`** and per-role constants; server and client **import** that list. Product vocabulary uses **`owner`** (not `seller`) end-to-end, including wizard **`additionalContacts[].role`** and contact-step field names (`ownerInfo`, `showOwner`). **Note:** Older saved wizard or step snapshots that used `seller` / `sellerInfo` are not migrated client-side; users re-enter contacts or clear stored state if needed.
-- **User-type block instances** (state-control shapes) drive scheduling/display semantics; **`getUserTypeBlockIdForRole`** maps **DB role** → block instance. **Session 6.18.2** adds **admin-persisted alignment** (role → `block_instance_id`) so mappings are configurable without code edits where product allows. See `features/appointment-workflow/phases/phase-6.18-guide.md`.
-- **Feature 7 Enactment** exposes role to the client using the **same** shared vocabulary as the API.
-
-### Integrations
-
-- Prefer **dedicated services** and **external routes**; avoid mixing full-URL axios into `apiClient` call sites without reason.
-
-### Beta
-
-- Isolated feedback capture; keep `beta` paths grouped under composables/views/components/beta.
-
----
-
----
-
-## (from ARCHITECTURE.md — domain rules §8+)
-
-## 8. Domain model (block shape types)
-
-The system has five block shape **types**. Each owns one scheduling concern. All five participate in the three-property instance model (§9).
-
-| Type | Domain | What it owns |
-|------|--------|----------------|
-| `user` | Identity | User identity and wizard state. User instances drive cascades and annotations. |
-| `service` | Structure | Work items (part instances), active downstream assignments per service context. **Base** time/fee defaults and floors live only on **service orchestrator** part instances. |
-| `event` | Event | Part-instance calendar segment assignments and time-axis patterns. |
-| `time` | Duration | Part-instance duration contributions from property characteristics (rates × inputs). |
-| `price` | Fee | Part-instance fee contributions and rollups from rates and cascades. |
-
-**Domain separation:** Each domain writes only its own concern on part instances. Domains **compose**; they do not overwrite each other’s values.
-
-**Legacy names:** During migrations, stored enums or code may still reference older labels (`property` / `coupon` / `option`); target names are **`time`**, **`price`**, **`event`** aligned to this table.
-
----
-
-## 9. Block instances: three-property model and layering
-
-### 9.1 Three orthogonal properties (instance storage only)
-
-Every **block instance** has three independent booleans (not on block **shapes**):
-
-| Property | Axis | Question |
-|----------|------|----------|
-| `orchestrator` | Behavior | Root of an active assignment graph across other shapes? |
-| `composite` | Structure | Owns child block instances of the **same** shape? |
-| `wizardVisible` | Presentation | Appears in the booking wizard when cascades permit? |
-
-Any combination is valid. Compositeness is **same-shape** hierarchy; orchestration is **cross-shape** active selection from the shape-level validity graph.
-
-### 9.2 Layering
-
-```
-Block shape (template — type, domain, valid shape-level relationships)
-  └─ Block instance (runtime — carries composite / orchestrator / wizardVisible)
-       └─ Part instance (value ledger per block instance)
-```
-
-- **Shapes** define what is structurally possible (`valid_*` tables). They do **not** store the three booleans.
-- **Block instances** store the three booleans and create part instances.
-- **Orchestrator instances** choose which downstream instances are **active** from the options the shape graph allows — they do **not** redefine validity.
-
----
-
-## 10. Part instances, PartFinalizer, and resolution
-
-### 10.1 Per-block-instance ledger
-
-Each block instance owns its own part instances via `part_assignments` (including user block instances). No instance writes another instance’s part rows.
-
-**Two resolution tiers on part rows:**
-
-| Tier | Who | Columns |
-|------|-----|---------|
-| **Base** | Service orchestrator only | `baseTime`, `baseFee` (floor + starting values) |
-| **PerUnit** | Time / price atomics | `timePerUnit`, `feePerUnit` |
-
-**Events:** Routed via relational **`event_assignments`** (event instance ↔ part instance), not scalar default/override columns on part instances.
-
-### 10.2 PartFinalizer (client)
-
-Part instances are storage. **PartFinalizer** (booking client pipeline) aggregates:
-
-- `resolvedTime` = service base + Σ(timePerUnit × input) for time atomics in the same **lineage** bucket.
-- `resolvedFee` = service base + Σ(feePerUnit × input) and percentage passes.
-- `resolvedEvent` = event profile override **else** event orchestrator baseline assignment **per part instance**.
-
-Base acts as a **floor** until zero-out. **Correlation:** bucket by lineage to the atomic service / line item — **forbidden** to resolve by `part_shape` alone when multiple work items could collide.
-
-### 10.3 Resolution order (per part)
-
-1. Per-block-instance part records exist.  
-2. Resolve part-level time (base + time atomics using `property_details` inputs).  
-3. Resolve part-level fee (base + price atomics).  
-4. Resolve part-level event assignment (override ?? baselin
-
-_(Excerpt truncated.)_
-
-## Codebase recon (agent-led — required)
-
-- **Paths reviewed:**
-  - `client/src/views/admin/tabs/components/ShapesTabAnnotationPanel.vue` — lists `annotationShape` rows via `EntityCard` (expand, drag class, save/delete); “new shape” row is already a plain `VExpansionPanel` + `VTextField` (no EntityCard).
-  - `client/src/views/admin/tabs/components/ShapeCreationForm.vue` — generic `<EntityCard :is-new="true">` used from shape creation flows (multi-entity-key).
-  - `client/src/components/admin/generic/EntityCard.vue` + `EntityCardContent.vue` — metadata-driven fields; `AnnotationContentEditor` gated for `entityKey === 'annotationInstance'` (keep per §6.3).
-  - `client/src/components/admin/generic/collections/RelationshipCollection.vue` — heavy `EntityCard` usage (valid children / new child) — **not** first-wave target (higher coupling).
-  - `client/src/views/admin/tabs/components/BlockInstancesGroup.vue`, `ShapeCardList.vue`, `ShapesTabEventPanel.vue`, `ShapesTabPartPanel.vue` — other `EntityCard` call sites; event/part panels already carry domain editors from earlier 20.3 sessions.
-  - `client/src/composables/admin/useShapesTab.ts` — annotation shape list, drag handlers, CRUD for annotation shapes (context for panel replacement).
-  - FEATURE_20 `§6.3` / `§6.3a` — metadata shrinks to annotations-only long term; `AnnotationContentEditor` **keep**; full EntityCard tree deletion is **20.6**.
-
-- **Patterns / call sites:** Replacement should follow **thin SFC + composable** patterns from **20.3.1–20.3.4** (domain-specific surface, reuse `useEntityCrud`, existing save/delete utilities where possible). Avoid rewriting `RelationshipCollection` or generic `ShapeCreationForm` in this session unless task scope explicitly expands.
-
-- **Gaps / unknowns:** Exact field set for `annotationShape` in `ENTITY_CONFIGS` / field displays — verify during **20.3.5.1** before changing visibility. Server-side annotation models unchanged unless a bug is found.
 
 ## Analysis
 
@@ -241,20 +25,30 @@ _(Excerpt truncated.)_
 Execute FEATURE_20 **§8.3 #5** on `feature/domain-architecture-alignment`: **narrow** annotation-related metadata exposure where the plan allows, **replace** the `EntityCard` usage in **`ShapesTabAnnotationPanel`** for existing **annotationShape** rows with a **focused** component, and **document** remaining `EntityCard` debt for **20.6** (path list or worklog section). Capture **§9.1** drift notes at session-end if UI copy or behavior touches instance three-property semantics.
 
 ## Files
+
 - **Canonical:** `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` (§6.3, §6.3a, §8.3), `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md` §7, `.project-manager/ARCHITECTURE.md`
 - **PM / harness:** `phases/phase-20.3-guide.md`, `sessions/session-20.3.5-planning.md` (this file), `feature-domain-architecture-alignment-guide.md`, `DOMAIN_REWRITE_WORKLOG.md` (or new `ENTITY_CARD_DEBT_20.6.md` under feature folder if preferred)
 - **Implementation (likely):** `client/src/views/admin/tabs/components/ShapesTabAnnotationPanel.vue`, `client/src/composables/admin/useShapesTab.ts`, `client/src/components/admin/**` (new focused card), `client/src/configs/**` / `client/src/constants/entities.ts` / field metadata as needed for **20.3.5.1**
 
 ## Approach
+
 1. **20.3.5.1:** Inventory configs / field metadata / modal wiring for `annotationShape` and `annotationInstance`; remove or hide **non-annotation** generic metadata that §6.3 says should not drive annotation editors; keep `AnnotationContentEditor` path intact.
 2. **20.3.5.2:** Add a focused **annotation shape** card component; swap the `v-for` in `ShapesTabAnnotationPanel` from `EntityCard` to that component; preserve expansion, drag handle class, save/delete, and `@saved` / `@delete` behavior; run lint + type-check + manual Shapes → Annotations smoke.
 3. **Documentation:** Add a concise **EntityCard remaining call sites** list (repo-relative paths) targeted for **20.6**, linked from worklog or feature guide.
 4. **Testing:** Suspended — **lint**, **vue-tsc**, manual admin smoke only.
 
 ## Checkpoint
+
 - **Before `/accepted-plan`:** Decomposition covers metadata narrowing + one EntityCard replacement + debt doc; recon paths recorded above.
 - **Per task:** No regressions on annotation shape reordering or CRUD; no removal of `AnnotationContentEditor` from instance editing flows.
 - **Session-end:** §9.1 drift note if applicable; phase-20.3-guide checkbox for **20.3.5** when session completes.
+
+## Deliverables
+
+- [ ] **Metadata:** Annotation shape/instance admin surfaces only show metadata intended for annotations per FEATURE_20 §6.3 (document any deferred items referencing **20.6**).
+- [ ] **UI:** `ShapesTabAnnotationPanel` no longer uses `EntityCard` for **existing** `annotationShape` rows; behavior parity (expand, drag, save, delete).
+- [ ] **Debt doc:** Remaining `EntityCard` import sites listed for **20.6** (markdown under `.project-manager/features/domain-architecture-alignment/` or append to `DOMAIN_REWRITE_WORKLOG.md`).
+- [ ] **Quality:** `client` lint + type-check clean; manual smoke: Shapes → Annotations tab.
 
 ## Acceptance Criteria
 
@@ -264,34 +58,182 @@ Execute FEATURE_20 **§8.3 #5** on `feature/domain-architecture-alignment`: **na
 - [ ] **Architecture:** No new booking-resolution logic; admin/config client only; shapes vs instances semantics unchanged unless §9.1 drift explicitly documented.
 - [ ] **Quality:** Client lint + vue-tsc clean; manual smoke on Shapes → Annotations.
 
-## Deliverables
+---
 
-- [ ] **Metadata:** Annotation shape/instance admin surfaces only show metadata intended for annotations per FEATURE_20 §6.3 (document any deferred items referencing **20.6**).
-- [ ] **UI:** `ShapesTabAnnotationPanel` no longer uses `EntityCard` for **existing** `annotationShape` rows; behavior parity (expand, drag, save, delete).
-- [ ] **Debt doc:** Remaining `EntityCard` import sites listed for **20.6** (markdown under `.project-manager/features/domain-architecture-alignment/` or append to `DOMAIN_REWRITE_WORKLOG.md`).
-- [ ] **Quality:** `client` lint + type-check clean; manual smoke: Shapes → Annotations tab.
+## Task 20.3.5.1 (source: task-20.3.5.1-planning.md)
 
-## Decomposition
+### Story
 
-- **Task 20.3.5.1 — Annotation metadata narrowing** — Audit and narrow field/metadata/config exposure for `annotationShape` / `annotationInstance` admin (Shapes tab metadata modals, `ENTITY_CONFIGS`, field displays); exclude unrelated generic metadata where §6.3 allows; log deferred scope for 20.6.
-
-- **Task 20.3.5.2 — Annotation shape card + EntityCard debt** — Introduce focused component for annotation shape rows; replace `EntityCard` loop in `ShapesTabAnnotationPanel.vue`; verify drag + save/delete; write **EntityCard debt** path list for phase 20.6.
-
-## Definition of Done
-
-- [ ] App starts (`npm run start:dev`)
-- [ ] Lint passes (`cd client && npm run lint`, `cd server && npm run lint`)
-- [ ] Governance score maintained or improved
-- [ ] All child tasks complete
-- [ ] Session log and handoff updated
+**This task changes** display-field config and admin-metadata **UX copy** for annotations **because** FEATURE_20 §6.3 requires the metadata system to **shrink toward annotations-only** usage: today `annotationInstance` uses an **empty** display map in `fullFieldDisplayConfig`, which is inconsistent with other entities and makes annotation field presentation less explicit than it should be.
 
 ---
-## Reference (read before filling — governance and inventory compliance is required)
-- TierUp guide (scope and intent): `.project-manager/features/domain-architecture-alignment/phases/phase-20.3-guide.md`
-- Handoff (full transition context): `.project-manager/features/domain-architecture-alignment/sessions/session-20.3.4-handoff.md`
-- Architecture: `.project-manager/ARCHITECTURE.md` — domain map, data flow, type boundaries, naming; **§8–§14** = locked domain rules (block model, part ledger, PartFinalizer, invariants) for booking / admin scheduling work
-- Workflow friction log (non-git harness issues): `.project-manager/WORKFLOW_FRICTION_LOG.md`
-- Agent model preferences (harness advisory only; Cursor does not auto-switch models): `.project-manager/agent-model-config.json`
-- Governance reports: `client/.audit-reports/` — function-complexity, component-health, composable-health, type-escape, type-constant-inventory
-- Playbooks: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`, `.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPONENT_AUTHORING_PLAYBOOK.md`
-- **Workflow friction:** `.project-manager/WORKFLOW_FRICTION_LOG.md` — classified harness failures are auto-appended (see `HARNESS_WORKFLOW_FRICTION` in the tier playbook). Scan recent entries before changing tier routing: `npx tsx .cursor/commands/utils/read-workflow-friction.ts --last 20`
+
+### Analysis
+
+- **Problem:** Annotation **instance** fields lack a dedicated `*Displays.ts` map while **shape** already has one; global metadata modals use the same `AdminPrimitiveMetadataEditor` intro as other entities, which understates §6.3 “annotations-only” intent.
+- **Boundaries:** **Client admin only**; no PartFinalizer / booking pipeline changes.
+- **Risks:** Adding display keys that do not exist on the entity type can confuse TypeScript — use `as const` maps consistent with `GlobalFieldKey<'annotationInstance'>` where required, or `Partial` patterns used by sibling display files.
+- **Alternatives considered:** (a) Filter metadata keys in `resolveEntityFieldMetadataRecord` for annotation types — **deferred** unless audit finds stray non-annotation keys in cache; (b) only copy change — **insufficient** vs session deliverable.
+
+### Goal
+
+Deliver **annotation metadata narrowing** for **20.3.5.1**: explicit **display** config for `annotationInstance`, **scoped copy** in the primitive metadata editor for annotation entity keys, and a **deferrals** note for **20.6** — without changing task **20.3.5.2** scope.
+
+### Files
+
+| Action | Path |
+|--------|------|
+| Add | `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` |
+| Edit | `client/src/configs/field/display/fullFieldDisplayConfig.ts` |
+| Edit | `client/src/components/admin/metadata/AdminPrimitiveMetadataEditor.vue` |
+| Add | `.project-manager/features/domain-architecture-alignment/ANNOTATION_METADATA_DEFERRALS_20.6.md` |
+
+### Approach
+
+1. Implement display map + wire `fullFieldDisplayConfig`.
+2. Add annotation-scoped intro copy in `AdminPrimitiveMetadataEditor`.
+3. Add deferrals markdown for 20.6.
+4. Run `cd client && npm run lint && npm run type-check` (server lint if touched — **not expected**).
+
+### Checkpoint
+
+- **Before `/accepted-code`:** This planning doc complete; Design matches session **20.3.5.1** line in `session-20.3.5-planning.md`.
+- **After implementation:** Shapes → Annotations → **Shape Fields** / **Instance Fields** modals still open and save; labels read sensibly for annotation instance fields.
+
+### Deliverables
+
+- [ ] `annotationInstanceDisplays` + `fullFieldDisplayConfig` wiring.
+- [ ] Annotation-specific scope copy in `AdminPrimitiveMetadataEditor`.
+- [ ] `ANNOTATION_METADATA_DEFERRALS_20.6.md` with deferred §6.3a / EntityCard / pipeline items.
+
+### Acceptance Criteria
+
+- [ ] **§6.3 alignment:** Annotation **instance** fields have explicit display config (no longer `{}`-only in `fullFieldDisplayConfig` for that entity).
+- [ ] **UX:** Admins see clear copy that annotation metadata modals configure **wizard annotation** rendering, not generic scheduling entities.
+- [ ] **Traceability:** Deferrals file lists what remains for **20.6** (no implementation of those items in this task).
+- [ ] **Quality:** Client lint + vue-tsc clean.
+- [ ] **Regression:** Metadata modals for annotation shape/instance still load and save (manual smoke).
+
+### Design
+
+1. **Add** `client/src/configs/field/display/appliedDisplay/annotationInstanceDisplays.ts` with labels/placeholders for annotation-instance fields that appear in admin (`name`, `type`, `text`, `orderIndex`, `active`, and any other keys already present on `AnnotationInstanceEntity` / relationship refs used in forms — mirror style of `annotationShapeDisplays.ts` and hide internal keys with “This Field Should Be Hidden” where pattern matches siblings).
+2. **Wire** `annotationInstance` in `fullFieldDisplayConfig.ts` through `buildAllPerEntityDisplayConfig('annotationInstance', annotationInstanceDisplays, selectableDisplayConfig.annotationInstance)` (selectable map stays `{}` unless we add valid selectable fields later).
+3. **Copy / scope:** In `AdminPrimitiveMetadataEditor.vue`, extend the intro `<p>` with a **v-if** branch for `entityKey === 'annotationShape' || entityKey === 'annotationInstance'` stating these settings apply to **wizard annotation** field rendering only, consistent with FEATURE_20 §6.3 (keep wording short).
+4. **Deferrals doc:** Add a short note file under `.project-manager/features/domain-architecture-alignment/` (e.g. `ANNOTATION_METADATA_DEFERRALS_20.6.md`) listing what **was not** done (e.g. full metadata pipeline deletion, `useAdminMetadataMutations` split, EntityCard tree) — **one screen** for phase **20.6** traceability.
+
+**Pseudocode**
+
+```
+// annotationInstanceDisplays.ts
+export const annotationInstanceDisplays = {
+  id: hiddenPlaceholder,
+  name: { label: DISPLAY_LABELS.NAME, ... },
+  type: { label: 'Annotation shape', ... }, // FK to annotation shape
+  text: { ... },
+  orderIndex: hiddenPlaceholder,
+  active: { ... ENTITY_STATUS ... },
+} as const
+
+// fullFieldDisplayConfig.ts
+import { annotationInstanceDisplays } from './appliedDisplay/annotationInstanceDisplays'
+annotationInstance: buildAllPerEntityDisplayConfig('annotationInstance', annotationInstanceDisplays, selectable.annotationInstance)
+
+// AdminPrimitiveMetadataEditor.vue template
+<p v-if="annotation entity keys">… annotations-only field rendering …</p>
+```
+
+---
+
+## Task 20.3.5.2 (source: task-20.3.5.2-planning.md)
+
+### Story
+
+**This task changes** the Shapes → Annotations list **call site** to use **`AnnotationShapeListCard`** instead of **`EntityCard`** **because** FEATURE_20 §8.3 #5 starts the replacement sequence at the **smallest high-confidence** surface; a **typed façade** fixes `entityKey` to `annotationShape` and keeps behavior identical while making the admin tree ready for a future inline implementation without duplicating `EntityCard.vue` in this task.
+
+---
+
+### Analysis
+
+- **Problem:** Session AC requires **`ShapesTabAnnotationPanel`** not to use **`EntityCard`** for existing rows; we still need **parity** (expansion, reorder grip, save, delete, global metadata form).
+- **Boundaries:** Client admin only; do not change `AnnotationContentEditor` or instance-level annotation editing paths.
+- **Risks:** `$attrs` (class, `data-drag-id`) must reach `EntityCard` root so drag mounting keeps working — wrapper uses **single root** `EntityCard` + `v-bind="$attrs"` (default `inheritAttrs: true`).
+- **Alternatives considered:** (a) Copy full `EntityCard` script for `annotationShape` only — **rejected** (size + drift). (b) Generic `EntityCard` with no wrapper — **rejected** (fails AC).
+
+### Goal
+
+Deliver §8.3 **#5** slice **B:** **`ShapesTabAnnotationPanel`** uses **`AnnotationShapeListCard`** (not **`EntityCard`**) for existing annotation shape rows, and a **20.6 consumer inventory** exists under the feature folder.
+
+### Files
+
+| Action | Path |
+|--------|------|
+| Add | `client/src/components/admin/generic/AnnotationShapeListCard.vue` |
+| Edit | `client/src/views/admin/tabs/components/ShapesTabAnnotationPanel.vue` |
+| Add | `.project-manager/features/domain-architecture-alignment/ENTITY_CARD_CONSUMERS_20.6.md` |
+| Edit | `.project-manager/features/domain-architecture-alignment/ANNOTATION_METADATA_DEFERRALS_20.6.md` (link) |
+
+### Approach
+
+1. Implement façade + panel swap.
+2. Write consumer inventory + one-line cross-link.
+3. `cd client && npm run lint && npm run type-check`.
+4. Manual smoke: Shapes → Annotations — expand row, edit field, save, delete, reorder drag.
+
+### Checkpoint
+
+- **Before `/accepted-code`:** Design locked; recon complete.
+- **After implementation:** No `EntityCard` string in `ShapesTabAnnotationPanel.vue` template or imports.
+
+### Deliverables
+
+- [ ] `AnnotationShapeListCard.vue` + panel wired.
+- [ ] `ENTITY_CARD_CONSUMERS_20.6.md` with consumer list + façade note.
+- [ ] Link from annotation deferrals doc.
+
+### Acceptance Criteria
+
+- [ ] **`ShapesTabAnnotationPanel`** does not import or render **`EntityCard`** for existing rows.
+- [ ] **Parity:** expansion, drag handle, `@saved`, `@delete`, `draggable-annotation-shape` / `data-drag-id` still work.
+- [ ] **Debt doc** lists remaining EntityCard consumer entry points for 20.6.
+- [ ] Client **lint** + **vue-tsc** clean.
+
+### Design
+
+1. **Add** `client/src/components/admin/generic/AnnotationShapeListCard.vue`
+   - **Props:** `entity: GlobalEntity<'annotationShape'>`, `expanded: boolean`
+   - **Emits:** `saved` (entity), `delete` (id string) — match `EntityCard`
+   - **Template:** single child `<EntityCard entity-key="annotationShape" :entity="entity" :expanded="expanded" show-shape-list-drag-handle v-bind="$attrs" @saved="…" @delete="…" />`
+   - **Script:** `defineOptions({ inheritAttrs: false })` **only if** we need attrs on EntityCard explicitly; prefer default pass-through to `EntityCard` single root.
+
+   _Note:_ If `inheritAttrs: false` is required by tooling, forward `class` and `data-drag-id` explicitly via `v-bind="$attrs"`.
+
+2. **Edit** `ShapesTabAnnotationPanel.vue` — replace `EntityCard` import with `AnnotationShapeListCard`; same props/events on the `v-for`.
+
+3. **Add** `.project-manager/features/domain-architecture-alignment/ENTITY_CARD_CONSUMERS_20.6.md` — table or bullet list of **remaining** files that still **import** or **async-import** `EntityCard.vue` for **user-visible** editing (exclude composables that only mention EntityCard in comments). Baseline list from recon:
+   - `client/src/views/admin/tabs/components/ShapesTabEventPanel.vue`
+   - `client/src/views/admin/tabs/components/ShapesTabPartPanel.vue`
+   - `client/src/views/admin/tabs/components/ShapeCardList.vue`
+   - `client/src/views/admin/tabs/components/BlockInstancesGroup.vue`
+   - `client/src/views/admin/tabs/components/ShapeCreationForm.vue`
+   - `client/src/components/admin/generic/collections/RelationshipCollection.vue`
+   - `client/src/components/admin/BulkEditModal.vue`
+   - `client/src/components/admin/BlockInstanceCreateModal.vue`
+   - _(After this task: `AnnotationShapeListCard.vue` **wraps** `EntityCard` — note in doc that annotation list is **façade-only** until 20.6 inline removal.)_
+
+4. **Cross-link** from `ANNOTATION_METADATA_DEFERRALS_20.6.md` to `ENTITY_CARD_CONSUMERS_20.6.md` (one line).
+
+**Pseudocode**
+
+```
+// AnnotationShapeListCard.vue
+props: { entity, expanded }
+emit: saved, delete
+<EntityCard entity-key="annotationShape" v-bind="$attrs" ... />
+
+// ShapesTabAnnotationPanel.vue
+- import EntityCard
++ import AnnotationShapeListCard
+<AnnotationShapeListCard v-for="..." :entity="..." :expanded="..." class="draggable-annotation-shape" :data-drag-id="..." @saved @delete />
+```
+
+---

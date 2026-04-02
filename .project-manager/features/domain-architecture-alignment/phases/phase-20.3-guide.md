@@ -106,7 +106,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 **Tasks:** UX design in session plan → wire `EventInstancesSection` / block-instance flows → regression pass on Instances + Shapes tabs.
 
-- [ ] ### Session 20.3.5: Annotation metadata + EntityCard wave (§8.3 #5)
+- [x] ### Session 20.3.5: Annotation metadata + EntityCard wave (§8.3 #5)
 
 **Description:** Annotation-only metadata narrowing where plan allows; first high-confidence **EntityCard** replacement slice; document remaining debt for **20.6**.
 
