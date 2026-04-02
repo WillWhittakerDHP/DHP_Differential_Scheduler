@@ -24,6 +24,7 @@ const emit = defineEmits<{
 
 function cloneFromEntity(e: GlobalEntity<'eventInstance'>): NewEventInstanceData {
   return {
+    id: String(e.id),
     eventShapeRef: String(e.eventShapeRef),
     name: nilToEmptyString(e.name),
     titleTemplate: nilToEmptyString(e.titleTemplate),

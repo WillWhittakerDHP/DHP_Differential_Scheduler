@@ -12,6 +12,8 @@ export interface UseInstancesTabEventInstanceParams {
 }
 
 export type NewEventInstanceData = EventInstanceTemplateStrings & {
+  /** Set when editing a saved segment; omit on create until POST returns (real preview needs this). */
+  id?: string
   eventShapeRef: string
   name: string
   visibility: 'default' | 'public' | 'private' | 'confidential'

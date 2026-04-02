@@ -14,7 +14,7 @@ const router = Router()
 function toPreviewBody(raw: Record<string, unknown>): EventInstancePreviewRequestBody {
   return {
     appointmentId: String(raw.appointmentId).trim(),
-    eventShapeRef: String(raw.eventShapeRef).trim(),
+    eventInstanceId: String(raw.eventInstanceId).trim(),
     titleTemplate: typeof raw.titleTemplate === 'string' ? raw.titleTemplate : null,
     descriptionTemplate: typeof raw.descriptionTemplate === 'string' ? raw.descriptionTemplate : null,
     locationTemplate: typeof raw.locationTemplate === 'string' ? raw.locationTemplate : null,
@@ -35,7 +35,7 @@ router.post(
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Preview failed'
       logger.error('Event instance preview failed', { error, message })
-      if (message === 'Appointment not found') {
+      if (message === 'Appointment not found' || message === 'Event instance not found') {
         sendError(res, message, HTTP_STATUS_CODES.NOT_FOUND)
         return
       }

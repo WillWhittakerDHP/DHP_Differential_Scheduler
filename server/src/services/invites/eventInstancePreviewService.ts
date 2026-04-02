@@ -36,14 +36,13 @@ export async function previewEventInstanceTemplates(
     throw new Error('Appointment not found')
   }
 
-  const sampleInstance = await EventInstance.findOne({
-    where: { eventShapeRef: body.eventShapeRef },
-    order: [
-      ['orderIndex', 'ASC'],
-      ['id', 'ASC'],
-    ],
+  const segment = await EventInstance.findByPk(body.eventInstanceId, {
     attributes: ['includeRescheduleLink', 'includeCancelLink'],
   })
+  if (!segment) {
+    logger.warn('Event instance preview: event instance not found', { eventInstanceId: body.eventInstanceId })
+    throw new Error('Event instance not found')
+  }
 
   const normalized = normalizeAppointmentForInviteFlow(appointment, { logEmptyArrays: false })
   const blockIds = collectBlockInstanceIds(normalized)
@@ -51,7 +50,7 @@ export async function previewEventInstanceTemplates(
   const inviteData = toInviteAppointmentData(normalized)
   const context = buildInviteContext(inviteData, serviceName)
 
-  const stripPlaceholderNames = linkStripSetForEventShape(sampleInstance)
+  const stripPlaceholderNames = linkStripSetForEventShape(segment)
   const options = stripPlaceholderNames.size > 0 ? { stripPlaceholderNames } : {}
 
   return resolveEventTemplates(

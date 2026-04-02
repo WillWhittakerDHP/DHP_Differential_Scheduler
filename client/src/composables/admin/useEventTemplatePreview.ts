@@ -16,6 +16,7 @@ const logger = createLogger('useEventTemplatePreview')
 
 interface EventInstancePreviewDraftSlice extends EventInstanceTemplateStrings {
   eventShapeRef: string
+  id?: string
 }
 
 interface UseEventTemplatePreviewParams {
@@ -70,12 +71,20 @@ export function useEventTemplatePreview(params: UseEventTemplatePreviewParams): 
       return
     }
 
+    const eventInstanceId = params.draft.value.id
+    if (eventInstanceId == null || eventInstanceId === '') {
+      realPreview.value = null
+      realPreviewError.value =
+        'Save this event instance before real preview against an appointment (preview uses the stored segment).'
+      return
+    }
+
     realPreviewLoading.value = true
     realPreviewError.value = null
     try {
       const { data } = await apiClient.post<EventInstancePreviewResponseBody>(getEventInstancePreviewEndpoint(), {
         appointmentId,
-        eventShapeRef: shapeRef,
+        eventInstanceId,
         titleTemplate: templates.value.titleTemplate,
         descriptionTemplate: templates.value.descriptionTemplate,
         locationTemplate: templates.value.locationTemplate,
