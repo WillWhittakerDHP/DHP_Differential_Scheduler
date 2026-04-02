@@ -1,6 +1,6 @@
 # Feature 20: Domain Architecture Alignment — Guide
 
-**Purpose:** Harness planning surface for executing the locked domain principles and v2 implementation plan in ordered passes.
+**Purpose:** Harness planning surface for executing the locked domain principles and the Feature 20 implementation plan in ordered passes.
 
 **Tier:** Feature (Tier 0)
 
@@ -14,31 +14,31 @@
 ## Canonical sources (absolute truth)
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
-- [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+- [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or v2.
+**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
 
 ---
 
 ## Mandatory context for every phase and session
 
 - Open **both** canonical documents (or the sections cited in the active phase guide) **before** implementation work.
-- At **session start and end**, run **v2 §9.1** (drift checklist) and cross-check **v2 §9.1a** against **ARCHITECTURE_PRINCIPLES.md §8** invariants.
-- Do not treat this feature guide as a substitute for the full v2 sections that apply to the pass you are in.
+- At **session start and end**, run **plan §9.1** (drift checklist) and cross-check **plan §9.1a** against **ARCHITECTURE_PRINCIPLES.md §8** invariants.
+- Do not treat this feature guide as a substitute for the full implementation-plan sections that apply to the pass you are in.
 
 ---
 
 ## Feature objectives
 
-- Execute **v2 §8** ordered passes (20.1–20.6) without drifting from principles or v2 acceptance checks.
+- Execute **plan §8** ordered passes (20.1–20.6) without drifting from principles or implementation-plan acceptance checks.
 - Keep booking totals on the client (PartFinalizer), relational event routing, and instance-level three-property storage aligned with principles.
-- Coordinate with **Feature 6** (appointment workflow / booking) where surfaces overlap — principles + v2 remain authoritative for architecture.
+- Coordinate with **Feature 6** (appointment workflow / booking) where surfaces overlap — principles + implementation plan remain authoritative for architecture.
 
 ---
 
-## Phases breakdown (Feature 20 ↔ v2 §8)
+## Phases breakdown (Feature 20 ↔ plan §8)
 
-| Phase | Name | v2 section |
+| Phase | Name | Plan § |
 | --- | --- | --- |
 | **20.1** | Pass 1 — Schema alignment | §8.1 |
 | **20.2** | Pass 2 — API alignment | §8.2 |
@@ -64,17 +64,17 @@ Phase 20.6: Pass 6 — Rollout and cleanup
 
 Use this subsection when planning readiness and migration narrative without starting a numbered implementation pass.
 
-- **Replacement readiness:** v2 **§9.3** (checklist before swapping v2 into the canonical redesign path).
-- **Migration notes summary:** v2 **§9.5** (ordering constraints for type renames, three-property move, placement, relational routing).
+- **Replacement readiness:** **§9.3** in `FEATURE_20_ARCHITECTURE_REDESIGN.md` (checklist before any doc promotion or canonical-path change).
+- **Migration notes summary:** **§9.5** (ordering constraints for type renames, three-property move, placement, relational routing).
 - **Audit trail:** [.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md](../../analysis/DOMAIN_REWRITE_WORKLOG.md) — session and decision history for the domain rewrite.
 
 ---
 
-## v2 sections 0–7 — quick index
+## Plan sections 0–7 — quick index
 
 Use this index so work does not rely only on §8 pass text.
 
-| Topic | v2 section |
+| Topic | Plan § |
 | --- | --- |
 | Rewrite scope, legacy removals, outline map | §0 |
 | Rename mappings, part-instance migration | §1 |

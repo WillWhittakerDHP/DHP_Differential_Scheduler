@@ -1,9 +1,9 @@
-# Domain architecture redesign v2 — implementation plan
+# Feature 20 — domain architecture implementation plan
 
 > **Status:** Draft rewrite aligned to locked canonical principles.
 > **Locked source of truth:** `ARCHITECTURE_PRINCIPLES.md` is immutable and authoritative.
 > **Purpose:** This file covers only implementation planning: what to build, adapt, delete, migrate, and review.
-> **Replacement rule:** Keep this as `DOMAIN_ARCHITECTURE_REDESIGN_v2.md` until the replacement readiness gate passes.
+> **Replacement rule:** This file is the **canonical** domain implementation plan path for Feature 20; keep section numbering stable so phase guides and harness templates can cite §8 / §9 by reference.
 
 ---
 
@@ -13,7 +13,7 @@
 
 - This rewrite does not invent or extend architecture. It translates the locked principles into execution order, migration mappings, deletion lists, and review gates.
 - When a principle already defines the architecture, this document points to that section and keeps only implementation-specific detail.
-- When v1 language conflicts with the principles, v2 deletes the conflicting concept instead of trying to blend both versions.
+- When v1 language conflicts with the principles, this rewrite deletes the conflicting concept instead of trying to blend both versions.
 - Terminology is locked for this file:
   - Orchestrators = active assignment selectors.
   - Shape-level validity = the structural universe of possible options.
@@ -23,7 +23,7 @@
 
 ### 0.1 Rewrite outline mapped to principles sections
 
-| v2 section | Purpose | Principles mapping |
+| Plan section | Purpose | Principles mapping |
 | --- | --- | --- |
 | 0 | Rewrite rules, outline map, legacy removals | §1-§8 |
 | 1 | Rename mappings and part-instance migration mappings | §1, §4 |
@@ -914,7 +914,7 @@ Scope:
 - Roll out domain editors incrementally.
 - Delete differential-role code after the replacement path is in place.
 - Delete `EntityCard` and non-annotation metadata infrastructure after replacement editors are proven.
-- Prepare replacement review for swapping v2 into the canonical redesign path.
+- Prepare replacement review for consolidating this document as the sole canonical implementation plan (retire older redesign filenames if any remain).
 
 Cleanup grouping:
 
@@ -999,7 +999,7 @@ Do not replace the original redesign document until all four checks pass:
    - Ordered implementation passes are actionable.
    - Acceptance checks are present section by section.
 4. Final human review
-   - v2 is read end-to-end beside the locked principles before any replacement action.
+   - This plan is read end-to-end beside the locked principles before any replacement action.
 
 ### 9.5 Migration notes
 

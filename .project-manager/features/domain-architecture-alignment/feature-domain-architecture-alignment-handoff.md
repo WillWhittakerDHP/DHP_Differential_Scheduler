@@ -28,7 +28,7 @@
 
 **Canonical sources:** See [feature-domain-architecture-alignment-guide.md](./feature-domain-architecture-alignment-guide.md) — same analysis paths and conflict rule as all phase/session guides under this feature.
 
-**Overlap:** Implementation touches booking, admin, and schema surfaces also covered by **Feature 6** (appointment workflow). Coordinate branches and migrations; principles + v2 win on architecture disagreements.
+**Overlap:** Implementation touches booking, admin, and schema surfaces also covered by **Feature 6** (appointment workflow). Coordinate branches and migrations; principles + implementation plan win on architecture disagreements.
 
 ---
 
@@ -41,7 +41,7 @@ Fill **Current Status**, **Next Action**, and **Transition Context** at each fea
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** feature · **Derived:** 2026-04-02T13:30:34.601Z
+- **Feature:** `domain-architecture-alignment` · **Source:** feature · **Derived:** 2026-04-02T14:12:11.497Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Next phase across:** `20.1` → `/phase-start 20.1`
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`

@@ -1,6 +1,6 @@
 # Phase 20.4 Guide: Pass 4 — Booking pipeline alignment
 
-**Purpose:** Phase-level harness guide for Feature 20 — v2 **§8.4** (booking pipeline pass).
+**Purpose:** Phase-level harness guide for Feature 20 — implementation plan **§8.4** (booking pipeline pass).
 
 **Tier:** Phase (Tier 1)
 
@@ -9,13 +9,13 @@
 ## Canonical sources (absolute truth)
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
-- [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+- [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or v2.
+**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
 
 ---
 
-## Verbatim directive (DOMAIN_ARCHITECTURE_REDESIGN_v2.md §8.4)
+## Verbatim directive (FEATURE_20_ARCHITECTURE_REDESIGN.md §8.4)
 
 Scope:
 
@@ -31,7 +31,7 @@ Acceptance checks:
 
 ---
 
-## Related v2 sections
+## Related plan sections
 
 - **§4** — Booking pipeline rewrite (full detail).
 - **§5** — API boundaries (no server-side resolution).
@@ -41,6 +41,6 @@ Acceptance checks:
 
 ## Principles and drift
 
-Anchor on **ARCHITECTURE_PRINCIPLES.md** §4 (two-tier resolution, PartFinalizer client-only, **§4.4** order). Run **v2 §9.1** / **§9.1a** at session boundaries.
+Anchor on **ARCHITECTURE_PRINCIPLES.md** §4 (two-tier resolution, PartFinalizer client-only, **§4.4** order). Run **plan §9.1** / **§9.1a** at session boundaries.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)

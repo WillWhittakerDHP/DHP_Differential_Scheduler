@@ -1,6 +1,6 @@
 # Phase 20.3 Guide: Pass 3 — Admin UX alignment
 
-**Purpose:** Phase-level harness guide for Feature 20 — v2 **§8.3** (admin UX pass).
+**Purpose:** Phase-level harness guide for Feature 20 — implementation plan **§8.3** (admin UX pass).
 
 **Tier:** Phase (Tier 1)
 
@@ -9,13 +9,13 @@
 ## Canonical sources (absolute truth)
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
-- [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+- [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or v2.
+**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
 
 ---
 
-## Verbatim directive (DOMAIN_ARCHITECTURE_REDESIGN_v2.md §8.3)
+## Verbatim directive (FEATURE_20_ARCHITECTURE_REDESIGN.md §8.3)
 
 Scope:
 
@@ -40,7 +40,7 @@ Acceptance checks:
 
 ---
 
-## Related v2 sections
+## Related plan sections
 
 - **§3** — Admin redesign (layering, editors vs generic card).
 - **§6** — Client inventory (components, display configs, EntityCard deletion path).
@@ -50,6 +50,6 @@ Acceptance checks:
 
 ## Principles and drift
 
-Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). Run **v2 §9.1** / **§9.1a**; keep orchestrators as assignment selectors, not validity definers, in UI copy and behavior.
+Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). Run **plan §9.1** / **§9.1a**; keep orchestrators as assignment selectors, not validity definers, in UI copy and behavior.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
