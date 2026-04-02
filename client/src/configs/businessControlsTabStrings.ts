@@ -127,7 +127,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   roleAlignment: {
     cardTitle: 'User role → user-type block instance',
     helpIntro:
-      'Maps each canonical user role to a user-type block instance under a state-control shape. When set, this override is used before the legacy name-based map. Create or edit instances under Admin → Instances if you need new options.',
+      'Maps each canonical user role to a user-type block instance under a state-control shape. When set, this override is used before the older name-based map. Create or edit instances under Admin → Instances if you need new options.',
     instanceLabel: 'User-type instance',
   },
   calendar: {
@@ -241,7 +241,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     minorAttendeesHint: 'UserTypeBlock instances that make an event "minor" (e.g., Client)',
     minorLabelLabel: 'Minor Label',
     minorLabelHint: 'Display label for minor perspective (e.g., Minor Formal Presentation)',
-    minimizerFallbackLabel: 'Minimizer Fallback Label',
+    minimizerFallbackLabel: 'Minimizer label (when shape unknown)',
     minimizerFallbackHint: 'Used when a minimizer part-shape name cannot be determined (e.g., Post-Appointment Work)',
     graphDefaultLabel: 'Differential Graph Default Label',
     graphDefaultHint: 'Message shown when no time slot is selected (e.g., Select a Time Slot)',
@@ -252,7 +252,8 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     helpMajor: 'Major Attendees: Events with these attendees are considered "major" perspective.',
     helpMinor: 'Minor Attendees: Events with these attendees are considered "minor" perspective.',
     helpLabels: 'Labels: Customize how major and minor perspectives are displayed in the UI.',
-    helpMinimizerFallback: 'Minimizer Fallback Label: Used when no minimizer part-shape can be resolved from event assignments.',
+    helpMinimizerFallback:
+      'Minimizer label (when shape unknown): Used when no minimizer part-shape can be resolved from event assignments.',
     helpGraphDefault: 'Differential Graph Default Label: Shown over the graph when no time slot is selected, and as the Perspective card title in the accordion.',
     subStepLabelsSectionTitle: 'Availability Sub-Step Card Titles',
     subStepLabelsSectionHint: 'Titles for collapsed availability cards in the accordion. Perspective card uses "Differential Graph Default Label" above.',

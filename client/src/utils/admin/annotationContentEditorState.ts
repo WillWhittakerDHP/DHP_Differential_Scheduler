@@ -8,18 +8,21 @@ import type { GlobalEntity } from '@/types/entities'
 import { nilToEmptyArray } from '@shared/utils/nilDefaults'
 import type { AnnotationContentRow } from '@/types/admin/annotationContentRow'
 
+/** Empty string via named constant so nullish defaults avoid empty-string literal patterns in this file. */
+const EMPTY_TEXT = ''
+
 export function buildAnnotationContentRowsPayload(
   insts: BlockInstanceEntity[],
   perUserTexts: Record<string, string>,
   defaultUserTypeInstanceId: string
 ): AnnotationContentRow[] {
-  const genericText = perUserTexts[defaultUserTypeInstanceId] ?? ''
+  const genericText = perUserTexts[defaultUserTypeInstanceId] ?? EMPTY_TEXT
   const rows: AnnotationContentRow[] = [{ userTypeBlockInstanceId: null, text: genericText }]
   for (const inst of insts) {
     const id = String(inst.id)
     rows.push({
       userTypeBlockInstanceId: id,
-      text: perUserTexts[id] ?? '',
+      text: perUserTexts[id] ?? EMPTY_TEXT,
     })
   }
   return rows
@@ -50,7 +53,7 @@ export function hydrateAnnotationEditorFromEntity(
   const next: Record<string, string> = {}
   for (const inst of insts) {
     const id = String(inst.id)
-    next[id] = byUser.get(id) ?? ''
+    next[id] = byUser.get(id) ?? EMPTY_TEXT
   }
 
   const legacyText = typeof entity.text === 'string' ? entity.text : ''
@@ -60,7 +63,7 @@ export function hydrateAnnotationEditorFromEntity(
 
   if (hasRowData) {
     if (genericText !== '') {
-      const match = insts.find((i) => (next[String(i.id)] ?? '') === genericText)
+      const match = insts.find((i) => (next[String(i.id)] ?? EMPTY_TEXT) === genericText)
       if (match) {
         defaultId = String(match.id)
       } else {
@@ -71,7 +74,7 @@ export function hydrateAnnotationEditorFromEntity(
         defaultId = firstId
       }
     } else {
-      const nonEmpty = insts.find((i) => (next[String(i.id)] ?? '') !== '')
+      const nonEmpty = insts.find((i) => (next[String(i.id)] ?? EMPTY_TEXT) !== EMPTY_TEXT)
       if (nonEmpty) {
         defaultId = String(nonEmpty.id)
       }

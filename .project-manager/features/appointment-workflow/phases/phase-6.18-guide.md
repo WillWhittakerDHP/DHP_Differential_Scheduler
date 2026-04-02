@@ -13,7 +13,7 @@
 **Description:** Today, the same small set of role strings is **duplicated** in Joi (`userSchemas.ts`), Sequelize `ENUM`, admin `VSelect` items, client `UserRequest` types, and `userTypeMapping.ts` (`ROLE_TO_BLOCK_NAME`). That drifts easily and blocks product language changes (e.g. **`seller` → `owner`**). Separately, **user-type** behavior is driven by **block instances** under state-control block shapes; the mapping from **DB role** → **block instance display name** is still code-first. This phase: (1) centralize the allowed role strings in **`@shared`** and consume them everywhere; (2) migrate **`seller` → `owner`** with a DB ENUM migration and full-stack renames; (3) optionally deliver **admin UI + persistence** so operators align block instances to canonical role keys (Session **6.18.2**).
 
 **Duration:** Two sessions (6.18.1 — catalog + rename + audit; 6.18.2 — admin alignment UI + API)  
-**Status:** Not Started
+**Status:** Complete
 
 **Relation to Feature 7 (Authentication):** Feature 7 **Enactment** exposes `user_role` to the client and gates routes. Phase 6.18 does **not** replace auth — it ensures **one** role vocabulary and **documented** mapping to user-type blocks. See `.project-manager/PROJECT_PLAN.md` Feature 7 — Enactment (cross-links added there).
 
@@ -72,3 +72,5 @@ Session detail (Goal / Files / Implementation Orders) lives in **`sessions/sessi
 - `.project-manager/PROJECT_PLAN.md` (Feature 6 — Phase 6.18, Open Questions)
 - `.project-manager/PROJECT_PLAN.md` (Feature 7 — Enactment cross-reference)
 - `features/guided-alpha-testing/feature-guided-alpha-testing-guide.md` (alpha cohort ↔ role mapping)
+
+<!-- end excerpt phase -->
