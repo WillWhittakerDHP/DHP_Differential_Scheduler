@@ -25,6 +25,14 @@
 
 
 
+### Session 20.3.4: Segment manager relocation (§8.3 #4) ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** — Segment manager relocation (§8.3 #4):** Move or embed **segment / event-instance** management from `InstancesTab` **Events** surface into **event block-instance** editing (per-instance segment list, links to `eventInstance` CRUD); keep API alignment with **20.2**.
+
+
+
 ### Session 20.3.3: Remaining domain editors (§8.3 #3) ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
