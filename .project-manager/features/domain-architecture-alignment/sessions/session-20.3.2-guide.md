@@ -1,4 +1,4 @@
-# Session 20.3.2 Guide: — Service atomic editor (§8.3 #2):** **ServiceAtomicEditor** — service block-instance **convergence / atomic** editing aligned with §3 / §9 instance model (`orchestrator`, `composite`, `wizardVisible` where applicable).
+# Session 20.3.2 Guide: Service atomic editor (FEATURE_20 §8.3 #2)
 
 **Purpose:** Session-level guide with task breakdown
 
@@ -44,27 +44,31 @@ These sections contain session-specific content:
 ### Session Overview
 
 **Session ID:** 20.3.2
-**Session Name:** — Service atomic editor (§8.3 #2):** **ServiceAtomicEditor** — service block-instance **convergence / atomic** editing aligned with §3 / §9 instance model (`orchestrator`, `composite`, `wizardVisible` where applicable).
-**Description:** [Brief description of session objectives]
+**Session Name:** Service atomic editor (ServiceAtomicEditor)
+**Description:** Convergence table for **service** block instances: all **part instances** (work items) under the parent, aligned with FEATURE_20 §3.6 / §8.3 #2 and Principles §4 (base time/fee, rates, zero-out visibility).
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** ~1–2 days
+**Status:** In Progress
 
 ### Tasks
 
-- [ ] #### Task 20.3.2.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.3.2.1: Service atomic row model (composable)
+**Goal:** Resolve typed **part-instance rows** for a **service** `blockInstance` using existing `partAssignments` resolution (`blockInstancePartsTotalsResolution` / same lineage as `usePartsTotals`); gate on `blockShape.type === 'service'`.
+**Files:**
+- `client/src/utils/admin/blockInstancePartsTotalsResolution.ts` (reuse)
+- `client/src/composables/admin/useServiceAtomicPartRows.ts` (new, or agreed name)
+- `client/src/types/admin/` (optional row DTO type file)
+**Approach:** Pure composable + explicit return type; document column mapping vs `PartInstanceEntity`; logger on failure paths.
+**Checkpoint:** Composable returns stable rows for a real service instance in dev; no UI required.
 
-- [ ] #### Task 20.3.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [ ] #### Task 20.3.2.2: ServiceAtomicEditor UI + EntityCard integration
+**Goal:** **VCard + VDataTable** (or equivalent) mounted from `EntityCardContent` for **service** instances only; surface convergence columns; save via existing **partInstance** update path; convergence-oriented labels.
+**Files:**
+- `client/src/components/admin/generic/ServiceAtomicEditor.vue` (new)
+- `client/src/components/admin/generic/EntityCardContent.vue`
+- (reference) `client/src/components/admin/PartInstanceBulkEditModal.vue`, `client/src/components/admin/generic/EntityCardFeePreview.vue`
+**Approach:** Conditional render next to existing block-instance layout; compact table + horizontal scroll; manual smoke Instances tab.
+**Checkpoint:** Lint/typecheck clean; edits persist; zeroed-out parts still listed.
 
 ---
 
