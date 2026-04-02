@@ -61,7 +61,7 @@ These sections contain session-specific content:
 **Approach:** Reuse or generalize **20.3.2** patterns; explicit types; logger on failed updates.
 **Checkpoint:** Lint + type-check; manual smoke on Instances tab for time + price shapes.
 
-- [ ] #### Task 20.3.3.2: Event block instance — orchestration copy & display
+- [x] #### Task 20.3.3.2: Event block instance — orchestration copy & display
 **Goal:** Validity-constrained **orchestration** language on **event** block instance cards (labels/descriptions/display metadata).
 **Files:**
 - `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`
