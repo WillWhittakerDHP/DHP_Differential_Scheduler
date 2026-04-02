@@ -53,7 +53,7 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §1 (domain separation), §2 (three-prope
 **Phase Number:** 20.1
 **Phase Name:** Pass 1 — Schema alignment (models, enums, instance fields per plan §8.1 / doc §2).
 **Description:** Align PostgreSQL schema and Sequelize models with locked domain principles: rename block shape types, add instance-level three-property columns, add event placement/ownership columns, drop legacy columns, rename attendee table.
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -149,3 +149,5 @@ Run `/session-start 20.1.1` to begin the first session. Each session covers one 
 6. Verify app starts and lint passes.
 
 **Checkpoint:** `event_shapes` has `placement_kind` + `anchor_edge` (with validation constraints per principles §5.1). `event_instances` owns segments via `parent_block_instance_id`. Attendees scoped to instances not shapes. Default placement seeds exist. Event routing remains relational.
+
+<!-- end excerpt phase -->
