@@ -70,6 +70,7 @@ declare global {
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
   const getStateControlBlockInstances: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstances
   const h: typeof import('vue').h
+  const hasNonEmptyDifferentialRoleOverrides: typeof import('./src/utils/eventAttendeeUtils').hasNonEmptyDifferentialRoleOverrides
   const hexToRgb: typeof import('./src/@core/utils/colorConverter').hexToRgb
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const inject: typeof import('vue').inject
@@ -142,6 +143,7 @@ declare global {
   const requiredValidator: typeof import('./src/@core/utils/validators').requiredValidator
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveDifferentialMajorMinorFromEventShapes: typeof import('./src/utils/eventAttendeeUtils').resolveDifferentialMajorMinorFromEventShapes
+  const resolvePrimarySecondaryEventShapesForBooking: typeof import('./src/utils/eventAttendeeUtils').resolvePrimarySecondaryEventShapesForBooking
   const resolveRef: typeof import('@vueuse/core').resolveRef
   const resolveVuetifyTheme: typeof import('./src/@core/utils/vuetify').resolveVuetifyTheme
   const rgbaToHex: typeof import('./src/@core/utils/colorConverter').rgbaToHex

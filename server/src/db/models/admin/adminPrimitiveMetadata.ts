@@ -74,7 +74,7 @@ export function AdminPrimitiveMetadataFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'field_key',
-        comment: 'Primitive field name/key (e.g., name, active, composable)',
+        comment: 'Primitive field name/key (e.g., name, active, type)',
       },
       dataType: {
         type: DataTypes.ENUM('string', 'number', 'boolean', 'ternary', 'array', 'reference'),

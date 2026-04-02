@@ -28,7 +28,7 @@ export const {
   EventShape,
   EventInstance,
   EventAssignment,
-  EventShapeAttendee,
+  EventInstanceAttendee,
   Address,
   PropertyVersion,
   PropertyDetails,

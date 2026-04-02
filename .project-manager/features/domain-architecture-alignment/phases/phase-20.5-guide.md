@@ -1,6 +1,6 @@
 # Phase 20.5 Guide: Pass 5 — Migration planning and data conversion
 
-**Purpose:** Phase-level harness guide for Feature 20 — v2 **§8.5** (migration pass).
+**Purpose:** Phase-level harness guide for Feature 20 — implementation plan **§8.5** (migration pass).
 
 **Tier:** Phase (Tier 1)
 
@@ -9,13 +9,13 @@
 ## Canonical sources (absolute truth)
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
-- [.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md](.project-manager/analysis/DOMAIN_ARCHITECTURE_REDESIGN_v2.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+- [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or v2.
+**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
 
 ---
 
-## Verbatim directive (DOMAIN_ARCHITECTURE_REDESIGN_v2.md §8.5)
+## Verbatim directive (FEATURE_20_ARCHITECTURE_REDESIGN.md §8.5)
 
 Scope:
 
@@ -30,7 +30,7 @@ Acceptance checks:
 
 ---
 
-## Related v2 sections
+## Related plan sections
 
 - **§2** — Schema targets migrations must reach.
 - **§9.5** — Migration notes (ordering: type names first, three-property on instances, placement, relational routing).
@@ -41,6 +41,27 @@ Acceptance checks:
 
 ## Principles and drift
 
-Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **v2 §9.2** stop conditions if a step would invent behavior. Run **§9.1** / **§9.1a** at session boundaries.
+Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **plan §9.2** stop conditions if a step would invent behavior. Run **§9.1** / **§9.1a** at session boundaries.
 
 **Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+
+---
+
+## Overview
+
+**Phase Number:** 20.5
+**Phase Name:** ** Pass 5 — Migration planning and data conversion (§8.5).
+**Description:** [Fill in]
+**Status:** Not Started
+
+---
+
+## Objectives
+
+- [ ] Objectives to be planned. Add key outcomes for this phase.
+
+---
+
+## Tasks
+
+Sessions and tasks for this phase. [See Sessions Breakdown below.]

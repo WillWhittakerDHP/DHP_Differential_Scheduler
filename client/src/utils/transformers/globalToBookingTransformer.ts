@@ -7,7 +7,7 @@ import type { BookingBlockShape, BookingData, BookingBlockInstance } from '@/typ
 import { safeArray } from './transformerPrimitives'
 import { immutableSort } from './transformerCollections'
 import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
-import { filterAndSortBlockInstances, getBookingMode } from './globalToBookingTransformerBlocks'
+import { filterAndSortBlockInstances, isWizardMainBlock } from './globalToBookingTransformerBlocks'
 
 export type {
   BookingAnnotationUiCandidate,
@@ -48,7 +48,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const bookingBlockInstances = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => getBookingMode(bi) !== 'addOn',
+    (bi) => isWizardMainBlock(bi),
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
@@ -61,7 +61,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const lineItemBlocks = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => getBookingMode(bi) === 'addOn',
+    (bi) => !isWizardMainBlock(bi),
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
@@ -76,9 +76,6 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
       id: blockShape.id,
       name: blockShape.name,
       type: blockShape.type,
-      canHaveParts: blockShape.canHaveParts,
-      isStateControl: blockShape.isStateControl,
-      composable: blockShape.composable,
     })),
     (a, b) => a.name.localeCompare(b.name)
   )

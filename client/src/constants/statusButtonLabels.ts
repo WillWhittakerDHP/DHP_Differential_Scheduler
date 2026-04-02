@@ -10,16 +10,8 @@ export const STATUS_BUTTON_LABELS: Record<
 > = {
   active: { true: ENTITY_STATUS.ACTIVE, false: ENTITY_STATUS.INACTIVE },
   composite: { true: 'Composite', false: 'Atomic' },
-  differential: {
-    true: 'Differential',
-    false: 'Flat',
-    override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS
-  },
-  bookingMode: {
-    true: 'Add-On Only',
-    false: 'Standalone Only',
-    override: 'Standalone or Add-On'
-  },
+  orchestrator: { true: 'Orchestrator', false: 'Not orchestrator' },
+  wizardVisible: { true: 'Wizard visible', false: 'Add-on only' },
   agentPermissions: {
     true: 'Agents Only',
     false: 'Clients Only',
@@ -27,9 +19,6 @@ export const STATUS_BUTTON_LABELS: Record<
   },
   allowMultiple: { true: 'Allow Multiple', false: 'Single' },
   requiresUnitNumber: { true: 'Unit Number', false: 'No Unit Number' },
-  composable: { true: 'Composable', false: 'Fixed' },
-  canHaveParts: { true: 'Has Parts', false: 'No Parts' },
-  isStateControl: { true: 'State Control', false: 'Not State Control' },
   zeroOutPart: { true: 'Zero Out', false: 'Keep Value' },
   major: { true: 'Major', false: 'Not Major', override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS },
   minor: { true: 'Minor', false: 'Not Minor', override: APPOINTMENTS_TABLE_UI.OVERRIDE_CONSTRAINTS }

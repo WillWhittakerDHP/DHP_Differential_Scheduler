@@ -1,5 +1,4 @@
 import type { BookingPartInstance } from '@/utils/transformers/globalToBookingTransformer'
-import type { TernaryBoolean } from '@/types/ternary'
 
 export interface PartFinal {
   partShape: string
@@ -7,14 +6,6 @@ export interface PartFinal {
   baseFee: number
   rateOverBaseTime: number
   rateOverBaseFee: number
-  major: TernaryBoolean
-  minor: TernaryBoolean
-  /**
-   * Minimizer placement (ternary field): plain major/minor timeline (`false`),
-   * separate minimizer scheduling segment (`true`), margin / pre-major anchor (`override`).
-   * See `phases/phase-6.16-guide.md`.
-   */
-  minimizer: TernaryBoolean
   zeroOutPart: boolean
   sourcePartInstances: BookingPartInstance[]
 }

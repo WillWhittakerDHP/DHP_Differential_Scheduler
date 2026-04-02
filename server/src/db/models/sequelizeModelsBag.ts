@@ -24,7 +24,7 @@ export type SequelizeModelsBag = {
   EventShape: ModelCtor<Model>
   EventInstance: ModelCtor<Model>
   EventAssignment: ModelCtor<Model>
-  EventShapeAttendee: ModelCtor<Model>
+  EventInstanceAttendee: ModelCtor<Model>
   AppointmentAttendee: ModelCtor<Model>
   Address: ModelCtor<Model>
   PropertyVersion: ModelCtor<Model>

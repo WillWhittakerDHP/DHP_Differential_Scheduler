@@ -211,6 +211,14 @@ function runVueTsc(clientRoot) {
     }
   }
 
+  // WHY: Incremental `-b` can leave stale tsconfig.tsbuildinfo; phase-end pre-warm + parallel audits
+  // then produced phantom diagnostics (e.g. errors for removed BLOCK_SHAPE_TYPES.* at current lines).
+  childProcess.spawnSync(vueTscBin, ['-b', '--clean'], {
+    cwd: clientRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  })
+
   const args = ['-b', '--pretty', 'false']
   const result = childProcess.spawnSync(vueTscBin, args, {
     cwd: clientRoot,
@@ -222,7 +230,7 @@ function runVueTsc(clientRoot) {
     exitCode: result.status ?? 1,
     stdout: result.stdout || '',
     stderr: result.stderr || '',
-    command: `vue-tsc ${args.join(' ')}`,
+    command: `vue-tsc -b --clean && vue-tsc ${args.join(' ')}`,
     scope: 'client',
   }
 }

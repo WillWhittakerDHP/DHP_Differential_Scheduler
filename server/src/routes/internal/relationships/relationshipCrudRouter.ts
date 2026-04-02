@@ -19,9 +19,11 @@ import {
   mapRelationshipFields,
   hasCircularReference,
   validateBlockInstancesWithShapes,
-  validateBlockShapesComposable,
+  validateBlockInstancesCompositeForComponents,
   validateAttendeeAssignmentEntities,
+  validateEventAssignmentIntegrity,
   validatePricingCascadeAgainstShapeRules,
+  validateValidEventCascadeShapeIds,
   updateComponentActiveStates,
 } from './relationshipHelpers.js'
 import { buildRelationshipWhereClause, buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
@@ -109,8 +111,14 @@ async function handleInstanceComponentCreate(req: Request, res: Response): Promi
       sendNotFound(res, ERROR_MESSAGES.CHILD_NOT_FOUND.replace('{id}', childId), childId)
       return
     }
-    const { parentBlockShape, childBlockShape } = await validateBlockInstancesWithShapes(parentId, childId)
-    validateBlockShapesComposable(parentBlockShape, childBlockShape)
+    const { parentBlockInstance, childBlockInstance, parentBlockShape, childBlockShape } =
+      await validateBlockInstancesWithShapes(parentId, childId)
+    validateBlockInstancesCompositeForComponents(
+      parentBlockInstance,
+      childBlockInstance,
+      parentBlockShape,
+      childBlockShape
+    )
   } catch (error) {
     logger.error('Error validating entities:', error)
     if (error instanceof Error) {
@@ -118,7 +126,10 @@ async function handleInstanceComponentCreate(req: Request, res: Response): Promi
         sendNotFound(res, error.message)
         return
       }
-      if (error.message.includes('not composable') || error.message.includes('same BlockShape')) {
+      if (
+        error.message.includes('composite enabled') ||
+        error.message.includes('same BlockShape')
+      ) {
         sendBadRequest(res, error.message, undefined, (error as { blockShapeId?: string }).blockShapeId)
         return
       }
@@ -197,6 +208,20 @@ router.post(
           return
         }
       }
+      if (normalizedKind === RELATIONSHIP_TYPES.VALID_EVENT_CASCADES) {
+        const vecValidation = await validateValidEventCascadeShapeIds(parentId, childId)
+        if (!vecValidation.valid) {
+          sendBadRequest(res, vecValidation.error)
+          return
+        }
+      }
+      if (normalizedKind === RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS) {
+        const eventAssignValidation = await validateEventAssignmentIntegrity(parentId, childId)
+        if (!eventAssignValidation.valid) {
+          sendBadRequest(res, eventAssignValidation.error)
+          return
+        }
+      }
       if (normalizedKind === RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS) {
         try {
           await validateAttendeeAssignmentEntities(parentId, childId)
@@ -219,6 +244,10 @@ router.post(
                 error.message,
                 paramString(req, 'relationshipType')
               )
+              return
+            }
+            if (error.message.includes('no parent block instance')) {
+              sendBadRequest(res, error.message, error.message, paramString(req, 'relationshipType'))
               return
             }
           }

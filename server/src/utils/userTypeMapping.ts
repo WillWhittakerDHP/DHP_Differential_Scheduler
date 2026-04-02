@@ -106,22 +106,22 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
 }
 
 async function findUserTypeBlockByName(name: string): Promise<{ id: string; name: string } | null> {
-  const stateControlShapes = await BlockShape.findAll({
-    where: { isStateControl: true },
+  const userShapes = await BlockShape.findAll({
+    where: { type: 'user' },
     attributes: ['id']
   });
   
-  if (stateControlShapes.length === 0) {
-    logger.warn('No state control BlockShapes found');
+  if (userShapes.length === 0) {
+    logger.warn('No user-type BlockShapes found');
     return null;
   }
   
-  const stateControlShapeIds = stateControlShapes.map(s => s.id);
+  const userShapeIds = userShapes.map(s => s.id);
   
   const blockInstance = await BlockInstance.findOne({
     where: {
       name: name,
-      blockShapeRef: { [Op.in]: stateControlShapeIds }
+      blockShapeRef: { [Op.in]: userShapeIds }
     },
     attributes: ['id', 'name']
   });

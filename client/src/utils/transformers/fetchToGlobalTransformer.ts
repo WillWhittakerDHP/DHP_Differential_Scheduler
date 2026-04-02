@@ -78,7 +78,7 @@ function resolveRelationshipIds(
     parentIdRaw = raw.blockInstanceId ?? raw.parentId
     childIdRaw = raw.annotationId ?? raw.childId
   } else if (relationshipKey === 'attendeeAssignments') {
-    parentIdRaw = raw.eventShapeId ?? raw.parentId
+    parentIdRaw = raw.eventInstanceId ?? raw.event_instance_id ?? raw.parentId
     childIdRaw = raw.userTypeBlockInstanceId ?? raw.childId
   } else {
     parentIdRaw = raw.parentId

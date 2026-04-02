@@ -38,7 +38,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       parentInstances: selectedServiceTypeBlocks.value,
       currentSelection: selectedAvailabilityOptions.value,
       relationshipName: 'availability options',
-      shapeType: BLOCK_SHAPE_TYPES.OPTION,
+      shapeType: BLOCK_SHAPE_TYPES.EVENT,
       allowFallbackToAllOfShape: false,
       logShapeMismatch: true
     })
@@ -52,7 +52,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       parentInstances: selectedServiceTypeBlocks.value,
       currentSelection: selectedPropertyTypeBlocks.value,
       relationshipName: 'property types',
-      shapeType: BLOCK_SHAPE_TYPES.PROPERTY,
+      shapeType: BLOCK_SHAPE_TYPES.TIME,
       allowFallbackToAllOfShape: false
     })
   )
@@ -65,7 +65,7 @@ export function useWizardFilteredOptions(params: UseWizardFilteredOptionsParams)
       parentInstances: selectedServiceTypeBlocks.value,
       currentSelection: selectedCouponBlocks.value,
       relationshipName: 'coupons',
-      shapeType: BLOCK_SHAPE_TYPES.COUPON,
+      shapeType: BLOCK_SHAPE_TYPES.PRICE,
       allowFallbackToAllOfShape: false
     })
   )

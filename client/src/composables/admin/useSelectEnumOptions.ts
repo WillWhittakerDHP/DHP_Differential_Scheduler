@@ -15,9 +15,9 @@ export function useSelectEnumOptions(isEnumSelect: Ref<boolean>): UseSelectEnumO
     return [
       { title: 'User', value: BLOCK_SHAPE_TYPES.USER },
       { title: 'Service', value: BLOCK_SHAPE_TYPES.SERVICE },
-      { title: 'Property', value: BLOCK_SHAPE_TYPES.PROPERTY },
-      { title: 'Option', value: BLOCK_SHAPE_TYPES.OPTION },
-      { title: 'Coupon', value: BLOCK_SHAPE_TYPES.COUPON },
+      { title: 'Time', value: BLOCK_SHAPE_TYPES.TIME },
+      { title: 'Event', value: BLOCK_SHAPE_TYPES.EVENT },
+      { title: 'Price', value: BLOCK_SHAPE_TYPES.PRICE },
     ]
   })
   return { enumOptions }

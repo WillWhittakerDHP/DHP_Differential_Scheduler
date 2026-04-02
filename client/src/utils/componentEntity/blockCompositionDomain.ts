@@ -19,15 +19,14 @@ export function filterActiveComponentsForParent(
 
 export function blockInstanceIsComposable(
   instances: BlockInstanceEntity[],
-  shapes: BlockShapeEntity[],
+  _shapes: BlockShapeEntity[],
   blockInstanceId: GlobalEntityId
 ): boolean {
   const blockInstance = findById(instances, String(blockInstanceId)) as BlockInstanceEntity | undefined
   if (!blockInstance) {
     return false
   }
-  const blockShape = findById(shapes, String(blockInstance.blockShapeRef)) as BlockShapeEntity | undefined
-  return blockShape?.composable === true
+  return blockInstance.composite === true
 }
 
 export function availableComposablePeersForComposer(
@@ -44,7 +43,7 @@ export function availableComposablePeersForComposer(
   }
 
   const composerBlockShape = findById(shapes, String(composer.blockShapeRef)) as BlockShapeEntity | undefined
-  if (!composerBlockShape || !composerBlockShape.composable) {
+  if (!composer.composite || !composerBlockShape) {
     return []
   }
 
@@ -54,8 +53,7 @@ export function availableComposablePeersForComposer(
     if (bp.blockShapeRef !== composer.blockShapeRef) {
       return false
     }
-    const bpBlockShape = findById(shapes, String(bp.blockShapeRef)) as BlockShapeEntity | undefined
-    return bpBlockShape?.composable === true
+    return bp.composite === true
   })
 
   return candidateBlockInstances.filter((bp) => {

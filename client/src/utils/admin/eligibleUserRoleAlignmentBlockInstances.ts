@@ -1,5 +1,5 @@
 /**
- * Block instances eligible for user_role alignment: user-shaped block under a state-control shape (matches server validation).
+ * Block instances eligible for user_role alignment: instances whose block shape type is user (matches server validation).
  */
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
@@ -11,7 +11,7 @@ export function getEligibleUserRoleAlignmentBlockInstances(data: GlobalData): Bl
   const shapes = asEmptyArray(data.entities.blockShape) as BlockShapeEntity[]
   const eligibleShapeIds = new Set(
     shapes
-      .filter((s) => s.isStateControl === true && s.type === BLOCK_SHAPE_TYPES.USER)
+      .filter((s) => s.type === BLOCK_SHAPE_TYPES.USER)
       .map((s) => s.id)
   )
   const instances = asEmptyArray(data.entities.blockInstance) as BlockInstanceEntity[]

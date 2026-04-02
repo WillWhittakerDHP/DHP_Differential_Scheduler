@@ -5,11 +5,8 @@
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 
 export function selectedBlocksHaveDifferentialOverride(
-  serviceBlocks: BookingBlockInstance[],
-  optionBlocks: BookingBlockInstance[]
+  _serviceBlocks: BookingBlockInstance[],
+  _optionBlocks: BookingBlockInstance[]
 ): boolean {
-  return (
-    serviceBlocks.some((service) => service.differential === 'override') ||
-    optionBlocks.some((option) => option.differential === 'override')
-  )
+  return false
 }

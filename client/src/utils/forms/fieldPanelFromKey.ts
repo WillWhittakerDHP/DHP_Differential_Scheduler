@@ -25,9 +25,5 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
     return 'relationships'
   }
 
-  if (fieldKey === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
-    return 'events'
-  }
-
   return 'none'
 }

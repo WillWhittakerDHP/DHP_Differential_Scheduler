@@ -9,15 +9,12 @@ import { createBlockInstanceConfigSentinel } from '@/utils/entities/entityTypeMa
 import { useInstancesTab } from '@/composables/admin/useInstancesTab'
 import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
-import EventInstancesSection from './components/EventInstancesSection.vue'
 
 const {
-  instancesTabContext,
   activeTab,
   sortedBlockShapes,
   blockInstancesCountByShape,
   handleTabClick,
-  filteredEventInstances,
   bulkEditMode,
   getBulkEditData,
   handleBulkEditConfirm,
@@ -28,19 +25,23 @@ const {
   createModalSourceEntity,
   handleInstanceCreated,
   handleExistingBlockShapeSaved,
-  eventInstanceMetadataModalOpen,
-  eventInstanceFieldsGlobalEntity,
 } = useInstancesTab()
 </script>
 
 <template>
   <div class="instances-tab">
+    <VAlert type="info" variant="tonal" density="comfortable" class="mb-4">
+      <strong>Calendar segments</strong> are edited on each <strong>event</strong> block instance card (open the
+      instance under its block shape tab). To change which fields appear on segment forms, use
+      <strong>Shapes → Events → Instance Fields</strong>.
+    </VAlert>
+
     <!--
       WHY: Provides tabbed interface to switch between BlockShapes and Shapes
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
-    <VTabs 
-      v-model="activeTab" 
+    <VTabs
+      v-model="activeTab"
       class="mb-4 instances-tabs-container"
     >
       <VTab
@@ -59,20 +60,13 @@ const {
       >
         Calibration
       </VTab>
-      <VTab
-        value="eventInstances"
-        @click="activeTab = 'eventInstances'"
-        class="event-instances-tab"
-      >
-        Events ({{ filteredEventInstances.length }})
-      </VTab>
     </VTabs>
-    
+
     <!--
       WHY: Manages which tab content is visible based on activeTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
     -->
-    <VWindow 
+    <VWindow
       v-model="activeTab"
     >
       <VWindowItem
@@ -82,31 +76,26 @@ const {
       >
         <BlockInstancesGroup :block-shape="blockShape" />
       </VWindowItem>
-      
+
       <!-- Fee Calibration Tab Content -->
       <VWindowItem value="calibration">
         <FeeCalibrationPanel />
       </VWindowItem>
-
-      <!-- Event Instances Tab Content -->
-      <VWindowItem value="eventInstances">
-        <EventInstancesSection :instances-tab-context="instancesTabContext" />
-      </VWindowItem>
     </VWindow>
-    
+
     <!--
       WHY: Provides feedback when no BlockShapes are configured
       PATTERN: Conditional rendering with v-if
     -->
     <VAlert
-      v-if="sortedBlockShapes.length === 0 && activeTab !== 'eventInstances'"
+      v-if="sortedBlockShapes.length === 0"
       type="info"
       variant="tonal"
       class="mt-4"
     >
       No BlockShapes found. Create a BlockShape first.
     </VAlert>
-    
+
     <!--
       WHY: Modals for bulk editing BlockInstances per BlockShape
       PATTERN: One modal per BlockShape, conditionally rendered
@@ -122,7 +111,7 @@ const {
         @confirm="(data) => handleBulkEditConfirm(blockShape.id, data)"
       />
     </template>
-    
+
     <!--
       WHY: Modals for editing field metadata and shape templates
       PATTERN: One modal per BlockShape, conditionally rendered
@@ -138,7 +127,7 @@ const {
         @saved="() => handleExistingBlockShapeSaved(blockShape.id)"
       />
     </template>
-    
+
     <!--
       WHY: Unified modal for creating and duplicating block instances
       PATTERN: Single modal instance, controlled by createModalOpen state
@@ -149,17 +138,6 @@ const {
       :source-entity="createModalSourceEntity"
       @update:model-value="setCreateModalOpen"
       @created="handleInstanceCreated"
-    />
-    
-    <!--
-      WHY: Single modal for configuring all EventInstance field definitions globally
-      PATTERN: Global config modal triggered from section header, uses sentinel UUID
-    -->
-    <MetadataEditModal
-      v-model="eventInstanceMetadataModalOpen"
-      entity-key="eventInstance"
-      :entity="eventInstanceFieldsGlobalEntity"
-      entity-name="Event Instance Fields (Global)"
     />
   </div>
 </template>
@@ -212,19 +190,5 @@ const {
 
 .instances-tabs-container :deep(.v-slide-group__content) {
   display: flex;
-  flex: 1;
-}
-
-.event-instances-tab {
-  margin-left: auto;
-  background-color: rgba(var(--v-theme-primary), 0.05);
-}
-
-.event-instances-tab:hover {
-  background-color: rgba(var(--v-theme-primary), 0.1);
-}
-
-.event-instances-tab-content {
-  padding: 0.5rem 0;
 }
 </style>

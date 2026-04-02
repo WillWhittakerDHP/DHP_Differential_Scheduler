@@ -23,7 +23,7 @@ export function applyNewEntityBooleanOrTernaryToggle(params: {
   setValue: (v: boolean | TernaryBoolean) => void
   formInstance: BooleanInputFormLike | null | undefined
 }): void {
-  const { rawFieldValue, fieldKey, entityKey, setValue, formInstance } = params
+  const { rawFieldValue, fieldKey: _fieldKey, entityKey: _entityKey, setValue } = params
 
   if (isTernaryStringValue(rawFieldValue)) {
     setValue(cycleTernaryBoolean(rawFieldValue))
@@ -38,12 +38,4 @@ export function applyNewEntityBooleanOrTernaryToggle(params: {
   const currentValue = normalizedRaw === true
   const newValue = !currentValue
   setValue(newValue)
-
-  if (entityKey === 'blockShape' && newValue === true && formInstance) {
-    if (fieldKey === 'isStateControl') {
-      formInstance.setFieldValue('canHaveParts', false)
-    } else if (fieldKey === 'canHaveParts') {
-      formInstance.setFieldValue('isStateControl', false)
-    }
-  }
 }

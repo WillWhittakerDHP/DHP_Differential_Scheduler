@@ -79,7 +79,11 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
         rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []
       ) as GlobalRelationship[]
 
-      eventShapes = mergeAttendeesIntoEventShapes(eventShapes, attendeeAssignmentsRelationships)
+      eventShapes = mergeAttendeesIntoEventShapes(
+        eventShapes,
+        eventInstances,
+        attendeeAssignmentsRelationships
+      )
 
       const partShapes = getGlobalEntities('partShape')
       const partShapeById = new Map(partShapes.map((ps) => [ps.id, ps as GlobalEntity<'partShape'>]))

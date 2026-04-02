@@ -26,7 +26,7 @@ import { BlockInstance } from './block_instance';
  * - user_id → users.id (actual person with email for invitations)
  * - user_type_block_instance_id → block_instances.id (their role: Buyer, Agent, etc.)
  * 
- * - EventShapeAttendee: Template config (which user TYPES attend event TYPES)
+ * - EventInstanceAttendee: Template config (which user TYPES attend which event segment)
  * - AppointmentAttendee: Actual instance (which actual USERS attend this appointment)
  */
 export class AppointmentAttendee extends Model<

@@ -1,6 +1,5 @@
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from '@/types/events'
-import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { SlotShape } from '@/types/appointment'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
@@ -20,7 +19,6 @@ export function calculateSlotShape(
   eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
   eventShapes: EventShape[] = [],
   roundingSettings?: AvailabilitySettings | null,
-  mergedRoleOverrides: Record<string, DifferentialRole> = {},
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): SlotShape {
   const eventShapeById = new Map(eventShapes.map((es) => [es.id, es]))
@@ -52,7 +50,6 @@ export function calculateSlotShape(
     eventRawDurations,
     eventRoundedDurationsByShapeId,
     eventShapes,
-    mergedRoleOverrides,
   )
 
   return {

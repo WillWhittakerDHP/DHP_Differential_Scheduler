@@ -29,6 +29,6 @@ export function isBookingBlockInstanceComposable(
   if (!blockShape) {
     return false
   }
-  const blockShapeWithComposable = blockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-  return blockShapeWithComposable.composable === true
+  const bi = globalBlockInstance as GlobalEntity<'blockInstance'>
+  return bi.composite === true
 }

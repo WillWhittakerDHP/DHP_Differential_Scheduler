@@ -1,20 +1,16 @@
 import {
-  sanitizeDifferentialRoleInput,
-  sanitizeDifferentialEventRoleOverridesInput,
-} from '../../../../../shared/utils/differentialRoleUtils.js'
+  sanitizeEventAnchorEdgeInput,
+  sanitizeEventPlacementKindInput,
+} from '../../../../../shared/utils/eventPlacementUtils.js'
 import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
+import {
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL,
+  EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE,
+} from './eventShapeLegacyDifferentialRoleKeys.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
-function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string, unknown> {
+function sanitizeBlockInstancePrimitiveFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
-  
-  if (sanitized[FIELD_NAMES.BOOKING_MODE] === '') {
-    sanitized[FIELD_NAMES.BOOKING_MODE] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
-  }
-
-  if (sanitized[FIELD_NAMES.BOOKING_MODE_SNAKE] === '') {
-    sanitized[FIELD_NAMES.BOOKING_MODE_SNAKE] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
-  }
 
   if (sanitized[FIELD_NAMES.AGENT_PERMISSIONS] === '') {
     sanitized[FIELD_NAMES.AGENT_PERMISSIONS] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
@@ -24,32 +20,31 @@ function sanitizeBookingModeFields(data: Record<string, unknown>): Record<string
     sanitized[FIELD_NAMES.AGENT_PERMISSIONS_SNAKE] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
   }
 
-  if (FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES] = sanitizeDifferentialEventRoleOverridesInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES]
-    )
-  }
-  if (FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE] = sanitizeDifferentialEventRoleOverridesInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES_SNAKE]
-    )
-  }
-
   return sanitized
 }
 
 function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data }
-  if (FIELD_NAMES.DIFFERENTIAL_ROLE in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE] = sanitizeDifferentialRoleInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE]
+  if (FIELD_NAMES.PLACEMENT_KIND in sanitized) {
+    sanitized[FIELD_NAMES.PLACEMENT_KIND] = sanitizeEventPlacementKindInput(
+      sanitized[FIELD_NAMES.PLACEMENT_KIND]
     )
   }
-  if (FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE in sanitized) {
-    sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE] = sanitizeDifferentialRoleInput(
-      sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE]
+  if (FIELD_NAMES.PLACEMENT_KIND_SNAKE in sanitized) {
+    sanitized[FIELD_NAMES.PLACEMENT_KIND_SNAKE] = sanitizeEventPlacementKindInput(
+      sanitized[FIELD_NAMES.PLACEMENT_KIND_SNAKE]
     )
   }
+  if (FIELD_NAMES.ANCHOR_EDGE in sanitized) {
+    sanitized[FIELD_NAMES.ANCHOR_EDGE] = sanitizeEventAnchorEdgeInput(sanitized[FIELD_NAMES.ANCHOR_EDGE])
+  }
+  if (FIELD_NAMES.ANCHOR_EDGE_SNAKE in sanitized) {
+    sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE] = sanitizeEventAnchorEdgeInput(
+      sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE]
+    )
+  }
+  delete sanitized[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_CAMEL]
+  delete sanitized[EVENT_SHAPE_LEGACY_DIFFERENTIAL_ROLE_SNAKE]
   return sanitized
 }
 
@@ -62,9 +57,8 @@ export function sanitizeEntityDataForCreate(
 ): Record<string, unknown> {
   const sanitized = { ...data }
   
-  // Sanitize booking mode for block instances
   if (entityType === ENTITY_KEYS.BLOCK_INSTANCE || entityType === 'blockInstance') {
-    return sanitizeBookingModeFields(sanitized)
+    return sanitizeBlockInstancePrimitiveFields(sanitized)
   }
   if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
     return sanitizeEventShapeFields(sanitized)
@@ -82,9 +76,8 @@ export function sanitizeEntityDataForUpdate(
 ): Record<string, unknown> {
   const sanitized = { ...data }
   
-  // Sanitize booking mode for block instances
   if (entityType === ENTITY_KEYS.BLOCK_INSTANCE || entityType === 'blockInstance') {
-    return sanitizeBookingModeFields(sanitized)
+    return sanitizeBlockInstancePrimitiveFields(sanitized)
   }
   if (entityType === ENTITY_KEYS.EVENT_SHAPE || entityType === 'eventShape') {
     return sanitizeEventShapeFields(sanitized)

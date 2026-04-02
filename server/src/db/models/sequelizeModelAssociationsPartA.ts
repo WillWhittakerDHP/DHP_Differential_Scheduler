@@ -26,7 +26,7 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
     EventShape,
     EventInstance,
     EventAssignment,
-    EventShapeAttendee,
+    EventInstanceAttendee,
     AppointmentAttendee,
     Address,
     PropertyVersion,
@@ -198,24 +198,23 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
     as: 'event_instances',
   });
 
-  // PATTERN: Matches annotation_assignment pattern with userTypeBlockInstanceId
-  EventShape.hasMany(EventShapeAttendee, {
-    foreignKey: 'event_shape_id',
-    as: 'event_shape_attendees',
+  EventInstance.hasMany(EventInstanceAttendee, {
+    foreignKey: 'event_instance_id',
+    as: 'event_instance_attendees',
   });
 
-  EventShapeAttendee.belongsTo(EventShape, {
-    foreignKey: 'event_shape_id',
-    as: 'eventShape',
+  EventInstanceAttendee.belongsTo(EventInstance, {
+    foreignKey: 'event_instance_id',
+    as: 'eventInstance',
   });
 
-  EventShapeAttendee.belongsTo(BlockInstance, {
+  EventInstanceAttendee.belongsTo(BlockInstance, {
     foreignKey: 'user_type_block_instance_id',
     as: 'userTypeBlockInstance',
   });
 
-  BlockInstance.hasMany(EventShapeAttendee, {
+  BlockInstance.hasMany(EventInstanceAttendee, {
     foreignKey: 'user_type_block_instance_id',
-    as: 'event_shape_attendees',
+    as: 'event_instance_attendees',
   });
 }

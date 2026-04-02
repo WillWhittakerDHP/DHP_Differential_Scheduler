@@ -28,8 +28,8 @@ export function extractInstanceComponents(params: {
       const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
       if (!componentBlockShape) return null
 
-      const componentBlockShapeWithComposable = componentBlockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-      if (componentBlockShapeWithComposable.composable !== true) return null
+      const bi = componentBlockInstance as GlobalEntity<'blockInstance'> & { composite?: boolean }
+      if (bi.composite !== true) return null
 
       const componentWithIcon = componentBlockInstance as GlobalEntity<'blockInstance'> & {
         icon?: string
@@ -69,6 +69,6 @@ export function isServiceComposable(params: {
   const blockShape = getGlobalEntityById('blockShape', blockInstanceWithShapeRef.blockShapeRef)
   if (!blockShape) return false
 
-  const blockShapeWithComposable = blockShape as GlobalEntity<'blockShape'> & { composable?: boolean }
-  return blockShapeWithComposable.composable === true
+  const bi = globalBlockInstance as GlobalEntity<'blockInstance'> & { composite?: boolean }
+  return bi.composite === true
 }

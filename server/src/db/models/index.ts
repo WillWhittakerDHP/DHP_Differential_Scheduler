@@ -22,7 +22,7 @@ import { AnnotationShapeFactory } from "./booking/annotation_shape.js";
 import { EventShapeFactory } from "./booking/event_shape.js";
 import { EventInstanceFactory } from "./booking/event_instance.js";
 import { EventAssignmentFactory } from "./booking/event_assignment.js";
-import { EventShapeAttendeeFactory } from "./booking/event_shape_attendee.js";
+import { EventInstanceAttendeeFactory } from "./booking/event_instance_attendee.js";
 import { AppointmentAttendeeFactory } from "./booking/appointment_attendee.js";
 import { AddressFactory } from "./booking/address.js";
 import { PropertyVersionFactory } from "./booking/property_version.js";
@@ -92,7 +92,7 @@ export function initializeModels(sequelize: Sequelize) {
   const EventShape = EventShapeFactory(sequelize);
   const EventInstance = EventInstanceFactory(sequelize);
   const EventAssignment = EventAssignmentFactory(sequelize);
-  const EventShapeAttendee = EventShapeAttendeeFactory(sequelize);
+  const EventInstanceAttendee = EventInstanceAttendeeFactory(sequelize);
   const AppointmentAttendee = AppointmentAttendeeFactory(sequelize);
 
   const Address = AddressFactory(sequelize);
@@ -177,7 +177,7 @@ export function initializeModels(sequelize: Sequelize) {
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, DependentInstance,
     BookingCascade, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
-    EventShape, EventInstance, EventAssignment, EventShapeAttendee, AppointmentAttendee,
+    EventShape, EventInstance, EventAssignment, EventInstanceAttendee, AppointmentAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
     AppointmentSelectionLine, AppointmentTimeSlot, AppointmentFeeSummary, AppointmentFeeEntry,
     ConstraintOverride, CalendarSettings, WizardSettings, AvailabilitySetting,
@@ -197,7 +197,7 @@ export function initializeModels(sequelize: Sequelize) {
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, ValidPricingCascade, DependentInstance,
     BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
-    EventShape, EventInstance, EventAssignment, EventShapeAttendee,
+    EventShape, EventInstance, EventAssignment, EventInstanceAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
     AppointmentSelectionLine,
     AppointmentTimeSlot,

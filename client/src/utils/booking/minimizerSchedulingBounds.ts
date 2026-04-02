@@ -54,10 +54,7 @@ export function computeOuterBoundary(
  */
 export function extractInnerBoundary(slot: AppointmentSlot): RFC3339DateTime | null {
   if (slot.shape.slotShape.eventFinals.length > 0) {
-    const { majorEventName } = resolveEventShapes(
-      slot.shape.slotShape.eventFinals,
-      slot.shape.differentialEventRoleOverrides ?? null
-    )
+    const { majorEventName } = resolveEventShapes(slot.shape.slotShape.eventFinals)
     const majorTimeRange = majorEventName
       ? (slot.eventTimeRanges?.[majorEventName] ?? null)
       : null

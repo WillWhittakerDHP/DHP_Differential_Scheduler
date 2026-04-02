@@ -30,23 +30,16 @@ export const eventShapeDisplays = {
     stacked: false,
   },
 
-  differentialRole: {
-    label: "Differential role",
-    placeholder: "Select scheduling role (or none)",
+  placementKind: {
+    label: 'Placement kind',
+    placeholder: 'e.g. Primary (main segment), or Secondary / Marginal / Floating',
     inline: true,
     stacked: false,
   },
 
-  includeRescheduleLink: {
-    label: "Include reschedule link",
-    placeholder: "Show {rescheduleLink} in calendar invite templates",
-    inline: true,
-    stacked: false,
-  },
-
-  includeCancelLink: {
-    label: "Include cancel link",
-    placeholder: "Show {cancelLink} in calendar invite templates",
+  anchorEdge: {
+    label: 'Anchor edge',
+    placeholder: 'For non-primary: start or end of the block time window',
     inline: true,
     stacked: false,
   },

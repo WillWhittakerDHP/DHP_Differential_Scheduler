@@ -1,7 +1,7 @@
 /**
  * WHY: Admin UI resolves event templates against a real appointment using the same context as invites.
  */
-import { Appointment, BlockInstance, EventShape } from '../../config/app.js'
+import { Appointment, BlockInstance, EventInstance } from '../../config/app.js'
 import { appointmentIncludes } from '../../routes/internal/appointments/appointmentHelpers.js'
 import { buildInviteContext } from './inviteContextBuilder.js'
 import { resolveEventTemplates } from './templateResolver.js'
@@ -10,7 +10,7 @@ import type { EventInstancePreviewRequestBody, EventInstancePreviewResponseBody 
 import {
   type AppointmentWithRelations,
   collectBlockInstanceIds,
-  linkStripSetForEventShape,
+  linkStripSetForSegmentLinkFlags,
   normalizeAppointmentForInviteFlow,
   toInviteAppointmentData,
 } from './inviteAppointmentShared.js'
@@ -36,9 +36,13 @@ export async function previewEventInstanceTemplates(
     throw new Error('Appointment not found')
   }
 
-  const eventShape = await EventShape.findByPk(body.eventShapeRef, {
-    attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
+  const segment = await EventInstance.findByPk(body.eventInstanceId, {
+    attributes: ['includeRescheduleLink', 'includeCancelLink'],
   })
+  if (!segment) {
+    logger.warn('Event instance preview: event instance not found', { eventInstanceId: body.eventInstanceId })
+    throw new Error('Event instance not found')
+  }
 
   const normalized = normalizeAppointmentForInviteFlow(appointment, { logEmptyArrays: false })
   const blockIds = collectBlockInstanceIds(normalized)
@@ -46,7 +50,7 @@ export async function previewEventInstanceTemplates(
   const inviteData = toInviteAppointmentData(normalized)
   const context = buildInviteContext(inviteData, serviceName)
 
-  const stripPlaceholderNames = linkStripSetForEventShape(eventShape)
+  const stripPlaceholderNames = linkStripSetForSegmentLinkFlags(segment)
   const options = stripPlaceholderNames.size > 0 ? { stripPlaceholderNames } : {}
 
   return resolveEventTemplates(

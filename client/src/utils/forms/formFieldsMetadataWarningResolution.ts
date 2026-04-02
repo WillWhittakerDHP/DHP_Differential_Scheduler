@@ -11,6 +11,7 @@ import {
   defaultTextDisplayConfig,
   displayConfigFromMetadataEntry,
 } from '@/utils/forms/fieldDisplayConfigFromMetadata'
+import { applyPrimitiveDisplayOverlay } from '@/utils/forms/applyPrimitiveDisplayOverlay'
 
 export type FormFieldsMetadataDisplayConfig<GE extends GlobalEntityKey> =
   FieldContextTypeGrouped<GE, GlobalFieldKey<GE>>['state']['displayConfig']
@@ -137,5 +138,6 @@ export function resolveDisplayConfigWithMetadataWarnings<GE extends GlobalEntity
   }
 
   warnMissingLabelOnce(entityKey, fieldKey, meta, warnedFields, showWarning, logWarn)
-  return displayConfigFromMetadataEntry<GE>(meta, fieldKey)
+  const fromMeta = displayConfigFromMetadataEntry<GE>(meta, fieldKey)
+  return applyPrimitiveDisplayOverlay(entityKey, fieldKey, fromMeta)
 }

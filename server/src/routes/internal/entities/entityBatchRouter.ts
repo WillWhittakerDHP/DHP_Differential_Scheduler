@@ -1,4 +1,4 @@
-
+import type { Model } from 'sequelize'
 import { Router, Request, Response } from 'express'
 import { fetchAll } from '../../helpers/dataController.js'
 import { buildFetchOptions } from './entityHelpers.js'
@@ -10,6 +10,7 @@ import type { AnnotationWithContentPlain } from '../../../services/annotations/a
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
+import { stripLegacyEventShapeResponseFields } from './eventShapeEntityValidation.js'
 import { handleRouteError } from './entityErrorHandler.js'
 
 const logger = createLogger('EntityBatchRouter')
@@ -55,6 +56,12 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
           // WHY: Keep generic-resolved `text` for list UIs; preserve `contentRows` so the booking
           // wizard can resolve copy per selected user type (task 6.12.2.2).
           plain.text = resolveAnnotationTextForAssignment(plain, null)
+          return plain
+        })
+      } else if (entityKey === ENTITY_KEYS.EVENT_SHAPE) {
+        acc[entityKey] = (data as Model[]).map((row) => {
+          const plain = row.get({ plain: true }) as Record<string, unknown>
+          stripLegacyEventShapeResponseFields(plain)
           return plain
         })
       } else {

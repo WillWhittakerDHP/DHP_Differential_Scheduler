@@ -8,7 +8,6 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useAdminConfig } from '@/composables/useAdminConfig'
 import { entityDisplay } from '@/utils/admin/entityDisplay'
-import { useInstanceShape } from '@/composables/admin/useInstanceShape'
 import { useEntityCardFieldConfiguration } from '@/composables/admin/useEntityCardFieldConfiguration'
 import { useFormFields } from '@/composables/useFormFields'
 import type { UseEntityCardFormSetupParams, UseEntityCardFormSetupReturn } from '@/types/admin/entityCardFormSetup'
@@ -29,14 +28,6 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
 
   const { getEntityName } = entityDisplay(useAdminConfig())
 
-  const instanceShape =
-    entityKey === 'blockInstance'
-      ? useInstanceShape({
-          entityKey: 'blockInstance',
-          entityId: computed(() => entity.id),
-        })
-      : null
-
   const isMetadataReady = computed(() => {
     const isLoading = isMetadataLoading.value
     const metadata = composedFieldMetadata.value
@@ -54,7 +45,7 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
 
   const isComposable = computed(() => {
     if (entityKey !== 'blockInstance') return false
-    return instanceShape?.blockShape.value?.composable === true
+    return (entity as { composite?: boolean }).composite === true
   })
 
   const {

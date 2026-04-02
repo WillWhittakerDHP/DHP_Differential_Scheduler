@@ -1,3 +1,4 @@
+import type { Model } from 'sequelize'
 import { Router, Request, Response } from 'express'
 import {
   createRecord,
@@ -11,6 +12,24 @@ import { ENTITY_DELETE_ROUTE_SEGMENTS, ERROR_MESSAGES } from './entityConstants.
 import { handleRouteError } from './entityErrorHandler.js'
 import { validateEntityId } from './entityValidators.js'
 import { sanitizeEntityDataForCreate, sanitizeEntityDataForUpdate } from './entitySanitizers.js'
+import {
+  isBlockShapeEntityType,
+  validateBlockShapeCreateBody,
+  validateBlockShapeUpdateBody,
+} from './blockShapeEntityValidation.js'
+import {
+  isBlockInstanceEntityType,
+  validateBlockInstanceBooleanFields,
+} from './blockInstanceEntityValidation.js'
+import {
+  isEventShapeEntityType,
+  stripLegacyEventShapeResponseFields,
+  validateEventShapeWritePayload,
+} from './eventShapeEntityValidation.js'
+import {
+  isEventInstanceEntityType,
+  validateEventInstanceWritePayload,
+} from './eventInstanceEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -108,6 +127,38 @@ router.post(
         bodyForCreate = pulled.rest
       }
 
+      if (isBlockShapeEntityType(createEntityType)) {
+        const blockShapeErr = validateBlockShapeCreateBody(bodyForCreate)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
+      }
+
+      if (isBlockInstanceEntityType(createEntityType)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(bodyForCreate)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
+      if (isEventShapeEntityType(createEntityType)) {
+        const eventShapeErr = validateEventShapeWritePayload(bodyForCreate)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
+      if (isEventInstanceEntityType(createEntityType)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(bodyForCreate, 'create')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
+      }
+
       // PATTERN: Convert empty strings for known enum fields to their default values
       const sanitizedData = sanitizeEntityDataForCreate(bodyForCreate, createEntityType) as Record<
         string,
@@ -125,6 +176,12 @@ router.post(
         } else {
           await syncAnnotationInstanceContentFromLegacyColumns(createdInst)
         }
+      }
+      if (isEventShapeEntityType(createEntityType)) {
+        const plain = (created as Model).get({ plain: true }) as Record<string, unknown>
+        stripLegacyEventShapeResponseFields(plain)
+        sendCreated(res, plain)
+        return
       }
       sendCreated(res, created)
     } catch (error) {
@@ -157,6 +214,38 @@ router.put(
         const pulled = pullAnnotationContentRowsFromBody(bodyForPut)
         annotationPutContentRows = pulled.rows
         bodyForPut = pulled.rest
+      }
+
+      if (isBlockShapeEntityType(putEntityTypeEarly)) {
+        const blockShapeErr = validateBlockShapeUpdateBody(bodyForPut)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
+        }
+      }
+
+      if (isBlockInstanceEntityType(putEntityTypeEarly)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(bodyForPut)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
+      if (isEventShapeEntityType(putEntityTypeEarly)) {
+        const eventShapeErr = validateEventShapeWritePayload(bodyForPut)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
+      if (isEventInstanceEntityType(putEntityTypeEarly)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(bodyForPut, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
       }
 
       // PATTERN: Convert empty strings for known enum fields to their default values
@@ -267,13 +356,35 @@ router.patch(
         updateData = pulled.rest
       }
 
-      // PATTERN: When setting one to true, set the other to false so the PATCH succeeds.
-      if (entityType === ENTITY_KEYS.BLOCK_SHAPE || entityType === 'blockShape') {
-        if (updateData.canHaveParts === true) {
-          updateData = { ...updateData, isStateControl: false }
+      if (isBlockShapeEntityType(entityType)) {
+        const blockShapeErr = validateBlockShapeUpdateBody(updateData)
+        if (blockShapeErr !== null) {
+          sendBadRequest(res, blockShapeErr, blockShapeErr)
+          return
         }
-        if (updateData.isStateControl === true) {
-          updateData = { ...updateData, canHaveParts: false }
+      }
+
+      if (isBlockInstanceEntityType(entityType)) {
+        const blockInstanceErr = validateBlockInstanceBooleanFields(updateData)
+        if (blockInstanceErr !== null) {
+          sendBadRequest(res, blockInstanceErr, blockInstanceErr)
+          return
+        }
+      }
+
+      if (isEventShapeEntityType(entityType)) {
+        const eventShapeErr = validateEventShapeWritePayload(updateData)
+        if (eventShapeErr !== null) {
+          sendBadRequest(res, eventShapeErr, eventShapeErr)
+          return
+        }
+      }
+
+      if (isEventInstanceEntityType(entityType)) {
+        const eventInstanceErr = validateEventInstanceWritePayload(updateData, 'update')
+        if (eventInstanceErr !== null) {
+          sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
         }
       }
 

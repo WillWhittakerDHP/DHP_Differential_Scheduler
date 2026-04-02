@@ -30,8 +30,8 @@ export function useDevPanelsComputed(
     if (!instances || !Array.isArray(instances)) return []
     return instances.map((block: BookingBlockInstance) => ({
       name: block.name,
-      differential: block.differential,
-      bookingMode: block.bookingMode,
+      orchestrator: block.orchestrator,
+      wizardVisible: block.wizardVisible,
       baseSqFt: block.baseSqFt ?? 0,
       partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0
     }))

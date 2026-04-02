@@ -29,7 +29,8 @@ function transformBlockVersionToBookingInstance(
     icon: asEmptyString(versionData.icon as string | null | undefined),
     baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
     allowMultiple: Boolean(versionData.allowMultiple),
-    differential: versionData.differential === 'true',
+    orchestrator: Boolean(versionData.orchestrator),
+    wizardVisible: Boolean(versionData.wizardVisible),
     partInstances: partVersions.map((partVersion: Model) => {
       const partData = partVersion.toJSON() as Record<string, unknown>;
       return {

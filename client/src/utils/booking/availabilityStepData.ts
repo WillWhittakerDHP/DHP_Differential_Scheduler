@@ -45,9 +45,8 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
   const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
   const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
 
-  const overrides = params.selectedSlot.shape.differentialEventRoleOverrides ?? null
   const { hasMajorMinorPair, major: majorEventShape, minor: minorEventShape } =
-    resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities, overrides)
+    resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
 
   if (!hasMajorMinorPair) {
     const total = params.selectedSlot.totalTimeRange

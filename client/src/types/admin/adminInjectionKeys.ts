@@ -7,7 +7,6 @@ import type { InjectionKey } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
-import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -34,7 +33,7 @@ export interface RuleFormDialogContext {
 export const ruleFormDialogContextKey: InjectionKey<RuleFormDialogContext> =
   Symbol('ruleFormDialogContext')
 
-/** Context provided by InstancesTab and consumed by BlockInstancesGroup and EventInstancesSection (allowlist repair). */
+/** Context provided by InstancesTab and consumed by BlockInstancesGroup. */
 export interface InstancesTabContext {
   blockShapeComposable: ComputedRef<Map<string, boolean>>
   blockShapeStateControl: ComputedRef<Map<string, boolean>>
@@ -56,23 +55,6 @@ export interface InstancesTabContext {
   handleDeleteBlockInstance: (id: string) => void
   handleDuplicateClick: (entity: GlobalEntity<GlobalEntityKey>) => void
   shapeCascadeColor: (blockShape: { id: string }) => 'info' | 'default'
-  eventInstanceMetadataModalOpen: Ref<boolean>
-  eventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
-  eventInstancesList: Ref<GlobalEntity<'eventInstance'>[]>
-  filteredEventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
-  isLoadingEventInstances: ComputedRef<boolean>
-  isCreatingEventInstance: Ref<boolean>
-  newEventInstanceData: Ref<NewEventInstanceData | null>
-  isCreatingEventInstanceLoading: Ref<boolean>
-  templateVariables: readonly { name: string; description: string; example: string }[]
-  templateWarnings: ComputedRef<{ titleTemplate: string[]; descriptionTemplate: string[]; locationTemplate: string[] }>
-  eventShapes: ComputedRef<GlobalEntity<'eventShape'>[]>
-  openCreateEventInstanceForm: () => void
-  handleEventInstanceCreate: () => void
-  handleEventInstanceCancelled: () => void
-  handleDeleteEventInstance: (id: string) => void
-  eventInstancesContainer: Ref<HTMLElement | null>
-  eventInstancesPanelsContainer: Ref<ComponentPublicInstance | HTMLElement | null>
 }
 
 export const instancesTabContextKey: InjectionKey<InstancesTabContext> =

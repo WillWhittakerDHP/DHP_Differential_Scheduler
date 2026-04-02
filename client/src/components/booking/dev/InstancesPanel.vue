@@ -99,8 +99,8 @@
             <VListItem v-for="(service, index) in servicesSummary" :key="index">
               <VListItemTitle class="text-body-medium">{{ service.name }}</VListItemTitle>
               <VListItemSubtitle class="text-body-small">
-                Differential: {{ service.differential ? 'Yes' : 'No' }} |
-                Mode: {{ service.bookingMode }} |
+                Orchestrator: {{ service.orchestrator ? 'Yes' : 'No' }} |
+                Wizard visible: {{ service.wizardVisible ? 'Yes' : 'No' }} |
                 Base SqFt: {{ service.baseSqFt }} |
                 Parts: {{ service.partCount }}
               </VListItemSubtitle>

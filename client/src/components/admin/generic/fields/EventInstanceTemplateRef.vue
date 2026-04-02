@@ -1,6 +1,6 @@
 <!--
   WHY: Editing event instances via EntityCard loses the create-form template variable reference.
-  PATTERN: Same accordion + table as EventInstancesSection; single source EVENT_TEMPLATE_VARIABLES.
+  PATTERN: Accordion + template-variable table; single source EVENT_TEMPLATE_VARIABLES.
 -->
 <script setup lang="ts">
 import { EVENT_TEMPLATE_VARIABLES } from '@shared/constants/templateVariables'

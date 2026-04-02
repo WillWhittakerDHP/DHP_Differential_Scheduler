@@ -7,6 +7,7 @@ import { computed, watch } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 
 /**
@@ -61,22 +62,19 @@ export function useInstanceGrouping(
 
   const blockShapeComposable = computed(() => {
     const blockShapes = getEntities('blockShape')
-    
-    // WHY: Functional approach avoids forEach with Map mutations
-    // PATTERN: Reduce blockShapes into a Map of composable flags
+
+    // WHY: Non-user shapes may host composite block instances (instance-level composite flag).
     return blockShapes.reduce((map, blockShape) => {
-      map.set(blockShape.id, blockShape.composable === true)
+      map.set(blockShape.id, blockShape.type !== BLOCK_SHAPE_TYPES.USER)
       return map
     }, new Map<string, boolean>())
   })
 
   const blockShapeStateControl = computed(() => {
     const blockShapes = getEntities('blockShape')
-    
-    // WHY: Functional approach avoids forEach with Map mutations
-    // PATTERN: Reduce blockShapes into a Map of state control flags
+
     return blockShapes.reduce((map, blockShape) => {
-      map.set(blockShape.id, blockShape.isStateControl === true)
+      map.set(blockShape.id, blockShape.type === BLOCK_SHAPE_TYPES.USER)
       return map
     }, new Map<string, boolean>())
   })

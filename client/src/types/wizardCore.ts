@@ -24,7 +24,7 @@ export interface WizardState {
   selectedOptionTypeBlocks: BookingBlockInstance[]
   /** Array of selected property type blocks (multi-select) */
   selectedPropertyTypeBlocks: BookingBlockInstance[]
-  /** Array of selected line item blocks (bookingMode: "addOn") */
+  /** Array of selected line item blocks (wizardVisible: false) */
   selectedLineItemBlocks: BookingBlockInstance[]
   /** Array of selected coupon block (single-select UI, array storage; same pattern as property type) */
   selectedCouponBlocks: BookingBlockInstance[]
@@ -64,7 +64,7 @@ export interface WizardComputedProperties {
   availablePropertyTypeBlocks: ComputedRef<BookingBlockInstance[]>
   /** Available coupon block instances (cascade from selected services; same routine as property type) */
   availableCouponBlocks: ComputedRef<BookingBlockInstance[]>
-  /** Available line item blocks (bookingMode: "addOn") */
+  /** Available line item blocks (wizardVisible: false) */
   availableLineItemBlocks: ComputedRef<BookingBlockInstance[]>
   
   /** Error messages for cascade filtering */

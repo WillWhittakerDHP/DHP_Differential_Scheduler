@@ -57,6 +57,30 @@ export const blockInstanceDisplays = {
   composite: {
     label: "Composite",
     placeholder: "",
+    tooltip:
+      "Same-shape composition: this instance groups component instances of the same block shape. Unlike Orchestrator, it does not choose among allowed downstream scheduling options.",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "left",
+  },
+
+  orchestrator: {
+    label: "Orchestrator",
+    placeholder: "",
+    tooltip:
+      "When on, this instance selects which downstream instances are active from options already allowed on the block shape and relationships. It does not create new valid relationships.",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "left",
+  },
+
+  wizardVisible: {
+    label: "Wizard visible",
+    placeholder: "",
+    tooltip:
+      "When off, this instance is add-on / line-item style in the booking wizard. Visibility does not change which relationships are valid on the block shape.",
     inline: true,
     stacked: false,
     width: "auto",
@@ -87,6 +111,16 @@ export const blockInstanceDisplays = {
     stacked: true,
     width: "15%",
     align: "left",
+  },
+
+  /** Per-block overrides of scheduling weight keyed by event shape id (metadata-driven field). */
+  differentialEventRoleOverrides: {
+    label: "Event segment scheduling overrides",
+    placeholder: "",
+    tooltip:
+      "Each event shape’s placement sets its default scheduling behavior. Override here only for this block instance.",
+    inline: false,
+    stacked: true,
   },
 
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, DisplayFieldType<"blockInstance", GlobalFieldKey<"blockInstance">>>>;

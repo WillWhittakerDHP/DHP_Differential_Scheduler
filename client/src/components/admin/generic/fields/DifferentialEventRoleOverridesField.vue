@@ -12,7 +12,7 @@
       = one flex child, full-width column stack.
     -->
     <div class="differential-role-field-stack">
-      <!-- WHY: Scheduling role overrides are easy to confuse with part-level event instance picks. -->
+      <!-- WHY: Placement defines template defaults; overrides adjust scheduling weight per block instance. -->
       <p class="text-body-2 text-medium-emphasis mb-0">
         {{ displayConfig.helpText ?? defaultHelpText }}
       </p>
@@ -24,7 +24,7 @@
         density="compact"
         class="mb-0"
       >
-        No active event shapes exist yet. Create event shapes in the Shapes tab to configure role overrides here.
+        No active event shapes yet. Add shapes under Shapes → Events, then return here to set per-block scheduling overrides.
       </VAlert>
 
       <div
@@ -46,7 +46,10 @@
               {{ row.name }}
             </div>
             <div class="text-caption text-medium-emphasis">
-              Template: {{ row.templateRole }}
+              {{ row.placementCaption }}
+            </div>
+            <div class="text-caption text-medium-emphasis">
+              Schedules as {{ schedulingRoleLabel(row.templateRole) }}
             </div>
           </VCol>
           <VCol
@@ -106,8 +109,9 @@ const props = defineProps<{
 const admin = useAdmin()
 
 const defaultHelpText =
-  'Each active event shape has a row. Overrides apply when that shape participates in scheduling for this instance ' +
-  '(via part assignments and each part shape’s valid events). Choose Inherit to use the event shape template.'
+  'Each row is an active event shape. Its placement (primary vs secondary, which edge, etc.) sets how that segment ' +
+  'participates in scheduling by default. You can override that behavior for this block instance only; choose Inherit ' +
+  'to use the shape’s placement defaults.'
 
 const displayConfig = computed(() => props.fieldContext.state.displayConfig)
 
@@ -128,7 +132,7 @@ const matrixRows = computed(() =>
 )
 
 const roleSelectItems = computed((): RoleSelectItem[] => [
-  { title: 'Inherit (use event shape template)', value: INHERIT_SENTINEL },
+  { title: 'Inherit (use shape placement default)', value: INHERIT_SENTINEL },
   { title: DIFFERENTIAL_ROLE_LABELS.major, value: 'major' },
   { title: DIFFERENTIAL_ROLE_LABELS.minor, value: 'minor' },
   { title: DIFFERENTIAL_ROLE_LABELS.minimizer, value: 'minimizer' },
@@ -145,6 +149,10 @@ const overridesMap = computed((): DifferentialEventRoleOverridesMap => {
 function selectValueForRow(row: { eventShapeId: GlobalEntityId }): RoleSelectItem['value'] {
   const o = overridesMap.value[row.eventShapeId]
   return o === undefined ? INHERIT_SENTINEL : o
+}
+
+function schedulingRoleLabel(role: DifferentialRole): string {
+  return DIFFERENTIAL_ROLE_LABELS[role]
 }
 
 function onRowRoleUpdate(eventShapeId: GlobalEntityId, raw: unknown): void {

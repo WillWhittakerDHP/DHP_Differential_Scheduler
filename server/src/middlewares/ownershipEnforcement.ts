@@ -53,7 +53,7 @@ function idsEqual(a: unknown, b: unknown): boolean {
 }
 
 /** Agent, admin, transaction_manager, and owner (legacy seller) may mutate internal admin resources without a per-row user owner. */
-function isInternalStaffRole(role: string | undefined): boolean {
+export function isInternalStaffRole(role: string | undefined): boolean {
   if (role === undefined || role === '') {
     return false
   }

@@ -22,11 +22,24 @@
 - **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
 
 ## Where we left off
-# Feature 20: Domain Architecture Alignment — Guide **Purpose:** Harness planning surface for executing the locked domain principles and v2 implementation plan in ordered passes. **Tier:** Feature (Tier 0) **Feature Name:** Domain Architecture Alignment **Status:** Planning **Directory:** `features/domain-architecture-alignment/` **PROJECT_PLAN:** Feature #20 --- ## Canonical sources (absolute truth) - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules. - [.project-manager/analysis/DOMAIN_ARCHITECTURE_RED (See tier-up guide linked below)
+Feature **20** is in **Planning** per `PROJECT_PLAN.md` (Feature Summary row #20). Harness **next phase across:** **20.1** (`across-ladder.json`). Current git branch at feature-start was **`develop`**; expected feature worktree branch: **`feature/domain-architecture-alignment`** (create/checkout when beginning implementation).
+
+## Inherited Open Questions (from project 20)
+
+> Unresolved items from the parent **Open Questions** sections — **planning input** for the agent, not a hard gate.
+
+1. **[Open Questions]** Will we need to adjust or add to the click handlers to create a consistent behavior with for app activities, since clicking and dragging isn't exactly what happens in an app?
+2. **[Open Questions]** Will we need to register in the App Store
+### Agent: required synthesis
+
+- Treat each item as **design input**: fold decisions, alternatives, and structure hints into **Goal**, **Approach**, **Checkpoint**, and **How we build the tierDown** where they affect scope or sequencing.
+- If an item is **deferred**, say so in **Approach** or **Checkpoint** (where and when it will be decided).
+- **Do not** require the human to run `/resolve-question` before continuing tier-start; **filling this planning doc** is the contract. Optionally record decisions in the parent guide later with `/resolve-question`.
 
 ## Epic
-**As a** [persona], **I want** [capability], **so that** [benefit].
-**Estimated size:** S / M / L / XL
+**As a** platform maintainer, **I want** the database, APIs, admin surfaces, and booking client pipeline to match **locked** domain principles and the Feature 20 implementation plan, **so that** we do not maintain two booking calculators, drift on block/event models, or carry legacy shape-type names past the migration passes.
+
+**Estimated size:** XL
 
 ---
 ## Architecture context (harness-injected)
@@ -203,57 +216,146 @@ Base acts as a **floor** until zero-out. **Correlation:** bucket by lineage to t
 1. Per-block-instance part records exist.  
 2. Resolve part-level time (base + time atomics using `property_details` inputs).  
 3. Resolve part-level fee (base + price atomics).  
-4. Resolve part-level event assignment (override ?? baselin
+4. Resolve part-level event assignment (override ?? baseline).  
+5. Apply **zero-out last** (after floor) — zero-out wins for that part’s contribution to rollups.  
+6. Group resolved time **by event** for layout.  
+7. Roll resolved fees **by orchestrator** for presentation / persistence fields the product needs.
 
-_(Excerpt truncated.)_
+### 10.4 Time atomics and `property_details`
+
+Time atomics hold **rates**; **`property_details`** holds appointment-scoped **inputs** (MLS / wizard). Product: rate × input = duration contribution. `property_details` is property **data**, not a substitute for time configuration.
+
+---
+
+## 11. Events, shapes, and placement
+
+- **Event shapes** are admin-managed **placement types** (`placement_kind`, `anchor_edge`) read by the pipeline — extensible via data, not ad-hoc role math.
+- **Event instances** are **named segments** owned by an event block instance (`parent_block_instance_id`). Event **orchestrator** holds baseline segment assignments; **event profiles** (composite packages) override assignments per part via `event_assignments`.
+- **Pipeline rule:** Placement comes from stored assignment graph + shape placement fields — **no separate placement calculator** from differential roles or hidden rules.
+
+---
+
+## 12. MLS and property enrichment
+
+| Table | Role |
+|-------|------|
+| `property_details` | Physical characteristics of the inspected property (appointment-scoped). |
+| `property_feature_mappings` | MLS-driven rules → suggested time block instances. |
+| `property_field_mappings` | MLS field → `property_details` columns. |
+
+**Separation:** `property_details` = what the property **is**; time atomics = how that maps to **duration** (configuration). Keep them distinct.
+
+---
+
+## 13. Admin configuration model
+
+- **Orchestration surface:** Instances with `orchestrator = true` — multi-select style editors constrained by shape-level validity.
+- **Services surface:** Atomic services — primary day-to-day hub; inline time/fee/event per part in one view; edits project to part rows and `event_assignments` (UI is not a second source of truth).
+- **Direction:** Prefer **domain-specific editors** over generic metadata-driven cards where the domain is stable; annotation metadata may remain narrower.
+
+---
+
+## 14. Invariants (formal drift test)
+
+If any assertion below is violated, the architecture has drifted.
+
+1. **Domain separation:** Each block type writes only its own concern to part instances. Domains compose; they do not overwrite.
+
+2. **Three root block-instance properties:** `composite`, `orchestrator`, and `wizardVisible` on **all** block instances (including user). Any combination is valid; no combination implies another.
+   - **2a.** **Composite** = same-shape children.
+   - **2b.** **Orchestrator** = cross-shape active assignments selected from the shape-level validity graph.
+   - **2c.** **WizardVisible** = appears in wizard lists for that shape when cascades allow.
+
+3. **Part instances are per-block-instance with two resolution tiers:** Own part sets via `part_assignments`; no cross-writes.
+   - **3a.** **Base** only on service orchestrator part rows.
+   - **3b.** Atomic services do not set base unless they are also orchestrators.
+   - **3c.** **PerUnit** on time/price atomic part rows; other columns null.
+   - **3d.** **Lineage:** PartFinalizer must not use `part_shape` alone when multiple logical work items could collide.
+   - **3e.** **Event assignments** are relational (`event_assignments`); override wins per part else baseline.
+   - **3f.** **PartFinalizer is client-side aggregation** for booking totals; server persists submitted payload without recomputing that resolution for the same contract.
+   - **3g.** **Per-block-instance** gives provenance, clean undo, and safe reconfiguration.
+
+4. **Events are data, not computation:** Pipeline reads assignments and placement types from storage.
+   - **4a.** Event shapes = placement types, not “which parts go where.”
+   - **4b.** Event instances = segments with calendar fields.
+   - **4c.** New placement types = new shape rows when valid; no mandatory engine code change per row.
+
+5. **`property_details` is appointment data, not configuration** for duration rates.
+
+6. **User instances are orchestrators** driving wizard state and cascades; their three-property flags are configuration, not hard-coded product constraints.
+
+_Source: `.project-manager/ARCHITECTURE.md` §10.3–§14 (kept in sync manually with the canonical file)._
 
 ## Codebase recon (agent-led — required)
 Injected docs above are not a substitute for opening real code. Search/read `client/`, `server/`, and `shared/` as relevant to this tier.
 
-- **Paths reviewed:** (repo-relative; files or dirs you actually opened or searched)
-- **Patterns / call sites:** (what exists today; what this work must align with or extend)
-- **Gaps / unknowns:** (what still needs verification later)
-
-[Codebase recon: search and read client/, server/, and shared/ as needed — then remove this line after recording findings below]
+- **Paths reviewed:**
+  - `server/src/db/models/admin/block_shape.ts` — `type` enum still uses **`user` | `service` | `property` | `option` | `coupon`** (legacy labels; plan targets `time` / `event` / `price` per `FEATURE_20_ARCHITECTURE_REDESIGN.md` §1–§2).
+  - `server/src/db/models/booking/block_instance.ts` — instance stores **`composite`** (boolean) among booking/admin flags; **no** `orchestrator` or `wizardVisible` columns in this model file today (principles + `ARCHITECTURE.md` §9 target three instance-level booleans — schema work expected in **20.1**).
+  - `client/src/utils/booking/partFinalizer.ts`, `client/src/utils/booking/BlockFinal.ts`, `client/src/utils/booking/blockFinalizer.ts`, `client/src/types/booking/partFinal.ts` — **client-side** part/block finalization pipeline (aligns with architecture rule: server persists submitted payload; avoid second calculator on server).
+  - `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` — execution passes §8, drift §9, migration §9.5; `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md` — phase map 20.1–20.6.
+- **Patterns / call sites:** Admin entity flows under `server/src/routes/internal/entities` and client `composables/admin/` / `components/admin/` consume the same metadata model as booking transformers (e.g. `globalToBookingTransformer` — referenced from booking utils). Booking steps and availability orchestration live under `client/src/components/booking/` and `client/src/composables/booking/`.
+- **Gaps / unknowns:** Full inventory of every switch on legacy type strings and every `event_assignments` touchpoint is left to **phase 20.1–20.4** guides (too large for feature-tier recon). Shared package grep for block types was shallow; exhaustive constant maps may live in client/server route validators — verify per pass.
 
 ## Analysis
-Address:
-- What problem does this solve and why now?
-- What domain boundaries does this cross? (see ARCHITECTURE.md)
-- Ground this in **## Codebase recon** (paths you verified) plus ARCHITECTURE.md — not doc injection alone.
-- What existing patterns or code should child tiers follow?
-- Risks, dependencies, or open questions?
-- Alternatives considered (for decomposition tiers)
+- **Problem / why now:** Architecture docs (`ARCHITECTURE.md` §8–§14, `ARCHITECTURE_PRINCIPLES.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md`) lock a **block / part / event** model that the codebase only partially implements. Without ordered passes, new work (especially **Feature 6** booking surfaces) risks reinforcing legacy enums (`property` / `coupon` / `option`), shape-level three-property confusion, or server-side recomputation of booking totals.
+- **Domain boundaries:** Crosses **Admin / Config**, **Booking / Wizard**, **server persistence + API**, and **shared contracts**. PartFinalizer and appointment submit boundaries are **client vs server** concerns per architecture.
+- **Grounding:** Recon confirmed legacy **`block_shapes.type`** enum and **`BlockInstance.composite`** on the server, and an existing **client** finalizer chain under `client/src/utils/booking/`. This matches the implementation plan’s direction: rename types, align instance storage, keep resolution on the client unless the plan explicitly adds server validation (and not a second calculator).
+- **Patterns child tiers should follow:** TanStack Query + composable boundaries from `ARCHITECTURE.md` §3–§4; explicit return types and logger-in-catch from project rules; phase guides under `phases/phase-20.*-guide.md` as the operational checklist; drift checks **plan §9.1** + **principles §8** at session boundaries per feature guide.
+- **Risks / dependencies:** **Migrations** must respect shared DB rules (host-only migrate when `DB_HOST` is not localhost). Overlap with **Feature 6** — product sequencing from appointment-workflow guides must not override architecture locks. **Order of passes** matters (schema before API before UI that assumes new fields).
+- **Open questions (inherited):** (1) *Click vs drag / app parity* — product/UX for native or hybrid shells; **defer** to **20.3–20.4** and post-alpha Ionic/Capacitor work; note in checkpoint, not blocking schema alignment. (2) *App Store registration* — **out of scope** for Feature 20; lives in **LAUNCH_CHECKLIST** / milestones, not domain alignment passes.
+- **Alternatives:** *Big-bang rewrite* — rejected; plan uses **20.1–20.6** with explicit acceptance checks. *Doc-only alignment* — rejected; recon shows code/enums still on legacy strings.
 
 ## Goal
-Deliver the feature: # Feature 20: Domain Architecture Alignment — Guide
+Execute **Feature 20: Domain Architecture Alignment** so that the **codebase and schema** match **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md**, using **phases 20.1–20.6** (plus **20.0** governance) as the only execution order unless the canonical docs are explicitly updated first.
 
-**Purpose:** Harness planning surface for executing the locked domain principles and v2 implementation plan in ordered passes.
-
-**Tier:** Feature (Tier 0)
-
-**Feature Name:** Domain Architecture Alignment  
-**Status:** Planning  
-**Directory:** `features/domain-architecture-alignment/`  
-**PROJECT_PLAN:** Feature #20. PROJECT_PLAN and feature guide define scope and "done" for this tier.
+**Done for this feature tier:** All phases **20.1–20.6** completed per their guides and acceptance checks; **ARCHITECTURE.md** and related playbooks remain consistent; coordination notes with **Feature 6** preserved where surfaces overlap.
 
 ## Files
-[To be refined during discussion]
+- **Canonical (read-only intent):** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md`
+- **Harness / PM:** `features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md`, `feature-planning.md` (this file), `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.*-guide.md`, `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`
+- **Implementation hotspots (non-exhaustive):** `server/src/db/models/**`, migrations under `server/` (as authored per pass), `server/src/routes/internal/**`, `client/src/utils/booking/**`, `client/src/composables/booking/**`, `client/src/components/booking/**`, `client/src/composables/admin/**`, `client/src/components/admin/**`, `shared/**` where API or enums are shared
 
 ## Approach
-[To be refined during discussion]
+1. Treat **analysis docs** as authoritative; on conflict, update guides/planning — not principles or `FEATURE_20_ARCHITECTURE_REDESIGN.md`.
+2. Run **Phase 20.0** activities (readiness, migration narrative, worklog) alongside passes as needed — no separate “implementation pass” unless the team adds one.
+3. Run **`/phase-start 20.1` … `20.6` in order**; each phase-end gates the next. Inside each phase, follow that phase’s guide and **plan §8** subsection.
+4. After **schema/API** passes, update client and admin to the **same** contracts (shared types where both sides consume).
+5. **Booking:** Preserve **PartFinalizer-on-client**; align data shapes and event routing with relational **`event_assignments`** per plan — do not introduce scalar event columns on part rows.
+6. **Migrations:** Follow **plan §9.5** ordering; respect project **DB_HOST** migration policy.
+7. **Inherited UX questions** (pointer vs touch, App Store): track in handoff/milestones; do not expand Feature 20 scope unless product explicitly adds a phase.
 
 ## Checkpoint
-[To be refined during discussion]
+- Before accepting this plan: agree **phase order 20.1→20.6** is locked and **Feature 6** work will not override principles.
+- At each **session start/end** (once coding begins): run **FEATURE_20_ARCHITECTURE_REDESIGN §9.1** drift checklist and cross-check **§9.1a** vs **ARCHITECTURE_PRINCIPLES §8** (per feature guide).
+- After **`/accepted-plan`:** checkout/create **`feature/domain-architecture-alignment`** if not already on it; then **`/phase-start 20.1`**.
 
 ## Deliverables
-[List concrete deliverables]
+- **20.1** — Schema / Sequelize / enum alignment per plan §8.1 (including instance-level model goals where specified).
+- **20.2** — Internal API and handler alignment per §8.2.
+- **20.3** — Admin UX and metadata editors aligned per §8.3.
+- **20.4** — Booking pipeline (finalizer, transformers, steps) aligned per §8.4.
+- **20.5** — Migration planning and data conversion scripts/narrative per §8.5.
+- **20.6** — Rollout, cleanup, and documentation per §8.6.
+- **20.0** — Governance artifacts: §9.3 readiness when promoting docs; §9.5 ordering respected; **DOMAIN_REWRITE_WORKLOG** updated for major decisions.
+- **PM:** Feature handoff/log updated at meaningful milestones; `PROJECT_PLAN` Feature 20 status advanced when the feature completes.
 
 ## Acceptance Criteria
-- [ ] [High-level criterion]
+- [ ] Phases **20.1–20.6** each completed with their guide’s acceptance checks and **plan §8** criteria satisfied.
+- [ ] No intentional regression of **client-side** booking resolution for the live wizard contract; server remains **persist + validate**, not a duplicate PartFinalizer.
+- [ ] **Block shape type** vocabulary matches locked rename mapping (`time` / `price` / `event` targets) in DB, server, and client — no orphaned `property`/`coupon`/`option` product paths after cleanup pass.
+- [ ] **Event routing** remains relational via **`event_assignments`** (no new scalar default/override event columns on part instances per principles).
+- [ ] **Feature 6** overlap documented in phase/session logs where the same files change; architecture doc wins on disputes.
+- [ ] App starts and **lint** passes per Definition of Done below when code changes land (per session policy).
 
 ## Decomposition
-- **Phase 20:** [one line per phase in this feature]
+- **Phase 20.0:** Governance — §9.3 readiness, §9.5 migration ordering, worklog; no standalone implementation guide required initially.
+- **Phase 20.1:** Pass 1 — Schema alignment (models, enums, instance fields per plan §8.1 / doc §2).
+- **Phase 20.2:** Pass 2 — API alignment (routes, validation, shared contracts §8.2 / §5).
+- **Phase 20.3:** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
+- **Phase 20.4:** Pass 4 — Booking pipeline alignment (finalizer, transformers, steps §8.4 / §4).
+- **Phase 20.5:** Pass 5 — Migration planning and data conversion (§8.5).
+- **Phase 20.6:** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
 
 ## Definition of Done
 

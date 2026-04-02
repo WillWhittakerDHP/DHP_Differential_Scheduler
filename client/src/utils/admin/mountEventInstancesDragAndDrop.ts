@@ -1,5 +1,5 @@
 /**
- * WHY: FormKit drag setup for event instances list (useInstancesTabEventInstanceDrag audit).
+ * WHY: FormKit drag setup for event instance expansion panels (e.g. block-instance segment list).
  */
 
 import type { Ref } from 'vue'

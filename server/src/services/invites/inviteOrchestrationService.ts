@@ -14,7 +14,7 @@ import type { EventInstance as EventInstanceType } from '../../db/models/booking
 import { resolveEventTemplates } from './templateResolver.js'
 import { buildInviteContext } from './inviteContextBuilder.js'
 import {
-  buildAttendeesForEventShape,
+  buildAttendeesForEventInstance,
   markAttendeesAsFailed,
   updateAttendeeRecords,
 } from './inviteAttendeeHelpers.js'
@@ -22,16 +22,22 @@ import { createLogger } from '../../utils/logger.js'
 import { UNKNOWN_ERROR_MESSAGE } from '../../constants/router.js'
 import { DEFAULT_EVENT_SUMMARY_FALLBACK } from './inviteConstants.js'
 import { EMPTY_STRING, nilToEmptyString } from '@shared/utils/nilDefaults.js'
+import { compareEventSegmentsForCalendarOrder } from '@shared/utils/eventPlacementUtils.js'
 import {
   type AppointmentWithRelations,
   type NormalizedAppointmentForInviteFlow,
   collectBlockInstanceIds,
-  linkStripSetForEventShape,
+  linkStripSetForSegmentLinkFlags,
   normalizeAppointmentForInviteFlow,
   toInviteAppointmentData,
 } from './inviteAppointmentShared.js'
 
 const logger = createLogger('InviteOrchestrationService')
+
+/** `findEventInstancesForBlockInstances` eager-loads `eventShape`; Sequelize typings omit the association. */
+type EventSegmentForCalendarSort = EventInstanceType & {
+  eventShape?: { placementKind?: string; anchorEdge?: string | null }
+}
 
 interface SingleEventResult {
   eventInstanceId: string
@@ -138,7 +144,7 @@ async function findEventInstancesForBlockInstances(
           {
             model: EventShape,
             as: 'eventShape',
-            attributes: ['id', 'includeRescheduleLink', 'includeCancelLink'],
+            attributes: ['id', 'name', 'placementKind', 'anchorEdge'],
             required: true,
           },
         ],
@@ -155,6 +161,23 @@ async function findEventInstancesForBlockInstances(
       uniqueInstances.push(ea.eventInstance)
     }
   }
+
+  uniqueInstances.sort((left, right) =>
+    compareEventSegmentsForCalendarOrder(
+      left as EventSegmentForCalendarSort,
+      right as EventSegmentForCalendarSort
+    )
+  )
+  logger.debug('Event instances ordered for calendar invites', {
+    order: uniqueInstances.map((i) => {
+      const row = i as EventSegmentForCalendarSort
+      return {
+        id: i.id,
+        placementKind: row.eventShape?.placementKind,
+        anchorEdge: row.eventShape?.anchorEdge,
+      }
+    }),
+  })
 
   return uniqueInstances
 }
@@ -178,10 +201,14 @@ async function createEventForInstance(
   const instanceName = eventInstance.name
 
   try {
-    const eventWithShape = eventInstance as EventInstanceType & {
-      eventShape?: { includeRescheduleLink?: boolean; includeCancelLink?: boolean }
+    const inst = eventInstance as EventInstanceType & {
+      includeRescheduleLink?: boolean
+      includeCancelLink?: boolean
     }
-    const stripPlaceholderNames = linkStripSetForEventShape(eventWithShape.eventShape)
+    const stripPlaceholderNames = linkStripSetForSegmentLinkFlags({
+      includeRescheduleLink: inst.includeRescheduleLink,
+      includeCancelLink: inst.includeCancelLink,
+    })
 
     const resolved = resolveEventTemplates(
       {
@@ -197,10 +224,7 @@ async function createEventForInstance(
     const description = resolved.description || buildDefaultDescription(appointment)
     const location = resolved.location || buildDefaultLocation(appointment)
 
-    const attendees = await buildAttendeesForEventShape(
-      eventInstance.eventShapeRef,
-      appointment
-    )
+    const attendees = await buildAttendeesForEventInstance(eventInstance.id, appointment)
 
     const eventParams: CreateEventParams = {
       calendarId,
@@ -224,11 +248,7 @@ async function createEventForInstance(
 
     const createdEvent = await createEvent(eventParams)
 
-    const attendeesUpdated = await updateAttendeeRecords(
-      appointment,
-      eventInstance.eventShapeRef,
-      createdEvent.id
-    )
+    const attendeesUpdated = await updateAttendeeRecords(appointment, eventInstance.id, createdEvent.id)
 
     logger.info(`Created event for "${instanceName}": ${createdEvent.id}, ${attendeesUpdated} attendees updated`)
 
@@ -245,7 +265,7 @@ async function createEventForInstance(
 
     const failedCount = await markAttendeesAsFailed(
       appointment,
-      eventInstance.eventShapeRef,
+      eventInstance.id,
       error instanceof Error ? error.message : UNKNOWN_ERROR_MESSAGE
     )
 
@@ -259,6 +279,10 @@ async function createEventForInstance(
   }
 }
 
+/**
+ * WHY: All calendar segments for this appointment currently share the **first** wizard `selectedTimeSlots` row.
+ * Per-segment windows require a client payload + persistence change — server does not recompute from PartFinalizer.
+ */
 function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
   if (!firstSlot?.startTime) {
@@ -267,6 +291,7 @@ function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): stri
   return new Date(firstSlot.startTime).toISOString()
 }
 
+/** @see extractStartTime — same single-slot policy for end time. */
 function extractEndTime(appointment: NormalizedAppointmentForInviteFlow): string {
   const firstSlot = (appointment.selectedTimeSlots as Array<{ endTime: string }> | null)?.[0]
   if (!firstSlot?.endTime) {

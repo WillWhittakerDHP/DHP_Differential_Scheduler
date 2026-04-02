@@ -45,36 +45,6 @@ export const blockShapeDisplays = {
     align: "center",
   },
 
-  composable: {
-    label: "Composable",
-    placeholder: "Allow BlockInstances of this type to be composed together",
-    inline: false,
-    stacked: true,
-    width: "20%",
-    align: "center",
-    tooltip: "When enabled, BlockInstances of this type can be composed together to share part instances and compose properties.",
-  },
-  
-  canHaveParts: {
-    label: "Can Have Parts",
-    placeholder: "Allow BlockInstances of this type to have part instances",
-    inline: false,
-    stacked: true,
-    width: "20%",
-    align: "center",
-    tooltip: "When enabled (ON), BlockInstances of this BlockShape can have part instances attached. Mutually exclusive with State Control.",
-  },
-  
-  isStateControl: {
-    label: "State Control",
-    placeholder: "BlockInstances of this type act as state selectors in the wizard",
-    inline: false,
-    stacked: true,
-    width: "20%",
-    align: "center",
-    tooltip: "When enabled (ON), BlockInstances of this BlockShape act as state selectors in the wizard (like User Types). Mutually exclusive with Can Have Parts.",
-  },
-  
   type: {
     label: "Type",
     placeholder: "Select block shape type",

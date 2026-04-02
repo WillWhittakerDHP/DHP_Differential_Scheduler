@@ -26,7 +26,7 @@ export function associateSequelizePropertyAdminAndAvailability(m: SequelizeModel
     EventShape,
     EventInstance,
     EventAssignment,
-    EventShapeAttendee,
+    EventInstanceAttendee,
     AppointmentAttendee,
     Address,
     PropertyVersion,
@@ -64,6 +64,7 @@ export function associateSequelizePropertyAdminAndAvailability(m: SequelizeModel
     UserRoleBlockAlignment,
   } = m
   void UserRoleBlockAlignment
+  void EventInstanceAttendee
 
   Address.hasMany(PropertyVersion, { foreignKey: 'address_id', as: 'propertyVersions' });
   PropertyVersion.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });

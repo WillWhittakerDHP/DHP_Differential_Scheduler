@@ -3,7 +3,7 @@
  */
 
 import type { EventAttendee } from '../google/calendar/calendarTypes.js'
-import { AppointmentAttendee, EventShapeAttendee } from '../../config/app.js'
+import { AppointmentAttendee, EventInstanceAttendee } from '../../config/app.js'
 import { createLogger } from '../../utils/logger.js'
 import { INVITATION_STATUS_FAILED, INVITATION_STATUS_SENT } from './inviteConstants.js'
 
@@ -33,20 +33,20 @@ function buildAllAttendees(appointment: AppointmentForAttendeeOps): EventAttende
     }))
 }
 
-export async function buildAttendeesForEventShape(
-  eventShapeId: string,
+export async function buildAttendeesForEventInstance(
+  eventInstanceId: string,
   appointment: AppointmentForAttendeeOps
 ): Promise<EventAttendee[]> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId, disabled: false },
+  const segmentAttendees = await EventInstanceAttendee.findAll({
+    where: { eventInstanceId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 
-  const allowedUserTypes = new Set(shapeAttendees.map((sa) => sa.userTypeBlockInstanceId))
+  const allowedUserTypes = new Set(segmentAttendees.map((sa) => sa.userTypeBlockInstanceId))
 
   if (allowedUserTypes.size === 0) {
     logger.debug(
-      `No EventShapeAttendees configured for shape ${eventShapeId} — inviting all appointment attendees`
+      `No EventInstanceAttendees configured for segment ${eventInstanceId} — inviting all appointment attendees`
     )
     return buildAllAttendees(appointment)
   }
@@ -67,15 +67,15 @@ export async function buildAttendeesForEventShape(
 
 export async function updateAttendeeRecords(
   appointment: AppointmentForAttendeeOps,
-  eventShapeId: string,
+  eventInstanceId: string,
   googleEventId: string
 ): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId, disabled: false },
+  const segmentAttendees = await EventInstanceAttendee.findAll({
+    where: { eventInstanceId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 
-  const allowedUserTypes = new Set(shapeAttendees.map((sa) => sa.userTypeBlockInstanceId))
+  const allowedUserTypes = new Set(segmentAttendees.map((sa) => sa.userTypeBlockInstanceId))
 
   const matchingAttendees =
     allowedUserTypes.size > 0
@@ -106,15 +106,15 @@ export async function updateAttendeeRecords(
 
 export async function markAttendeesAsFailed(
   appointment: AppointmentForAttendeeOps,
-  eventShapeId: string,
+  eventInstanceId: string,
   errorMessage: string
 ): Promise<number> {
-  const shapeAttendees = await EventShapeAttendee.findAll({
-    where: { eventShapeId, disabled: false },
+  const segmentAttendees = await EventInstanceAttendee.findAll({
+    where: { eventInstanceId, disabled: false },
     attributes: ['userTypeBlockInstanceId'],
   })
 
-  const allowedUserTypes = new Set(shapeAttendees.map((sa) => sa.userTypeBlockInstanceId))
+  const allowedUserTypes = new Set(segmentAttendees.map((sa) => sa.userTypeBlockInstanceId))
 
   const matchingAttendees =
     allowedUserTypes.size > 0

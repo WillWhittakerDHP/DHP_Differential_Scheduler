@@ -47,6 +47,14 @@ export class EventInstance extends Model<
   declare reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
+  declare parentBlockInstanceId: CreationOptional<string | null>;
+  declare locationType: CreationOptional<string | null>;
+  declare locationPlaceId: CreationOptional<string | null>;
+  declare locationAddress: CreationOptional<string | null>;
+  declare locationLat: CreationOptional<number | null>;
+  declare locationLng: CreationOptional<number | null>;
+  declare includeRescheduleLink: CreationOptional<boolean>;
+  declare includeCancelLink: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -172,6 +180,56 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         defaultValue: true,
         comment: 'Whether this event instance is active/enabled',
       },
+      parentBlockInstanceId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'parent_block_instance_id',
+        references: {
+          model: 'block_instances',
+          key: 'id',
+        },
+        comment: 'Owning event block instance for this segment',
+      },
+      locationType: {
+        type: DataTypes.STRING(32),
+        allowNull: true,
+        field: 'location_type',
+        comment: 'Structured segment location semantics (optional)',
+      },
+      locationPlaceId: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'location_place_id',
+      },
+      locationAddress: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'location_address',
+      },
+      locationLat: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+        field: 'location_lat',
+      },
+      locationLng: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+        field: 'location_lng',
+      },
+      includeRescheduleLink: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'include_reschedule_link',
+        comment: 'Per-segment: strip {rescheduleLink} from invites when false',
+      },
+      includeCancelLink: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+        field: 'include_cancel_link',
+        comment: 'Per-segment: strip {cancelLink} from invites when false',
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -197,6 +255,10 @@ export function EventInstanceFactory(sequelize: Sequelize) {
         {
           fields: ['event_shape_ref'],
           name: 'idx_event_instances_event_shape_ref',
+        },
+        {
+          fields: ['parent_block_instance_id'],
+          name: 'idx_event_instances_parent_block_instance_id',
         },
       ],
     }

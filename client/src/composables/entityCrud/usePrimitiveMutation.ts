@@ -12,12 +12,6 @@ import type { StatusToggleMutationPayload } from '@/utils/admin/statusButtonTogg
 
 const logger = createLogger('usePrimitiveMutation')
 
-/** blockShape mutual-exclusion field keys: canHaveParts and isStateControl cannot both be true. */
-const BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS = {
-  canHaveParts: 'canHaveParts',
-  isStateControl: 'isStateControl',
-} as const
-
 /**
  * Primitive mutation for updating a single field on an entity.
  *
@@ -130,18 +124,9 @@ export function usePrimitiveMutation<GlobalEntityTypeKey extends GlobalEntityKey
         // PATTERN: Update specific field using variables.admin.key and variables.admin.value
         const updatedEntities = [...currentEntities]
         const existingEntity = currentEntities[entityIndex] as Record<string, unknown>
-        let nextEntity: Record<string, unknown> = {
+        const nextEntity: Record<string, unknown> = {
           ...existingEntity,
           [variables.admin.key]: variables.admin.value,
-        }
-
-        if (entityKey === 'blockShape') {
-          if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts && variables.admin.value === true) {
-            nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl]: false }
-          }
-          if (variables.admin.key === BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.isStateControl && variables.admin.value === true) {
-            nextEntity = { ...nextEntity, [BLOCK_SHAPE_MUTUAL_EXCLUSION_KEYS.canHaveParts]: false }
-          }
         }
 
         updatedEntities[entityIndex] = nextEntity as GlobalEntity<GlobalEntityTypeKey>

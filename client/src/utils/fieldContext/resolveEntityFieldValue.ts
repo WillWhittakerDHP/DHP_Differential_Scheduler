@@ -3,17 +3,13 @@
  * WHY: Keeps branching out of composables (function-governance).
  */
 import type { GlobalEntityKey } from '@/constants/entities'
-import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { ValidAdminValue } from '@/constants/primitives'
 import { asEmptyString } from '@/utils/safeDefaults'
 
 function missingDefaultForEntityProperty(
-  entityKey: GlobalEntityKey,
-  propertyName: string
+  _entityKey: GlobalEntityKey,
+  _propertyName: string
 ): ValidAdminValue {
-  if (entityKey === 'blockInstance' && propertyName === FIELD_NAMES.DIFFERENTIAL_EVENT_ROLE_OVERRIDES) {
-    return {}
-  }
   return ''
 }
 

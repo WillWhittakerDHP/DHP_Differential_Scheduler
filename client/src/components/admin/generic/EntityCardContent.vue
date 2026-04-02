@@ -3,18 +3,24 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
+import { computed, type ComputedRef } from 'vue'
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
+import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
+import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
+import EventBlockInstanceSegmentsPanel from './EventBlockInstanceSegmentsPanel.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
+import { useAdmin } from '@/composables/admin/useAdmin'
+import { getBlockInstanceShapeProperties } from '@/utils/admin/blockInstanceShape'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FormContext } from 'vee-validate'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
-import type { ComputedRef } from 'vue'
 import type { EntityCardSharedProps } from './entityCardConstants'
 
 interface Props extends EntityCardSharedProps {
@@ -38,7 +44,15 @@ interface Props extends EntityCardSharedProps {
   }
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const admin = useAdmin()
+const showEventSegments = computed((): boolean => {
+  if (props.entityKey !== 'blockInstance' || props.isNew) {
+    return false
+  }
+  return getBlockInstanceShapeProperties(admin, toGlobalEntityId(props.entityId)).isEventShape
+})
 </script>
 
 <template>
@@ -89,6 +103,21 @@ defineProps<Props>()
   </VRow>
 
   <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
+
+  <ServiceAtomicEditor
+    v-if="entityKey === 'blockInstance' && !isNew"
+    :block-instance-id="entityId"
+  />
+
+  <TimePriceAtomicPartLedgerEditor
+    v-if="entityKey === 'blockInstance' && !isNew"
+    :block-instance-id="entityId"
+  />
+
+  <EventBlockInstanceSegmentsPanel
+    v-if="showEventSegments"
+    :block-instance-id="entityId"
+  />
 
   <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
     <FieldRenderer

@@ -2,10 +2,7 @@ import type { CoreEntity } from '@shared/types/coreEntityTypes'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { AnnotationUiSlot } from '@shared/constants/annotationSlots'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
-import type { BookingMode } from '@/constants/bookingMode'
 import type { TernaryBoolean } from '@/types/ternary'
-import type { DifferentialRole } from '@shared/types/differentialRole'
-
 /** One annotation assignment row eligible for wizard slot resolution (from global batch + edges). */
 export type BookingAnnotationUiCandidate = {
   orderIndex: number
@@ -37,18 +34,15 @@ export type BookingBlockShape = {
   id: string
   name: string
   type: BlockShapeType
-  canHaveParts: boolean
-  isStateControl: boolean
-  composable: boolean
 }
 
 export type BookingBlockInstance = CoreEntity & {
   entityKey: 'blockInstance'
   baseSqFt: number
   icon: string
-  bookingMode: BookingMode
   agentPermissions: TernaryBoolean
-  differential: TernaryBoolean
+  orchestrator: boolean
+  wizardVisible: boolean
   preClosing: boolean
   orderIndex: number
   blockShape: string
@@ -61,7 +55,6 @@ export type BookingBlockInstance = CoreEntity & {
   isMultiFamily: boolean
   requiresAgent: boolean
   annotationUi?: BookingBlockAnnotationUi
-  differentialEventRoleOverrides?: Record<string, DifferentialRole>
   [key: string]: unknown
 }
 

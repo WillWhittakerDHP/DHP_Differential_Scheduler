@@ -19,7 +19,4 @@ export interface UseInstancesTabReturn {
   createModalSourceEntity: Ref<GlobalEntity<'blockInstance'> | undefined>
   handleInstanceCreated: (entity: GlobalEntity<'blockInstance'>) => void
   handleExistingBlockShapeSaved: (shapeId: string) => void
-  filteredEventInstances: ComputedRef<GlobalEntity<'eventInstance'>[]>
-  eventInstanceMetadataModalOpen: Ref<boolean>
-  eventInstanceFieldsGlobalEntity: ComputedRef<GlobalEntity<'eventInstance'>>
 }

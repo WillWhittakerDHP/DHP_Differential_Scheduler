@@ -2,7 +2,7 @@
 
 **Purpose:** Single source of truth for all feature development planning and tracking
 
-**Last Updated:** 2026-04-02
+**Last Updated:** 2026-04-03
 **Status:** Active Planning Document
 
 ---
@@ -43,7 +43,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
-| 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + v2 redesign execution |
+| 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + Feature 20 implementation plan |
 
 
 ---
@@ -518,6 +518,14 @@ Implement the following so that authenticated users and roles are used where oth
 | 7 | **checkOwnership real implementation** — Replace stub to verify `req.user.id` against resource owner field. Existing route wiring stays. | Feature 7 (`req.user`) |
 
 > **Steps 1–5 are independent of Feature 7** and can be done now. Steps 6–7 require working sessions/auth and align with Feature 7's Enactment phase.
+
+### Follow-up: appointment version snapshots access (`GET …/appointments/:id/versions`)
+
+**Current behavior (wizard / domain work):** This route uses `requireAuth`. By default, **`requireAuthThenStaffOrOwnership('appointment','id')`** allows internal staff roles (agent, admin, transaction_manager, owner) to read version payloads for any appointment id; non-staff still require `scheduledById === req.user.id` (registry ownership).
+
+**Temporary escape hatch:** `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP=true` skips the ownership/staff-or-owner step so **any authenticated user** can call the endpoint for any id. Documented in `server/.env.example`. Intended only for local debugging; **do not leave enabled in production**.
+
+**Revisit before release:** Remove `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP` from all deployed envs; confirm product policy (org scoping, audit logging, whether customers may ever need this route without being `scheduledById`). Adjust middleware or split public vs internal paths if requirements change.
 
 ### Related Documents
 - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2
@@ -1075,6 +1083,75 @@ Trusted dev friends get more than the in-app alpha flow: a way to **read** the p
 
 ---
 
+## Feature 20: Domain Architecture Alignment
+
+**Status:** 📋 Planning  
+**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. Execution is ordered in phases **20.1–20.6** (mapped to implementation plan §8); **Phase 20.0** covers governance and readiness without a separate implementation pass. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative for architecture decisions.  
+**Branch:** TBD  
+**Directory:** `features/domain-architecture-alignment/`
+
+### Harness and authoritative docs
+
+**Resolver:** `/feature-start 20` and workflow scope resolution use **Feature Summary** row **#20** and the **Directory** cell (`features/domain-architecture-alignment/`). The narrative below is the human index; it does not replace that table row.
+
+**Canonical sources (absolute truth)**
+
+- `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md` — immutable architectural rules.
+- `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+
+**Conflict rule:** If this plan or any feature guide disagrees with either canonical file above, **the analysis documents win**; update the guide or this section, not the principles or the implementation plan.
+
+### Mandatory context
+
+- Open **both** canonical documents (or the exact sections cited in the active phase guide) **before** implementation work in any phase or session.
+- At **session start and end**, run **implementation plan §9.1** (drift checklist) and cross-check **§9.1a** against **ARCHITECTURE_PRINCIPLES.md §8** invariants.
+- Do not treat summaries here as a substitute for full implementation-plan sections that apply to the pass you are in.
+
+### Phases (20.1–20.6)
+
+| Phase | Name | Primary guide | Plan § |
+|-------|------|----------------|--------|
+| **20.1** | Pass 1 — Schema alignment | `features/domain-architecture-alignment/phases/phase-20.1-guide.md` | §8.1 |
+| **20.2** | Pass 2 — API alignment | `features/domain-architecture-alignment/phases/phase-20.2-guide.md` | §8.2 |
+| **20.3** | Pass 3 — Admin UX alignment | `features/domain-architecture-alignment/phases/phase-20.3-guide.md` | §8.3 |
+| **20.4** | Pass 4 — Booking pipeline alignment | `features/domain-architecture-alignment/phases/phase-20.4-guide.md` | §8.4 |
+| **20.5** | Pass 5 — Migration planning and data conversion | `features/domain-architecture-alignment/phases/phase-20.5-guide.md` | §8.5 |
+| **20.6** | Pass 6 — Rollout and cleanup | `features/domain-architecture-alignment/phases/phase-20.6-guide.md` | §8.6 |
+
+### Phase 20.0 (governance)
+
+Narrative and readiness only — no separate numbered implementation pass required initially.
+
+- **Replacement readiness:** **§9.3** in `FEATURE_20_ARCHITECTURE_REDESIGN.md` (checklist before any redesign file swap).
+- **Migration notes summary:** **§9.5** (ordering constraints for type renames, three-property model, placement, relational routing).
+- **Audit trail:** `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`
+
+### Coordination with Feature 6
+
+Appointment workflow, fee/finalizer paths, admin shapes, and role surfaces may touch the same code as **Feature 6**. When in conflict, follow **principles + Feature 20 implementation plan**; use phase guides for **6.10** (fee/coupon), **6.18** (roles / catalog), and the rest of `features/appointment-workflow/` for product sequencing, not to override domain architecture locks.
+
+### Implementation order (summary)
+
+| Step | Phase | What | Depends on |
+|------|-------|------|------------|
+| 0 | **20.0** | Governance: §9.3 readiness, §9.5 migration narrative, worklog — as needed alongside passes | — |
+| 1 | **20.1** | Schema / model alignment (Pass 1) | — |
+| 2 | **20.2** | API alignment (Pass 2) | Step 1 (as applicable) |
+| 3 | **20.3** | Admin UX alignment (Pass 3) | Prior passes where UI depends on schema/API |
+| 4 | **20.4** | Booking pipeline alignment (Pass 4) | Prior passes |
+| 5 | **20.5** | Migration planning and data conversion (Pass 5) | Prior passes |
+| 6 | **20.6** | Rollout and cleanup (Pass 6) | Step 5 |
+
+### Related Documents
+
+- **Feature guide (harness planning surface):** `features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md`
+- **Handoff / log:** `features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md`, `features/domain-architecture-alignment/feature-domain-architecture-alignment-log.md`
+- **Feature planning:** `features/domain-architecture-alignment/feature-planning.md`
+- **Phase guides:** `features/domain-architecture-alignment/phases/phase-20.1-guide.md` … `phase-20.6-guide.md`
+- **Harness:** `.project-manager/HARNESS_CHARTER.md` — workflow scope uses Feature Summary **#20** + directory; per-feature narrative sections are for humans.
+
+---
+
 ## Infrastructure & Refactors
 
 The following work was completed on the `feature/google-apis-integration` branch but does not constitute standalone features:
@@ -1132,3 +1209,4 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 - **Launch infrastructure** is tracked in LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)
 - **Feature 18 (Admin Assistance Wizard)** replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency
 - **Feature 19 (CRM / Inspection Platform Integration)** is part of beta-launch work: research (Spectora + ISN) and API set-up must be done so we can loop the scheduler into inspection creation (Spectora, ISN, or own CRM). See Phase 19.1–19.2 for detail; Phase 19.3 (full wiring) can follow during or after beta.
+- **Feature 20 (Domain Architecture Alignment)** — execute locked principles and the Feature 20 implementation plan ordered passes (phases 20.1–20.6); full pointers and phase map in **## Feature 20** above and in `features/domain-architecture-alignment/`; **status** remains from the Feature Summary table.

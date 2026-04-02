@@ -1982,3 +1982,1088 @@ Expected tier branch **feature/appointment-workflow** is not present locally (no
 Branches are created at **tier-start**. Run **/feature-start** with **featureName** `appointment-workflow`, then re-run tier-end.
 
 If the branch already exists on the remote, run **`git fetch`** (then **`git checkout`** the branch) before re-running tier-end.
+
+### 2026-04-02 — 20.1 — phase — start — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** ensure_branch, ensure_guide_from_plan
+
+- **Symptom:** Harness start failed (reasonCode=guide_materialization_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.1.1.1 — task — end — preflight_branch_failed
+
+- **reasonCodeRaw:** preflight_branch_failed
+- **reasonCodeNormalized:** preflight_branch_failed
+- **isFailureReason:** true
+- **tier:** task
+- **action:** end
+- **identifier:** 20.1.1.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining
+
+- **Symptom:** Harness end failed (reasonCode=preflight_branch_failed).
+- **Context:** tier=task; identifier=20.1.1.1; featureName=domain-architecture-alignment
+
+nextAction:
+git fetch origin feature/domain-architecture-alignment failed: fatal: couldn't find remote ref feature/domain-architecture-alignment
+. Check git remote -v and network.
+
+deliverables (excerpt):
+git fetch origin feature/domain-architecture-alignment failed: fatal: couldn't find remote ref feature/domain-architecture-alignment
+. Check git remote -v and network.
+
+### 2026-04-02 — 20.1.1.1 — task-end — feature branch not auto-pushed by harness
+
+- **Symptom:** Tier-end preflight runs `git fetch origin <feature-branch>`; if the branch has never been pushed, fetch fails with `couldn't find remote ref`, blocking the rest of the end pipeline (commit_remaining, etc.) until the branch exists on `origin`.
+- **Context:** Task `20.1.1.1`, feature `domain-architecture-alignment`, branch `feature/domain-architecture-alignment`. Harness does not push the feature branch for you before that fetch.
+- **What we tried:** Manual `git push -u origin feature/domain-architecture-alignment` after committing work.
+- **Outcome / workaround:** Push the feature branch once from the workstation; then re-run tier-end resume (`options.resumeEndAfterStep` / `continuePastGapAnalysis` per control plane) so preflight can succeed.
+- **Suggestion:** Document in playbook/SKILL: first push of a feature branch may be required before task-end/session-end preflight; `preflight_branch_failed` often means “push or create remote branch.”
+
+### 2026-04-02 — 20.1.1.1 — task-end — LLM review packet (v1) is not automatically executed
+
+- **Symptom:** Expectation that a separate “LLM review” step runs after tier-end; only the harness markdown block appears.
+- **Context:** On `gap_analysis` / tier-end, the harness emits an **LLM review packet (v1)** inside command output (metadata, drift, rubric with **### Review — …** headings). This is **advisory content for the agent or human** to answer in chat — there is no second automated invocation of a review model.
+- **What we tried:** N/A — design is intentional (see `gap-llm-review.ts`, rubric in tier-end output).
+- **Outcome / workaround:** **Trigger “review” manually:** read the packet in the last `/task-end` output (or session log), then reply in chat using the **### Review — Context / Drift / Over-build / Follow-ups / Confidence** headings; or assign a subagent with that packet. To continue the harness after review, re-run tier-end with `options: { resumeEndAfterStep: 'gap_analysis', continuePastGapAnalysis: true }` (or the `nextInvoke` params from `controlPlaneDecision`).
+- **Suggestion:** Optional playbook line: “LLM review packet = fill-in-the-blanks for chat; not a background job.”
+
+### 2026-04-02 — 20.1.1 — session-end / accepted-push — cascade pointed at same session (`/session-start 20.1.1`)
+
+- **Symptom:** After **`/session-end 20.1.1`** and **`/accepted-push`**, control plane suggested **`/session-start 20.1.1`** even though session **20.1.1** was complete; **`across-ladder.json`** also showed **`focusSessionId`: `20.1.1`** and **`nextTaskAcross`: `20.1.1.1`** (stale relative to completed tasks).
+- **Context:** `deriveNextSession` in `.cursor/commands/tiers/session/composite/session-end-impl.ts` scans the phase guide with `/Session\s+(\d+\.\d+\.\d+):/g` and does **not** dedupe. Phase **20.1** guide lists each session **twice** (plain lines under “Sessions Breakdown” *and* `### Session 20.1.x:` headings). The array becomes e.g. `[20.1.1, 20.1.2, 20.1.3, 20.1.1, …]`. **`indexOf(currentSessionId)`** returns **0**, and **`sortedSessions[currentIndex + 1]`** is the **duplicate** **`20.1.1`**, not **`20.1.2`**. That value is written into **`.tier-end-pending.json`** as **`cascade.command`**, so **`/accepted-push`** replays **`/session-start 20.1.1`**.
+- **What we tried:** Traced `accepted-push` → `pending.cascade`; traced cascade → `getCascade` → `p.nextSession` → `deriveNextSession`.
+- **Outcome / workaround:** **Human:** ignore the bad cascade; run **`/session-start 20.1.2`** for the next session in **phase-20.1-guide**. **Harness:** dedupe `sessionIds` (e.g. `Array.from(new Set(sessionIds))` after collect, then sort), or normalize phase guides to a **single** session-list format so each id appears once.
+- **Suggestion:** Patch `deriveNextSession` to dedupe; add a unit test with duplicated session headings. Optionally lint phase guides for duplicate `Session X.Y.Z:` lines.
+- **Harness fix (2026-04-02):** `deriveNextSession` now dedupes collected session ids (`Set`) in `session-end-impl.ts` so “next session” cannot equal the session just ended when the phase guide lists sessions twice.
+
+### 2026-04-02 — 20.1.2 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 20.1.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=20.1.2; featureName=domain-architecture-alignment
+
+nextAction:
+## Session Validation
+# Session 20.1.2 Validation
+
+❌ **Status:** Cannot start - Previous session not completed
+
+## Details
+
+- Session 20.1.1 is not marked as complete in phase guide
+- Session 20.1.2 cannot be started until Session 20.1.1 is complete
+- Complete Session 20.1.1 first with /session-end 20.1.1
+
+### 2026-04-02 — 20.1.2.2 — task — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** task
+- **action:** end
+- **identifier:** 20.1.2.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=task; identifier=20.1.2.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Task Audit: 20.1.2.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/task-20.1.2.2-audit.md
+
+*Note: Task audits run tier-task group (typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security) with --changed-only.*
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/task-20.1.2.2/2026-04-02T15-34-18Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (90/100)
+
+## Autofix
+
+Tier task: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/task-20.1.2.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often b
+
+…(truncated)
+
+### 2026-04-02 — 20.1.3.1 — task — end — git helper stderr during tier-end resume
+
+- **reasonCodeRaw:** harness_git_stderr_on_success_path
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** end
+- **identifier:** 20.1.3.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** —
+
+- **Symptom:** Resuming task-end with continuePastGapAnalysis logged git helper failures on stderr even though the run finished with task_complete.
+- **Context:** Captured lines from the same shell invocation as successful task-end (second pass after gap analysis):
+
+- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor fde41bc5509649954d9a92162065e3adad595236 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
+- [commitUncommitted-diff] Command failed: git diff --cached --quiet
+- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor 05dc734c80e57261940dcbf7b8c69ee0ba9b96f6 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
+- **Outcome / workaround:** Non-blocking: merge-base --is-ancestor exits non-zero when HEAD is not an ancestor of the compared ref (branch ahead/diverged); git diff --cached --quiet exits 1 when the index has staged changes.
+- **Suggestion:** When triaging harness output, distinguish stderr from git plumbing (expected exit codes) from real git_failed / commit_remaining failures.
+
+### 2026-04-02 — 20.1 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.1/2026-04-02T16-43-52Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.1 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.1/2026-04-02T16-46-17Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.1 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.1/2026-04-02T16-48-54Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.1 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.1/2026-04-02T16-50-09Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.1 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.1/2026-04-02T16-54-16Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.1 — /phase-end — Phase tier typecheck audit false positives (resolved)
+
+- **Symptom:** `/phase-end` for phase **20.1** (feature **domain-architecture-alignment**) returned `audit_failed` / tier-quality **WARN** with TypeScript errors in `client/.audit-reports/typecheck/typecheck-audit.json` that did not match source on disk (e.g. diagnostics for `BLOCK_SHAPE_TYPES.OPTION` / `PROPERTY` / `COUPON` on lines that already used `EVENT` / `TIME` / `PRICE`). Manual `vue-tsc` and `npm run typecheck:audit` often passed, so failures looked like application type bugs.
+- **Context:** `reasonCode` **audit_failed**; phase audit under `.cursor/project-manager/features/domain-architecture-alignment/audits/`; typecheck artifact `client/.audit-reports/typecheck/typecheck-audit.json`.
+- **What we tried:** Re-ran `npm run typecheck:audit` alone (clean); confirmed client+server typecheck passed; re-ran `/phase-end` with `continuePastVerification: true` and still saw mismatched diagnostics until the harness/typecheck pipeline was fixed.
+- **Outcome / workaround (landed):**
+  1. **`.cursor/commands/audit/atomic/audit-tier-quality.ts`:** Run `npm run typecheck:audit` **first** (await completion), then spawn remaining phase/task audit scripts in parallel; per-audit spawn timeout **120s → 300s** so `vue-tsc` is less likely to be killed under parallel load.
+  2. **`client/.scripts/typecheck-audit.mjs`:** Run **`vue-tsc -b --clean`** before **`vue-tsc -b --pretty false`** to clear stale incremental state (`tsconfig.tsbuildinfo`) that produced impossible error/line pairings.
+  Phase 20.1 tier-quality then **PASS** (96/100); phase-end reached **`pending_push`**.
+- **Benign noise (same runs, expected / non-blocking):**
+  - **`client/.audit-reports/inventory-annotations.json`:** `ENOENT` in phase-end mid-work — proceeds with empty annotations.
+  - **Git helpers:** `[compareBranchToRemote-behind]` / `[commitUncommitted-diff]` messages — branch/diff checks; noisy but not necessarily a failed tier-end.
+  - **`[gitCommit] Command failed`** for `[phase 20.1] completion` — auto completion commit may not apply if allowed paths are not staged; commit manually if you need that snapshot.
+  - **Across-ladder:** handoff inject skipped when feature/phase handoff files lack a **`[Next Action]`** section.
+- **Suggestion:** Retain clean+sequencing for phase/task typecheck; optionally stub or document optional `inventory-annotations.json` if the ENOENT log line confuses operators.
+
+### 2026-04-02 — 20.2 — phase — start — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 20.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** ensure_branch, ensure_guide_from_plan
+
+- **Symptom:** Harness start failed (reasonCode=guide_materialization_failed).
+- **Context:** tier=phase; identifier=20.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.2.2.1 — task — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** task
+- **action:** end
+- **identifier:** 20.2.2.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=task; identifier=20.2.2.1; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Task Audit: 20.2.2.1
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/task-20.2.2.1-audit.md
+
+*Note: Task audits run tier-task group (typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security) with --changed-only.*
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/task-20.2.2.1/2026-04-02T17-40-37Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (90/100)
+
+## Autofix
+
+Tier task: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/task-20.2.2.1-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+### 2026-04-02 — 20.2.3.1 — task-end — Git / harness commit noise vs successful tier-end (agent diagnosis)
+
+- **reasonCodeRaw:** HARNESS_WORKFLOW_FRICTION (manual / material confusion)
+- **reasonCodeNormalized:** process_note
+- **isFailureReason:** false
+- **tier:** task
+- **action:** end
+- **identifier:** 20.2.3.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** commit_remaining, git, agent_chat_summary
+
+- **Symptom:** During **`/task-end 20.2.3.1`** the harness stderr/trace showed alarming lines such as **`[gitCommit] Command failed: git commit`**, **`[commitUncommitted-diff] Command failed: git diff --cached --quiet`**, and **`compareBranchToRemote-behind` merge-base failures**, while the JSON result still reported **`success: true`** and **`reasonCode: task_complete`**. In chat, the agent summarized **`git status`** as branch **`feature/domain-architecture-alignment` ahead of **`origin`**, **`m .cursor`**, and **`?? client/tsconfig.tsbuildinfo`**, which can look like a dirty or failed workflow if read without the repo's harness policies.
+
+- **Context (historical / diagnosis):**
+  1. **Tier-end commit is multi-step.** `commit_remaining` may stage a subset of paths (`client/`, `server/`, `.project-manager/` per policy), run **`git diff --cached --quiet`** (exits **1** when there *is* something to commit — not an application error), then **`git commit`**. A logged **`Command failed`** for **`git diff --cached --quiet`** often means "non-empty index" or an intermediate check, not "commit aborted." The authoritative signal is whether a new commit appears on **`git log -1`** (e.g. **`[task 20.2.3.1] completion`**) and whether **`success: true`** on the harness result.
+  2. **`.cursor` submodule (`m .cursor`).** Process rules state **`tier-end` does not auto-commit** the **`.cursor/`** submodule; **`git status`** showing **` m .cursor`** is **expected by policy**, not proof the harness failed. Treat it as one-line context when reporting status to the user.
+  3. **`client/tsconfig.tsbuildinfo`.** TypeScript incremental build artifacts may be **untracked** or **deleted/recreated** across runs. The task-end preview for **20.2.3.1** included deleting a tracked **`tsbuildinfo`** in one snapshot while the working tree later showed **`?? client/tsconfig.tsbuildinfo`** — typical churn unless the file is **gitignored** or consistently ignored in commits. Agents should not treat this alone as "task-end broke the tree."
+  4. **`compareBranchToRemote-behind` / `merge-base --is-ancestor` failures** in trace output often reflect **local vs fetched `origin`** tip comparisons (e.g. remote moved, or first fetch incomplete); combined with **ahead N** on the feature branch, the actionable read is: **push when ready** to refresh PRs, not "re-run task-end because merge-base errored."
+  5. **Duplicate "success vs failed line" pattern** appeared earlier on **20.2.2.2** task-end (`git commit` line failed in trace but commit existed). Same class: **trust commit SHA + `success: true`**, use **`git log`/`git status`** to disambiguate.
+
+- **What we tried:** Re-ran **`git status -sb`** and **`git log -1`** after harness output; confirmed **`[task 20.2.3.1] completion`** present and branch **ahead of origin**.
+
+- **Outcome / workaround:** Document for agents: when summarizing tier-end, lead with **harness `success` + `reasonCode` + latest commit message**; mention **`.cursor` / tsbuildinfo** as **policy/noise** in one line; route **real** git failures to **`.project-manager/.git-friction-log.jsonl`** and **`/harness-repair`** per playbook.
+
+- **Suggestion:** (Optional) In tier-end step logging, distinguish **"expected non-zero"** git exits (e.g. `diff --cached --quiet` when index non-empty) from **hard commit failures** so traces are less scary; or append a one-line harness footer: "If `success: true`, ignore `git diff --cached --quiet` exit 1 unless no commit was created."
+
+- **Cross-reference:** `.cursor/rules/process-workflow.mdc` (git status / dirty tree reporting); `.project-manager/HARNESS_CHARTER.md` §4 (tier-end commit behavior).
+
+### 2026-04-02 — 20.2 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.2/2026-04-02T18-41-37Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (76/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 3 agent directive(s). Affected files: 3. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+- Remove or allowlist unused exports/functions in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/unused-code-audit.json. Verify before remove.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin
+
+…(truncated)
+
+### 2026-04-02 — 20.2 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.2/2026-04-02T18-46-19Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typica
+
+…(truncated)
+
+### 2026-04-02 — 20.2 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.2
+
+**Overall Status:** FAIL
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.2/2026-04-02T18-48-35Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ❌ **tier-quality**: fail (66/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 3 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurat
+
+…(truncated)
+
+### 2026-04-02 — 20.3 — phase — start — guide_materialization_failed
+
+- **reasonCodeRaw:** guide_materialization_failed
+- **reasonCodeNormalized:** guide_materialization_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 20.3
+- **featureName:** domain-architecture-alignment
+- **stepPath:** ensure_branch, ensure_guide_from_plan
+
+- **Symptom:** Harness start failed (reasonCode=guide_materialization_failed).
+- **Context:** tier=phase; identifier=20.3; featureName=domain-architecture-alignment
+
+nextAction:
+Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-02 — 20.3.4 — session — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** end
+- **identifier:** 20.3.4
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=session; identifier=20.3.4; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Session Audit: 20.3.4
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/session-20.3.4-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/session-20.3.4/2026-04-02T20-41-18Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+- ➡️ **type-constant-inventory**: 0 → 0 (+0)
+- ❌ **composable-governance**: 94 → 92 (-2)
+- ➡️ **function-governance**: 100 → 100 (+0)
+- ➡️ **component-governance**: 100 → 100 (+0)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (88/100)
+- ✅ **docs**: pass (100/100)
+- ✅ **vue-architecture**: pass (100/100)
+
+## Autofix
+
+Tier session: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Extract complex logic from /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/composables-logic-audit.json into composables. Target: reduce complexity score below 20.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/session-20.3.4-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+---
+
+## Required reading before fixes
+
+Read these governance docs to ensure fixes comply with project patterns:
+
+- **Composable governance**: `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/composable-governance.mdc`)
+- **Type governance**: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md` (rules: `.cursor/rules/type-governance.mdc`)
+- **Coding standards**: `.cursor/rules/coding-standards.mdc`
+
+
+### 2026-04-02 — 20.4.2.1 / 20.4.2.2 / session 20.4.2 — task-end — Tier-end stderr noise + session log commit-preview pollution
+
+- **reasonCodeRaw:** task_complete (success path; material confusion / repo hygiene)
+- **reasonCodeNormalized:** task_complete
+- **isFailureReason:** false
+- **tier:** task → session
+- **action:** end
+- **identifier:** 20.4.2.1, 20.4.2.2, 20.4.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** tier-end, commit_remaining, git, session log rollup
+
+- **Symptom:** Tier-end output includes **noisy stderr** (`compareBranchToRemote-behind`, `git merge-base --is-ancestor`, `[commitUncommitted-diff]`, `[gitCommit] Command failed`) while the harness still returns **`success: true`** — operators may think the run failed.
+- **Symptom (repo hygiene):** **`session-20.4.2-log.md`** (and earlier **`session-20.4.1-log.md`**) was **polluted** after **task-end** with **`<!-- harness:anchor:commit-preview -->`** blocks (large inline diffs) and **duplicate / stub** “Task completed” entries, requiring **manual cleanup** before commit hygiene is acceptable.
+- **Context:** Slash commands **`/task-end 20.4.2.1`**, **`/task-end 20.4.2.2`**; PM paths under `.project-manager/features/domain-architecture-alignment/sessions/`.
+- **What we tried:** Agent **post-pass**: rewrite **`session-20.4.2-log.md`** to a single **Completed Tasks** narrative + commit hashes; **strip** harness anchor through **`<!-- /harness:anchor:commit-preview -->`**; separate **`docs(pm): … strip harness commit-preview`** commit.
+- **Outcome / workaround:** Treat stderr as **non-fatal** when outcome is success; **always inspect** session logs after task-end for **commit-preview** injection and **dedupe** task sections.
+- **Suggestion:** Harness should **not write** commit-preview bodies **into** `session-*-log.md` (keep preview in stdout or ephemeral artifact only), or **auto-remove** the anchor block after the PM commit step. Reduce **merge-base** noise when branch is **expected ahead of origin**.
+
+### 2026-04-02 — 20.4.3.2 — task — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** task
+- **action:** end
+- **identifier:** 20.4.3.2
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=task; identifier=20.4.3.2; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Task Audit: 20.4.3.2
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/task-20.4.3.2-audit.md
+
+*Note: Task audits run tier-task group (typecheck, loop-mutations, hardcoding, error-handling, naming-convention, security) with --changed-only.*
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/task-20.4.3.2/2026-04-02T22-14-18Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (90/100)
+
+## Autofix
+
+Tier task: 0 script fix(es) applied, 1 agent directive(s). Affected files: 1.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/task-20.4.3.2-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often b
+
+…(truncated)

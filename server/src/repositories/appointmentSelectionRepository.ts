@@ -9,7 +9,7 @@ import {
 } from './appointmentSelectionCodec.js'
 
 function lineSortKey(line: InstanceType<typeof AppointmentSelectionLine>): [number, number] {
-  const rank = line.lineKind === 'service' ? 0 : line.lineKind === 'property' ? 1 : 2
+  const rank = line.lineKind === 'service' ? 0 : line.lineKind === 'time' ? 1 : 2
   return [rank, line.sortOrder]
 }
 

@@ -243,8 +243,7 @@ defineExpose({
           <EntityCardPrimaryTitleRow :title-row="primaryTitleRowExpansion" />
         </div>
         
-        <!-- WHY: Shows parts totals at top of card when entity can have parts -->
-        <!-- PATTERN: Component renders conditionally based on canHaveParts flag -->
+        <!-- WHY: Shows parts totals when shape type allows part ledger (non-user) — see usePartsTotals / blockShapeAllowsParts -->
         <EntityCardPartsTotals
           :entity-key="entityKey"
           :entity-id="entity.id"

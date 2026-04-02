@@ -60,7 +60,7 @@ export function buildTernaryTogglePayloads(
 }
 
 export function buildBooleanTogglePayloads<GE extends GlobalEntityKey>(
-  entityKey: GE,
+  _entityKey: GE,
   entity: GlobalEntity<GE>,
   fieldKey: GlobalFieldKey<GE>,
   currentRaw: unknown
@@ -72,33 +72,10 @@ export function buildBooleanTogglePayloads<GE extends GlobalEntityKey>(
 
   const currentValue = normalizedRaw === true
   const newValue = !currentValue
-  const payloads: StatusToggleMutationPayload[] = [
+  return [
     {
       admin: { key: String(fieldKey), value: newValue },
       dynamicId: entity.id,
     },
   ]
-
-  if (entityKey === 'blockShape' && newValue === true) {
-    const shapeEntity = entity as GlobalEntity<'blockShape'>
-    if (fieldKey === 'isStateControl') {
-      const currentCanHaveParts = 'canHaveParts' in shapeEntity && shapeEntity.canHaveParts === true
-      if (currentCanHaveParts) {
-        payloads.push({
-          admin: { key: 'canHaveParts', value: false },
-          dynamicId: shapeEntity.id,
-        })
-      }
-    } else if (fieldKey === 'canHaveParts') {
-      const currentIsStateControl = 'isStateControl' in shapeEntity && shapeEntity.isStateControl === true
-      if (currentIsStateControl) {
-        payloads.push({
-          admin: { key: 'isStateControl', value: false },
-          dynamicId: shapeEntity.id,
-        })
-      }
-    }
-  }
-
-  return payloads
 }

@@ -4,9 +4,8 @@ export type { GlobalEntityId }
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
+import type { EventAnchorEdge, EventPlacementKind } from '@shared/utils/eventPlacementUtils'
 import type { TernaryBoolean } from "./ternary";
-import type { DifferentialRole } from '@shared/types/differentialRole'
-
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface GlobalEntityBase<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
@@ -23,30 +22,26 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   blockShapeRef: string;
   baseSqFt: number;
   active: boolean;
-  /** Stored as ternary_boolean; map to BookingMode at booking boundary. */
-  bookingMode?: TernaryBoolean;
   agentPermissions?: TernaryBoolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
+  /** When true, this block coordinates differential scheduling for selected services. */
+  orchestrator?: boolean;
+  /** When false, instance is add-on / line-item style (not main wizard-visible). */
+  wizardVisible?: boolean;
   annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
   description?: string; // Derived description from annotations for display
   icon: string;
   allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
   requiresUnitNumber?: boolean | null;
-  differential?: TernaryBoolean;
   preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
-  /** Per eventShape id: scheduling role override for this block instance; omit key to inherit event shape template. */
-  differentialEventRoleOverrides?: Record<string, DifferentialRole>;
   /** Assigned event instances (parent_kind = blockInstance on event_assignments). */
   eventAssignments?: GlobalEntityId[];
 }
 
 export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
-  type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'property', 'option'
-  composable: boolean;
-  canHaveParts: boolean; // If true, blockInstances of this shape can have parts (partInstances). Mutually exclusive with isStateControl.
-  isStateControl: boolean; // If true, acts as state selector in wizard (like User Types). Mutually exclusive with canHaveParts.
+  type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'time', 'event', 'price'
   validBookingCascades?: GlobalEntityId[];
   validPartCascades?: GlobalEntityId[];
   validAnnotationAssignments?: GlobalEntityId[];
@@ -67,13 +62,11 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
 export type PartShapeEntity = GlobalEntityBase<"partShape">
 
 export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
-  /** DB NULL = none (normalized on API hydrate). */
-  differentialRole: DifferentialRole;
-  /** When false, calendar invite templates strip `{rescheduleLink}` for instances of this shape. */
-  includeRescheduleLink: boolean;
-  /** When false, calendar invite templates strip `{cancelLink}` for instances of this shape. */
-  includeCancelLink: boolean;
-  attendees?: GlobalEntityId[]; // Array of UserTypeBlock BlockInstance IDs (attendees for this event)
+  /** Feature 20 placement type (event_shapes.placement_kind). */
+  placementKind: EventPlacementKind
+  /** null for primary; start | end for other kinds. */
+  anchorEdge: EventAnchorEdge | null
+  attendees?: GlobalEntityId[] // Union of segment attendee user-types, merged client-side for booking
 }
 
 export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
@@ -91,6 +84,14 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   colorId: string | null;
   status: 'confirmed' | 'tentative';
   reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
+  parentBlockInstanceId?: string | null;
+  locationType?: string | null;
+  locationPlaceId?: string | null;
+  locationAddress?: string | null;
+  locationLat?: number | null;
+  locationLng?: number | null;
+  includeRescheduleLink: boolean;
+  includeCancelLink: boolean;
   /** Virtual: visibility in metadata controls inclusion in display/export; value from appointment at invite time */
   scheduledBy?: string | null;
 }

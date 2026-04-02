@@ -14,11 +14,7 @@ import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
 import type { GlobalEntity } from '@/types/entities'
-import {
-  calculateSlotShape,
-  enrichBlockFinalsWithDifferentialRoles,
-  mergeBlockDifferentialRoleOverrides,
-} from './partFinalizer'
+import { calculateSlotShape } from './partFinalizer'
 import {
   createBlockFinals,
   filterZeroedBlocks
@@ -45,7 +41,6 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       roundedDifferentialOffset: 0,
     },
     eventAssignmentsByPartShape: {},
-    differentialEventRoleOverrides: {},
   }
 }
 
@@ -116,7 +111,7 @@ export function buildAppointmentShape(
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  let nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
   const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
     (blockFinal) => blockFinal.finalizedParts
   )
@@ -140,27 +135,13 @@ export function buildAppointmentShape(
     resolvedEventShapes = []
   }
 
-  if (
-    Object.keys(eventAssignmentsByPartShape).length > 0 &&
-    resolvedEventShapes.length > 0
-  ) {
-    nonZeroedBlockFinals = enrichBlockFinalsWithDifferentialRoles(
-      nonZeroedBlockFinals,
-      eventAssignmentsByPartShape,
-      resolvedEventShapes
-    )
-  }
-
   const nonZeroedParts = nonZeroedBlockFinals.flatMap((blockFinal) => blockFinal.finalizedParts)
-
-  const differentialEventRoleOverrides = mergeBlockDifferentialRoleOverrides(nonZeroedBlockFinals)
 
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
     eventAssignmentsByPartShape,
     resolvedEventShapes,
     settings ?? null,
-    differentialEventRoleOverrides,
     resolvedTimeRounding,
   )
 
@@ -169,7 +150,6 @@ export function buildAppointmentShape(
     finalizedParts: nonZeroedParts,
     slotShape,
     eventAssignmentsByPartShape,
-    differentialEventRoleOverrides,
   }
 }
 
@@ -203,10 +183,7 @@ export function applyShapeToTime(
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
   const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(
-        effectiveSlotShape.eventFinals,
-        shape.differentialEventRoleOverrides ?? null
-      )
+    ? resolveEventShapes(effectiveSlotShape.eventFinals)
     : {
         majorEventShape: null,
         minorEventShape: null,

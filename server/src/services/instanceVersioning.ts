@@ -26,7 +26,8 @@ interface BlockInstanceVersionComparison {
   icon?: string | null;
   baseSqFt?: number | null;
   allowMultiple?: boolean;
-  differential?: string;
+  orchestrator?: boolean;
+  wizardVisible?: boolean;
   preClosing?: boolean;
 }
 
@@ -41,7 +42,8 @@ function versionsMatch(
          versionData.icon === instanceData.icon &&
          versionData.baseSqFt === instanceData.baseSqFt &&
          versionData.allowMultiple === instanceData.allowMultiple &&
-         versionData.differential === instanceData.differential &&
+         versionData.orchestrator === instanceData.orchestrator &&
+         versionData.wizardVisible === instanceData.wizardVisible &&
          versionData.preClosing === instanceData.preClosing;
 }
 
@@ -71,7 +73,8 @@ async function createVersionFromInstance(
     icon: instanceData.icon,
     baseSqFt: instanceData.baseSqFt,
     allowMultiple: instanceData.allowMultiple,
-    differential: instanceData.differential,
+    orchestrator: instanceData.orchestrator,
+    wizardVisible: instanceData.wizardVisible,
     preClosing: instanceData.preClosing ?? false,
   });
 
