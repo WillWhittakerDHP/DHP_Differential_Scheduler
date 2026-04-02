@@ -188,10 +188,10 @@
       </VCol>
     </VRow>
 
-    <VRow v-if="showSeller" class="mt-5">
+    <VRow v-if="showOwner" class="mt-5">
       <VCol cols="12">
         <div class="d-flex align-center mb-4">
-          <h6 class="text-headline-small mb-0">Seller Information</h6>
+          <h6 class="text-headline-small mb-0">Owner Information</h6>
           <VBtn
             icon
             color="inherit"
@@ -206,35 +206,35 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="sellerInfo.firstName"
+          v-model="ownerInfo.firstName"
           label="First Name"
           placeholder="Alice"
-          :rules="validationRules.sellerFirstName"
+          :rules="validationRules.ownerFirstName"
           :field-errors="fieldErrors"
-          error-key="sellerFirstName"
+          error-key="ownerFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="sellerInfo.lastName"
+          v-model="ownerInfo.lastName"
           label="Last Name"
           placeholder="Williams"
-          :rules="validationRules.sellerLastName"
+          :rules="validationRules.ownerLastName"
           :field-errors="fieldErrors"
-          error-key="sellerLastName"
+          error-key="ownerLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="sellerInfo.email"
+          v-model="ownerInfo.email"
           type="email"
           label="Email"
           placeholder="alice.williams@example.com"
-          :rules="validationRules.sellerEmail"
+          :rules="validationRules.ownerEmail"
           :field-errors="fieldErrors"
-          error-key="sellerEmail"
+          error-key="ownerEmail"
           required
         />
       </VCol>
@@ -263,7 +263,7 @@
         <VBtn
           variant="outlined"
           size="small"
-          :disabled="showSeller"
+          :disabled="showOwner"
           @click="toggleSection('owner', true)"
         >
           Add Seller
@@ -286,10 +286,10 @@ const clientInfo = ctx.clientInfo
 const agentInfo = ctx.agentInfo
 const anotherClientInfo = ctx.anotherClientInfo
 const transactionManagerInfo = ctx.transactionManagerInfo
-const sellerInfo = ctx.sellerInfo
+const ownerInfo = ctx.ownerInfo
 const showAnotherClient = ctx.showAnotherClient
 const showTransactionManager = ctx.showTransactionManager
-const showSeller = ctx.showSeller
+const showOwner = ctx.showOwner
 const validationRules = computed(() => ctx.validationRules.value)
 const fieldErrors = computed(() => ctx.fieldErrors.value)
 const toggleSection = ctx.toggleSection

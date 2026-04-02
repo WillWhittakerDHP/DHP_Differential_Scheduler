@@ -90,7 +90,7 @@ function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
     { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
     { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-    { info: contacts.sellerInfo, role: APPOINTMENT_ATTENDEE_ROLES.owner, shouldCreate: contacts.showSeller },
+    { info: contacts.ownerInfo, role: APPOINTMENT_ATTENDEE_ROLES.owner, shouldCreate: contacts.showOwner },
   ]
 }
 

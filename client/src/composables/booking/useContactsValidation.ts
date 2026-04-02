@@ -12,10 +12,10 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     agentInfo,
     anotherClientInfo,
     transactionManagerInfo,
-    sellerInfo,
+    ownerInfo,
     showAnotherClient,
     showTransactionManager,
-    showSeller,
+    showOwner,
     requiresAgent
   } = params
 
@@ -34,9 +34,9 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     transactionManagerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     transactionManagerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     transactionManagerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
-    sellerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
-    sellerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
-    sellerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()]
+    ownerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    ownerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    ownerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()]
   }
 
 
@@ -53,9 +53,9 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
     transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
     transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
-    sellerFirstName: computed(() => sellerInfo.value.firstName),
-    sellerLastName: computed(() => sellerInfo.value.lastName),
-    sellerEmail: computed(() => sellerInfo.value.email)
+    ownerFirstName: computed(() => ownerInfo.value.firstName),
+    ownerLastName: computed(() => ownerInfo.value.lastName),
+    ownerEmail: computed(() => ownerInfo.value.email)
   }
 
   const reactiveRules = computed(() => {
@@ -83,10 +83,10 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
       rules.transactionManagerEmail = validationRules.transactionManagerEmail
     }
 
-    if (showSeller.value) {
-      rules.sellerFirstName = validationRules.sellerFirstName
-      rules.sellerLastName = validationRules.sellerLastName
-      rules.sellerEmail = validationRules.sellerEmail
+    if (showOwner.value) {
+      rules.ownerFirstName = validationRules.ownerFirstName
+      rules.ownerLastName = validationRules.ownerLastName
+      rules.ownerEmail = validationRules.ownerEmail
     }
 
     return rules
@@ -97,6 +97,5 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     validationRules: reactiveRules
   })
 }
-
 
 

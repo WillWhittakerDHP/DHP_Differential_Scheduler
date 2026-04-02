@@ -70,7 +70,8 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
     let role: 'anotherClient' | 'transactionManager' | 'owner' = 'anotherClient'
     if (rawName === 'transactionmanager') {
       role = 'transactionManager'
-    } else if (rawName === 'seller' || rawName === 'owner') {
+    } else if (rawName === 'owner' || rawName === 'seller') {
+      // Block instance display name may be "Owner" or "Seller" in admin data; wizard stores `owner` only.
       role = 'owner'
     }
     return {

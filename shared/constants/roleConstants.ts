@@ -12,7 +12,7 @@
 export const USER_ROLE_CLIENT = 'client' as const
 export const USER_ROLE_AGENT = 'agent' as const
 export const USER_ROLE_TRANSACTION_MANAGER = 'transaction_manager' as const
-/** Product rename from legacy `seller` (Phase 6.18.1) */
+/** Property owner role (DB/API); Phase 6.18.1 aligned naming with product language */
 export const USER_ROLE_OWNER = 'owner' as const
 export const USER_ROLE_INSPECTOR = 'inspector' as const
 export const USER_ROLE_ADMIN = 'admin' as const

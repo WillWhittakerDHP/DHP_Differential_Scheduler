@@ -22,7 +22,7 @@ export function getRoleColor(role: string | undefined): string {
     client: 'primary',
     agent: 'info',
     transaction_manager: 'warning',
-    seller: 'secondary',
+    owner: 'secondary',
     inspector: 'success',
   }
   return colorMap[role] || 'default'

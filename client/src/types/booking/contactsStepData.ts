@@ -13,8 +13,8 @@ export interface ContactRefs {
   showAnotherClient: Ref<boolean>
   transactionManagerInfo: Ref<ContactInfo>
   showTransactionManager: Ref<boolean>
-  sellerInfo: Ref<ContactInfo>
-  showSeller: Ref<boolean>
+  ownerInfo: Ref<ContactInfo>
+  showOwner: Ref<boolean>
 }
 
 export interface UseContactsStepDataOptions {
@@ -28,19 +28,19 @@ export interface UseContactsStepDataReturn {
   agentInfo: Ref<ContactInfo>
   anotherClientInfo: Ref<ContactInfo>
   transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
+  ownerInfo: Ref<ContactInfo>
   showAnotherClient: Ref<boolean>
   showTransactionManager: Ref<boolean>
-  showSeller: Ref<boolean>
+  showOwner: Ref<boolean>
   stepData: Ref<{
     clientInfo: ContactInfo
     agentInfo: ContactInfo
     anotherClientInfo: ContactInfo
     transactionManagerInfo: ContactInfo
-    sellerInfo: ContactInfo
+    ownerInfo: ContactInfo
     showAnotherClient: boolean
     showTransactionManager: boolean
-    showSeller: boolean
+    showOwner: boolean
   }>
   toggleSection: (section: 'anotherClient' | 'transactionManager' | 'owner', show: boolean) => void
 }

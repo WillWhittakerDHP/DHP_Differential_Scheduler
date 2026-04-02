@@ -4,14 +4,14 @@
 
 **Scope:** `rg seller` on `client/src`, `server/src`, `shared` (product source).
 
-**Allowlist (intentional; no change):**
+**Post–6.18.1.2 follow-up (no legacy wizard reads):**
 
-- **Legacy wizard JSON:** `wizardStateData` union includes `seller`; `useContactsStepData`, `wizardContactsStepFromState`, and `appointmentToWizardTransformer` accept `seller` alongside `owner` when rehydrating old persisted state.
-- **Contact slot naming:** `sellerInfo`, `showSeller`, validation keys `sellerFirstName` / `sellerLastName` / `sellerEmail` — UI/composable identifiers for the **owner** contact section, not the DB enum string.
-- **Unrelated:** `NavBarNotifications.vue` (“best seller” copy); `appointmentHelpers.ts` key `seller: 'secondary'` (display tier, not `user_role`).
-- **Server:** migration `20260432_000056_*` and baseline SQL; comment in `ownershipEnforcement.ts`; `roleConstants.ts` comment on `USER_ROLE_OWNER`.
+- **Wizard / contacts:** `additionalContacts[].role` is **`owner` only** (type + runtime). UI and composables use **`ownerInfo`**, **`showOwner`**, validation keys **`ownerFirstName`** / **`ownerLastName`** / **`ownerEmail`**. Old persisted JSON with `seller` / `sellerInfo` is not read client-side.
+- **`appointmentToWizardTransformer`:** Still maps **block instance display name** normalized to `seller` or `owner` (admin may label the user-type block “Seller”) into wizard role **`owner`** — not a persisted `user_role` of `seller`.
+- **Admin display:** `getRoleColor` uses **`owner`** for chip color; demo notification copy avoids “best seller”.
+- **Server / shared:** migration and docs may still mention historical `seller`; `ownershipEnforcement.ts` comment may note rename.
 
-**Result:** No remaining `seller` as **current** `users.user_role` / API value outside the legacy-wizard allowlist above.
+**Result:** No `seller` as **current** `users.user_role` / API value; client product source has no wizard-role `seller` except the transformer slug match above.
 
 **Verification:** `vue-tsc -b`, `server` `tsc --noEmit`, `npm run lint` in `client` and `server` — pass at closure.
 

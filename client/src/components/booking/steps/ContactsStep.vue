@@ -40,10 +40,10 @@ const {
   agentInfo,
   anotherClientInfo,
   transactionManagerInfo,
-  sellerInfo,
+  ownerInfo,
   showAnotherClient,
   showTransactionManager,
-  showSeller,
+  showOwner,
   stepData,
   toggleSection
 } = contactsStepData
@@ -61,10 +61,10 @@ const {
   agentInfo,
   anotherClientInfo,
   transactionManagerInfo,
-  sellerInfo,
+  ownerInfo,
   showAnotherClient,
   showTransactionManager,
-  showSeller,
+  showOwner,
   requiresAgent
 })
 
@@ -82,10 +82,10 @@ provide(contactsFormContextKey, {
   agentInfo,
   anotherClientInfo,
   transactionManagerInfo,
-  sellerInfo,
+  ownerInfo,
   showAnotherClient,
   showTransactionManager,
-  showSeller,
+  showOwner,
   validationRules,
   fieldErrors,
   toggleSection,

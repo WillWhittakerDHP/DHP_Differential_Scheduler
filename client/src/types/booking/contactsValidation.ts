@@ -8,10 +8,10 @@ export interface UseContactsValidationParams {
   agentInfo: Ref<ContactInfo>
   anotherClientInfo: Ref<ContactInfo>
   transactionManagerInfo: Ref<ContactInfo>
-  sellerInfo: Ref<ContactInfo>
+  ownerInfo: Ref<ContactInfo>
   showAnotherClient: ReadonlyVueRef<boolean>
   showTransactionManager: ReadonlyVueRef<boolean>
-  showSeller: ReadonlyVueRef<boolean>
+  showOwner: ReadonlyVueRef<boolean>
   requiresAgent?: ReadonlyVueRef<boolean>
 }
 

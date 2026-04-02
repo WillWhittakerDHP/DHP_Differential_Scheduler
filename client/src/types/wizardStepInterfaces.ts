@@ -16,10 +16,10 @@ export interface ContactsStepData {
   agentInfo: { firstName: string; lastName: string; email: string }
   anotherClientInfo: { firstName: string; lastName: string; email: string }
   transactionManagerInfo: { firstName: string; lastName: string; email: string }
-  sellerInfo: { firstName: string; lastName: string; email: string }
+  ownerInfo: { firstName: string; lastName: string; email: string }
   showAnotherClient: boolean
   showTransactionManager: boolean
-  showSeller: boolean
+  showOwner: boolean
 }
 
 /**

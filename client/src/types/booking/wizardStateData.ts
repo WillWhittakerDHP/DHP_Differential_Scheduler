@@ -32,8 +32,7 @@ export interface WizardStateData {
       firstName: string
       lastName: string
       email: string
-      /** `owner` replaces `seller` (Phase 6.18.1); `seller` kept for old persisted wizard JSON. */
-      role: 'anotherClient' | 'transactionManager' | 'owner' | 'seller'
+      role: 'anotherClient' | 'transactionManager' | 'owner'
     }>
   }
 

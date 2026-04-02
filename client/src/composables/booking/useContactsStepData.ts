@@ -29,9 +29,7 @@ function populateContactFromAdditional(
   infoRef: Ref<ContactInfo>,
   showRef: Ref<boolean>
 ): void {
-  const contact = additionalContacts.find((c) =>
-    role === 'owner' ? c.role === 'owner' || c.role === 'seller' : c.role === role
-  )
+  const contact = additionalContacts.find((c) => c.role === role)
   if (!contact) return
   infoRef.value = {
     firstName: contactField(contact.firstName, `${role}.firstName`),
@@ -77,8 +75,8 @@ function loadContactsFromWizardState(newState: WizardStateData | null, refs: Con
     populateContactFromAdditional(
       contacts.additionalContacts,
       'owner',
-      refs.sellerInfo,
-      refs.showSeller
+      refs.ownerInfo,
+      refs.showOwner
     )
   }
 }
@@ -104,14 +102,14 @@ function restoreContactsFromStepData(data: ContactsStepData, refs: ContactRefs):
     lastName: contactField(data.transactionManagerInfo.lastName, 'transactionManager.lastName'),
     email: contactField(data.transactionManagerInfo.email, 'transactionManager.email'),
   }
-  refs.sellerInfo.value = {
-    firstName: contactField(data.sellerInfo.firstName, 'seller.firstName'),
-    lastName: contactField(data.sellerInfo.lastName, 'seller.lastName'),
-    email: contactField(data.sellerInfo.email, 'seller.email'),
+  refs.ownerInfo.value = {
+    firstName: contactField(data.ownerInfo.firstName, 'owner.firstName'),
+    lastName: contactField(data.ownerInfo.lastName, 'owner.lastName'),
+    email: contactField(data.ownerInfo.email, 'owner.email'),
   }
   refs.showAnotherClient.value = data.showAnotherClient
   refs.showTransactionManager.value = data.showTransactionManager
-  refs.showSeller.value = data.showSeller
+  refs.showOwner.value = data.showOwner
 }
 
 export function useContactsStepData(
@@ -123,15 +121,15 @@ export function useContactsStepData(
   const agentInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const anotherClientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const transactionManagerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
-  const sellerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const ownerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const showAnotherClient = ref(false)
   const showTransactionManager = ref(false)
-  const showSeller = ref(false)
+  const showOwner = ref(false)
 
   const sectionMap: Record<'anotherClient' | 'transactionManager' | 'owner', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
     anotherClient: { show: showAnotherClient, info: anotherClientInfo },
     transactionManager: { show: showTransactionManager, info: transactionManagerInfo },
-    owner: { show: showSeller, info: sellerInfo },
+    owner: { show: showOwner, info: ownerInfo },
   }
 
   const toggleSection = (
@@ -152,8 +150,8 @@ export function useContactsStepData(
     showAnotherClient,
     transactionManagerInfo,
     showTransactionManager,
-    sellerInfo,
-    showSeller,
+    ownerInfo,
+    showOwner,
   }
 
   if (loadedWizardState) {
@@ -177,10 +175,10 @@ export function useContactsStepData(
     agentInfo: agentInfo.value,
     anotherClientInfo: anotherClientInfo.value,
     transactionManagerInfo: transactionManagerInfo.value,
-    sellerInfo: sellerInfo.value,
+    ownerInfo: ownerInfo.value,
     showAnotherClient: showAnotherClient.value,
     showTransactionManager: showTransactionManager.value,
-    showSeller: showSeller.value,
+    showOwner: showOwner.value,
   }))
 
   return {
@@ -188,10 +186,10 @@ export function useContactsStepData(
     agentInfo,
     anotherClientInfo,
     transactionManagerInfo,
-    sellerInfo,
+    ownerInfo,
     showAnotherClient,
     showTransactionManager,
-    showSeller,
+    showOwner,
     stepData,
     toggleSection,
   }

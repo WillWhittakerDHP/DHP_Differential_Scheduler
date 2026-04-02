@@ -13,7 +13,7 @@ const notifications = ref<Notification[]>([
     id: 1,
     img: avatar4,
     title: 'Congratulation Flora! 🎉',
-    subtitle: 'Won the monthly best seller badge',
+    subtitle: 'Won the monthly top-performer badge',
     time: 'Today',
     isSeen: true,
   },
