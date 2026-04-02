@@ -8,8 +8,6 @@ export const FIELD_NAMES = {
   CREATED_AT: 'createdAt',
   UPDATED_AT: 'updatedAt',
   ANNOTATIONS: 'annotations',
-  /** Matches server entityConstants FIELD_NAMES.DIFFERENTIAL_ROLE (event shape / API). */
-  DIFFERENTIAL_ROLE: 'differentialRole',
   PLACEMENT_KIND: 'placementKind',
   ANCHOR_EDGE: 'anchorEdge',
 } as const

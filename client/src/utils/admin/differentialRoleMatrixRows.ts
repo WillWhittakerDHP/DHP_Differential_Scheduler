@@ -6,6 +6,7 @@
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { BlockInstanceEntity, EventShapeEntity } from '@/types/entities'
 import type { DifferentialRole } from '@shared/types/differentialRole'
+import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
 
 interface DifferentialRoleMatrixRow {
   eventShapeId: GlobalEntityId
@@ -29,7 +30,10 @@ export function buildDifferentialRoleMatrixRows(
     rows.push({
       eventShapeId: eventShape.id,
       name: eventShape.name?.trim() || String(eventShape.id),
-      templateRole: eventShape.differentialRole ?? 'none',
+      templateRole: eventShapeDifferentialRoleFromPlacementFields(
+        eventShape.placementKind,
+        eventShape.anchorEdge
+      ),
     })
   }
 

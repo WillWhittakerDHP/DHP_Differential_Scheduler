@@ -4,7 +4,6 @@ export type { GlobalEntityId }
 
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
-import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { EventAnchorEdge, EventPlacementKind } from '@shared/utils/eventPlacementUtils'
 import type { TernaryBoolean } from "./ternary";
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
@@ -67,11 +66,6 @@ export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
   placementKind: EventPlacementKind
   /** null for primary; start | end for other kinds. */
   anchorEdge: EventAnchorEdge | null
-  /**
-   * Derived for PartFinalizer / availability until task 20.1.3.2 removes differential-role consumers.
-   * Not stored on event_shapes after migration 000061.
-   */
-  differentialRole: DifferentialRole
   attendees?: GlobalEntityId[] // Union of segment attendee user-types, merged client-side for booking
 }
 

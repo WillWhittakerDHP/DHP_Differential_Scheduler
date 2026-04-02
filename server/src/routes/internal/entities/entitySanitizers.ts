@@ -39,6 +39,8 @@ function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string,
       sanitized[FIELD_NAMES.ANCHOR_EDGE_SNAKE]
     )
   }
+  delete sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE]
+  delete sanitized[FIELD_NAMES.DIFFERENTIAL_ROLE_SNAKE]
   return sanitized
 }
 

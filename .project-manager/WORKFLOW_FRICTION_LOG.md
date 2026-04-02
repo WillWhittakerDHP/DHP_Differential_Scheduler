@@ -2145,3 +2145,23 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often b
 
 …(truncated)
+
+### 2026-04-02 — 20.1.3.1 — task — end — git helper stderr during tier-end resume
+
+- **reasonCodeRaw:** harness_git_stderr_on_success_path
+- **reasonCodeNormalized:** harness_plugin_advisory
+- **isFailureReason:** false
+- **tier:** task
+- **action:** end
+- **identifier:** 20.1.3.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** —
+
+- **Symptom:** Resuming task-end with continuePastGapAnalysis logged git helper failures on stderr even though the run finished with task_complete.
+- **Context:** Captured lines from the same shell invocation as successful task-end (second pass after gap analysis):
+
+- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor fde41bc5509649954d9a92162065e3adad595236 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
+- [commitUncommitted-diff] Command failed: git diff --cached --quiet
+- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor 05dc734c80e57261940dcbf7b8c69ee0ba9b96f6 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
+- **Outcome / workaround:** Non-blocking: merge-base --is-ancestor exits non-zero when HEAD is not an ancestor of the compared ref (branch ahead/diverged); git diff --cached --quiet exits 1 when the index has staged changes.
+- **Suggestion:** When triaging harness output, distinguish stderr from git plumbing (expected exit codes) from real git_failed / commit_remaining failures.

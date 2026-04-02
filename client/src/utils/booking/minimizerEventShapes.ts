@@ -5,6 +5,7 @@
  */
 
 import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
+import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import type { AppointmentShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
@@ -39,7 +40,10 @@ export function listMinimizerSegmentsFromAppointmentShape(
     const ef = finals[i]
     const eventShape = ef.eventShape as EventShapeEntity
     const eventShapeId = String(eventShape.id)
-    const templateRole = eventShape.differentialRole as DifferentialRole
+    const templateRole: DifferentialRole = eventShapeDifferentialRoleFromPlacementFields(
+      eventShape.placementKind,
+      eventShape.anchorEdge
+    )
     const effective = effectiveDifferentialRole(eventShapeId, templateRole, overrides)
     if (effective !== 'minimizer') {
       continue

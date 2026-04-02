@@ -1,4 +1,5 @@
 import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
+import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { DifferentialRole, DifferentialRoleStorage } from '@shared/types/differentialRole'
 import type { EventShapeEntity, BlockInstanceEntity, BlockShapeEntity } from '@/types/entities'
@@ -29,7 +30,8 @@ function resolveEventShapeEntityForRole(
 ): EventShapeEntity | null {
   return (
     eventShapes.find((es) => {
-      const effective = effectiveDifferentialRole(String(es.id), es.differentialRole, overrides ?? undefined)
+      const templateRole = eventShapeDifferentialRoleFromPlacementFields(es.placementKind, es.anchorEdge)
+      const effective = effectiveDifferentialRole(String(es.id), templateRole, overrides ?? undefined)
       return effective === role
     }) ?? null
   )

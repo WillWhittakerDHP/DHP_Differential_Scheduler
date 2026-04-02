@@ -192,7 +192,6 @@ export function useShapesTab(): UseShapesTabReturn {
     active: true,
     placementKind: 'primary',
     anchorEdge: null,
-    differentialRole: 'major',
   }))
 
   return {

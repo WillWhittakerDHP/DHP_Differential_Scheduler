@@ -39,7 +39,7 @@ export function normalizeSelectChangeValue(
     const stringValue = String(value)
     if (
       stringValue === '__NULL__' &&
-      (fieldKey === 'differentialRole' || fieldKey === 'anchorEdge')
+      fieldKey === 'anchorEdge'
     ) {
       normalizedValue = undefined
     } else {

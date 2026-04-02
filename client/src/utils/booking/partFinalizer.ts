@@ -9,6 +9,7 @@ import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
 import type { DifferentialRole } from '@shared/types/differentialRole'
 import { effectiveDifferentialRole } from '@shared/utils/differentialRoleUtils'
+import { eventShapeDifferentialRoleFromPlacementFields } from '@shared/utils/eventPlacementUtils'
 
 export { calculateSlotShape } from './partFinalizerSlotShape'
 
@@ -75,7 +76,8 @@ function resolvePartShapeDifferentialFlags(
     if (!es) {
       continue
     }
-    const role = effectiveDifferentialRole(String(es.id), es.differentialRole, overrides ?? undefined)
+    const templateRole = eventShapeDifferentialRoleFromPlacementFields(es.placementKind, es.anchorEdge)
+    const role = effectiveDifferentialRole(String(es.id), templateRole, overrides ?? undefined)
     if (role === 'major') {
       major = 'true'
     } else if (role === 'minor') {

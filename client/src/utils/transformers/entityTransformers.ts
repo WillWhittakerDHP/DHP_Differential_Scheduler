@@ -9,11 +9,7 @@ import {
   normalizeBlockInstanceOrchestratorFromApi,
   normalizeBlockInstanceWizardVisibleFromApi,
 } from './apiEntityFieldNormalization'
-import {
-  eventShapeDifferentialRoleFromPlacementFields,
-  sanitizeEventAnchorEdgeInput,
-  sanitizeEventPlacementKindInput,
-} from '@shared/utils/eventPlacementUtils'
+import { sanitizeEventAnchorEdgeInput, sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
 
 /**
  * Invite link toggles on event shapes are NOT NULL default true in DB.
@@ -55,15 +51,12 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     const anchorParsed = sanitizeEventAnchorEdgeInput(aeRaw)
     transformed.anchorEdge =
       transformed.placementKind === 'primary' ? null : anchorParsed ?? 'start'
-    transformed.differentialRole = eventShapeDifferentialRoleFromPlacementFields(
-      transformed.placementKind,
-      transformed.anchorEdge
-    )
     delete transformed.includeRescheduleLink
     delete transformed.includeCancelLink
     delete transformed.differential_role
     delete transformed.include_reschedule_link
     delete transformed.include_cancel_link
+    delete transformed.differentialRole
   }
 
   if (entityKey === 'eventInstance') {

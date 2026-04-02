@@ -11,6 +11,14 @@
 
 ## Completed Tasks
 
+### Task 20.1.3.2: Task 20.1.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.1.3.3
+
+
+
 ### Task 20.1.3.1: Task 20.1.3.1 ✅
 **Goal:** Task completed
 
@@ -19,228 +27,87 @@
 
 <!-- end excerpt session -->
 
+
+
+### Task 20.1.3.2: Task 20.1.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.1.3.3
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (44): `.project-manager/PROJECT_PLAN.md`, `.project-manager/features/domain-architecture-alignment/across-ladder.json`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md`, `client/src/composables/admin/useInstancesTab.ts`, `client/src/composables/admin/useShapesTab.ts`, `client/src/composables/booking/useAppointmentShape.ts`, `client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts`, `client/src/constants/entityFieldConstants.ts`, `client/src/constants/relationships.ts`, `client/src/types/entities.ts`, `client/src/utils/admin/selectFieldValueResolution.ts`, `client/src/utils/admin/selectHandlersNormalization.ts`, `client/src/utils/blockInstanceUtils.ts`, `client/src/utils/booking/appointmentShapeEventAttendees.ts`, `client/src/utils/booking/cascadeFilterPipeline.ts`, `client/src/utils/transformers/apiEntityFieldNormalization.ts`, `client/src/utils/transformers/entityTransformers.ts`, `client/src/utils/transformers/fetchToGlobalTransformer.ts`, `server/.env.example`, `server/src/config/app.ts`, `server/src/db/models/booking/appointment_attendee.ts`, `server/src/db/models/booking/event_instance.ts`, `server/src/db/models/booking/event_shape.ts`, `server/src/db/models/booking/event_shape_attendee.ts`, `server/src/db/models/index.ts`, `server/src/db/models/sequelizeModelAssociationsPartA.ts`, `server/src/db/models/sequelizeModelAssociationsPartB.ts`, `server/src/db/models/sequelizeModelsBag.ts`, `server/src/middlewares/ownershipEnforcement.ts`, `server/src/middlewares/security.ts`, `server/src/routes/internal/appointments/appointmentCrudRouter.ts`, `server/src/routes/internal/entities/entityConstants.ts`, `server/src/routes/internal/entities/entitySanitizers.ts`, `server/src/routes/internal/relationships/relationshipConstants.ts`, `server/src/routes/internal/relationships/relationshipHelpersMapping.ts`, `server/src/routes/internal/relationships/relationshipHelpersValidation.ts`, `server/src/services/invites/eventInstancePreviewService.ts`, `server/src/services/invites/inviteAttendeeHelpers.ts`, `server/src/services/invites/inviteOrchestrationService.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.3.1-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.3.1-planning.md`, `server/src/db/migrations/20260432_000061_event_schema_placement_instance_attendees.mjs`, `server/src/db/models/booking/event_instance_attendee.ts`
+Paths (16): `.project-manager/WORKFLOW_FRICTION_LOG.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md`, `client/src/composables/admin/useShapesTab.ts`, `client/src/constants/entityFieldConstants.ts`, `client/src/types/entities.ts`, `client/src/utils/admin/differentialRoleMatrixRows.ts`, `client/src/utils/admin/selectFieldValueResolution.ts`, `client/src/utils/admin/selectHandlersNormalization.ts`, `client/src/utils/booking/minimizerEventShapes.ts`, `client/src/utils/booking/partFinalizer.ts`, `client/src/utils/eventAttendeeUtils.ts`, `client/src/utils/transformers/entityTransformers.ts`, `server/src/routes/internal/entities/entitySanitizers.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.3.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.1.3.2-planning.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.project-manager/PROJECT_PLAN.md                   |   8 ++
- .../across-ladder.json                             |   2 +-
- .../sessions/session-20.1.3-guide.md               |   2 +-
- .../sessions/session-20.1.3-log.md                 |  18 ++++
- client/src/composables/admin/useInstancesTab.ts    |   3 +
- client/src/composables/admin/useShapesTab.ts       |   6 +-
- .../src/composables/booking/useAppointmentShape.ts |   6 +-
- .../display/appliedDisplay/eventShapeDisplays.ts   |  19 ++--
- client/src/constants/entityFieldConstants.ts       |   2 +
- client/src/constants/relationships.ts              |   4 +-
- client/src/types/entities.ts                       |  26 +++--
- .../src/utils/admin/selectFieldValueResolution.ts  |   4 +-
- .../src/utils/admin/selectHandlersNormalization.ts |   5 +-
- client/src/utils/blockInstanceUtils.ts             |  26 ++++-
- .../booking/appointmentShapeEventAttendees.ts      |  53 +++++----
- client/src/utils/booking/cascadeFilterPipeline.ts  |  17 ++-
- .../transformers/apiEntityFieldNormalization.ts    |  21 ----
- .../src/utils/transformers/entityTransformers.ts   |  28 ++++-
- .../utils/transformers/fetchToGlobalTransformer.ts |   2 +-
- server/.env.example                                |   3 +
- server/src/config/app.ts                           |   2 +-
- .../src/db/models/booking/appointment_attendee.ts  |   2 +-
- server/src/db/models/booking/event_instance.ts     |  62 +++++++++++
- server/src/db/models/booking/event_shape.ts        |  68 +++++-------
- .../src/db/models/booking/event_shape_attendee.ts  | 119 ---------------------
- server/src/db/models/index.ts                      |   8 +-
- .../db/models/sequelizeModelAssociationsPartA.ts   |  21 ++--
- .../db/models/sequelizeModelAssociationsPartB.ts   |   3 +-
- server/src/db/models/sequelizeModelsBag.ts         |   2 +-
- server/src/middlewares/ownershipEnforcement.ts     |   2 +-
- server/src/middlewares/security.ts                 |  39 ++++++-
- .../internal/appointments/appointmentCrudRouter.ts |  65 +++++++----
- .../routes/internal/entities/entityConstants.ts    |   4 +
- .../routes/internal/entities/entitySanitizers.ts   |  25 +++--
- .../relationships/relationshipConstants.ts         |   6 +-
- .../relationships/relationshipHelpersMapping.ts    |   2 +-
- .../relationships/relationshipHelpersValidation.ts |  10 +-
- .../invites/eventInstancePreviewService.ts         |  13 ++-
- .../src/services/invites/inviteAttendeeHelpers.ts  |  30 +++---
- .../services/invites/inviteOrchestrationService.ts |  27 +++--
- 40 files changed, 421 insertions(+), 344 deletions(-)
+.project-manager/WORKFLOW_FRICTION_LOG.md            | 20 ++++++++++++++++++++
+ .../sessions/session-20.1.3-guide.md                 |  2 +-
+ .../sessions/session-20.1.3-log.md                   | 15 +++++++++++++++
+ client/src/composables/admin/useShapesTab.ts         |  1 -
+ client/src/constants/entityFieldConstants.ts         |  2 --
+ client/src/types/entities.ts                         |  6 ------
+ client/src/utils/admin/differentialRoleMatrixRows.ts |  6 +++++-
+ client/src/utils/admin/selectFieldValueResolution.ts |  4 ++--
+ .../src/utils/admin/selectHandlersNormalization.ts   |  2 +-
+ client/src/utils/booking/minimizerEventShapes.ts     |  6 +++++-
+ client/src/utils/booking/partFinalizer.ts            |  4 +++-
+ client/src/utils/eventAttendeeUtils.ts               |  4 +++-
+ client/src/utils/transformers/entityTransformers.ts  | 11 ++---------
+ .../src/routes/internal/entities/entitySanitizers.ts |  2 ++
+ 14 files changed, 59 insertions(+), 26 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/PROJECT_PLAN.md b/.project-manager/PROJECT_PLAN.md
-index 502c7aa0..4beec54d 100644
---- a/.project-manager/PROJECT_PLAN.md
-+++ b/.project-manager/PROJECT_PLAN.md
-@@ -519,6 +519,14 @@ Implement the following so that authenticated users and roles are used where oth
+diff --git a/.project-manager/WORKFLOW_FRICTION_LOG.md b/.project-manager/WORKFLOW_FRICTION_LOG.md
+index ca4aa219..cb21802d 100644
+--- a/.project-manager/WORKFLOW_FRICTION_LOG.md
++++ b/.project-manager/WORKFLOW_FRICTION_LOG.md
+@@ -2145,3 +2145,23 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
+ TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often b
  
- > **Steps 1–5 are independent of Feature 7** and can be done now. Steps 6–7 require working sessions/auth and align with Feature 7's Enactment phase.
- 
-+### Follow-up: appointment version snapshots access (`GET …/appointments/:id/versions`)
+ …(truncated)
 +
-+**Current behavior (wizard / domain work):** This route uses `requireAuth`. By default, **`requireAuthThenStaffOrOwnership('appointment','id')`** allows internal staff roles (agent, admin, transaction_manager, owner) to read version payloads for any appointment id; non-staff still require `scheduledById === req.user.id` (registry ownership).
++### 2026-04-02 — 20.1.3.1 — task — end — git helper stderr during tier-end resume
 +
-+**Temporary escape hatch:** `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP=true` skips the ownership/staff-or-owner step so **any authenticated user** can call the endpoint for any id. Documented in `server/.env.example`. Intended only for local debugging; **do not leave enabled in production**.
++- **reasonCodeRaw:** harness_git_stderr_on_success_path
++- **reasonCodeNormalized:** harness_plugin_advisory
++- **isFailureReason:** false
++- **tier:** task
++- **action:** end
++- **identifier:** 20.1.3.1
++- **featureName:** domain-architecture-alignment
++- **stepPath:** —
 +
-+**Revisit before release:** Remove `RELAX_APPOINTMENT_VERSIONS_OWNERSHIP` from all deployed envs; confirm product policy (org scoping, audit logging, whether customers may ever need this route without being `scheduledById`). Adjust middleware or split public vs internal paths if requirements change.
++- **Symptom:** Resuming task-end with continuePastGapAnalysis logged git helper failures on stderr even though the run finished with task_complete.
++- **Context:** Captured lines from the same shell invocation as successful task-end (second pass after gap analysis):
 +
- ### Related Documents
- - **Checklist:** `../../LAUNCH_CHECKLIST.md` Phase 2
- 
-diff --git a/.project-manager/features/domain-architecture-alignment/across-ladder.json b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-index e760bbf9..3b55ad0d 100644
---- a/.project-manager/features/domain-architecture-alignment/across-ladder.json
-+++ b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "domain-architecture-alignment",
--  "derivedAt": "2026-04-02T15:41:18.276Z",
-+  "derivedAt": "2026-04-02T15:46:25.726Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "20.1",
++- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor fde41bc5509649954d9a92162065e3adad595236 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
++- [commitUncommitted-diff] Command failed: git diff --cached --quiet
++- [compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor 05dc734c80e57261940dcbf7b8c69ee0ba9b96f6 c6dda2f48f7d65b3eb7d3748e6a5f63d9264f571
++- **Outcome / workaround:** Non-blocking: merge-base --is-ancestor exits non-zero when HEAD is not an ancestor of the compared ref (branch ahead/diverged); git diff --cached --quiet exits 1 when the index has staged changes.
++- **Suggestion:** When triaging harness output, distinguish stderr from git plumbing (expected exit codes) from real git_failed / commit_remaining failures.
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md
-index a524f055..8452f43c 100644
+index 8452f43c..4c7564e4 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-guide.md
-@@ -52,7 +52,7 @@ These sections contain session-specific content:
+@@ -63,7 +63,7 @@ These sections contain session-specific content:
+ **Approach:** One coherent migration pass (or sequenced files) per `phase-20.1-guide.md` §Session 20.1.3; backfill `include_*` from shapes to instances before drop; document rule for mapping old attendee rows to `event_instance_id`.
+ **Checkpoint:** Server/client typecheck for touched files; models load; migration files ready (run only on localhost DB per policy).
  
- ### Tasks
- 
--- [ ] #### Task 20.1.3.1: Event DDL, seeds, and core models/types
-+- [x] #### Task 20.1.3.1: Event DDL, seeds, and core models/types
- **Goal:** Migrations add/drop/rename columns and tables; Sequelize + `app.js` exports + associations match; client `EventShapeEntity` / `EventInstanceEntity` and transformers/sanitizers reflect new fields; no stale model references to dropped shape columns.
+-- [ ] #### Task 20.1.3.2: Relationships, validation, and booking/admin consumers
++- [x] #### Task 20.1.3.2: Relationships, validation, and booking/admin consumers
+ **Goal:** `attendeeAssignments` parent is **event instance**; client `backendName` and validation match; remove `differentialRole` usage from `partFinalizer`, `eventAttendeeUtils`, admin shapes tab; grep cleanup; `npm run start:dev` + client/server lint clean.
  **Files:**
- - `server/src/db/migrations/*.mjs`
+ - `server/src/routes/internal/relationships/relationshipConstants.ts`, `relationshipHelpersValidation.ts`, related CRUD handlers
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md
-index 3014e06c..002f4508 100644
+index db5e62dc..dd883035 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.1.3-log.md
-@@ -1,2 +1,20 @@
- # Session 20.1.3: ** Event schema alignment -- migration: ADD `placement_kind`, `anchor_edge` to `event_shapes`, DROP `differential_role`, move `include_reschedule_link`/`include_cancel_link` to `event_instances`; ADD `parent_block_instance_id` + location fields to `event_instances`; rename `event_shape_attendees` -> `event_instance_attendees`; seed default placement types (§2.2); update Sequelize models + client types.
+@@ -11,6 +11,14 @@
  
-+
-+### Task 20.1.3.1: Task 20.1.3.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.1.3.2
-+
-+
-+
-+## Completed Tasks
-+
-+### Task 20.1.3.1: Task 20.1.3.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.1.3.2
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-diff --git a/client/src/composables/admin/useInstancesTab.ts b/client/src/composables/admin/useInstancesTab.ts
-index 78d3ac33..d4b8b5dd 100644
---- a/client/src/composables/admin/useInstancesTab.ts
-+++ b/client/src/composables/admin/useInstancesTab.ts
-@@ -167,6 +167,9 @@ export function useInstancesTab(): UseInstancesTabReturn {
-     colorId: null,
-     status: 'confirmed',
-     reminderOverrides: null,
-+    includeRescheduleLink: true,
-+    includeCancelLink: true,
-+    parentBlockInstanceId: null,
-     scheduledBy: null,
-   }))
- 
-diff --git a/client/src/composables/admin/useShapesTab.ts b/client/src/composables/admin/useShapesTab.ts
-index 1601c130..ae1a8289 100644
---- a/client/src/composables/admin/useShapesTab.ts
-+++ b/client/src/composables/admin/useShapesTab.ts
-@@ -190,9 +190,9 @@ export function useShapesTab(): UseShapesTabReturn {
-     entityKey: 'eventShape',
-     orderIndex: 0,
-     active: true,
--    differentialRole: 'none',
--    includeRescheduleLink: true,
--    includeCancelLink: true,
-+    placementKind: 'primary',
-+    anchorEdge: null,
-+    differentialRole: 'major',
-   }))
- 
-   return {
-diff --git a/client/src/composables/booking/useAppointmentShape.ts b/client/src/composables/booking/useAppointmentShape.ts
-index 35f2ee87..441188e4 100644
---- a/client/src/composables/booking/useAppointmentShape.ts
-+++ b/client/src/composables/booking/useAppointmentShape.ts
-@@ -79,7 +79,11 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
-         rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []
-       ) as GlobalRelationship[]
- 
--      eventShapes = mergeAttendeesIntoEventShapes(eventShapes, attendeeAssignmentsRelationships)
-+      eventShapes = mergeAttendeesIntoEventShapes(
-+        eventShapes,
-+        eventInstances,
-+        attendeeAssignmentsRelationships
-+      )
- 
-       const partShapes = getGlobalEntities('partShape')
-       const partShapeById = new Map(partShapes.map((ps) => [ps.id, ps as GlobalEntity<'partShape'>]))
-diff --git a/client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts b/client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts
-index 7ba20032..2bbfad92 100644
---- a/client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts
-+++ b/client/src/configs/field/display/appliedDisplay/eventShapeDisplays.ts
-@@ -30,23 +30,16 @@ export const eventShapeDisplays = {
-     stacked: false,
-   },
- 
--  differentialRole: {
--    label: "Differential role",
--    placeholder: "Select scheduling role (or none)",
-+  placementKind: {
-+    label: 'Placement kind',
-+    placeholder: 'primary | secondary | marginal | floating',
-     inline: true,
-     stacked: false,
-   },
- 
--  includeRescheduleLink: {
--    label: "Include reschedule link",
--    placeholder: "Show {rescheduleLink} in calendar invite templates",
--    inline: true,
--    stacked: false,
--  },
--
--  includeCancelLink: {
--    label: "Include cancel link",
--    placeholder: "Show {cancelLink} in calendar invite templates",
-+  anchorEdge: {
-+    label: 'Anchor edge',
-+    placeholder: 'start | end (omit for primary)',
-     inline: true,
-     stacked: false,
-   },
-diff --git a/client/src/constants/entityFieldConstants.ts b/client/src/constants/entityFieldConstants.ts
-index 704cd0e6..bd70b0d5 100644
---- a/client/src/constants/entityFieldConstants.ts
-+++ b/client/src/constants/entityFieldConstants.ts
-@@ -10,6 +10,8 @@ export const FIELD_NAMES = {
-   ANNOTATIONS: 'annotations',
-   /** Matches server entityConstants FIELD_NAMES.DIFFERENTIAL_ROLE (event shape / API). */
-   DIFFERENTIAL_ROLE: 'differentialRole',
-+  PLACEMENT_KIND: 'placementKind',
-+  ANCHOR_EDGE: 'anchorEdge',
- } as const
- 
- export const TEMPORARY_ID_PATTERNS = {
-diff -
-… (truncated)
-```
-<!-- /harness:anchor:commit-preview -->

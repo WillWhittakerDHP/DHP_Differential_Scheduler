@@ -63,7 +63,7 @@ These sections contain session-specific content:
 **Approach:** One coherent migration pass (or sequenced files) per `phase-20.1-guide.md` §Session 20.1.3; backfill `include_*` from shapes to instances before drop; document rule for mapping old attendee rows to `event_instance_id`.
 **Checkpoint:** Server/client typecheck for touched files; models load; migration files ready (run only on localhost DB per policy).
 
-- [ ] #### Task 20.1.3.2: Relationships, validation, and booking/admin consumers
+- [x] #### Task 20.1.3.2: Relationships, validation, and booking/admin consumers
 **Goal:** `attendeeAssignments` parent is **event instance**; client `backendName` and validation match; remove `differentialRole` usage from `partFinalizer`, `eventAttendeeUtils`, admin shapes tab; grep cleanup; `npm run start:dev` + client/server lint clean.
 **Files:**
 - `server/src/routes/internal/relationships/relationshipConstants.ts`, `relationshipHelpersValidation.ts`, related CRUD handlers
