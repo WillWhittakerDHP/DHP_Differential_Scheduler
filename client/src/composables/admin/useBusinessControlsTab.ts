@@ -19,6 +19,7 @@ import {
   useDifferentialPerspectives,
 } from '@/composables/admin/businessControlsTabComposablesBundle'
 import { useAdminOrganizationDefaults } from '@/composables/admin/useAdminOrganizationDefaults'
+import { useAdminUserRoleBlockAlignment } from '@/composables/admin/useAdminUserRoleBlockAlignment'
 import type {
   UseBufferSettingsParams,
   UseDefaultLocationParams,
@@ -37,6 +38,7 @@ export interface UseBusinessControlsTabReturn {
   currentMainTab: Ref<string>
   businessControlsState: BusinessControlsState
   organizationSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
+  roleAlignmentSaveButtonProps: ComputedRef<BusinessControlsSaveButtonProps>
   UI_STRINGS: typeof BUSINESS_CONTROLS_TAB_STRINGS
 }
 
@@ -96,26 +98,34 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
   })
   const organization = useAdminOrganizationDefaults({ enabled: organizationDefaultsEnabled })
 
+  const roleAlignmentEnabled = computed(
+    () => isTabActive.value && currentMainTab.value === 'roleAlignment'
+  )
+  const userRoleBlockAlignment = useAdminUserRoleBlockAlignment({ enabled: roleAlignmentEnabled })
+
   const loading = computed(
     () =>
       availability.loading.value ||
       calendar.loading.value ||
       wizard.loading.value ||
-      organization.loading.value
+      organization.loading.value ||
+      userRoleBlockAlignment.loading.value
   )
   const error = computed(
     () =>
       availability.error.value ??
       calendar.error.value ??
       wizard.error.value ??
-      organization.error.value
+      organization.error.value ??
+      userRoleBlockAlignment.error.value
   )
   const success = computed(
     () =>
       availability.success.value ??
       calendar.success.value ??
       wizard.success.value ??
-      organization.success.value
+      organization.success.value ??
+      userRoleBlockAlignment.success.value
   )
 
   async function handleSave(): Promise<void> {
@@ -131,6 +141,8 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       await wizard.saveSettings()
     } else if (currentMainTab.value === 'organization') {
       await organization.saveSettings()
+    } else if (currentMainTab.value === 'roleAlignment') {
+      await userRoleBlockAlignment.saveSettings()
     }
   }
 
@@ -139,6 +151,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
     calendar.error.value = null
     wizard.error.value = null
     organization.error.value = null
+    userRoleBlockAlignment.error.value = null
   }
 
   const maxBusinessHours = computed(() => {
@@ -189,6 +202,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       disabled: wizard.saving.value,
     })),
     organizationDefaults: organization,
+    userRoleBlockAlignment,
   })
 
   provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)
@@ -204,6 +218,19 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       }) satisfies BusinessControlsSaveButtonProps
   )
 
+  const roleAlignmentSaveButtonProps = computed(
+    () =>
+      ({
+        type: 'submit' as const,
+        color: 'primary' as const,
+        loading: userRoleBlockAlignment.saving.value,
+        disabled:
+          userRoleBlockAlignment.saving.value ||
+          userRoleBlockAlignment.loading.value ||
+          userRoleBlockAlignment.formData.value === null,
+      }) satisfies BusinessControlsSaveButtonProps
+  )
+
   return {
     loading,
     error,
@@ -213,6 +240,7 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
     currentMainTab,
     businessControlsState: businessControlsState as BusinessControlsState,
     organizationSaveButtonProps,
+    roleAlignmentSaveButtonProps,
     UI_STRINGS: BUSINESS_CONTROLS_TAB_STRINGS,
   }
 }

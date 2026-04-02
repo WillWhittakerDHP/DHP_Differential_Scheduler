@@ -59,12 +59,11 @@ These sections contain session-specific content:
 **Approach:** [Approach to take]
 **Checkpoint:** [What needs to be verified]
 
-- [ ] #### Task 6.18.2.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] - [x] #### Task 6.18.2.2: Admin UI — role ↔ user-type instance matrix
+**Goal:** Business Controls tab to load/save `user-role-block-alignment` with pickers limited to user-type state-control instances.
+**Files:** `client/src/configs/userRoleBlockAlignment/api.ts`, `client/src/utils/admin/eligibleUserRoleAlignmentBlockInstances.ts`, `useAdminUserRoleBlockAlignment.ts`, `BusinessControlsRoleAlignmentSection.vue`, `BusinessControlsTab.vue`, `useBusinessControlsTab.ts`, `businessControlsTabStrings.ts`, `businessControlsState.ts`
+**Approach:** Mirror organization defaults composable + new VTabs pane; `GET`/`PUT` via `@/utils/api`.
+**Checkpoint:** Admin can persist alignment; client lint + `vue-tsc` pass.
 
 ---
 

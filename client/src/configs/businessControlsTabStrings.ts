@@ -102,6 +102,7 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   buttons: {
     saveSettings: 'Save Settings',
     saveOrganizationDefaults: 'Save organization defaults',
+    saveRoleAlignment: 'Save role alignment',
     resetToDefaults: 'Reset to Defaults'
   },
   tabs: {
@@ -120,7 +121,14 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
     places: 'Places',
     grid: 'Grid',
     wizard: 'Wizard',
-    organization: 'Organization defaults'
+    organization: 'Organization defaults',
+    roleAlignment: 'Role & user-type',
+  },
+  roleAlignment: {
+    cardTitle: 'User role → user-type block instance',
+    helpIntro:
+      'Maps each canonical user role to a user-type block instance under a state-control shape. When set, this override is used before the legacy name-based map. Create or edit instances under Admin → Instances if you need new options.',
+    instanceLabel: 'User-type instance',
   },
   calendar: {
     integrationTitle: 'Calendar Integration',
