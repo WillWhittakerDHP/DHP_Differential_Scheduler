@@ -83,7 +83,7 @@ Sessions below mirror **phase-20.2-planning.md** decomposition. Run **`/session-
 
 **Tasks:** Task blocks added at session-start.
 
-- [ ] ### Session 20.2.3: Relationships & event-instance preview
+- [x] ### Session 20.2.3: Relationships & event-instance preview
 **Description:** `eventAssignments`, instance-level attendees, `validEventCascades`; re-scope preview to segments under a parent event block instance.
 
 **Tasks:** Task blocks added at session-start.

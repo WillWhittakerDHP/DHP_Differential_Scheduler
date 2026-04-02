@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.2.3: Relationships & event-instance preview ✅
+**Completed:** 2026-04-02
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** ** **Relationships + preview** — `eventAssignments`, `event_instance_attendees` / attendee relationship registry, `validEventCascades`; re-scope **`event-instance-preview`** to segments under a parent event block instance (or equivalent simplification per §5.1).
+
+
+
 ### Session 20.2.2: Event shape & event instance entity routes ✅
 **Completed:** 2026-04-02
 **Tasks Completed:** All tasks completed
