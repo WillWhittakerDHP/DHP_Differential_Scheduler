@@ -61,8 +61,11 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
     BetaFeedbackTag,
     PropertyFieldMapping,
     PropertyFeatureMapping,
+    UserRoleBlockAlignment,
   } = m
-PartShape.hasMany(PartInstance, { foreignKey: 'part_shape_ref', as: 'part_instances' });
+  void UserRoleBlockAlignment
+
+  PartShape.hasMany(PartInstance, { foreignKey: 'part_shape_ref', as: 'part_instances' });
   PartInstance.belongsTo(PartShape, { foreignKey: 'part_shape_ref', as: 'part_shape' });
 
   BlockShape.hasMany(BlockInstance, { foreignKey: 'block_shape_ref', as: 'block_instances' });

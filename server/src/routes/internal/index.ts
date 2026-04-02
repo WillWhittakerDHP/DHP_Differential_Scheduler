@@ -17,6 +17,7 @@ import { DevStatusRouter } from "./dev/devStatusRouter.js";
 import { BetaFeedbackRouter } from "./beta-feedback/betaFeedbackRouter.js";
 import { PropertyMappingsRouter } from "./property-mappings/propertyMappingsRouter.js";
 import { EventInstancePreviewRouter } from "./event-instance-preview/eventInstancePreviewRouter.js";
+import { UserRoleBlockAlignmentRouter } from "./userRoleBlockAlignment/userRoleBlockAlignmentRouter.js";
 
 const router = Router();
 
@@ -48,5 +49,7 @@ router.use('/beta-feedback', BetaFeedbackRouter);
 router.use('/property-mappings', PropertyMappingsRouter);
 
 router.use('/event-instance-preview', EventInstancePreviewRouter);
+
+router.use('/user-role-block-alignment', UserRoleBlockAlignmentRouter);
 
 export { router as InternalRouter };

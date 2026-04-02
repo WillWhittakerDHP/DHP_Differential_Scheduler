@@ -61,4 +61,5 @@ export type SequelizeModelsBag = {
   PropertyFeatureMapping: ModelCtor<Model>
   Session: ModelCtor<Model>
   MagicLink: ModelCtor<Model>
+  UserRoleBlockAlignment: ModelCtor<Model>
 }

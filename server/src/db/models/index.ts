@@ -59,6 +59,7 @@ import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
 import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
 import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
 import { PropertyFeatureMappingFactory } from "./mappings/property_feature_mapping.js";
+import { UserRoleBlockAlignmentFactory } from "./admin/user_role_block_alignment.js";
 
 import { associateSequelizeModels } from "./sequelizeModelAssociations.js";
 export function initializeModels(sequelize: Sequelize) {
@@ -157,6 +158,7 @@ export function initializeModels(sequelize: Sequelize) {
   const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
   const PropertyFieldMapping = PropertyFieldMappingFactory(sequelize);
   const PropertyFeatureMapping = PropertyFeatureMappingFactory(sequelize);
+  const UserRoleBlockAlignment = UserRoleBlockAlignmentFactory(sequelize);
 
   BetaFeedback.hasMany(BetaFeedbackTag, { foreignKey: 'feedbackId', as: 'tags' });
   PropertyFeatureMapping.belongsTo(BlockInstance, {
@@ -185,6 +187,7 @@ export function initializeModels(sequelize: Sequelize) {
     AdminMetadata, AdminMetadataSelectOption, AdminPrimitiveMetadata, AdminPrimitiveMetadataSelectOption,
     AdminRelationshipMetadata, AdminRelationshipMetadataSelectOption,
     BetaFeedback, BetaFeedbackTag, PropertyFieldMapping, PropertyFeatureMapping,
+    UserRoleBlockAlignment,
   })
 
   return {
@@ -224,5 +227,6 @@ export function initializeModels(sequelize: Sequelize) {
     BetaFeedbackTag,
     PropertyFieldMapping,
     PropertyFeatureMapping,
+    UserRoleBlockAlignment,
   };
 }

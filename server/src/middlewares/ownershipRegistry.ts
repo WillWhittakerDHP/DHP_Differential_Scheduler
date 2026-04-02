@@ -37,6 +37,7 @@ const OWNERSHIP_RESOURCE_NAMES = [
   'property field mapping',
   'propertyType',
   'user',
+  'userRoleBlockAlignment',
   'wizardSetting',
 ] as const
 
@@ -101,6 +102,11 @@ const OWNERSHIP_REGISTRY: Record<OwnershipResourceName, OwnershipRegistryEntry> 
     model: User,
     owner: { mode: 'row_pk_is_user' },
     notes: 'Users may only mutate their own row: `row.id === req.user.id`.',
+  },
+  userRoleBlockAlignment: {
+    kind: 'special',
+    reason:
+      'Singleton `user_role_block_alignments` — internal staff only (same as calendar/wizard singleton PUT).',
   },
   wizardSetting: {
     kind: 'special',

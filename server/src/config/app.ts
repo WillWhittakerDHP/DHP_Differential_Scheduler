@@ -63,4 +63,5 @@ export const {
   BetaFeedbackTag,
   PropertyFieldMapping,
   PropertyFeatureMapping,
+  UserRoleBlockAlignment,
 } = models;

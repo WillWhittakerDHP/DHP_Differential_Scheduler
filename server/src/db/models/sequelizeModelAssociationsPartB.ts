@@ -61,8 +61,11 @@ export function associateSequelizePropertyAdminAndAvailability(m: SequelizeModel
     BetaFeedbackTag,
     PropertyFieldMapping,
     PropertyFeatureMapping,
+    UserRoleBlockAlignment,
   } = m
-Address.hasMany(PropertyVersion, { foreignKey: 'address_id', as: 'propertyVersions' });
+  void UserRoleBlockAlignment
+
+  Address.hasMany(PropertyVersion, { foreignKey: 'address_id', as: 'propertyVersions' });
   PropertyVersion.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
   
   PropertyVersion.hasMany(PropertyDetails, { foreignKey: 'property_version_id', as: 'propertyDetails' });

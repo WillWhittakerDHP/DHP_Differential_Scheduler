@@ -324,6 +324,14 @@ async function handleSpecialResource(
   if (resourceName === 'businessSetting') {
     return handleBusinessSetting(paramKey, req, res, logger)
   }
+  if (resourceName === 'userRoleBlockAlignment') {
+    const rawId = readParam(req, paramKey)
+    if (rawId !== undefined) {
+      sendNotFound(res, RESOURCE_NOT_FOUND)
+      return false
+    }
+    return handleSingletonAdminSetting(req, res, logger)
+  }
   if (resourceName === 'calendarSetting' || resourceName === 'wizardSetting') {
     const rawId = readParam(req, paramKey)
     if (rawId === undefined) {
