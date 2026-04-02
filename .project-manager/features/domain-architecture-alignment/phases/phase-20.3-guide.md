@@ -61,7 +61,7 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). 
 **Phase Number:** 20.3
 **Phase Name:** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
 **Description:** Align admin UI with FEATURE_20 **§8.3**: placement-first event-shape editing, service atomic / orchestration editors, segment UX on event block instances, and start EntityCard replacement + annotation metadata narrowing per **§6.3**.
-**Status:** Not Started
+**Status:** Complete
 
 ---
 
@@ -111,3 +111,5 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 **Description:** Annotation-only metadata narrowing where plan allows; first high-confidence **EntityCard** replacement slice; document remaining debt for **20.6**.
 
 **Tasks:** Session plan → narrow scope → replace lowest-risk EntityCard call site(s) → update phase log / handoff notes.
+
+<!-- end excerpt phase -->
