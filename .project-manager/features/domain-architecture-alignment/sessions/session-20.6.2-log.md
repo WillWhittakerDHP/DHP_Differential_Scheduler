@@ -155,42 +155,27 @@ index 9f1ca257..386e9c17 100644
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (5): `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md`
+Paths (3): `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../phases/phase-20.6-guide.md                         |  2 +-
- .../phases/phase-20.6-log.md                           |  8 ++++++++
- .../sessions/session-20.6.2-guide.md                   |  2 ++
- .../sessions/session-20.6.2-handoff.md                 | 18 +++++++++---------
- .../sessions/session-20.6.2-log.md                     |  7 ++++++-
- 5 files changed, 26 insertions(+), 11 deletions(-)
+.../domain-architecture-alignment/phases/phase-20.6-log.md        | 8 ++++++++
+ .../sessions/session-20.6.2-handoff.md                            | 7 +++----
+ .../domain-architecture-alignment/sessions/session-20.6.2-log.md  | 2 ++
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 ```
 
 ### `git diff HEAD`
 
 ```diff
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
-index 232aba3e..dca55ff1 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
-@@ -101,7 +101,7 @@ Session guides/logs are created at **`/session-start`**. Trace execution to **FE
- - Author **migration(s)** to drop or detach metadata tables (names from **§6.3a** + live models under **`server/src/db/models/admin/`**); do not run DDL on remote **DB_HOST**.
- - Verify admin UI smoke paths still load for shapes/instances/settings without metadata rows.
- 
--- [ ] ### Session 20.6.2: EntityCard tree and façade consumers
-+- [x] ### Session 20.6.2: EntityCard tree and façade consumers
- **Description:** Replace or inline remaining **`EntityCard.vue`** import sites in **`ENTITY_CARD_CONSUMERS_20.6.md`**; delete **`EntityCard*`** shell components and **`useEntityCard*`** composables when import graph is zero.
- 
- **Tasks:**
 diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
-index 9d0a389d..b2a5617a 100644
+index b2a5617a..7c581fb2 100644
 --- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
-@@ -17,6 +17,14 @@
+@@ -25,6 +25,14 @@
  
- ## Completed Sessions
+ 
  
 +### Session 20.6.2: EntityCard tree and façade consumers ✅
 +**Completed:** 2026-04-03
@@ -203,68 +188,39 @@ index 9d0a389d..b2a5617a 100644
  ### Session 20.6.1: Admin metadata stack removal (server + client API) ✅
  **Completed:** 2026-04-03
  **Tasks Completed:** All tasks completed
-diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-guide.md
-index 14c419dd..961a1687 100644
---- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-guide.md
-@@ -417,3 +417,5 @@ Break each session into focused tasks:
- ## Notes
- 
- [Session-specific notes, patterns, architectural decisions]
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md
-index c1d09659..9344f28c 100644
+index 1113c5cc..880d68e1 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-handoff.md
-@@ -8,21 +8,21 @@
+@@ -25,7 +25,8 @@ Completed Task
+ **What you need to start:**
+ - Begin Session 20.6.3
  
- ## Current Status
- 
--**Last Completed:** Session planning filled (`session-20.6.2-planning.md`, guide task embeds)  
--**Next task:** 20.6.2.1 — list surfaces, modals, annotation façade  
-+**Last Completed:** Task 
-+**Next Session:** Session 20.6.3
- **Git Branch:** `feature/domain-architecture-alignment`
-+**Last Updated:** 2026-04-03
- 
- ## Next Action
- 
--1. Run **`/accepted-plan`** (gate: `context_gathering` from **`/session-start 20.6.2`**).  
--2. After success, run **`/task-start 20.6.2.1`** and implement per planning **## Decomposition**.
-+Start Session 20.6.3 (see session guide and phase guide for scope).
- 
- ## Transition Context
- 
--**Where we left off:** Session **20.6.1** shipped code-first metadata + server metadata teardown + migration. Session **20.6.2** planning documents EntityCard consumer replacement and tree deletion.
-+**Where we left off:**
-+Completed Task 
- 
--**What you need to start task work:**
-+**What you need to start:**
-+- Begin Session 20.6.3
- 
--- Canonical inventory: **`ENTITY_CARD_CONSUMERS_20.6.md`**
--- Planning: **`sessions/session-20.6.2-planning.md`** (Goal, Acceptance Criteria, two tasks)
--- Phase context: **`phases/phase-20.6-guide.md`** § Session 20.6.2
+-<!-- harness-across-ladder:start -->
 +<!-- end excerpt session -->
++
+ ## Across ladder (harness)
+ 
+ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+@@ -36,6 +37,4 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+ - **Focus session:** `20.6.2` · **Session 2/4 in phase** · **Next session across:** `20.6.3` → `/session-start 20.6.3`
+ - **Tasks in session (detected):** 2 · **Next task across:** `20.6.2.1` → `/task-start` / cascade
+ - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+-<!-- harness-across-ladder:end -->
+-
+-<!-- end excerpt session -->
+\ No newline at end of file
++<!-- harness-across-ladder:end -->
 \ No newline at end of file
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md
-index 61ad9a22..4560dc02 100644
+index 9fb06179..f75f494d 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md
-@@ -145,4 +145,9 @@ index 9f1ca257..386e9c17 100644
- --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md
- +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.2-log.md
- @@ -19,6 +19,14 @@
-- 
-\ No newline at end of file
-+ 
+@@ -268,3 +268,5 @@ index 61ad9a22..4560dc02 100644
+ +**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+ ```
+ <!-- /harness:anchor:commit-preview -->
 +
 +
-+## Test Status
-+
-+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
 ```
 <!-- /harness:anchor:commit-preview -->

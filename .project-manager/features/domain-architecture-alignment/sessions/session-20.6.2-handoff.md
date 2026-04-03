@@ -25,7 +25,8 @@ Completed Task
 **What you need to start:**
 - Begin Session 20.6.3
 
-<!-- harness-across-ladder:start -->
+<!-- end excerpt session -->
+
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
@@ -37,5 +38,3 @@ _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 - **Tasks in session (detected):** 2 · **Next task across:** `20.6.2.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
-
-<!-- end excerpt session -->
