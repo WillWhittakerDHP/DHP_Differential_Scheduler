@@ -264,3 +264,13 @@
 - Each **`20260432_*`** file in **Checkpoint 9** performs **named** DDL/data transforms (enum alters, renames, reparents, prunes, column add/drop) described in **its header** and idempotent guards — not “fill in meaning from Sequelize defaults.”
 - **Event routing** semantics after migrate are defined in **`### Baseline placement & event routing (session 20.5.2)`** and **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**: **061** seeds **placement-type catalog** only; **`event_assignments`** and instance graphs are **operator/product** responsibility.
 - **No crosswalk migration** is documented as relying on **undocumented null semantics** or **silent ORM inserts** for full tenant routing graphs; gaps are **explicit** (e.g. **Addressed (session 20.5.2)** + **Fresh database** bullets).
+
+### FEATURE_20 §8.5 acceptance (session 20.5.3)
+
+**Source:** **FEATURE_20_ARCHITECTURE_REDESIGN.md** §8.5 Pass 5 — *Migration planning and data conversion* (acceptance checks only).
+
+| §8.5 acceptance check (verbatim intent) | Satisfied by (this worklog) | Notes |
+| --- | --- | --- |
+| Migration notes describe **how baseline event routing is established explicitly**. | **`### Baseline placement & event routing (session 20.5.2)`**; **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**; **`#### Addressed (session 20.5.2)`**; **§9.5 crosswalk** table **Notes** (incl. **061** / orchestrator row). | Scope + seed expectations align with **§8.5** scope bullets; sequence in **Checkpoint 9** + **§9.5** narrative. |
+| **Legacy assumptions** listed in **FEATURE_20** section **2** are either **removed** or **mapped** to their replacement storage. | **`### Legacy assumption closure (session 20.5.3)`** — **`#### §0.2 legacy assumptions → replacement`**; **`#### §2 model targets vs legacy (closure)`**. | Maps **§0.2** and **§2** themes to migrations / anchors without duplicating full **FEATURE_20** §2 tables. |
+| **No migration step** depends on **undocumented implicit defaults**. | **`#### Migration implicit-default audit`** (under **`### Legacy assumption closure`**); cross-ref **`### Baseline placement & event routing`** + **§9.6 mitigation**. | **`20260432_*`** steps are **explicit** DDL/data moves per file headers; routing graphs are **not** ORM-invented defaults. |

@@ -99,7 +99,7 @@ Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; 
 - Add an explicit subsection: **Baseline event routing** (relational **`event_assignments`**, orchestrator baseline + profile overrides) per **FEATURE_20**; tie to **§9.6** mitigation row.
 - Cross-read **`server/src/db/seeders/**`** if present; note gaps.
 
-- [ ] ### Session 20.5.3: Legacy assumption closure
+- [x] ### Session 20.5.3: Legacy assumption closure
 **Description:** Complete **§0.2 / §2** legacy-to-target mapping; final **§8.5** acceptance checklist; **phase handoff** → **20.6**.
 
 **Tasks:**
