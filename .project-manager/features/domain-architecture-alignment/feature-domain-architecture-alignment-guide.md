@@ -5,7 +5,7 @@
 **Tier:** Feature (Tier 0)
 
 **Feature Name:** Domain Architecture Alignment  
-**Status:** Planning  
+**Status:** In Progress — extension close-out ladder active  
 **Directory:** `features/domain-architecture-alignment/`  
 **PROJECT_PLAN:** Feature #20
 
@@ -15,6 +15,7 @@
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
 - [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
+- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension.
 
 **Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
 
@@ -30,13 +31,13 @@
 
 ## Feature objectives
 
-- Execute **plan §8** ordered passes (20.1–20.6) without drifting from principles or implementation-plan acceptance checks.
+- Execute **plan §8** ordered passes (20.1–20.6) without drifting from principles or implementation-plan acceptance checks, then complete the extension close-out phases (**20.7–20.8**) derived from the locked master plan.
 - Keep booking totals on the client (PartFinalizer), relational event routing, and instance-level three-property storage aligned with principles.
 - Coordinate with **Feature 6** (appointment workflow / booking) where surfaces overlap — principles + implementation plan remain authoritative for architecture.
 
 ---
 
-## Phases breakdown (Feature 20 ↔ plan §8)
+## Phases breakdown (Feature 20 ↔ plan §8 plus close-out extension)
 
 | Phase | Name | Plan § |
 | --- | --- | --- |
@@ -46,10 +47,12 @@
 | **20.4** | Pass 4 — Booking pipeline alignment | §8.4 |
 | **20.5** | Pass 5 — Migration planning and data conversion | §8.5 |
 | **20.6** | Pass 6 — Rollout and cleanup | §8.6 |
+| **20.7** | Extension — Canonical lock and preflight safeguards | master plan Phase 0 |
+| **20.8** | Extension — Truth docs and final close-out | master plan Phase 7 |
 
 **Scope notes (admin metadata):** Pass **20.3** delivers domain editors per §8.3 **including** annotation direction (no long-term DB metadata exception). Pass **20.5** documents **admin metadata schema retirement** ordering (§8.5). Pass **20.6** executes **full** metadata stack removal after editors are proven (§8.6).
 
-**Phase guides:** [phases/](./phases/) — `phase-20.1-guide.md` … `phase-20.6-guide.md`.
+**Phase guides:** [phases/](./phases/) — `phase-20.1-guide.md` … `phase-20.8-guide.md`.
 
 **Harness decomposition:** `/feature-start` scans this guide for lines matching `Phase X.Y:`. The following lines are intentional so tier-down output lists every implementation pass in order:
 
@@ -59,12 +62,32 @@ Phase 20.3: Pass 3 — Admin UX alignment
 Phase 20.4: Pass 4 — Booking pipeline alignment  
 Phase 20.5: Pass 5 — Migration planning and data conversion  
 Phase 20.6: Pass 6 — Rollout and cleanup  
+Phase 20.7: Extension — Canonical lock and preflight safeguards  
+Phase 20.8: Extension — Truth docs and final close-out  
 
 ## Phase 20.6
 
 **Pass 6 — Rollout and cleanup** (`FEATURE_20_ARCHITECTURE_REDESIGN.md` **§8.6**): incremental rollout of domain editors; remove differential-role and other legacy paths only **after** replacements are proven; delete the **`EntityCard`** tree and the **full admin metadata stack** (DB tables, routes, client prefetch/mutation) per **§6.3a** and the **Pass 5** retirement ordering in **`DOMAIN_REWRITE_WORKLOG.md`**; complete **§9.3 / §9.4** review-gate artifacts before any canonical doc promotion or filename consolidation.
 
 **Phase guide:** [phases/phase-20.6-guide.md](./phases/phase-20.6-guide.md)
+
+**Post-20.6 note:** The original pass ladder ended here, but Feature 20 now continues through extension phases **20.7** and **20.8** before **`/feature-end`**.
+
+---
+
+## Phase 20.7
+
+**Extension — Canonical lock and preflight safeguards** (locked master plan **Phase 0**): adopt the master close-out plan as the active sequencing surface, protect against contradictory redesign text, and produce the written preflight evidence package (event-routing watchpoint, invariant audit, migration policy restatement, and MLS / `property_details` boundary check).
+
+**Phase guide:** [phases/phase-20.7-guide.md](./phases/phase-20.7-guide.md)
+
+---
+
+## Phase 20.8
+
+**Extension — Truth docs and final close-out** (locked master plan **Phase 7**): reconcile `ARCHITECTURE.md`, planning surfaces, handoffs, and project-level Feature 20 wording so the document set matches the real implementation state before **`/feature-end`**.
+
+**Phase guide:** [phases/phase-20.8-guide.md](./phases/phase-20.8-guide.md)
 
 ---
 

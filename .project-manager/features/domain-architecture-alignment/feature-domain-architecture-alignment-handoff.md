@@ -5,29 +5,30 @@
 **Tier:** Feature (Tier 0 - Highest Level)
 
 **Last Updated:** 2026-04-03
-**Feature Status:** In Progress — Pass **6** execution complete; **`/feature-end`** pending
+**Feature Status:** In Progress — Pass **6** execution complete; extension close-out phases **20.7** and **20.8** pending
 **Next Feature:** _(after Feature **20** closeout)_
 
 ---
 
 ## Current Status
 
-**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**.
+**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work now flows through extension phases **20.7** and **20.8** derived from the locked master close-out plan.
 
 ---
 
 ## Next Action
 
-Run **`/session-end 20.6.4`** (if not already), then **`/phase-end 20.6`**, then **`/feature-end`**. Use **`phases/phase-20.6-handoff.md`** and **`sessions/session-20.6.4-handoff.md`** for transition text.
+Run **`/phase-start 20.7`** after completing any remaining **20.6** harness housekeeping. Use **`phases/phase-20.6-handoff.md`**, **`phases/phase-20.7-guide.md`**, and the locked master close-out plan for the extension ladder. Do **not** run **`/feature-end`** until **20.8** is complete.
 
 ---
 
 ## Transition Context
 
-**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**).
+**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**). The feature now continues with **20.7** and **20.8** to lock the close-out plan, produce preflight evidence, and reconcile truth-bearing docs before feature-end.
 
 **What you need for feature closeout:**
-- Harness **`/phase-end 20.6`** and **`/feature-end`** per ladder
+- Complete **20.7** and **20.8** before **`/feature-end`**
+- Use the locked master close-out plan as the sequencing surface for the extension work
 - Optional: human review of **§9.3** before any redesign filename replacement
 
 **Plan Changes Affecting Downstream Features:**
@@ -81,11 +82,9 @@ Run **`/session-end 20.6.4`** (if not already), then **`/phase-end 20.6`**, then
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T15:47:09.241Z
-- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
-- **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-- **Focus session:** `20.6.4` · **Session 4/4 in phase** · **Next session across:** _(then /phase-end)_
-- **Tasks in session (detected):** 2 · **Next task across:** `20.6.4.1` → `/task-start` / cascade
+- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-03T21:40:00.000Z
+- **Phases on disk (8):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8
+- **Focus phase:** `20.6` · **Next phase across:** `20.7` → `/phase-start 20.7`
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
