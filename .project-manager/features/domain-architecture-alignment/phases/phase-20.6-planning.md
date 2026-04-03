@@ -1,223 +1,19 @@
-# Plan: phase 20.6 — 20.6
+<!-- harness-planning-rollup tier=phase id=20.6 consolidatedAt=2026-04-03T15:49:18.013Z -->
 
-## Contract
-- **Tier:** phase | **ID:** 20.6
-- **Scope:** 20.6
-- **Governance (harness snapshot):**
-  - Governance Context (Phase)
-  - Type Inventory Issues
-  - Duplication Hotspots (top 4)
-  - Import Graph
-  - **1** fan-in violations: `client/src/composables/entityCrud/useEntityCrud` (21)
-  - **7** composable chain depth violations (max depth exceeded)
+# Consolidated planning: phase 20.6
 
-## Work Profile
-- **Execution intent:** plan
-- **Action type:** decomposition
-- **Scope shape:** architectural
-- **Governance domains:** docs, architecture, booking
-- **Gate profile:** decomposition
-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
-- **Recommended context pack:** decomposition_pack
-- **Planning artifact action:** create
-- **Decomposition mode:** light
-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
-
-## Where we left off
-Phase 20.5 completed with sessions: 20.5.1, 20.5.2, 20.5.3.
+## Phase 20.6 (parent)
 
 ## Story
+
 **As a** maintainer completing Feature 20, **I want** Pass 6 (**§8.6**) executed as ordered sessions—metadata DDL teardown, **EntityCard** deletion, differential-role/event-shape legacy cleanup, and doc review gates—**so that** the codebase matches the **replacement-first** acceptance checks and the admin stack no longer carries the DB-driven metadata pipeline.
 
 **Estimated size:** **L** (multiple cross-cutting deletes across server, client, and migrations; order-sensitive).
 
 ---
-## Architecture context (harness-injected)
-
-## 1. System overview
-
-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
-
-- **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
-
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Until the metadata stack is removed (Feature 20 Pass 6), some admin routes may still prefetch legacy metadata — treat that as **transitional**, not the end state.
-
----
-
-## 2. Domain map
-
-| Domain | Client paths | Server paths | Key models / areas | Shared types |
-|--------|----------------|-------------|---------------------|--------------|
-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata` (legacy until removed), `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
-
----
-
-## 3. Data flow
-
-Canonical path:
-
-1. **Vue view** → **presentational component**
-2. **Composable** (state + orchestration; thin components)
-3. **Client HTTP**
-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
-4. **Express route** (`routes/internal/*` or `routes/external/*`)
-5. **Service** (`server/src/services/`)
-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
-7. **Sequelize model** (`server/src/db/models/`)
-
-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
-
-**Booking resolution boundary:** The server serves **configuration and raw storage rows** (e.g. part instances, relationships) plus appointment-scoped inputs such as `property_details`. **PartFinalizer** on the **client** resolves wizard time, fee, and segment placement for the live booking flow. On submit, the client sends a **full appointment payload**; the server **persists** it and does **not** re-run PartFinalizer to recompute or “verify” those totals. Do not introduce a second booking calculator on the server for the same contract (see §10).
-
----
-
-## 4. Type boundaries
-
-| Layer | Location | Use when |
-|-------|----------|----------|
-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, wizard step types, transformer helpers, form field types. **Never** imported by server. |
-| **Server-only** | `server/src/types/` | Handler params, repository types, internal DTOs. **Never** imported by client. |
-
-**Rule:** If both sides need it → `@shared`. If only one side → keep it local.
-
-**Reactivity boundaries:** Prefer `ComputedRef<T>` for read-only consumer APIs; `Ref<T>` for internal mutable state; avoid leaking `Ref | ComputedRef` unions at public composable boundaries (see type governance rule + TYPE_AUTHORING_PLAYBOOK).
-
----
-
-## 5. Per-domain conventions
-
-### Booking / wizard
-
-- **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
-- **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin configuration data (wizard blocks, availability rules) served as **entities and settings** — document cross-domain deps in planning **Analysis** (booking must not assume a permanent admin-metadata-row model).
-- **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
-
-### Admin
-
-- **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Domain-specific editors + `EntityBase` / `ENTITY_CONFIGS` where generic CRUD remains; **target** is direct Vuetify forms per entity, not DB field-metadata-driven renderers (Principles §7.1, plan §6.3a).
-- **Shape vs instance:** Structural validity (`valid_*` relationships) is edited on the **shapes** side; orchestration editors **select** active assignments from that universe — they do not redefine structural possibility (see §9).
-
-### Auth
-
-- **Emerging domain;** keep route and model changes aligned with `routes/internal/auth` and `db/models/auth`. Consumed by all domains via middleware/guards over time.
-
-### Users / `user_role`
-
-- **`users.user_role`** is a **small closed set** (PostgreSQL ENUM + Joi + client types). **Delivered (Feature 6 Session 6.18.1):** **`@shared`** exports **`USER_ROLE_VALUES`** and per-role constants; server and client **import** that list. Product vocabulary uses **`owner`** (not `seller`) end-to-end, including wizard **`additionalContacts[].role`** and contact-step field names (`ownerInfo`, `showOwner`). **Note:** Older saved wizard or step snapshots that used `seller` / `sellerInfo` are not migrated client-side; users re-enter contacts or clear stored state if needed.
-- **User-type block instances** (state-control shapes) drive scheduling/display semantics; **`getUserTypeBlockIdForRole`** maps **DB role** → block instance. **Session 6.18.2** adds **admin-persisted alignment** (role → `block_instance_id`) so mappings are configurable without code edits where product allows. See `features/appointment-workflow/phases/phase-6.18-guide.md`.
-- **Feature 7 Enactment** exposes role to the client using the **same** shared vocabulary as the API.
-
-### Integrations
-
-- Prefer **dedicated services** and **external routes**; avoid mixing full-URL axios into `apiClient` call sites without reason.
-
-### Beta
-
-- Isolated feedback capture; keep `beta` paths grouped under composables/views/components/beta.
-
----
-
----
-
-## (from ARCHITECTURE.md — domain rules §8+)
-
-## 8. Domain model (block shape types)
-
-The system has five block shape **types**. Each owns one scheduling concern. All five participate in the three-property instance model (§9).
-
-| Type | Domain | What it owns |
-|------|--------|----------------|
-| `user` | Identity | User identity and wizard state. User instances drive cascades and annotations. |
-| `service` | Structure | Work items (part instances), active downstream assignments per service context. **Base** time/fee defaults and floors live only on **service orchestrator** part instances. |
-| `event` | Event | Part-instance calendar segment assignments and time-axis patterns. |
-| `time` | Duration | Part-instance duration contributions from property characteristics (rates × inputs). |
-| `price` | Fee | Part-instance fee contributions and rollups from rates and cascades. |
-
-**Domain separation:** Each domain writes only its own concern on part instances. Domains **compose**; they do not overwrite each other’s values.
-
-**Legacy names:** During migrations, stored enums or code may still reference older labels (`property` / `coupon` / `option`); target names are **`time`**, **`price`**, **`event`** aligned to this table.
-
----
-
-## 9. Block instances: three-property model and layering
-
-### 9.1 Three orthogonal properties (instance storage only)
-
-Every **block instance** has three independent booleans (not on block **shapes**):
-
-| Property | Axis | Question |
-|----------|------|----------|
-| `orchestrator` | Behavior | Root of an active assignment graph across other shapes? |
-| `composite` | Structure | Owns child block instances of the **same** shape? |
-| `wizardVisible` | Presentation | Appears in the booking wizard when cascades permit? |
-
-Any combination is valid. Compositeness is **same-shape** hierarchy; orchestration is **cross-shape** active selection from the shape-level validity graph.
-
-### 9.2 Layering
-
-```
-Block shape (template — type, domain, valid shape-level relationships)
-  └─ Block instance (runtime — carries composite / orchestrator / wizardVisible)
-       └─ Part instance (value ledger per block instance)
-```
-
-- **Shapes** define what is structurally possible (`valid_*` tables). They do **not** store the three booleans.
-- **Block instances** store the three booleans and create part instances.
-- **Orchestrator instances** choose which downstream instances are **active** from the options the shape graph allows — they do **not** redefine validity.
-
----
-
-## 10. Part instances, PartFinalizer, and resolution
-
-### 10.1 Per-block-instance ledger
-
-Each block instance owns its own part instances via `part_assignments` (including user block instances). No instance writes another instance’s part rows.
-
-**Two resolution tiers on part rows:**
-
-| Tier | Who | Columns |
-|------|-----|---------|
-| **Base** | Service orchestrator only | `baseTime`, `baseFee` (floor + starting values) |
-| **PerUnit** | Time / price atomics | `timePerUnit`, `feePerUnit` |
-
-**Events:** Routed via relational **`event_assignments`** (event instance ↔ part instance), not scalar default/override columns on part instances.
-
-### 10.2 PartFinalizer (client)
-
-Part instances are storage. **PartFinalizer** (booking client pipeline) aggregates:
-
-- `resolvedTime` = service base + Σ(timePerUnit × input) for time atomics in the same **lineage** bucket.
-- `resolvedFee` = service base + Σ(feePerUnit × input) and percentage passes.
-- `resolvedEvent` = event profile override **else** event orchestrator baseline assignment **per part instance**.
-
-Base acts as a **floor** until zero-out. **Correlation:** bucket by lineage to the atomic service / line item — **forbidden** to resolve by `part_shape` alone when multiple work items could collide.
-
-### 10.3 Resolution order (per part)
-
-1. Per-block-instance part records exist.  
-2. Resolve part-level time (base + time atomics using `property_details` inputs).  
-3. Resolve part-level fee (base + price atomics).  
-4. Resolve part-level event assignment (override ?? baselin
-
-_(Excerpt truncated.)_
-
-## Codebase recon (agent-led — required)
-Injected docs above are not a substitute for opening real code. Search/read `client/`, `server/`, and `shared/` as relevant to this tier.
-
-- **Paths reviewed:** `server/src/routes/internal/index.ts` (mounts **`/admin-metadata`**); `server/src/routes/internal/admin-metadata/` (router + helpers); `server/src/routes/internal/shared/metadataValidatorFactory.ts`; `server/src/routes/schemas/adminMetadata*.ts`; `client/` grep targets for `admin-metadata`, `EntityCard`, `useEntityCard` (per **`ENTITY_CARD_CONSUMERS_20.6.md`**); `.project-manager/features/domain-architecture-alignment/ANNOTATION_METADATA_DEFERRALS_20.6.md`; **`DOMAIN_REWRITE_WORKLOG.md`** (Pass 5 admin metadata retirement ordering); **`phases/phase-20.6-guide.md`** (verbatim §8.6 scope).
-- **Patterns / call sites:** Admin metadata is still a **first-class internal API** (`adminMetadataRouter` and related Joi schemas). **EntityCard** remains in **Shapes** tab panels, **RelationshipCollection**, modals, and **`AnnotationShapeListCard`** façade. Pass **20.3–20.5** delivered replacement editors and **written** retirement order; **20.6** is **execution** of deletes and route/model removal **after** proven cutover.
-- **Gaps / unknowns:** Exact **migration file names** and **table list** for metadata drops must be taken from **§6.3a** + current Sequelize models under **`server/src/db/models/admin/`** at implementation time; confirm **no** booking or wizard path still prefetch metadata before deleting client queries. **Differential-role** deletion set should be re-scanned with ripgrep at **session 20.6.3** start (symbol list drifts).
 
 ## Analysis
+
 - **Problem / why now:** Phases **20.1–20.5** aligned schema, API, admin UX, booking pipeline, and **documented** migration/metadata retirement. **§8.6** is the **final** pass: remove infrastructure that violates the target architecture (metadata pipeline, **EntityCard** generic shell, legacy differential-role paths) **without** reversing “replacement first.”
 - **Boundaries:** Crosses **admin** (Vue + composables), **server** (routes, models, migrations), and **shared** (validators/types touched by metadata). **Booking** must remain **PartFinalizer-on-client**; no server-side recomputation of wizard totals as part of cleanup.
 - **Patterns:** Follow **§6.3a** inventory and **`ENTITY_CARD_CONSUMERS_20.6.md`**; use **explicit domain components** already introduced in Pass 3–4 instead of preserving metadata-driven renderers. Migrations obey **DB_HOST** policy (localhost only for execute).
@@ -225,16 +21,19 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
 - **Alternatives:** “Big bang” single PR — **rejected**; phased sessions **20.6.1–20.6.4** match cleanup grouping and rollback clarity.
 
 ## Goal
+
 Complete **Phase 20.6 (Pass 6 — Rollout and cleanup)** per **`FEATURE_20_ARCHITECTURE_REDESIGN.md` §8.6** and **`phases/phase-20.6-guide.md`**: prove **replacement-first** cleanup of admin metadata (full stack), **EntityCard** tree removal, differential-role / event-shape remnants listed in the plan, and closeout docs/review gates as scoped in **§9.3–§9.4** when applicable.
 
 **Feature-wide:** Finishing **20.6** is the last numbered pass in Feature 20; after it, run **`/feature-end`** when the feature guide and **PROJECT_PLAN** say the feature is complete.
 
 ## Files
+
 - **Canonical (read-only intent):** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` (**§6.3a, §8.6, §9.3–§9.5**), `.project-manager/ARCHITECTURE.md`
 - **Harness / PM:** `feature-domain-architecture-alignment-guide.md` (now includes **`## Phase 20.6`** for tier context), `phases/phase-20.6-guide.md`, `ENTITY_CARD_CONSUMERS_20.6.md`, `ANNOTATION_METADATA_DEFERRALS_20.6.md`, `DOMAIN_REWRITE_WORKLOG.md`, `phases/phase-20.5-handoff.md`
 - **Implementation hotspots (Pass 6):** `server/src/routes/internal/admin-metadata/**`, `server/src/db/models/admin/**` (metadata models), `server/src/routes/internal/index.ts`, `client/src/components/admin/generic/EntityCard*.vue`, `client/src/components/admin/**` (consumers in inventory), `client/src/composables/admin/**` (entity-card composables), client services calling **`/admin-metadata`**
 
 ## Approach
+
 1. **Session order:** **20.6.1** metadata server/client API removal → **20.6.2** EntityCard → **20.6.3** differential-role / event-shape remnants → **20.6.4** docs and review gate. Adjust only if a dependency discovery forces it; document in session logs.
 2. **Replacement first:** Each session starts with a **consumer check** (grep + smoke admin paths); no DDL or bulk delete until the prior replacement is proven in the guide’s sense (**§8.6** acceptance).
 3. **Migrations:** Author migration files in-repo; **execute** only when **`DB_HOST`** is local per project rule; shared environments consume migrations from the host.
@@ -242,17 +41,20 @@ Complete **Phase 20.6 (Pass 6 — Rollout and cleanup)** per **`FEATURE_20_ARCHI
 5. **Coordination:** If **Feature 6** surfaces overlap (booking), cite **ARCHITECTURE.md** booking boundary; do not expand scope into new product behavior.
 
 ## Checkpoint
+
 - **`/accepted-plan`:** Confirms decomposition **20.6.1–20.6.4** covers **§8.6** scope and **§6.3a** inventory paths.
 - **Per session:** **§9.1 / §9.1a** drift checklist at start and end; update **`DOMAIN_REWRITE_WORKLOG.md`** when retirement steps land.
 - **Branch:** Stay on **`feature/domain-architecture-alignment`** for implementation (already standard for this feature).
 
 ## Deliverables
+
 - **Code:** Admin metadata **routes, models, and client callers** removed or detached per **§6.3a**; **EntityCard** tree deleted; listed **differential-role** / **event-shape** remnants removed per **§8.6** grouping.
 - **Migrations:** DDL for metadata tables (or equivalent) authored and documented; execution per **DB_HOST** policy.
 - **Docs:** **`ARCHITECTURE.md`**, feature/phase handoffs, and **`DOMAIN_REWRITE_WORKLOG.md`** updated to describe **end state**; **§9.3–§9.4** artifacts if doc promotion is in scope for **20.6.4**.
 - **Guides:** `phase-20.6-guide.md` session checkboxes advanced; session guides/logs for **20.6.x** created via harness.
 
 ## Acceptance Criteria
+
 - [ ] **§8.6 — Cleanup follows replacement, not the reverse** (no metadata or EntityCard delete while required consumers remain).
 - [ ] **§8.6 — Review gate artifacts** complete before any redesign doc promotion / filename consolidation (if attempted this phase).
 - [ ] **§6.3a — Full metadata stack** removed from server + client (no orphan **`/admin-metadata`** mount or prefetch).
@@ -260,27 +62,248 @@ Complete **Phase 20.6 (Pass 6 — Rollout and cleanup)** per **`FEATURE_20_ARCHI
 - [ ] **Lint / app start —** Definition of Done satisfied at phase end.
 - [ ] **Phase guide** status and **phase-20.6-handoff** **`## Next Action`** point to **`/feature-end`** or explicit follow-up.
 
-## Decomposition
-- **Session 20.6.1:** Admin metadata stack removal — server routes/models/migrations + client API usage (see **phase-20.6-guide** Sessions Breakdown).
-- **Session 20.6.2:** EntityCard tree and façade consumers — replace/delete per **`ENTITY_CARD_CONSUMERS_20.6.md`**.
-- **Session 20.6.3:** Differential-role utilities and event-instance / event-shape cleanup remnants.
-- **Session 20.6.4:** Review gate, **`ARCHITECTURE.md`** / handoff / worklog sync; **`/feature-end`** readiness.
+---
 
-## Definition of Done
+## Session 20.6.1 (source: session-20.6.1-planning.md)
 
-- [ ] App starts (`npm run start:dev`)
-- [ ] Lint passes (`cd client && npm run lint`, `cd server && npm run lint`)
-- [ ] Governance score maintained or improved
-- [ ] All child sessions complete
-- [ ] Phase guide and handoff updated
+### Story
+
+**This session delivers** removal of the **admin metadata HTTP stack** (client prefetch/mutations + server **`/admin-metadata`** routers/models) **so that** admin UI no longer depends on DB-driven field-metadata rows and **Pass 6** can proceed to **EntityCard** deletion in **20.6.2** without a live metadata API.
+
+**Estimated size:** **L** (router prefetch, many composables, **FieldRenderer** / metadata editors, server models, migration).
 
 ---
-## Reference (read before filling — governance and inventory compliance is required)
-- TierUp guide (scope and intent): `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md`
-- Handoff (full transition context): `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md`
-- Architecture: `.project-manager/ARCHITECTURE.md` — domain map, data flow, type boundaries, naming; **§8–§14** = locked domain rules (block model, part ledger, PartFinalizer, invariants) for booking / admin scheduling work
-- Workflow friction log (non-git harness issues): `.project-manager/WORKFLOW_FRICTION_LOG.md`
-- Agent model preferences (harness advisory only; Cursor does not auto-switch models): `.project-manager/agent-model-config.json`
-- Governance reports: `client/.audit-reports/` — function-complexity, component-health, composable-health, type-escape, type-constant-inventory
-- Playbooks: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`, `.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPONENT_AUTHORING_PLAYBOOK.md`
-- **Workflow friction:** `.project-manager/WORKFLOW_FRICTION_LOG.md` — classified harness failures are auto-appended (see `HARNESS_WORKFLOW_FRICTION` in the tier playbook). Scan recent entries before changing tier routing: `npx tsx .cursor/commands/utils/read-workflow-friction.ts --last 20`
+
+### Analysis
+
+- **Problem / why now:** **§8.6** / **§6.3a** require **full** metadata infrastructure removal. **20.5** documented retirement **ordering**; **20.6.1** executes **client + API + server model** teardown for the metadata stack (DDL in same session or follow-up task if split for safety).
+- **Boundaries:** **Admin** client + **server internal routes** + **DB models**; must **not** change booking **PartFinalizer** or appointment submit payloads.
+- **Patterns:** Prefer **explicit** field definitions and existing **entity** admin patterns from Pass **20.3**; avoid new generic metadata abstractions.
+- **Risks:** Stripping prefetch before replacements **breaks admin screens**; mitigate with ordered tasks and smoke checks. **Remote DB:** author migrations only; run locally when **DB_HOST** is localhost.
+- **Alternatives:** Leave API stub returning empty — **rejected** (plan requires **full** removal).
+
+### Goal
+
+**Session 20.6.1:** Remove the **admin metadata** feature from the **client and server**: no **`/admin-metadata`** or **`/admin-metadata/batch`** callers, no **TanStack** `adminMetadata` cache, no metadata **Sequelize** models in active use, and a **migration** to drop the relevant tables (authored in-repo; execute per **DB_HOST** policy). Admin screens must remain usable via **non-metadata** configuration paths agreed in task implementation orders.
+
+**Phase context:** This session owns only the **metadata stack** slice of **§8.6**; **EntityCard** is **20.6.2**.
+
+### Files
+
+- **Canonical:** `FEATURE_20_ARCHITECTURE_REDESIGN.md` (**§6.3a, §8.6**), `DOMAIN_REWRITE_WORKLOG.md` (**admin metadata retirement** subsection)
+- **Harness:** `phases/phase-20.6-guide.md` (**### Session 20.6.1**), `sessions/session-20.6.1-guide.md`
+- **Client (expected touch):** `client/src/router/index.ts`, `client/src/utils/api/adminMetadataApi.ts`, `client/src/composables/admin/useMetadataCache.ts`, `client/src/composables/admin/useAdminMetadataMutations.ts`, `client/src/utils/admin/adminMetadataSaveRequest.ts`, `client/src/components/admin/metadata/**`, `client/src/components/admin/generic/fields/FieldRenderer.vue`, `client/src/utils/forms/formFieldsMetadataWarningResolution.ts`, call sites invalidating **`adminMetadata`** queries
+- **Server (expected touch):** `server/src/routes/internal/index.ts`, `server/src/routes/internal/admin-metadata/**`, related **primitive/relationship** metadata routes if still mounted, `server/src/db/models/admin/adminMetadata*.ts`, `server/src/routes/schemas/adminMetadata*.ts`, model `index` / associations, **new** `server/src/db/migrations/*` for table drops
+
+### Approach
+
+1. **Task 20.6.1.1:** Client cutover — remove or replace every **runtime** dependency on **`/admin-metadata`** (prefetch, hooks, **FieldRenderer** metadata requirement, primitive metadata editor flows) so admin builds without metadata API calls.
+2. **Task 20.6.1.2:** Server + DB — remove routers, Joi validators tied only to metadata, Sequelize models/associations; add migration to **drop** metadata tables; remove **`metadataValidatorFactory`** only if no remaining internal callers.
+3. After each task: **client + server lint**, **app start** smoke on key admin routes; log decisions in **`session-20.6.1-log.md`** at session-end.
+
+### Checkpoint
+
+- **`/accepted-code`** then **implementation** per task orders; **`/task-end`** after each task; **`/session-end 20.6.1`** when both tasks complete.
+- Run **§9.1 / §9.1a** drift checklist at session end; note metadata removal in **`DOMAIN_REWRITE_WORKLOG.md`** if not already reflected.
+
+### Deliverables
+
+- No remaining **`fetch`** / **`apiClient`** calls to **`/admin-metadata`** from `client/src`.
+- No **`['adminMetadata']`** query cache population in router or composables (remove or replace with non-metadata data sources).
+- Server: **`/admin-metadata`** router unmounted; metadata models removed from runtime graph; migration file(s) to drop tables listed in **§6.3a**.
+- **`session-20.6.1-guide.md`** objectives checked; **`session-20.6.1-handoff.md`** updated with **Next Action** → **`/session-start 20.6.2`** (or **`/session-end`** then next session).
+
+### Acceptance Criteria
+
+- [ ] Admin app loads and critical entity admin paths work without metadata API (define smoke list in task planning).
+- [ ] `cd client && npm run lint` and `cd server && npm run lint` pass.
+- [ ] No references to removed routes in client; server `tsc` / build clean.
+- [ ] Migration authored for metadata table drops; execution only on allowed **DB_HOST**.
+
+---
+
+---
+
+## Session 20.6.2 (source: session-20.6.2-planning.md)
+
+### Story
+
+**This session delivers** removal of the generic **`EntityCard.vue`** component tree and replacement of every **direct/async import** listed in **`ENTITY_CARD_CONSUMERS_20.6.md`** with **domain editors** (or thin domain shells that compose **`EntityCardContent`** + existing **`useEntityCard*`** composables without keeping the **`EntityCard`** SFC), **so that** Pass **§6.3a / §8.6** can mark the admin UI free of the legacy generic instance shell and **20.6.3** can focus on differential-role / event-shape remnants only.
+
+**Estimated size:** **L** (many call sites + `RelationshipCollection` + large composable surface).
+
+---
+
+### Analysis
+
+- **Problem / why now:** **20.6.1** removed the server metadata stack and aligned **code-first** metadata on the client. The admin UI still mounts the **generic `EntityCard.vue`** shell at every inventory call site. **§6.3a** requires **deleting** that tree once replacements exist; inner behavior (**`EntityCardContent`**, **`FieldRenderer`**, **`useEntityCard*`** wiring) is already the “domain editor” — this session **re-homes** it under **domain-named parents** and drops the **`EntityCard`** SFC.
+- **Domain boundaries:** **Client admin only** (`client/src/components/admin`, `views/admin`, `composables/admin`, `types/admin`, `utils/admin`). **No** booking **PartFinalizer** or new server routes.
+- **Grounding:** See **## Codebase recon** and **`ENTITY_CARD_CONSUMERS_20.6.md`**; **`ARCHITECTURE.md`** for admin vs booking split.
+- **Shared shell decision:** Do **not** promote **`AnnotationShapeListCard`** as the universal shell. Prefer **domain-named expansion-panel parents** that **compose** **`EntityCardContent`**, sub-panels, and existing composables. Optional **one** thin shared layout SFC mid-session if duplication is painful — **must not** reintroduce the name **`EntityCard`**.
+- **Risks:** **RelationshipCollection** async child rows and **bulk/modal** flows are the highest regression risk; **governance** may flag large composable return surfaces — address only when a task edits that file materially.
+- **Alternatives:** Keep **`EntityCard`** indefinitely — **rejected** by **§8.6**.
+
+### Goal
+
+**Session 20.6.2 only:** Eliminate **all** imports of **`EntityCard.vue`** (including **`defineAsyncComponent`**), refactor **`AnnotationShapeListCard`** so it does **not** wrap **`EntityCard`**, then **delete** **`EntityCard.vue`**, coupled **`EntityCard*.vue`** children, and **orphan** **`useEntityCard*`** / **`entityCard*`** modules **after** `rg EntityCard` shows **zero** consumer imports. Update **`ENTITY_CARD_CONSUMERS_20.6.md`** to reflect **retirement**. **Out of scope for 20.6.2:** **20.6.3** differential-role / event-shape remnants, **20.6.4** doc closeout — only **note** handoff if discovery forces a follow-up task.
+
+### Files
+
+- **Canonical (read-only):** `ARCHITECTURE_PRINCIPLES.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md` (**§6.3a, §8.6**), `ARCHITECTURE.md`
+- **Harness / PM:** `feature-domain-architecture-alignment-guide.md`, `phases/phase-20.6-guide.md`, **`ENTITY_CARD_CONSUMERS_20.6.md`**, `DOMAIN_REWRITE_WORKLOG.md`, `session-20.6.2-guide.md`
+- **Implementation (this session):**
+  - **Consumers:** `client/src/views/admin/tabs/components/BlockInstancesGroup.vue`, `ShapesTabEventPanel.vue`, `ShapesTabPartPanel.vue`, `ShapeCardList.vue`, `ShapeCreationForm.vue`, `BulkEditModal.vue`, `BlockInstanceCreateModal.vue`, `AnnotationShapeListCard.vue`, `RelationshipCollection.vue` (under `components/admin/generic/` or adjacent paths per repo layout)
+  - **Tree to delete (last):** `EntityCard.vue`, `EntityCardContent.vue`, `EntityCardSubPanels.vue`, `EntityCardPrimaryTitleRow.vue`, `EntityCardPartsTotals.vue`, `EntityCardFeePreview.vue`
+  - **Composables / types / utils:** `client/src/composables/admin/useEntityCard*.ts`, `client/src/types/admin/entityCard*.ts`, `client/src/utils/admin/entityCard*.ts`, related constants/persistence modules **if** unused after delete
+
+### Approach
+
+1. **Consumer wave (Task 20.6.2.1):** For each **direct** importer and **`AnnotationShapeListCard`**, replace **`EntityCard`** with a **domain parent** that preserves **expansion**, **title row**, **save/delete**, and **field grid** behavior by composing **`EntityCardContent`** (and sub-panels) + existing composables. Run **`rg '\bEntityCard\b'`** after each cluster; smoke **Shapes**, **Instances**, **Annotations**, **modals**.
+2. **RelationshipCollection + teardown (Task 20.6.2.2):** Remove **`defineAsyncComponent`** **`EntityCard`** usage; embed the same **inner** editing surface for nested rows / create placeholders. When **no** file imports **`EntityCard.vue`**, **delete** the SFC tree and **prune** dead **`useEntityCard*`** / types / utils; refresh **`ENTITY_CARD_CONSUMERS_20.6.md`** (empty or “retired” section).
+3. **Verification:** **`npm run start:dev`**, **`cd client && npm run lint`**, **`cd server && npm run lint`**, **`vue-tsc` / `tsc`** as used in this repo after substantive TS edits; no new tests (project rule).
+
+### Checkpoint
+
+- **`/accepted-plan`:** Confirms **two tasks** cover **every** path in **`ENTITY_CARD_CONSUMERS_20.6.md`** plus **`RelationshipCollection`** and **teardown**.
+- **After 20.6.2.1:** Zero **direct** `EntityCard` imports except **`RelationshipCollection`** (and any stragglers caught by grep).
+- **After 20.6.2.2:** **`EntityCard.vue`** absent; inventory doc updated; **`DOMAIN_REWRITE_WORKLOG.md`** entry for EntityCard retirement.
+
+### Deliverables
+
+- **Replaced** all **`EntityCard`** consumer sites per inventory; **`AnnotationShapeListCard`** no longer wraps **`EntityCard`**.
+- **Removed** **`EntityCard.vue`** and dependent generic SFCs; **pruned** unused composables/types/utils in the **`useEntityCard` / `entityCard`** cluster.
+- **Updated** **`ENTITY_CARD_CONSUMERS_20.6.md`** and session **log / handoff** with smoke notes.
+
+### Acceptance Criteria
+
+- **`rg`** / project search: **no** `import ... EntityCard` or `from '.../EntityCard.vue'` and **no** `defineAsyncComponent(() => import('...EntityCard` in **`client/src`**.
+- **Admin smoke:** Shapes tab (block / part / event panels), instances block group, annotations list, **bulk edit** and **block instance create** modals — **expand**, **edit field**, **save** (and **delete** where applicable) without console errors.
+- **Lint / typecheck** green per Definition of Done.
+- **Inventory doc** matches repo reality (no stale “still imports EntityCard” rows).
+
+---
+
+## Session 20.6.3 (source: session-20.6.3-planning.md)
+
+### Story
+
+**This session delivers** removal of **superseded differential-event-role override** wiring and related **event-shape / event-instance** legacy paths that conflict with **placement_kind + anchor_edge** + relational **event_assignments**, **so that** Pass **§8.6** cleanup grouping is satisfied before **20.6.4** doc/review closeout — **without** changing **PartFinalizer** resolution rules or inventing server-side booking math.
+
+**Estimated size:** **M** (admin field stack + appointment/transformer touchpoints; two-task split).
+
+---
+
+### Analysis
+
+- **Problem / why now:** **20.6.1–20.6.2** removed metadata + generic **EntityCard**. **DB** migration **000059** already drops the overrides column; **client** still carries **matrix field**, **display config**, **appointment** optional overrides, and **attendee utils** branches — dead or misleading vs **placement-first** architecture.
+- **Boundaries:** **Client** admin + booking transformers/types; **server** only if dead validators/helpers remain. **Do not** alter **PartFinalizer** core contract or add server recomputation of booking totals (**ARCHITECTURE.md** / plan §4).
+- **Task order:** **Admin/UI + primitives first** (stop surfacing overrides), then **booking + shared** simplification once no product path persists overrides.
+- **Risks:** **False positive deletion** if any environment has not applied **000059** — prefer **grep + typecheck** over silent runtime failure; **availability differential** naming collision — avoid touching **`useBusinessControlsTab` / `WizardConfigPanel`** differential sub-step unless scoped.
+- **Alternatives:** Keep overrides field read-only “for debug” — **rejected** by FEATURE_20 removal list.
+
+### Goal
+
+**Session 20.6.3 only:** Eliminate **legacy differential-event-role override** surfaces and **stray types/transformer** branches aligned to **FEATURE_20** placement model; trim **event-instance admin** paths that are clearly superseded by the **segment-manager** narrative **only where** code is provably unused or redundant after grep + typecheck. **Out of scope:** **20.6.4** documentation/review gate; **feature-end**; wholesale rename of **`DifferentialRole`** shared types if still used for **placement-derived** roles.
+
+### Files
+
+- **Canonical (read-only):** `ARCHITECTURE_PRINCIPLES.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md` (**§2.2, §3.6, §8.6**), `ARCHITECTURE.md` (**§5 event placement**)
+- **Harness / PM:** `phases/phase-20.6-guide.md`, `DOMAIN_REWRITE_WORKLOG.md`, `session-20.6.2-handoff.md`
+- **Implementation (expected hotspots):**
+  - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`
+  - `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`
+  - `client/src/utils/admin/differentialRoleMatrixRows.ts`
+  - `client/src/constants/primitives.ts` (**`GlobalFieldKey` / map types**)
+  - `client/src/types/appointmentModels.ts`
+  - `client/src/utils/eventAttendeeUtils.ts`
+  - `client/src/utils/transformers/entityTransformers.ts`
+  - `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts` (retain if still needed for API rejection; delete only if redundant)
+  - **Field wiring:** `FieldRenderer.vue` / `PrimitiveInputs.vue` / `codeFirstMetadataCache.ts` — only if **`differentialEventRoleOverrides`** still registered
+  - **Event instance UI:** `client/src/views/admin/tabs/components/EventInstanceEditor.vue`, `EventInstanceBuilderBody.vue`, `EventInstanceListItem.vue`, `EventInstanceTemplateFields.vue`, `EventInstancePreviewPanel.vue`, `EventInstanceCalendarSettings.vue`, `EventInstanceVariableChips.vue`; composables under `composables/admin/useInstancesTab*`
+
+### Approach
+
+1. **Task 20.6.3.1:** **Grep** `differentialEventRoleOverrides` / **`DifferentialEventRoleOverrides`** / matrix component; remove **admin** field component + **blockInstance** display row + **matrix rows** util if orphaned; tighten **`primitives.ts`** / **FieldRenderer** wiring so the property cannot render; smoke **Instances** tab block instance form (**Events** panel / field groups).
+2. **Task 20.6.3.2:** Remove **`differentialEventRoleOverrides`** from **appointment** types and booking helpers; simplify **`eventAttendeeUtils`** to **placement + event_shape** template role only (drop override map branches when always empty); audit **`entityTransformers`** deletes; remove dead **shared** imports on client; **optional:** thin **event-instance** standalone editor remnants if grep shows no route/consumers — document in handoff if deferred.
+3. **Verification:** `npm run start:dev`; `cd client && npm run lint`; `cd server && npm run lint`; `vue-tsc` / `tsc` as in repo; **no new tests** (project rule).
+
+### Checkpoint
+
+- **`/accepted-plan`:** Two tasks cover **admin removal** then **booking/shared**; **no PartFinalizer** file churn unless a task explicitly needs import cleanup only.
+- **After 20.6.3.1:** Zero **admin** references to **`differentialEventRoleOverrides`** field component / display config (grep).
+- **After 20.6.3.2:** **`appointmentModels`** and **attendee** utilities carry **no** override map; **`DOMAIN_REWRITE_WORKLOG.md`** one-line note for **20.6.3** retirement.
+
+### Deliverables
+
+- **Removed or unreachable** **block-instance differential event role overrides** UI and config.
+- **Booking/types** no longer model **appointment-level** override map (if fully dead).
+- **Worklog** updated; session **log/handoff** with smoke notes.
+- **Grep audit** saved in session log (commands + “before/after” hit counts optional).
+
+### Acceptance Criteria
+
+- **`rg differentialEventRoleOverrides`** across **`client/src`** shows **no** functional references (comments acceptable only if explaining removal).
+- **Admin:** Block instance editor does not show **differential role matrix**; no runtime errors on Instances / Shapes event flows touched.
+- **Lint + vue-tsc** (client) and **server lint** green per DoD.
+- **No** changes to **PartFinalizer** business logic beyond **type/import** cleanup **unless** a dead branch is removed with identical behavior for placement-only paths.
+
+---
+
+## Session 20.6.4 (source: session-20.6.4-planning.md)
+
+### Story
+
+**This session delivers** auditable **§8.6** acceptance notes, drift checklist evidence (**§9.1 / §9.1a**), and updated phase/feature PM artifacts **so that** Feature **20** can end cleanly with **`/phase-end 20.6`** then **`/feature-end`** without stale handoffs or undocumented residual risk.
+**Estimated size:** **S–M** (documentation and verification; small code/doc fixes only if a checklist item fails).
+
+---
+
+### Analysis
+
+- **Problem / why now:** Phase **20.6** execution sessions are done; without **20.6.4**, **§8.6** acceptance and ladder/handoff state stay ambiguous and **`phase-20.6-handoff.md`** misleads the next agent.
+- **Boundaries:** **`.project-manager/`** docs plus optional tiny **`ARCHITECTURE.md`** / worklog edits; **no** booking or server behavior change unless a checklist failure forces a minimal fix (then document in log).
+- **Patterns:** Follow existing feature PM style (`session-*-log.md`, `*-handoff.md`, `across-ladder.json`); cite **FEATURE_20** §**8.6** acceptance bullets when stating completion.
+- **Risks:** Over-scoping **§9.4** into a full redesign-file replacement without explicit approval; **mitigation:** record **deferred** with reason. Residual **`EntityCard*`** filenames may look incomplete — **mitigation:** classify as renamed shell vs §**8.6** debt in the log.
+- **Alternatives:** Single mega-task for all docs — **rejected**; split **evidence/hygiene** vs **phase closeout** for clearer **`task-end`** boundaries.
+
+### Goal
+
+Close **Session 20.6.4** per **`phase-20.6-guide.md`**: run **§9.1 / §9.1a** drift checklist on the **final** branch state; capture **§8.6** acceptance narrative in **`DOMAIN_REWRITE_WORKLOG.md`** / session log as needed; refresh **`phase-20.6-handoff.md`** and **20.6.3**/**20.6.4** handoffs so **Next Action** points to **`/phase-end 20.6`** then **`/feature-end`**; record **§9.3–9.4** outcome (**complete / deferred / N/A**). **Out of scope unless explicitly added:** replacing **`DOMAIN_ARCHITECTURE_REDESIGN.md`** or **`ARCHITECTURE_PRINCIPLES.md`** files on disk.
+
+### Files
+
+- **Read / update:** `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md` (this doc), `session-20.6.4-guide.md`, `session-20.6.4-log.md`, `session-20.6.4-handoff.md` (create/update at **`/task-start`** / **`/session-end`** as harness expects), `sessions/session-20.6.3-handoff.md` (hygiene), `phases/phase-20.6-handoff.md`, `phases/phase-20.6-guide.md` (session checkbox at **`/session-end`**), `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`, `.project-manager/PROJECT_PLAN.md` (Feature **20** status if playbook requires), `.project-manager/ARCHITECTURE.md` (only if drift vs implementation)
+- **Reference (verification):** `FEATURE_20_ARCHITECTURE_REDESIGN.md` §**8.6**, §**9.1–9.4**; `feature-domain-architecture-alignment-guide.md`
+
+### Approach
+
+1. **Task 20.6.4.1:** Evidence + doc hygiene — checklists, grep log, worklog/session-20.6.3-handoff cleanup, optional **ARCHITECTURE.md** touch.
+2. **Task 20.6.4.2:** Phase/feature runway — **`phase-20.6-handoff.md`**, **20.6.4** handoff/log, **§9.3–9.4** statement, **`PROJECT_PLAN`** alignment, explicit **`/phase-end`** / **`/feature-end`** next steps.
+3. **Harness:** After each task, **`/task-end`**; after **20.6.4.2**, **`/session-end 20.6.4`** (user-run); then **`/phase-end 20.6`** when ready.
+
+### Checkpoint
+
+- **`/accepted-plan`:** Decomposition covers **20.6.4** goal; user runs harness acceptance.
+- **Before `/session-end`:** DoD lint/start where applicable; session log lists completed tasks with ids.
+- **Branch:** `feature/domain-architecture-alignment`
+
+### Deliverables
+
+- **§9.1 / §9.1a** drift checklist completed and recorded (session log or appendix in handoff).
+- **Grep audit** recorded: `admin-metadata` / `differentialEventRoleOverrides` / other §**8.6** symbols as listed in task plan (commands + outcome).
+- **`DOMAIN_REWRITE_WORKLOG.md`** updated if **§8.6** closure needs an explicit “Pass 6 complete” line beyond existing **20.6.3.2** note.
+- **`phase-20.6-handoff.md`** reflects sessions **20.6.1–20.6.4** and **Next Action** → **`/phase-end 20.6`** (then **`/feature-end`**).
+- **`session-20.6.3-handoff.md`** repaired: no empty “Last Completed: Task”, no duplicate **Across ladder** sections.
+- **§9.3–9.4** outcome documented (**complete / deferred / N/A** with one-line rationale).
+- **`session-20.6.4-handoff.md`** + **`session-20.6.4-log.md`** updated for **`/session-end`**.
+
+### Acceptance Criteria
+
+- Checklist and grep evidence exist under **`.project-manager/features/domain-architecture-alignment/sessions/`** for **20.6.4**.
+- Stale **phase-20.6-handoff** “active 20.6.1” text is corrected.
+- **Next Action** chain is unambiguous: **`/phase-end 20.6`** → **`/feature-end`** (unless user adds follow-up phase).
+- No unintended **`client/`** / **`server/`** product refactors; any code change is tied to a logged checklist failure.
+
+---
+
+---
