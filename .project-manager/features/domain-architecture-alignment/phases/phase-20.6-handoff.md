@@ -43,7 +43,7 @@ Run **`/session-start 20.6.1`** (then **`/accepted-code`** when the harness prom
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T15:10:11.954Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T15:13:01.362Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
 - **Focus session:** `20.6.2` · **Session 2/4 in phase** · **Next session across:** `20.6.3` → `/session-start 20.6.3`
