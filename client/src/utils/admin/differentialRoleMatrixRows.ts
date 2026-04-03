@@ -21,7 +21,7 @@ const PLACEMENT_KIND_WORD: Record<EventPlacementKind, string> = {
 }
 
 /** User-visible summary of shape placement (lead line in override matrix). */
-export function formatEventShapePlacementCaption(shape: EventShapeEntity): string {
+function formatEventShapePlacementCaption(shape: EventShapeEntity): string {
   const kind = sanitizeEventPlacementKindInput(shape.placementKind) ?? 'primary'
   const edge = sanitizeEventAnchorEdgeInput(shape.anchorEdge)
   if (kind === 'primary') {
@@ -33,7 +33,7 @@ export function formatEventShapePlacementCaption(shape: EventShapeEntity): strin
   return `${PLACEMENT_KIND_WORD[kind]} · set anchor on shape`
 }
 
-export interface DifferentialRoleMatrixRow {
+interface DifferentialRoleMatrixRow {
   eventShapeId: GlobalEntityId
   name: string
   /** Derived scheduling role from placement (storage / effectiveDifferentialRole path). */
