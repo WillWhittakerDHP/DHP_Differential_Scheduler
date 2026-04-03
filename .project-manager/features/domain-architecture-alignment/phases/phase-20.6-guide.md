@@ -62,7 +62,7 @@ Acceptance checks:
 **Phase Number:** 20.6
 **Phase Name:** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
 **Description:** Incremental rollout of domain editors; delete differential-role and legacy admin code; **remove the full admin metadata stack** (per §6.3a) after cutover; review gate before doc promotion.
-**Status:** In progress — session **20.6.1** first; follow **`phase-20.6-planning.md`** decomposition
+**Status:** Complete — session **20.6.1** first; follow **`phase-20.6-planning.md`** decomposition
 
 ---
 

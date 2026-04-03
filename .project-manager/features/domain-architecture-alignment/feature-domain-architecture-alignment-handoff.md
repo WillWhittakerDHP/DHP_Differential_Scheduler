@@ -81,11 +81,11 @@ Run **`/session-end 20.6.4`** (if not already), then **`/phase-end 20.6`**, then
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T15:32:31.335Z
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T15:47:09.241Z
 - **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
 - **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-- **Focus session:** `20.6.3` · **Session 3/4 in phase** · **Next session across:** `20.6.4` → `/session-start 20.6.4`
-- **Tasks in session (detected):** 2 · **Next task across:** `20.6.3.1` → `/task-start` / cascade
+- **Focus session:** `20.6.4` · **Session 4/4 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `20.6.4.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
