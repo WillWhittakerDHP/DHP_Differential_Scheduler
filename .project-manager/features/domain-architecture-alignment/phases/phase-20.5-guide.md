@@ -81,7 +81,7 @@ Migration steps must remain permitted by **ARCHITECTURE_PRINCIPLES.md**; use **p
 
 Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; keep this phase guide objectives in sync at session-end.
 
-- [ ] ### Session 20.5.1: Migration chain inventory
+- [x] ### Session 20.5.1: Migration chain inventory
 **Description:** Map existing **`20260432_*`** migrations to **FEATURE_20 §9.5** ordering; choose **DOMAIN_REWRITE_WORKLOG** vs **`MIGRATION_SEQUENCE.md`**; draft the ordered sequence table.
 
 **Tasks:**
