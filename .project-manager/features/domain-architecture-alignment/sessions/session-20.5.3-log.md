@@ -35,157 +35,156 @@
 **Next Task:**
 - 20.5.3.3
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (7): `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.5.3.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.5.3.2-planning.md`
+Paths (8): `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.5.3.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.5.3.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.5.3/`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../analysis/DOMAIN_REWRITE_WORKLOG.md             | 10 ++++
- .../phases/phase-20.5-guide.md                     |  2 +-
- .../phases/phase-20.5-handoff.md                   | 63 +++++++++++-----------
- .../sessions/session-20.5.3-guide.md               |  2 +-
- .../sessions/session-20.5.3-log.md                 | 15 ++++++
- 5 files changed, 59 insertions(+), 33 deletions(-)
+.../phases/phase-20.5-log.md                       |   8 +
+ .../sessions/session-20.5.3-guide.md               |   2 +
+ .../sessions/session-20.5.3-log.md                 |   6 +
+ .../sessions/session-20.5.3-planning.md            | 312 +++++++--------------
+ .../sessions/task-20.5.3.1-planning.md             | 154 ----------
+ .../sessions/task-20.5.3.2-planning.md             | 156 -----------
+ 6 files changed, 116 insertions(+), 522 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-index 638ba589..15c4d2b7 100644
---- a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-+++ b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
-@@ -264,3 +264,13 @@
- - Each **`20260432_*`** file in **Checkpoint 9** performs **named** DDL/data transforms (enum alters, renames, reparents, prunes, column add/drop) described in **its header** and idempotent guards — not “fill in meaning from Sequelize defaults.”
- - **Event routing** semantics after migrate are defined in **`### Baseline placement & event routing (session 20.5.2)`** and **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**: **061** seeds **placement-type catalog** only; **`event_assignments`** and instance graphs are **operator/product** responsibility.
- - **No crosswalk migration** is documented as relying on **undocumented null semantics** or **silent ORM inserts** for full tenant routing graphs; gaps are **explicit** (e.g. **Addressed (session 20.5.2)** + **Fresh database** bullets).
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md
+index e6441b3d..55272e4e 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md
+@@ -17,6 +17,14 @@
+ 
+ ## Completed Sessions
+ 
++### Session 20.5.3: Legacy assumption closure ✅
++**Completed:** 2026-04-03
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** — Legacy assumption closure:** Complete **§0.2 / §2** legacy-to-target mapping in writing; verify **no migration step** depends on undocumented implicit defaults; final edit pass on **§8.5** acceptance checklist; prepare **phase handoff** for **20.6**.
 +
-+### FEATURE_20 §8.5 acceptance (session 20.5.3)
 +
-+**Source:** **FEATURE_20_ARCHITECTURE_REDESIGN.md** §8.5 Pass 5 — *Migration planning and data conversion* (acceptance checks only).
 +
-+| §8.5 acceptance check (verbatim intent) | Satisfied by (this worklog) | Notes |
-+| --- | --- | --- |
-+| Migration notes describe **how baseline event routing is established explicitly**. | **`### Baseline placement & event routing (session 20.5.2)`**; **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**; **`#### Addressed (session 20.5.2)`**; **§9.5 crosswalk** table **Notes** (incl. **061** / orchestrator row). | Scope + seed expectations align with **§8.5** scope bullets; sequence in **Checkpoint 9** + **§9.5** narrative. |
-+| **Legacy assumptions** listed in **FEATURE_20** section **2** are either **removed** or **mapped** to their replacement storage. | **`### Legacy assumption closure (session 20.5.3)`** — **`#### §0.2 legacy assumptions → replacement`**; **`#### §2 model targets vs legacy (closure)`**. | Maps **§0.2** and **§2** themes to migrations / anchors without duplicating full **FEATURE_20** §2 tables. |
-+| **No migration step** depends on **undocumented implicit defaults**. | **`#### Migration implicit-default audit`** (under **`### Legacy assumption closure`**); cross-ref **`### Baseline placement & event routing`** + **§9.6 mitigation**. | **`20260432_*`** steps are **explicit** DDL/data moves per file headers; routing graphs are **not** ORM-invented defaults. |
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md
-index 48fff1ec..fe7b5a0c 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md
-@@ -99,7 +99,7 @@ Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts;
- - Add an explicit subsection: **Baseline event routing** (relational **`event_assignments`**, orchestrator baseline + profile overrides) per **FEATURE_20**; tie to **§9.6** mitigation row.
- - Cross-read **`server/src/db/seeders/**`** if present; note gaps.
- 
--- [ ] ### Session 20.5.3: Legacy assumption closure
-+- [x] ### Session 20.5.3: Legacy assumption closure
- **Description:** Complete **§0.2 / §2** legacy-to-target mapping; final **§8.5** acceptance checklist; **phase handoff** → **20.6**.
- 
- **Tasks:**
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md
-index 0634dd81..a679efc7 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md
-@@ -1,78 +1,79 @@
--# Phase [N] Handoff
-+# Phase 20.5 Handoff — Domain architecture alignment
- 
- **Purpose:** Transition context between phases (large-scale concerns only)
- 
- **Tier:** Phase (Tier 1 - High-Level)
- 
--**Last Updated:** [Date]
--**Phase Status:** [Complete / In Progress]
--**Next Phase:** [N+1]
-+**Last Updated:** 2026-04-03
-+**Phase Status:** Complete (documentation / migration narrative)
-+**Next Phase:** 20.6
- 
- ---
- 
- ## Current Status
- 
--**Phase [N]:** [Complete / In Progress]
--**Last Completed Session:** 20.5
--**Next Phase:** [N+1]
-+**Phase 20.5:** Complete — migration chain inventory (**20.5.1**), baseline placement & event routing + **§9.6** (**20.5.2**), legacy **§0.2 / §2** closure + **§8.5** sign-off in **`DOMAIN_REWRITE_WORKLOG.md`** (**20.5.3**).
-+**Last completed session:** **20.5.3**
-+**Next phase:** **20.6** (rollout / cleanup per **FEATURE_20** §8.6 and phase guide)
- 
- ---
- 
- ## Transition Context
- 
- **Where we left off:**
--[Minimal notes about phase completion - 2-3 sentences max]
-+Canonical **Feature 20** migration + data narrative lives in **`.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`** (Checkpoint 9, **§9.5** crosswalk, baseline routing, **§9.6** mitigation, legacy closure, **§8.5** acceptance table). Phase **20.5** did **not** require product code changes in this tranche.
- 
--**What you need to start Phase [N+1]:**
--- [Brief bullet point about context needed]
--- [Brief bullet point about dependencies]
--- [Brief bullet point about any blockers or considerations]
-+**What you need to start Phase 20.6:**
-+- Run **`/phase-start 20.6`** on branch **`feature/domain-architecture-alignment`** (or current feature branch per workflow).
-+- Use **`phases/phase-20.6-guide.md`** for ordered cleanup / rollout scope (**FEATURE_20** §8.6).
-+- Keep **DB_HOST** policy: do not run migrations against non-local shared DBs from consumer machines.
- 
--**Plan Changes Affecting Downstream Phases:**
--- [Only include if plan changed and affects later phases]
--- [Brief description of change and impact]
-+**Plan changes affecting downstream phases:**
-+- None recorded; **20.6** should treat the worklog as the **migration planning** source of truth until superseded.
- 
- ---
- 
- ## Phase Summary
- 
--**Sessions Completed:** [List session IDs]
--**Key Accomplishments:**
--- [Major accomplishment 1]
--- [Major accomplishment 2]
-+**Sessions completed:** **20.5.1**, **20.5.2**, **20.5.3**
- 
--**Decisions Made:**
--- [Decision that affects downstream phases]
-+**Key accomplishments:**
-+- Ordered **`20260432_*`** inventory and **§9.5** crosswalk in **`DOMAIN_REWRITE_WORKLOG.md`**.
-+- Documented baseline **event routing**, **061** placement catalog limits, **§9.6** mitigation, and **Addressed (20.5.2)** closure.
-+- **§0.2 / §2** legacy mapping tables + implicit-default audit + **§8.5** three-row acceptance traceability.
-+
-+**Decisions made:**
-+- Single narrative file **`DOMAIN_REWRITE_WORKLOG.md`** (no separate **`MIGRATION_SEQUENCE.md`** for this pass).
- 
- ---
- 
+ ### Session 20.5.2: Baseline placement and event routing ✅
+ **Completed:** 2026-04-03
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md
+index 9be36b18..ae3afda1 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md
+@@ -414,3 +414,5 @@ Break each session into focused tasks:
  ## Notes
  
--**Keep minimal** - Detailed notes belong in phase log, not handoff.
-+**Keep minimal** — session logs and **`DOMAIN_REWRITE_WORKLOG.md`** hold detail.
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md
+index 21862afc..2fb5d169 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md
+@@ -189,3 +189,9 @@ index 0634dd81..a679efc7 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-planning.md
+index c779c3a1..00c5c5fe 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-planning.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-planning.md
+@@ -1,280 +1,168 @@
+-# Plan: session 20.5.3 — Legacy assumption closure
+-
+-## Contract
+-- **Tier:** session | **ID:** 20.5.3
+-- **Scope:** Close **FEATURE_20** **§0.2** / **§2** legacy-to-target mapping in **`DOMAIN_REWRITE_WORKLOG.md`**; confirm **§8.5** acceptance checks are satisfied **in writing**; audit that **no `20260432_*` step** relies on undocumented implicit defaults; update **`phase-20.5-handoff.md`** for **`/phase-start 20.6`**.
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
+-  - … _(truncated)_
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture, booking
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Session **20.5.2** closed baseline routing prose in **`DOMAIN_REWRITE_WORKLOG.md`** (**Checkpoint 9** + **`### Baseline placement & event routing`**, **§9.6 mitigation**, **§9.5** crosswalk note). **20.5.3** finishes **phase 20.5** documentation gates before **20.6** rollout/cleanup.
++<!-- harness-planning-rollup tier=session id=20.5.3 consolidatedAt=2026-04-03T00:34:16.699Z -->
++
++# Consolidated planning: session 20.5.3
++
++## Session 20.5.3 (parent)
+ 
+ ## Story
++
+ **This session delivers** a written **legacy → target** closure (**§0.2** + **§2**) and a **§8.5** traceability pass **so that** **FEATURE_20 §8.5 Pass 5** acceptance checks are demonstrably met in-repo and **phase 20.6** can start without undocumented migration assumptions.
+ **Estimated size:** **S** (analysis docs + one phase handoff file; **no** app code).
  
  ---
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
  
- ## Related Documents
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+-
+----
++## Analysis
  
--- Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N]-guide.md`
--- Phase Log: `.project-manager/features/appointment-workflow/phases/phase-[N]-log.md`
--- Next Phase Guide: `.project-manager/features/appointment-workflow/phases/phase-[N+1]-guide.md`
-+- Phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-guide.md`
-+- Phase log: `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-log.md`
-+- Worklog: `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`
-+- Next phase guide: `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md`
+-## 2. Domain map
++- **Why now:** **20.5.1–20.5.2** documented **sequence** and **baseline routing**; **20.5.3** is the **closure** pass: map **legacy assumptions** to **replacements** and prove **§8.5** is satisfied before **20.6** deletes code.
++- **Boundaries:** **`.project-manager/analysis/`** + **`phase-20.5-handoff.md`** only unless a guide checkbox must flip; **no** `client/` / `server/` product edits planned.
++- **Risks:** Over-long worklog — keep new sections **tabular + bullets**; duplicate **FEATURE_20** text — prefer **pointers** + one closure table.
  
- ---
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
+-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
++## Goal
  
- ## Next Action
- 
--Continue with next step. [Fill in.]
-+**`/phase-start 20.6`** — continue Feature 20 rollout and cleanup per **phase-20.6-guide.md**.
- 
- <!-- har
+----
++1. Add 
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

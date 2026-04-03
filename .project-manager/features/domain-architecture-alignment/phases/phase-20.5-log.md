@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.5.3: Legacy assumption closure ✅
+**Completed:** 2026-04-03
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** — Legacy assumption closure:** Complete **§0.2 / §2** legacy-to-target mapping in writing; verify **no migration step** depends on undocumented implicit defaults; final edit pass on **§8.5** acceptance checklist; prepare **phase handoff** for **20.6**.
+
+
+
 ### Session 20.5.2: Baseline placement and event routing ✅
 **Completed:** 2026-04-03
 **Tasks Completed:** All tasks completed
