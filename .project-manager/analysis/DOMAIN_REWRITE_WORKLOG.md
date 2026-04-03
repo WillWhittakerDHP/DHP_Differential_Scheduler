@@ -311,3 +311,9 @@
 
 - **`AppointmentShape`** drops **`differentialEventRoleOverrides`** (column already removed in **059**); **`client/src/utils/eventAttendeeUtils.ts`** resolves primary/secondary from **`placement_kind`** only.
 - **`shared/utils/differentialRoleUtils.ts`** removes **`effectiveDifferentialRole`**, **`sanitizeDifferentialEventRoleOverridesInput`**, and **`isDifferentialRoleOverrideValue`** (grep-clean after admin + booking retirement).
+
+### Pass 6 verification (session 20.6.4.1)
+
+- **Admin metadata API surface:** `rg 'admin-metadata|adminMetadata|AdminMetadata' client/src server/src` (scoped to `*.ts` / `*.vue` / `*.js`) → **no matches** (stack removal consistent with Pass **6** session **20.6.1**).
+- **Booking override map:** `rg 'differentialEventRoleOverrides' client/src` → **no matches** (aligned with **20.6.3.2**).
+- **Generic `EntityCard.vue` shell:** absent under `client/src`; full **§9.1** / **§9.1a** narrative and grep transcript → **`.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md`** (**Task 20.6.4.1 — Evidence**).
