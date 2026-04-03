@@ -1,9 +1,9 @@
 <!--
-  WHY: FEATURE_20 §8.3 #5 — Shapes → Annotations list uses a domain-named card instead of importing EntityCard in the tab panel.
-  PATTERN: Typed façade; EntityCard remains implementation until phase 20.6 deletes the generic tree.
+  WHY: FEATURE_20 §8.3 #5 — domain-named card for annotation shapes in Shapes → Annotations.
+  PATTERN: Typed façade over AdminEntityEditorPanel (phase 20.6.2.1).
 -->
 <script setup lang="ts">
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -23,7 +23,7 @@ function handleSaved(entity: GlobalEntity<GlobalEntityKey>): void {
 </script>
 
 <template>
-  <EntityCard
+  <AdminEntityEditorPanel
     entity-key="annotationShape"
     :entity="entity"
     :expanded="expanded"

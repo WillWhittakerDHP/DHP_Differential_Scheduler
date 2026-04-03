@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { computed, inject, ref, type Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { instancesTabContextKey } from '@/types/admin/adminInjectionKeys'
 import { groupedInstanceDragZoneKey } from '@/composables/admin/useInstanceDragAndDrop'
 import type { GlobalEntity } from '@/types/entities'
@@ -127,7 +127,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
         v-model="expandedInstances"
         multiple
       >
-        <EntityCard
+        <AdminEntityEditorPanel
           v-for="instance in blockInstances"
           :key="instance.id"
           :class="`draggable-instance-${blockShape.id} draggable-instance-item`"
@@ -159,7 +159,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
             v-model="expandedInstances"
             multiple
           >
-            <EntityCard
+            <AdminEntityEditorPanel
               v-for="instance in groupedInstances"
               :key="instance.id"
               :class="`draggable-instance-${blockShape.id} draggable-instance-item`"
@@ -184,7 +184,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
       </VAlert>
       <VDivider class="my-6" />
       <VExpansionPanels v-model="expandedInstances" multiple>
-        <EntityCard
+        <AdminEntityEditorPanel
           entity-key="blockShape"
           :entity="blockShape"
           :expanded="ctx.isPanelExpanded(blockShape.id)"

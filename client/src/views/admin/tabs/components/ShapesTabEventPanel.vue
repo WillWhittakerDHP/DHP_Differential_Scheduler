@@ -2,7 +2,7 @@
   WHY: Event shapes VWindow body extracted from ShapesTab (component-health: oversized template).
 -->
 <script setup lang="ts">
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { inject } from 'vue'
 import { shapesTabInjectionKey } from '../shapesTabContext'
 
@@ -83,7 +83,7 @@ const {
             </div>
           </template>
         </VExpansionPanel>
-        <EntityCard
+        <AdminEntityEditorPanel
           v-for="eventShape in eventShapesList"
           :key="String(eventShape.id)"
           :class="`draggable-event-shape`"

@@ -3,7 +3,7 @@
 -->
 <script setup lang="ts">
 import type { GlobalEntity } from '@/types/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { PART_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { inject } from 'vue'
 import { shapesTabInjectionKey } from '../shapesTabContext'
@@ -69,7 +69,7 @@ const {
       </VAlert>
       <VDivider class="my-6" />
       <VExpansionPanels v-model="expandedShapes" multiple>
-        <EntityCard
+        <AdminEntityEditorPanel
           entity-key="partShape"
           :entity="{ id: PART_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'partShape'>"
           :expanded="isPanelExpanded(PART_SHAPE_GLOBAL_CONFIG_ID)"

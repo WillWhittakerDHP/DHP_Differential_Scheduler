@@ -2,29 +2,41 @@
 
 **Scope change (2026-04):** **`EntityCard`** removal is part of the same Pass 6 cleanup as **full** admin metadata stack removal (see **`DOMAIN_REWRITE_WORKLOG.md` → `### Admin metadata retirement (Pass 5 narrative)`**). Façades must be replaced with **domain editors**, not preserved as a permanent metadata exception.
 
-**Purpose:** Remaining entry points that still mount or import **`EntityCard.vue`**, for FEATURE_20 **§6.3a** deletion planning. Last updated with task **20.3.5.2**.
+**Purpose:** Remaining entry points that still mount or import **`EntityCard.vue`**, for FEATURE_20 **§6.3a** deletion planning. **Last updated:** task **20.6.2.1** (partial).
 
-## Façade note (20.3.5.2)
+## Task 20.6.2.1 status
 
-- **`AnnotationShapeListCard.vue`** wraps **`EntityCard`** with fixed `entity-key="annotationShape"`. The Shapes → Annotations **tab panel** no longer imports `EntityCard` directly; **removing** `EntityCard` from the bundle still requires replacing this façade with an inline domain editor (or shared extracted shell) in **20.6**.
+- **`AdminEntityEditorPanel.vue`** holds the former **`EntityCard`** implementation (expansion shell + content + dialogs).
+- **Tab/modal consumers** below now import **`AdminEntityEditorPanel.vue`**, not **`EntityCard.vue`**.
+- **`EntityCard.vue`** is a **thin wrapper** around **`AdminEntityEditorPanel`** for **`RelationshipCollection`** async import until **20.6.2.2**.
 
-## Direct imports of `EntityCard.vue` (client)
+## Façade note
+
+- **`AnnotationShapeListCard.vue`** wraps **`AdminEntityEditorPanel`** with fixed `entity-key="annotationShape"` (no **`EntityCard`** import).
+
+## Remaining imports of `EntityCard.vue` (client)
 
 | Path | Role |
 |------|------|
-| `client/src/views/admin/tabs/components/ShapesTabEventPanel.vue` | Event shape list rows |
-| `client/src/views/admin/tabs/components/ShapesTabPartPanel.vue` | Part shape list rows |
-| `client/src/views/admin/tabs/components/ShapeCardList.vue` | Generic shape cards |
-| `client/src/views/admin/tabs/components/BlockInstancesGroup.vue` | Block instance cards |
-| `client/src/views/admin/tabs/components/ShapeCreationForm.vue` | New-shape create form |
-| `client/src/components/admin/generic/collections/RelationshipCollection.vue` | `defineAsyncComponent(() => import('../EntityCard.vue'))` |
-| `client/src/components/admin/BulkEditModal.vue` | Bulk edit |
-| `client/src/components/admin/BlockInstanceCreateModal.vue` | Create modal |
-| `client/src/components/admin/generic/AnnotationShapeListCard.vue` | Annotation shape list façade (this task) |
+| `client/src/components/admin/generic/collections/RelationshipCollection.vue` | `defineAsyncComponent(() => import('../EntityCard.vue'))` — **migrate in 20.6.2.2** |
+| `client/src/components/admin/generic/EntityCard.vue` | Thin forwarder only (not a “consumer” in the product sense) |
 
-## Internal tree (delete with `EntityCard.vue`)
+## Migrated off `EntityCard.vue` (20.6.2.1)
 
-Not separate “consumers” but coupled for §6.3a: `EntityCardContent.vue`, `EntityCardSubPanels.vue`, `EntityCardPrimaryTitleRow.vue`, `EntityCardPartsTotals.vue`, `EntityCardFeePreview.vue`, and `useEntityCard*` composables listed in FEATURE_20 §6.3a.
+| Path | Replacement |
+|------|-------------|
+| `client/src/views/admin/tabs/components/ShapesTabEventPanel.vue` | `AdminEntityEditorPanel` |
+| `client/src/views/admin/tabs/components/ShapesTabPartPanel.vue` | `AdminEntityEditorPanel` |
+| `client/src/views/admin/tabs/components/ShapeCardList.vue` | `AdminEntityEditorPanel` |
+| `client/src/views/admin/tabs/components/BlockInstancesGroup.vue` | `AdminEntityEditorPanel` |
+| `client/src/views/admin/tabs/components/ShapeCreationForm.vue` | `AdminEntityEditorPanel` |
+| `client/src/components/admin/BulkEditModal.vue` | `AdminEntityEditorPanel` |
+| `client/src/components/admin/BlockInstanceCreateModal.vue` | `AdminEntityEditorPanel` |
+| `client/src/components/admin/generic/AnnotationShapeListCard.vue` | `AdminEntityEditorPanel` |
+
+## Internal tree (delete with generic name in 20.6.2.2)
+
+Coupled for §6.3a: `EntityCardContent.vue`, `EntityCardSubPanels.vue`, `EntityCardPrimaryTitleRow.vue`, `EntityCardPartsTotals.vue`, `EntityCardFeePreview.vue`, **`AdminEntityEditorPanel.vue`** (or its successor shell), and `useEntityCard*` composables per FEATURE_20 §6.3a.
 
 ## Reference
 

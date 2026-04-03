@@ -25,7 +25,7 @@
         <!-- WHY: Uses EntityCard for consistency, but prevents auto-save on blur -->
         <!-- PATTERN: Set isNew=true, disableAutoSave=true, useExpansionPanel=false -->
         <div class="create-modal-entity-card">
-          <EntityCard
+          <AdminEntityEditorPanel
             ref="entityCardRef"
             entity-key="blockInstance"
             :entity="initialEntity"
@@ -66,7 +66,7 @@ import { ref, computed } from 'vue'
 import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { generateIncrementedName } from '@/utils/blockInstanceUtils'
 import { useAdmin } from '@/composables/admin/useAdmin'
@@ -88,7 +88,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits<Emits>()
 
-const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
+const entityCardRef = ref<InstanceType<typeof AdminEntityEditorPanel> | null>(null)
 const admin = useAdmin()
 
 const { tempEntityId, handleCreate } = useBlockInstanceCreate({
