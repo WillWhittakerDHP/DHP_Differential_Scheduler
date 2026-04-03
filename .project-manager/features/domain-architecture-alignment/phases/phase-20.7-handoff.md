@@ -41,7 +41,7 @@ Run **`/phase-start 20.7`** for Feature **20** (`domain-architecture-alignment`)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** phase · **Derived:** 2026-04-03T16:39:56.377Z
+- **Feature:** `domain-architecture-alignment` · **Source:** phase · **Derived:** 2026-04-03T16:47:08.608Z
 - **Phases on disk (8):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8
 - **Focus phase:** `20.7` · **Next phase across:** `20.8` → `/phase-start 20.8`
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
