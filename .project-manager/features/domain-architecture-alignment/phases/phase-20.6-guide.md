@@ -116,7 +116,7 @@ Session guides/logs are created at **`/session-start`**. Trace execution to **FE
 - Ripgrep for deprecated symbols; align with placement-first admin UX from Pass 3–4.
 - Do not change booking **PartFinalizer** boundary.
 
-- [ ] ### Session 20.6.4: Review gate, docs, and feature closeout
+- [x] ### Session 20.6.4: Review gate, docs, and feature closeout
 **Description:** Close **§8.6** acceptance; update **`ARCHITECTURE.md`**, feature + phase handoffs, **`DOMAIN_REWRITE_WORKLOG.md`**; run **§9.3–§9.4** only if promoting canonical docs; prepare **`/feature-end`**.
 
 **Tasks:**

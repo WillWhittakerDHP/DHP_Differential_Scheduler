@@ -85,150 +85,185 @@ Items **1–4** (coverage, terminology, structural, human read) are **not** exec
 
 <!-- end excerpt session -->
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (8): `.project-manager/PROJECT_PLAN.md`, `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.4.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.4.2-planning.md`
+Paths (9): `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.4.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.4.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.6.4/`
 
 ### `git diff --stat HEAD`
 
 ```text
-.project-manager/PROJECT_PLAN.md                   |   8 +-
- ...eature-domain-architecture-alignment-handoff.md |  22 ++-
- .../phases/phase-20.6-handoff.md                   |  36 +++--
- .../sessions/session-20.6.4-guide.md               |  30 ++--
- .../sessions/session-20.6.4-log.md                 | 152 ++++-----------------
- 5 files changed, 67 insertions(+), 181 deletions(-)
+.../phases/phase-20.6-guide.md                     |   2 +-
+ .../phases/phase-20.6-log.md                       |   8 +
+ .../sessions/session-20.6.4-guide.md               |   2 +
+ .../sessions/session-20.6.4-handoff.md             |  18 +-
+ .../sessions/session-20.6.4-log.md                 |   6 +
+ .../sessions/session-20.6.4-planning.md            | 348 +++++++--------------
+ .../sessions/task-20.6.4.1-planning.md             | 159 ----------
+ .../sessions/task-20.6.4.2-planning.md             | 158 ----------
+ 8 files changed, 143 insertions(+), 558 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/PROJECT_PLAN.md b/.project-manager/PROJECT_PLAN.md
-index 6728a5b8..7dc8ca8b 100644
---- a/.project-manager/PROJECT_PLAN.md
-+++ b/.project-manager/PROJECT_PLAN.md
-@@ -43,7 +43,7 @@ This document serves as the master project plan for the DHP Differential Schedul
- | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
- | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
- | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
--| 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + Feature 20 implementation plan |
-+| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; run **`/phase-end 20.6`** then **`/feature-end`** for harness closeout |
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
+index 3b85873d..ce420655 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-guide.md
+@@ -116,7 +116,7 @@ Session guides/logs are created at **`/session-start`**. Trace execution to **FE
+ - Ripgrep for deprecated symbols; align with placement-first admin UX from Pass 3–4.
+ - Do not change booking **PartFinalizer** boundary.
  
+-- [ ] ### Session 20.6.4: Review gate, docs, and feature closeout
++- [x] ### Session 20.6.4: Review gate, docs, and feature closeout
+ **Description:** Close **§8.6** acceptance; update **`ARCHITECTURE.md`**, feature + phase handoffs, **`DOMAIN_REWRITE_WORKLOG.md`**; run **§9.3–§9.4** only if promoting canonical docs; prepare **`/feature-end`**.
  
- ---
-@@ -1085,9 +1085,9 @@ Trusted dev friends get more than the in-app alpha flow: a way to **read** the p
+ **Tasks:**
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
+index 72226a7d..3eb7000c 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-log.md
+@@ -17,6 +17,14 @@
  
- ## Feature 20: Domain Architecture Alignment
+ ## Completed Sessions
  
--**Status:** 📋 Planning  
--**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. **Admin target:** **full** retirement of the DB-driven metadata pipeline (including annotations); Pass **20.5** documents ordering (`DOMAIN_REWRITE_WORKLOG.md`); Pass **20.6** executes deletion per **§6.3a**. Execution is ordered in phases **20.1–20.6** (mapped to implementation plan §8); **Phase 20.0** covers governance and readiness without a separate implementation pass. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative for architecture decisions.  
--**Branch:** TBD  
-+**Status:** ⏳ In Progress (Pass **6** execution complete — **`/feature-end`** pending)  
-+**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. **Admin target:** **full** retirement of the DB-driven metadata pipeline (including annotations); Pass **20.5** documents ordering (`DOMAIN_REWRITE_WORKLOG.md`); Pass **20.6** executes deletion per **§6.3a**. Phases **20.1–20.6** mapped to implementation plan §**8**; session **20.6.4** added **§9.1** evidence and deferred **§9.3–9.4** on-disk redesign file swap to explicit product review. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative.  
-+**Branch:** `feature/domain-architecture-alignment`  
- **Directory:** `features/domain-architecture-alignment/`
++### Session 20.6.4: Review gate, docs, and feature closeout ✅
++**Completed:** 2026-04-03
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Review gate, docs, and feature closeout
++
++
++
+ ### Session 20.6.3: Legacy differential-role and event-shape remnants ✅
+ **Completed:** 2026-04-03
+ **Tasks Completed:** All tasks completed
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md
+index 739f0f99..111970eb 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-guide.md
+@@ -412,3 +412,5 @@ Break each session into focused tasks:
+ ## Notes
  
- ### Harness and authoritative docs
-diff --git a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-index 266a72b0..9d896164 100644
---- a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-@@ -4,35 +4,31 @@
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md
+index e44c53db..2e8b17ee 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-handoff.md
+@@ -8,17 +8,21 @@
  
- **Tier:** Feature (Tier 0 - Highest Level)
+ ## Current Status
  
--**Last Updated:** 2026-04-02
--**Feature Status:** [Complete / In Progress]
--**Next Feature:** domain-architecture-alignment (if applicable)
+-**Last completed tasks:** **20.6.4.1** (evidence + worklog + **20.6.3** handoff + **ARCHITECTURE** touch), **20.6.4.2** (phase handoff, **PROJECT_PLAN**, **§9.3–9.4** deferral log).  
+-**Git branch:** `feature/domain-architecture-alignment`
++**Last Completed:** Task 
++**Next Session:** Session 
++**Git Branch:** `feature/domain-architecture-alignment`
 +**Last Updated:** 2026-04-03
-+**Feature Status:** In Progress — Pass **6** execution complete; **`/feature-end`** pending
-+**Next Feature:** _(after Feature **20** closeout)_
- 
- ---
- 
- ## Current Status
- 
--**Feature domain-architecture-alignment:** [Complete / In Progress]
--**Last Completed Phase:** [Phase N]
--**Next Feature:** domain-architecture-alignment (if applicable)
-+**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**.
- 
- ---
  
  ## Next Action
  
--Continue Phase 20.3: run **`/session-start 20.3.5`** on branch `feature/domain-architecture-alignment` after **`/accepted-push`** or **`/skip-push`**. If workflow friction is open for this feature, run **`/harness-repair`** (plan) before push.
-+Run **`/session-end 20.6.4`** (if not already), then **`/phase-end 20.6`**, then **`/feature-end`**. Use **`phases/phase-20.6-handoff.md`** and **`sessions/session-20.6.4-handoff.md`** for transition text.
- 
- ---
- 
- ## Transition Context
- 
--**Where we left off:**
--[Minimal notes about feature completion - 2-3 sentences max]
-+**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**).
- 
--**What you need to start next feature:**
--- [Brief bullet point about context needed]
--- [Brief bullet point about dependencies]
--- [Brief bullet point about any blockers or considerations]
-+**What you need for feature closeout:**
-+- Harness **`/phase-end 20.6`** and **`/feature-end`** per ladder
-+- Optional: human review of **§9.3** before any redesign filename replacement
- 
- **Plan Changes Affecting Downstream Features:**
- - [Only include if plan changed and affects later features]
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-handoff.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-handoff.md
-index cbaac0e0..be752bc0 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.6-handoff.md
-@@ -1,40 +1,43 @@
- # Phase 20.6 Handoff
- 
--**Phase Status:** In progress
-+**Phase Status:** Execution complete — ready for **`/phase-end 20.6`**
- **Last Updated:** 2026-04-03
--**Next Phase:** _(feature closeout — `/feature-end` after 20.6 completes)_
-+**Next Phase:** _(feature closeout — run **`/feature-end`** after **`/phase-end 20.6`** succeeds)_
- 
- ---
- 
- ## Current Status
- 
--**Phase 20.6:** In progress (Pass 6 — Rollout and cleanup, **§8.6**)
--**Last Completed Session:** _(none yet)_
--**Active session:** **20.6.1** — Admin metadata stack removal
-+**Phase 20.6:** Pass **6** — Rollout and cleanup (**§8.6**) — sessions **20.6.1–20.6.4** delivered on branch **`feature/domain-architecture-alignment`**.  
-+**Last Completed Session:** **20.6.4** (review gate, docs, PM closeout).  
-+**Evidence:** **`session-20.6.4-log.md`** (§**9.1** / grep); **`DOMAIN_REWRITE_WORKLOG.md`** (**Pass 6 verification**).
- 
- ---
+-1. Run **`/session-end 20.6.4`** (harness session close + logs).  
+-2. Run **`/phase-end 20.6`**.  
+-3. Run **`/feature-end`** for Feature **20** when ready.
++Start Session  (see session guide and phase guide for scope).
  
  ## Transition Context
  
--**Where we left off:**
--Phase **20.5** closed documentation gates (**§8.5**); **`DOMAIN_REWRITE_WORKLOG.md`** contains **admin metadata retirement** ordering for execution in **20.6**.
-+**Delivered (summary):**
+-**Delivered:** On-branch **§9.1** checklist + grep audit in **`session-20.6.4-log.md`**; **Pass 6 verification** in **`DOMAIN_REWRITE_WORKLOG.md`**; **`phase-20.6-handoff.md`** points to phase/feature end; **§9.3–9.4** file-replacement gate **explicitly deferred** (no silent skip).
++**Where we left off:**
++Completed Task 
  
--**What you need for session 20.6.1:**
--- Read **`phase-20.6-guide.md`** → **### Session 20.6.1** task list
--- Read **`phase-20.6-planning.md`** and **`FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3a**
--- Confirm **DB_HOST** policy before running migrations locally
-+- **20.6.1** — Admin metadata stack removal (client/server), migrations per policy.  
-+- **20.6.2** — **EntityCard** tree / consumer migration.  
-+- **20.6.3** — Differential role override remnants; placement-first booking helpers.  
-+- **20.6.4** — Drift checklist + grep evidence; **`ARCHITECTURE.md`** / worklog / handoffs aligned; **§9.3–9.4** file-swap gate **deferred** (see **`session-20.6.4-log.md`**).
+-**Canonical sources:** **`ARCHITECTURE_PRINCIPLES.md`**, **`FEATURE_20_ARCHITECTURE_REDESIGN.md`**.
++**What you need to start:**
++- Begin Session 
 +
-+**Canonical docs:** **`ARCHITECTURE_PRINCIPLES.md`**, **`FEATURE_20_ARCHITECTURE_REDESIGN.md`**.
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md
+index 4dccf4f2..adfcf8ed 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-log.md
+@@ -232,3 +232,9 @@ index cbaac0e0..be752bc0 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md
+index ecab6d88..5ce580e7 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.4-planning.md
+@@ -1,300 +1,182 @@
+-# Plan: session 20.6.4 — Review gate, docs, and feature closeout
+-
+-## Contract
+-- **Tier:** session | **ID:** 20.6.4
+-- **Scope:** Review gate, docs, and feature closeout
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
+-  - … _(truncated)_
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture, booking
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-Sessions **20.6.1–20.6.3** completed Pass **6** execution work: admin metadata stack removal, **EntityCard** migration/deletion per phase scope, and placement-first retirement of block-instance differential role overrides plus related booking helpers. **20.6.4** is the **review / docs / closeout** slice only — evidence, handoffs, and **`/feature-end`** readiness, not new feature surface area.
++<!-- harness-planning-rollup tier=session id=20.6.4 consolidatedAt=2026-04-03T15:47:06.974Z -->
++
++# Consolidated planning: session 20.6.4
++
++## Session 20.6.4 (parent)
+ 
+ ## Story
++
+ **This session delivers** auditable **§8.6** acceptance notes, drift checklist evidence (**§9.1 / §9.1a**), and updated phase/feature PM artifacts **so that** Feature **20** can end cleanly with **`/phase-end 20.6`** then **`/feature-end`** without stale handoffs or undocumented residual risk.
+ **Estimated size:** **S–M** (documentation and verification; small code/doc fixes only if a checklist item fails).
  
  ---
- 
- ## Next Action
- 
--Run **`/session-start 20.6.1`** (then **`/accepted-code`** when the harness prompts after task planning). After session work: **`/session-end 20.6.1`**.
-+
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
+-
+-TanStac
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

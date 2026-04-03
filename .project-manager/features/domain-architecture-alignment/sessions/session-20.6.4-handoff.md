@@ -8,17 +8,21 @@
 
 ## Current Status
 
-**Last completed tasks:** **20.6.4.1** (evidence + worklog + **20.6.3** handoff + **ARCHITECTURE** touch), **20.6.4.2** (phase handoff, **PROJECT_PLAN**, **§9.3–9.4** deferral log).  
-**Git branch:** `feature/domain-architecture-alignment`
+**Last Completed:** Task 
+**Next Session:** Session 
+**Git Branch:** `feature/domain-architecture-alignment`
+**Last Updated:** 2026-04-03
 
 ## Next Action
 
-1. Run **`/session-end 20.6.4`** (harness session close + logs).  
-2. Run **`/phase-end 20.6`**.  
-3. Run **`/feature-end`** for Feature **20** when ready.
+Start Session  (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**Delivered:** On-branch **§9.1** checklist + grep audit in **`session-20.6.4-log.md`**; **Pass 6 verification** in **`DOMAIN_REWRITE_WORKLOG.md`**; **`phase-20.6-handoff.md`** points to phase/feature end; **§9.3–9.4** file-replacement gate **explicitly deferred** (no silent skip).
+**Where we left off:**
+Completed Task 
 
-**Canonical sources:** **`ARCHITECTURE_PRINCIPLES.md`**, **`FEATURE_20_ARCHITECTURE_REDESIGN.md`**.
+**What you need to start:**
+- Begin Session 
+
+<!-- end excerpt session -->
