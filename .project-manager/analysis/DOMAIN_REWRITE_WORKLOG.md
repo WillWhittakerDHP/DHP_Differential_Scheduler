@@ -306,3 +306,8 @@
 | **Legacy assumptions** listed in **FEATURE_20** section **2** are either **removed** or **mapped** to their replacement storage. | **`### Legacy assumption closure (session 20.5.3)`** — **`#### §0.2 legacy assumptions → replacement`**; **`#### §2 model targets vs legacy (closure)`**. | Maps **§0.2** and **§2** themes to migrations / anchors without duplicating full **FEATURE_20** §2 tables. |
 | **No migration step** depends on **undocumented implicit defaults**. | **`#### Migration implicit-default audit`** (under **`### Legacy assumption closure`**); cross-ref **`### Baseline placement & event routing`** + **§9.6 mitigation**. | **`20260432_*`** steps are **explicit** DDL/data moves per file headers; routing graphs are **not** ORM-invented defaults. |
 | **Admin metadata retirement** narrative is **traceable in-repo** and states **ordering** (domain UI → optional export → client/API removal → DDL in Pass 6). | **`### Admin metadata retirement (Pass 5 narrative)`** | Added per **§8.5** fourth acceptance bullet; execution in **20.6** per **§6.3a** / **§8.6**. |
+
+### Pass 6 / session 20.6.3.2 — booking no longer models block-instance role overrides
+
+- **`AppointmentShape`** drops **`differentialEventRoleOverrides`** (column already removed in **059**); **`client/src/utils/eventAttendeeUtils.ts`** resolves primary/secondary from **`placement_kind`** only.
+- **`shared/utils/differentialRoleUtils.ts`** removes **`effectiveDifferentialRole`**, **`sanitizeDifferentialEventRoleOverridesInput`**, and **`isDifferentialRoleOverrideValue`** (grep-clean after admin + booking retirement).

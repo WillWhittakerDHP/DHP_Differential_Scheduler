@@ -19,6 +19,14 @@
 
 ## Completed Tasks
 
+### Task 20.6.3.2: Task 20.6.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.6.3.3
+
+
+
 ### Task 20.6.3.1: Task 20.6.3.1 ✅
 **Goal:** Task completed
 
@@ -27,140 +35,64 @@
 
 <!-- end excerpt session -->
 
+
+
+### Task 20.6.3.2: Task 20.6.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.6.3.3
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (10): `.project-manager/features/domain-architecture-alignment/across-ladder.json`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-planning.md`, `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`, `client/src/configs/field/display/appliedDisplay/blockInstanceDisplays.ts`, `client/src/constants/primitives.ts`, `client/src/utils/admin/differentialRoleMatrixRows.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.3.1-handoff.md`
+Paths (7): `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md`, `client/auto-imports.d.ts`, `client/src/types/appointmentModels.ts`, `client/src/utils/eventAttendeeUtils.ts`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.6.3.2-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../across-ladder.json                             |   2 +-
- .../sessions/session-20.6.3-guide.md               |   8 +-
- .../sessions/session-20.6.3-handoff.md             |  13 ++
- .../sessions/session-20.6.3-log.md                 |  18 ++
- .../sessions/session-20.6.3-planning.md            |   4 +-
- .../fields/DifferentialEventRoleOverridesField.vue | 189 ---------------------
- .../appliedDisplay/blockInstanceDisplays.ts        |  10 --
- client/src/constants/primitives.ts                 |   6 -
- .../src/utils/admin/differentialRoleMatrixRows.ts  |  70 --------
- 9 files changed, 38 insertions(+), 282 deletions(-)
+.../analysis/DOMAIN_REWRITE_WORKLOG.md             |  5 +++
+ .../sessions/session-20.6.3-guide.md               |  2 +-
+ .../sessions/session-20.6.3-log.md                 | 15 +++++++
+ client/auto-imports.d.ts                           |  4 --
+ client/src/types/appointmentModels.ts              |  3 +-
+ client/src/utils/eventAttendeeUtils.ts             | 51 ++--------------------
+ 6 files changed, 25 insertions(+), 55 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/domain-architecture-alignment/across-ladder.json b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-index 1766e848..e2401135 100644
---- a/.project-manager/features/domain-architecture-alignment/across-ladder.json
-+++ b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "domain-architecture-alignment",
--  "derivedAt": "2026-04-03T15:14:58.674Z",
-+  "derivedAt": "2026-04-03T15:18:35.688Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "20.1",
+diff --git a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
+index 9b6e7713..56be5b45 100644
+--- a/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
++++ b/.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md
+@@ -306,3 +306,8 @@
+ | **Legacy assumptions** listed in **FEATURE_20** section **2** are either **removed** or **mapped** to their replacement storage. | **`### Legacy assumption closure (session 20.5.3)`** — **`#### §0.2 legacy assumptions → replacement`**; **`#### §2 model targets vs legacy (closure)`**. | Maps **§0.2** and **§2** themes to migrations / anchors without duplicating full **FEATURE_20** §2 tables. |
+ | **No migration step** depends on **undocumented implicit defaults**. | **`#### Migration implicit-default audit`** (under **`### Legacy assumption closure`**); cross-ref **`### Baseline placement & event routing`** + **§9.6 mitigation**. | **`20260432_*`** steps are **explicit** DDL/data moves per file headers; routing graphs are **not** ORM-invented defaults. |
+ | **Admin metadata retirement** narrative is **traceable in-repo** and states **ordering** (domain UI → optional export → client/API removal → DDL in Pass 6). | **`### Admin metadata retirement (Pass 5 narrative)`** | Added per **§8.5** fourth acceptance bullet; execution in **20.6** per **§6.3a** / **§8.6**. |
++
++### Pass 6 / session 20.6.3.2 — booking no longer models block-instance role overrides
++
++- **`AppointmentShape`** drops **`differentialEventRoleOverrides`** (column already removed in **059**); **`client/src/utils/eventAttendeeUtils.ts`** resolves primary/secondary from **`placement_kind`** only.
++- **`shared/utils/differentialRoleUtils.ts`** removes **`effectiveDifferentialRole`**, **`sanitizeDifferentialEventRoleOverridesInput`**, and **`isDifferentialRoleOverrideValue`** (grep-clean after admin + booking retirement).
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md
-index a91ea6ce..67c4614e 100644
+index 67c4614e..5b6f2615 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-guide.md
-@@ -48,11 +48,11 @@ These sections contain session-specific content:
- **Description:** Remove **block-instance `differentialEventRoleOverrides`** admin UI and related **booking/types** after placement-first migration; simplify **event-attendee** helpers; scan **event-instance** admin remnants. **Do not** remove **availability differential perspectives** (unrelated).
- 
- **Duration:** Medium (2 tasks)
--**Status:** Planning filled — await **`/accepted-plan`**, then **`/task-start 20.6.3.1`**
-+**Status:** In Progress filled — await **`/accepted-plan`**, then **`/task-start 20.6.3.1`**
- 
- ### Tasks
- 
--- [ ] #### Task 20.6.3.1: Admin — strip override matrix and field plumbing
-+- [x] #### Task 20.6.3.1: Admin — strip override matrix and field plumbing
- **Goal:** Delete **`DifferentialEventRoleOverridesField`**, **`differentialRoleMatrixRows`**, **`blockInstanceDisplays.differentialEventRoleOverrides`**, and any **FieldRenderer / code-first** hook for **`differentialEventRoleOverrides`**; tighten **`primitives` / `GlobalFieldKey`** if the key is removed.
- **Files:**
- - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`
-@@ -64,11 +64,11 @@ These sections contain session-specific content:
+@@ -63,7 +63,7 @@ These sections contain session-specific content:
+ **Approach:** Grep-driven removal; smoke Instances tab block instance editor.
  **Checkpoint:** **`rg differentialEventRoleOverrides`** clean in admin configs/components.
  
- - [ ] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
--**Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **EventInstance*** standalone path cleanup if provably dead.
-+**Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **event-instance** admin component cleanup if provably dead.
+-- [ ] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
++- [x] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
+ **Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **event-instance** admin component cleanup if provably dead.
  **Files:**
  - `client/src/types/appointmentModels.ts`, `client/src/utils/eventAttendeeUtils.ts`, booking callers
- - `client/src/utils/transformers/entityTransformers.ts`
--- Optionally `client/src/views/admin/tabs/components/EventInstance*.vue` + related composables
-+- Optionally `EventInstanceEditor.vue`, `EventInstanceBuilderBody.vue`, and siblings under `views/admin/tabs/components/` + related composables
- **Approach:** Typecheck-first refactors; no **PartFinalizer** behavior change except dead-branch removal with identical placement-only outcomes.
- **Checkpoint:** Lint + vue-tsc; **`DOMAIN_REWRITE_WORKLOG.md`** one-line note; brief smoke (admin + wizard availability).
- 
-diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-handoff.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-handoff.md
-index e1d6b90c..01bebd9a 100644
---- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-handoff.md
-@@ -22,3 +22,16 @@
- **Scope:** FEATURE_20 **§8.6** — remove **legacy block-instance differential event role overrides** and booking/type remnants; **placement_kind + anchor_edge** + **event_assignments** are canonical. **Do not** conflate with **wizard / availability “differential perspectives”**.
- 
- **Planning:** `sessions/session-20.6.3-planning.md` (Goal, Acceptance Criteria, **## Decomposition**).
-+
-+<!-- harness-across-ladder:start -->
-+## Across ladder (harness)
-+
-+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
-+
-+- **Feature:** `domain-architecture-alignment` · **Source:** session · **Derived:** 2026-04-03T15:18:35.688Z
-+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
-+- **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
-+- **Focus session:** `20.6.3` · **Session 3/4 in phase** · **Next session across:** `20.6.4` → `/session-start 20.6.4`
-+- **Tasks in session (detected):** 2 · **Next task across:** `20.6.3.1` → `/task-start` / cascade
-+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
-+<!-- harness-across-ladder:end -->
 diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md
-index 81443740..527a99aa 100644
+index e20f663e..0ba139d1 100644
 --- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md
 +++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-log.md
-@@ -8,3 +8,21 @@
- ## Session Goal
+@@ -19,6 +19,14 @@
  
- [Document concrete session goal]
-+
-+### Task 20.6.3.1: Task 20.6.3.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.6.3.2
-+
-+
-+
-+## Completed Tasks
-+
-+### Task 20.6.3.1: Task 20.6.3.1 ✅
-+**Goal:** Task completed
-+
-+**Next Task:**
-+- 20.6.3.2
-+
-+<!-- end excerpt session -->
-\ No newline at end of file
-diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-planning.md
-index b5bf0ca3..48e03d51 100644
---- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-planning.md
-+++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.6.3-planning.md
-@@ -251,7 +251,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
-   - `client/src/utils/transformers/entityTransformers.ts`
-   - `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts` (retain if still needed for API rejection; delete only if redundant)
-   - **Field wiring:** `FieldRenderer.vue` / `PrimitiveInputs.vue` / `codeFirstMetadataCache.ts` — only if **`differentialEventRoleOverrides`** still registered
--  - **Event instance UI:** `client/src/views/admin/tabs/components/EventInstance*.vue`, related composables under `composables/admin/useInstancesTab*`
-+  - **Event instance UI:** `client/src/views/admin/tabs/components/EventInstanceEditor.vue`, `EventInstanceBuilderBody.vue`, `EventInstanceListItem.vue`, `EventInstanceTemplateFields.vue`, `EventInstancePreviewPanel.vue`, `EventInstanceCalendarSettings.vue`, `EventInstanceVariableChips.vue`; composables under `composables/admin/useInstancesTab*`
- 
- ## Approach
- 1. **Task 20.6.3.1:** **Grep** `differentialEventRoleOverrides` / **`DifferentialEventRoleOverrides`** / matrix component; remove **admin** field component + **blockInstance** display row + **matrix rows** util if orphaned; tighten **`primitives.ts`** / **FieldRenderer** wiring so the property cannot render; smoke **Instances** tab block instance form (**Events** panel / field groups).
-@@ -282,7 +282,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
-   - **Checkpoint:** Grep clean for component name and field key in admin configs.
- 
- - **Task 
-… (truncated)
-```
-<!-- /harness:anchor:commit-preview -->

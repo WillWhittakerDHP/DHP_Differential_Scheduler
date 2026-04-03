@@ -66,11 +66,9 @@ declare global {
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const getDefaultEntityValues: typeof import('./src/utils/entityDefaults').getDefaultEntityValues
   const getEntityDisplayName: typeof import('./src/utils/entityDefaults').getEntityDisplayName
-  const getEventShapeByRoleWithOverrides: typeof import('./src/utils/eventAttendeeUtils').getEventShapeByRoleWithOverrides
   const getIcon: typeof import('./src/utils/iconMapper').getIcon
   const getStateControlBlockInstances: typeof import('./src/utils/blockInstanceUtils').getStateControlBlockInstances
   const h: typeof import('vue').h
-  const hasNonEmptyDifferentialRoleOverrides: typeof import('./src/utils/eventAttendeeUtils').hasNonEmptyDifferentialRoleOverrides
   const hexToRgb: typeof import('./src/@core/utils/colorConverter').hexToRgb
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const inject: typeof import('vue').inject
@@ -522,11 +520,9 @@ declare module 'vue' {
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
     readonly getDefaultEntityValues: UnwrapRef<typeof import('./src/utils/entityDefaults')['getDefaultEntityValues']>
     readonly getEntityDisplayName: UnwrapRef<typeof import('./src/utils/entityDefaults')['getEntityDisplayName']>
-    readonly getEventShapeByRoleWithOverrides: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['getEventShapeByRoleWithOverrides']>
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
-    readonly hasNonEmptyDifferentialRoleOverrides: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasNonEmptyDifferentialRoleOverrides']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>

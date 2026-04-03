@@ -63,7 +63,7 @@ These sections contain session-specific content:
 **Approach:** Grep-driven removal; smoke Instances tab block instance editor.
 **Checkpoint:** **`rg differentialEventRoleOverrides`** clean in admin configs/components.
 
-- [ ] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
+- [x] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
 **Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **event-instance** admin component cleanup if provably dead.
 **Files:**
 - `client/src/types/appointmentModels.ts`, `client/src/utils/eventAttendeeUtils.ts`, booking callers
