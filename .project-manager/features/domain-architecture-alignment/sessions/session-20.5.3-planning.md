@@ -6,7 +6,7 @@
 
 ## Story
 
-**This session delivers** a written **legacy → target** closure (**§0.2** + **§2**) and a **§8.5** traceability pass **so that** **FEATURE_20 §8.5 Pass 5** acceptance checks are demonstrably met in-repo and **phase 20.6** can start without undocumented migration assumptions.
+**This session delivers** a written **legacy → target** closure (**§0.2** + **§2**), a **`### Admin metadata retirement (Pass 5 narrative)`** subsection in the worklog (ordering for **full** metadata stack removal per **§8.5** / **§6.3a**), and a **four-row §8.5** traceability table **so that** **FEATURE_20 §8.5 Pass 5** acceptance checks are demonstrably met in-repo and **phase 20.6** can start without undocumented migration assumptions.
 **Estimated size:** **S** (analysis docs + one phase handoff file; **no** app code).
 
 ---
@@ -23,8 +23,9 @@
    - **`#### §0.2 legacy assumptions → replacement`** — table: assumption (quote or paraphrase from **FEATURE_20** §0.2) | **removed / replaced by** | **evidence** (worklog anchor, migration filename, or “client/server — phase 20.x”).
    - **`#### §2 model targets vs legacy (closure)`** — short table or bullets mapping **§2.2–§2.5** “survive / drop / add” themes to **Checkpoint 9** / **061–062** / three-property migrations (**059–060**), without re-pasting the full **FEATURE_20** §2.
    - **`#### Migration implicit-default audit`** — explicit statement that **`20260432_*`** steps are **idempotent / data-moving** per file headers and **do not** rely on undocumented Sequelize defaults for routing; cite **20.5.2** baseline + **§9.6** mitigation for orchestrator graphs.
-2. Add **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** with a **three-row** table mapping each **§8.5** acceptance bullet → **satisfied by** (worklog heading / table) → **notes**.
-3. Update **`.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md`**: **Current Status**, **Next Action** → **`/phase-start 20.6`**, **Transition Context**, **Last Updated**; optionally tick session **20.5.3** in **`phase-20.5-guide.md`** at **session-end** (task **20.5.3.2** or harness).
+2. Ensure **`### Admin metadata retirement (Pass 5 narrative)`** exists in **`DOMAIN_REWRITE_WORKLOG.md`** (before the §8.5 acceptance table) with models/routes pointers and **ordering**; **no** required product code in **20.5.3**.
+3. Add or update **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** with a **four-row** table mapping each **§8.5** acceptance bullet (including **admin metadata retirement** traceability) → **satisfied by** (worklog heading / table) → **notes**.
+4. Update **`.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md`**: **Current Status**, **Next Action** → **`/phase-start 20.6`**, **Transition Context** (Pass 5 metadata narrative + **20.6** execution), **Last Updated**; optionally tick session **20.5.3** in **`phase-20.5-guide.md`** at **session-end** (task **20.5.3.2** or harness).
 
 ## Files
 
@@ -34,7 +35,7 @@
 ## Approach
 
 1. **`/accepted-plan`** → **`/task-start 20.5.3.1`** → **`/accepted-code`** → append **§0.2 / §2 / implicit-default audit** sections to worklog → **`/task-end`**.
-2. **`/task-start 20.5.3.2`** → **`/accepted-code`** → append **§8.5** acceptance table → update **phase handoff** (and guide checkbox) → **`/task-end`**.
+2. **`/task-start 20.5.3.2`** → **`/accepted-code`** → ensure **`### Admin metadata retirement (Pass 5 narrative)`** + **four-row §8.5** acceptance table → update **phase handoff** (and guide checkbox) → **`/task-end`**.
 3. **`/session-end 20.5.3`** → push flow per harness.
 
 ## Checkpoint
@@ -43,15 +44,15 @@
 
 ## Deliverables
 
-- New **`### Legacy assumption closure`** and **`### FEATURE_20 §8.5 acceptance`** sections in **`DOMAIN_REWRITE_WORKLOG.md`**.
+- **`### Legacy assumption closure`**, **`### Admin metadata retirement (Pass 5 narrative)`**, and **`### FEATURE_20 §8.5 acceptance`** ( **four** rows) in **`DOMAIN_REWRITE_WORKLOG.md`**.
 - Updated **`phase-20.5-handoff.md`** ready for **`/phase-start 20.6`**.
 
 ## Acceptance Criteria
 
 - [ ] Every **§0.2** bullet has a **row** (or explicit **N/A** + reason) in the closure table.
-- [ ] **§8.5** three acceptance checks each **map** to a specific worklog anchor.
+- [ ] **§8.5** **four** acceptance checks each **map** to a specific worklog anchor (row 4 → **`### Admin metadata retirement (Pass 5 narrative)`**).
 - [ ] **Implicit-default audit** references **20.5.2** baseline narrative and does not claim migrations seed full tenant graphs.
-- [ ] **Phase handoff** lists **Next Action** **`/phase-start 20.6`** with accurate **Transition Context**.
+- [ ] **Phase handoff** lists **Next Action** **`/phase-start 20.6`** with accurate **Transition Context** (incl. admin metadata narrative + **20.6** owns execution).
 
 ---
 
@@ -125,9 +126,10 @@ Append **after** the last subsection of **`### Baseline placement & event routin
 
 ### Goal
 
-1. Add **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** (three-row table) to **`DOMAIN_REWRITE_WORKLOG.md`**.
-2. Update **`phases/phase-20.5-handoff.md`** for **`/phase-start 20.6`**.
-3. Mark **Session 20.5.3** complete in **`phases/phase-20.5-guide.md`** when applicable.
+1. Ensure **`### Admin metadata retirement (Pass 5 narrative)`** is present in **`DOMAIN_REWRITE_WORKLOG.md`** (immediately **before** the §8.5 acceptance table unless a clearer anchor is documented).
+2. Add or update **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** as a **four-row** table (fourth row → admin metadata narrative).
+3. Update **`phases/phase-20.5-handoff.md`** for **`/phase-start 20.6`** (transition mentions metadata narrative + **20.6**).
+4. Mark **Session 20.5.3** complete in **`phases/phase-20.5-guide.md`** when applicable.
 
 ### Files
 
@@ -136,9 +138,10 @@ Append **after** the last subsection of **`### Baseline placement & event routin
 
 ### Approach
 
-1. Append **§8.5** **`###`** at end of worklog legacy-closure block (after **implicit-default audit**).
-2. Edit **phase handoff** minimal sections per **Design**.
-3. Tick **20.5.3** in **phase-20.5-guide.md**.
+1. Append **`### Admin metadata retirement (Pass 5 narrative)`** after **`### Legacy assumption closure`** (before **`### FEATURE_20 §8.5 acceptance`**) if missing — compact tables per **phase-20.5-guide** session **20.5.3** tasks.
+2. Add or extend **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** with a **fourth** row for the **§8.5** admin-metadata acceptance bullet → **`### Admin metadata retirement (Pass 5 narrative)`**.
+3. Edit **phase handoff** minimal sections per **Design**.
+4. Tick **20.5.3** in **phase-20.5-guide.md**.
 
 ### Checkpoint
 
@@ -146,23 +149,24 @@ Append **after** the last subsection of **`### Baseline placement & event routin
 
 ### Deliverables
 
-- **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** in worklog.
+- **`### Admin metadata retirement (Pass 5 narrative)`** + **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** (**four** rows) in worklog.
 - Updated **`phase-20.5-handoff.md`** + **20.5.3** checkbox in **`phase-20.5-guide.md`**.
 
 ### Acceptance Criteria
 
-- [ ] Table has **exactly three** rows aligned to **FEATURE_20** §8.5 acceptance list.
+- [ ] Table has **exactly four** rows aligned to **FEATURE_20** §8.5 acceptance list (including admin metadata narrative).
 - [ ] Each row’s **satisfied by** column names **real** worklog **`###` / `####`** headings.
-- [ ] **phase-20.5-handoff** **Next Action** is **`/phase-start 20.6`** with accurate transition text.
+- [ ] **phase-20.5-handoff** **Next Action** is **`/phase-start 20.6`** with accurate transition text (metadata narrative documented; **20.6** executes removal).
 - [ ] **Do not** re-edit **`### Legacy assumption closure`** body unless a broken cross-reference is found.
 
 ### Design
 
-1. Append **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** after **`### Legacy assumption closure`** with markdown table:
+1. **`### FEATURE_20 §8.5 acceptance (session 20.5.3)`** markdown table:
    - Row 1: *Migration notes describe how baseline event routing is established explicitly* → **`### Baseline placement & event routing`**, **`#### FEATURE_20 §9.6 mitigation`**, **`#### Addressed (session 20.5.2)`**, **§9.5** crosswalk **Notes**.
    - Row 2: *Legacy assumptions listed in section 2 are either removed or mapped* → **`### Legacy assumption closure`** (**§0.2** + **§2** tables).
    - Row 3: *No migration step depends on undocumented implicit defaults* → **`#### Migration implicit-default audit`** + **Checkpoint 9** narrative.
-2. **`phase-20.5-handoff.md`:** Set **Last Updated**, **Session / phase status** (20.5 doc pass complete), **Next Action** **`/phase-start 20.6`**, **Transition Context** (pointer to worklog §8.5 + legacy closure).
+   - Row 4: *Admin metadata retirement narrative traceable + ordering* → **`### Admin metadata retirement (Pass 5 narrative)`**.
+2. **`phase-20.5-handoff.md`:** Set **Last Updated**, **Session / phase status** (20.5 doc pass complete), **Next Action** **`/phase-start 20.6`**, **Transition Context** (worklog §8.5 + legacy closure + **admin metadata** Pass 5 narrative; **20.6** implements **§6.3a**).
 3. **`phase-20.5-guide.md`:** Change **Session 20.5.3** checkbox from `[ ]` to `[x]` if still open.
 
 ---

@@ -30,7 +30,7 @@ First execution sequence:
 2. `ServiceAtomicEditor`
 3. Remaining domain editors
 4. Segment-manager relocation work
-5. Annotation-only metadata narrowing
+5. Annotation domain editor and metadata pipeline retirement plan (execution detail in Pass 5 narrative; code in Pass 3 / Pass 6)
 
 Acceptance checks:
 
@@ -59,8 +59,8 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). 
 ## Overview
 
 **Phase Number:** 20.3
-**Phase Name:** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
-**Description:** Align admin UI with FEATURE_20 **§8.3**: placement-first event-shape editing, service atomic / orchestration editors, segment UX on event block instances, and start EntityCard replacement + annotation metadata narrowing per **§6.3**.
+**Phase Name:** Pass 3 — Admin UX alignment (domain editors, EntityCard replacement §8.3 / §3).
+**Description:** Align admin UI with FEATURE_20 **§8.3**: placement-first event-shape editing, service atomic / orchestration editors, segment UX on event block instances, EntityCard replacement, and **annotation domain editor** direction aligned with **full** metadata pipeline retirement per **§6.3**.
 **Status:** Complete
 
 ---
@@ -71,7 +71,7 @@ Enforce **ARCHITECTURE_PRINCIPLES.md** §3, §6, §7 (domain-specific editors). 
 - [ ] **Service atomic** — Service-instance **convergence / atomic** editor delivered (ServiceAtomicEditor or equivalent).
 - [ ] **Domain editors** — Remaining instance-level orchestration UIs follow validity-constrained selection language.
 - [ ] **Segments** — Segment / event-instance management relocated into **event block-instance** context where planned; **Shapes** remain structural-only for validity.
-- [ ] **EntityCard / annotations** — First high-confidence EntityCard replacement slice; annotation-only metadata narrowing per plan.
+- [ ] **EntityCard / annotations** — First high-confidence EntityCard replacement slice; annotation surfaces aligned with **domain-editor** target and **full** metadata retirement (remaining deletion per §6.3a in **20.6**).
 - [ ] **Quality** — Lint clean, app starts, phase log + handoff updated for **20.4**.
 
 ---
@@ -108,7 +108,7 @@ Harness expects each session below as `### Session X.Y.Z:` (do not remove headin
 
 - [x] ### Session 20.3.5: Annotation metadata + EntityCard wave (§8.3 #5)
 
-**Description:** Annotation-only metadata narrowing where plan allows; first high-confidence **EntityCard** replacement slice; document remaining debt for **20.6**.
+**Description:** *(Historical session name.)* Work completed under prior “annotation metadata narrowing + EntityCard slice” scope. **Current plan:** annotations follow **domain editors** with **no** DB metadata exception; remaining metadata stack deletion is **20.6** per §6.3a.
 
 **Tasks:** Session plan → narrow scope → replace lowest-risk EntityCard call site(s) → update phase log / handoff notes.
 

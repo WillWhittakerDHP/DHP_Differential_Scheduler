@@ -4,30 +4,44 @@
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-04-03
+**Session Status:** Complete
+**Next tier:** Phase end **20.5** (then **`/phase-start 20.6`**)
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 
-**Git Branch:** `feature/domain-architecture-alignment`
-**Last Updated:** 2026-04-03
+**Last completed:** Tasks **20.5.3.1** (legacy **§0.2 / §2** + implicit-default audit in **`DOMAIN_REWRITE_WORKLOG.md`**), **20.5.3.2** (**§8.5** acceptance table + **`phase-20.5-handoff.md`** + **20.5.3** guide checkbox)
+**Next:** **`/phase-end 20.5`** (harness cascade), then **`/phase-start 20.6`** per **`phase-20.5-handoff.md`**
+**Git branch:** `feature/domain-architecture-alignment`
+**Last updated:** 2026-04-03
 
 ## Next Action
 
-Start Session  (see session guide and phase guide for scope).
+Run **`/accepted-push`** or **`/skip-push`** per harness. If workflow friction is open, run **`/harness-repair`** (plan) before push. Then **`/phase-end 20.5`**, then **`/phase-start 20.6`**.
 
 ## Transition Context
 
 **Where we left off:**
-Completed Task 
+Phase **20.5** documentation arc is complete in **`DOMAIN_REWRITE_WORKLOG.md`** (**Checkpoint 9** through **§8.5 acceptance**). **`phase-20.5-handoff.md`** points to **20.6**.
 
-**What you need to start:**
-- Begin Session 
+**What you need to start phase 20.6:**
+- **`/phase-end 20.5`** then **`/phase-start 20.6`** and **`phase-20.6-guide.md`**
+- PR **#43** — push branch when ready
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T00:34:18.494Z
+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+- **Focus phase:** `20.5` · **Next phase across:** `20.6` → `/phase-start 20.6`
+- **Focus session:** `20.5.3` · **Session 3/3 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `20.5.3.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 <!-- end excerpt session -->
 
@@ -68,6 +82,7 @@ Completed Task
 
 ## Related Documents
 
-- Session Guide: `.project-manager/features/appointment-workflow/sessions/session-20.5.3-guide.md` (detailed instructions and patterns; use your feature’s directory if not Feature 6)
-- Session Log: `.project-manager/features/appointment-workflow/sessions/session-20.5.3-log.md`
-- Phase Handoff: `.project-manager/features/appointment-workflow/phases/phase-20.5-handoff.md` (for phase-level context)
+- Session guide: `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-guide.md`
+- Session log: `.project-manager/features/domain-architecture-alignment/sessions/session-20.5.3-log.md`
+- Phase handoff: `.project-manager/features/domain-architecture-alignment/phases/phase-20.5-handoff.md`
+- Worklog: `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`

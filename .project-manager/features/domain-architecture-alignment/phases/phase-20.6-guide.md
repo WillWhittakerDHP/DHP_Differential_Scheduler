@@ -21,8 +21,8 @@ Scope:
 
 - Roll out domain editors incrementally.
 - Delete differential-role code after the replacement path is in place.
-- Delete `EntityCard` and non-annotation metadata infrastructure after replacement editors are proven.
-- Prepare replacement review for promoting `FEATURE_20_ARCHITECTURE_REDESIGN.md` as the sole canonical implementation plan (retire older redesign filenames if any remain).
+- Delete `EntityCard` and the **entire** admin metadata infrastructure (including annotation-related metadata tables and pipeline code) after replacement editors are proven.
+- Prepare replacement review for consolidating this document as the sole canonical implementation plan (retire older redesign filenames if any remain).
 
 Cleanup grouping:
 
@@ -30,7 +30,7 @@ Cleanup grouping:
 - Event-instance standalone editing remnants
 - Generic `EntityCard` component tree
 - Generic `EntityCard` composables and types
-- Metadata infrastructure outside annotations
+- Admin metadata database tables, routes, and client prefetch/mutation paths (full stack)
 - Remaining event-shape display/config wiring no longer needed after placement-type conversion
 
 Acceptance checks:
@@ -60,18 +60,20 @@ Acceptance checks:
 ## Overview
 
 **Phase Number:** 20.6
-**Phase Name:** ** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
-**Description:** [Fill in]
+**Phase Name:** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
+**Description:** Incremental rollout of domain editors; delete differential-role and legacy admin code; **remove the full admin metadata stack** (per §6.3a) after cutover; review gate before doc promotion.
 **Status:** Not Started
 
 ---
 
 ## Objectives
 
-- [ ] Objectives to be planned. Add key outcomes for this phase.
+- [ ] **Replacement first** — No metadata or EntityCard deletion until replacement editors are proven (plan §8.6 acceptance).
+- [ ] **Cleanup** — EntityCard tree, metadata composables/types/utils, admin metadata **server** models/routes, and client `admin-metadata` usage removed per §6.3a.
+- [ ] **Docs** — `ARCHITECTURE.md` / handoff reflect end state; review gate §9.3–§9.4 satisfied if promoting canonical docs.
 
 ---
 
 ## Tasks
 
-Sessions and tasks for this phase. [See Sessions Breakdown below.]
+Sessions and tasks for this phase. [See Sessions Breakdown below.] Defer detailed session IDs until `/phase-start 20.6`; trace execution to **FEATURE_20 §6.3a** deletion inventory and **DOMAIN_REWRITE_WORKLOG** Pass 5 narrative for metadata ordering.

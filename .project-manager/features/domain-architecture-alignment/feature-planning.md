@@ -49,9 +49,9 @@ Feature **20** is in **Planning** per `PROJECT_PLAN.md` (Feature Summary row #20
 Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
 
 - **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+- **Admin configurators** — domain-specific configuration UIs, wizard settings, availability rules, integrations (target: no DB-driven admin metadata pipeline per `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
 
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Legacy admin-metadata prefetch may exist until Pass 6 removal — transitional only.
 
 ---
 
@@ -60,7 +60,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | Domain | Client paths | Server paths | Key models / areas | Shared types |
 |--------|----------------|-------------|---------------------|--------------|
 | **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata` (legacy until removed), `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
 | **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
 | **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
 | **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
@@ -107,7 +107,7 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 
 - **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
 - **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin metadata (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**.
+- **Depends on** admin configuration (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**; do not assume a permanent metadata-row UI model.
 - **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
 
 ### Admin
@@ -251,7 +251,7 @@ Time atomics hold **rates**; **`property_details`** holds appointment-scoped **i
 
 - **Orchestration surface:** Instances with `orchestrator = true` — multi-select style editors constrained by shape-level validity.
 - **Services surface:** Atomic services — primary day-to-day hub; inline time/fee/event per part in one view; edits project to part rows and `event_assignments` (UI is not a second source of truth).
-- **Direction:** Prefer **domain-specific editors** over generic metadata-driven cards where the domain is stable; annotation metadata may remain narrower.
+- **Direction:** **Domain-specific editors** for all admin surfaces including annotations — **full** retirement of the DB metadata pipeline per plan §6.3 / §8.6.
 
 ---
 
@@ -294,7 +294,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
   - `server/src/db/models/booking/block_instance.ts` — instance stores **`composite`** (boolean) among booking/admin flags; **no** `orchestrator` or `wizardVisible` columns in this model file today (principles + `ARCHITECTURE.md` §9 target three instance-level booleans — schema work expected in **20.1**).
   - `client/src/utils/booking/partFinalizer.ts`, `client/src/utils/booking/BlockFinal.ts`, `client/src/utils/booking/blockFinalizer.ts`, `client/src/types/booking/partFinal.ts` — **client-side** part/block finalization pipeline (aligns with architecture rule: server persists submitted payload; avoid second calculator on server).
   - `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md` — execution passes §8, drift §9, migration §9.5; `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md` — phase map 20.1–20.6.
-- **Patterns / call sites:** Admin entity flows under `server/src/routes/internal/entities` and client `composables/admin/` / `components/admin/` consume the same metadata model as booking transformers (e.g. `globalToBookingTransformer` — referenced from booking utils). Booking steps and availability orchestration live under `client/src/components/booking/` and `client/src/composables/booking/`.
+- **Patterns / call sites:** Admin entity flows under `server/src/routes/internal/entities` and client `composables/admin/` / `components/admin/` align toward **domain editors**; booking transformers (e.g. `globalToBookingTransformer`) consume **entity and relationship** data — not a long-term dependency on admin metadata rows. Booking steps and availability orchestration live under `client/src/components/booking/` and `client/src/composables/booking/`.
 - **Gaps / unknowns:** Full inventory of every switch on legacy type strings and every `event_assignments` touchpoint is left to **phase 20.1–20.4** guides (too large for feature-tier recon). Shared package grep for block types was shallow; exhaustive constant maps may live in client/server route validators — verify per pass.
 
 ## Analysis
@@ -333,10 +333,10 @@ Execute **Feature 20: Domain Architecture Alignment** so that the **codebase and
 ## Deliverables
 - **20.1** — Schema / Sequelize / enum alignment per plan §8.1 (including instance-level model goals where specified).
 - **20.2** — Internal API and handler alignment per §8.2.
-- **20.3** — Admin UX and metadata editors aligned per §8.3.
+- **20.3** — Admin UX and domain editors aligned per §8.3 (including annotation editor direction; metadata pipeline retired in Pass 6).
 - **20.4** — Booking pipeline (finalizer, transformers, steps) aligned per §8.4.
-- **20.5** — Migration planning and data conversion scripts/narrative per §8.5.
-- **20.6** — Rollout, cleanup, and documentation per §8.6.
+- **20.5** — Migration planning and data conversion scripts/narrative per §8.5 (includes **admin metadata retirement** narrative traceability).
+- **20.6** — Rollout, cleanup, **full admin metadata stack removal**, and documentation per §8.6.
 - **20.0** — Governance artifacts: §9.3 readiness when promoting docs; §9.5 ordering respected; **DOMAIN_REWRITE_WORKLOG** updated for major decisions.
 - **PM:** Feature handoff/log updated at meaningful milestones; `PROJECT_PLAN` Feature 20 status advanced when the feature completes.
 
@@ -352,10 +352,10 @@ Execute **Feature 20: Domain Architecture Alignment** so that the **codebase and
 - **Phase 20.0:** Governance — §9.3 readiness, §9.5 migration ordering, worklog; no standalone implementation guide required initially.
 - **Phase 20.1:** Pass 1 — Schema alignment (models, enums, instance fields per plan §8.1 / doc §2).
 - **Phase 20.2:** Pass 2 — API alignment (routes, validation, shared contracts §8.2 / §5).
-- **Phase 20.3:** Pass 3 — Admin UX alignment (metadata editors, generic admin patterns §8.3 / §3).
+- **Phase 20.3:** Pass 3 — Admin UX alignment (domain editors, EntityCard replacement, annotation editor direction §8.3 / §3).
 - **Phase 20.4:** Pass 4 — Booking pipeline alignment (finalizer, transformers, steps §8.4 / §4).
-- **Phase 20.5:** Pass 5 — Migration planning and data conversion (§8.5).
-- **Phase 20.6:** Pass 6 — Rollout, cleanup, doc promotion (§8.6).
+- **Phase 20.5:** Pass 5 — Migration planning and data conversion (§8.5), including documented ordering for admin metadata schema retirement.
+- **Phase 20.6:** Pass 6 — Rollout, cleanup, admin metadata stack deletion, doc promotion (§8.6).
 
 ## Definition of Done
 

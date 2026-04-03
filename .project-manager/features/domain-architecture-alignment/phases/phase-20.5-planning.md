@@ -27,7 +27,7 @@
 Phase 20.4 completed with sessions: 20.4.1, 20.4.2, 20.4.3, 20.4.4.
 
 ## Story
-**As a** maintainer shipping Feature 20, **I want** an **explicit, ordered migration and data narrative** (sequence, seeds, baseline event routing, legacy-to-target mapping) **aligned to FEATURE_20 §8.5 and §9.5**, **so that** no environment relies on **undocumented implicit defaults** and future rollout / phase **20.6** cleanup can proceed safely.
+**As a** maintainer shipping Feature 20, **I want** an **explicit, ordered migration and data narrative** (sequence, seeds, baseline event routing, legacy-to-target mapping, **plus admin metadata schema retirement ordering**) **aligned to FEATURE_20 §8.5 and §9.5**, **so that** no environment relies on **undocumented implicit defaults** and future rollout / phase **20.6** cleanup (including **full** metadata stack removal) can proceed safely.
 **Estimated size:** M (mostly documentation and verification; optional small migration/seed fixes only if gaps are found).
 
 ---
@@ -38,9 +38,9 @@ Phase 20.4 completed with sessions: 20.4.1, 20.4.2, 20.4.3, 20.4.4.
 Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
 
 - **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+- **Admin configurators** — domain-specific configuration UIs, wizard settings, availability rules, integrations (target: no DB-driven admin metadata pipeline per `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
 
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Legacy admin-metadata prefetch may exist until Pass 6 — transitional only.
 
 ---
 
@@ -49,7 +49,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | Domain | Client paths | Server paths | Key models / areas | Shared types |
 |--------|----------------|-------------|---------------------|--------------|
 | **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata` (legacy until removed), `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
 | **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
 | **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
 | **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
@@ -96,13 +96,13 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 
 - **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
 - **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin metadata (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**.
+- **Depends on** admin configuration (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**; no permanent metadata-row UI assumption.
 - **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
 
 ### Admin
 
 - **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Generic admin components + config objects + transformers.
+- **Pattern:** Domain-specific editors + entity registry where needed; **target** is no DB field-metadata pipeline (Principles §7.1, plan §6.3a).
 - **Shape vs instance:** Structural validity (`valid_*` relationships) is edited on the **shapes** side; orchestration editors **select** active assignments from that universe — they do not redefine structural possibility (see §9).
 
 ### Auth
@@ -214,7 +214,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
 
 - **Paths reviewed:** `phases/phase-20.5-guide.md` (§8.5 verbatim); `FEATURE_20_ARCHITECTURE_REDESIGN.md` §8.5, §9.5, §9.6; `server/src/db/migrations/20260432_00005*.mjs` … `20260432_000062_*` (rename enum, three-property instances, event schema, placement admin metadata); `phases/phase-20.4-handoff.md` (entry into 20.5); `feature-domain-architecture-alignment-guide.md` (phase row 20.5).
 - **Patterns / call sites:** Much **schema work** for Feature 20 already landed in **20.1–20.4** via numbered **`20260432_*`** migrations (block shape type rename **058**, block instance three-property **059**, shape legacy column drop **060**, event schema / **`event_instance_attendees`** **061**, placement admin metadata **062**, plus earlier rename / valid_* / event-assignment migrations). Phase **20.5** is the **governance pass** that **documents** the end-to-end sequence, **seed/baseline expectations**, and **legacy → replacement** mapping per §8.5 acceptance checks—not assumed greenfield migrations unless recon finds a documented gap.
-- **Gaps / unknowns:** Whether **seed scripts** or **one-off data backfills** (beyond migrations) are required for **baseline event-orchestrator routing** in empty/staging DBs—must be stated explicitly in session **20.5.2** output. Whether **`DOMAIN_REWRITE_WORKLOG.md`** (or successor) is the single home for the narrative vs adding a short **`MIGRATION_SEQUENCE.md`**—decide in **20.5.1**.
+- **Gaps / unknowns:** Whether **seed scripts** or **one-off data backfills** (beyond migrations) are required for **baseline event-orchestrator routing** in empty/staging DBs—must be stated explicitly in session **20.5.2** output. Whether **`DOMAIN_REWRITE_WORKLOG.md`** (or successor) is the single home for the narrative vs adding a short **`MIGRATION_SEQUENCE.md`**—decide in **20.5.1**. **Admin metadata retirement** ordering is documented in worklog **`### Admin metadata retirement (Pass 5 narrative)`** (session **20.5.3**).
 
 ## Analysis
 - **Problem / why now:** **§8.5** requires **written** migration sequence, **seed expectations**, and **no implicit-default** steps. Implementation passes **20.1–20.4** executed many migrations; without a consolidated narrative, operators and reviewers cannot prove **§9.5** ordering and **§9.6** “implicit default routing” risk is mitigated.
@@ -228,9 +228,9 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
 
 1. Defines the **data migration sequence** (enums, moved fields, placement, event-instance ownership, attendee rename, legacy cleanup) in **implementation order**, tied to **existing or planned** migration artifacts.
 2. Documents **seed expectations** for **baseline placement types** and **baseline event-orchestrator** data so **default routing is never “whatever Sequelize defaults to.”**
-3. Closes the **§8.5 acceptance checks:** explicit baseline event routing narrative; **§0.2 / §2** legacy assumptions removed or mapped; **no step relies on undocumented implicit defaults**.
+3. Closes the **§8.5 acceptance checks:** explicit baseline event routing narrative; **§0.2 / §2** legacy assumptions removed or mapped; **no step relies on undocumented implicit defaults**; **admin metadata retirement** narrative traceable with stated ordering (domain UI → optional export → API/client removal → DDL in **20.6**).
 
-**Feature-wide goal** (unchanged context): complete **20.1–20.6** per guides; **20.5** is the **planning/documentation** pass that unlocks confident **20.6** rollout/cleanup.
+**Feature-wide goal** (unchanged context): complete **20.1–20.6** per guides; **20.5** is the **planning/documentation** pass that unlocks confident **20.6** rollout/cleanup (including **full** metadata stack deletion per §6.3a).
 
 ## Files
 - **Canonical:** `ARCHITECTURE_PRINCIPLES.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md` (**§8.5, §9.5, §9.6**), `ARCHITECTURE.md`
@@ -243,7 +243,8 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
 2. For each session: grep/read migrations and docs; **write** findings into the chosen canonical narrative file(s); update **phase guide** session checkboxes.
 3. **Do not** run **`npm run migrate`** against non-local **DB_HOST** (project policy); authoring new migration **files** is allowed if a session identifies a **documented** gap—execution stays on the host that owns the DB.
 4. Cross-check every **§9.5** bullet against the narrative; cross-check **§9.6** “implicit default routing” row for an explicit mitigation paragraph.
-5. If **§8.5** acceptance checks are fully met by end of **20.5.3**, mark phase objectives complete and hand off to **`/phase-start 20.6`**.
+5. In **20.5.3**, append **`### Admin metadata retirement (Pass 5 narrative)`** and a **four-row §8.5** acceptance table per **FEATURE_20** §8.5 (fourth bullet).
+6. If **§8.5** acceptance checks are fully met by end of **20.5.3**, mark phase objectives complete and hand off to **`/phase-start 20.6`**.
 
 ## Checkpoint
 - After **`/accepted-plan`:** **`/session-start 20.5.1`** on **`feature/domain-architecture-alignment`**.

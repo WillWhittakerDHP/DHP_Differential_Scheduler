@@ -1,5 +1,7 @@
 # EntityCard consumer inventory (phase 20.6)
 
+**Scope change (2026-04):** **`EntityCard`** removal is part of the same Pass 6 cleanup as **full** admin metadata stack removal (see **`DOMAIN_REWRITE_WORKLOG.md` → `### Admin metadata retirement (Pass 5 narrative)`**). Façades must be replaced with **domain editors**, not preserved as a permanent metadata exception.
+
 **Purpose:** Remaining entry points that still mount or import **`EntityCard.vue`**, for FEATURE_20 **§6.3a** deletion planning. Last updated with task **20.3.5.2**.
 
 ## Façade note (20.3.5.2)

@@ -265,6 +265,37 @@
 - **Event routing** semantics after migrate are defined in **`### Baseline placement & event routing (session 20.5.2)`** and **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**: **061** seeds **placement-type catalog** only; **`event_assignments`** and instance graphs are **operator/product** responsibility.
 - **No crosswalk migration** is documented as relying on **undocumented null semantics** or **silent ORM inserts** for full tenant routing graphs; gaps are **explicit** (e.g. **Addressed (session 20.5.2)** + **Fresh database** bullets).
 
+### Admin metadata retirement (Pass 5 narrative)
+
+**Scope (Feature 20):** Target is **full** removal of the database-driven **admin metadata** pipeline for **all** entity types (including annotations). Inventory: **`FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3a**. This subsection records **ordering and pointers only** — **Pass 6 (phase 20.6)** owns migrations and code deletion; respect **DB_HOST** policy (localhost-only migration execution on shared DBs).
+
+#### Sequelize models (`server/src/db/models/admin/`)
+
+| File | Retirement |
+| --- | --- |
+| `adminMetadata.ts` | Drop table / model after **zero** API and client consumers |
+| `adminPrimitiveMetadata.ts` | Same |
+| `adminMetadataSelectOption.ts` | Same |
+| `adminPrimitiveMetadataSelectOption.ts` | Same |
+| `adminRelationshipMetadata.ts` | **Evaluate** → drop if solely metadata-driven |
+| `adminRelationshipMetadataSelectOption.ts` | **Evaluate** → drop if solely metadata-driven |
+
+#### Routes and client (non-exhaustive pointers)
+
+- **`server/src/routes/internal/`** — `admin-metadata` (and related internal routers) retire with the models.
+- **`client/src/utils/api/adminMetadataApi.ts`** plus composables/components listed in **§6.3a** — delete after domain editors replace reads/writes.
+
+#### Required ordering
+
+1. Land **domain editors** (including **annotation** surfaces) so no admin UI **depends** on metadata rows for field rendering.
+2. Remove **client** prefetch, query keys, and mutations targeting metadata APIs.
+3. **Optional:** export rows (e.g. for seeds or audit) if product needs parity before drop.
+4. **Pass 6:** migrations to drop tables + remove server handlers + final client cleanup.
+
+#### Pass 5 boundary
+
+- Session **20.5.3** / this worklog **does not** require **`client/`** or **`server/`** product edits for traceability — only this narrative and the **§8.5** table row below.
+
 ### FEATURE_20 §8.5 acceptance (session 20.5.3)
 
 **Source:** **FEATURE_20_ARCHITECTURE_REDESIGN.md** §8.5 Pass 5 — *Migration planning and data conversion* (acceptance checks only).
@@ -274,3 +305,4 @@
 | Migration notes describe **how baseline event routing is established explicitly**. | **`### Baseline placement & event routing (session 20.5.2)`**; **`#### FEATURE_20 §9.6 mitigation (session 20.5.2)`**; **`#### Addressed (session 20.5.2)`**; **§9.5 crosswalk** table **Notes** (incl. **061** / orchestrator row). | Scope + seed expectations align with **§8.5** scope bullets; sequence in **Checkpoint 9** + **§9.5** narrative. |
 | **Legacy assumptions** listed in **FEATURE_20** section **2** are either **removed** or **mapped** to their replacement storage. | **`### Legacy assumption closure (session 20.5.3)`** — **`#### §0.2 legacy assumptions → replacement`**; **`#### §2 model targets vs legacy (closure)`**. | Maps **§0.2** and **§2** themes to migrations / anchors without duplicating full **FEATURE_20** §2 tables. |
 | **No migration step** depends on **undocumented implicit defaults**. | **`#### Migration implicit-default audit`** (under **`### Legacy assumption closure`**); cross-ref **`### Baseline placement & event routing`** + **§9.6 mitigation**. | **`20260432_*`** steps are **explicit** DDL/data moves per file headers; routing graphs are **not** ORM-invented defaults. |
+| **Admin metadata retirement** narrative is **traceable in-repo** and states **ordering** (domain UI → optional export → client/API removal → DDL in Pass 6). | **`### Admin metadata retirement (Pass 5 narrative)`** | Added per **§8.5** fourth acceptance bullet; execution in **20.6** per **§6.3a** / **§8.6**. |

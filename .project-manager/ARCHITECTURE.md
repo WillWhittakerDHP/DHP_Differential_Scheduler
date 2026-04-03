@@ -11,9 +11,9 @@ This document is the **codebase map** and the **authoritative domain model** for
 Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
 
 - **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — metadata-driven entity CRUD, wizard settings, availability rules, integrations.
+- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
 
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Admin metadata is often batch-prefetched (e.g. router navigation guards).
+TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Until the metadata stack is removed (Feature 20 Pass 6), some admin routes may still prefetch legacy metadata — treat that as **transitional**, not the end state.
 
 ---
 
@@ -22,7 +22,7 @@ TanStack **Vue Query** manages server-state caching. Composables typically expos
 | Domain | Client paths | Server paths | Key models / areas | Shared types |
 |--------|----------------|-------------|---------------------|--------------|
 | **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `admin-metadata` (legacy until removed), `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
 | **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
 | **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
 | **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
@@ -69,13 +69,13 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 
 - **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
 - **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin metadata (wizard blocks, availability rules) — document cross-domain deps in planning **Analysis**.
+- **Depends on** admin configuration data (wizard blocks, availability rules) served as **entities and settings** — document cross-domain deps in planning **Analysis** (booking must not assume a permanent admin-metadata-row model).
 - **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
 
 ### Admin
 
 - **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Generic admin components + config objects + transformers.
+- **Pattern:** Domain-specific editors + `EntityBase` / `ENTITY_CONFIGS` where generic CRUD remains; **target** is direct Vuetify forms per entity, not DB field-metadata-driven renderers (Principles §7.1, plan §6.3a).
 - **Shape vs instance:** Structural validity (`valid_*` relationships) is edited on the **shapes** side; orchestration editors **select** active assignments from that universe — they do not redefine structural possibility (see §9).
 
 ### Auth
@@ -100,7 +100,7 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 
 ## 6. Architectural patterns (not thresholds)
 
-- **Admin metadata-driven UI:** Generic components + runtime config + transformers.
+- **Admin UI (target):** Domain-specific editors; legacy metadata-driven surfaces are scheduled for **full removal** (plan §6.3 / §8.6).
 - **Entity CRUD:** `EntityBase<GlobalEntityKey>` with `ENTITY_CONFIGS` registry.
 - **Booking wizard:** Step composables, injection keys, orchestrator composable for thin shell components.
 - **TanStack Query:** Consistent query keys; mutations invalidate affected queries.
@@ -226,7 +226,7 @@ Time atomics hold **rates**; **`property_details`** holds appointment-scoped **i
 
 - **Orchestration surface:** Instances with `orchestrator = true` — multi-select style editors constrained by shape-level validity.
 - **Services surface:** Atomic services — primary day-to-day hub; inline time/fee/event per part in one view; edits project to part rows and `event_assignments` (UI is not a second source of truth).
-- **Direction:** Prefer **domain-specific editors** over generic metadata-driven cards where the domain is stable; annotation metadata may remain narrower.
+- **Direction:** **Domain-specific editors** for all admin entity surfaces, **including annotations** — no long-lived exception for DB-driven field metadata (plan §3.6, §6.3).
 
 ---
 

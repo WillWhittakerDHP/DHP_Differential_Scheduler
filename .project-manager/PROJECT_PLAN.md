@@ -1086,7 +1086,7 @@ Trusted dev friends get more than the in-app alpha flow: a way to **read** the p
 ## Feature 20: Domain Architecture Alignment
 
 **Status:** 📋 Planning  
-**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. Execution is ordered in phases **20.1–20.6** (mapped to implementation plan §8); **Phase 20.0** covers governance and readiness without a separate implementation pass. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative for architecture decisions.  
+**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. **Admin target:** **full** retirement of the DB-driven metadata pipeline (including annotations); Pass **20.5** documents ordering (`DOMAIN_REWRITE_WORKLOG.md`); Pass **20.6** executes deletion per **§6.3a**. Execution is ordered in phases **20.1–20.6** (mapped to implementation plan §8); **Phase 20.0** covers governance and readiness without a separate implementation pass. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative for architecture decisions.  
 **Branch:** TBD  
 **Directory:** `features/domain-architecture-alignment/`
 

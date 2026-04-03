@@ -392,7 +392,7 @@ MLS API → property_feature_mappings → suggestedBlockInstanceIds
 
 ### 7.1 Domain-specific editors replace EntityCard
 
-The generic `EntityCard` + database-driven metadata pipeline is deprecated. Each entity type gets a **purpose-built editor** using Vuetify components directly.
+The generic `EntityCard` + database-driven metadata pipeline is deprecated. Each entity type gets a **purpose-built editor** using Vuetify components directly. **Annotations are included** — there is no long-term exception that keeps admin field definitions in metadata tables.
 
 **Why:** The domain has crystallized. Every entity type has known fields with known rendering needs. The metadata system was built for flexibility when the domain was undefined; that flexibility now creates indirection without benefit.
 

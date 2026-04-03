@@ -348,7 +348,7 @@ The rewrite keeps the v1 direction but aligns its terms to the principles:
 | Event orchestrator and profile editors | Baseline segment ownership and override routing management. | VCard + VForm + segment manager |
 | Segment editor | Per-segment placement, attendees, location, and calendar properties. | VCard + VForm |
 | Placement type editor | Simple CRUD for event shapes. | VDataTable |
-| Annotation editor | The only remaining metadata-driven surface. | Metadata-driven (keep existing) |
+| Annotation editor | Shapes-tab annotation shape/instance editing. | Domain-specific editor (VCard + VForm / direct Vuetify; no DB metadata pipeline) |
 
 `RelationshipCollection` survives because it still matches the generic shape-level validity and assignment-selection problem well.
 
@@ -363,13 +363,14 @@ Concrete first-wave editor order:
 3. Remaining domain editors
    - Service, time, price, and event orchestrator and atomic editors.
    - `SegmentEditor` and shape editors.
-4. Annotation exception
-   - Keep metadata-driven annotation editing after generic entity editing is removed.
+4. Annotation domain editor
+   - Purpose-built annotation shape/instance UI in the same replacement wave as other Shapes-tab editors (after higher-confidence editors if sequencing for risk).
+   - Replaces metadata-driven field configuration with explicit forms; see §6.3a for deletion inventory.
 
 Implementation detail preserved from v1:
 
-- The metadata system is still expected to shrink to annotations-only usage.
-- The replacement path should favor direct Vuetify or Vuexy form components instead of rebuilding metadata indirection.
+- The **generic** database-driven metadata pipeline is **fully removed** once all domain editors (including annotation) are proven; no entity type retains metadata-row-driven admin forms.
+- The replacement path favors direct Vuetify or Vuexy form components instead of rebuilding metadata indirection.
 - `RelationshipCollection` and related relationship editing patterns remain reusable where they match the validity/assignment problem cleanly.
 
 ### 3.7 Acceptance checks for section 3
@@ -584,8 +585,7 @@ Concrete rewrite/delete buckets from v1 to preserve:
 ### 6.3 Shared display and metadata cleanup
 
 - Simplify event-shape display configs to the placement-type field set.
-- Keep annotation metadata editing.
-- Delete generic metadata infrastructure once each affected domain editor is live.
+- Delete the **entire** generic metadata infrastructure (client and server) once **all** domain editors—including annotation—are live and proven.
 - Keep `RelationshipCollection` and related generic relationship editing utilities where they still map cleanly to the validity/assignment problem.
 
 Execution detail preserved from v1:
@@ -593,11 +593,11 @@ Execution detail preserved from v1:
 - `configs/field/display/appliedDisplay/eventShapeDisplays.ts` is part of the placement-type simplification work.
 - `selectableDisplayConfigTypes.ts` and related event-shape or event-instance display wiring should be adapted, not assumed obsolete.
 - `EntityCard` cleanup remains a later pass after replacement editors are proven.
-- The metadata cleanup target is still large: component tree, composables, types, utilities, and constants should be removed in grouped passes, with annotation-specific pieces retained.
+- The metadata cleanup target is still large: component tree, composables, types, utilities, and constants should be removed in grouped passes after cutover. **Replacement** annotation UI may live under new domain-named paths; listed metadata-era files delete once unused.
 
 ### 6.3a Full deletion inventory for EntityCard and metadata infrastructure
 
-> Principle source: `ARCHITECTURE_PRINCIPLES.md` §7.1 — domain-specific editors replace generic `EntityCard`; metadata survives for annotations only. Paths below are relative to `client/src/` except `server/` entries.
+> Principle source: `ARCHITECTURE_PRINCIPLES.md` §7.1 — domain-specific editors replace generic `EntityCard`; **no** database-driven admin metadata pipeline remains (annotations included). Paths below are relative to `client/src/` except `server/` entries.
 
 **Approximate totals:** ~120 files deleted, ~15–20 domain editors created (Principles §7.1).
 
@@ -623,7 +623,7 @@ Execution detail preserved from v1:
 - `components/admin/generic/fields/IconInput.vue`
 - `components/admin/generic/fields/PrimitiveInputs.vue`
 - `components/admin/generic/fields/EventInstanceTemplateRef.vue`
-- `components/admin/generic/fields/AnnotationContentEditor.vue` → **keep** (annotations stay metadata-driven)
+- `components/admin/generic/fields/AnnotationContentEditor.vue` → **delete** (replaced by annotation domain editor / non-metadata paths)
 
 **EntityCard composables (14 — delete):**
 
@@ -669,12 +669,12 @@ Execution detail preserved from v1:
 - `utils/admin/booleanInputClickHandler.ts`
 - `composables/admin/entityCardActionsPersistence.ts`
 
-**Metadata pipeline composables (delete except annotations subset):**
+**Metadata pipeline composables (delete after cutover):**
 
 - `composables/admin/useEntityMetadata.ts` → **delete**
 - `composables/admin/useMetadataCache.ts` → **delete**
-- `composables/admin/useAdminMetadataMutations.ts` → **keep for annotations only**
-- `composables/admin/usePrimitiveMetadataSave.ts` → **keep for annotations only**
+- `composables/admin/useAdminMetadataMutations.ts` → **delete**
+- `composables/admin/usePrimitiveMetadataSave.ts` → **delete**
 - `composables/admin/useMetadataFieldDrag.ts` → **delete**
 - `composables/admin/useMetadataFieldOrdering.ts` → **delete**
 - `composables/admin/useSelectConfig.ts` → **evaluate** (may still serve relationship selects)
@@ -736,28 +736,28 @@ Execution detail preserved from v1:
 - `constants/fieldMetadataPanels.ts` → **delete**
 - `constants/adminPrimitiveMetadataOptions.ts` → **delete**
 
-**Metadata Vue components (delete except annotation editor):**
+**Metadata Vue components (delete after cutover):**
 
-- `components/admin/metadata/AdminPrimitiveMetadataEditor.vue` → **keep for annotations**
+- `components/admin/metadata/AdminPrimitiveMetadataEditor.vue` → **delete**
 - `components/admin/MetadataEditModal.vue` → **delete**
 - `components/admin/BulkEditModal.vue` → **evaluate**
 - `components/admin/PartInstanceBulkEditModal.vue` → **evaluate**
 - `components/admin/InstanceBulkEditModal.vue` → **evaluate**
 
-**Server metadata models (archive except annotations subset):**
+**Server metadata models (drop after zero consumers — Pass 6 migrations):**
 
-- `server/src/db/models/admin/adminMetadata.ts` → **keep for annotations**
-- `server/src/db/models/admin/adminPrimitiveMetadata.ts` → **keep for annotations**
-- `server/src/db/models/admin/adminRelationshipMetadata.ts` → **evaluate**
-- `server/src/db/models/admin/adminMetadataSelectOption.ts` → **keep for annotations**
-- `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts` → **keep for annotations**
-- `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts` → **evaluate**
+- `server/src/db/models/admin/adminMetadata.ts` → **delete** (table dropped after client/API removal)
+- `server/src/db/models/admin/adminPrimitiveMetadata.ts` → **delete**
+- `server/src/db/models/admin/adminRelationshipMetadata.ts` → **evaluate** → **delete** if solely metadata-driven
+- `server/src/db/models/admin/adminMetadataSelectOption.ts` → **delete**
+- `server/src/db/models/admin/adminPrimitiveMetadataSelectOption.ts` → **delete**
+- `server/src/db/models/admin/adminRelationshipMetadataSelectOption.ts` → **evaluate** → **delete** if solely metadata-driven
 
 **What survives from the current generic system:**
 
 - `components/admin/generic/collections/RelationshipCollection.vue` → **keep** (validity graph editor)
 - `composables/admin/useBaseCollectionFieldCore.ts` → **keep**
-- `components/admin/generic/DynamicForm.vue` → **evaluate** (may be useful for annotations)
+- `components/admin/generic/DynamicForm.vue` → **evaluate** → **delete** if unused after metadata removal
 - `components/admin/BlockInstanceCreateModal.vue` → **adapt** (create modals become domain-specific)
 - `composables/admin/useBlockInstanceCreate.ts` → **adapt**
 
@@ -800,7 +800,7 @@ Execution detail preserved from v1:
 ### 7.5 Admin-editor direction — resolved by principles
 
 - Domain-specific editors replace generic `EntityCard` surfaces over time.
-- Annotation editing remains the only metadata-driven exception in this redesign.
+- Annotation editing uses the same domain-editor pattern; the DB metadata pipeline does not survive for any entity type.
 
 ### 7.6 MLS and property details separation — resolved by principles
 
@@ -872,7 +872,7 @@ First execution sequence:
 2. `ServiceAtomicEditor`
 3. Remaining domain editors
 4. Segment-manager relocation work
-5. Annotation-only metadata narrowing
+5. Annotation domain editor and metadata pipeline retirement plan (execution detail in Pass 5 narrative; code in Pass 3 / Pass 6)
 
 Acceptance checks:
 
@@ -900,12 +900,14 @@ Scope:
 
 - Define the data migration sequence for renamed enums, moved fields, placement data, event-instance ownership, attendee-table rename, and legacy cleanup.
 - Document seed expectations for baseline placement types and baseline event-orchestrator data.
+- Document the **planned sequence for admin metadata schema retirement** (which tables, routes, and client prefetch paths retire; ordering relative to domain editors). **Narrative and traceability only** in Pass 5 — DDL execution lands in Pass 6 per project migration policy.
 
 Acceptance checks:
 
 - Migration notes describe how baseline event routing is established explicitly.
 - Legacy assumptions listed in section 2 are either removed or mapped to their replacement storage.
 - No migration step depends on undocumented implicit defaults.
+- Admin metadata retirement narrative is **traceable in-repo** (e.g. `DOMAIN_REWRITE_WORKLOG.md`) and states **ordering**: domain UI replaces reads/writes → optional row export if product needs parity → remove client/API usage → drop or detach tables in Pass 6.
 
 ### 8.6 Pass 6 — Rollout and cleanup
 
@@ -913,7 +915,7 @@ Scope:
 
 - Roll out domain editors incrementally.
 - Delete differential-role code after the replacement path is in place.
-- Delete `EntityCard` and non-annotation metadata infrastructure after replacement editors are proven.
+- Delete `EntityCard` and the **entire** admin metadata infrastructure (including annotation-related metadata tables and pipeline code) after replacement editors are proven.
 - Prepare replacement review for consolidating this document as the sole canonical implementation plan (retire older redesign filenames if any remain).
 
 Cleanup grouping:
@@ -922,7 +924,7 @@ Cleanup grouping:
 - Event-instance standalone editing remnants
 - Generic `EntityCard` component tree
 - Generic `EntityCard` composables and types
-- Metadata infrastructure outside annotations
+- Admin metadata database tables, routes, and client prefetch/mutation paths (full stack)
 - Remaining event-shape display/config wiring no longer needed after placement-type conversion
 
 Acceptance checks:
@@ -1008,6 +1010,7 @@ Do not replace the original redesign document until all four checks pass:
 - Establish event placement data and event-instance ownership before rewriting routing UX or booking layout code.
 - Preserve relational event routing during migration; do not introduce temporary scalar event fields on part instances.
 - Seed or confirm baseline placement types and baseline event-orchestrator data before rollout so explicit default routing exists from the beginning.
+- Retire admin metadata storage only **after** annotation and other domain editors no longer read or write metadata rows; follow the Pass 5 narrative ordering (see §8.5).
 
 ### 9.6 Risk register
 

@@ -47,6 +47,8 @@
 | **20.5** | Pass 5 — Migration planning and data conversion | §8.5 |
 | **20.6** | Pass 6 — Rollout and cleanup | §8.6 |
 
+**Scope notes (admin metadata):** Pass **20.3** delivers domain editors per §8.3 **including** annotation direction (no long-term DB metadata exception). Pass **20.5** documents **admin metadata schema retirement** ordering (§8.5). Pass **20.6** executes **full** metadata stack removal after editors are proven (§8.6).
+
 **Phase guides:** [phases/](./phases/) — `phase-20.1-guide.md` … `phase-20.6-guide.md`.
 
 **Harness decomposition:** `/feature-start` scans this guide for lines matching `Phase X.Y:`. The following lines are intentional so tier-down output lists every implementation pass in order:
