@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.5.2: Baseline placement and event routing ✅
+**Completed:** 2026-04-03
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** — Baseline placement & event routing:** Document **seed expectations** and **how baseline event routing is established** for new and upgraded environments; align language with relational **`event_assignments`** and event orchestrator baseline model (**§9.5** last bullet, **§9.6** mitigation).
+
+
+
 ### Session 20.5.1: Migration chain inventory ✅
 **Completed:** 2026-04-03
 **Tasks Completed:** All tasks completed

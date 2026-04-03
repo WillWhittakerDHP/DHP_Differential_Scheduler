@@ -90,7 +90,7 @@ Use session guides (`sessions/session-20.5.*-guide.md`) as each session starts; 
 - Pick the **canonical narrative file** (extend **DOMAIN_REWRITE_WORKLOG.md** or add **`.project-manager/analysis/MIGRATION_SEQUENCE.md`**) and paste the first **ordered table** there.
 - If a **§9.5** step has **no** migration pointer, open a **Decision needed** line (do not assume implicit behavior).
 
-- [ ] ### Session 20.5.2: Baseline placement and event routing
+- [x] ### Session 20.5.2: Baseline placement and event routing
 **Description:** Document **seed expectations** and explicit **baseline event-orchestrator / placement** behavior for fresh and upgraded DBs; address **§9.6** implicit default routing in prose.
 
 **Tasks:**
