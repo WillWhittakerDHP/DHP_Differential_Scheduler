@@ -1,6 +1,6 @@
 <!--
   WHY: Canonical admin entity editor shell (expansion panel + title row + EntityCardContent + dialogs).
-  PATTERN: Phase 20.6.2 — domain surfaces import this component; EntityCard.vue remains a thin async-import wrapper until RelationshipCollection is migrated (20.6.2.2).
+  PATTERN: Phase 20.6.2 — shared admin editor shell (tabs, modals, RelationshipCollection) until domain-specific editors replace this path (FEATURE_20 §3.6 / §6.3a).
 -->
 <script setup lang="ts">
 import { computed, provide } from 'vue'
@@ -208,7 +208,7 @@ defineExpose({
   <!--
     WHY: This shell owns title row, expand/collapse, and content
     PATTERN: When useExpansionPanel=true, wraps in VExpansionPanel. When false (modals), renders content directly.
-    NOTE: When used inside parent VExpansionPanels, EntityCard renders as VExpansionPanel. When standalone, renders content directly.
+    NOTE: When used inside parent VExpansionPanels, this shell renders as VExpansionPanel; when useExpansionPanel=false, content only.
   -->
   <VExpansionPanel
     v-if="props.useExpansionPanel"

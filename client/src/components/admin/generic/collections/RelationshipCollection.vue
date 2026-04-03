@@ -1,6 +1,6 @@
 <!--
   WHY: Unified component pattern for all relationship collections
-  PATTERN: Generic rendering of EntityCard with collectionType prop for customization
+  PATTERN: Renders AdminEntityEditorPanel rows with collectionType-driven chrome
 -->
 <template>
   <div v-if="shouldShow && parentEntity" :class="collectionClass">
@@ -20,9 +20,7 @@
     />
     
     <!--
-      WHY: Shows all valid shapes with EntityCard for both existing and new children
-      PATTERN: Loop through validShapes, use EntityCard with appropriate props
-      FIX: VExpansionPanels must be OUTSIDE v-for to avoid group context issues
+      WHY: One editor panel per existing child; VExpansionPanels stay outside v-for for group context
     -->
     <VExpansionPanels
       v-model="expandedChildren"
@@ -33,7 +31,7 @@
         :key="shape.id"
       >
         <!-- Existing child entity -->
-        <EntityCard
+        <AdminEntityEditorPanel
           v-if="getChildForShape(shape.id)"
           :key="getChildForShape(shape.id)!.id"
           :entity-key="childEntityKey"
@@ -68,9 +66,7 @@
           </template>
           
           <template #text>
-            <!-- WHY: Same component handles both create and edit - config drives fields -->
-            <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
-            <EntityCard
+            <AdminEntityEditorPanel
               :entity-key="childEntityKey"
               :entity="getNewChildEntity(shape.id)"
               :expanded="true"
@@ -101,14 +97,8 @@
 </template>
 
 <script setup lang="ts">
-/**
- * PATTERN: Uses EntityCard directly, matching the pattern used by InstancesTab
-
-PAT...
- */
-import { computed, defineAsyncComponent } from 'vue'
-
-const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
+import { computed } from 'vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalFieldKey } from '@/constants/primitives'

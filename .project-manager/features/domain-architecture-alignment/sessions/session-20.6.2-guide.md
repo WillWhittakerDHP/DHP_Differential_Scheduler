@@ -61,7 +61,7 @@ These sections contain session-specific content:
 **Approach:** Domain-named **`VExpansionPanel`** (or equivalent) parents that reuse **`EntityCardContent`** + existing **`useEntityCard*`** wiring; smoke after each cluster.
 **Checkpoint:** `rg EntityCard` leaves **`RelationshipCollection`** (and not-yet-deleted generic files) as the only **`EntityCard.vue`** importers.
 
-- [ ] #### Task 20.6.2.2: RelationshipCollection + delete tree
+- [x] #### Task 20.6.2.2: RelationshipCollection + delete tree
 **Goal:** Remove **`defineAsyncComponent`** **`EntityCard`** from **`RelationshipCollection`**; delete **`EntityCard.vue`** and coupled SFCs; prune dead **`useEntityCard*`** / **`entityCard*`** modules; update **`ENTITY_CARD_CONSUMERS_20.6.md`**.
 **Files:**
 - `client/src/components/admin/generic/RelationshipCollection.vue`
