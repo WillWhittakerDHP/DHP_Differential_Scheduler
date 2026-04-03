@@ -4,30 +4,43 @@
 
 **Tier:** Session (Tier 2 - Medium-Level)
 
-**Last Updated:** [Date]
-**Session Status:** [Complete / In Progress]
-**Next Session:** [NEXT_SESSION]
+**Last Updated:** 2026-04-03
+**Session Status:** Complete
+**Next Session:** 20.5.3
 
 ---
 
 ## Current Status
 
-**Last Completed:** Task 
-**Next Session:** Session 20.5.3
+**Last Completed:** Tasks **20.5.2.1** (baseline narrative in `DOMAIN_REWRITE_WORKLOG.md`), **20.5.2.2** (gaps → addressed, §9.6 mitigation, §9.5 crosswalk note cleanup)
+**Next Session:** Session **20.5.3**
 **Git Branch:** `feature/domain-architecture-alignment`
 **Last Updated:** 2026-04-03
 
 ## Next Action
 
-Start Session 20.5.3 (see session guide and phase guide for scope).
+Run **`/accepted-push`** or **`/skip-push`** per harness, then **`/session-start 20.5.3`**. If workflow friction is open, run **`/harness-repair`** in plan mode before push (harness advisory).
 
 ## Transition Context
 
 **Where we left off:**
-Completed Task 
+Session **20.5.2** delivered **Checkpoint 9** follow-through: **`### Baseline placement & event routing`**, **`#### Addressed (session 20.5.2)`**, **`#### FEATURE_20 §9.6 mitigation`**, and updated **§9.5** table row for **061** / orchestrator baseline — all in **`.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md`**.
 
 **What you need to start:**
-- Begin Session 20.5.3
+- Phase **20.5** session **20.5.3** scope from **`phase-20.5-guide.md`** / next session guide when created.
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T00:08:35.963Z
+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+- **Focus phase:** `20.5` · **Next phase across:** `20.6` → `/phase-start 20.6`
+- **Focus session:** `20.5.2` · **Session 2/3 in phase** · **Next session across:** `20.5.3` → `/session-start 20.5.3`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.5.2.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 <!-- end excerpt session -->
 
