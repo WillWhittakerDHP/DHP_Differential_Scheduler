@@ -48,11 +48,11 @@ These sections contain session-specific content:
 **Description:** Remove **block-instance `differentialEventRoleOverrides`** admin UI and related **booking/types** after placement-first migration; simplify **event-attendee** helpers; scan **event-instance** admin remnants. **Do not** remove **availability differential perspectives** (unrelated).
 
 **Duration:** Medium (2 tasks)
-**Status:** Planning filled — await **`/accepted-plan`**, then **`/task-start 20.6.3.1`**
+**Status:** In Progress filled — await **`/accepted-plan`**, then **`/task-start 20.6.3.1`**
 
 ### Tasks
 
-- [ ] #### Task 20.6.3.1: Admin — strip override matrix and field plumbing
+- [x] #### Task 20.6.3.1: Admin — strip override matrix and field plumbing
 **Goal:** Delete **`DifferentialEventRoleOverridesField`**, **`differentialRoleMatrixRows`**, **`blockInstanceDisplays.differentialEventRoleOverrides`**, and any **FieldRenderer / code-first** hook for **`differentialEventRoleOverrides`**; tighten **`primitives` / `GlobalFieldKey`** if the key is removed.
 **Files:**
 - `client/src/components/admin/generic/fields/DifferentialEventRoleOverridesField.vue`
@@ -64,11 +64,11 @@ These sections contain session-specific content:
 **Checkpoint:** **`rg differentialEventRoleOverrides`** clean in admin configs/components.
 
 - [ ] #### Task 20.6.3.2: Booking + types + optional event-instance remnant scan
-**Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **EventInstance*** standalone path cleanup if provably dead.
+**Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`** (placement-derived roles only); review **`entityTransformers`**; optional **event-instance** admin component cleanup if provably dead.
 **Files:**
 - `client/src/types/appointmentModels.ts`, `client/src/utils/eventAttendeeUtils.ts`, booking callers
 - `client/src/utils/transformers/entityTransformers.ts`
-- Optionally `client/src/views/admin/tabs/components/EventInstance*.vue` + related composables
+- Optionally `EventInstanceEditor.vue`, `EventInstanceBuilderBody.vue`, and siblings under `views/admin/tabs/components/` + related composables
 **Approach:** Typecheck-first refactors; no **PartFinalizer** behavior change except dead-branch removal with identical placement-only outcomes.
 **Checkpoint:** Lint + vue-tsc; **`DOMAIN_REWRITE_WORKLOG.md`** one-line note; brief smoke (admin + wizard availability).
 

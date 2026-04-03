@@ -251,7 +251,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
   - `client/src/utils/transformers/entityTransformers.ts`
   - `server/src/routes/internal/entities/eventShapeLegacyDifferentialRoleKeys.ts` (retain if still needed for API rejection; delete only if redundant)
   - **Field wiring:** `FieldRenderer.vue` / `PrimitiveInputs.vue` / `codeFirstMetadataCache.ts` — only if **`differentialEventRoleOverrides`** still registered
-  - **Event instance UI:** `client/src/views/admin/tabs/components/EventInstance*.vue`, related composables under `composables/admin/useInstancesTab*`
+  - **Event instance UI:** `client/src/views/admin/tabs/components/EventInstanceEditor.vue`, `EventInstanceBuilderBody.vue`, `EventInstanceListItem.vue`, `EventInstanceTemplateFields.vue`, `EventInstancePreviewPanel.vue`, `EventInstanceCalendarSettings.vue`, `EventInstanceVariableChips.vue`; composables under `composables/admin/useInstancesTab*`
 
 ## Approach
 1. **Task 20.6.3.1:** **Grep** `differentialEventRoleOverrides` / **`DifferentialEventRoleOverrides`** / matrix component; remove **admin** field component + **blockInstance** display row + **matrix rows** util if orphaned; tighten **`primitives.ts`** / **FieldRenderer** wiring so the property cannot render; smoke **Instances** tab block instance form (**Events** panel / field groups).
@@ -282,7 +282,7 @@ Injected docs above are not a substitute for opening real code. Search/read `cli
   - **Checkpoint:** Grep clean for component name and field key in admin configs.
 
 - **Task 20.6.3.2 — Booking + types + optional event-instance remnant scan**
-  - **Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`**; keep **placement-derived** **`DifferentialRole`** usage via **`eventShapeDifferentialRoleFromPlacementFields`**; **`entityTransformers`** only if still needed or simplified; scan **EventInstance*** admin for deprecated standalone flows per plan — remove or ticket in handoff if risky.
+  - **Goal:** Remove **`differentialEventRoleOverrides`** from **`appointmentModels`** and consumers; simplify **`eventAttendeeUtils`**; keep **placement-derived** **`DifferentialRole`** usage via **`eventShapeDifferentialRoleFromPlacementFields`**; **`entityTransformers`** only if still needed or simplified; scan **event-instance** admin components (list under **Files**) for deprecated standalone flows — remove or ticket in handoff if risky.
   - **Files:** `appointmentModels.ts`, `eventAttendeeUtils.ts`, booking callers of attendee utils, `entityTransformers.ts`; optionally **event instance** views/composables.
   - **Checkpoint:** Typecheck + lint; **`DOMAIN_REWRITE_WORKLOG.md`** updated; brief smoke (wizard availability + admin instances) per session guide.
 
