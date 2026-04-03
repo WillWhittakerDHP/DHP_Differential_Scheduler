@@ -8,22 +8,25 @@
 
 ## Current Status
 
-**Prior session:** 20.6.2 complete (EntityCard removed; **AdminEntityEditorPanel** + **RelationshipCollection** migrated).  
-**Next task:** 20.6.3.1 — admin strip of **`differentialEventRoleOverrides`** matrix  
+**Last Completed:** Task 
+**Next Session:** Session 20.6.4
 **Git Branch:** `feature/domain-architecture-alignment`
+**Last Updated:** 2026-04-03
 
 ## Next Action
 
-1. Run **`/accepted-plan`** (gate from **`/session-start 20.6.3`**).  
-2. Run **`/task-start 20.6.3.1`** and implement per **`sessions/session-20.6.3-planning.md`**.
+Start Session 20.6.4 (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**Scope:** FEATURE_20 **§8.6** — remove **legacy block-instance differential event role overrides** and booking/type remnants; **placement_kind + anchor_edge** + **event_assignments** are canonical. **Do not** conflate with **wizard / availability “differential perspectives”**.
+**Where we left off:**
+Completed Task 
 
-**Planning:** `sessions/session-20.6.3-planning.md` (Goal, Acceptance Criteria, **## Decomposition**).
+**What you need to start:**
+- Begin Session 20.6.4
 
-<!-- harness-across-ladder:start -->
+<!-- end excerpt session -->
+
 ## Across ladder (harness)
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._

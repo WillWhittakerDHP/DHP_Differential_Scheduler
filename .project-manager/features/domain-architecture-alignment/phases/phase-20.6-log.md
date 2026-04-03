@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.6.3: Legacy differential-role and event-shape remnants ✅
+**Completed:** 2026-04-03
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** Legacy differential-role and event-shape remnants
+
+
+
 ### Session 20.6.2: EntityCard tree and façade consumers ✅
 **Completed:** 2026-04-03
 **Tasks Completed:** All tasks completed

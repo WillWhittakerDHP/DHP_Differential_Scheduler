@@ -109,7 +109,7 @@ Session guides/logs are created at **`/session-start`**. Trace execution to **FE
 - Remove **`AnnotationShapeListCard`** façade or reimplement without **EntityCard** per deferral notes.
 - Delete internal **EntityCard** tree only after zero external imports.
 
-- [ ] ### Session 20.6.3: Legacy differential-role and event-shape remnants
+- [x] ### Session 20.6.3: Legacy differential-role and event-shape remnants
 **Description:** Remove superseded differential-role utilities/types and **event-instance** / **event-shape** wiring listed under **§8.6** cleanup grouping — only after **20.6.1–20.6.2** are stable.
 
 **Tasks:**
