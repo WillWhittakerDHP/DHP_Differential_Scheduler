@@ -91,7 +91,7 @@ Acceptance checks:
 
 Session guides/logs are created at **`/session-start`**. Trace execution to **FEATURE_20 §6.3a** and **`DOMAIN_REWRITE_WORKLOG.md` → `### Admin metadata retirement (Pass 5 narrative)`**.
 
-- [ ] ### Session 20.6.1: Admin metadata stack removal (server + client API)
+- [x] ### Session 20.6.1: Admin metadata stack removal (server + client API)
 **Description:** Drop or detach **admin metadata** Sequelize models and migrations per **DB_HOST** policy; remove **`server/src/routes/internal/admin-metadata`** and related **primitive/relationship metadata** routes if in scope; remove client **`admin-metadata`** prefetch/mutations after confirming domain editors do not depend on rows.
 
 **Tasks:**

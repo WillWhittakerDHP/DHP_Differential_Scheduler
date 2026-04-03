@@ -8,20 +8,34 @@
 
 ## Current Status
 
-Session **20.6.1** started; planning doc **`session-20.6.1-planning.md`** defines tasks **20.6.1.1** (client) and **20.6.1.2** (server + migrations).
-
----
+**Last Completed:** Task 
+**Next Session:** Session 20.6.2
+**Git Branch:** `feature/domain-architecture-alignment`
+**Last Updated:** 2026-04-03
 
 ## Next Action
 
-Run **`/accepted-code`** when ready to lock task planning, then implement **Task 20.6.1.1** → **`/task-end`**, then **20.6.1.2** → **`/session-end 20.6.1`**.
-
----
+Start Session 20.6.2 (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**TierUp:** `phases/phase-20.6-guide.md` → **### Session 20.6.1**
+**Where we left off:**
+Completed Task 
 
-**Across:** After session-end, **`/session-start 20.6.2`** (EntityCard).
+**What you need to start:**
+- Begin Session 20.6.2
 
----
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T14:48:28.514Z
+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+- **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus session:** `20.6.1` · **Session 1/4 in phase** · **Next session across:** `20.6.2` → `/session-start 20.6.2`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.6.1.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
+
+<!-- end excerpt session -->

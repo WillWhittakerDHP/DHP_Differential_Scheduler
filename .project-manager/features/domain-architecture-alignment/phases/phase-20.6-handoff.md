@@ -37,3 +37,16 @@ Run **`/session-start 20.6.1`** (then **`/accepted-code`** when the harness prom
 **Sessions planned:** 20.6.1, 20.6.2, 20.6.3, 20.6.4
 
 ---
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-03T14:48:28.514Z
+- **Phases on disk (6):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6
+- **Focus phase:** `20.6` · **Next phase across:** _(none — after phase-end use /feature-end if last)_
+- **Focus session:** `20.6.1` · **Session 1/4 in phase** · **Next session across:** `20.6.2` → `/session-start 20.6.2`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.6.1.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
