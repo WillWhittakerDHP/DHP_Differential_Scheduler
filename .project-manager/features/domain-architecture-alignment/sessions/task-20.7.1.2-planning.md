@@ -1,8 +1,8 @@
-# Plan: task 20.7.1.1 — 20.7.1.1
+# Plan: task 20.7.1.2 — 20.7.1.2
 
 ## Contract
-- **Tier:** task | **ID:** 20.7.1.1
-- **Scope:** 20.7.1.1
+- **Tier:** task | **ID:** 20.7.1.2
+- **Scope:** 20.7.1.2
 - **Governance:** Governance Context (Task)
 
 ## Work Profile
@@ -18,7 +18,7 @@
 - **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
 
 ## Where we left off
-- [ ] #### Task 20.7.1.1: [Task Name] **Goal:** [Task goal] **Files:**
+- [ ] #### Task 20.7.1.2: [Task Name] **Goal:** [Task goal] **Files:**
 
 ## Parent context (session planning — Analysis excerpt)
 
@@ -149,6 +149,7 @@ Address:
 ---
 ## Reference (read before filling — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md`
+- Handoff (full transition context): `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.1-handoff.md`
 - Architecture: `.project-manager/ARCHITECTURE.md` — domain map, data flow, type boundaries, naming; **§8–§14** = locked domain rules (block model, part ledger, PartFinalizer, invariants) for booking / admin scheduling work
 - Workflow friction log (non-git harness issues): `.project-manager/WORKFLOW_FRICTION_LOG.md`
 - Agent model preferences (harness advisory only; Cursor does not auto-switch models): `.project-manager/agent-model-config.json`

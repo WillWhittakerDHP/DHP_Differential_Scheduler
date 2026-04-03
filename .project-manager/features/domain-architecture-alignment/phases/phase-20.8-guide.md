@@ -1,6 +1,6 @@
-# Phase 20.8 Guide: Truth docs and final close-out
+# Phase 20.8 Guide: Residual schema and API enforcement
 
-**Purpose:** Phase-level harness guide for the final Feature 20 extension phase derived from the locked close-out master plan. This phase reconciles truth-bearing architecture and planning documents, retires or narrows parallel plan surfaces, and prepares Feature 20 for a clean **`/feature-end`**.
+**Purpose:** Phase-level harness guide for the second execution-first Feature 20 extension phase. This phase converts the preflight findings into concrete schema, contract, and validation work so later admin and booking phases run against stable boundaries.
 
 **Tier:** Phase (Tier 1)
 
@@ -16,47 +16,32 @@
 
 ---
 
-## Verbatim directive (master plan: Phase 7)
+## Phase intent
 
-This phase executes the final truth-doc and close-out work:
+This phase executes the residual work from master-plan **Phases 1–2** that remains after **20.1–20.6**:
 
-- retire contradictory or superseded architecture/planning text
-- reconcile `ARCHITECTURE.md`
-- reconcile the active plan set and project-level truth surfaces
-- prepare Feature 20 for final harness close-out only after the document set reflects the real implementation state
-
----
-
-## Related plan sections
-
-- **Master plan — Phase 7**: truth docs and final close-out
-- **Master plan — Final close-out criteria**
-- **Master plan — Phase crosswalk**
-
----
-
-## Principles and drift
-
-This phase should not become a prose-only cleanup that hides unresolved reality. If the docs and implementation still diverge materially, document the debt explicitly instead of overstating completion.
-
-**Parent feature guide:** [../feature-domain-architecture-alignment-guide.md](../feature-domain-architecture-alignment-guide.md)
+- part-ledger naming and contract alignment
+- event ownership and routing integrity enforcement
+- attendee ownership alignment
+- placement validation and API tightening
+- legacy alias tightening where adapters are still overstating the old model
 
 ---
 
 ## Overview
 
 **Phase Number:** 20.8  
-**Phase Name:** Truth docs and final close-out  
-**Description:** Reconcile truth-bearing architecture and planning docs to the locked close-out plan, retire plan forks, update project-level status language carefully, and prepare Feature 20 for **`/feature-end`**.  
+**Phase Name:** Residual schema and API enforcement  
+**Description:** Finish or verify remaining part-ledger naming, event ownership, attendee ownership, placement validation, and legacy alias tightening so downstream admin and booking work execute against stable contracts.  
 **Status:** Planned — start with **`phase-20.8-planning.md`**
 
 ---
 
 ## Objectives
 
-- [ ] **Truth-doc reconciliation** — `ARCHITECTURE.md` and close-out planning surfaces describe the same architecture as the locked docs.
-- [ ] **Plan retirement / narrowing** — parallel plan surfaces no longer compete with the locked master plan.
-- [ ] **Feature closeout readiness** — handoffs and project-level status point cleanly to **`/feature-end`** only when the document set is honest.
+- [ ] **Ledger contract** — residual `rateOverBase*` / `timePerUnit` / `feePerUnit` drift is removed or explicitly contained.
+- [ ] **Routing ownership** — `event_assignments`, `parent_block_instance_id`, and attendee ownership are enforced consistently.
+- [ ] **Validation tightening** — placement and legacy-alias validators teach the locked model rather than the transitional one.
 
 ---
 
@@ -64,9 +49,9 @@ This phase should not become a prose-only cleanup that hides unresolved reality.
 
 | Session | Focus |
 |--------|--------|
-| **20.8.1** | `ARCHITECTURE.md` truth alignment and booking-correlation/routing notes |
-| **20.8.2** | Plan-set reconciliation, project-plan alignment, and retirement/narrowing of parallel planning surfaces |
-| **20.8.3** | Final review packet, feature handoff cleanup, and `/feature-end` readiness |
+| **20.8.1** | Part-ledger naming and version-table residuals |
+| **20.8.2** | Event ownership, attendee ownership, and routing-integrity enforcement |
+| **20.8.3** | Placement validation and legacy alias tightening |
 
 **Harness order:** `/session-start 20.8.1` → … → `/session-end` each → `/phase-end 20.8` when all sessions complete.
 
@@ -74,15 +59,15 @@ This phase should not become a prose-only cleanup that hides unresolved reality.
 
 ## Tasks
 
-Session guides/logs are created at **`/session-start`**. Keep the close-out evidence-based rather than narrative-driven.
+Session guides/logs are created at **`/session-start`**. Keep this phase focused on residual contract work, not broad replay of completed phases.
 
-- [ ] ### Session 20.8.1: Architecture truth alignment
-**Description:** Reconcile `ARCHITECTURE.md` with the locked routing, lineage, metadata-retirement, and client-finalizer boundaries, adding concise notes where the implementation needs a clear pointer.
+- [ ] ### Session 20.8.1: Part-ledger contract residuals
+**Description:** Verify and finish any remaining `rateOverBase*` to `timePerUnit` / `feePerUnit` drift in storage, models, shared types, client types, and versioning.
 
-- [ ] ### Session 20.8.2: Planning-surface reconciliation
-**Description:** Reconcile or retire parallel planning surfaces so the locked master plan is the clear sequencing authority; update project-level Feature 20 status language only as far as the evidence supports.
+- [ ] ### Session 20.8.2: Event ownership and attendee ownership
+**Description:** Verify and finish enforcement of `event_instances.parent_block_instance_id`, relational routing integrity, and `event_shape_attendees` to `event_instance_attendees` ownership alignment.
 
-- [ ] ### Session 20.8.3: Final review and feature-end readiness
-**Description:** Perform the final review pass across feature/phase handoffs, logs, and close-out criteria; prepare the feature for **`/feature-end`** only when the docs and implementation state line up honestly.
+- [ ] ### Session 20.8.3: Placement validation and alias tightening
+**Description:** Tighten placement validators and remove or narrow compatibility layers that still teach `property` / `coupon` / `option` or similar legacy concepts as live truth.
 
 <!-- end excerpt phase -->

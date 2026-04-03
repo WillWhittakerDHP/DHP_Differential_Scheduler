@@ -48,6 +48,6 @@
 ## Next Steps
 
 - Start **20.8.1**
-- Reconcile truth-bearing docs
-- Prepare Feature 20 for **`/feature-end`**
+- Finish residual schema/API contract drift
+- Prepare the admin residual phase **20.9**
 

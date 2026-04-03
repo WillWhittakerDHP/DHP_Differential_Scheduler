@@ -50,4 +50,5 @@
 - Start **20.7.1**
 - Lock the canonical close-out sequencing surface
 - Prepare the preflight evidence package for **20.7.2**
+- Extract the residual execution backlog in **20.7.3**
 

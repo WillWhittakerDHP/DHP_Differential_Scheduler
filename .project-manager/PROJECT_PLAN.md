@@ -43,7 +43,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
-| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; extension close-out phases **20.7** (canonical lock + preflight) and **20.8** (truth docs + final close-out) remain before **`/feature-end`** |
+| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; execution-first extension close-out phases **20.7–20.13** remain before **`/feature-end`** |
 
 
 ---
@@ -1209,4 +1209,4 @@ Native app packaging is not tracked as a PROJECT_PLAN feature. **LAUNCH_CHECKLIS
 - **Launch infrastructure** is tracked in LAUNCH_CHECKLIST.md (hosting, auth, security, CI/CD)
 - **Feature 18 (Admin Assistance Wizard)** replaces the original "GPT Admin Automation" concept — deterministic guided workflows instead of AI dependency
 - **Feature 19 (CRM / Inspection Platform Integration)** is part of beta-launch work: research (Spectora + ISN) and API set-up must be done so we can loop the scheduler into inspection creation (Spectora, ISN, or own CRM). See Phase 19.1–19.2 for detail; Phase 19.3 (full wiring) can follow during or after beta.
-- **Feature 20 (Domain Architecture Alignment)** — execute locked principles and the Feature 20 implementation plan ordered passes (**20.1–20.6**); then extension phases **20.7–20.8** before **`/feature-end`**. Full pointers and phase map in **## Feature 20** above and in `features/domain-architecture-alignment/`; **status** remains from the Feature Summary table.
+- **Feature 20 (Domain Architecture Alignment)** — execute locked principles and the Feature 20 implementation plan ordered passes (phases 20.1–20.6); full pointers and phase map in **## Feature 20** above and in `features/domain-architecture-alignment/`; **status** remains from the Feature Summary table.
