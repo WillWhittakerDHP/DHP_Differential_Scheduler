@@ -15,9 +15,9 @@
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
 - [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
-- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension.
+- **Extension close-out sequencing (post-20.6):** **[`phases/phase-20.7-guide.md`](./phases/phase-20.7-guide.md)** and **[`phases/phase-20.8-guide.md`](./phases/phase-20.8-guide.md)**, plus this feature’s handoffs and **[`phases/phase-20.7-planning.md`](./phases/phase-20.7-planning.md)**, are the **committed in-repo** ordering surface after Pass **6**. An optional narrative capture may be added later as **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** — **do not** treat that path as authoritative until the file exists in the repository; if it is absent, follow the phase guides.
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
+**Conflict rule:** If this guide disagrees with either analysis file above, **the analysis documents win** on domain truth; update this guide, not the principles or the implementation plan. For **harness sequencing only** (which phase/session to run next), prefer **phase 20.7 / 20.8** guides and handoffs over ad hoc chat.
 
 ---
 

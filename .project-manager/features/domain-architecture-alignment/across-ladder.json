@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "feature": "domain-architecture-alignment",
-  "derivedAt": "2026-04-03T16:49:40.709Z",
+  "derivedAt": "2026-04-03T16:51:56.172Z",
   "sourceTier": "session",
   "phasesOnDisk": [
     "20.1",

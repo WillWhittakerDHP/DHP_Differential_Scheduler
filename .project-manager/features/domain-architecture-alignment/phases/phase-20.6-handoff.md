@@ -26,9 +26,9 @@ Run **`/phase-start 20.7`** for Feature **20** (`domain-architecture-alignment`)
 Phase 20.6 completed with sessions: 20.6.1, 20.6.2, 20.6.3, 20.6.4.
 
 **What you need for feature closeout:**
-- Harness **`/feature-end`**; confirm **`PROJECT_PLAN`** Feature **20** status after harness run
+- Complete extension phases **20.7** and **20.8**, then run harness **`/feature-end`**; confirm **`PROJECT_PLAN`** Feature **20** status after **`/feature-end`**
 - **`session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`** hold Pass **6** evidence; **§9.3–9.4** file swap deferred per **20.6.4**
-- The locked master close-out plan now drives the remaining extension ladder: **20.7** (canonical lock + preflight) then **20.8** (truth docs + final close-out)
+- The remaining extension ladder is **20.7** (canonical lock + preflight) then **20.8** (truth docs + final close-out), sequenced in **`phase-20.7-guide.md`** / **`phase-20.8-guide.md`** and feature handoffs
 
 ---
 

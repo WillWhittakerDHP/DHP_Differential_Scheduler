@@ -12,13 +12,13 @@
 
 ## Current Status
 
-**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work now flows through extension phases **20.7** and **20.8** derived from the locked master close-out plan.
+**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work flows through extension phases **20.7** and **20.8** using the **committed phase guides** and handoffs (see **`phases/phase-20.7-guide.md`** / **`phase-20.8-guide.md`**).
 
 ---
 
 ## Next Action
 
-Run **`/phase-start 20.7`** after completing any remaining **20.6** harness housekeeping. Use **`phases/phase-20.6-handoff.md`**, **`phases/phase-20.7-guide.md`**, and the locked master close-out plan for the extension ladder. Do **not** run **`/feature-end`** until **20.8** is complete.
+**Phase 20.7** is open; continue **Session 20.7.1** (canonical lock + doc protections): finish **Task 20.7.1.1** then **Task 20.7.1.2** per **`sessions/session-20.7.1-planning.md`**, using **`/task-start`** / **`/task-end`** / **`/accepted-code`** as the harness requires. If you have not materialized the session yet, run **`/session-start 20.7.1`** first. Do **not** run **`/feature-end`** until **20.8** is complete.
 
 ---
 
@@ -28,7 +28,7 @@ Run **`/phase-start 20.7`** after completing any remaining **20.6** harness hous
 
 **What you need for feature closeout:**
 - Complete **20.7** and **20.8** before **`/feature-end`**
-- Use the locked master close-out plan as the sequencing surface for the extension work
+- Use **`phases/phase-20.7-guide.md`**, **`phases/phase-20.8-guide.md`**, and this handoff as the sequencing surface (optional **`.cursor/plans/...master_plan...`** file only if present in-repo)
 - Optional: human review of **§9.3** before any redesign filename replacement
 
 **Plan Changes Affecting Downstream Features:**
