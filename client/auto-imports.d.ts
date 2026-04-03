@@ -526,6 +526,7 @@ declare module 'vue' {
     readonly getIcon: UnwrapRef<typeof import('./src/utils/iconMapper')['getIcon']>
     readonly getStateControlBlockInstances: UnwrapRef<typeof import('./src/utils/blockInstanceUtils')['getStateControlBlockInstances']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly hasNonEmptyDifferentialRoleOverrides: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['hasNonEmptyDifferentialRoleOverrides']>
     readonly hexToRgb: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['hexToRgb']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -598,6 +599,7 @@ declare module 'vue' {
     readonly requiredValidator: UnwrapRef<typeof import('./src/@core/utils/validators')['requiredValidator']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveDifferentialMajorMinorFromEventShapes: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['resolveDifferentialMajorMinorFromEventShapes']>
+    readonly resolvePrimarySecondaryEventShapesForBooking: UnwrapRef<typeof import('./src/utils/eventAttendeeUtils')['resolvePrimarySecondaryEventShapesForBooking']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveVuetifyTheme: UnwrapRef<typeof import('./src/@core/utils/vuetify')['resolveVuetifyTheme']>
     readonly rgbaToHex: UnwrapRef<typeof import('./src/@core/utils/colorConverter')['rgbaToHex']>
