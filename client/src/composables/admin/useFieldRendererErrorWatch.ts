@@ -73,7 +73,7 @@ export function useFieldRendererErrorWatch(params: UseFieldRendererErrorWatchPar
         componentMapKeys: Object.keys(componentMap),
         suggestedFix:
           reason === 'notConfigured'
-            ? 'Add field metadata at /admin-metadata'
+            ? 'Add field metadata in codeFirstMetadataCache'
             : reason === 'invalidRenderAs'
               ? `Rendering uses computeRenderAs(dataType, inputConfig, fieldKey), not stored renderAs alone. derived=${String(derivedRenderAs)} stored=${String(metadataEntry?.renderAs)}`
               : 'Unknown error - check field metadata configuration',

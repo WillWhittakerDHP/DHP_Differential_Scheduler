@@ -13,7 +13,6 @@ import { useInstanceFiltering } from '@/composables/admin/useInstanceFiltering'
 import { useInstanceTabHandlers } from '@/utils/admin/instanceTabHandlers'
 import { useInstancesTabCreateModal } from '@/composables/admin/useInstancesTabCreateModal'
 import { useInstanceDragAndDrop } from '@/composables/admin/useInstanceDragAndDrop'
-import { useShapeEditModal } from '@/composables/admin/useShapeEditModal'
 import { instancesTabContextKey, type InstancesTabContext } from '@/types/admin/adminInjectionKeys'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import type { UseInstancesTabReturn } from '@/types/admin/instancesTab'
@@ -45,15 +44,6 @@ export function useInstancesTab(): UseInstancesTabReturn {
   const { patchOrderIndex: patchBlockInstanceOrderIndex } = useEntityCrud('blockInstance')
   useEntityCrud('blockShape')
   useGlobal()
-
-  const blockShapeExpansionState = useExpansionState()
-  const { expandedEntities: expandedBlockShapes } = blockShapeExpansionState
-
-  const {
-    shapeEditModalOpen,
-    toggleShapeEditModal,
-    handleExistingBlockShapeSaved,
-  } = useShapeEditModal({ expandedBlockShapes: expandedBlockShapes })
 
   const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number | null | undefined>): void => {
     bulkEditData.value.set(blockShapeId, data as { baseSqFt?: number })
@@ -104,8 +94,6 @@ export function useInstancesTab(): UseInstancesTabReturn {
     blockShapeValidBookingCascades,
     bulkEditMode,
     toggleBulkEditMode,
-    shapeEditModalOpen,
-    toggleShapeEditModal,
     handleCreateClick,
     groupContainers,
     blockInstancesLists,
@@ -131,12 +119,10 @@ export function useInstancesTab(): UseInstancesTabReturn {
     getBulkEditData,
     handleBulkEditConfirm,
     handleTabClick,
-    shapeEditModalOpen,
     createModalOpen,
     setCreateModalOpen,
     createModalBlockShapeId,
     createModalSourceEntity,
     handleInstanceCreated,
-    handleExistingBlockShapeSaved,
   }
 }

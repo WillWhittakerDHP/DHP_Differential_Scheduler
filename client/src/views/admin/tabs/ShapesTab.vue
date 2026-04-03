@@ -3,9 +3,6 @@
 -->
 <script setup lang="ts">
 import { defineAsyncComponent, provide } from 'vue'
-import type { GlobalEntity } from '@/types/entities'
-import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
-import { PART_SHAPE_GLOBAL_CONFIG_ID, BLOCK_SHAPE_GLOBAL_CONFIG_ID } from '@/utils/entities/entityTypeMapping'
 import { useShapesTab } from '@/composables/admin/useShapesTab'
 import { shapesTabInjectionKey } from './shapesTabContext'
 
@@ -23,28 +20,13 @@ const {
   partShapesTabLabel,
   annotationShapesTabLabel,
   eventShapesTabLabel,
-  blockShapeMetadataModalOpen,
-  partShapeMetadataModalOpen,
-  partInstanceMetadataModalOpen,
-  annotationShapeMetadataModalOpen,
-  annotationInstanceMetadataModalOpen,
-  eventShapeMetadataModalOpen,
-  eventInstanceMetadataModalOpen,
-  handlePartInstanceMetadataSaved,
-  handleAnnotationInstanceMetadataSaved,
-  handleEventInstanceMetadataSaved,
-  partInstanceConfigEntity,
-  annotationInstanceConfigEntity,
-  eventInstanceConfigEntity,
-  annotationShapeFieldsEntity,
-  eventShapeFieldsEntity,
 } = shapesTabApi
 </script>
 
 <template>
   <div class="shapes-tab">
     <!--
-      WHY: Tabbed Block / Part / Annotation / Event shapes with aligned actions (Shape Fields, Instance Fields where applicable, Create)
+      WHY: Tabbed Block / Part / Annotation / Event shapes with creation actions
       PATTERN: v-model binds to reactive ref for two-way data binding
     -->
     <VTabs v-model="activeTab" class="mb-4">
@@ -61,7 +43,7 @@ const {
         {{ eventShapesTabLabel }}
       </VTab>
     </VTabs>
-    
+
     <!--
       WHY: Manages which tab content is visible based on activeTab value
       PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
@@ -84,82 +66,6 @@ const {
         <ShapesTabEventPanel />
       </VWindowItem>
     </VWindow>
-    
-    <!--
-      WHY: Single modal for configuring all BlockShape field definitions globally
-      PATTERN: Global config modal triggered from section header, field definitions only mode
-    -->
-    <MetadataEditModal
-      v-model="blockShapeMetadataModalOpen"
-      entity-key="blockShape"
-      :entity="{ id: BLOCK_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'blockShape'>"
-      entity-name="Block Shape Fields (Global)"
-      @saved="() => blockShapeMetadataModalOpen = false"
-    />
-    
-    <!--
-      WHY: Single modal for configuring all PartShape field definitions globally
-      PATTERN: Global config modal triggered from section header, field definitions only mode
-    -->
-    <MetadataEditModal
-      v-model="partShapeMetadataModalOpen"
-      entity-key="partShape"
-      :entity="{ id: PART_SHAPE_GLOBAL_CONFIG_ID } as GlobalEntity<'partShape'>"
-      entity-name="Part Shape Fields (Global)"
-      @saved="() => partShapeMetadataModalOpen = false"
-    />
-    
-    <!--
-      WHY: Single modal for configuring all PartInstance field definitions globally
-      PATTERN: Global config modal triggered from section header, field definitions only mode
-    -->
-    <MetadataEditModal
-      v-model="partInstanceMetadataModalOpen"
-      entity-key="partInstance"
-      :entity="partInstanceConfigEntity"
-      entity-name="Part Instance Fields (Global)"
-      @saved="handlePartInstanceMetadataSaved"
-    />
-    
-    <!--
-      WHY: Single modal for configuring all AnnotationShape field definitions globally
-      PATTERN: Global config modal triggered from section header, uses sentinel UUID
-    -->
-    <MetadataEditModal
-      v-model="annotationShapeMetadataModalOpen"
-      entity-key="annotationShape"
-      :entity="annotationShapeFieldsEntity"
-      entity-name="Annotation Shape Fields (Global)"
-      @saved="() => annotationShapeMetadataModalOpen = false"
-    />
-    
-    <MetadataEditModal
-      v-model="annotationInstanceMetadataModalOpen"
-      entity-key="annotationInstance"
-      :entity="annotationInstanceConfigEntity"
-      entity-name="Annotation Instance Fields (Global)"
-      @saved="handleAnnotationInstanceMetadataSaved"
-    />
-    
-    <!--
-      WHY: Single modal for configuring all EventShape field definitions globally
-      PATTERN: Global config modal triggered from section header, uses sentinel UUID
-    -->
-    <MetadataEditModal
-      v-model="eventShapeMetadataModalOpen"
-      entity-key="eventShape"
-      :entity="eventShapeFieldsEntity"
-      entity-name="Event Shape Fields (Global)"
-      @saved="() => eventShapeMetadataModalOpen = false"
-    />
-    
-    <MetadataEditModal
-      v-model="eventInstanceMetadataModalOpen"
-      entity-key="eventInstance"
-      :entity="eventInstanceConfigEntity"
-      entity-name="Event Instance Fields (Global)"
-      @saved="handleEventInstanceMetadataSaved"
-    />
   </div>
 </template>
 

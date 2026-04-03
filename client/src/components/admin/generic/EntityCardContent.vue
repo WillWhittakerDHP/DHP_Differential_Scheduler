@@ -71,7 +71,7 @@ const showEventSegments = computed((): boolean => {
       </li>
     </ul>
     <div class="text-body-small mt-2">
-      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-metadata.
+      This usually means the field contexts are still being created. If this persists, ensure the field exists in codeFirstMetadataCache.
     </div>
   </VAlert>
 

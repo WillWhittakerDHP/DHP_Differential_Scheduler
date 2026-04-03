@@ -30,10 +30,10 @@ function warnCatalogEmptyOnce<GE extends GlobalEntityKey>(
   if (warnedFields.value.has(warningKey)) {
     return
   }
-  logWarn(`Missing fieldMetadata for ${entityKey}. Field metadata must be provided from /admin-metadata.`, {
+  logWarn(`Missing fieldMetadata for ${entityKey}. Field definitions are code-first; extend codeFirstMetadataCache if a field is missing.`, {
     entityKey,
   })
-  showWarning(`Missing fieldMetadata for ${entityKey}. Field metadata must be provided from /admin-metadata.`, 6000)
+    showWarning(`Missing fieldMetadata for ${entityKey}. Extend codeFirstMetadataCache for this entity.`, 6000)
   warnedFields.value.add(warningKey)
 }
 
@@ -45,11 +45,11 @@ function warnMissingFieldEntryOnce<GE extends GlobalEntityKey>(
   logWarn: MetadataWarningLog['warn']
 ): void {
   logWarn(
-    `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Field must be configured in /admin-metadata before rendering.`
+    `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Add an entry in codeFirstMetadataCache before rendering.`
   )
   if (!warnedFields.value.has(fieldKey)) {
     showWarning(
-      `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Field must be configured in /admin-metadata before rendering.`,
+      `Missing FieldMetadataEntry for ${entityKey}.${fieldKey}. Add an entry in codeFirstMetadataCache before rendering.`,
       6000
     )
     warnedFields.value.add(fieldKey)
@@ -96,10 +96,10 @@ export function warnMissingMetadataEntriesForFieldList<GE extends GlobalEntityKe
       return
     }
     logWarn(
-      `Missing FieldMetadataEntry for ${entityKey}.${fieldKeyStr}. Field must be configured in /admin-metadata before rendering.`
+      `Missing FieldMetadataEntry for ${entityKey}.${fieldKeyStr}. Add an entry in codeFirstMetadataCache before rendering.`
     )
     showWarning(
-      `Missing FieldMetadataEntry for ${entityKey}.${fieldKeyStr}. Field must be configured in /admin-metadata before rendering.`,
+      `Missing FieldMetadataEntry for ${entityKey}.${fieldKeyStr}. Add an entry in codeFirstMetadataCache before rendering.`,
       6000
     )
     warnedFields.value.add(fieldKeyStr)

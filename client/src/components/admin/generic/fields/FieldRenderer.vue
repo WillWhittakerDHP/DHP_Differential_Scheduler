@@ -17,7 +17,7 @@
         Metadata found but invalid renderAs value. Check console for details.
       </div>
       <div v-else class="mt-2 text-body-small">
-        No metadata found for this field. Check /admin-metadata. See console for details.
+        No metadata found for this field. Add it to codeFirstMetadataCache. See console for details.
       </div>
       <!-- WHY: Ensures we log even if watchEffect doesn't catch it -->
       <!-- PATTERN: Use onMounted/onUpdated or computed to log when this div renders -->
@@ -29,8 +29,7 @@
     variant="tonal"
     class="mb-4"
   >
-    Missing field context. This field must be configured in
-    <code>/admin-metadata</code> before rendering.
+    Missing field context. This field must be defined in code-first metadata before rendering.
   </VAlert>
 </template>
 

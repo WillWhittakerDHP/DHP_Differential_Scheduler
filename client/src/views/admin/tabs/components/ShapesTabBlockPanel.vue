@@ -22,8 +22,6 @@ const {
   handleBlockShapeCancelled,
   handleExistingShapeSaved,
   handleDeleteBlockShape,
-  blockShapeMetadataModalOpen,
-  toggleBlockShapeMetadataModal,
   isPanelExpanded,
 } = c
 </script>
@@ -33,14 +31,6 @@ const {
     <div class="d-flex justify-space-between align-center mb-4">
       <h3 class="text-headline-small">Block</h3>
       <div class="d-flex gap-2">
-        <VBtn
-          :variant="blockShapeMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="blockShapeMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleBlockShapeMetadataModal"
-        >
-          Shape Fields
-        </VBtn>
         <VBtn color="primary" prepend-icon="tabler-plus" @click="createBlockShape">
           Create Block Shape
         </VBtn>

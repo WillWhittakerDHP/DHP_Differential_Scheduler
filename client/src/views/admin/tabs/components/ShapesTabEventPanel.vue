@@ -14,10 +14,6 @@ if (c === undefined) {
 const {
   expandedShapes,
   eventShapesList,
-  eventShapeMetadataModalOpen,
-  eventInstanceMetadataModalOpen,
-  toggleEventShapeMetadataModal,
-  toggleEventInstanceMetadataModal,
   startCreatingEventShape,
   isCreatingEventShape,
   safeEventShapes,
@@ -37,22 +33,6 @@ const {
     <div class="d-flex justify-space-between align-center mb-4">
       <h3 class="text-headline-small">Events</h3>
       <div class="d-flex gap-2">
-        <VBtn
-          :variant="eventShapeMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="eventShapeMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleEventShapeMetadataModal"
-        >
-          Shape Fields
-        </VBtn>
-        <VBtn
-          :variant="eventInstanceMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="eventInstanceMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleEventInstanceMetadataModal"
-        >
-          Instance Fields
-        </VBtn>
         <VBtn color="primary" prepend-icon="tabler-plus" @click="startCreatingEventShape">
           Create Event Shape
         </VBtn>

@@ -60,6 +60,12 @@ Phase 20.4: Pass 4 — Booking pipeline alignment
 Phase 20.5: Pass 5 — Migration planning and data conversion  
 Phase 20.6: Pass 6 — Rollout and cleanup  
 
+## Phase 20.6
+
+**Pass 6 — Rollout and cleanup** (`FEATURE_20_ARCHITECTURE_REDESIGN.md` **§8.6**): incremental rollout of domain editors; remove differential-role and other legacy paths only **after** replacements are proven; delete the **`EntityCard`** tree and the **full admin metadata stack** (DB tables, routes, client prefetch/mutation) per **§6.3a** and the **Pass 5** retirement ordering in **`DOMAIN_REWRITE_WORKLOG.md`**; complete **§9.3 / §9.4** review-gate artifacts before any canonical doc promotion or filename consolidation.
+
+**Phase guide:** [phases/phase-20.6-guide.md](./phases/phase-20.6-guide.md)
+
 ---
 
 ## Phase 20.0 (governance — no separate guide required initially)

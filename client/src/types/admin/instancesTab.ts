@@ -12,11 +12,9 @@ export interface UseInstancesTabReturn {
   getBulkEditData: (blockShapeId: string) => Record<string, number | null | undefined>
   handleBulkEditConfirm: (blockShapeId: string, data: Record<string, number | null | undefined>) => void
   handleTabClick: (tabValue: string) => void
-  shapeEditModalOpen: Ref<Map<string, boolean>>
   createModalOpen: Ref<boolean>
   setCreateModalOpen: (value: boolean) => void
   createModalBlockShapeId: Ref<GlobalEntityId>
   createModalSourceEntity: Ref<GlobalEntity<'blockInstance'> | undefined>
   handleInstanceCreated: (entity: GlobalEntity<'blockInstance'>) => void
-  handleExistingBlockShapeSaved: (shapeId: string) => void
 }

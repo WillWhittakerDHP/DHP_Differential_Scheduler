@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
-import { getQueryClient } from '@/plugins/3.vue-query'
-import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
-import { createLogger, isScopeExplicitlyEnabled } from '@/utils/logger'
 import { useAuthStore } from '@/stores/authStore'
-
-import type { MetadataCache } from '@/types/admin/metadataCache'
-const logger = createLogger('Router Guard')
 
 let authBootstrapped = false
 
@@ -77,31 +71,6 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     }
     if (!auth.isAuthenticated) {
       return { name: 'login', query: { redirect: to.fullPath } }
-    }
-  }
-
-  if (to.path.startsWith('/admin') || to.name === 'admin-panel') {
-    const queryClient = getQueryClient()
-    if (!queryClient) {
-      return
-    }
-
-    const existingData = queryClient.getQueryData<MetadataCache>(['adminMetadata'])
-
-    if (!existingData) {
-      try {
-        if (isScopeExplicitlyEnabled('Router Guard')) {
-          logger.debug('Prefetching admin metadata for', to.path)
-        }
-        const endpoint = getAdminMetadataBatchEndpoint()
-        const response = await apiClient.get<MetadataCache>(endpoint)
-        queryClient.setQueryData<MetadataCache>(['adminMetadata'], response.data)
-        if (isScopeExplicitlyEnabled('Router Guard')) {
-          logger.debug('Admin metadata prefetched successfully')
-        }
-      } catch (error) {
-        logger.warn('Failed to prefetch admin metadata:', error)
-      }
     }
   }
 })

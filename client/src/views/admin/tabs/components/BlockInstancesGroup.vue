@@ -24,7 +24,6 @@ const blockShapeComposableMap = computed(() => ctx.blockShapeComposable.value)
 const blockShapeStateControlMap = computed(() => ctx.blockShapeStateControl.value)
 const blockShapeValidBookingCascadesMap = computed(() => ctx.blockShapeValidBookingCascades.value)
 const bulkEditModeMap = computed(() => ctx.bulkEditMode.value)
-const shapeEditModalOpenMap = computed(() => ctx.shapeEditModalOpen.value)
 const blockInstances = computed(() => {
   const list = ctx.blockInstancesLists.value.get(props.blockShape.id)?.value
   const main = ctx.mainInstancesByShape.value.get(props.blockShape.id)
@@ -115,14 +114,6 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
           @click="ctx.toggleBulkEditMode(blockShape.id)"
         >
           {{ bulkEditModeMap.get(blockShape.id) ? 'Exit Bulk Edit' : 'Bulk Edit' }}
-        </VBtn>
-        <VBtn
-          :color="shapeEditModalOpenMap.get(blockShape.id) ? 'primary' : 'default'"
-          :variant="shapeEditModalOpenMap.get(blockShape.id) ? 'flat' : 'outlined'"
-          prepend-icon="tabler-settings"
-          @click="ctx.toggleShapeEditModal(blockShape.id)"
-        >
-          Instance Fields
         </VBtn>
       </div>
     </div>

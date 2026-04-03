@@ -1,56 +1,30 @@
 /**
- * Metadata Cache Composable
- *
- * Key benefits:
- * - Non-admin users: Zero metadata API calls
- * - Admin users: 1 batch call only when visiting admin page (instead of N+4 on every app load)
- * - Faster app startup, reduced bandwidth
- * - Independent cache invalidation from globalData
+ * Metadata cache composable — code-first (Feature 20.6.1.1).
+ * WHY: Admin reads field layout from `buildCodeFirstMetadataCache()`; no legacy metadata batch HTTP.
  */
 
-import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, ref } from 'vue'
-import apiClient, { getAdminMetadataBatchEndpoint } from '@/utils/api'
 import type { FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { MetadataCache, MetadataEntityType, UseMetadataCacheReturn } from '@/types/admin/metadataCache'
+import { buildCodeFirstMetadataCache } from '@/utils/admin/codeFirstMetadataCache'
 import { resolveMetadataRecordForEntity } from '@/utils/admin/metadataCacheResolvers'
 
 let metadataCacheInstance: UseMetadataCacheReturn | null = null
 
-async function fetchAllAdminMetadata(): Promise<MetadataCache> {
-  const endpoint = getAdminMetadataBatchEndpoint()
-  const response = await apiClient.get<MetadataCache>(endpoint)
-  return response.data
-}
-
 function createMetadataCacheInstance(): UseMetadataCacheReturn {
-  const queryClient = useQueryClient()
-
-  const metadataLoadRequested = ref(false)
-
-  const metadataQuery = useQuery<MetadataCache>({
-    queryKey: ['adminMetadata'],
-    queryFn: fetchAllAdminMetadata,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    enabled: computed(() => metadataLoadRequested.value),
-  })
+  const cache = ref<MetadataCache>(buildCodeFirstMetadataCache())
+  const isLoading = ref(false)
+  const error = ref<unknown>(null)
 
   function ensureMetadataLoaded(): void {
-    const existingData = queryClient.getQueryData<MetadataCache>(['adminMetadata'])
-
-    if (!existingData && !metadataLoadRequested.value) {
-      metadataLoadRequested.value = true
-    }
+    // No network load; cache is always populated synchronously.
   }
 
   function getMetadata(
     entityType: MetadataEntityType,
     blockShapeRef?: string | null
   ): Record<string, FieldMetadataEntry> {
-    return resolveMetadataRecordForEntity(metadataQuery.data.value, entityType, blockShapeRef)
+    return resolveMetadataRecordForEntity(cache.value, entityType, blockShapeRef)
   }
 
   function getFieldMetadata(
@@ -58,18 +32,17 @@ function createMetadataCacheInstance(): UseMetadataCacheReturn {
     fieldKey: string,
     blockShapeRef?: string | null
   ): FieldMetadataEntry | undefined {
-    const metadata = getMetadata(entityType, blockShapeRef)
-    return metadata[fieldKey]
+    return getMetadata(entityType, blockShapeRef)[fieldKey]
   }
 
-  const isLoaded = computed(() => !!metadataQuery.data.value)
+  const isLoaded = computed(() => true)
 
   function invalidateMetadataCache(): void {
-    queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
+    cache.value = buildCodeFirstMetadataCache()
   }
 
   function getMetadataCache(): MetadataCache | null {
-    return metadataQuery.data.value || null
+    return cache.value
   }
 
   return {
@@ -78,17 +51,13 @@ function createMetadataCacheInstance(): UseMetadataCacheReturn {
     getFieldMetadata,
     getMetadataCache,
     invalidateMetadataCache,
-    isLoading: metadataQuery.isLoading,
+    isLoading,
     isLoaded,
-    error: metadataQuery.error,
-    metadataData: computed(() => metadataQuery.data.value),
+    error,
+    metadataData: computed(() => cache.value),
   }
 }
 
-/**
- * WHY: Metadata cache composable
- * WHY: Centralizes metadata caching logic with s...
- */
 export function useMetadataCache(): UseMetadataCacheReturn {
   if (!metadataCacheInstance) {
     metadataCacheInstance = createMetadataCacheInstance()

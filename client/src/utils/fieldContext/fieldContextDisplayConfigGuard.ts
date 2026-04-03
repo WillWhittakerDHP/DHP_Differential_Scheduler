@@ -33,7 +33,7 @@ export function assertFieldContextDisplayConfigPresent<GE extends GlobalEntityKe
 
   const err = new Error(
     `[useFieldContextState] Missing required displayConfig for ${String(entityKey)}.${String(fieldKey)}. ` +
-      `Expected label and fieldType from metadata. Field must be configured in /admin-metadata.`
+      `Expected label and fieldType from metadata. Field must be defined in codeFirstMetadataCache.`
   )
   logError('Missing required displayConfig', { entityKey, fieldKey, error: err })
   throw err

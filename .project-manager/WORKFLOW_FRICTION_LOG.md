@@ -3653,3 +3653,36 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 
 - **Suggestion:** (1) Playbook note: phase-end **requires tier-quality pass**, not only “no FAIL” in the summary table. (2) Dedupe autofix directives by **`auditName` + location**. (3) Optional: retry **`typecheck:audit`** when errors contradict manual **`vue-tsc`**. (4) Enforce **`## Next Action`** on phase handoff materialization.
 
+
+### 2026-04-03 — 20.6.1 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 20.6.1
+- **featureName:** domain-architecture-alignment
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=20.6.1; featureName=domain-architecture-alignment
+
+nextAction:
+## Session Validation
+# Session 20.6.1 Validation
+
+✅ **Status:** Ready to start
+
+## Details
+
+- Session 20.6.1 is not completed
+- Work stays on feature branch feature/domain-architecture-alignment
+- This is the first session in the phase
+- Phase 20.6 is not complete
+- Ready to start with /session-start 20.6.1
+
+## TierUp Context Required
+- Phase guide has no session entry for this session (tierUp context required).
+
+Ensure phase guide has a session entry for this session and phase handoff exists, then re-run /session-start.

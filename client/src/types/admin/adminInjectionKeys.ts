@@ -40,8 +40,6 @@ export interface InstancesTabContext {
   blockShapeValidBookingCascades: ComputedRef<Map<string, string[]>>
   bulkEditMode: Ref<Map<string, boolean>>
   toggleBulkEditMode: (blockShapeId: string) => void
-  shapeEditModalOpen: Ref<Map<string, boolean>>
-  toggleShapeEditModal: (blockShapeId: string) => void
   handleCreateClick: (blockShapeId: string) => void
   groupContainers: Ref<Map<string, HTMLElement | null>>
   blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>

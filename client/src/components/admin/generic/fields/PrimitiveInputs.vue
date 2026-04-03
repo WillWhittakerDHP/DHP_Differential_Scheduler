@@ -68,7 +68,7 @@ const fieldType = computed(() => {
   if (!props.fieldContext.state.displayConfig.fieldType) {
     throw new Error(
       `[PrimitiveInputs] Missing fieldType in displayConfig for field ${String(props.fieldContext.state.fieldKey)}. ` +
-      `Field must be configured in /admin-metadata.`
+      `Field must be defined in codeFirstMetadataCache.`
     )
   }
   return props.fieldContext.state.displayConfig.fieldType

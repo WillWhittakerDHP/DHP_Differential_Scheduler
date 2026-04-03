@@ -25,10 +25,6 @@ const {
   handlePartShapeCancelled,
   handleExistingShapeSaved,
   handleDeletePartShape,
-  partShapeMetadataModalOpen,
-  partInstanceMetadataModalOpen,
-  togglePartShapeMetadataModal,
-  togglePartInstanceMetadataModal,
   isPanelExpanded,
 } = c
 </script>
@@ -38,22 +34,6 @@ const {
     <div class="d-flex justify-space-between align-center mb-4">
       <h3 class="text-headline-small">Part</h3>
       <div class="d-flex gap-2">
-        <VBtn
-          :variant="partShapeMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="partShapeMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="togglePartShapeMetadataModal"
-        >
-          Shape Fields
-        </VBtn>
-        <VBtn
-          :variant="partInstanceMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="partInstanceMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="togglePartInstanceMetadataModal"
-        >
-          Instance Fields
-        </VBtn>
         <VBtn color="primary" prepend-icon="tabler-plus" @click="createPartShape">
           Create Part Shape
         </VBtn>

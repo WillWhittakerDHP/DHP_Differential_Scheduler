@@ -49,7 +49,7 @@ function createAdminInstance(): UseAdminReturn {
 
   const { globalData } = useGlobal()
 
-  // PATTERN: Separate cache key ['adminMetadata'] from globalData
+  // PATTERN: Field layout from code-first metadata cache (separate from globalData)
   const metadataCache = useMetadataCache()
 
   /**

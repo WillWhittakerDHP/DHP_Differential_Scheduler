@@ -65,7 +65,7 @@ export function useBaseCollectionFieldCore<
     if (!meta) {
       throw new Error(
         `[${name}] Missing FieldMetadataEntry for ${String(fieldContext.state.entityKey)}.${String(fieldContext.state.fieldKey)}. ` +
-          `Field must be configured in /admin-metadata.`
+          `Field must be defined in codeFirstMetadataCache.`
       )
     }
     if (!meta.inputConfig) {

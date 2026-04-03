@@ -14,10 +14,6 @@ if (c === undefined) {
 const {
   expandedShapes,
   annotationShapesList,
-  annotationShapeMetadataModalOpen,
-  annotationInstanceMetadataModalOpen,
-  toggleAnnotationShapeMetadataModal,
-  toggleAnnotationInstanceMetadataModal,
   startCreatingAnnotationShape,
   isCreatingAnnotationShape,
   filteredAnnotationShapes,
@@ -37,22 +33,6 @@ const {
     <div class="d-flex justify-space-between align-center mb-4">
       <h3 class="text-headline-small">Annotations</h3>
       <div class="d-flex gap-2">
-        <VBtn
-          :variant="annotationShapeMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="annotationShapeMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleAnnotationShapeMetadataModal"
-        >
-          Shape Fields
-        </VBtn>
-        <VBtn
-          :variant="annotationInstanceMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="annotationInstanceMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleAnnotationInstanceMetadataModal"
-        >
-          Instance Fields
-        </VBtn>
         <VBtn color="primary" prepend-icon="tabler-plus" @click="startCreatingAnnotationShape">
           Create Annotation Shape
         </VBtn>
