@@ -60,7 +60,7 @@ export function differentialRoleFromPlacement(
   }
 }
 
-/** Maps stored placement fields to the scheduling role consumed with `effectiveDifferentialRole` overrides. */
+/** Maps stored placement fields to the scheduling role used by booking (placement is source of truth). */
 export function eventShapeDifferentialRoleFromPlacementFields(
   placementKind: unknown,
   anchorEdge: unknown
