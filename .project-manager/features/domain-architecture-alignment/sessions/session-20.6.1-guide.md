@@ -58,7 +58,7 @@ These sections contain session-specific content:
 **Approach:** Inventory consumers with ripgrep; cut router prefetch first; migrate screens to **ENTITY_CONFIGS** / explicit fields; delete dead modules last.
 **Checkpoint:** Client lint clean; admin smoke paths without metadata network calls.
 
-- [ ] #### Task 20.6.1.2: Server routes, models, migration
+- [x] #### Task 20.6.1.2: Server routes, models, migration
 **Goal:** Unmount metadata routers; remove Sequelize models and associations; add migration to drop metadata tables (execute only on allowed **DB_HOST**).
 **Files:** `server/src/routes/internal/index.ts`, `server/src/routes/internal/admin-metadata/**`, `server/src/db/models/admin/adminMetadata*.ts`, new migration under `server/src/db/migrations/`
 **Approach:** Remove routes after client cutover; fix `tsc`; author DDL migration matching live table names.

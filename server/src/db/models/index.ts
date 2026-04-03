@@ -49,12 +49,6 @@ import { AvailabilityMaxIncomeRowFactory } from "./admin/availability_max_income
 import { AvailabilityDifferentialAttendeeFactory } from "./admin/availability_differential_attendee.js";
 import { CalendarSettingCalendarFactory } from "./admin/calendar_setting_calendar.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
-import { AdminMetadataFactory } from "./admin/adminMetadata.js";
-import { AdminMetadataSelectOptionFactory } from "./admin/adminMetadataSelectOption.js";
-import { AdminPrimitiveMetadataFactory } from "./admin/adminPrimitiveMetadata.js";
-import { AdminPrimitiveMetadataSelectOptionFactory } from "./admin/adminPrimitiveMetadataSelectOption.js";
-import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
-import { AdminRelationshipMetadataSelectOptionFactory } from "./admin/adminRelationshipMetadataSelectOption.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
 import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
 import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
@@ -121,38 +115,6 @@ export function initializeModels(sequelize: Sequelize) {
   const AvailabilityDifferentialAttendee = AvailabilityDifferentialAttendeeFactory(sequelize);
   const CalendarSettingCalendar = CalendarSettingCalendarFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
-  // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
-  const AdminMetadata = AdminMetadataFactory(sequelize);
-  const AdminMetadataSelectOption = AdminMetadataSelectOptionFactory(sequelize);
-
-  AdminMetadata.hasMany(AdminMetadataSelectOption, {
-    foreignKey: "adminMetadataId",
-    as: "selectOptions",
-  });
-  AdminMetadataSelectOption.belongsTo(AdminMetadata, {
-    foreignKey: "adminMetadataId",
-  });
-
-  const AdminPrimitiveMetadata = AdminPrimitiveMetadataFactory(sequelize);
-  const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
-  const AdminPrimitiveMetadataSelectOption = AdminPrimitiveMetadataSelectOptionFactory(sequelize);
-  const AdminRelationshipMetadataSelectOption = AdminRelationshipMetadataSelectOptionFactory(sequelize);
-
-  AdminPrimitiveMetadata.hasMany(AdminPrimitiveMetadataSelectOption, {
-    foreignKey: "primitiveMetadataId",
-    as: "selectOptions",
-  });
-  AdminPrimitiveMetadataSelectOption.belongsTo(AdminPrimitiveMetadata, {
-    foreignKey: "primitiveMetadataId",
-  });
-
-  AdminRelationshipMetadata.hasMany(AdminRelationshipMetadataSelectOption, {
-    foreignKey: "relationshipMetadataId",
-    as: "selectOptions",
-  });
-  AdminRelationshipMetadataSelectOption.belongsTo(AdminRelationshipMetadata, {
-    foreignKey: "relationshipMetadataId",
-  });
 
   const BetaFeedback = BetaFeedbackFactory(sequelize);
   const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
@@ -184,8 +146,6 @@ export function initializeModels(sequelize: Sequelize) {
     AvailabilityBusinessHour, AvailabilityBufferEntry, AvailabilityRangeConstraint,
     AvailabilityRangeConstraintHour, AvailabilityMaxWorkHour, AvailabilityMaxIncomeRow,
     AvailabilityDifferentialAttendee, CalendarSettingCalendar, BusinessRule,
-    AdminMetadata, AdminMetadataSelectOption, AdminPrimitiveMetadata, AdminPrimitiveMetadataSelectOption,
-    AdminRelationshipMetadata, AdminRelationshipMetadataSelectOption,
     BetaFeedback, BetaFeedbackTag, PropertyFieldMapping, PropertyFeatureMapping,
     UserRoleBlockAlignment,
   })
@@ -217,12 +177,6 @@ export function initializeModels(sequelize: Sequelize) {
     AvailabilityDifferentialAttendee,
     CalendarSettingCalendar,
     BusinessRule,
-    AdminMetadata,
-    AdminMetadataSelectOption,
-    AdminPrimitiveMetadata,
-    AdminPrimitiveMetadataSelectOption,
-    AdminRelationshipMetadata,
-    AdminRelationshipMetadataSelectOption,
     BetaFeedback,
     BetaFeedbackTag,
     PropertyFieldMapping,
