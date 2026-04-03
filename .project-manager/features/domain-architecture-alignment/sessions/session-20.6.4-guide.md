@@ -45,26 +45,24 @@ These sections contain session-specific content:
 
 **Session ID:** 20.6.4
 **Session Name:** Review gate, docs, and feature closeout
-**Description:** [Brief description of session objectives]
+**Description:** §**8.6** closeout evidence, PM handoffs, **PROJECT_PLAN** alignment, **§9.3–9.4** deferral documented.
 
-**Duration:** [Estimated hours/days]
-**Status:** [Not Started / In Progress / Complete]
+**Duration:** _(same day)_
+**Status:** In Progress — awaiting **`/session-end 20.6.4`**
 
 ### Tasks
 
-- [x] #### Task 20.6.4.1: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] #### Task 20.6.4.1: Pass 6 evidence, drift checklist, doc hygiene
+**Goal:** §**9.1** / **9.1a** + grep audit in session log; **Pass 6 verification** in **`DOMAIN_REWRITE_WORKLOG.md`**; repair **`session-20.6.3-handoff`**; **`ARCHITECTURE.md`** admin row.
+**Files:** `session-20.6.4-log.md`, `DOMAIN_REWRITE_WORKLOG.md`, `session-20.6.3-handoff.md`, `ARCHITECTURE.md`
+**Approach:** Doc-only; commands recorded in log.
+**Checkpoint:** Evidence block present.
 
-- [ ] #### Task 20.6.4.2: [Task Name]
-**Goal:** [Task goal]
-**Files:** 
-- [Files to work with]
-**Approach:** [Approach to take]
-**Checkpoint:** [What needs to be verified]
+- [x] - [x] #### Task 20.6.4.2: Phase handoff, PROJECT_PLAN, feature-end readiness
+**Goal:** **`phase-20.6-handoff.md`**, **`session-20.6.4-handoff.md`**, **§9.3–9.4** deferral, **`PROJECT_PLAN`** Feature **20** note.
+**Files:** `phases/phase-20.6-handoff.md`, `sessions/session-20.6.4-handoff.md`, `PROJECT_PLAN.md`, `session-20.6.4-log.md`
+**Approach:** PM narrative only.
+**Checkpoint:** Next action = **`/session-end`** → **`/phase-end`** → **`/feature-end`**.
 
 ---
 

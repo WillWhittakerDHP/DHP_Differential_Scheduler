@@ -4,35 +4,31 @@
 
 **Tier:** Feature (Tier 0 - Highest Level)
 
-**Last Updated:** 2026-04-02
-**Feature Status:** [Complete / In Progress]
-**Next Feature:** domain-architecture-alignment (if applicable)
+**Last Updated:** 2026-04-03
+**Feature Status:** In Progress — Pass **6** execution complete; **`/feature-end`** pending
+**Next Feature:** _(after Feature **20** closeout)_
 
 ---
 
 ## Current Status
 
-**Feature domain-architecture-alignment:** [Complete / In Progress]
-**Last Completed Phase:** [Phase N]
-**Next Feature:** domain-architecture-alignment (if applicable)
+**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**.
 
 ---
 
 ## Next Action
 
-Continue Phase 20.3: run **`/session-start 20.3.5`** on branch `feature/domain-architecture-alignment` after **`/accepted-push`** or **`/skip-push`**. If workflow friction is open for this feature, run **`/harness-repair`** (plan) before push.
+Run **`/session-end 20.6.4`** (if not already), then **`/phase-end 20.6`**, then **`/feature-end`**. Use **`phases/phase-20.6-handoff.md`** and **`sessions/session-20.6.4-handoff.md`** for transition text.
 
 ---
 
 ## Transition Context
 
-**Where we left off:**
-[Minimal notes about feature completion - 2-3 sentences max]
+**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**).
 
-**What you need to start next feature:**
-- [Brief bullet point about context needed]
-- [Brief bullet point about dependencies]
-- [Brief bullet point about any blockers or considerations]
+**What you need for feature closeout:**
+- Harness **`/phase-end 20.6`** and **`/feature-end`** per ladder
+- Optional: human review of **§9.3** before any redesign filename replacement
 
 **Plan Changes Affecting Downstream Features:**
 - [Only include if plan changed and affects later features]

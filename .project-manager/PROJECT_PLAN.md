@@ -43,7 +43,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
-| 20 | Domain Architecture Alignment | 📋 Planning | `features/domain-architecture-alignment/` | Principles + Feature 20 implementation plan |
+| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; run **`/phase-end 20.6`** then **`/feature-end`** for harness closeout |
 
 
 ---
@@ -1085,9 +1085,9 @@ Trusted dev friends get more than the in-app alpha flow: a way to **read** the p
 
 ## Feature 20: Domain Architecture Alignment
 
-**Status:** 📋 Planning  
-**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. **Admin target:** **full** retirement of the DB-driven metadata pipeline (including annotations); Pass **20.5** documents ordering (`DOMAIN_REWRITE_WORKLOG.md`); Pass **20.6** executes deletion per **§6.3a**. Execution is ordered in phases **20.1–20.6** (mapped to implementation plan §8); **Phase 20.0** covers governance and readiness without a separate implementation pass. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative for architecture decisions.  
-**Branch:** TBD  
+**Status:** ⏳ In Progress (Pass **6** execution complete — **`/feature-end`** pending)  
+**Description:** Align schema, APIs, admin UX, booking pipeline, migrations, and rollout with **locked** domain principles and the Feature 20 implementation plan document. **Admin target:** **full** retirement of the DB-driven metadata pipeline (including annotations); Pass **20.5** documents ordering (`DOMAIN_REWRITE_WORKLOG.md`); Pass **20.6** executes deletion per **§6.3a**. Phases **20.1–20.6** mapped to implementation plan §**8**; session **20.6.4** added **§9.1** evidence and deferred **§9.3–9.4** on-disk redesign file swap to explicit product review. Work overlaps **Feature 6** (appointment workflow / booking surfaces) where noted — **ARCHITECTURE_PRINCIPLES.md** and **FEATURE_20_ARCHITECTURE_REDESIGN.md** remain authoritative.  
+**Branch:** `feature/domain-architecture-alignment`  
 **Directory:** `features/domain-architecture-alignment/`
 
 ### Harness and authoritative docs
