@@ -3618,3 +3618,38 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 - **Admin configurat
 
 …(truncated)
+
+### 2026-04-03 — 20.5 — phase — end — Phase-end friction: tier-quality gates, typecheck JSON drift, handoff shape, harness noise (post-mortem)
+
+- **reasonCodeRaw:** HARNESS_WORKFLOW_FRICTION
+- **reasonCodeNormalized:** unhandled_error
+- **isFailureReason:** false
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.5
+- **featureName:** domain-architecture-alignment
+- **stepPath:** end_audit, tier-quality, runTierAuditsParallel, mid_work, across-ladder
+
+- **Symptom:** `/phase-end 20.5` repeatedly surfaced **`audit_failed`** or tier-quality **WARN/FAIL** despite **`vue-tsc`** and **`tsc --noEmit`** succeeding when run manually; noisy console lines during the same run obscured whether the workflow had actually failed. After fixes, a successful end still emitted non-fatal warnings (missing optional file, git messages, handoff verification).
+
+- **Context (blocking — root causes):**
+  1. **Tier-quality Option B (`run-end-audit-for-tier.ts`):** Phase tier-end sets **`success` only when `overallStatus === 'pass'`**. In **`audit-tier-quality.ts`**, status is **`fail`** if any finding has **`type: 'error'`**, and **`warn`** if any has **`type: 'warning'`** (info-only can still reduce score but need not flip to warn). So **a single warning-level finding** (e.g. unused-code P0/P1 file summary, or “N TypeScript errors” from typecheck JSON) **blocks** phase-end even when there are zero FAIL rows in the human-readable phase audit summary.
+  2. **Unused-code → warning:** **`generateFindingsFromAudit`** for **`unused-code`** emits a **warning** when **any file** in **`unused-code-audit.json`** has priority **P0 or P1**. One **P1** file (`client/src/utils/admin/differentialRoleMatrixRows.ts`) had **unused exports** (`formatEventShapePlacementCaption`, `DifferentialRoleMatrixRow`) that were only referenced inside the module; the static audit treats exported symbols as API surface. **Cause:** export surface broader than actual consumers. **Fix applied:** make those symbols module-private; keep **`buildDifferentialRoleMatrixRows`** as the public export.
+  3. **Typecheck audit JSON vs live compiler:** Tier-quality reads **`client/.audit-reports/typecheck/typecheck-audit.json`**. **`typecheck-audit.mjs`** runs **`vue-tsc -b --clean`** then **`vue-tsc -b`**, then server **`tsc`**, then writes JSON. **False failure modes observed:**
+     - **Stale JSON:** If the file on disk predates recent edits, tier-quality reports errors that **`vue-tsc`** no longer sees until **`node .scripts/typecheck-audit.mjs`** (or phase prewarm) regenerates the report.
+     - **Transitional error sets:** In some runs the JSON listed **legacy `BLOCK_SHAPE_TYPES` keys** (e.g. OPTION / PROPERTY / COUPON) vs **`blockShapeTypes.ts`** (TIME / EVENT / PRICE), or the reverse pattern, or **TS2307** for **`@shared/utils/eventPlacementUtils`**, while immediate re-runs of the same script from a quiet shell returned **0 errors**. **Plausible causes:** (a) **ordering / contention** — phase prewarm runs **`typecheck:audit` first**, then many heavy **`npm run audit:*`** jobs in parallel; although typecheck is intended to finish before the rest, subsequent tooling or IDE/git activity on the same tree can theoretically race with a follow-up audit pass or leave confusing mid-run artifacts; (b) **working tree / branch drift** between invocations; (c) **incremental/vue-tsc** edge cases despite **`--clean`** — treat “JSON disagrees with manual vue-tsc” as **regenerate + re-run** before assuming product bugs.
+  4. **P0 pool + warning together:** **`typecheck`** findings add a **warning** for **`errors.length > 0`** and a separate **error** finding for **P0 pools**. That yields **tier-quality fail** (e.g. 66/100) — **by design** for gating.
+
+- **Context (harness noise — root causes):**
+  1. **`inventory-annotations.json` ENOENT:** **`phase-end-impl`** **`mid_work`** tries to read **`client/.audit-reports/inventory-annotations.json`**. The file is **optional**; missing file logs **console.warn** and continues with empty annotations. **Cause:** file never created for the feature; not a gate.
+  2. **`[compareBranchToRemote-behind] Command failed: git merge-base --is-ancestor …`:** Emitted when **merge-base** cannot prove ancestor relationship (divergent histories, shallow clone, or remote ref not aligned). Often **non-blocking** for push. **Cause:** git topology check, not necessarily user error.
+  3. **`git commit -m '[phase 20.5] completion'` failed:** Tier-end attempts a completion commit when policy expects one; **no staged in-scope changes** → commit exits non-zero. **Cause:** clean tree or only never-commit paths (e.g. **`.cursor/`**, some audit paths per **`isNeverCommitPath`**).
+  4. **`[across-ladder] handoff inject skipped … missing [Next Action]`:** Verifier expects markdown **`## Next Action`**. **`phase-20.5-handoff.md`** omitted that heading. **Cause:** handoff template drift vs **`check-docs` / across-ladder** contract; phase-end/guide writers may rewrite handoff and drop sections.
+  5. **Autofix summary:** **`runTierAutofix`** can emit **duplicate agent directives** when multiple findings match the same registry pattern (e.g. two typecheck lines). **Cause:** one directive per matched finding, not deduped by path.
+
+- **What we tried:** Regenerated **`typecheck-audit`** and **`unused-code-audit`**; narrowed exports in **`differentialRoleMatrixRows.ts`**; added **`## Next Action`** to **`phase-20.5-handoff.md`**; re-ran **`phaseEnd('20.5','domain-architecture-alignment')`** until **`success: true`** and **`reasonCode: pending_push`**.
+
+- **Outcome / workaround:** Phase audit **PASS** at **96/100** with only **info**-level duplication/deprecation signals; use **`cd client && node .scripts/typecheck-audit.mjs`** when JSON and **`vue-tsc`** disagree; keep handoffs aligned with **`phase-20.4-handoff`** section structure.
+
+- **Suggestion:** (1) Playbook note: phase-end **requires tier-quality pass**, not only “no FAIL” in the summary table. (2) Dedupe autofix directives by **`auditName` + location**. (3) Optional: retry **`typecheck:audit`** when errors contradict manual **`vue-tsc`**. (4) Enforce **`## Next Action`** on phase handoff materialization.
+
