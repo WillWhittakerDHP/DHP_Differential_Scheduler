@@ -101,7 +101,7 @@ Session guides/logs are created at **`/session-start`**. Trace execution to **FE
 - Author **migration(s)** to drop or detach metadata tables (names from **§6.3a** + live models under **`server/src/db/models/admin/`**); do not run DDL on remote **DB_HOST**.
 - Verify admin UI smoke paths still load for shapes/instances/settings without metadata rows.
 
-- [ ] ### Session 20.6.2: EntityCard tree and façade consumers
+- [x] ### Session 20.6.2: EntityCard tree and façade consumers
 **Description:** Replace or inline remaining **`EntityCard.vue`** import sites in **`ENTITY_CARD_CONSUMERS_20.6.md`**; delete **`EntityCard*`** shell components and **`useEntityCard*`** composables when import graph is zero.
 
 **Tasks:**

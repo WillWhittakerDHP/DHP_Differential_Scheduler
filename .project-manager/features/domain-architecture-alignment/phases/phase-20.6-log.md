@@ -17,6 +17,14 @@
 
 ## Completed Sessions
 
+### Session 20.6.2: EntityCard tree and façade consumers ✅
+**Completed:** 2026-04-03
+**Tasks Completed:** All tasks completed
+**Key Accomplishments:**
+- Completed ** EntityCard tree and façade consumers
+
+
+
 ### Session 20.6.1: Admin metadata stack removal (server + client API) ✅
 **Completed:** 2026-04-03
 **Tasks Completed:** All tasks completed

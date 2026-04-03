@@ -8,21 +8,21 @@
 
 ## Current Status
 
-**Last Completed:** Session planning filled (`session-20.6.2-planning.md`, guide task embeds)  
-**Next task:** 20.6.2.1 — list surfaces, modals, annotation façade  
+**Last Completed:** Task 
+**Next Session:** Session 20.6.3
 **Git Branch:** `feature/domain-architecture-alignment`
+**Last Updated:** 2026-04-03
 
 ## Next Action
 
-1. Run **`/accepted-plan`** (gate: `context_gathering` from **`/session-start 20.6.2`**).  
-2. After success, run **`/task-start 20.6.2.1`** and implement per planning **## Decomposition**.
+Start Session 20.6.3 (see session guide and phase guide for scope).
 
 ## Transition Context
 
-**Where we left off:** Session **20.6.1** shipped code-first metadata + server metadata teardown + migration. Session **20.6.2** planning documents EntityCard consumer replacement and tree deletion.
+**Where we left off:**
+Completed Task 
 
-**What you need to start task work:**
+**What you need to start:**
+- Begin Session 20.6.3
 
-- Canonical inventory: **`ENTITY_CARD_CONSUMERS_20.6.md`**
-- Planning: **`sessions/session-20.6.2-planning.md`** (Goal, Acceptance Criteria, two tasks)
-- Phase context: **`phases/phase-20.6-guide.md`** § Session 20.6.2
+<!-- end excerpt session -->
