@@ -101,7 +101,7 @@ Per **ARCHITECTURE.md** §10.1 and §14.3e, **events are routed relationally** v
 
 **Feature 20 ordering**
 
-- Ordered passes and migration **narrative** (which migration runs when, baseline seeds, conversion crosswalks) live in [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](../analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) and are **operationalized** in extension phase **[phase-20.11-guide.md](./phases/phase-20.11-guide.md)** (migration narrative and data conversion close-out). Preflight does **not** replace that plan — it restates **who may run DDL** so agents do not accidentally migrate a shared DB.
+- Ordered passes and migration **narrative** (which migration runs when, baseline seeds, conversion crosswalks) live in [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](../../analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) and are **operationalized** in extension phase **[phase-20.11-guide.md](./phases/phase-20.11-guide.md)** (migration narrative and data conversion close-out). Preflight does **not** replace that plan — it restates **who may run DDL** so agents do not accidentally migrate a shared DB.
 
 **Session harness:** Tier workflow may run **`/phase-start`** / **`/session-start`** on a consumer machine; that does **not** override the migration rule.
 
