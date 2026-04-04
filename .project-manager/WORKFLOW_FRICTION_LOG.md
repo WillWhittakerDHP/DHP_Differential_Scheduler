@@ -3727,3 +3727,29 @@ nextAction:
 ## Details
 
 - Invalid phase ID format. Received: 20.7.3
+
+### 2026-04-04 — 20.7.4 — session — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** session
+- **action:** start
+- **identifier:** 20.7.4
+- **featureName:** domain-architecture-alignment
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=session; identifier=20.7.4; featureName=domain-architecture-alignment
+
+nextAction:
+## Session Validation
+# Session 20.7.4 Validation
+
+❌ **Status:** Cannot start - Session is not documented
+
+## Details
+
+- Session 20.7.4 is not listed in phase 20.7 guide
+- No session guide/log/handoff exists for 20.7.4
+- Add Session 20.7.4 to phase 20.7 guide before starting it

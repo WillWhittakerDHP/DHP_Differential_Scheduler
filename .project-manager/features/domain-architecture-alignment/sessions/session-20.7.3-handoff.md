@@ -27,6 +27,19 @@ Start Session  (see session guide and phase guide for scope).
 Completed Task 
 
 **What you need to start:**
-- Begin Session 
+- Begin Session
+
+<!-- harness-across-ladder:start -->
+## Across ladder (harness)
+
+_Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
+
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-04T18:38:52.917Z
+- **Phases on disk (13):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, 20.11, 20.12, 20.13
+- **Focus phase:** `20.7` · **Next phase across:** `20.8` → `/phase-start 20.8`
+- **Focus session:** `20.7.3` · **Session 3/3 in phase** · **Next session across:** _(then /phase-end)_
+- **Tasks in session (detected):** 2 · **Next task across:** `20.7.3.1` → `/task-start` / cascade
+- **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
+<!-- harness-across-ladder:end -->
 
 <!-- end excerpt session -->

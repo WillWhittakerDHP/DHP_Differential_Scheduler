@@ -106,3 +106,5 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
 - Crosswalk **`across-ladder.json`** and phase guides **20.8–20.13** against the preflight evidence package; add or adjust session objectives where gaps appear.
 - For each open risk, name the owning phase/session and link to the canonical analysis doc that defines the contract.
 - Reconcile harness ladder: if **20.7.3** is a real session, ensure it appears under phase **20.7** in **`across-ladder.json`**; otherwise merge this checklist into **20.7.2** and remove the extra session from **`phase-20.7-planning.md`** **## Decomposition**.
+
+<!-- end excerpt phase -->
