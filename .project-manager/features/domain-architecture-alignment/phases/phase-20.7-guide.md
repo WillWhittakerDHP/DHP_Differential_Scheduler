@@ -90,7 +90,7 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
 - Add brief warning/tombstone language to any contradictory redesign/planning surface that is still likely to be consulted.
 - Ensure handoff text no longer treats **`/feature-end`** as the immediate next action after **20.6**.
 
-- [ ] ### Session 20.7.2: Preflight evidence package
+- [x] ### Session 20.7.2: Preflight evidence package
 **Description:** Produce the written preflight package required by the master plan: event-routing watchpoint, invariant audit, migration execution policy restatement, and `property_details` separation confirmation.
 
 **Tasks:**
