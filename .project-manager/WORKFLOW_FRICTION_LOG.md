@@ -26,6 +26,12 @@
 | `.git-friction-log.jsonl` | Harness + agents | Checkout blocked, wrong branch, merge/stash, staging surprises |
 | `WORKFLOW_FRICTION_LOG.md` | Agents | Gates, parsers, audits, ARCHITECTURE.md drift, doc contradictions |
 
+## Standing triage conditions
+
+Before treating **`client/.audit-reports/typecheck/typecheck-audit.json`** as authoritative for **`audit_failed`** / tier-quality typecheck directives:
+
+- **Stale JSON (default suspicion):** The file is **generated** and may **predate** recent edits or a clean compiler run. Tier-quality reads this artifact; **manual `vue-tsc` can pass while the JSON still lists old errors** (wrong paths/lines/messages). **Condition:** If **`cd client && npx vue-tsc -b --clean && npx vue-tsc -b`** (and server **`tsc --noEmit`** when applicable) **succeed**, but the JSON still shows errors or **`errors`** is non-empty → treat **`typecheck-audit.json`** as **stale until regenerated**: **`cd client && node .scripts/typecheck-audit.mjs`**, then re-read the JSON and re-run tier-end. Related: **2026-04-02 — 20.1 — /phase-end** (harness sequencing + `vue-tsc -b --clean` in the generator).
+
 ---
 
 ### 2026-03-24 — 6.15 — phase — start — validation_failed
@@ -3826,3 +3832,86 @@ Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application w
 - **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `
 
 …(truncated)
+
+### 2026-04-04 — 20.7 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.7
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.7; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.7
+
+**Overall Status:** FAIL
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.7-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.7/2026-04-04T18-43-18Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ❌ **tier-quality**: fail (66/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 3 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.7-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurat
+
+…(truncated)
+
+### 2026-04-04 — domain-architecture-alignment — audit / tier-end — Typecheck audit JSON often stale vs live compiler
+
+- **Symptom:** Tier-quality / phase-end / task-end reports **`audit_failed`** or typecheck P0 directives from **`client/.audit-reports/typecheck/typecheck-audit.json`**, but diagnostics do not match current sources or **`vue-tsc`** passes locally.
+- **Context:** Harness and tier-quality read the **generated JSON** on disk; it can lag after edits, branch switches, or unless **`typecheck-audit.mjs`** was run recently. **`reasonCode`** **audit_failed**; paths **`client/.audit-reports/typecheck/typecheck-audit.json`**, **`typecheck-audit.md`**.
+- **Condition (check before fixing application code):** If **`vue-tsc -b --clean`** + **`vue-tsc -b`** (and server **`tsc --noEmit`** when in scope) are **clean**, assume **`typecheck-audit.json`** is **out of date** until **`node .scripts/typecheck-audit.mjs`** (from **`client/`**) is run and the JSON shows **`exitCode: 0`** and empty **`errors`** (or matches the compiler).
+- **What we tried:** Regenerate audit artifacts; commit **`client/.audit-reports/typecheck/`** when the workflow expects committed snapshots; re-run **`/phase-end`** / **`/task-end`** / **`/audit-fix`** as needed.
+- **Outcome / workaround:** Avoids false “fix TypeScript in source” work when the **artifact** was stale; see **Standing triage conditions** at the top of this log.
+- **Suggestion:** Keep **`/harness-repair`** and agent playbooks aligned with **Standing triage conditions** + **`typecheck-audit.mjs`** as the canonical refresh when JSON and compiler disagree.
