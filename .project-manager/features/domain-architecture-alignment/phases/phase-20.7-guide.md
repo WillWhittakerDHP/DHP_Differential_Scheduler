@@ -72,8 +72,9 @@ Do **not** reopen the architecture in this phase. The goal is to confirm code/do
 |--------|--------|
 | **20.7.1** | Canonical lock, plan adoption, and contradictory-doc warning/tombstone pass |
 | **20.7.2** | Event-routing watchpoint, invariant audit, migration policy restatement, and MLS / `property_details` boundary verification |
+| **20.7.3** | Map preflight output to phases **20.8–20.13** (backlog in phase guides; no duplicate of **20.1–20.6** work) |
 
-**Harness order:** `/session-start 20.7.1` → … → `/session-end` each → `/phase-end 20.7` when all sessions complete.
+**Harness order:** `/session-start 20.7.1` → … → `/session-end` each → `/phase-end 20.7` when all sessions complete. If **20.7.3** is not on `across-ladder.json`, either run **`tier-add`** for that session or fold this scope into **20.7.2** and trim the planning decomposition to match.
 
 ---
 
@@ -98,4 +99,10 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
 - Restate migration execution policy in the active close-out docs.
 - Verify `property_details` remains appointment-scoped input data and is not drifting into time-configuration storage.
 
-<!-- end excerpt phase -->
+- [ ] ### Session 20.7.3: Residual execution backlog (phases 20.8–20.13)
+**Description:** Turn preflight conclusions from **20.7.2** into actionable rows on the extension ladder: each finding or deferred risk should land in the correct **`phase-20.x-guide.md`** (for **x ≥ 8**) or in **`across-ladder.json`** session notes. Do not restate completed **20.1–20.6** pass work here.
+
+**Tasks:**
+- Crosswalk **`across-ladder.json`** and phase guides **20.8–20.13** against the preflight evidence package; add or adjust session objectives where gaps appear.
+- For each open risk, name the owning phase/session and link to the canonical analysis doc that defines the contract.
+- Reconcile harness ladder: if **20.7.3** is a real session, ensure it appears under phase **20.7** in **`across-ladder.json`**; otherwise merge this checklist into **20.7.2** and remove the extra session from **`phase-20.7-planning.md`** **## Decomposition**.

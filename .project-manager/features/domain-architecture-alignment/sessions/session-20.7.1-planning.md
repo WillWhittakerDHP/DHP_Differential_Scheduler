@@ -1,8 +1,8 @@
-# Plan: session 20.7.1 — ** Canonical plan adoption and doc protections
+# Plan: session 20.7.1 — Canonical plan adoption and doc protections
 
 ## Contract
 - **Tier:** session | **ID:** 20.7.1
-- **Scope:** ** Canonical plan adoption and doc protections
+- **Scope:** Adopt the locked close-out sequencing story in harness docs; add tombstones/warnings on superseded planning surfaces; align feature handoff next actions with the **20.7–20.13** ladder (no immediate **`/feature-end`** after **20.6**).
 - **Governance (harness snapshot):**
   - Governance Context (Session)
   - Function Governance
@@ -27,11 +27,14 @@
 - **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
 
 ## Where we left off
-## Phase intent (goals and context) # Phase 20.7 Guide: Canonical lock and preflight safeguards **Purpose:** Phase-level harness guide for Feature 20 extension work derived from the locked close-out master plan. This phase turns the master plan into the active canonical sequencing surface and establishes the preflight safeguards that must hold before any further close-out execution. **Tier:** Phase (Tier 1) ## Session intent from phase guide - [ ] ### Session 20.7.1: Canonical plan adoption and doc protections **Description:** Mark the locked master plan as the active close-out sequencing surf (See tier-up guide linked below)
+
+Phase **20.7** planning and guide gates are complete (**`/phase-start 20.7`** → **`/accepted-plan`** → **`/accepted-build`**). First execution slice is **Session 20.7.1** per **`phases/phase-20.7-guide.md`** (canonical lock + contradictory-doc protections only — preflight evidence is **20.7.2**).
 
 ## Story
-**This session delivers** [what] **so that** [why / what it unblocks].
-**Estimated size:** S / M
+
+**This session delivers** a single in-repo canonical home for post-**20.6** close-out sequencing (or honest “not exported yet” wording), updated feature/phase handoff **Next Action** lines, and tombstone/warning banners on a short list of still-referenced but superseded planning paths **so that** agents and harness cascades stop treating **`/feature-end`** or old forks as co-equal with **`phase-20.7-guide.md`** / **`feature-domain-architecture-alignment-guide.md`**.
+
+**Estimated size:** M (docs-only; no product code unless a tombstone lives beside code).
 
 ---
 ## Architecture context (harness-injected)
@@ -208,63 +211,126 @@ Base acts as a **floor** until zero-out. **Correlation:** bucket by lineage to t
 1. Per-block-instance part records exist.  
 2. Resolve part-level time (base + time atomics using `property_details` inputs).  
 3. Resolve part-level fee (base + price atomics).  
-4. Resolve part-level event assignment (override ?? baselin
+4. Resolve part-level event assignment (override ?? baseline).  
+5. Apply **zero-out last** (after floor) — zero-out wins for that part’s contribution to rollups.  
+6. Group resolved time **by event** for layout.  
+7. Roll resolved fees **by orchestrator** for presentation / persistence fields the product needs.
 
-_(Excerpt truncated.)_
+### 10.4 Time atomics and `property_details`
+
+Time atomics hold **rates**; **`property_details`** holds appointment-scoped **inputs** (MLS / wizard). Product: rate × input = duration contribution. `property_details` is property **data**, not a substitute for time configuration.
+
+---
+
+## 11. Events, shapes, and placement
+
+- **Event shapes** are admin-managed **placement types** (`placement_kind`, `anchor_edge`) read by the pipeline — extensible via data, not ad-hoc role math.
+- **Event instances** are **named segments** owned by an event block instance (`parent_block_instance_id`). Event **orchestrator** holds baseline segment assignments; **event profiles** (composite packages) override assignments per part via `event_assignments`.
+- **Pipeline rule:** Placement comes from stored assignment graph + shape placement fields — **no separate placement calculator** from differential roles or hidden rules.
+
+---
+
+## 12. MLS and property enrichment
+
+| Table | Role |
+|-------|------|
+| `property_details` | Physical characteristics of the inspected property (appointment-scoped). |
+| `property_feature_mappings` | MLS-driven rules → suggested time block instances. |
+| `property_field_mappings` | MLS field → `property_details` columns. |
+
+**Separation:** `property_details` = what the property **is**; time atomics = how that maps to **duration** (configuration). Keep them distinct.
+
+---
+
+## 13. Admin configuration model
+
+- **Orchestration surface:** Instances with `orchestrator = true` — multi-select style editors constrained by shape-level validity.
+- **Services surface:** Atomic services — primary day-to-day hub; inline time/fee/event per part in one view; edits project to part rows and `event_assignments` (UI is not a second source of truth).
+- **Direction:** **Domain-specific editors** for all admin entity surfaces, **including annotations** — no long-lived exception for DB-driven field metadata (plan §3.6, §6.3).
+
+---
+
+## 14. Invariants (formal drift test)
+
+If any assertion below is violated, the architecture has drifted.
+
+1. **Domain separation:** Each block type writes only its own concern to part instances. Domains compose; they do not overwrite.
+
+2. **Three root block-instance properties:** `composite`, `orchestrator`, and `wizardVisible` on **all** block instances (including user). Any combination is valid; no combination implies another.
+   - **2a.** **Composite** = same-shape children.
+   - **2b.** **Orchestrator** = cross-shape active assignments selected from the shape-level validity graph.
+   - **2c.** **WizardVisible** = appears in wizard lists for that shape when cascades allow.
+
+3. **Part instances are per-block-instance with two resolution tiers:** Own part sets via `part_assignments`; no cross-writes.
+   - **3a.** **Base** only on service orchestrator part rows.
+   - **3b.** Atomic services do not set base unless they are also orchestrators.
+   - **3c.** **PerUnit** on time/price atomic part rows; other columns null.
+   - **3d.** **Lineage:** PartFinalizer must not use `part_shape` alone when multiple logical work items could collide.
+   - **3e.** **Event assignments** are relational (`event_assignments`); override wins per part else baseline.
+   - **3f.** **PartFinalizer is client-side aggregation** for booking totals; server persists submitted payload without recomputing that resolution for the same contract.
+   - **3g.** **Per-block-instance** gives provenance, clean undo, and safe reconfiguration.
+
+4. **Events are data, not computation:** Pipeline reads assignments and placement types from storage.
+   - **4a.** Event shapes = placement types, not “which parts go where.”
+   - **4b.** Event instances = segments with calendar fields.
+   - **4c.** New placement types = new shape rows when valid; no mandatory engine code change per row.
+
+5. **`property_details` is appointment data, not configuration** for duration rates.
+
+6. **User instances are orchestrators** driving wizard state and cascades; their three-property flags are configuration, not hard-coded product constraints.
+
+_Source (keep in sync): `.project-manager/ARCHITECTURE.md` §8–§14._
 
 ## Codebase recon (agent-led — required)
-Injected docs above are not a substitute for opening real code. Search/read `client/`, `server/`, and `shared/` as relevant to this tier.
 
-- **Paths reviewed:** (repo-relative; files or dirs you actually opened or searched)
-- **Patterns / call sites:** (what exists today; what this work must align with or extend)
-- **Gaps / unknowns:** (what still needs verification later)
+Injected **ARCHITECTURE** excerpts above are background only. This session is **harness / analysis docs**, not booking code paths.
 
-[Codebase recon: search and read client/, server/, and shared/ as needed — then remove this line after recording findings below]
+- **Paths reviewed:** `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md` (extension table **20.7–20.13**, master-plan link); `feature-domain-architecture-alignment-handoff.md` (still says **`/phase-start 20.7`** in **Next Action**); `phases/phase-20.7-guide.md` (Session **20.7.1** scope); `phases/phase-20.7-planning.md`; repo glob for **`architecture_alignment_closeout_master_plan*.md`** → **no file** (links currently point at **`.cursor/plans/…`** which is missing).
+- **Patterns / call sites:** Feature guide already lists extension phases and a **Post-20.6 note**; handoff and some paths lag **active session** wording. Contradiction risk = parallel “feature ends at 20.6” or “run feature-end now” language vs **20.7–20.13** ladder.
+- **Gaps / unknowns:** Which legacy root-level or `features/vue-migration/` docs are still opened by agents — confirm with quick grep before editing; optional human call on whether to **paste** full master plan into `.project-manager` or keep a **stub index** only.
 
 ## Analysis
-Address:
-- What problem does this solve and why now?
-- What domain boundaries does this cross? (see ARCHITECTURE.md)
-- Ground this in **## Codebase recon** (paths you verified) plus ARCHITECTURE.md — not doc injection alone.
-- What existing patterns or code should child tiers follow?
-- Risks, dependencies, or open questions?
-- Alternatives considered (for decomposition tiers)
+
+- **Problem / why now:** Without a **stable in-repo** sequencing anchor and aligned **Next Action** text, cascades and handoffs keep re-anchoring on **`/phase-start 20.7`** or vague “master plan” paths while the linked **`.cursor/plans/…`** file is absent.
+- **Domains:** **Docs / harness only** — touches `.project-manager/features/domain-architecture-alignment/**` and possibly root markdown pointers; does **not** change **`client/`** unless we add a one-line README tombstone (prefer `.project-manager` first).
+- **Child tasks:** Thin **task** plans: one for **canonical plan file + link normalization**, one for **feature handoff/guide + phase handoff stub updates**, one for **tombstone grep + targeted edits**.
+- **Risks:** Over-editing historical archives; mitigate by **banner + link** rather than deleting content. Duplicating huge plan text in two places — mitigate with **one canonical `.project-manager/...` file** and relative links from feature/phase guides.
 
 ## Goal
-Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladder and the locked close-out master plan:
 
-1. Lock the master plan as the active sequencing surface for post-20.6 Feature 20 work.
-2. Update feature-level harness docs so the next steps are **20.7–20.13**, not immediate **`/feature-end`**.
-3. Produce the written preflight package required by the master plan:
-   - contradictory-doc protection
-   - event-routing watchpoint
-   - invariant audit
-   - migration execution policy restatement
-   - MLS / `property_details` boundary verification
-4. Convert those findings into an explicit residual execution backlog for phases **20.8–20.13**.
+1. Provide a **real, committed path** under **`.project-manager/features/domain-architecture-alignment/`** for close-out sequencing (full text or structured stub that lists phases **20.7–20.13** and points to each **`phase-20.x-guide.md`**).
+2. Update **`feature-domain-architecture-alignment-handoff.md`** (and **`feature-domain-architecture-alignment-guide.md`** master-plan bullet if needed) so **Next Action** matches **post-20.7-start** work (**`/session-start 20.7.1`** done → next **`20.7.2`** or active session), and remove obvious template stubs that confuse status.
+3. Add **tombstone / warning** blocks to any **still-linked** contradictory planning surfaces (short list from grep), without deleting historical content.
 
 ## Files
-- **Canonical:** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`
-- **Locked close-out sequencing (target):** `.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md` — **add or relocate in session 20.7.1** if missing; until then **`phases/phase-20.7-guide.md`** is the operational preflight spec.
-- **Feature harness:** `feature-domain-architecture-alignment-guide.md`, `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.6-handoff.md`, `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.7-log.md`, `.project-manager/PROJECT_PLAN.md` (Feature **20** row)
-- **Evidence target:** `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md` and/or a new **`.project-manager/analysis/`** preflight appendix if the worklog gets too long
+
+- **New or updated (expected):** `.project-manager/features/domain-architecture-alignment/architecture-alignment-closeout-master-plan.md` (name finalized in task 1) — canonical sequencing mirror.
+- **Update:** `feature-domain-architecture-alignment-guide.md`, `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.7-guide.md` (link to canonical plan path only if we change the filename), optionally `phases/phase-20.7-handoff.md` if it still references missing **`.cursor/plans/…`**.
+- **Tombstone candidates (verify then edit):** root `VUE_MIGRATION_*.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md` header note (if agents treat it as “current execution order”), any second “Feature 20 ladder ends at 20.6” lines outside the extension note.
 
 ## Approach
-1. **Session 20.7.1:** lock the plan in feature-level docs and add contradictory-doc protections.
-2. **Session 20.7.2:** write the preflight package and ensure each item maps to a later close-out phase.
-3. **Session 20.7.3:** extract the residual execution backlog for phases **20.8–20.13**.
-4. End the phase with a handoff that points to **`/phase-start 20.8`**, not **`/feature-end`**.
+
+1. Draft the **canonical close-out plan** markdown under the feature folder; link **20.7–20.13** to existing phase guides; replace broken **`.cursor/plans/…`** links with that path everywhere in Feature **20** harness docs.
+2. Refresh **feature handoff**: **Current status** / **Next action** / dates / branch line so they match **session 20.7.1 in progress** (or **20.7.2** next after this session ends).
+3. Grep for **`/feature-end`**, **“ladder ended”**, **`phase-start 20.7`** in Feature **20** docs; add one-paragraph **Superseded / use instead** banners with links to **`feature-domain-architecture-alignment-guide.md`** and the new master-plan file.
 
 ## Checkpoint
-- **`/accepted-plan`** should confirm that the decomposition covers harness-ladder correction, evidence-package creation, and residual execution-backlog extraction.
-- **Per session:** keep the work doc-focused; any product-code ambiguity found during the routing watchpoint becomes evidence plus a later execution task, not silent refactor scope.
-- **Phase-end:** `phase-20.7-handoff.md` should point to **20.8**.
+
+- After task **20.7.1.1**, every Feature **20** reference to the close-out plan resolves to a **file that exists in git**.
+- After task **20.7.1.2**, **`feature-domain-architecture-alignment-handoff.md`** no longer reads like a template with placeholder **Feature Summary** / wrong **Next Action** for someone already in **20.7**.
+- After task **20.7.1.3**, at least **one** high-traffic contradictory doc (if any) carries an explicit **extension ladder** pointer.
 
 ## Deliverables
-[List concrete deliverables]
+
+- Committed **canonical close-out sequencing** markdown + updated links in feature/phase harness docs.
+- Updated **feature handoff** (and minimal guide tweaks if the master-plan bullet path changes).
+- **Tombstone/warning** edits on a verified short list (or explicit note in session log if none needed).
 
 ## Decomposition
-- **Task 20.7.1.1:** [one line per task in this session]
+
+- **Task 20.7.1.1:** Add **`architecture-alignment-closeout-master-plan.md`** (or chosen final name) under the feature folder; normalize Feature **20** links away from missing **`.cursor/plans/…`**.
+- **Task 20.7.1.2:** Align **`feature-domain-architecture-alignment-handoff.md`** and **`feature-domain-architecture-alignment-guide.md`** next-action / status / template cleanup for active extension work.
+- **Task 20.7.1.3:** Grep-driven tombstone pass on contradictory planning surfaces; patch with banners + canonical links only.
 
 ## Definition of Done
 
