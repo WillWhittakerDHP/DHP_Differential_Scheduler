@@ -1,33 +1,8 @@
-# Plan: session 20.7.3 — Residual execution backlog (phases 20.8–20.13)
+<!-- harness-planning-rollup tier=session id=20.7.3 consolidatedAt=2026-04-04T18:38:51.248Z -->
 
-## Contract
-- **Tier:** session | **ID:** 20.7.3
-- **Scope:** Map **`preflight-evidence-20.7.2.md`** conclusions into **actionable backlog rows** on **`phase-20.8-guide.md`–`phase-20.13-guide.md`** and **`across-ladder.json`** (session notes where applicable); complete remaining **`preflight-evidence-20.7.2.md` §3–§4** (migration policy + **`property_details`** boundary); update **phase / feature handoffs** for **`/phase-start 20.8`**. **No** duplication of completed **20.1–20.6** pass work.
-- **Governance (harness snapshot):**
-  - Governance Context (Session)
-  - Function Governance
-  - Clean — no violations detected.
-  - Component Governance
-  - Clean — no violations detected.
-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Return surface has 15 properties; decompose into focused composables
+# Consolidated planning: session 20.7.3
 
-## Work Profile
-- **Execution intent:** plan
-- **Action type:** decomposition
-- **Scope shape:** cross_cutting
-- **Governance domains:** docs, architecture, booking
-- **Gate profile:** standard
-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
-- **Recommended context pack:** decomposition_pack
-- **Planning artifact action:** create
-- **Decomposition mode:** moderate
-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
-
-## Where we left off
-
-**Session 20.7.2** produced **`preflight-evidence-20.7.2.md`** with **§1–§2** complete; **§3–§4** are still stubs. **`across-ladder.json`** lists **20.7.3** under phase **20.7**; **`nextTaskAcross`** → **20.7.3.1**.
+## Session 20.7.3 (parent)
 
 ## Story
 
@@ -36,253 +11,6 @@
 **Estimated size:** M (docs-only; no product refactor unless filed as a later phase task).
 
 ---
-## Architecture context (harness-injected)
-
-## 1. System overview
-
-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
-
-- **Public booking users** — wizard-style scheduling and property/availability flows.
-- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
-
-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Until the metadata stack is removed (Feature 20 Pass 6), some admin routes may still prefetch legacy metadata — treat that as **transitional**, not the end state.
-
----
-
-## 2. Domain map
-
-| Domain | Client paths | Server paths | Key models / areas | Shared types |
-|--------|----------------|-------------|---------------------|--------------|
-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `services/google/` | OAuth, external APIs | `@shared/types/calendar` |
-| **Beta** | `composables/beta/`, `views/beta/`, `components/beta/` | `routes/internal/beta-feedback`, `db/models/beta` | Beta feedback | (often local types) |
-
----
-
-## 3. Data flow
-
-Canonical path:
-
-1. **Vue view** → **presentational component**
-2. **Composable** (state + orchestration; thin components)
-3. **Client HTTP**
-   - **Default:** `utils/api/apiClient` — relative paths, same-origin API.
-   - **Integrations:** `services/*ApiService` — full-base-URL axios (calendar, maps, enrichment).
-4. **Express route** (`routes/internal/*` or `routes/external/*`)
-5. **Service** (`server/src/services/`)
-6. **Repository** (`server/src/repositories/`) or direct Sequelize access
-7. **Sequelize model** (`server/src/db/models/`)
-
-Cross-cutting: **transformers** (e.g. global → booking), **injection keys** for wizard scope, **TanStack Query** keys + invalidation for mutations.
-
-**Booking resolution boundary:** The server serves **configuration and raw storage rows** (e.g. part instances, relationships) plus appointment-scoped inputs such as `property_details`. **PartFinalizer** on the **client** resolves wizard time, fee, and segment placement for the live booking flow. On submit, the client sends a **full appointment payload**; the server **persists** it and does **not** re-run PartFinalizer to recompute or “verify” those totals. Do not introduce a second booking calculator on the server for the same contract (see §10).
-
----
-
-## 4. Type boundaries
-
-| Layer | Location | Use when |
-|-------|----------|----------|
-| **Shared contracts** | Repo `shared/`, imported as `@shared/types/...` | Types needed by **both** client and server (API shapes, branded IDs, shared enums). |
-| **Client-only** | `client/src/types/<domain>/` | UI-only: injection keys, wizard step types, transformer helpers, form field types. **Never** imported by server. |
-| **Server-only** | `server/src/types/` | Handler params, repository types, internal DTOs. **Never** imported by client. |
-
-**Rule:** If both sides need it → `@shared`. If only one side → keep it local.
-
-**Reactivity boundaries:** Prefer `ComputedRef<T>` for read-only consumer APIs; `Ref<T>` for internal mutable state; avoid leaking `Ref | ComputedRef` unions at public composable boundaries (see type governance rule + TYPE_AUTHORING_PLAYBOOK).
-
----
-
-## 5. Per-domain conventions
-
-### Booking / wizard
-
-- **Composable prefixes:** `useBooking*`, `useAvailability*`, `useWizard*`, `useAppointment*`, `useProperty*` (orchestrators such as `useAvailabilityOrchestrator`, `useBookingWizardSetup`).
-- **Components:** under `components/booking/` (steps in `components/booking/steps/`).
-- **Depends on** admin configuration data (wizard blocks, availability rules) served as **entities and settings** — document cross-domain deps in planning **Analysis** (the legacy DB-driven admin metadata row model was removed in Feature **20** Pass **6**; booking must not reintroduce it).
-- **Scheduling rules:** Block instances, part ledger, PartFinalizer, event placement, and invariants are defined in **§8–§14** below.
-
-### Admin
-
-- **Prefixes:** `useAdmin*`, `useEntity*`, entity CRUD around `EntityBase<GlobalEntityKey>` + `ENTITY_CONFIGS`.
-- **Pattern:** Domain-specific editors + `EntityBase` / `ENTITY_CONFIGS` where generic CRUD remains; **target** is direct Vuetify forms per entity, not DB field-metadata-driven renderers (Principles §7.1, plan §6.3a).
-- **Shape vs instance:** Structural validity (`valid_*` relationships) is edited on the **shapes** side; orchestration editors **select** active assignments from that universe — they do not redefine structural possibility (see §9).
-
-### Auth
-
-- **Emerging domain;** keep route and model changes aligned with `routes/internal/auth` and `db/models/auth`. Consumed by all domains via middleware/guards over time.
-
-### Users / `user_role`
-
-- **`users.user_role`** is a **small closed set** (PostgreSQL ENUM + Joi + client types). **Delivered (Feature 6 Session 6.18.1):** **`@shared`** exports **`USER_ROLE_VALUES`** and per-role constants; server and client **import** that list. Product vocabulary uses **`owner`** (not `seller`) end-to-end, including wizard **`additionalContacts[].role`** and contact-step field names (`ownerInfo`, `showOwner`). **Note:** Older saved wizard or step snapshots that used `seller` / `sellerInfo` are not migrated client-side; users re-enter contacts or clear stored state if needed.
-- **User-type block instances** (state-control shapes) drive scheduling/display semantics; **`getUserTypeBlockIdForRole`** maps **DB role** → block instance. **Session 6.18.2** adds **admin-persisted alignment** (role → `block_instance_id`) so mappings are configurable without code edits where product allows. See `features/appointment-workflow/phases/phase-6.18-guide.md`.
-- **Feature 7 Enactment** exposes role to the client using the **same** shared vocabulary as the API.
-
-### Integrations
-
-- Prefer **dedicated services** and **external routes**; avoid mixing full-URL axios into `apiClient` call sites without reason.
-
-### Beta
-
-- Isolated feedback capture; keep `beta` paths grouped under composables/views/components/beta.
-
----
-
----
-
-## (from ARCHITECTURE.md — domain rules §8+)
-
-## 8. Domain model (block shape types)
-
-The system has five block shape **types**. Each owns one scheduling concern. All five participate in the three-property instance model (§9).
-
-| Type | Domain | What it owns |
-|------|--------|----------------|
-| `user` | Identity | User identity and wizard state. User instances drive cascades and annotations. |
-| `service` | Structure | Work items (part instances), active downstream assignments per service context. **Base** time/fee defaults and floors live only on **service orchestrator** part instances. |
-| `event` | Event | Part-instance calendar segment assignments and time-axis patterns. |
-| `time` | Duration | Part-instance duration contributions from property characteristics (rates × inputs). |
-| `price` | Fee | Part-instance fee contributions and rollups from rates and cascades. |
-
-**Domain separation:** Each domain writes only its own concern on part instances. Domains **compose**; they do not overwrite each other’s values.
-
-**Legacy names:** During migrations, stored enums or code may still reference older labels (`property` / `coupon` / `option`); target names are **`time`**, **`price`**, **`event`** aligned to this table.
-
----
-
-## 9. Block instances: three-property model and layering
-
-### 9.1 Three orthogonal properties (instance storage only)
-
-Every **block instance** has three independent booleans (not on block **shapes**):
-
-| Property | Axis | Question |
-|----------|------|----------|
-| `orchestrator` | Behavior | Root of an active assignment graph across other shapes? |
-| `composite` | Structure | Owns child block instances of the **same** shape? |
-| `wizardVisible` | Presentation | Appears in the booking wizard when cascades permit? |
-
-Any combination is valid. Compositeness is **same-shape** hierarchy; orchestration is **cross-shape** active selection from the shape-level validity graph.
-
-### 9.2 Layering
-
-```
-Block shape (template — type, domain, valid shape-level relationships)
-  └─ Block instance (runtime — carries composite / orchestrator / wizardVisible)
-       └─ Part instance (value ledger per block instance)
-```
-
-- **Shapes** define what is structurally possible (`valid_*` tables). They do **not** store the three booleans.
-- **Block instances** store the three booleans and create part instances.
-- **Orchestrator instances** choose which downstream instances are **active** from the options the shape graph allows — they do **not** redefine validity.
-
----
-
-## 10. Part instances, PartFinalizer, and resolution
-
-### 10.1 Per-block-instance ledger
-
-Each block instance owns its own part instances via `part_assignments` (including user block instances). No instance writes another instance’s part rows.
-
-**Two resolution tiers on part rows:**
-
-| Tier | Who | Columns |
-|------|-----|---------|
-| **Base** | Service orchestrator only | `baseTime`, `baseFee` (floor + starting values) |
-| **PerUnit** | Time / price atomics | `timePerUnit`, `feePerUnit` |
-
-**Events:** Routed via relational **`event_assignments`** (event instance ↔ part instance), not scalar default/override columns on part instances.
-
-### 10.2 PartFinalizer (client)
-
-Part instances are storage. **PartFinalizer** (booking client pipeline) aggregates:
-
-- `resolvedTime` = service base + Σ(timePerUnit × input) for time atomics in the same **lineage** bucket.
-- `resolvedFee` = service base + Σ(feePerUnit × input) and percentage passes.
-- `resolvedEvent` = event profile override **else** event orchestrator baseline assignment **per part instance**.
-
-Base acts as a **floor** until zero-out. **Correlation:** bucket by lineage to the atomic service / line item — **forbidden** to resolve by `part_shape` alone when multiple work items could collide.
-
-### 10.3 Resolution order (per part)
-
-1. Per-block-instance part records exist.  
-2. Resolve part-level time (base + time atomics using `property_details` inputs).  
-3. Resolve part-level fee (base + price atomics).  
-4. Resolve part-level event assignment (override ?? baseline).  
-5. Apply **zero-out last** (after floor) — zero-out wins for that part’s contribution to rollups.  
-6. Group resolved time **by event** for layout.  
-7. Roll resolved fees **by orchestrator** for presentation / persistence fields the product needs.
-
-### 10.4 Time atomics and `property_details`
-
-Time atomics hold **rates**; **`property_details`** holds appointment-scoped **inputs** (MLS / wizard). Product: rate × input = duration contribution. `property_details` is property **data**, not a substitute for time configuration.
-
----
-
-## 11. Events, shapes, and placement
-
-- **Event shapes** are admin-managed **placement types** (`placement_kind`, `anchor_edge`) read by the pipeline — extensible via data, not ad-hoc role math.
-- **Event instances** are **named segments** owned by an event block instance (`parent_block_instance_id`). Event **orchestrator** holds baseline segment assignments; **event profiles** (composite packages) override assignments per part via `event_assignments`.
-- **Pipeline rule:** Placement comes from stored assignment graph + shape placement fields — **no separate placement calculator** from differential roles or hidden rules.
-
----
-
-## 12. MLS and property enrichment
-
-| Table | Role |
-|-------|------|
-| `property_details` | Physical characteristics of the inspected property (appointment-scoped). |
-| `property_feature_mappings` | MLS-driven rules → suggested time block instances. |
-| `property_field_mappings` | MLS field → `property_details` columns. |
-
-**Separation:** `property_details` = what the property **is**; time atomics = how that maps to **duration** (configuration). Keep them distinct.
-
----
-
-## 13. Admin configuration model
-
-- **Orchestration surface:** Instances with `orchestrator = true` — multi-select style editors constrained by shape-level validity.
-- **Services surface:** Atomic services — primary day-to-day hub; inline time/fee/event per part in one view; edits project to part rows and `event_assignments` (UI is not a second source of truth).
-- **Direction:** **Domain-specific editors** for all admin entity surfaces, **including annotations** — no long-lived exception for DB-driven field metadata (plan §3.6, §6.3).
-
----
-
-## 14. Invariants (formal drift test)
-
-If any assertion below is violated, the architecture has drifted.
-
-1. **Domain separation:** Each block type writes only its own concern to part instances. Domains compose; they do not overwrite.
-
-2. **Three root block-instance properties:** `composite`, `orchestrator`, and `wizardVisible` on **all** block instances (including user). Any combination is valid; no combination implies another.
-   - **2a.** **Composite** = same-shape children.
-   - **2b.** **Orchestrator** = cross-shape active assignments selected from the shape-level validity graph.
-   - **2c.** **WizardVisible** = appears in wizard lists for that shape when cascades allow.
-
-3. **Part instances are per-block-instance with two resolution tiers:** Own part sets via `part_assignments`; no cross-writes.
-   - **3a.** **Base** only on service orchestrator part rows.
-   - **3b.** Atomic services do not set base unless they are also orchestrators.
-   - **3c.** **PerUnit** on time/price atomic part rows; other columns null.
-   - **3d.** **Lineage:** PartFinalizer must not use `part_shape` alone when multiple logical work items could collide.
-   - **3e.** **Event assignments** are relational (`event_assignments`); override wins per part else baseline.
-   - **3f.** **PartFinalizer is client-side aggregation** for booking totals; server persists submitted payload without recomputing that resolution for the same contract.
-   - **3g.** **Per-block-instance** gives provenance, clean undo, and safe reconfiguration.
-
-4. **Events are data, not computation:** Pipeline reads assignments and placement types from storage.
-   - **4a.** Event shapes = placement types, not “which parts go where.”
-   - **4b.** Event instances = segments with calendar fields.
-   - **4c.** New placement types = new shape rows when valid; no mandatory engine code change per row.
-
-5. **`property_details` is appointment data, not configuration** for duration rates.
-
-6. **User instances are orchestrators** driving wizard state and cascades; their three-property flags are configuration, not hard-coded product constraints.
-
-## Codebase recon (agent-led — required)
-
-- **Paths reviewed:** `.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md` (§§1–2 authoritative for backlog extraction); `.project-manager/features/domain-architecture-alignment/across-ladder.json` (phase **20.7** lists **20.7.1–20.7.3**); `phases/phase-20.8-guide.md` … `phases/phase-20.13-guide.md` (targets for backlog bullets); `.project-manager/features/domain-architecture-alignment/architecture-alignment-closeout-master-plan.md` (sequencing); `.cursor/rules` migration authority (for **§3** prose — cite in doc, do not run migrations).
-- **Patterns:** Each **unknown/fail** row in preflight §2 already names an **owning phase** — session work **copies forward** as explicit **“Preflight follow-ups (20.7.2)”** bullets in the matching guide **Objectives** or a dedicated subsection.
-- **Gaps:** **`preflight-evidence-20.7.2.md` §3–§4** still stubs — **20.7.3** completes them (not a separate tier id **20.7.2.3**).
 
 ## Analysis
 
@@ -318,11 +46,6 @@ If any assertion below is violated, the architecture has drifted.
 - [ ] **`preflight-evidence-20.7.2.md`** §3 and §4 complete; intro cross-refs fixed.
 - [ ] **`phase-20.7-log.md`** (and handoffs) reflect completion and point to **`/phase-start 20.8`**.
 
-## Decomposition (tasks)
-
-- **Task 20.7.3.1:** **Crosswalk** — Map **`preflight-evidence-20.7.2.md` §§1–2** to **`phase-20.8-guide.md`–`phase-20.13-guide.md`** (and **`across-ladder.json`** notes if used).
-- **Task 20.7.3.2:** **Preflight close-out + harness** — Write **§3–§4** in **`preflight-evidence-20.7.2.md`**; update **`phase-20.7-log.md`**, **`feature-domain-architecture-alignment-handoff.md`**, **`session-20.7.3-handoff.md`**; align **`nextTaskAcross`** / ladder metadata as needed.
-
 ## Acceptance Criteria
 
 - [ ] Every **unknown** / **fail** row in preflight **§2** has a **matching** backlog bullet (or explicit “already tracked” note) in the **intended** phase guide.
@@ -330,22 +53,122 @@ If any assertion below is violated, the architecture has drifted.
 - [ ] **§3** cites migration authority (**localhost** vs shared DB) and **FEATURE_20** ordering; **§4** cites **ARCHITECTURE** §10.4 / §12.
 - [ ] No **`client/`** / **`server/`** code changes unless separately justified (out of scope).
 
-## Definition of Done
+---
 
-- [ ] **Docs session:** deliverables above satisfied under **`.project-manager/`** (no **`client/`** / **`server/`** requirement unless scope changes).
-- [ ] App starts (`npm run start:dev`) — as usual when convenient; not blocked by markdown-only work.
-- [ ] Lint passes (`cd client && npm run lint`, `cd server && npm run lint`) — N/A if no code touched; run if any TS/Vue changed.
-- [ ] Governance score maintained or improved
-- [ ] All child tasks complete
-- [ ] Session log and handoff updated
+## Task 20.7.3.1 (source: task-20.7.3.1-planning.md)
+
+### Story
+
+**This task updates** six **phase guides** under Feature **20** **because** preflight conclusions must be **visible** on the extension ladder before **`/phase-start 20.8`**, not buried only in **`preflight-evidence-20.7.2.md`**.
 
 ---
-## Reference (read before filling — governance and inventory compliance is required)
-- TierUp guide (scope and intent): `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md`
-- Handoff (full transition context): `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.2-handoff.md`
-- Architecture: `.project-manager/ARCHITECTURE.md` — domain map, data flow, type boundaries, naming; **§8–§14** = locked domain rules (block model, part ledger, PartFinalizer, invariants) for booking / admin scheduling work
-- Workflow friction log (non-git harness issues): `.project-manager/WORKFLOW_FRICTION_LOG.md`
-- Agent model preferences (harness advisory only; Cursor does not auto-switch models): `.project-manager/agent-model-config.json`
-- Governance reports: `client/.audit-reports/` — function-complexity, component-health, composable-health, type-escape, type-constant-inventory
-- Playbooks: `.project-manager/TYPE_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPOSABLE_AUTHORING_PLAYBOOK.md`, `.project-manager/FUNCTION_AUTHORING_PLAYBOOK.md`, `.project-manager/COMPONENT_AUTHORING_PLAYBOOK.md`
-- **Workflow friction:** `.project-manager/WORKFLOW_FRICTION_LOG.md` — classified harness failures are auto-appended (see `HARNESS_WORKFLOW_FRICTION` in the tier playbook). Scan recent entries before changing tier routing: `npx tsx .cursor/commands/utils/read-workflow-friction.ts --last 20`
+
+### Analysis
+
+- **Problem / why now:** Without guide-level backlog rows, **20.8+** agents re-derive gaps from scratch; preflight investment must **land visibly** in **`phase-20.x-guide.md`**.
+- **Boundaries:** **`.project-manager/`** documentation only; no **`client/`** / **`server/`** product change unless a follow-on **task** under **20.8+** files it.
+- **Dependencies:** **20.7.2** complete for **§1–§2**; **§3–§4** completed in this session.
+- **Risks:** Duplicating long **20.1–20.6** narratives — **mitigate** with short bullets + links to **`preflight-evidence-20.7.2.md`** / **ARCHITECTURE.md**.
+
+### Goal
+
+After this task, each **owning phase** guide (**20.8–20.13**) lists **its** preflight-sourced items with a link to **`../preflight-evidence-20.7.2.md`** (or repo-relative equivalent) and **`.project-manager/ARCHITECTURE.md`** where relevant.
+
+### Files
+
+- **Edit:** `phases/phase-20.8-guide.md` … `phases/phase-20.13-guide.md`
+- **Optional edit:** `across-ladder.json` (only if structure supports session notes without breaking consumers)
+- **Read-only:** `preflight-evidence-20.7.2.md`
+
+### Approach
+
+1. Open **`preflight-evidence-20.7.2.md`** §2 table; group rows by **Owning phase** column.
+2. Merge **§1.4** three risks into the same groups (**20.8–20.10** primarily).
+3. Patch each **`phase-20.x-guide.md`** with **3–8 bullets** max per phase (no copy-paste of full §2 table).
+4. If **`across-ladder.json`** has a safe field for **20.7.3**, add one line; else omit.
+
+### Checkpoint
+
+- A reader opening **`phase-20.10-guide.md`** sees **lineage / zero-out / property_details** follow-ups without opening preflight first (preflight remains authoritative for detail).
+
+### Deliverables
+
+- Six phase guides updated (**20.8–20.13**).
+- Optional **`across-ladder.json`** touch documented in task-end notes if done.
+
+### Acceptance Criteria
+
+- [ ] Every **§2** row with **unknown** (and **fail** if any) has a **matching** bullet in the guide for its **Owning phase** column.
+- [ ] **§1.4** risks (**parentKind**, dual admin **`eventAssignments`**, **part_shape** map) appear under **20.8** / **20.9** / **20.10** as appropriate.
+- [ ] No changes to **`preflight-evidence-20.7.2.md` §3–§4** in this task diff.
+- [ ] No **`client/`** / **`server/`** product code.
+
+### Design
+
+1. For **phase 20.8:** map §2 rows tagged **20.8** (**§14.1**, **§14.3**, **§14.3a–c**) + **§1** risks that imply **API/schema/event routing** integrity.
+2. For **20.9:** **§14.2a–c**, **§14.6**, admin/orchestration semantics + **§1.4** dual admin surface coordination.
+3. For **20.10:** **§14.3d**, **§14.3g**, **§10.3** zero-out, **§14.4a–c**, **§14.5** (pointer until §4 lands), **§1.4** **part_shape** / booking pipeline risks.
+4. For **20.11:** migration/narrative follow-ups only if preflight implies **seed/conversion** (light pointer; heavy prose in **§3** is **20.7.3.2**).
+5. For **20.12:** vocabulary/cleanup pointers only if a risk is “retire alias” (optional; may be empty).
+6. For **20.13:** doc reconciliation / truth alignment pointer for **§2** **unknown**s that are **doc-verification** shaped.
+7. **`across-ladder.json`:** If JSON has **`notes`** / **`description`** per session, set **20.7.3** to *“Crosswalk preflight → phase guides 20.8–20.13 (task 20.7.3.1).”* If not, **skip** JSON (no invalid keys).
+
+---
+
+## Task 20.7.3.2 (source: task-20.7.3.2-planning.md)
+
+### Story
+
+**This task finishes** the **preflight narrative** and **harness transition text** **so that** agents can run **`/phase-end 20.7`** / **`/phase-start 20.8`** with a **single** canonical evidence path and **no** stub sections.
+
+---
+
+### Analysis
+
+- **Problem / why now:** Preflight evidence is incomplete without **§3–§4**; phase **20.7** log/handoff must state **package complete** and point to **20.8**.
+- **Boundaries:** **`.project-manager/`** markdown only.
+- **Dependencies:** **20.7.3.1** complete.
+
+### Goal
+
+Deliver a **non-stub** **`preflight-evidence-20.7.2.md`** §3 and §4 and **updated handoffs** so the feature is ready for **phase 20.8** execution.
+
+### Files
+
+- **Edit:** `preflight-evidence-20.7.2.md`, `phases/phase-20.7-log.md`, `feature-domain-architecture-alignment-handoff.md`, `sessions/session-20.7.3-handoff.md` (create if missing)
+- **Optional edit:** `phases/phase-20.7-guide.md`
+- **Read-only:** `ARCHITECTURE.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.cursor/rules` (migration rule)
+
+### Approach
+
+1. Draft §3 / §4 in preflight; fix cross-refs in §2.1 “Next” line.
+2. Update logs/handoffs.
+3. **Do not** modify `across-ladder.json` unless **`nextTaskAcross`** must advance (harness may refresh at **`/task-end`**).
+
+### Checkpoint
+
+- Reader can answer “Where is migration policy?” and “Where is **`property_details`** boundary?” from **only** `preflight-evidence-20.7.2.md` §3–§4.
+
+### Deliverables
+
+- **`preflight-evidence-20.7.2.md`** — §3, §4 complete; intro updated.
+- **`phase-20.7-log.md`** — session **20.7.3** noted.
+- **`feature-domain-architecture-alignment-handoff.md`** + **`session-20.7.3-handoff.md`** — next phase **20.8**.
+
+### Acceptance Criteria
+
+- [ ] §3 cites **localhost / shared DB** migration authority and **FEATURE_20** ordering reference.
+- [ ] §4 cites **ARCHITECTURE** §10.4 / §12 and at least one **client** booking path for `propertyDetails` (path only).
+- [ ] No **`client/`** / **`server/`** code changes.
+- [ ] Handoffs list **`/phase-start 20.8`** as next harness step after **`/phase-end 20.7`**.
+
+### Design
+
+1. **`preflight-evidence-20.7.2.md`:** Replace **§3** with: who may run migrations (`DB_HOST` **localhost** / **127.0.0.1**); shared DB consumers **must not** run DDL; **author** migrations on any machine, **execute** on host per rules; pointer to **FEATURE_20** / **20.11** for conversion narrative.
+2. Replace **§4** with: **`property_details`** = appointment-scoped **inputs** (MLS / wizard); time atomics = **rates**; product = rate × input → duration contribution; cite **ARCHITECTURE** §10.4 / §12; link booking builders for evidence.
+3. **Intro paragraph:** State **§3–§4** completed in **session 20.7.3** (not “task 20.7.2.3”); remove stale “**§3–§4** remain for task **20.7.2.3**” line.
+4. **`phase-20.7-log.md`:** Append session **20.7.3** outcome + pointer to full preflight + **next: `/phase-start 20.8`**.
+5. **`feature-domain-architecture-alignment-handoff.md`**, **`session-20.7.3-handoff.md`:** **Current status**, **Next action** = **`/phase-end 20.7`** then **`/phase-start 20.8`** (with feature slug); **Transition context** — preflight complete, backlog in phase guides **20.8–20.13**.
+6. **`phase-20.7-guide.md`:** Optional — mark Session **20.7.3** tasks complete if checklist format exists.
+
+---
