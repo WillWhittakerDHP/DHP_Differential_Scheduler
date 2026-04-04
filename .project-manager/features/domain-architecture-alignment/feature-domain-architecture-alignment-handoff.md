@@ -5,7 +5,7 @@
 **Tier:** Feature (Tier 0 - Highest Level)
 
 **Last Updated:** 2026-04-03
-**Feature Status:** In Progress — Pass **6** execution complete; execution-first extension close-out phases **20.7–20.13** pending
+**Feature Status:** In Progress — Pass **6** execution complete; extension close-out phases **20.7** and **20.8** pending
 **Next Feature:** _(after Feature **20** closeout)_
 
 ---
@@ -82,8 +82,8 @@ Run **`/phase-start 20.7`** after completing any remaining **20.6** harness hous
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-03T22:20:00.000Z
-- **Phases on disk (13):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, 20.11, 20.12, 20.13
+- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-03T21:40:00.000Z
+- **Phases on disk (8):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8
 - **Focus phase:** `20.6` · **Next phase across:** `20.7` → `/phase-start 20.7`
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->

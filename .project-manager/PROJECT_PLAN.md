@@ -43,7 +43,7 @@ This document serves as the master project plan for the DHP Differential Schedul
 | 17 | Admin UI Overhaul | 🔮 Not Started | `features/admin-ui-overhaul/` | — |
 | 18 | Admin Assistance Wizard | 🔮 Not Started | `features/admin-assistance-wizard/` | — |
 | 19 | CRM / Inspection Platform Integration | 📋 Planning | `features/crm-inspection-integration/` (to create) | Part of beta-launch work |
-| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; execution-first extension close-out phases **20.7–20.13** remain before **`/feature-end`** |
+| 20 | Domain Architecture Alignment | ⏳ In Progress | `features/domain-architecture-alignment/` | Pass **6** (**20.6**) execution complete on branch; extension close-out phases **20.7** (canonical lock + preflight) and **20.8** (truth docs + final close-out) remain before **`/feature-end`** |
 
 
 ---
