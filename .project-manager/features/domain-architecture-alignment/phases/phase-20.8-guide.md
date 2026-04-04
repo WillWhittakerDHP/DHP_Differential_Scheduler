@@ -43,6 +43,14 @@ This phase executes the residual work from master-plan **Phases 1–2** that rem
 - [ ] **Routing ownership** — `event_assignments`, `parent_block_instance_id`, and attendee ownership are enforced consistently.
 - [ ] **Validation tightening** — placement and legacy-alias validators teach the locked model rather than the transitional one.
 
+### Preflight follow-ups (Session 20.7.2)
+
+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §2; authority: [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §14.
+
+- **§14.1 (unknown)** — Audit domain separation on part instances: each block type writes only its own concern; no cross-domain overwrites (full write-path review).
+- **§14.3 / §14.3a–c (unknown)** — Enforce per-block `part_assignments` boundaries, orchestrator-only **Base**, and PerUnit on atomics across admin mutations and API contracts.
+- **§1.4 (risk)** — Align **`event_assignments`** API shape with **`RELATIONSHIP_KEYS.eventAssignments`** (`blockInstance` → `eventInstance` default) vs optional **`parentKind`** on fetch (`fetchToGlobalTransformer`); booking currently filters **`parent.entityKey === 'blockInstance'`** — resolve drift if the API emits part-scoped edges only.
+
 ---
 
 ## Sessions breakdown

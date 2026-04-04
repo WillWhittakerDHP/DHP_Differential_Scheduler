@@ -21,6 +21,13 @@
 - [ ] Residual stale vocabulary no longer teaches the wrong model
 - [ ] Cleanup follows proven replacement and narrative support
 
+### Preflight follow-ups (Session 20.7.2)
+
+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §1–§2; [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §8.
+
+- Remove or narrow **transitional** layers that still teach legacy domain labels (`property` / `coupon` / `option`) where **§8** target names are **time** / **price** / **event**.
+- After **20.8–20.10** land, delete dead paths that only existed for pre-preflight ambiguity (e.g. duplicate **event assignment** UX) once replacement is verified.
+
 ---
 
 ## Sessions breakdown

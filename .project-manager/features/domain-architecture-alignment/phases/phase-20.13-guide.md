@@ -21,6 +21,13 @@
 - [ ] Parallel planning surfaces no longer compete with the active sequencing surface
 - [ ] Feature-level and project-level closeout text support a clean **`/feature-end`**
 
+### Preflight follow-ups (Session 20.7.2)
+
+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §2.1; [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §14.
+
+- Reconcile **§14** preflight **unknown** rows with **post-execution** reality after phases **20.8–20.12** (lineage, zero-out, **`property_details`**, admin semantics).
+- Archive or supersede **`preflight-evidence-20.7.2.md`** as a historical checkpoint once **`ARCHITECTURE.md`** and phase guides reflect the same truth.
+
 ---
 
 ## Sessions breakdown
