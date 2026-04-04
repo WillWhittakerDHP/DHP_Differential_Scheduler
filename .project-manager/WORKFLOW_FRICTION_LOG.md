@@ -3753,3 +3753,76 @@ nextAction:
 - Session 20.7.4 is not listed in phase 20.7 guide
 - No session guide/log/handoff exists for 20.7.4
 - Add Session 20.7.4 to phase 20.7 guide before starting it
+
+### 2026-04-04 — 20.7 — phase — end — audit_failed
+
+- **reasonCodeRaw:** audit_failed
+- **reasonCodeNormalized:** audit_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** end
+- **identifier:** 20.7
+- **featureName:** domain-architecture-alignment
+- **stepPath:** conflict_marker_guard, plan_mode_exit, resolve_run_tests, pre_work, test_goal_validation, run_tests, mid_work, comment_cleanup, readme_cleanup, deliverables_check, gap_analysis, planning_rollup, doc_rollup, commit_remaining, git, propagate_shared, verification_check, config_fix, end_audit
+
+- **Symptom:** Harness end failed (reasonCode=audit_failed).
+- **Context:** tier=phase; identifier=20.7; featureName=domain-architecture-alignment
+
+nextAction:
+Fix audit warnings or errors per governance, then re-run this tier-end. Read the governance docs listed in deliverables FIRST.
+
+deliverables (excerpt):
+# Phase Audit: 20.7
+
+**Overall Status:** WARN
+**Report:** .cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.7-audit.md
+
+## External Signals (captured)
+
+- **Location:** `.cursor/project-manager/features/domain-architecture-alignment/audits/external/phase-20.7/2026-04-04T18-40-48Z`
+- **Copied:** 7 file(s)
+- **Missing:** 2 file(s) (signals not present yet)
+
+## Score Comparison
+
+
+## Results Summary
+
+- ⚠️ **tier-quality**: warn (86/100)
+
+## Autofix
+
+Tier phase: 0 script fix(es) applied, 2 agent directive(s). Affected files: 2. Cascade: 1 lower-tier re-audit(s) run.
+
+**Agent directives:**
+- Fix type errors reported in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/typecheck/typecheck-audit.json. Address P0 pools first.
+- Consolidate duplicated code identified in /Users/districthomepro/Bonsai/Differential_Scheduler/client/.audit-reports/duplication-audit.json. Create shared utility or composable.
+
+---
+
+## 📋 Review Request
+
+**Please review the audit report with me:**
+
+📄 **Report File:** `/Users/districthomepro/Bonsai/Differential_Scheduler/.cursor/project-manager/features/domain-architecture-alignment/audits/phase-20.7-audit.md`
+
+**Questions to consider:**
+- Are the audit findings accurate?
+- Are there false positives or missing issues?
+- How can we improve the audit checks?
+- What workflow refinements do the audits suggest?
+
+*The audit report file should be open in your editor. Let's review it together to refine the workflow command tool.*
+
+---
+
+## Architecture context (harness-injected)
+
+## 1. System overview
+
+Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+
+- **Public booking users** — wizard-style scheduling and property/availability flows.
+- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `
+
+…(truncated)
