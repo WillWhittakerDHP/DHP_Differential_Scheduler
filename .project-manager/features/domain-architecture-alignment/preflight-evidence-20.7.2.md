@@ -9,7 +9,7 @@
 - [architecture-alignment-closeout-master-plan.md](./architecture-alignment-closeout-master-plan.md) — close-out sequencing (phases 20.7–20.13).
 - [.project-manager/ARCHITECTURE.md](../ARCHITECTURE.md) — **§10** (PartFinalizer, `event_assignments`), **§11** (events / placement).
 
-This file is the **single primary surface** for preflight notes produced in session **20.7.2**. **§2** is complete (task **20.7.2.2**); **§3–§4** remain for task **20.7.2.3**.
+This file is the **single primary surface** for preflight notes: **§§1–2** from session **20.7.2**; **§§3–4** completed in session **20.7.3** (task **20.7.3.2**).
 
 ---
 
@@ -50,8 +50,8 @@ Per **ARCHITECTURE.md** §10.1 and §14.3e, **events are routed relationally** v
 
 ### 1.5 Next (remaining preflight sections)
 
-- **§2 — Invariant audit** — task **20.7.2.2** (§14-style table, owning phases **20.8–20.13**).
-- **§3 — Migration execution policy** and **§4 — `property_details` boundary** — task **20.7.2.3**.
+- **§2 — Invariant audit** — completed session **20.7.2** (task **20.7.2.2**).
+- **§3 — Migration execution policy** and **§4 — `property_details` boundary** — completed session **20.7.3** (task **20.7.3.2**).
 
 ---
 
@@ -79,23 +79,55 @@ Per **ARCHITECTURE.md** §10.1 and §14.3e, **events are routed relationally** v
 | **§10.3 step 5** Zero-out **after** floor; zero-out wins for rollups | **unknown** (partial) | **Excluded from rollups:** `filterZeroedParts` / **`filterZeroedBlocks`** (`client/src/utils/booking/partFinalizer.ts`, `blockFinalizer.ts`) remove zeroed parts before **`buildAppointmentShape`** slot pipeline. Full ordering vs **§10.3** steps 2–5 (floor vs zero-out) not proven in one trace. | **20.10** | [phase-20.10-guide.md](./phases/phase-20.10-guide.md) |
 | **§14.4** Events are data — pipeline reads assignments + placement from storage | **pass** (partial) | Event shapes / instances loaded from global; slot pipeline uses stored relationships and **`eventShape`** entities. Placement “no hidden calculator” not formally proven. | — | — |
 | **§14.4a–c** Event shape = placement type; instances = segments; new rows without engine change | **unknown** | Broadly matches product direction; extensibility per row not tested. | **20.10** | [phase-20.10-guide.md](./phases/phase-20.10-guide.md) |
-| **§14.5** `property_details` is appointment data, not configuration for duration rates | **unknown** | Wizard / request builders use `propertyDetails` on appointments (`client/src/utils/booking/appointmentDataBuilders.ts`, etc.). **Distinction** vs time atomics / rates is **ARCHITECTURE** §10.4 / §12 — detailed evidence paragraph is **§4** (task **20.7.2.3**). | **20.10** | [phase-20.10-guide.md](./phases/phase-20.10-guide.md) |
+| **§14.5** `property_details` is appointment data, not configuration for duration rates | **unknown** | Wizard / request builders use `propertyDetails` on appointments (`client/src/utils/booking/appointmentDataBuilders.ts`, etc.). **Distinction** vs time atomics / rates is **ARCHITECTURE** §10.4 / §12 — detailed evidence paragraph is **§4** below. | **20.10** | [phase-20.10-guide.md](./phases/phase-20.10-guide.md) |
 | **§14.6** User instances as orchestrators; flags are configuration | **unknown** | Product rule; user-type block wiring not audited in this pass. | **20.9** | [phase-20.9-guide.md](./phases/phase-20.9-guide.md) |
 
 ### 2.1 Summary
 
 - **Passes:** **§14.2** (three booleans present), **§14.3e** (relational events with documented API nuance), **§14.3f** (server persistence boundary stated in code), **§14.4** (partial — data-driven events).
-- **Highest-risk unknowns:** **§14.3d** (lineage vs **part_shape** grouping), **§10.3** zero-out ordering vs filtered pipeline, **§14.5** (full boundary until **§4**).
-- **Next:** **§3** migration policy and **§4** `property_details` — task **20.7.2.3**.
+- **Highest-risk unknowns:** **§14.3d** (lineage vs **part_shape** grouping), **§10.3** zero-out ordering vs filtered pipeline, **§14.5** (see **§4** for boundary prose).
+- **Next (execution):** Close-out phases **20.8–20.13** — see **`### Preflight follow-ups`** in each **`phase-20.x-guide.md`** and [architecture-alignment-closeout-master-plan.md](./architecture-alignment-closeout-master-plan.md).
 
 ---
 
 ## 3. Migration execution policy
 
-*To be completed in task **20.7.2.3**.*
+**Authority:** Workspace rule **Migration authority** (`.cursor/rules` / process workflow): do **not** run `npm run migrate`, `db:reset`, Sequelize DDL, or similar **unless** `DB_HOST` in the active server env (e.g. `server/.env.development`) is **`localhost`** or **`127.0.0.1`**. If `DB_HOST` points at a **shared / remote** database, this machine is a **consumer** — **only the host** runs migrations.
+
+**Authoring vs execution**
+
+- **Authoring** migration files in-repo is allowed from any machine; **commit** them for the host to run.
+- **Executing** migrations against a database requires the **localhost guard** above (or the designated migration host for that environment).
+
+**Feature 20 ordering**
+
+- Ordered passes and migration **narrative** (which migration runs when, baseline seeds, conversion crosswalks) live in [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](../analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) and are **operationalized** in extension phase **[phase-20.11-guide.md](./phases/phase-20.11-guide.md)** (migration narrative and data conversion close-out). Preflight does **not** replace that plan — it restates **who may run DDL** so agents do not accidentally migrate a shared DB.
+
+**Session harness:** Tier workflow may run **`/phase-start`** / **`/session-start`** on a consumer machine; that does **not** override the migration rule.
 
 ---
 
 ## 4. `property_details` vs time-configuration storage
 
-*To be completed in task **20.7.2.3**.*
+**Authority:** [.project-manager/ARCHITECTURE.md](../ARCHITECTURE.md) **§10.4** (time atomics and `property_details`), **§12** (MLS / property enrichment tables), **§14.5** (`property_details` is appointment data, not configuration for duration rates).
+
+**Roles**
+
+| Concern | Role |
+|--------|------|
+| **Time atomics** (part instances / time domain) | Hold **rates** and configuration used with inputs — **how** duration maps from property characteristics. |
+| **`property_details`** | **Appointment-scoped inputs** (MLS / wizard): what the **property is** for this inspection — square footage, ADU count, address fields, etc. |
+| **Product rule** | **Rate × input** → duration contribution. **`property_details`** is **data**; it is **not** a substitute for **time configuration** (rates live on atomic part rows / settings per architecture). |
+
+**Storage map (architecture)**
+
+- **`property_details`** table — physical characteristics of the inspected property (**appointment-scoped**). See **ARCHITECTURE** §12 table.
+- **`property_field_mappings`** / **`property_feature_mappings`** — MLS-driven rules and field mapping into **`property_details`** columns; distinct from **timePerUnit**-style configuration on part rows.
+
+**Client evidence (booking)**
+
+- **`client/src/utils/booking/appointmentDataBuilders.ts`** — `buildPropertyDetailsForRequest` and appointment payloads carrying `propertyDetails` for persistence; wizard flow supplies step data that becomes this payload shape.
+
+**Execution follow-up**
+
+- **§14.5** remained **unknown** in the §2 audit until product paths are fully traced end-to-end; **owning phase [20.10](./phases/phase-20.10-guide.md)**. This §4 paragraph is the **contract restatement**; verification work stays in the booking pipeline phase, not in preflight alone.

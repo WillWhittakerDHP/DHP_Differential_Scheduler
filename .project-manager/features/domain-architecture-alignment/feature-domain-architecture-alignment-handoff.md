@@ -5,20 +5,23 @@
 **Tier:** Feature (Tier 0 - Highest Level)
 
 **Last Updated:** 2026-04-04  
-**Feature Status:** In Progress — passes **20.1–20.6** complete; extension phases **20.7–20.13** in flight; **Phase 20.7** / **Session 20.7.1** active (canonical lock + doc protections)  
+**Feature Status:** In Progress — passes **20.1–20.6** complete; **Phase 20.7** preflight + backlog mapping complete (sessions **20.7.1–20.7.3**); **next harness phase: 20.8**  
 **Next Feature:** _(after Feature **20** closeout)_
 
 ---
 
 ## Current Status
 
-**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work runs through extension phases **20.7–20.13** per **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. **Phase 20.7** and **Session 20.7.1** are underway.
+**Feature domain-architecture-alignment:** Extension **Phase 20.7** delivered the canonical lock, full **[`preflight-evidence-20.7.2.md`](./preflight-evidence-20.7.2.md)** (§§1–4), and **Preflight follow-ups** in **`phase-20.8`–`phase-20.13`** guides. Remaining work: execution phases **20.8–20.13**, then truth-doc closeout — see **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**.
 
 ---
 
 ## Next Action
 
-Continue **Session 20.7.1** — follow **`sessions/session-20.7.1-guide.md`**. Sequencing index: **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. Task **20.7.1.1** (in-repo master plan + link normalization) is complete; after **20.7.1.2** (handoff alignment), run **`/task-start 20.7.1.3`** for the tombstone pass, then **`/session-end`** when session objectives are met. Do **not** run **`/feature-end`** until **20.13** is complete.
+1. Run **`/phase-end 20.7`** (with feature ref **`domain-architecture-alignment`** as required by the harness).  
+2. Run **`/phase-start 20.8`** — **[`phases/phase-20.8-guide.md`](./phases/phase-20.8-guide.md)** (residual schema and API enforcement).  
+
+Do **not** run **`/feature-end`** until **20.13** is complete.
 
 ---
 

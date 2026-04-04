@@ -11,6 +11,14 @@
 
 ## Completed Tasks
 
+### Task 20.7.3.2: Task 20.7.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.7.3.3
+
+
+
 ### Task 20.7.3.1: Task 20.7.3.1 ✅
 **Goal:** Task completed
 
@@ -19,142 +27,177 @@
 
 <!-- end excerpt session -->
 
+
+
+### Task 20.7.3.2: Task 20.7.3.2 ✅
+**Goal:** Task completed
+
+**Next Task:**
+- 20.7.3.3
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (11): `.project-manager/features/domain-architecture-alignment/across-ladder.json`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.10-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.11-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.12-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.13-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.8-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.9-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.3-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.3.1-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.3.1-planning.md`
+Paths (9): `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md`, `.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.3-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.3-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.3-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.3.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.3.2-planning.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../domain-architecture-alignment/across-ladder.json   |  2 +-
- .../phases/phase-20.10-guide.md                        | 11 +++++++++++
- .../phases/phase-20.11-guide.md                        |  7 +++++++
- .../phases/phase-20.12-guide.md                        |  7 +++++++
- .../phases/phase-20.13-guide.md                        |  7 +++++++
- .../phases/phase-20.8-guide.md                         |  8 ++++++++
- .../phases/phase-20.9-guide.md                         |  8 ++++++++
- .../sessions/session-20.7.3-guide.md                   |  2 +-
- .../sessions/session-20.7.3-log.md                     | 18 ++++++++++++++++++
- 9 files changed, 68 insertions(+), 2 deletions(-)
+...eature-domain-architecture-alignment-handoff.md |  9 ++-
+ .../phases/phase-20.7-guide.md                     |  2 +-
+ .../phases/phase-20.7-log.md                       | 65 ++++++++--------------
+ .../preflight-evidence-20.7.2.md                   | 48 +++++++++++++---
+ .../sessions/session-20.7.3-guide.md               |  2 +-
+ .../sessions/session-20.7.3-log.md                 | 15 +++++
+ 6 files changed, 86 insertions(+), 55 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/domain-architecture-alignment/across-ladder.json b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-index a4b020bc..6093bd34 100644
---- a/.project-manager/features/domain-architecture-alignment/across-ladder.json
-+++ b/.project-manager/features/domain-architecture-alignment/across-ladder.json
-@@ -1,7 +1,7 @@
- {
-   "schemaVersion": 1,
-   "feature": "domain-architecture-alignment",
--  "derivedAt": "2026-04-04T18:31:17.994Z",
-+  "derivedAt": "2026-04-04T18:33:00.907Z",
-   "sourceTier": "session",
-   "phasesOnDisk": [
-     "20.1",
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.10-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.10-guide.md
-index 95997b0e..b6b1ebcd 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.10-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.10-guide.md
-@@ -29,6 +29,17 @@
- - [ ] Placement/layout derives from event instances and placement types
- - [ ] Zero-out ordering is verified in the actual live path
+diff --git a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
+index 368bf453..17b3d338 100644
+--- a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
++++ b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
+@@ -5,20 +5,23 @@
+ **Tier:** Feature (Tier 0 - Highest Level)
  
-+### Preflight follow-ups (Session 20.7.2)
-+
-+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §§1–2; authority: [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §10–§14.
-+
-+- **§14.3d (unknown)** — PartFinalizer / slot pipeline key **`eventAssignmentsByPartShape`** and **`groupPartsByShape`** by **part shape name** — reconcile with **lineage** bucket rules (§10.2 / §14.3d) when multiple work items could collide.
-+- **§14.3g (unknown)** — Per-block-instance provenance / undo / reconfiguration — operational verification on live path.
-+- **§10.3 step 5 (unknown)** — **Zero-out last** vs current **`filterZeroedParts` / `filterZeroedBlocks`** exclusion before slot-shape — prove ordering matches **ARCHITECTURE** §10.3.
-+- **§14.4a–c (unknown)** — New event placement types via data rows without mandatory engine change per row.
-+- **§14.5 (unknown)** — **`property_details`** as appointment data vs time-configuration rates — full boundary paragraph tracks **preflight** §4 (session **20.7.3**).
-+- **§1.4 (risk)** — If the live pipeline requires **part-scoped** `event_assignments` edges, align **`appointmentSlotBuilder`** consumption with API/global graph.
-+
+ **Last Updated:** 2026-04-04  
+-**Feature Status:** In Progress — passes **20.1–20.6** complete; extension phases **20.7–20.13** in flight; **Phase 20.7** / **Session 20.7.1** active (canonical lock + doc protections)  
++**Feature Status:** In Progress — passes **20.1–20.6** complete; **Phase 20.7** preflight + backlog mapping complete (sessions **20.7.1–20.7.3**); **next harness phase: 20.8**  
+ **Next Feature:** _(after Feature **20** closeout)_
+ 
  ---
  
- ## Sessions breakdown
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.11-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.11-guide.md
-index 440e25a6..2f240357 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.11-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.11-guide.md
-@@ -21,6 +21,13 @@
- - [ ] Conversion and migration crosswalks reflect the final execution reality
- - [ ] Metadata-retirement ordering remains traceable before final cleanup/closeout
+ ## Current Status
  
-+### Preflight follow-ups (Session 20.7.2)
-+
-+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §3 (pending); [`.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`](../../../analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) ordering.
-+
-+- **Migration execution policy** — Restate workspace rule: run DDL/migrations only when **`DB_HOST`** is **`localhost`** / **`127.0.0.1`** (shared DB consumers do not execute migrations). Tie **Feature 20** migration sequence to this phase’s baseline and conversion crosswalks.
-+- **Routing reality** — After **20.8** API/schema work, update migration/seed narratives so **`event_assignments`** and related tables match the enforced contract.
-+
+-**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work runs through extension phases **20.7–20.13** per **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. **Phase 20.7** and **Session 20.7.1** are underway.
++**Feature domain-architecture-alignment:** Extension **Phase 20.7** delivered the canonical lock, full **[`preflight-evidence-20.7.2.md`](./preflight-evidence-20.7.2.md)** (§§1–4), and **Preflight follow-ups** in **`phase-20.8`–`phase-20.13`** guides. Remaining work: execution phases **20.8–20.13**, then truth-doc closeout — see **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**.
+ 
  ---
  
- ## Sessions breakdown
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.12-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.12-guide.md
-index 3f5b1c0b..0db9ed1b 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.12-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.12-guide.md
-@@ -21,6 +21,13 @@
- - [ ] Residual stale vocabulary no longer teaches the wrong model
- - [ ] Cleanup follows proven replacement and narrative support
+ ## Next Action
  
-+### Preflight follow-ups (Session 20.7.2)
+-Continue **Session 20.7.1** — follow **`sessions/session-20.7.1-guide.md`**. Sequencing index: **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. Task **20.7.1.1** (in-repo master plan + link normalization) is complete; after **20.7.1.2** (handoff alignment), run **`/task-start 20.7.1.3`** for the tombstone pass, then **`/session-end`** when session objectives are met. Do **not** run **`/feature-end`** until **20.13** is complete.
++1. Run **`/phase-end 20.7`** (with feature ref **`domain-architecture-alignment`** as required by the harness).  
++2. Run **`/phase-start 20.8`** — **[`phases/phase-20.8-guide.md`](./phases/phase-20.8-guide.md)** (residual schema and API enforcement).  
 +
-+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §1–§2; [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §8.
-+
-+- Remove or narrow **transitional** layers that still teach legacy domain labels (`property` / `coupon` / `option`) where **§8** target names are **time** / **price** / **event**.
-+- After **20.8–20.10** land, delete dead paths that only existed for pre-preflight ambiguity (e.g. duplicate **event assignment** UX) once replacement is verified.
-+
++Do **not** run **`/feature-end`** until **20.13** is complete.
+ 
  ---
  
- ## Sessions breakdown
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.13-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.13-guide.md
-index 7d3653bd..4b4bce83 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.13-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.13-guide.md
-@@ -21,6 +21,13 @@
- - [ ] Parallel planning surfaces no longer compete with the active sequencing surface
- - [ ] Feature-level and project-level closeout text support a clean **`/feature-end`**
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
+index 97523488..8d0c76fa 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
+@@ -99,7 +99,7 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
+ - Restate migration execution policy in the active close-out docs.
+ - Verify `property_details` remains appointment-scoped input data and is not drifting into time-configuration storage.
  
-+### Preflight follow-ups (Session 20.7.2)
-+
-+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §2.1; [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §14.
-+
-+- Reconcile **§14** preflight **unknown** rows with **post-execution** reality after phases **20.8–20.12** (lineage, zero-out, **`property_details`**, admin semantics).
-+- Archive or supersede **`preflight-evidence-20.7.2.md`** as a historical checkpoint once **`ARCHITECTURE.md`** and phase guides reflect the same truth.
-+
+-- [ ] ### Session 20.7.3: Residual execution backlog (phases 20.8–20.13)
++- [x] ### Session 20.7.3: Residual execution backlog (phases 20.8–20.13)
+ **Description:** Turn preflight conclusions from **20.7.2** into actionable rows on the extension ladder: each finding or deferred risk should land in the correct **`phase-20.x-guide.md`** (for **x ≥ 8**) or in **`across-ladder.json`** session notes. Do not restate completed **20.1–20.6** pass work here.
+ 
+ **Tasks:**
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
+index ff763b3d..f09db227 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
+@@ -8,63 +8,44 @@
+ 
+ ## Phase Status
+ 
+-**Phase:** 20.7
+-**Status:** Planned
+-**Started:** [Date]
+-**Completed:** [Date] (if complete)
++**Phase:** 20.7  
++**Status:** Ready for phase-end (all sessions complete on doc surface)  
++**Started:** 2026-04-04  
++**Completed:** _(pending `/phase-end 20.7`)_
+ 
  ---
  
- ## Sessions breakdown
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.8-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.8-guide.md
-index a0f24456..922bcb75 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.8-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.8-guide.md
-@@ -43,6 +43,14 @@ This phase executes the residual work from master-plan **Phases 1–2** that rem
- - [ ] **Routing ownership** — `event_assignments`, `parent_block_instance_id`, and attendee ownership are enforced consistently.
- - [ ] **Validation tightening** — placement and legacy-alias validators teach the locked model rather than the transitional one.
+ ## Completed Sessions
  
-+### Preflight follow-ups (Session 20.7.2)
-+
-+Source: [`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md) §2; authority: [`.project-manager/ARCHITECTURE.md`](../../../ARCHITECTURE.md) §14.
-+
-+- **§14.1 (unknown)** — Audit domain separation on part instances: each block type writes only its own concern; no cross-domain overwrites (full write-path review).
-+- **§14.3 / §14.3a–c (unknown)** — Enforce per-block `part_assignments` boundaries, orchestrator-only **Base**, and PerUnit on atomics across admin mutations and API contracts.
-+- **§1.4 (risk)** — Align **`event_assignments`** API shape with **`RELATIONSHIP_KEYS.eventAssignments`** (`blockInstance` → `eventInstance` default) vs optional **`parentKind`** on fetch (`fetchToGlobalTransformer`); booking currently filters **`parent.entityKey === 'blockInstance'`** — resolve drift if the API emits part-scoped edges only.
-+
+-### Session 20.7.2: Preflight evidence package ✅
+-**Completed:** 2026-04-04
+-**Tasks Completed:** All tasks completed
+-**Key Accomplishments:**
+-- Completed ** Preflight evidence package
+-
++### Session 20.7.3: Residual execution backlog (phases 20.8–20.13) ✅
++**Completed:** 2026-04-04  
++**Tasks Completed:** 20.7.3.1, 20.7.3.2  
++**Key accomplishments:**
++- Cross-walked **[`preflight-evidence-20.7.2.md`](../preflight-evidence-20.7.2.md)** §§1–2 into **`phase-20.8-guide.md`–`phase-20.13-guide.md`** (**Preflight follow-ups** subsections).
++- Finished preflight **§3** (migration execution policy) and **§4** (`property_details` vs time-configuration).
++- Updated feature / session handoffs for **`/phase-start 20.8`**.
+ 
++### Session 20.7.2: Preflight evidence package ✅
++**Completed:** 2026-04-04  
++**Key accomplishments:** Event-routing watchpoint (**§1**), invariant audit (**§2**).
+ 
+ ### Session 20.7.1: Canonical plan adoption and doc protections ✅
+-**Completed:** 2026-04-04
+-**Tasks Completed:** All tasks completed
+-**Key Accomplishments:**
+-- Completed ** Canonical plan adoption and doc protections
+-
+-
+-
+-### Session [SESSION_ID]: [SESSION_NAME] ✅
+-**Completed:** [Date]
+-**Tasks Completed:** [List of task IDs]
+-**Key Accomplishments:**
+-- [Accomplishment 1]
+-- [Accomplishment 2]
+-
+----
+-
+-## In Progress Sessions
+-
+-### Session [SESSION_ID]: [SESSION_NAME] 🔄
+-**Started:** [Date]
+-**Current Task:** [TASK_ID]
+-**Progress:** [X] of [Y] tasks complete
++**Completed:** 2026-04-04  
++**Key accomplishments:** Master plan adoption, doc tombstones / warnings, link normalization.
+ 
  ---
  
- ## Sessions breakdown
-diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.9-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.9-guide.md
-index 996205a8..565df1eb 100644
---- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.9-guide.md
-+++ b/.project-manager/features/domain-architecture
+ ## Key Decisions
+ 
+-### Decision [Date]
+-**Context:** [What decision was needed]
+-**Decision:** [What was decided]
+-**Rationale:** [Why this decision was made]
+-**Impact:** [How this affects downstream phases]
++### 2026-04-04 — Preflight package surface
++**Context:** Close-out phases **20.8+** need a single evidence file plus guide-level backlog rows.  
++**Decision:** **`preflight-evidence-20.7.2.md`** holds §§1–4; extension phase guides hold execution backlog bullets.  
++**Impact:** Phase **20.8** agents start from **`phase-20.8-guide.md`** + preflight link, not only session logs.
+ 
+ ---
+ 
+ ## Next Steps
+ 
+-- Start **20.7.1**
+-- Lock the canonical close-out sequencing surface
+-- Prepare the preflight evidence package for **20.7.2**
+-- Extract the residual execution backlog in **20.7.3**
+-
++1. Run **`/phase-end 20.7`** when ready (feature branch, harness clean).
++2. Run **`/phase-start 20.8`** with feature ref **`domain-architecture-alignment`** — **[`phase-20.8-guide.md`](./phase-20.8-guide.md)** (residual schema and API enforcement).
++3. Continue extension ladder per **[`architecture-alignment-closeout-master-plan.md`](../architecture-alignment-closeout-master-plan.md)** through **20.13** before **`/feature-end`**.
+diff --git a/.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md b/.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md
+index cfc0eee0..182f8586 100644
+--- a/.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md
++++ b/.project-manager/features/domain-architecture-alignment/preflight-evidence-20.7.2.md
+@@ -9,7 +9,7 @@
+ - [architecture-alignment-closeout-master-plan.md](./architecture-alignment-closeout-master-plan.md) — close-out sequencing (phases 20.7–20.13).
+ -
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

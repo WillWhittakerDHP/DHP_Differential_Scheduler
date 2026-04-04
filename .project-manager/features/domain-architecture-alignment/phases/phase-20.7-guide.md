@@ -99,7 +99,7 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
 - Restate migration execution policy in the active close-out docs.
 - Verify `property_details` remains appointment-scoped input data and is not drifting into time-configuration storage.
 
-- [ ] ### Session 20.7.3: Residual execution backlog (phases 20.8–20.13)
+- [x] ### Session 20.7.3: Residual execution backlog (phases 20.8–20.13)
 **Description:** Turn preflight conclusions from **20.7.2** into actionable rows on the extension ladder: each finding or deferred risk should land in the correct **`phase-20.x-guide.md`** (for **x ≥ 8**) or in **`across-ladder.json`** session notes. Do not restate completed **20.1–20.6** pass work here.
 
 **Tasks:**
