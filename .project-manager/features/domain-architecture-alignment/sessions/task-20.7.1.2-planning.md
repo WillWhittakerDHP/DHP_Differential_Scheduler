@@ -1,8 +1,8 @@
-# Plan: task 20.7.1.1 — Canonical close-out plan file + link normalization
+# Plan: task 20.7.1.2 — Feature & phase handoff alignment (extension ladder)
 
 ## Contract
-- **Tier:** task | **ID:** 20.7.1.1
-- **Scope:** Add committed **`architecture-alignment-closeout-master-plan.md`** under Feature **20** and replace every broken **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** pointer under **`.project-manager/features/domain-architecture-alignment/`** with that path.
+- **Tier:** task | **ID:** 20.7.1.2
+- **Scope:** Refresh **`feature-domain-architecture-alignment-handoff.md`**, **`phases/phase-20.7-handoff.md`**, and small **`feature-domain-architecture-alignment-guide.md`** tweaks so **Next Action** / status match **active Phase 20.7 / Session 20.7.1** (after **20.7.1.1**); strip template stubs. **No** tombstone grep (**20.7.1.3**).
 - **Governance:** Governance Context (Task)
 
 ## Work Profile
@@ -19,18 +19,17 @@
 
 ## Where we left off
 
-Session **20.7.1** accepted; first executable slice is this task. **20.7.1.2** (handoff/guide copy) and **20.7.1.3** (tombstones) are **out of scope** here.
+**Task 20.7.1.1** complete: in-repo **`architecture-alignment-closeout-master-plan.md`** + link sweep. **This task** updates human-facing harness handoffs so they stop instructing **`/phase-start 20.7`** when phase/session work has already started.
 
 ## Parent context (session planning — Analysis excerpt)
 
-- **Problem / why now:** Without a **stable in-repo** sequencing anchor and aligned **Next Action** text, cascades and handoffs keep re-anchoring on **`/phase-start 20.7`** or vague “master plan” paths while the linked **`.cursor/plans/…`** file is absent.
-- **Domains:** **Docs / harness only** — touches `.project-manager/features/domain-architecture-alignment/**` and possibly root markdown pointers; does **not** change **`client/`** unless we add a one-line README tombstone (prefer `.project-manager` first).
-- **Child tasks:** Thin **task** plans: one for **canonical plan file + link normalization**, one for **feature handoff/guide + phase handoff stub updates**, one for **tombstone grep + targeted edits**.
-- **Risks:** Over-editing historical archives; mitigate by **banner + link** rather than deleting content. Duplicating huge plan text in two places — mitigate with **one canonical `.project-manager/...` file** and relative links from feature/phase guides.
+- **Problem:** Feature and phase handoffs still read like **pre-20.7** templates (**Next Action:** run **`/phase-start 20.7`**; placeholder **Feature Summary**; **`feature/[name]`** branch).
+- **Domains:** `.project-manager/features/domain-architecture-alignment/**` markdown only.
+- **Dependency:** Close-out plan path is now **`./architecture-alignment-closeout-master-plan.md`** — handoffs should cite it by name, not “locked master plan” with no path.
 
 ## Story
 
-**This task changes** harness documentation **because** several Feature **20** guides and handoffs link to a **Cursor plan path that does not exist in git**, so agents hit dead links when adopting the close-out ladder.
+**This task changes** feature and phase **handoff** documents (and a light **feature guide** consistency pass) **because** stale **Next Action** lines derail harness cascades after **`/session-start 20.7.1`** and **`/task-start 20.7.1.*`**.
 
 ---
 ## Architecture context (harness-injected)
@@ -94,70 +93,79 @@ Cross-cutting: **transformers** (e.g. global → booking), **injection keys** fo
 
 ## Codebase recon (agent-led — required)
 
-This task is **documentation under `.project-manager/features/domain-architecture-alignment/`** only — no `client/` / `server/` / `shared/` product code.
+Docs-only; no `client/` / `server/` / `shared/` product paths.
 
-- **Paths reviewed (grep):** `feature-domain-architecture-alignment-guide.md`; `phases/phase-20.7-guide.md`, `phase-20.7-handoff.md`, `phase-20.8-guide.md`, `phase-20.9-guide.md`, `phase-20.10-guide.md` — all reference **`/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** or equivalent; that path is **not** in the repo.
-- **Patterns:** Relative links from feature/phases use `../../../.cursor/plans/...` or backtick-only paths; they need a **stable sibling** under the feature directory.
-- **Gaps:** Other repos or local **Cursor** plan exports may hold the long-form narrative; this task adds an **in-repo index** so harness docs never 404. Deeper narrative can be appended later without changing link targets again.
+- **Paths reviewed:** `feature-domain-architecture-alignment-handoff.md` (still **`/phase-start 20.7`**; template **Feature Summary**; **`feature/[name]`**); `phases/phase-20.7-handoff.md` (**Phase Status:** Planned; **Next Action:** **`/phase-start 20.7`**); `feature-domain-architecture-alignment-guide.md` (**Mandatory context** says “both canonical documents” while three bullets exist); `architecture-alignment-closeout-master-plan.md` (correct link target for handoffs).
+- **Patterns:** Harness **across-ladder** blocks in handoff may be stale vs **`across-ladder.json`** — prefer not to hand-edit unless obviously wrong; tier-end usually refreshes.
+- **Gaps:** Exact git branch name from repo: **`feature/domain-architecture-alignment`**.
 
 ## Analysis
 
-- **Problem:** Agents follow links to a non-existent **`.cursor/plans/...`** file; tier-start output and phase handoffs repeat that path.
-- **Boundary:** Feature **20** harness markdown only for **this** task; handoff prose refresh waits for **20.7.1.2**.
-- **Approach lock:** One new markdown file + mechanical link replacement in files that currently cite the missing plan path (within this feature folder).
-- **Risk:** Wrong relative depth when linking from nested `phases/` — use **`../architecture-alignment-closeout-master-plan.md`** from `phases/` and **`./architecture-alignment-closeout-master-plan.md`** from feature root files.
+- **Why now:** Task **20.7.1.1** fixed links; handoffs are the remaining source of wrong cascades.
+- **Risk:** Over-specifying “you are on task X” goes stale after each **`/task-end`** — prefer durable wording: “Phase **20.7** in progress; Session **20.7.1**; continue session tasks then **`/session-end`**.”
 
 ## Design
 
-1. **New file** `architecture-alignment-closeout-master-plan.md` at feature root:
-   - Title + **Purpose** (canonical sequencing surface for phases **20.7–20.13**).
-   - **Conflict rule** (align with `phase-20.7-guide.md`: analysis docs > this doc for architecture truth; this doc > informal forks for **order**).
-   - Table or list: phase **20.x** → link to `./phases/phase-20.x-guide.md` for **x = 7..13**.
-   - Pointers to `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md`.
-   - Short **Phase 0 / preflight** reminder (one paragraph) so the file is useful even before a long Cursor export is pasted.
-2. **Link sweep:** In every file under the grep result set, replace the **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** bullet/link with a link to **`../architecture-alignment-closeout-master-plan.md`** (from `phases/`) or **`./architecture-alignment-closeout-master-plan.md`** (from feature root), matching each file’s location.
+1. **Feature handoff**
+   - **Last Updated:** today (ISO date).
+   - **Feature Status:** In Progress — extension **20.7–20.13**; Phase **20.7** / Session **20.7.1** active (tasks **20.7.1.1** done; **20.7.1.2**–**20.7.1.3** pending unless already advanced).
+   - **Current Status:** One short paragraph: pass **20.6** complete; close-out index committed; session **20.7.1** in flight.
+   - **Next Action:** Point to **`session-20.7.1-guide.md`**, **`/task-start 20.7.1.3`** after this task, and **[`architecture-alignment-closeout-master-plan.md`](../architecture-alignment-closeout-master-plan.md)** — **not** **`/phase-start 20.7`**.
+   - **Git Branch Status:** **`feature/domain-architecture-alignment`**, in progress (adjust merge lines to honest placeholders or remove if unknown).
+   - **Feature Summary / Related Documents:** Replace **`[name]`** placeholders with **`domain-architecture-alignment`** or concise real bullets; remove lorem-style lines where possible.
+
+2. **Phase 20.7 handoff**
+   - **Phase Status:** In Progress (or Active).
+   - **Next Action:** **`/session-start 20.7.1`** if not started — **else** continue **Session 20.7.1** / next task per session guide (wording that matches post-**phase-start** reality).
+   - **What you need to start:** Already satisfied → reframe as “what you need **during** phase 20.7”.
+
+3. **Feature guide**
+   - **Mandatory context:** Change “**both** canonical documents” → **three** bullets (principles, redesign, close-out master plan index) or “all canonical sources in § Canonical sources above”.
 
 ## Goal
 
-Ship a **committed** canonical close-out plan document and update **all** Feature **20** harness references that pointed at the missing Cursor plan so they resolve in-repo.
+Align feature- and phase-level **handoff** narratives with **active** extension work and remove obvious template noise; add minimal **guide** wording so mandatory context matches the three canonical bullets.
 
 ## Files
 
-- **Create:** `.project-manager/features/domain-architecture-alignment/architecture-alignment-closeout-master-plan.md`
-- **Edit (link normalization):** `feature-domain-architecture-alignment-guide.md`, `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.8-guide.md`, `phases/phase-20.9-guide.md`, `phases/phase-20.10-guide.md`  
-- **Optional same-task:** `sessions/session-20.7.1-planning.md` / `phase-20.7-planning.md` prose that still says “glob not found” may be tightened to “see `architecture-alignment-closeout-master-plan.md`” **only if** touched while verifying links (keep scope minimal).
+- `feature-domain-architecture-alignment-handoff.md`
+- `phases/phase-20.7-handoff.md`
+- `feature-domain-architecture-alignment-guide.md` (§ Mandatory context only unless a one-line status clarification is needed)
 
 ## Approach
 
-1. Add **`architecture-alignment-closeout-master-plan.md`** with structure above.
-2. Replace broken master-plan links in the six (or seven) harness files identified in recon.
-3. Open each edited link in preview (relative path sanity) from `phases/` vs feature root.
+1. Edit **feature handoff** top matter and **Next Action** / **Git** / **Feature Summary** / **Related Documents** per Design.
+2. Edit **phase-20.7-handoff** status and **Next Action** per Design.
+3. Patch **feature guide** mandatory-context bullet(s).
+4. Re-read both handoffs aloud as a harness user: would you run the wrong slash command?
 
 ## Checkpoint
 
-- `rg 'architecture_alignment_closeout_master_plan|\.cursor/plans/architecture_alignment'` under **`.project-manager/features/domain-architecture-alignment/`** returns **no** hits (or only historical mentions inside the new file’s “replaced path” note if you add one).
+- No **Next Action** in these files instructs **`/phase-start 20.7`** as the only path when work is already under **Session 20.7.1**.
+- No **`feature/[name]`** or **`[List phase numbers]`** placeholders remain in **feature handoff** body.
 
 ## Deliverables
 
-- New **master plan index** markdown file committed under the feature.
-- Updated markdown links across Feature **20** harness docs so the close-out plan URL is always the new file.
+- Updated **feature** and **phase 20.7** handoffs + **feature guide** mandatory-context line.
 
 ## Acceptance Criteria
 
-- [x] `architecture-alignment-closeout-master-plan.md` exists and links to **`phase-20.7-guide.md` … `phase-20.13-guide.md`**.
-- [x] No remaining **harness** link in this feature folder targets **`/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** (historical prose may remain in session/task planning artifacts and in the new file’s “Replaces” note).
-- [ ] `npm run start:dev` still runs (docs-only change; not re-run at task-end — run before push if you want the smoke check on record).
+- [x] **`feature-domain-architecture-alignment-handoff.md`**: **Next Action** references continuing **Session 20.7.1** / next task and links **`architecture-alignment-closeout-master-plan.md`** by path.
+- [x] **`phase-20.7-handoff.md`**: Phase reflects **in progress**; **Next Action** continues **Session 20.7.1** (no **`/phase-start 20.7`** as sole step).
+- [x] **`feature-domain-architecture-alignment-guide.md`**: Mandatory context references **all canonical sources** in the guide header (three docs).
+- [x] Docs-only; client **`npm run lint`** run at wrap (server lint at **`/task-end`** if you want both on record).
 
 ## Definition of Done
 
 - [ ] App starts (`npm run start:dev`)
-- [x] Lint passes (`cd client && npm run lint` — client only at task wrap; `cd server && npm run lint` not run)
+- [x] Lint passes (`cd client && npm run lint` — client only here)
 - [x] Governance score maintained or improved (docs-only)
-- [x] Session guide task status updated (via **`/task-end`**)
+- [ ] Session guide task status updated (via **`/task-end`**)
 
 ---
 ## Reference (read before filling — governance and inventory compliance is required)
 - TierUp guide (scope and intent): `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md`
+- Handoff (full transition context): `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.1-handoff.md`
 - Architecture: `.project-manager/ARCHITECTURE.md` — domain map, data flow, type boundaries, naming; **§8–§14** = locked domain rules (block model, part ledger, PartFinalizer, invariants) for booking / admin scheduling work
 - Workflow friction log (non-git harness issues): `.project-manager/WORKFLOW_FRICTION_LOG.md`
 - Agent model preferences (harness advisory only; Cursor does not auto-switch models): `.project-manager/agent-model-config.json`

@@ -1,40 +1,41 @@
 # Phase 20.7 Handoff
 
-**Phase Status:** Planned
-**Last Updated:** 2026-04-03
-**Next Phase:** 20.8
+**Phase Status:** In Progress  
+**Last Updated:** 2026-04-04  
+**Next Phase:** 20.8 (after Phase **20.7** complete)
 
 ---
 
 ## Current Status
 
-**Phase 20.7:** Planned  
-**Last Completed Session:** _(none yet)_  
-**Next Phase:** 20.8
+**Phase 20.7:** In Progress — preflight audit, canonical lock, and doc protections  
+**Last completed session:** _(none yet — Session **20.7.1** active)_  
+**Next phase (when 20.7 done):** 20.8
 
 ---
 
 ## Transition Context
 
-**Where this phase sits:**
-Phase **20.7** is the post-20.6 preflight phase that locks the master close-out plan as the active sequencing surface, creates the preflight safeguards/evidence package, and extracts the residual execution backlog for later phases.
+**Where this phase sits:**  
+Phase **20.7** is the post-20.6 preflight phase: adopt the in-repo close-out index, add safeguards against contradictory planning surfaces, produce the preflight evidence package, and extract residual backlog for **20.8–20.13**.
 
-**What you need to start Phase 20.7:**
-- Read [`architecture-alignment-closeout-master-plan.md`](../architecture-alignment-closeout-master-plan.md)
-- Read `phases/phase-20.7-guide.md`
-- Start with canonical-lock and contradictory-doc protection work before the preflight audit and backlog-extraction sessions
+**During Phase 20.7:**
+
+- Read **[`architecture-alignment-closeout-master-plan.md`](../architecture-alignment-closeout-master-plan.md)**
+- Read **`phases/phase-20.7-guide.md`**
+- Execute sessions **20.7.1** → **20.7.3** per the phase guide before treating **20.8** as unblocked
 
 ---
 
 ## Next Action
 
-Run **`/phase-start 20.7`** for Feature **20** (`domain-architecture-alignment`) when ready to begin the extension close-out ladder.
+Continue **Session 20.7.1** per **`sessions/session-20.7.1-guide.md`**. After completing task **20.7.1.2** (handoff/guide alignment), run **`/task-start 20.7.1.3`** for the tombstone pass.
 
 ---
 
 ## Phase Summary
 
-**Sessions Planned:** 20.7.1, 20.7.2, 20.7.3
+**Sessions planned:** 20.7.1, 20.7.2, 20.7.3
 
 <!-- harness-across-ladder:start -->
 ## Across ladder (harness)

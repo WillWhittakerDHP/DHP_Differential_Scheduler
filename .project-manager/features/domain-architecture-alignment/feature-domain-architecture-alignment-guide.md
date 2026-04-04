@@ -23,7 +23,7 @@
 
 ## Mandatory context for every phase and session
 
-- Open **both** canonical documents (or the sections cited in the active phase guide) **before** implementation work.
+- Open **all canonical sources** under **Canonical sources (absolute truth)** above (principles, implementation plan, close-out sequencing index) or the sections cited in the active phase guide **before** implementation work.
 - At **session start and end**, run **plan §9.1** (drift checklist) and cross-check **plan §9.1a** against **ARCHITECTURE_PRINCIPLES.md §8** invariants.
 - Do not treat this feature guide as a substitute for the full implementation-plan sections that apply to the pass you are in.
 
