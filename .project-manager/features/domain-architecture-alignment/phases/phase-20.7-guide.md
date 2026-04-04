@@ -10,7 +10,7 @@
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
 - [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — original Feature 20 implementation plan and pass inventory.
-- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension.
+- [architecture-alignment-closeout-master-plan.md](../architecture-alignment-closeout-master-plan.md) — in-repo close-out sequencing index (phases **20.7–20.13**).
 
 **Conflict rule:** If this guide disagrees with the locked architecture docs, the analysis docs win. If sequencing conflicts remain after that, the locked master plan wins over older feature-planning surfaces.
 

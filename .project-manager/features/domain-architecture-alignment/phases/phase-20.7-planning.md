@@ -22,7 +22,7 @@
 
 ## Codebase recon (agent-led — required)
 
-- **Paths reviewed:** `feature-domain-architecture-alignment-guide.md` (phases **20.7–20.8** + post-20.6 note); `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.6-handoff.md` (next → **20.7**); `across-ladder.json` (phases **20.1–20.13** on disk); `feature-domain-architecture-alignment-handoff.md`; glob for **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** → **not present** in workspace (treat **`phase-20.7-guide.md`** + feature guide as operational spec until the plan file is added or relocated under **`.project-manager/`**).
+- **Paths reviewed:** `feature-domain-architecture-alignment-guide.md`; `architecture-alignment-closeout-master-plan.md` (in-repo extension index); `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.6-handoff.md`; `across-ladder.json` (phases **20.1–20.13** on disk); `feature-domain-architecture-alignment-handoff.md`.
 - **Patterns / call sites:** Extension ladder is **PM/harness-first** (no single code entrypoint). Product truth remains **`ARCHITECTURE_PRINCIPLES.md`**, **`FEATURE_20_ARCHITECTURE_REDESIGN.md`**, **`ARCHITECTURE.md`**. Pass **6** evidence lives in **`session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**.
 - **Gaps / unknowns:** Session **20.7.1** should either **add** the master closeout plan to the repo at a stable path or **update** all references to the real location. **`across-ladder.json`** lists **20.7.1** / **20.7.2** only — confirm whether **20.7.3** needs harness **tier-add** or manual ladder refresh.
 
@@ -42,7 +42,7 @@ Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladde
 
 ## Files
 
-- **Canonical:** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md` — **master closeout plan:** add under **`.project-manager/`** or **`.cursor/plans/`** when available (path cited in **20.7.1**; not found at last glob)
+- **Canonical:** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md`, `architecture-alignment-closeout-master-plan.md` (Feature **20** extension sequencing **20.7–20.13**)
 - **Feature harness:** `feature-domain-architecture-alignment-guide.md`, `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.6-handoff.md`, `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.7-log.md`
 - **Evidence target:** `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md` or another explicitly-linked in-repo narrative surface if the worklog is not the best fit
 

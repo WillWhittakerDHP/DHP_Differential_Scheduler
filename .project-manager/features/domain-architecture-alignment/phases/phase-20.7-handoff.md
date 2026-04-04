@@ -20,7 +20,7 @@
 Phase **20.7** is the post-20.6 preflight phase that locks the master close-out plan as the active sequencing surface, creates the preflight safeguards/evidence package, and extracts the residual execution backlog for later phases.
 
 **What you need to start Phase 20.7:**
-- Read `/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`
+- Read [`architecture-alignment-closeout-master-plan.md`](../architecture-alignment-closeout-master-plan.md)
 - Read `phases/phase-20.7-guide.md`
 - Start with canonical-lock and contradictory-doc protection work before the preflight audit and backlog-extraction sessions
 

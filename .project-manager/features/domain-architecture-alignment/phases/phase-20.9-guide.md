@@ -10,7 +10,7 @@
 
 - `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`
 - `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`
-- `/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`
+- [architecture-alignment-closeout-master-plan.md](../architecture-alignment-closeout-master-plan.md) — in-repo close-out sequencing index (phases **20.7–20.13**).
 
 ---
 

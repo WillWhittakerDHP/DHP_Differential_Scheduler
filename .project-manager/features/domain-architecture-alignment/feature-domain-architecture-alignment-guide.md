@@ -15,9 +15,9 @@
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
 - [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — domain implementation plan (ordered passes, acceptance checks, drift checklist).
-- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension.
+- [architecture-alignment-closeout-master-plan.md](./architecture-alignment-closeout-master-plan.md) — in-repo close-out sequencing index (phases **20.7–20.13**); canonical harness path for extension order.
 
-**Conflict rule:** If this guide disagrees with either file above, **the analysis documents win**; update this guide, not the principles or the implementation plan.
+**Conflict rule:** If this guide disagrees with **ARCHITECTURE_PRINCIPLES** or **FEATURE_20_ARCHITECTURE_REDESIGN**, **the analysis documents win**. For **extension sequencing** (**20.7–20.13**), the **close-out master plan index** and phase guides win over informal forks; update this guide rather than duplicating a second ladder.
 
 ---
 
