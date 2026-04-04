@@ -3703,3 +3703,27 @@ Ensure phase guide has a session entry for this session and phase handoff exists
 
 nextAction:
 Fix the error above (planning doc, paths, write guard), then re-run tier-start in execute mode.
+
+### 2026-04-04 — 20.7.3 — phase — start — validation_failed
+
+- **reasonCodeRaw:** validation_failed
+- **reasonCodeNormalized:** validation_failed
+- **isFailureReason:** true
+- **tier:** phase
+- **action:** start
+- **identifier:** 20.7.3
+- **featureName:** domain-architecture-alignment
+- **stepPath:** header_branch, validate
+
+- **Symptom:** Harness start failed (reasonCode=validation_failed).
+- **Context:** tier=phase; identifier=20.7.3; featureName=domain-architecture-alignment
+
+nextAction:
+## Phase Validation
+# Phase 20.7.3 Validation
+
+❌ **Status:** Cannot start - Invalid ID format
+
+## Details
+
+- Invalid phase ID format. Received: 20.7.3
