@@ -82,10 +82,11 @@ Continue **Session 20.7.1** — follow **`sessions/session-20.7.1-guide.md`**. S
 
 _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
 
-- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-04
+- **Feature:** `domain-architecture-alignment` · **Source:** session_end · **Derived:** 2026-04-04T00:55:05.539Z
 - **Phases on disk (13):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, 20.11, 20.12, 20.13
-- **Focus phase:** `20.7` · **Active session:** `20.7.1`
-- **Next phase across (after 20.7 completes):** `20.8` → `/phase-start 20.8`
+- **Focus phase:** `20.7` · **Next phase across:** `20.8` → `/phase-start 20.8`
+- **Focus session:** `20.7.1` · **Session 1/3 in phase** · **Next session across:** `20.7.2` → `/session-start 20.7.2`
+- **Tasks in session (detected):** 2 · **Next task across:** `20.7.1.1` → `/task-start` / cascade
 - **Manifest:** `.project-manager/features/domain-architecture-alignment/across-ladder.json`
 <!-- harness-across-ladder:end -->
 
