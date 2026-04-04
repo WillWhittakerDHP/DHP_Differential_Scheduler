@@ -12,14 +12,6 @@
 
 ---
 
-## Codebase recon (agent-led — required)
-
-- **Paths reviewed:** `phases/phase-20.7-guide.md` (canonical sources + **Phase 0** verbatim); `feature-domain-architecture-alignment-guide.md` (**§ Phase 20.7**, extension **20.7–20.13**); `feature-domain-architecture-alignment-handoff.md`; `phases/phase-20.6-handoff.md` → **`/phase-start 20.7`**; `across-ladder.json` (sessions **20.7.1**, **20.7.2** listed; **20.7.3** in this planning doc only — align in **20.7.1**); glob for **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** → **not present** on disk (guide links it as locked sequencing surface — **gap**).
-- **Patterns / call sites:** Post-**20.6** narrative already says **do not** **`/feature-end`** until **20.13** in feature handoff; **`PROJECT_PLAN`** Feature **20** may still say **`/feature-end`** pending — **20.7.1** should reconcile. Session **20.6.4** artifacts still mention **`/feature-end`** after **`/phase-end 20.6`** — superseded by extension ladder; tombstone/warning in **20.7.1** where those files remain authoritative for history.
-- **Gaps / unknowns:** Master close-out plan file must be **created or relocated** under **`.project-manager/`** (or committed **`.cursor/plans/...`**) so the “locked canonical sequencing” claim is resolvable by path; until then cite **`phase-20.7-guide.md`** resolved positions as interim.
-
----
-
 ## Analysis
 
 - **Problem / why now:** The original Feature 20 ladder ended at **20.6**, but the close-out work now depends on the locked master plan and on safeguards that were not captured in the original phase set. Without a dedicated preflight phase, the feature still points straight to **`/feature-end`**, leaves contradictory planning surfaces active, and does not produce a work-bearing residual backlog for the later execution phases.
@@ -27,6 +19,12 @@
 - **Patterns:** Use the locked architecture docs for truth and the master close-out plan for sequencing. Convert ambiguity into written evidence, then convert evidence into later execution work.
 - **Risks:** Reopening settled architecture by accident; mitigating by writing explicit "locked docs win" language and by scoping the event-routing watchpoint as a code-evidence confirmation, not a redesign exercise.
 - **Alternatives:** Skip a dedicated preflight phase and fold this into final close-out — rejected because it leaves the feature ladder and next-action text incorrect during active work.
+
+## Codebase recon (agent-led — required)
+
+- **Paths reviewed:** `feature-domain-architecture-alignment-guide.md` (phases **20.7–20.8** + post-20.6 note); `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.6-handoff.md` (next → **20.7**); `across-ladder.json` (phases **20.1–20.13** on disk); `feature-domain-architecture-alignment-handoff.md`; glob for **`.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md`** → **not present** in workspace (treat **`phase-20.7-guide.md`** + feature guide as operational spec until the plan file is added or relocated under **`.project-manager/`**).
+- **Patterns / call sites:** Extension ladder is **PM/harness-first** (no single code entrypoint). Product truth remains **`ARCHITECTURE_PRINCIPLES.md`**, **`FEATURE_20_ARCHITECTURE_REDESIGN.md`**, **`ARCHITECTURE.md`**. Pass **6** evidence lives in **`session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**.
+- **Gaps / unknowns:** Session **20.7.1** should either **add** the master closeout plan to the repo at a stable path or **update** all references to the real location. **`across-ladder.json`** lists **20.7.1** / **20.7.2** only — confirm whether **20.7.3** needs harness **tier-add** or manual ladder refresh.
 
 ## Goal
 
@@ -44,10 +42,9 @@ Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladde
 
 ## Files
 
-- **Canonical:** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`
-- **Locked close-out sequencing (target):** `.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md` — **add or relocate in session 20.7.1** if missing; until then **`phases/phase-20.7-guide.md`** is the operational preflight spec.
-- **Feature harness:** `feature-domain-architecture-alignment-guide.md`, `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.6-handoff.md`, `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.7-log.md`, `.project-manager/PROJECT_PLAN.md` (Feature **20** row)
-- **Evidence target:** `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md` and/or a new **`.project-manager/analysis/`** preflight appendix if the worklog gets too long
+- **Canonical:** `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`, `.project-manager/ARCHITECTURE.md` — **master closeout plan:** add under **`.project-manager/`** or **`.cursor/plans/`** when available (path cited in **20.7.1**; not found at last glob)
+- **Feature harness:** `feature-domain-architecture-alignment-guide.md`, `feature-domain-architecture-alignment-handoff.md`, `phases/phase-20.6-handoff.md`, `phases/phase-20.7-guide.md`, `phases/phase-20.7-handoff.md`, `phases/phase-20.7-log.md`
+- **Evidence target:** `.project-manager/analysis/DOMAIN_REWRITE_WORKLOG.md` or another explicitly-linked in-repo narrative surface if the worklog is not the best fit
 
 ## Approach
 
@@ -55,6 +52,12 @@ Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladde
 2. **Session 20.7.2:** write the preflight package and ensure each item maps to a later close-out phase.
 3. **Session 20.7.3:** extract the residual execution backlog for phases **20.8–20.13**.
 4. End the phase with a handoff that points to **`/phase-start 20.8`**, not **`/feature-end`**.
+
+## Decomposition
+
+- **Session 20.7.1:** Canonical plan adoption and contradictory-doc protections — feature guide / handoff / tombstones; master plan path resolution.
+- **Session 20.7.2:** Preflight evidence package — event-routing watchpoint, invariant audit, migration policy, **`property_details`** boundary.
+- **Session 20.7.3:** Residual execution backlog for phases **20.8–20.13** — map findings to phase guides without duplicating **20.1–20.6** completed work.
 
 ## Checkpoint
 
@@ -77,18 +80,6 @@ Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladde
 - [ ] A written invariant audit exists in-repo
 - [ ] Migration execution policy and `property_details` boundary are explicitly restated
 - [ ] Residual schema/API, admin, booking, migration-narrative, cleanup, and truth-doc work is mapped into later phases
-
----
-
-## Decomposition
-
-| Session | One-line outcome |
-|--------|------------------|
-| **20.7.1** | Adopt master plan path in repo; refresh feature/phase handoffs + guide; tombstone contradictory **`/feature-end`**-after-**20.6** wording; add **20.7.3** to **`phase-20.7-guide`** session table if keeping three sessions. |
-| **20.7.2** | Write preflight package: event-routing watchpoint, invariant audit → phase owners, migration **DB_HOST** policy restatement, **`property_details`** boundary note. |
-| **20.7.3** | Residual execution backlog mapped to **20.8–20.13** with non-duplicative acceptance criteria. |
-
-**Leaf tier:** **`/session-start 20.7.1`** → **`/session-end`** → **`/session-start 20.7.2`** → **`/session-end`** → **`/session-start 20.7.3`** → **`/session-end`** → **`/phase-end 20.7`**.
 
 ---
 
@@ -160,13 +151,3 @@ Complete **Phase 20.7** as the bridge between the original Feature 20 pass ladde
 - [ ] Each later phase has work-bearing goals and acceptance criteria
 - [ ] Already-complete work from **20.1–20.6** is not blindly duplicated
 - [ ] The handoff after **20.7** points cleanly to **20.8**
-
----
-
-## Reference (read before locking — governance compliance)
-
-- `phases/phase-20.7-guide.md` — phase intent, **Phase 0** verbatim, conflict rules
-- `../feature-domain-architecture-alignment-guide.md` — Feature **20** extension ladder **20.7–20.13**
-- `.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md`, `.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md`
-- `.project-manager/ARCHITECTURE.md` — §**8–§14** invariants (preflight cross-check only)
-- `.cursor/skills/tier-workflow-agent/SKILL.md` — coverage check before **`/accepted-plan`**

@@ -10,7 +10,7 @@
 
 - [.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md](.project-manager/analysis/ARCHITECTURE_PRINCIPLES.md) — immutable architectural rules.
 - [.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md](.project-manager/analysis/FEATURE_20_ARCHITECTURE_REDESIGN.md) — original Feature 20 implementation plan and pass inventory.
-- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension (**add this file in session 20.7.1 if absent**; until then this guide + `phase-20.7-planning.md` are the operational preflight spec).
+- [/.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md](../../../../.cursor/plans/architecture_alignment_closeout_master_plan_20260403.plan.md) — locked canonical sequencing plan for the post-20.6 close-out extension.
 
 **Conflict rule:** If this guide disagrees with the locked architecture docs, the analysis docs win. If sequencing conflicts remain after that, the locked master plan wins over older feature-planning surfaces.
 
@@ -72,9 +72,8 @@ Do **not** reopen the architecture in this phase. The goal is to confirm code/do
 |--------|--------|
 | **20.7.1** | Canonical lock, plan adoption, and contradictory-doc warning/tombstone pass |
 | **20.7.2** | Event-routing watchpoint, invariant audit, migration policy restatement, and MLS / `property_details` boundary verification |
-| **20.7.3** | Residual execution backlog mapped to phases **20.8–20.13** with non-duplicative acceptance criteria |
 
-**Harness order:** `/session-start 20.7.1` → `/session-end` → `/session-start 20.7.2` → `/session-end` → `/session-start 20.7.3` → `/session-end` → `/phase-end 20.7`.
+**Harness order:** `/session-start 20.7.1` → … → `/session-end` each → `/phase-end 20.7` when all sessions complete.
 
 ---
 
@@ -98,13 +97,5 @@ Session guides/logs are created at **`/session-start`**. This phase should produ
 - Write the invariant audit and map every failing row to an owning close-out phase.
 - Restate migration execution policy in the active close-out docs.
 - Verify `property_details` remains appointment-scoped input data and is not drifting into time-configuration storage.
-
-- [ ] ### Session 20.7.3: Close-out backlog mapping
-**Description:** Fold any remaining “do later” items from preflight into **20.8–20.13** so execution has one ladder and no duplicate acceptance rows.
-
-**Tasks:**
-- List open items from **20.7.2** evidence and from feature handoff extension bullets.
-- Assign each row to a target phase (**20.8** … **20.13**) with a single acceptance criterion.
-- Update feature/phase handoff “next” pointers if the ladder order shifts.
 
 <!-- end excerpt phase -->
