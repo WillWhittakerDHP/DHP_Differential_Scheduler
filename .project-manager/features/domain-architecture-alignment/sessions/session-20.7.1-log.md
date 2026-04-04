@@ -35,160 +35,162 @@
 **Next Task:**
 - 20.7.1.3
 
+
+
+
+
+## Test Status
+
+**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+
 <!-- harness:anchor:commit-preview -->
 ## Harness: commit preview (in-scope diff)
 
-Paths (8): `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md`, `.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.2-handoff.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.2-planning.md`
+Paths (9): `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md`, `.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.1-planning.md`, `.project-manager/features/domain-architecture-alignment/sessions/task-20.7.1.2-planning.md`, `.project-manager/features/domain-architecture-alignment/planning-archive/session/20.7.1/`, `.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-handoff.md`
 
 ### `git diff --stat HEAD`
 
 ```text
-.../feature-domain-architecture-alignment-guide.md |  2 +-
- ...eature-domain-architecture-alignment-handoff.md | 65 +++++++++++-----------
- .../phases/phase-20.7-handoff.md                   | 29 +++++-----
- .../sessions/session-20.7.1-guide.md               |  2 +-
- .../sessions/session-20.7.1-log.md                 | 15 +++++
- .../sessions/task-20.7.1.1-planning.md             | 12 ++--
- 6 files changed, 71 insertions(+), 54 deletions(-)
+.../phases/phase-20.7-guide.md                     |   2 +-
+ .../phases/phase-20.7-log.md                       |   8 +
+ .../sessions/session-20.7.1-guide.md               |   2 +
+ .../sessions/session-20.7.1-log.md                 |   6 +
+ .../sessions/session-20.7.1-planning.md            | 388 ++++++---------------
+ .../sessions/task-20.7.1.1-planning.md             | 166 ---------
+ .../sessions/task-20.7.1.2-planning.md             | 174 ---------
+ 7 files changed, 124 insertions(+), 622 deletions(-)
 ```
 
 ### `git diff HEAD`
 _(diff truncated to cap)_
 
 ```diff
-diff --git a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md
-index 882bbea3..d5e8dba5 100644
---- a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md
-+++ b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-guide.md
-@@ -23,7 +23,7 @@
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
+index 259c3666..a18c2345 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-guide.md
+@@ -82,7 +82,7 @@ Do **not** reopen the architecture in this phase. The goal is to confirm code/do
  
- ## Mandatory context for every phase and session
+ Session guides/logs are created at **`/session-start`**. This phase should produce the documents that downstream close-out work can cite directly.
  
--- Open **both** canonical documents (or the sections cited in the active phase guide) **before** implementation work.
-+- Open **all canonical sources** under **Canonical sources (absolute truth)** above (principles, implementation plan, close-out sequencing index) or the sections cited in the active phase guide **before** implementation work.
- - At **session start and end**, run **plan §9.1** (drift checklist) and cross-check **plan §9.1a** against **ARCHITECTURE_PRINCIPLES.md §8** invariants.
- - Do not treat this feature guide as a substitute for the full implementation-plan sections that apply to the pass you are in.
+-- [ ] ### Session 20.7.1: Canonical plan adoption and doc protections
++- [x] ### Session 20.7.1: Canonical plan adoption and doc protections
+ **Description:** Mark the locked master plan as the active close-out sequencing surface; update feature-level guidance so the new ladder is visible; add warning/tombstone text where contradictory or superseded planning paths could still mislead agents.
  
-diff --git a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-index 9f061aea..7a6db151 100644
---- a/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-+++ b/.project-manager/features/domain-architecture-alignment/feature-domain-architecture-alignment-handoff.md
-@@ -4,88 +4,89 @@
+ **Tasks:**
+diff --git a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
+index 594a7c52..961f1e2a 100644
+--- a/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
++++ b/.project-manager/features/domain-architecture-alignment/phases/phase-20.7-log.md
+@@ -17,6 +17,14 @@
  
- **Tier:** Feature (Tier 0 - Highest Level)
+ ## Completed Sessions
  
--**Last Updated:** 2026-04-03
--**Feature Status:** In Progress — Pass **6** execution complete; extension close-out phases **20.7** and **20.8** pending
-+**Last Updated:** 2026-04-04  
-+**Feature Status:** In Progress — passes **20.1–20.6** complete; extension phases **20.7–20.13** in flight; **Phase 20.7** / **Session 20.7.1** active (canonical lock + doc protections)  
- **Next Feature:** _(after Feature **20** closeout)_
- 
- ---
- 
- ## Current Status
- 
--**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work now flows through execution-first extension phases **20.7–20.13** derived from the locked master close-out plan.
-+**Feature domain-architecture-alignment:** Pass **20.6** (§**8.6**) sessions **20.6.1–20.6.4** delivered; evidence in **`sessions/session-20.6.4-log.md`** and **`DOMAIN_REWRITE_WORKLOG.md`**. Remaining work runs through extension phases **20.7–20.13** per **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. **Phase 20.7** and **Session 20.7.1** are underway.
- 
- ---
- 
- ## Next Action
- 
--Run **`/phase-start 20.7`** after completing any remaining **20.6** harness housekeeping. Use **`phases/phase-20.6-handoff.md`**, **`phases/phase-20.7-guide.md`**, and the locked master close-out plan for the extension ladder. Do **not** run **`/feature-end`** until **20.13** is complete.
-+Continue **Session 20.7.1** — follow **`sessions/session-20.7.1-guide.md`**. Sequencing index: **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)**. Task **20.7.1.1** (in-repo master plan + link normalization) is complete; after **20.7.1.2** (handoff alignment), run **`/task-start 20.7.1.3`** for the tombstone pass, then **`/session-end`** when session objectives are met. Do **not** run **`/feature-end`** until **20.13** is complete.
- 
- ---
- 
- ## Transition Context
- 
--**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**). The feature now continues with **20.7–20.13** to lock the close-out plan, finish residual execution work, and reconcile truth-bearing docs before feature-end.
-+**Where we left off:** Feature **20** implementation passes **20.1–20.6** are executed on **`feature/domain-architecture-alignment`**; **§9.3–9.4** canonical file swap is **deferred** (logged in **20.6.4**). The feature continues with **20.7–20.13** to finish residual execution work and reconcile truth-bearing docs before **`/feature-end`**.
- 
- **What you need for feature closeout:**
++### Session 20.7.1: Canonical plan adoption and doc protections ✅
++**Completed:** 2026-04-04
++**Tasks Completed:** All tasks completed
++**Key Accomplishments:**
++- Completed ** Canonical plan adoption and doc protections
 +
- - Complete **20.7–20.13** before **`/feature-end`**
--- Use the locked master close-out plan as the sequencing surface for the extension work
-+- Use **[`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)** as the extension sequencing surface
- - Optional: human review of **§9.3** before any redesign filename replacement
- 
--**Plan Changes Affecting Downstream Features:**
--- [Only include if plan changed and affects later features]
--- [Brief description of change and impact]
-+**Plan changes affecting downstream features:** None recorded here.
- 
- ---
- 
- ## Feature Summary
- 
--**Phases Completed:** [List phase numbers]
--**Key Accomplishments:**
--- [Major accomplishment 1]
--- [Major accomplishment 2]
-+**Phases completed:** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6  
 +
-+**Key accomplishments:**
 +
-+- Ordered passes through **20.6** per **FEATURE_20_ARCHITECTURE_REDESIGN**; Pass **6** removed legacy admin metadata stack in favor of code-first surfaces.
-+- In-repo **close-out sequencing index** added under this feature directory (**task 20.7.1.1**).
-+
-+**Decisions made:**
- 
--**Decisions Made:**
--- [Decision that affects downstream features]
-+- Extension ladder **20.7–20.13** runs before **`/feature-end`**.
-+- **§9.3–9.4** canonical file rename/swap deferred per **20.6.4** log.
- 
--**Architecture:**
--[Brief architecture summary - 2-3 sentences]
-+**Architecture:** Locked domain rules in **ARCHITECTURE_PRINCIPLES** + **ARCHITECTURE.md** (§8–§14); booking resolution remains client **PartFinalizer** + relational **`event_assignments`**.
- 
--**Technology Stack:**
--- [Technology 1]
--- [Technology 2]
-+**Technology stack:** Vue 3, Express, Sequelize, shared **`@shared`** types.
- 
- ---
- 
- ## Git Branch Status
- 
--**Branch:** `feature/[name]`
--**Status:** [Merged / Deleted]
--**Merged To:** `develop`
--**Merge Date:** 2026-04-02
-+**Branch:** `feature/domain-architecture-alignment`  
-+**Status:** Active development (not merged)  
-+**Merged to:** —  
-+**Merge date:** —
- 
- ---
- 
+ ### Session [SESSION_ID]: [SESSION_NAME] ✅
+ **Completed:** [Date]
+ **Tasks Completed:** [List of task IDs]
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md
+index e129c81b..5f99f48e 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-guide.md
+@@ -414,3 +414,5 @@ Break each session into focused tasks:
  ## Notes
  
--**Keep minimal** - Detailed notes belong in feature log, not handoff.
-+**Keep minimal** — detailed notes belong in the feature log, not this handoff.
+ [Session-specific notes, patterns, architectural decisions]
++
++<!-- end excerpt session -->
+\ No newline at end of file
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md
+index a1def9de..c5dbe4b7 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-log.md
+@@ -192,3 +192,9 @@ index 9f061aea..7a6db151 100644
+ … (truncated)
+ ```
+ <!-- /harness:anchor:commit-preview -->
++
++
++
++## Test Status
++
++**Note:** No test strategy or justification documented for this session. Consider adding test requirements or documenting why tests are deferred.
+diff --git a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-planning.md b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-planning.md
+index 432f6a22..a8cddee7 100644
+--- a/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-planning.md
++++ b/.project-manager/features/domain-architecture-alignment/sessions/session-20.7.1-planning.md
+@@ -1,34 +1,8 @@
+-# Plan: session 20.7.1 — Canonical plan adoption and doc protections
+-
+-## Contract
+-- **Tier:** session | **ID:** 20.7.1
+-- **Scope:** Adopt the locked close-out sequencing story in harness docs; add tombstones/warnings on superseded planning surfaces; align feature handoff next actions with the **20.7–20.13** ladder (no immediate **`/feature-end`** after **20.6**).
+-- **Governance (harness snapshot):**
+-  - Governance Context (Session)
+-  - Function Governance
+-  - Clean — no violations detected.
+-  - Component Governance
+-  - Clean — no violations detected.
+-  - 3. Script logic can move to composable/util? → extract (Tier1 hotspots: watch, async, map/reduce, DOM)
+-  - `client/src/composables/admin/useEntityCardSaveAndActions.ts` — oversized-return: Return surface has 14 properties; decompose into focused composables
+-  - `client/src/composables/booking/useAvailabilitySubStepContent.ts` — oversized-return: Re
+-  - … _(truncated)_
+-
+-## Work Profile
+-- **Execution intent:** plan
+-- **Action type:** decomposition
+-- **Scope shape:** cross_cutting
+-- **Governance domains:** docs, architecture, booking
+-- **Gate profile:** standard
+-- **Suggested depth:** full — advisory; agent decides in Analysis / Decomposition
+-- **Recommended context pack:** decomposition_pack
+-- **Planning artifact action:** create
+-- **Decomposition mode:** moderate
+-- **Downstream advice:** Planning doc is advisory; guide owns current-tier decomposition.
+-
+-## Where we left off
+-
+-Phase **20.7** planning and guide gates are complete (**`/phase-start 20.7`** → **`/accepted-plan`** → **`/accepted-build`**). First execution slice is **Session 20.7.1** per **`phases/phase-20.7-guide.md`** (canonical lock + contradictory-doc protections only — preflight evidence is **20.7.2**).
++<!-- harness-planning-rollup tier=session id=20.7.1 consolidatedAt=2026-04-04T00:55:03.583Z -->
++
++# Consolidated planning: session 20.7.1
++
++## Session 20.7.1 (parent)
+ 
+ ## Story
+ 
+@@ -37,315 +11,167 @@ Phase **20.7** planning and guide gates are complete (**`/phase-start 20.7`** 
+ **Estimated size:** M (docs-only; no product code unless a tombstone lives beside code).
  
  ---
- 
- ## Related Documents
- 
--- Feature Guide: `.project-manager/features/[name]/feature-[name]-guide.md`
--- Feature Log: `.project-manager/features/[name]/feature-[name]-log.md`
--- Next Feature Guide: `.project-manager/features/[next-name]/feature-[next-name]-guide.md` (if applicable)
-+- Feature guide: [`feature-domain-architecture-alignment-guide.md`](./feature-domain-architecture-alignment-guide.md)
-+- Feature log: [`feature-domain-architecture-alignment-log.md`](./feature-domain-architecture-alignment-log.md)
-+- Close-out index: [`architecture-alignment-closeout-master-plan.md`](./architecture-alignment-closeout-master-plan.md)
- 
- <!-- harness-across-ladder:start -->
- ## Across ladder (harness)
- 
- _Auto-updated from disk guides. Agents: prefer `across-ladder.json` for checks._
- 
--- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-03T21:40:00.000Z
--- **Phases on disk (8):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8
--- **Focus phase:** `20.6` · **Next phase across:** `20.7` → `/phase-start 20.7`
-+- **Feature:** `domain-architecture-alignment` · **Source:** manual_extension · **Derived:** 2026-04-04
-+- **Phases on disk (13):** 20.1, 20.2, 20.3, 20.4, 20.5, 20.6, 20.7, 20.8, 20.9, 20.10, 20.11, 20.12, 20.13
-+- **Focus pha
+-## Architecture context (harness-injected)
+-
+-## 1. System overview
+-
+-Bonsai Differential Scheduler is a **Vue 3 + Express + Sequelize** application with a **shared type layer** (`shared/` / `@shared`). It serves:
+-
+-- **Public booking users** — wizard-style scheduling and property/availability flows.
+-- **Admin configurators** — domain-specific editors for shapes/instances, wizard settings, availability rules, integrations (target: **no** DB-driven admin metadata pipeline; see `FEATURE_20_ARCHITECTURE_REDESIGN.md` §6.3).
+-
+-TanStack **Vue Query** manages server-state caching. Composables typically expose **`ComputedRef<T>`** for read-only query data. Until the metadata stack is removed (Feature 20 Pass 6), some admin routes may still prefetch legacy metadata — treat that as **transitional**, not the end state.
+-
+----
+-
+-## 2. Domain map
+-
+-| Domain | Client paths | Server paths | Key models / areas | Shared types |
+-|--------|----------------|-------------|---------------------|--------------|
+-| **Booking / Wizard** | `client/src/composables/booking/`, `useBooking.ts`, `useAppointment.ts`, `useProperty.ts`, `components/booking/`, `views/booking/`, `types/booking/`, `configs/wizardSteps`, `configs/availabilitySettings` | `server/src/routes/internal/appointments`, `availability`, `properties`, `services/availability*`, `db/models` booking-related | Appointments, selections, time slots, properties, fees | `@shared/types` availability, appointment-related |
+-| **Admin / Config** | `composables/admin/`, `components/admin/`, `views/admin/`, `types/admin/`, `configs/` | `routes/internal/entities`, `relationships`, `*-settings`, `db/models` admin | Shapes, instances, wizard settings, calendar settings, business rules | `@shared/types/entities` |
+-| **Auth / Sessions** | Router guards; future `composables/auth/` | `routes/internal/auth`, `auth/`, `db/models/auth` | Sessions, users, magic links (evolving); **`users.user_role`** (ENUM + API) | Auth contracts in `@shared` as they stabilize; **canonical role strings** via `@shared` (`USER_ROLE_VALUES` — Feature 6 Session 6.18.1) |
+-| **Integrations** | `services/calendarApiService`, `mapsApiService`, `propertyEnrichmentApiService` (full-URL axios) | `routes/external/calendar`, `oauth`, `maps`, `service
 … (truncated)
 ```
 <!-- /harness:anchor:commit-preview -->

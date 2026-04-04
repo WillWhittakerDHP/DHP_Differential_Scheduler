@@ -82,7 +82,7 @@ Do **not** reopen the architecture in this phase. The goal is to confirm code/do
 
 Session guides/logs are created at **`/session-start`**. This phase should produce the documents that downstream close-out work can cite directly.
 
-- [ ] ### Session 20.7.1: Canonical plan adoption and doc protections
+- [x] ### Session 20.7.1: Canonical plan adoption and doc protections
 **Description:** Mark the locked master plan as the active close-out sequencing surface; update feature-level guidance so the new ladder is visible; add warning/tombstone text where contradictory or superseded planning paths could still mislead agents.
 
 **Tasks:**
