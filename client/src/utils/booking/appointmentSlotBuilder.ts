@@ -14,7 +14,7 @@ import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { GlobalRelationship } from '@/types/relationships'
-import { calculateSlotShape } from './partFinalizer'
+import { calculateSlotShape, filterZeroedParts } from './partFinalizer'
 import {
   createBlockFinals,
   filterZeroedBlocks
@@ -44,13 +44,19 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
   }
 }
 
+/**
+ * WHY: Principles §4.2/§5.2 — event assignment resolves per part instance as
+ * `event profile override ?? event orchestrator baseline`. A part-level assignment
+ * REPLACES the block baseline for that part; the two are never unioned.
+ */
 function lookupEventInstancesForPartLineage(
   partInstanceId: string,
   owningBlockInstanceId: string,
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
 ): EventInstance[] {
-  const eventIds = new Set<string>()
+  const baselineEventIds = new Set<string>()
+  const overrideEventIds = new Set<string>()
   for (const rel of eventAssignmentsRelationships) {
     if (rel.relationshipKind !== 'eventAssignments') {
       continue
@@ -62,13 +68,15 @@ function lookupEventInstancesForPartLineage(
     if (!matchesBlockBaseline && !matchesPartOverride) {
       continue
     }
+    const target = matchesPartOverride ? overrideEventIds : baselineEventIds
     for (const child of rel.children) {
       if (child.entityKey === 'eventInstance') {
-        eventIds.add(child.id)
+        target.add(child.id)
       }
     }
   }
-  return Array.from(eventIds)
+  const resolvedIds = overrideEventIds.size > 0 ? overrideEventIds : baselineEventIds
+  return Array.from(resolvedIds)
     .map((id) => eventInstances.find((ei) => ei.id === id))
     .filter((ei): ei is EventInstance => ei !== undefined)
 }
@@ -108,7 +116,13 @@ export function buildAppointmentShape(
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
+  // WHY: Principles §4.4 step 5 / §4.8 — zero-out is per PART, applied last. A zeroed part
+  // inside a mixed block must not contribute to durations or rollups, so each surviving
+  // block's finalizedParts are re-filtered (not just fully-zeroed blocks dropped).
+  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals).map((blockFinal) => ({
+    ...blockFinal,
+    finalizedParts: filterZeroedParts(blockFinal.finalizedParts),
+  }))
 
   const eventAssignmentsByPartInstanceId =
     eventInstances && eventAssignmentsRelationships
