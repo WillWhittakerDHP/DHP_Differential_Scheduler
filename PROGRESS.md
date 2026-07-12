@@ -188,3 +188,52 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 2. Execute kill/keep/move table above for grab-bag columns.
 3. Restore or rebuild test suites before treating CI as a merge gate.
 4. Prove Minimize Time On Site end-to-end (§6.1 — blocking).
+
+---
+
+## Phase 1 — in progress (2026-07-12)
+
+### Completed this session
+
+| Item | Status | Notes |
+|------|--------|-------|
+| **Pipeline zero-out** (§4.4/§4.8) | ✅ Fixed + tested | Per-part exclusion inside mixed blocks; `blockTotals` excludes zeroed parts |
+| **Event override semantics** (§4.2/§5.2) | ✅ Fixed + tested | Part-level `event_assignments` now **replace** block baseline (not unioned) |
+| **§6.1 flagship test** | ✅ Added | `minimizeTimeOnSite.test.ts` — segment layout from data-only profile |
+| **Grab-bag cleanup** | ✅ Partial | Dropped dead `appointments.*_snapshots` JSONB; dropped `block_shapes.requires_agent` |
+| **Booking pipeline tests** | ✅ 10 tests | First pipeline tests since deliberate test-suite removal |
+
+### Flag audit (`composite` / `orchestrator` / `wizardVisible`)
+
+| Flag | Verdict | Notes |
+|------|---------|-------|
+| `composite` | **FLAG-DRIVEN** | `instanceComponents`, nested wizard UX, part rollup, server link validation |
+| `wizardVisible` | **PARTIALLY WIRED** | Main vs line-item split works; cascade uses shape type + `bookingCascades`, not flag re-check; differential user-type sets ignore flag |
+| `orchestrator` | **PARTIALLY WIRED** | Differential availability + server base-ledger rules; cascade roots are relationship-driven, not flag-driven |
+
+**No code changes yet** — audit only. Wiring `orchestrator` into cascade roots is a design decision for Will.
+
+### Event routing audit
+
+- **Part → segment:** DATA-DRIVEN via `event_assignments` (override fix applied)
+- **Minimizer detection:** DATA-DRIVEN (`placement_kind === 'floating'`)
+- **Attendee resolution:** MIXED — invites use `event_instance_attendees`; admin quick-select uses availability `major`/`minor` lists (not `placement_kind`-only per spec)
+
+### Ledger naming
+
+- **Code/DB reality:** `baseTime`/`baseFee` + relational `event_assignments` (no scalar event columns)
+- **Spec/PROGRESS drift:** still says `defaultTime`/`defaultFee`/`defaultEvent` — reconcile docs in a follow-up
+
+### Migration coherence (fresh DB)
+
+- **Fixed:** Pre-baseline `split_settings_data` no longer crashes when legacy tables absent; `baseline_from_dump` drops partial pre-baseline settings tables before applying squashed schema
+- **Fixed:** `baseline_data.sql` `block_shapes` rows + `users.user_role` (`client` → `buyer`) aligned to baseline schema
+- **Remaining:** Full `baseline_data.sql` still has stale column refs (`differential` on `block_instance_versions`, etc.). Fresh migrate fails mid-seed. **Next step:** re-squash baseline schema+data from live DB at one point in time, or scripted row-by-row alignment — not a quick grep fix
+
+### Still open (Phase 1 backlog)
+
+1. **Vocabulary retirement** (`property`/`coupon`/`option` → `time`/`price`/`event`) — ~300+ identifiers; start with `appointmentSelectionCodec.ts` API rename
+2. **Flag wiring gaps** — `wizardVisible` on hidden orchestrators; `orchestrator` not gating cascade roots
+3. **Attendee logic** — align to `placement_kind`-only per spec §6 item 4
+4. **Fresh DB migrate** — baseline seed refresh (see above)
+5. **Manual §6.1 E2E** — wizard UI walkthrough with dev server (pipeline test covers math; UI still needs Will's eyes)

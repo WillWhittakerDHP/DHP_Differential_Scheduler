@@ -37,11 +37,22 @@ export default {
     let blob = null;
     let autoConfirmEnabled = false;
 
-    const [entryRows] = await queryInterface.sequelize.query(
-      `SELECT entry_key, value FROM availability_setting_entries ORDER BY entry_key ASC`
+    // WHY: On a fresh install the baseline migration runs after this file and creates
+    // business_settings directly — availability_setting_entries never exists.
+    const [entryTableCheck] = await queryInterface.sequelize.query(
+      `SELECT to_regclass('public.availability_setting_entries') AS reg`
     );
+    const entryTableExists = entryTableCheck?.[0]?.reg != null;
 
-    if (entryRows && entryRows.length > 0) {
+    let entryRows = [];
+    if (entryTableExists) {
+      const [rows] = await queryInterface.sequelize.query(
+        `SELECT entry_key, value FROM availability_setting_entries ORDER BY entry_key ASC`
+      );
+      entryRows = rows ?? [];
+    }
+
+    if (entryRows.length > 0) {
       blob = {};
       for (const row of entryRows) {
         const key = row.entry_key;
@@ -54,17 +65,35 @@ export default {
     }
 
     if (!blob || Object.keys(blob).length === 0) {
-      const [bsRows] = await queryInterface.sequelize.query(
-        `SELECT setting_value, auto_confirm_enabled FROM business_settings WHERE setting_key = '${AVAILABILITY_SETTINGS_KEY}' LIMIT 1`
+      const [bsTableCheck] = await queryInterface.sequelize.query(
+        `SELECT to_regclass('public.business_settings') AS reg`
       );
-      if (bsRows && bsRows.length > 0) {
-        blob = bsRows[0].setting_value || {};
-        autoConfirmEnabled = bsRows[0].auto_confirm_enabled === true;
+      if (bsTableCheck?.[0]?.reg != null) {
+        const [bsRows] = await queryInterface.sequelize.query(
+          `SELECT setting_value, auto_confirm_enabled FROM business_settings WHERE setting_key = '${AVAILABILITY_SETTINGS_KEY}' LIMIT 1`
+        );
+        if (bsRows && bsRows.length > 0) {
+          blob = bsRows[0].setting_value || {};
+          autoConfirmEnabled = bsRows[0].auto_confirm_enabled === true;
+        }
       }
     }
 
     if (!blob || typeof blob !== 'object') {
       blob = {};
+    }
+
+    const [bsTableCheckEarly] = await queryInterface.sequelize.query(
+      `SELECT to_regclass('public.business_settings') AS reg`
+    );
+    const businessSettingsExists = bsTableCheckEarly?.[0]?.reg != null;
+
+    // Fresh install: baseline migration (runs next) seeds calendar/wizard/availability directly.
+    if (!entryTableExists && !businessSettingsExists) {
+      console.log(
+        '[split_settings_data] Skipped: no legacy settings tables (fresh install — baseline will seed)'
+      );
+      return;
     }
 
     const calendarConfig = blob.calendarConfig && typeof blob.calendarConfig === 'object'
@@ -117,14 +146,19 @@ export default {
       { replacements: { value: JSON.stringify(wizardSettingsValue), now }, type: Sequelize.QueryTypes.INSERT }
     );
 
-    await queryInterface.sequelize.query(
-      `UPDATE business_settings SET setting_value = :value::jsonb WHERE setting_key = :key`,
-      { replacements: { value: JSON.stringify(availabilityOnly), key: AVAILABILITY_SETTINGS_KEY }, type: Sequelize.QueryTypes.UPDATE }
+    const [bsTableCheck] = await queryInterface.sequelize.query(
+      `SELECT to_regclass('public.business_settings') AS reg`
     );
+    if (bsTableCheck?.[0]?.reg != null) {
+      await queryInterface.sequelize.query(
+        `UPDATE business_settings SET setting_value = :value::jsonb WHERE setting_key = :key`,
+        { replacements: { value: JSON.stringify(availabilityOnly), key: AVAILABILITY_SETTINGS_KEY }, type: Sequelize.QueryTypes.UPDATE }
+      );
 
-    await queryInterface.sequelize.query(`
-      ALTER TABLE public.business_settings DROP COLUMN IF EXISTS auto_confirm_enabled;
-    `);
+      await queryInterface.sequelize.query(`
+        ALTER TABLE public.business_settings DROP COLUMN IF EXISTS auto_confirm_enabled;
+      `);
+    }
 
     console.log('[split_settings_data] Split data into calendar_settings, wizard_settings; trimmed business_settings');
   },
