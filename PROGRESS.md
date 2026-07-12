@@ -160,9 +160,16 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 
 #### Open schema questions for Will
 
-1. `block_instances.requires_agent` vs `block_shapes.requires_agent` — which is authoritative?
+1. ~~`block_instances.requires_agent` vs `block_shapes.requires_agent`~~ — **Resolved:** `block_instances` is authoritative (Will, 2026-07-12). Drop or ignore shape-level duplicate in Phase 1.
 2. `part_instances.blockInstanceId` — spec notes missing FK; **not present in current schema** (assignment is via `part_assignments` join table). Confirm intentional.
-3. Test suite absence — were tests on another branch or deliberately stripped?
+3. ~~Test suite absence~~ — **Resolved:** Tests deliberately deleted; were burdensome/unreliable under micromanagement. Rebuild selectively in later phases — not a Phase 0 blocker.
+
+#### Will sign-off (2026-07-12)
+
+- **requires_agent:** instance-level (`block_instances`) wins.
+- **Tests:** intentionally removed; no hunt for missing files.
+- **Auth:** magic link disabled for local dev (`AUTH_STRATEGY=none`); admin opens without login.
+- **Harness slash commands:** repo `.cursor/` deleted; global commands live in `~/.cursor/commands/` — manage via Cursor **Customize** sidebar (see note below).
 
 ---
 
@@ -173,7 +180,7 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 - [x] Uncommitted work resolved (committed)
 - [x] Harness deleted, keepers in `docs/`
 - [x] Behaviour + schema audit written
-- [ ] **Will sign-off** on Phase 1 kill/keep/move list (this section)
+- [x] **Will sign-off** on Phase 1 kill/keep/move list
 
 ### Suggested Phase 1 entry
 

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw, RouteLocationNormalized } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import { isAuthDisabled } from '@/constants/authRuntime'
 
 let authBootstrapped = false
 
@@ -59,11 +60,17 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
     await auth.initializeAuth()
   }
 
+  if (isAuthDisabled() && (to.name === 'login' || to.name === 'auth-verify')) {
+    const redirect = typeof to.query.redirect === 'string' ? to.query.redirect : '/admin'
+    return redirect
+  }
+
   const publicAuthRoutes = new Set(['login', 'auth-verify'])
   const needsAdminSession =
-    to.path.startsWith('/admin') ||
+    !isAuthDisabled() &&
+    (to.path.startsWith('/admin') ||
     to.name === 'admin-panel' ||
-    to.name === 'admin-booking-entry'
+    to.name === 'admin-booking-entry')
   if (needsAdminSession && !publicAuthRoutes.has(String(to.name))) {
     const auth = useAuthStore()
     if (!auth.sessionLoaded) {

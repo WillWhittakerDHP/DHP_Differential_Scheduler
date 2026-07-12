@@ -100,6 +100,21 @@ function sendAuthNotImplemented(res: Response): void {
   )
 }
 
+function sendMagicLinkDisabled(res: Response): void {
+  const auth = getAuthConfig()
+  res.status(501).json(
+    buildAuthPlaceholder501Body('Magic link auth is disabled', {
+      strategy: auth.strategy,
+      sessionCookieName: auth.sessionCookieName,
+      sessionMaxAgeSec: auth.sessionMaxAgeSec,
+    })
+  )
+}
+
+function isMagicLinkStrategyActive(): boolean {
+  return getAuthConfig().strategy === 'magic_link'
+}
+
 /** Current session identity (cookie + DB). Unauthenticated → 401 from `requireAuth`. */
 router.get('/session/me', requireAuth, (req: Request, res: Response): void => {
   const u = req.user
@@ -150,6 +165,10 @@ router.post(
   csrfProtection,
   validateRequest(magicLinkRequestBodySchema),
   async (req: Request, res: Response): Promise<void> => {
+    if (!isMagicLinkStrategyActive()) {
+      sendMagicLinkDisabled(res)
+      return
+    }
     try {
       const email = typeof req.body.email === 'string' ? req.body.email : ''
       await submitMagicLinkRequest(email)
@@ -169,6 +188,10 @@ router.post(
  * No CSRF — users open this URL from email; mutating POST flows stay protected separately.
  */
 router.get('/magic-link/verify', async (req: Request, res: Response): Promise<void> => {
+  if (!isMagicLinkStrategyActive()) {
+    sendMagicLinkDisabled(res)
+    return
+  }
   try {
     const verifyToken = magicLinkStrategy.verifyToken
     if (verifyToken === undefined) {

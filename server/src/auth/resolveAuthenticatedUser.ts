@@ -4,7 +4,9 @@
 
 import type { Request } from 'express'
 import { models } from '../config/models.js'
+import { getAuthConfig } from '../config/authConfig.js'
 import { createLogger } from '../utils/logger.js'
+import { resolveDevBypassUser } from './devAuthBypass.js'
 import { getAuthSessionBySid } from './sessionManager.js'
 import { getSessionIdFromRequest } from './sessionCookie.js'
 
@@ -24,6 +26,15 @@ export async function resolveAuthenticatedUserForRequest(
   req: Request
 ): Promise<ResolveAuthenticatedUserResult> {
   try {
+    if (getAuthConfig().strategy === 'none') {
+      const devUser = await resolveDevBypassUser()
+      if (devUser !== null) {
+        return { status: 'ok', user: devUser }
+      }
+      logger.warn('resolveAuthenticatedUserForRequest: AUTH_STRATEGY=none but dev bypass user unavailable')
+      return { status: 'unauthorized' }
+    }
+
     const sid = getSessionIdFromRequest(req)
     if (sid === null) {
       return { status: 'unauthorized' }
