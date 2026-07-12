@@ -6,7 +6,12 @@ import type { AppointmentResponse } from '@/types/appointment'
 import type { BookingBlockInstance, BookingData } from '@/types/transformers/bookingData'
 import type { WizardStateData } from '@/types/booking/wizardStateData'
 import { getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
-import { ATTENDEE_ROLE_CLIENT, ATTENDEE_ROLE_AGENT, USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
+import {
+  ATTENDEE_ROLE_BUYER,
+  ATTENDEE_ROLE_AGENT,
+  USER_ROLE_BUYER,
+  USER_ROLE_AGENT,
+} from '@/constants/attendeeRoles'
 import { safeArray, extractOptionalString, extractOptionalNumber, extractOptionalBoolean } from './transformerPrimitives'
 import { findById } from './transformerCollections'
 import apiClient from '@/utils/api'
@@ -42,35 +47,40 @@ function extractPropertyDetails(propertyVersion: AppointmentResponse['propertyVe
   }
 }
 
+function blockLabelIsBuyer(name: string | null | undefined): boolean {
+  if (typeof name !== 'string' || !name.trim()) return false
+  const n = name.trim().toLowerCase()
+  return n === ATTENDEE_ROLE_BUYER.toLowerCase()
+}
+
 function extractContacts(attendees: AppointmentResponse['attendees']) {
   const attendeesList = safeArray(attendees)
-  const clientAttendee = attendeesList.find(
-    (a) =>
-      a.userTypeBlockInstance?.name === ATTENDEE_ROLE_CLIENT ||
-      a.user?.userRole === USER_ROLE_CLIENT
-  )
+  const clientAttendee = attendeesList.find((a) => {
+    const ur = a.user?.userRole as string | undefined
+    return blockLabelIsBuyer(a.userTypeBlockInstance?.name) || ur === USER_ROLE_BUYER
+  })
   const agentAttendee = attendeesList.find(
     (a) =>
       a.userTypeBlockInstance?.name === ATTENDEE_ROLE_AGENT ||
       a.user?.userRole === USER_ROLE_AGENT
   )
-  const otherAttendees = attendeesList.filter(
-    (a) =>
-      a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_CLIENT &&
+  const otherAttendees = attendeesList.filter((a) => {
+    const ur = a.user?.userRole as string | undefined
+    return (
+      !blockLabelIsBuyer(a.userTypeBlockInstance?.name) &&
       a.userTypeBlockInstance?.name !== ATTENDEE_ROLE_AGENT &&
-      a.user?.userRole !== USER_ROLE_CLIENT &&
-      a.user?.userRole !== USER_ROLE_AGENT
-  )
+      ur !== USER_ROLE_BUYER &&
+      ur !== USER_ROLE_AGENT
+    )
+  })
   const mappedAdditionalContacts = otherAttendees.map((attendee) => {
     const user = attendee.user
     const rawName =
       typeof attendee.userTypeBlockInstance?.name === 'string'
         ? attendee.userTypeBlockInstance.name.toLowerCase().replace(/\s+/g, '')
         : ''
-    let role: 'anotherClient' | 'transactionManager' | 'owner' = 'anotherClient'
-    if (rawName === 'transactionmanager') {
-      role = 'transactionManager'
-    } else if (rawName === 'owner' || rawName === 'seller') {
+    let role: 'anotherBuyer' | 'owner' = 'anotherBuyer'
+    if (rawName === 'owner' || rawName === 'seller') {
       // Block instance display name may be "Owner" or "Seller" in admin data; wizard stores `owner` only.
       role = 'owner'
     }
@@ -82,10 +92,10 @@ function extractContacts(attendees: AppointmentResponse['attendees']) {
     }
   })
   return {
-    client: {
-      firstName: extractOptionalString(clientAttendee?.user?.firstName, 'client.firstName'),
-      lastName: extractOptionalString(clientAttendee?.user?.lastName, 'client.lastName'),
-      email: extractOptionalString(clientAttendee?.user?.email, 'client.email'),
+    buyer: {
+      firstName: extractOptionalString(clientAttendee?.user?.firstName, 'buyer.firstName'),
+      lastName: extractOptionalString(clientAttendee?.user?.lastName, 'buyer.lastName'),
+      email: extractOptionalString(clientAttendee?.user?.email, 'buyer.email'),
     },
     agent: {
       firstName: extractOptionalString(agentAttendee?.user?.firstName, 'agent.firstName'),

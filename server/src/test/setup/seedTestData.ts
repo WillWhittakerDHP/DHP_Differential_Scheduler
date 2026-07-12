@@ -28,6 +28,7 @@ export async function seedBasicTestData() {
     description: 'Standard home inspection service',
     disabled: false,
     orderIndex: 1,
+    semanticType: 'service',
   })
   
   const blockShape2 = await BlockShape.create({
@@ -36,6 +37,7 @@ export async function seedBasicTestData() {
     description: 'Additional service option',
     disabled: false,
     orderIndex: 2,
+    semanticType: 'service',
   })
   
   const partShape1 = await PartShape.create({

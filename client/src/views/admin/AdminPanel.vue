@@ -1,27 +1,18 @@
 <!--
-  WHY: Provides unified admin interface with tab navigation for Instances and Types management
-  PATTERN: VTabs + VWindow pattern for tab navigation in Vuexy
-  COMPARISON: React uses Ant Design Tabs. Vue uses Vuetify VTabs with VWindow
-  RESOURCE: https://vuetifyjs.com/en/components/tabs/
+  WHY: Unified admin shell — Instances-first IA, then Appointments (data), then Controls (business).
+  PATTERN: VTabs + VWindow; lazy-loaded tab bodies.
 -->
 <script setup lang="ts">
 import { ref, provide, defineAsyncComponent } from 'vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
-const InstancesTab = defineAsyncComponent(() => import('./tabs/InstancesTab.vue'))
-const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
+const InstancesDomainTab = defineAsyncComponent(() => import('./tabs/InstancesDomainTab.vue'))
 const DataManagementTab = defineAsyncComponent(() => import('./tabs/DataManagementTab.vue'))
 const BusinessControlsTab = defineAsyncComponent(() => import('./tabs/BusinessControlsTab.vue'))
 
-/**
- * PATTERN: Initialize route-specific composables in view component setup
-PERFORMANC...
- */
 useAdmin()
 
-/**
- */
 const currentTab = ref('instances')
 
 provide(adminCurrentTabKey, currentTab)
@@ -36,31 +27,21 @@ provide(adminCurrentTabKey, currentTab)
         </VBtn>
       </VCol>
     </VRow>
-    <!--
-      WHY: Provides tabbed interface with Vuexy styling
-      PATTERN: v-model binds to reactive ref for two-way data binding
-    -->
     <VTabs v-model="currentTab">
-      <VTab value="instances">Instances</VTab>
-      <VTab value="shapes">Shapes</VTab>
-      <VTab value="data">APPOINTMENTS</VTab>
-      <VTab value="business">CONTROLS</VTab>
+      <VTab value="instances">
+        Instances
+      </VTab>
+      <VTab value="data">
+        Appointments
+      </VTab>
+      <VTab value="business">
+        Controls
+      </VTab>
     </VTabs>
-    
-    <!--
-      WHY: Manages which tab content is visible based on currentTab value
-      PATTERN: v-model syncs with VTabs - when tab clicked, VWindow shows matching VWindowItem
-    -->
-    <!--
-      WHY: Helps Vue track components during transitions and prevents undefined VNode errors
-      PATTERN: Use stable keys matching the value prop for proper component tracking
-    -->
+
     <VWindow v-model="currentTab">
       <VWindowItem key="instances" value="instances">
-        <InstancesTab />
-      </VWindowItem>
-      <VWindowItem key="shapes" value="shapes">
-        <ShapesTab />
+        <InstancesDomainTab />
       </VWindowItem>
       <VWindowItem key="data" value="data">
         <DataManagementTab />

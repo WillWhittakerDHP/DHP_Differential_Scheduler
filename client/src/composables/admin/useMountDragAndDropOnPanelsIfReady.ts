@@ -1,16 +1,7 @@
-import { ref, type Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { animations, handleEnd as formkitHandleEnd, performTransfer as formkitPerformTransfer } from '@formkit/drag-and-drop'
-import { dragAndDrop } from '@formkit/drag-and-drop/vue'
-import {
-  countDraggableNodes,
-  createExpansionPanelDraggableChecker,
-  createSingleClassDraggableChecker,
-  getPanelsElement,
-} from '@/composables/admin/useDragAndDropHelpers'
-import { createLogger } from '@/utils/logger'
-
-const logger = createLogger('useMountDragAndDropOnPanelsIfReady')
+import { createSingleClassDraggableChecker, getPanelsElement } from '@/composables/admin/useDragAndDropHelpers'
+import { mountFormKitExpansionPanelsDrag } from '@/utils/admin/mountFormKitExpansionPanelsDrag'
 
 export interface MountDragAndDropOnPanelsParams {
   container: HTMLElement
@@ -23,7 +14,8 @@ export interface MountDragAndDropOnPanelsParams {
   dragEndHandler: () => void
 }
 
-export function useMountDragAndDropOnPanelsIfReady(params: MountDragAndDropOnPanelsParams): void {
+/** Returns the panels element FormKit bound to, or null if mount was skipped/failed. */
+export function useMountDragAndDropOnPanelsIfReady(params: MountDragAndDropOnPanelsParams): HTMLElement | null {
   const {
     container,
     panelsComponentRef,
@@ -36,44 +28,28 @@ export function useMountDragAndDropOnPanelsIfReady(params: MountDragAndDropOnPan
   } = params
 
   if (!isMounted.value) {
-    return
+    return null
   }
 
   const panelsEl = getPanelsElement(panelsComponentRef, container, isMounted)
   if (!panelsEl || !(panelsEl instanceof HTMLElement)) {
-    return
+    return null
   }
 
   const entityIdsArray = entityIds.value
   if (!entityIdsArray || entityIdsArray.length === 0) {
-    return
+    return null
   }
 
   const isDraggableChecker = createSingleClassDraggableChecker(draggableClass)
-  const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
-  if (enabledNodesCount !== entityIdsArray.length) {
-    return
-  }
-
-  const panelsRef = ref(panelsEl)
-
-  try {
-    dragAndDrop({
-      parent: panelsRef,
-      values: entityIds,
-      group,
-      ...(dragHandle ? { dragHandle } : {}),
-      draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
-      plugins: [animations()],
-      performTransfer: (arg) => {
-        formkitPerformTransfer(arg)
-      },
-      handleEnd: (state) => {
-        formkitHandleEnd(state)
-        dragEndHandler()
-      },
-    })
-  } catch (error) {
-    logger.error('Failed to initialize drag and drop', { error, group })
-  }
+  const instance = mountFormKitExpansionPanelsDrag({
+    panelsEl,
+    values: entityIds,
+    group,
+    dragHandle,
+    isPanelDraggable: isDraggableChecker,
+    onDragEnd: dragEndHandler,
+    logContext: { group },
+  })
+  return instance ? panelsEl : null
 }

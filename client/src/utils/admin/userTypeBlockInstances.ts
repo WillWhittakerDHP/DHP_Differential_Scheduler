@@ -11,11 +11,11 @@ import { nilToEmptyString } from '@shared/utils/nilDefaults'
 export function listSortedUserTypeBlockInstances(admin: UseAdminReturn): BlockInstanceEntity[] {
   const shapes = admin.getEntitiesByKey('blockShape')
   const userShapeIds = new Set(
-    shapes.filter((s) => s.type === BLOCK_SHAPE_TYPES.USER).map((s) => toGlobalEntityId(s.id))
+    shapes.filter((s) => s.semanticType === BLOCK_SHAPE_TYPES.USER).map((s) => toGlobalEntityId(s.id))
   )
   const instances = admin.getEntitiesByKey('blockInstance')
   return instances
-    .filter((i) => userShapeIds.has(toGlobalEntityId(i.blockShapeRef)) && i.active !== false)
+    .filter((i) => userShapeIds.has(toGlobalEntityId(i.blockShapeRef)) && i.wizardVisible !== false)
     .slice()
     .sort((a, b) => {
       const ao = a[FIELD_NAMES.ORDER_INDEX] ?? 0

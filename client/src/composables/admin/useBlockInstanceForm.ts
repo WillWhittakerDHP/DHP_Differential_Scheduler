@@ -56,7 +56,7 @@ export function useBlockInstanceForm(
     name: '',
     blockShapeRef: '',
     orderIndex: 0,
-    active: true,
+    wizardVisible: true,
   })
   
   const isSubmitting = ref(false)
@@ -76,7 +76,7 @@ export function useBlockInstanceForm(
         name: asEmptyString(entity.name),
         blockShapeRef: asEmptyString(entity.blockShapeRef),
         orderIndex: entity.orderIndex ?? 0,
-        active: entity.active ?? true,
+        wizardVisible: entity.wizardVisible !== false,
       }
     }
   }

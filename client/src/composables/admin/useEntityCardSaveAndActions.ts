@@ -2,7 +2,7 @@
  * PATTERN: EntityCard actions + save state + save handlers in one composable.
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  */
-import { computed } from 'vue'
+import { computed, toValue } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { useEntityCardActions } from '@/composables/admin/useEntityCardActions'
@@ -15,7 +15,7 @@ import type { UseEntityCardSaveAndActionsParams, UseEntityCardSaveAndActionsRetu
 export function useEntityCardSaveAndActions(
   params: UseEntityCardSaveAndActionsParams
 ): UseEntityCardSaveAndActionsReturn {
-  const { entityKey, entity, isNew, form, admin, emit, logger } = params
+  const { entityKey, entity: entitySource, isNew, form, admin, emit, logger } = params
 
   const formInstance = form.value
   if (!formInstance) {
@@ -24,7 +24,7 @@ export function useEntityCardSaveAndActions(
 
   const entityCardActions = useEntityCardActions({
     entityKey,
-    entity: computed(() => entity),
+    entity: computed(() => toValue(entitySource)),
     form,
     isNew,
     onDelete: (id: string) => emit('delete', id),
@@ -50,11 +50,12 @@ export function useEntityCardSaveAndActions(
   const unifiedSaveState = useEntityCardSaveState({
     form: formInstance,
     entityKey,
-    entityId: entity.id,
+    entityId: toValue(entitySource).id,
     getEntityValues: () => {
+      const current = toValue(entitySource)
       const savedEntity = isNew
-        ? entity
-        : (admin.getEntity(entityKey, toGlobalEntityId(String(entity.id))) || entity)
+        ? current
+        : (admin.getEntity(entityKey, toGlobalEntityId(String(current.id))) || current)
       return savedEntity as Record<string, unknown>
     },
   })
@@ -63,7 +64,7 @@ export function useEntityCardSaveAndActions(
     form: formInstance,
     admin,
     entityKey,
-    entityId: entity.id,
+    entityId: toValue(entitySource).id,
     isNew,
     logger,
     _handleSave,
@@ -73,7 +74,7 @@ export function useEntityCardSaveAndActions(
 
   async function handleDuplicate(): Promise<void> {
     if (entityKey !== 'blockInstance') return
-    emit('duplicate', entity as GlobalEntity<'blockInstance'>)
+    emit('duplicate', toValue(entitySource) as GlobalEntity<'blockInstance'>)
   }
 
   return {

@@ -13,8 +13,8 @@ export function createPartFinal(
     (sum, p) => sum + applyPercentageOffToFeeComponent(p.baseFee ?? 0, p.percentageOff),
     0
   )
-  const rateOverBaseFee = parts.reduce(
-    (sum, p) => sum + applyPercentageOffToFeeComponent(p.rateOverBaseFee ?? 0, p.percentageOff),
+  const feePerUnit = parts.reduce(
+    (sum, p) => sum + applyPercentageOffToFeeComponent(p.feePerUnit ?? 0, p.percentageOff),
     0
   )
 
@@ -22,8 +22,8 @@ export function createPartFinal(
     partShape,
     baseTime,
     baseFee,
-    rateOverBaseTime: parts.reduce((sum, p) => sum + (p.rateOverBaseTime ?? 0), 0),
-    rateOverBaseFee,
+    timePerUnit: parts.reduce((sum, p) => sum + (p.timePerUnit ?? 0), 0),
+    feePerUnit,
     zeroOutPart: parts.some(p => p.zeroOutPart === true),
     sourcePartInstances: parts
   }

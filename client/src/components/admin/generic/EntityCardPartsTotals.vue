@@ -16,12 +16,12 @@
         <span class="text-body-large ml-2">{{ formatDuration(totalBaseTime) }}</span>
       </div>
       <div>
-        <span class="text-body-medium text-medium-emphasis">Overage Rate ($/sq ft):</span>
-        <span class="text-body-large ml-2">{{ formatCurrency(totalRateOverBaseFee) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Fee per unit:</span>
+        <span class="text-body-large ml-2">{{ formatCurrency(totalFeePerUnit) }}</span>
       </div>
       <div>
-        <span class="text-body-medium text-medium-emphasis">Overage Rate (sq ft/hr):</span>
-        <span class="text-body-large ml-2">{{ formatRate(totalRateOverBaseTime) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Time per unit:</span>
+        <span class="text-body-large ml-2">{{ formatRate(totalTimePerUnit) }}</span>
       </div>
     </div>
   </div>
@@ -44,8 +44,8 @@ const {
   canHaveParts,
   totalBaseFee,
   totalBaseTime,
-  totalRateOverBaseFee,
-  totalRateOverBaseTime
+  totalFeePerUnit,
+  totalTimePerUnit
 } = usePartsTotals(props.entityKey, props.entityId)
 
 function formatCurrency(amount: number): string {

@@ -40,9 +40,9 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
   bulkEditData: () => ({
     baseTime: null,
-    rateOverBaseTime: null,
+    timePerUnit: null,
     baseFee: null,
-    rateOverBaseFee: null
+    feePerUnit: null
   })
 })
 const emit = defineEmits<Emits>()
@@ -74,9 +74,9 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       partShapeRef: asEmptyString(partShapeRef.value),
       orderIndex: 0,
       baseTime: editData.baseTime ?? 0,
-      rateOverBaseTime: editData.rateOverBaseTime ?? 0,
+      timePerUnit: editData.timePerUnit ?? 0,
       baseFee: editData.baseFee ?? 0,
-      rateOverBaseFee: editData.rateOverBaseFee ?? 0,
+      feePerUnit: editData.feePerUnit ?? 0,
       active: true,
       zeroOutPart: false
     }
@@ -93,9 +93,9 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       partShapeRef: asEmptyString(partShapeRef.value),
       orderIndex: 0,
       baseTime: 0,
-      rateOverBaseTime: 0,
+      timePerUnit: 0,
       baseFee: 0,
-      rateOverBaseFee: 0,
+      feePerUnit: 0,
       active: true,
       zeroOutPart: false
     } satisfies GlobalEntity<'partInstance'>

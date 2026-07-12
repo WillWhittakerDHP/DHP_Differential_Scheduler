@@ -97,7 +97,7 @@ export function useDevPanelsComputed(
   // PATTERN: Use useBooking composable to get booking data
   const { bookingData } = useBooking()
 
-  // PATTERN: Filter bookingData.blockInstances by service block shape ID and active status
+  // PATTERN: Filter bookingData.blockInstances by service block shape ID and wizardVisible
   const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
     const data = bookingData.value
     if (!data || !data.blockInstances || !Array.isArray(data.blockInstances)) return []
@@ -108,7 +108,7 @@ export function useDevPanelsComputed(
     return data.blockInstances
       .filter(instance => 
         instance.blockShapeRef === serviceBlockShapeId && 
-        instance.active === true
+        instance.wizardVisible === true
       )
       .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })

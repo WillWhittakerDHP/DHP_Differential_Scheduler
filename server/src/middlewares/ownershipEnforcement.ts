@@ -9,7 +9,6 @@ import {
   USER_ROLE_ADMIN,
   USER_ROLE_AGENT,
   USER_ROLE_OWNER,
-  USER_ROLE_TRANSACTION_MANAGER,
 } from '../constants/userRoles.js'
 import {
   Appointment,
@@ -52,7 +51,7 @@ function idsEqual(a: unknown, b: unknown): boolean {
   return String(a) === String(b)
 }
 
-/** Agent, admin, transaction_manager, and owner (legacy seller) may mutate internal admin resources without a per-row user owner. */
+/** Agent, admin, and owner may mutate internal admin resources without a per-row user owner. */
 export function isInternalStaffRole(role: string | undefined): boolean {
   if (role === undefined || role === '') {
     return false
@@ -63,7 +62,7 @@ export function isInternalStaffRole(role: string | undefined): boolean {
   if (role === USER_ROLE_ADMIN) {
     return true
   }
-  if (role === USER_ROLE_TRANSACTION_MANAGER || role === USER_ROLE_OWNER) {
+  if (role === USER_ROLE_OWNER) {
     return true
   }
   return false

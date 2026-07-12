@@ -9,7 +9,7 @@ import {
 } from '../../../repositories/organizationDefaultsRepository.js'
 import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import { sendBadRequest, sendSuccess } from '../../helpers/routerResponseHelpers.js'
-import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { staffMutations } from '../../../middlewares/security.js'
 import { validateRequest } from '../../../middlewares/validateRequest.js'
 import { organizationDefaultsPutBodySchema } from '../../schemas/organizationDefaultsSchemas.js'
 import { validateOrganizationDefaultsPayload } from './organizationDefaultsValidators.js'
@@ -30,8 +30,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
 router.put(
   '/',
-  csrfProtection,
-  checkOwnership('organizationDefaults', 'id'),
+  ...staffMutations('organizationDefaults', 'id'),
   validateRequest(organizationDefaultsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {

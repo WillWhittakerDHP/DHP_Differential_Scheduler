@@ -11,7 +11,7 @@ export interface AppointmentsTableDataGridContext {
   isLoading: ComputedRef<boolean>
   editingId: Ref<string | null>
   editedData: Ref<AppointmentsTableEditedData>
-  editingClientId: Ref<string | null>
+  editingBuyerId: Ref<string | null>
   editingAgentId: Ref<string | null>
   properties: ComputedRef<PropertyResponse[]>
   users: ComputedRef<UserResponse[]>

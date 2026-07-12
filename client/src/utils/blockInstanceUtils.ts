@@ -44,7 +44,7 @@ function blockShapeTypeLookupCandidates(type: BlockShapeType): readonly string[]
 
 function getUserTypeBlockShapes(bookingData: BookingData): BookingBlockShape[] {
   const blockShapes = getBlockShapes(bookingData, 'getUserTypeBlockShapes')
-  return blockShapes.filter((blockShape) => blockShape.type === BLOCK_SHAPE_TYPES.USER)
+  return blockShapes.filter((blockShape) => blockShape.semanticType === BLOCK_SHAPE_TYPES.USER)
 }
 
 export function getStateControlBlockInstances(bookingData: BookingData): BookingBlockInstance[] {
@@ -54,7 +54,8 @@ export function getStateControlBlockInstances(bookingData: BookingData): Booking
   const blockInstances = getBlockInstances(bookingData, 'getStateControlBlockInstances')
 
   return blockInstances.filter(
-    (instance) => userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.active
+    (instance) =>
+      userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.wizardVisible
   )
 }
 
@@ -64,7 +65,7 @@ export function getBlockShapeIdByType(
 ): string | null {
   const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByType')
   for (const candidate of blockShapeTypeLookupCandidates(type)) {
-    const blockShape = blockShapes.find((bs) => bs.type === candidate)
+    const blockShape = blockShapes.find((bs) => bs.semanticType === candidate)
     if (blockShape !== undefined) {
       return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
     }

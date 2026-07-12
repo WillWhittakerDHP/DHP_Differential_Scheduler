@@ -26,13 +26,13 @@ export interface WizardStateData {
   }
 
   contacts: {
-    client: { firstName: string; lastName: string; email: string }
+    buyer: { firstName: string; lastName: string; email: string }
     agent: { firstName: string; lastName: string; email: string }
     additionalContacts: Array<{
       firstName: string
       lastName: string
       email: string
-      role: 'anotherClient' | 'transactionManager' | 'owner'
+      role: 'anotherBuyer' | 'owner'
     }>
   }
 

@@ -64,8 +64,8 @@ export const partInstanceDisplays = {
     align: "right",
     },
 
-  rateOverBaseTime: {
-    label: "Overtime Rate (time)",
+  timePerUnit: {
+    label: "Time / unit",
     placeholder: "",
     inline: false,
     stacked: true,
@@ -82,8 +82,8 @@ export const partInstanceDisplays = {
     align: "right",
     },
 
-  rateOverBaseFee: {
-    label: "Overtime Rate ($)",
+  feePerUnit: {
+    label: "Fee / unit ($)",
     placeholder: "",
     inline: false,
     stacked: true,

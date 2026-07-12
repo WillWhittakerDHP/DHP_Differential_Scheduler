@@ -75,7 +75,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     blockShapes.map((blockShape) => ({
       id: blockShape.id,
       name: blockShape.name,
-      type: blockShape.type,
+      semanticType: blockShape.semanticType,
     })),
     (a, b) => a.name.localeCompare(b.name)
   )

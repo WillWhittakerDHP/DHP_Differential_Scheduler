@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import { useGlobal } from '@/composables/useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseEntityFilteringReturn } from '@/types/admin/entityFiltering'
+import { sortEntitiesByOrderIndex } from '@/utils/admin/sortEntitiesByOrderIndex'
 
 
 /**
@@ -24,9 +25,8 @@ export function useEntityFiltering<EntityKey extends GlobalEntityKey>(
    */
   const filteredEntities = computed(() => {
     const entities = getGlobalEntities(entityKey)
-    
-    // PATTERN: Spread operator creates new array
-    return [...entities].sort((a, b) => a.orderIndex - b.orderIndex)
+    // WHY: Same ordering as syncArrays / drag handlers (NaN-safe, stable id tie-break).
+    return sortEntitiesByOrderIndex([...entities])
   })
 
   return {

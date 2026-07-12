@@ -4,18 +4,16 @@ import { Op } from 'sequelize';
 import { createLogger } from './logger.js';
 import {
   USER_ROLE_AGENT,
-  USER_ROLE_CLIENT,
+  USER_ROLE_BUYER,
   USER_ROLE_OWNER,
   ATTENDEE_ROLE_AGENT,
 } from '../constants/userRoles.js';
-import { getAlignmentOverrides } from '../repositories/userRoleBlockAlignmentRepository.js';
 
 const logger = createLogger('UserTypeMapping');
 
 const ROLE_TO_BLOCK_NAME: Record<string, string> = {
-  [USER_ROLE_CLIENT]: 'Buyer', // Primary client = Buyer in real estate context
+  [USER_ROLE_BUYER]: 'Buyer',
   [USER_ROLE_AGENT]: ATTENDEE_ROLE_AGENT, // Real estate agent
-  transaction_manager: 'Transaction Manager',
   // WHY: API role is `owner`; user-type block instance name may still be "Seller" until seed/admin rename (6.18.2+).
   [USER_ROLE_OWNER]: 'Seller',
   inspector: 'Inspector',
@@ -25,7 +23,7 @@ let userTypeBlockCache: Map<string, string> | null = null;
 let cacheTimestamp: number = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-/** Cached role → block_instance_id from `user_role_block_alignments` (Session 6.18.2.1). */
+/** Cached role → block_instance_id from `block_instances.semantic_type` on user-semantic shapes. */
 let alignmentInstanceIdCache: Map<string, string> | null = null;
 let alignmentCacheLoadedAt: number = 0;
 const ALIGNMENT_CACHE_TTL = 60 * 1000;
@@ -52,11 +50,26 @@ async function ensureAlignmentInstanceIdsLoaded(): Promise<void> {
   ) {
     return;
   }
-  const raw = await getAlignmentOverrides();
+  const rows = await BlockInstance.findAll({
+    attributes: ['id', 'semanticType'],
+    where: {
+      semanticType: { [Op.ne]: null },
+    },
+    include: [
+      {
+        model: BlockShape,
+        as: 'block_shape',
+        attributes: ['id'],
+        where: { semanticType: 'user' },
+        required: true,
+      },
+    ],
+  });
   const map = new Map<string, string>();
-  for (const [roleKey, value] of Object.entries(raw)) {
-    if (typeof value === 'string' && value.length > 0) {
-      map.set(roleKey, value);
+  for (const row of rows) {
+    const st = row.semanticType;
+    if (typeof st === 'string' && st.length > 0) {
+      map.set(st, String(row.id));
     }
   }
   alignmentInstanceIdCache = map;
@@ -64,7 +77,7 @@ async function ensureAlignmentInstanceIdsLoaded(): Promise<void> {
 }
 
 /**
- * Clears name-based and admin alignment caches (call after updating `user_role_block_alignments`).
+ * Clears name-based and column-backed role→instance caches (call after block instance / shape updates).
  */
 export function invalidateUserTypeMappingCaches(): void {
   userTypeBlockCache = null;
@@ -75,9 +88,9 @@ export function invalidateUserTypeMappingCaches(): void {
 
 export async function getUserTypeBlockIdForRole(role: string): Promise<string | null> {
   await ensureAlignmentInstanceIdsLoaded();
-  const overrideId = alignmentInstanceIdCache?.get(role);
-  if (overrideId !== undefined) {
-    return overrideId;
+  const columnId = alignmentInstanceIdCache?.get(role);
+  if (columnId !== undefined) {
+    return columnId;
   }
 
   const blockName = ROLE_TO_BLOCK_NAME[role];
@@ -107,7 +120,7 @@ export async function getUserTypeBlockIdForRole(role: string): Promise<string | 
 
 async function findUserTypeBlockByName(name: string): Promise<{ id: string; name: string } | null> {
   const userShapes = await BlockShape.findAll({
-    where: { type: 'user' },
+    where: { semanticType: 'user' },
     attributes: ['id']
   });
   

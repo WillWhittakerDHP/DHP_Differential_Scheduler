@@ -20,7 +20,6 @@ export class BlockInstance extends Model<
   declare orderIndex: CreationOptional<number>;
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
-  declare active: boolean;
   declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
   declare orchestrator: boolean;
@@ -28,10 +27,11 @@ export class BlockInstance extends Model<
   declare preClosing: boolean;
   declare icon: string | null;
   declare baseSqFt: number | null;
-  declare allowMultiple: boolean;
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
+  /** Canonical user role when parent block shape is user-semantic; null otherwise. */
+  declare semanticType: string | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -63,11 +63,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       name: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
       },
       agentPermissions: {
         type: DataTypes.ENUM('true', 'false', 'override'),
@@ -103,11 +98,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      allowMultiple: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -122,6 +112,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      semanticType: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'semantic_type',
       },
       createdAt: {
         type: DataTypes.DATE,

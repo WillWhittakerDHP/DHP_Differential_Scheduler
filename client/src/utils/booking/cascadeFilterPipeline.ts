@@ -100,7 +100,7 @@ function applyFallback(params: FallbackParams): BookingBlockInstance[] {
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
   if (!shapeId) return []
   return bookingData.blockInstances.filter(
-    instance => instance.blockShapeRef === shapeId && instance.active
+    instance => instance.blockShapeRef === shapeId && instance.wizardVisible
   )
 }
 
@@ -141,7 +141,7 @@ export function cascadeShapePipeline(params: PipelineParams): {
 
   if (!shapeId) {
     const typesPresent = [
-      ...new Set((bookingData.blockShapes ?? []).map((bs) => String(bs.type)))
+      ...new Set((bookingData.blockShapes ?? []).map((bs) => String(bs.semanticType)))
     ].join(', ')
     logger.warn('Block shape not found for cascade filter', {
       relationshipName,
@@ -169,7 +169,9 @@ export function cascadeShapePipeline(params: PipelineParams): {
       totalCascadeResults: cascadeResult.instances.length,
       cascadeInstanceTypes: cascadeResult.instances.map(inst => {
         const shape = bookingData.blockShapes?.find(bs => String(bs.id) === String(inst.blockShapeRef))
-        return shape ? `${inst.name} (${shape.name}, type: ${shape.type})` : `${inst.name} (unknown shape)`
+        return shape
+          ? `${inst.name} (${shape.name}, semanticType: ${shape.semanticType})`
+          : `${inst.name} (unknown shape)`
       })
     })
   }

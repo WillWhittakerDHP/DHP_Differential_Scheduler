@@ -35,9 +35,9 @@ const drafts = reactive<
     {
       name: string
       baseTime: string
-      rateOverBaseTime: string
+      timePerUnit: string
       baseFee: string
-      rateOverBaseFee: string
+      feePerUnit: string
     }
   >
 >({})
@@ -47,9 +47,9 @@ function seedDraftFromRow(r: ServiceAtomicPartRow): void {
   drafts[id] = {
     name: r.name,
     baseTime: String(r.baseTime),
-    rateOverBaseTime: String(r.rateOverBaseTime),
+    timePerUnit: String(r.timePerUnit),
     baseFee: String(r.baseFee),
-    rateOverBaseFee: String(r.rateOverBaseFee),
+    feePerUnit: String(r.feePerUnit),
   }
 }
 
@@ -76,9 +76,9 @@ const headers = [
   { title: 'Part shape', key: 'partShapeName', sortable: false },
   { title: 'Work item', key: 'name', sortable: false },
   { title: 'Base time', key: 'baseTime', sortable: false },
-  { title: 'Rate / base time', key: 'rateOverBaseTime', sortable: false },
+  { title: 'Time / unit', key: 'timePerUnit', sortable: false },
   { title: 'Base fee', key: 'baseFee', sortable: false },
-  { title: 'Rate / base fee', key: 'rateOverBaseFee', sortable: false },
+  { title: 'Fee / unit', key: 'feePerUnit', sortable: false },
   { title: 'Zero out', key: 'zeroOutPart', sortable: false },
 ] as const
 
@@ -139,7 +139,7 @@ async function onNameBlur(item: TableRow): Promise<void> {
 
 async function onNumericBlur(
   item: TableRow,
-  key: 'baseTime' | 'rateOverBaseTime' | 'baseFee' | 'rateOverBaseFee'
+  key: 'baseTime' | 'timePerUnit' | 'baseFee' | 'feePerUnit'
 ): Promise<void> {
   const id = String(item.partInstance.id)
   const d = drafts[id]
@@ -221,16 +221,16 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
               @blur="onNumericBlur(item, 'baseTime')"
             />
           </template>
-          <template #item.rateOverBaseTime="{ item }">
+          <template #item.timePerUnit="{ item }">
             <VTextField
               v-if="item && drafts[item.id]"
-              v-model="drafts[item.id].rateOverBaseTime"
+              v-model="drafts[item.id].timePerUnit"
               type="number"
               density="compact"
               variant="underlined"
               hide-details
               :disabled="isSaving"
-              @blur="onNumericBlur(item, 'rateOverBaseTime')"
+              @blur="onNumericBlur(item, 'timePerUnit')"
             />
           </template>
           <template #item.baseFee="{ item }">
@@ -245,16 +245,16 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
               @blur="onNumericBlur(item, 'baseFee')"
             />
           </template>
-          <template #item.rateOverBaseFee="{ item }">
+          <template #item.feePerUnit="{ item }">
             <VTextField
               v-if="item && drafts[item.id]"
-              v-model="drafts[item.id].rateOverBaseFee"
+              v-model="drafts[item.id].feePerUnit"
               type="number"
               density="compact"
               variant="underlined"
               hide-details
               :disabled="isSaving"
-              @blur="onNumericBlur(item, 'rateOverBaseFee')"
+              @blur="onNumericBlur(item, 'feePerUnit')"
             />
           </template>
           <template #item.zeroOutPart="{ item }">

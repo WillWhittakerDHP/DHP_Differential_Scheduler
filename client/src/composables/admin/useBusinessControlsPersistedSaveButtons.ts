@@ -3,17 +3,14 @@
  */
 import { computed, type ComputedRef } from 'vue'
 import type { UseAdminOrganizationDefaultsReturn } from '@/composables/admin/useAdminOrganizationDefaults'
-import type { UseAdminUserRoleBlockAlignmentReturn } from '@/composables/admin/useAdminUserRoleBlockAlignment'
 import type { BusinessControlsSaveButtonProps } from '@/types/admin/businessControlsState'
 
 export interface BusinessControlsPersistedSaveButtons {
   organization: BusinessControlsSaveButtonProps
-  roleAlignment: BusinessControlsSaveButtonProps
 }
 
 export function useBusinessControlsPersistedSaveButtons(
-  organization: UseAdminOrganizationDefaultsReturn,
-  userRoleBlockAlignment: UseAdminUserRoleBlockAlignmentReturn
+  organization: UseAdminOrganizationDefaultsReturn
 ): ComputedRef<BusinessControlsPersistedSaveButtons> {
   return computed(() => ({
     organization: {
@@ -21,15 +18,6 @@ export function useBusinessControlsPersistedSaveButtons(
       color: 'primary' as const,
       loading: organization.saving.value,
       disabled: organization.saving.value,
-    },
-    roleAlignment: {
-      type: 'submit' as const,
-      color: 'primary' as const,
-      loading: userRoleBlockAlignment.saving.value,
-      disabled:
-        userRoleBlockAlignment.saving.value ||
-        userRoleBlockAlignment.loading.value ||
-        userRoleBlockAlignment.formData.value === null,
     },
   }))
 }

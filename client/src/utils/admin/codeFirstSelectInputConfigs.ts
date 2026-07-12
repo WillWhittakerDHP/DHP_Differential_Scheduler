@@ -53,7 +53,7 @@ export const EVENT_SHAPE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG: Record<string, unkno
   targetMode: 'relationship',
   globalField: 'attendees',
   placeholder: 'No attendees selected',
-  filterCandidates: { blockShape: { isStateControl: true } },
+  filterCandidates: { blockShape: { semanticType: 'user' } },
   selectedChildKey: 'blockInstance',
   candidateChildKey: 'blockInstance',
   selectedChildPath: ['attendees'],

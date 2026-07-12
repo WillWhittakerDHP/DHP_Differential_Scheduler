@@ -1,3 +1,4 @@
+import type { PartFinal } from '@/types/booking/partFinal'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { DifferentialDurationOffsets } from '@/types/appointmentModels'
 import type { EventInstance, EventShape } from '@/types/events'
@@ -15,9 +16,17 @@ type AccumulatedRawDurations = {
   eventRawDurations: Map<string, number>
 }
 
+function partFinalLineageKey(part: PartFinal): string {
+  const id = part.sourcePartInstances[0]?.id
+  if (id !== undefined && id !== '') {
+    return id
+  }
+  return part.partShape
+}
+
 export function accumulateRawDurationsFromBlockFinals(
   blockFinals: BlockFinal[],
-  eventAssignmentsByPartShape: Record<string, EventInstance[]>,
+  eventAssignmentsByPartInstanceId: Record<string, EventInstance[]>,
   eventShapeById: Map<string, EventShape>,
   _logger: AppLogger
 ): AccumulatedRawDurations {
@@ -30,7 +39,8 @@ export function accumulateRawDurationsFromBlockFinals(
           const baseTime = part.baseTime
           const newRawDuration = partAcc.totalRawDuration + baseTime
 
-          const rawEvents = eventAssignmentsByPartShape[part.partShape]
+          const lineageKey = partFinalLineageKey(part)
+          const rawEvents = eventAssignmentsByPartInstanceId[lineageKey]
           const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
 
           const updatedEventRawDurations = new Map(partAcc.eventRawDurations)

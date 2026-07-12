@@ -16,7 +16,6 @@ const {
   eventShapesList,
   startCreatingEventShape,
   isCreatingEventShape,
-  safeEventShapes,
   isLoadingEventShapes,
   newEventShapeName,
   isCreatingEventShapeLoading,
@@ -43,32 +42,25 @@ const {
       <div v-if="isLoadingEventShapes" class="text-center py-4">
         <VProgressCircular indeterminate />
       </div>
-      <div v-else-if="isCreatingEventShape || safeEventShapes.length > 0" :ref="c.eventShapesContainer" class="drag-drop-container">
-      <VExpansionPanels
-        :ref="c.eventShapesPanelsContainer"
-        v-model="expandedShapes"
-        multiple
-      >
-        <VExpansionPanel
+      <div v-else :ref="c.eventShapesContainer" class="drag-drop-container">
+        <VCard
           v-if="isCreatingEventShape"
-          key="new-eventShape"
-          value="new-eventShape"
-          class="new-shape-card"
+          class="mb-4"
+          variant="outlined"
         >
-          <template #title>
-            <div class="d-flex align-center gap-2 flex-grow-1">
-              <VIcon icon="tabler-plus" size="small" color="primary" />
-              <span class="text-primary font-weight-medium">New Event Shape</span>
-            </div>
-          </template>
-          <template #text>
-            <div class="d-flex align-center gap-3">
+          <VCardTitle class="d-flex align-center gap-2 text-body-large">
+            <VIcon icon="tabler-plus" size="small" color="primary" />
+            <span class="text-primary font-weight-medium">New Event Shape</span>
+          </VCardTitle>
+          <VCardText>
+            <div class="d-flex align-center gap-3 flex-wrap">
               <VTextField
                 v-model="newEventShapeName"
                 label="Name"
                 variant="outlined"
                 density="compact"
                 class="flex-grow-1"
+                style="min-width: 12rem"
                 @keyup.enter="handleEventShapeCreate"
               />
               <VBtn
@@ -81,25 +73,31 @@ const {
               </VBtn>
               <VBtn variant="outlined" @click="handleEventShapeCancelled">Cancel</VBtn>
             </div>
-          </template>
-        </VExpansionPanel>
-        <AdminEntityEditorPanel
-          v-for="eventShape in eventShapesList"
-          :key="String(eventShape.id)"
-          :class="`draggable-event-shape`"
-          :data-drag-id="String(eventShape.id)"
-          entity-key="eventShape"
-          :entity="eventShape"
-          :expanded="isPanelExpanded(String(eventShape.id))"
-          show-shape-list-drag-handle
-          @saved="handleExistingShapeSaved"
-          @delete="handleDeleteEventShape"
-        />
-      </VExpansionPanels>
+          </VCardText>
+        </VCard>
+        <VExpansionPanels
+          v-if="eventShapesList.length > 0"
+          :ref="c.eventShapesPanelsContainer"
+          v-model="expandedShapes"
+          multiple
+        >
+          <AdminEntityEditorPanel
+            v-for="eventShape in eventShapesList"
+            :key="String(eventShape.id)"
+            :class="`draggable-event-shape`"
+            :data-drag-id="String(eventShape.id)"
+            entity-key="eventShape"
+            :entity="eventShape"
+            :expanded="isPanelExpanded(String(eventShape.id))"
+            show-shape-list-drag-handle
+            @saved="handleExistingShapeSaved"
+            @delete="handleDeleteEventShape"
+          />
+        </VExpansionPanels>
+        <VAlert v-else-if="!isCreatingEventShape" type="info" variant="tonal" class="mt-4">
+          No event shapes found. Create one to get started.
+        </VAlert>
       </div>
-      <VAlert v-else type="info" variant="tonal" class="mt-4">
-        No event shapes found. Create one to get started.
-      </VAlert>
     </div>
   </div>
 </template>

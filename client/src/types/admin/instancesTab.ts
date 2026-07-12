@@ -17,4 +17,7 @@ export interface UseInstancesTabReturn {
   createModalBlockShapeId: Ref<GlobalEntityId>
   createModalSourceEntity: Ref<GlobalEntity<'blockInstance'> | undefined>
   handleInstanceCreated: (entity: GlobalEntity<'blockInstance'>) => void
+  splitOrchestratorAtomicEnabled: ComputedRef<boolean>
+  orchestratorAtomicSubTab: Ref<'orchestrator' | 'atomic'>
+  hasOrchestratorForShape: (shapeId: string) => boolean
 }

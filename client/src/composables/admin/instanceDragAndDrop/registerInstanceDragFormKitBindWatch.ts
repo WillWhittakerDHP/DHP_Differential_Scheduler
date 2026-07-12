@@ -1,5 +1,6 @@
 /**
  * WHY: FormKit bind watch extracted from useInstanceDragAndDrop (length / nesting audit).
+ * PATTERN: Watch includes `activeTab` (and optional orchestrator/atomic sub-tab) so lazy `VWindowItem` mounts re-trigger bind post-flush.
  */
 
 import { watch, type Ref, type ComponentPublicInstance } from 'vue'
@@ -15,6 +16,8 @@ export function registerInstanceDragFormKitBindWatch(input: {
   groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
   groupPanelsGroupedContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
   formKitDeps: InstanceDragFormKitBinderDeps
+  activeTab: Ref<string>
+  orchestratorAtomicSubTab?: Ref<'orchestrator' | 'atomic'>
 }): void {
   watch(
     () =>
@@ -22,6 +25,8 @@ export function registerInstanceDragFormKitBindWatch(input: {
         input.groupContainers.value,
         input.dragReinitNonce.value,
         input.isMounted.value,
+        input.activeTab.value,
+        input.orchestratorAtomicSubTab?.value,
         ...input.panelRefSnapshotForWatch(),
       ] as const,
     ([containers]) => {
@@ -32,12 +37,16 @@ export function registerInstanceDragFormKitBindWatch(input: {
         return
       }
 
-      bindFormKitZonesForInstanceDragContainers(containers, {
-        blockInstanceIdsMap: input.blockInstanceIdsMap,
-        groupPanelsContainers: input.groupPanelsContainers,
-        groupPanelsGroupedContainers: input.groupPanelsGroupedContainers,
-        formKitDeps: input.formKitDeps,
-      })
+      bindFormKitZonesForInstanceDragContainers(
+        containers,
+        {
+          blockInstanceIdsMap: input.blockInstanceIdsMap,
+          groupPanelsContainers: input.groupPanelsContainers,
+          groupPanelsGroupedContainers: input.groupPanelsGroupedContainers,
+          formKitDeps: input.formKitDeps,
+        },
+        { activeBlockShapeId: input.activeTab.value }
+      )
     },
     { immediate: true, deep: true, flush: 'post' }
   )

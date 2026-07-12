@@ -2,14 +2,11 @@ import type { UserRequest } from '@/types/user'
 import type { WizardState } from '@/types/wizard'
 import type { AppointmentRequest } from '@/types/appointment'
 import type { ISO8601Date } from '@shared/types/primitiveBrands'
-import type { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '@/constants/attendeeRoles'
-
-/** Literal union for appointment-specific attendee roles; matches APPOINTMENT_ATTENDEE_ROLES in utils. */
-export type AppointmentAttendeeRoleLiteral = 'transaction_manager' | 'owner'
+import type { USER_ROLE_BUYER, USER_ROLE_AGENT, USER_ROLE_OWNER } from '@/constants/attendeeRoles'
 
 export interface AttendeeSpecInput {
   info: { firstName: string; lastName: string; email: string }
-  role: typeof USER_ROLE_CLIENT | typeof USER_ROLE_AGENT | AppointmentAttendeeRoleLiteral
+  role: typeof USER_ROLE_BUYER | typeof USER_ROLE_AGENT | typeof USER_ROLE_OWNER
   shouldCreate: boolean
 }
 

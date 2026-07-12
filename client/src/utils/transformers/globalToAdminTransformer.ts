@@ -145,7 +145,8 @@ export function transformGlobalToAdmin(globalData: GlobalData): AdminObjectMap {
     })
   )
 
-  return { ...adminObjectMap, ...transformed }
+  // WHY: `Object.fromEntries` erases per-key entity typing; merge is structurally AdminObjectMap.
+  return { ...adminObjectMap, ...transformed } as AdminObjectMap
 }
 
 /** Backward-compat singleton for call sites that use adminTransformer.transformGlobalToAdmin(...) */

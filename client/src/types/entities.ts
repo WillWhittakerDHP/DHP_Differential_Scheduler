@@ -12,7 +12,6 @@ interface GlobalEntityBase<GE extends GlobalEntityKey> {
   entityKey: GE;
   name: string;
   orderIndex: number;
-  active: boolean;
   instanceComponents?: GlobalEntityId[]; // IDs of entities that are instance components of this composer
   isComposer?: boolean; // True if this entity is a composer (has components)
   [key: string]: unknown;
@@ -21,7 +20,6 @@ interface GlobalEntityBase<GE extends GlobalEntityKey> {
 export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   blockShapeRef: string;
   baseSqFt: number;
-  active: boolean;
   agentPermissions?: TernaryBoolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   /** When true, this block coordinates differential scheduling for selected services. */
@@ -31,17 +29,20 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
   description?: string; // Derived description from annotations for display
   icon: string;
-  allowMultiple: boolean; // Whether this block instance can be multiplied by ADU count or number
+  /** Not persisted on `block_instances` when column is absent; booking defaults to false. */
+  allowMultiple?: boolean;
   requiresUnitNumber?: boolean | null;
   preClosing?: boolean;
   isMultiFamily: boolean;
   requiresAgent: boolean;
   /** Assigned event instances (parent_kind = blockInstance on event_assignments). */
   eventAssignments?: GlobalEntityId[];
+  /** Canonical user role (USER_ROLE_VALUES) when parent shape is user-semantic; null if unset. */
+  semanticType?: string | null;
 }
 
 export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
-  type: BlockShapeType; // Semantic type identifier: 'user', 'service', 'time', 'event', 'price'
+  semanticType: BlockShapeType; // App-wide semantic identifier: 'user', 'service', 'time', 'event', 'price'
   validBookingCascades?: GlobalEntityId[];
   validPartCascades?: GlobalEntityId[];
   validAnnotationAssignments?: GlobalEntityId[];
@@ -52,9 +53,9 @@ export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
 export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
   partShapeRef: string;
   baseTime: number;
-  rateOverBaseTime: number;
+  timePerUnit: number;
   baseFee: number;
-  rateOverBaseFee: number;
+  feePerUnit: number;
   active: boolean;
   zeroOutPart: boolean;
 }
@@ -62,6 +63,7 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
 export type PartShapeEntity = GlobalEntityBase<"partShape">
 
 export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
+  active: boolean;
   /** Feature 20 placement type (event_shapes.placement_kind). */
   placementKind: EventPlacementKind
   /** null for primary; start | end for other kinds. */
@@ -70,6 +72,7 @@ export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
 }
 
 export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
+  active: boolean;
   eventShapeRef: string;
   titleTemplate: string | null;
   descriptionTemplate: string | null;
@@ -97,11 +100,13 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
 }
 
 export interface AnnotationShapeEntity extends GlobalEntityBase<"annotationShape"> {
+  active: boolean;
   /** Wizard slot from ANNOTATION_UI_SLOT_REGISTRY, or null/omitted when unset. */
   uiSlot?: string | null
 }
 
 export interface AnnotationInstanceEntity extends GlobalEntityBase<"annotationInstance"> {
+  active: boolean;
   type: string; // Foreign key to AnnotationShape.id
   text?: string
   /** From batch when server exposes content rows for wizard resolution (task 6.12.2.2). */

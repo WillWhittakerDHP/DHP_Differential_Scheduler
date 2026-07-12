@@ -55,7 +55,7 @@ const handlers = useAppointmentsTableHandlers({
   confirmAppointment,
   emit,
 })
-const { formClientId, formAgentId, editingClientId, editingAgentId, confirmingAppointment, showConfirmDialog } = handlers.state
+const { formBuyerId, formAgentId, editingBuyerId, editingAgentId, confirmingAppointment, showConfirmDialog } = handlers.state
 
 const scheduledByDisplay = computed(() =>
   confirmingAppointment.value ? getDisplayValue(confirmingAppointment.value, 'scheduledById') : undefined
@@ -76,7 +76,7 @@ const {
   applyCreatePatch,
   navigateToProperties,
   navigateToUsers,
-  setFormClientId,
+  setFormBuyerId,
   setFormAgentId,
 } = handlers.actions
 const { formatTimestamp } = handlers
@@ -86,7 +86,7 @@ const gridContext = shallowReactive<AppointmentsTableDataGridContext>({
   isLoading,
   editingId,
   editedData,
-  editingClientId,
+  editingBuyerId,
   editingAgentId,
   properties,
   users,
@@ -129,12 +129,12 @@ const gridContext = shallowReactive<AppointmentsTableDataGridContext>({
     <AppointmentsCreateForm
       v-if="isCreating"
       :new-appointment="newAppointment"
-      :form-client-id="formClientId"
+      :form-buyer-id="formBuyerId"
       :form-agent-id="formAgentId"
       :properties="properties"
       :users="users"
       @update:patch="applyCreatePatch"
-      @update:form-client-id="setFormClientId"
+      @update:form-buyer-id="setFormBuyerId"
       @update:form-agent-id="setFormAgentId"
       @save="handleSaveCreate"
       @cancel="handleCancelCreate"

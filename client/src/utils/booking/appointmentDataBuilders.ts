@@ -1,9 +1,5 @@
 
-import {
-  USER_ROLE_AGENT,
-  USER_ROLE_CLIENT,
-  USER_ROLE_OWNER,
-} from '@/constants/attendeeRoles'
+import { USER_ROLE_AGENT, USER_ROLE_BUYER, USER_ROLE_OWNER } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import { isValidTransition } from '@/constants/appointmentStatus'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
@@ -20,12 +16,6 @@ import type { AvailabilityStepData } from '@/utils/booking/availabilityStepData'
 import type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
 
 export type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
-
-/** Attendee roles used in specs; centralize to satisfy hardcoding audit. */
-const APPOINTMENT_ATTENDEE_ROLES = {
-  transactionManager: 'transaction_manager' as const,
-  owner: USER_ROLE_OWNER,
-}
 
 export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyRequest {
   return {
@@ -86,11 +76,10 @@ async function createAttendeeFromSpec(
 
 function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
   return [
-    { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+    { info: contacts.buyerInfo, role: USER_ROLE_BUYER, shouldCreate: true },
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-    { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-    { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-    { info: contacts.ownerInfo, role: APPOINTMENT_ATTENDEE_ROLES.owner, shouldCreate: contacts.showOwner },
+    { info: contacts.anotherBuyerInfo, role: USER_ROLE_BUYER, shouldCreate: contacts.showAnotherBuyer },
+    { info: contacts.ownerInfo, role: USER_ROLE_OWNER, shouldCreate: contacts.showOwner },
   ]
 }
 

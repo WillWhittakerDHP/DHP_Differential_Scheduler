@@ -51,9 +51,9 @@ CREATE TYPE public.basement_type_enum AS ENUM (
 CREATE TYPE public.block_shape_type AS ENUM (
     'user',
     'service',
-    'property',
-    'option',
-    'coupon'
+    'time',
+    'event',
+    'price'
 );
 
 
@@ -370,10 +370,11 @@ CREATE TYPE public.enum_shape_layout_config_visibility AS ENUM (
 --
 
 CREATE TYPE public.enum_users_user_role AS ENUM (
-    'client',
+    'buyer',
     'agent',
-    'transaction_manager',
-    'seller'
+    'owner',
+    'inspector',
+    'admin'
 );
 
 
@@ -410,27 +411,15 @@ CREATE TYPE public.ternary_boolean AS ENUM (
 );
 
 
---
--- Name: differential_role_enum; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.differential_role_enum AS ENUM (
-    'major',
-    'minor',
-    'moveable'
-);
-
-
---
 -- Name: user_role_enum; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.user_role_enum AS ENUM (
-    'client',
+    'buyer',
     'agent',
-    'transaction_manager',
-    'seller',
-    'inspector'
+    'owner',
+    'inspector',
+    'admin'
 );
 
 
@@ -1093,8 +1082,9 @@ CREATE TABLE public.block_instance_versions (
     name text NOT NULL,
     icon text,
     base_sq_ft integer,
-    allow_multiple boolean DEFAULT false NOT NULL,
-    differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
+    composite boolean DEFAULT false NOT NULL,
+    orchestrator boolean DEFAULT false NOT NULL,
+    wizard_visible boolean DEFAULT true NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     pre_closing boolean DEFAULT false NOT NULL
 );
@@ -1120,7 +1110,6 @@ CREATE TABLE public.block_instances (
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     icon character varying(255),
     base_sq_ft integer NOT NULL,
-    active boolean DEFAULT true NOT NULL,
     composite boolean DEFAULT false NOT NULL,
     differential public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
     allow_multiple boolean DEFAULT false NOT NULL,
@@ -1129,7 +1118,8 @@ CREATE TABLE public.block_instances (
     is_multi_family boolean DEFAULT false NOT NULL,
     requires_agent boolean DEFAULT false NOT NULL,
     pre_closing boolean DEFAULT false NOT NULL,
-    agent_permissions public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL
+    agent_permissions public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
+    semantic_type character varying(64)
 );
 
 
@@ -1169,22 +1159,10 @@ CREATE TABLE public.block_shapes (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     name character varying(255),
     order_index integer NOT NULL,
-    allow_multiple_blocks boolean NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    composable boolean DEFAULT false NOT NULL,
-    can_have_parts boolean DEFAULT false NOT NULL,
-    type public.block_shape_type NOT NULL,
-    is_state_control boolean DEFAULT false NOT NULL,
-    CONSTRAINT check_state_control_mutual_exclusivity CHECK ((NOT ((is_state_control = true) AND (can_have_parts = true))))
+    semantic_type public.block_shape_type NOT NULL
 );
-
-
---
--- Name: COLUMN block_shapes.is_state_control; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.block_shapes.is_state_control IS 'If true, block instances of this shape act as state selectors in the wizard (like User Types). Mutually exclusive with can_have_parts.';
 
 
 --
@@ -1480,7 +1458,15 @@ CREATE TABLE public.event_instances (
     send_updates character varying(16) DEFAULT 'all'::character varying NOT NULL,
     color_id character varying(4) DEFAULT NULL::character varying,
     status character varying(12) DEFAULT 'confirmed'::character varying NOT NULL,
-    reminder_overrides jsonb
+    reminder_overrides jsonb,
+    parent_block_instance_id uuid NOT NULL,
+    location_type character varying(32),
+    location_place_id text,
+    location_address text,
+    location_lat double precision,
+    location_lng double precision,
+    include_reschedule_link boolean DEFAULT true NOT NULL,
+    include_cancel_link boolean DEFAULT true NOT NULL
 );
 
 
@@ -1603,31 +1589,29 @@ COMMENT ON COLUMN public.event_instances.status IS 'Event status: confirmed or t
 COMMENT ON COLUMN public.event_instances.reminder_overrides IS 'JSON array of reminder overrides, e.g. [{"method":"popup","minutes":10}]';
 
 
---
--- Name: event_shape_attendees; Type: TABLE; Schema: public; Owner: -
+-- Name: event_instance_attendees; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.event_shape_attendees (
+CREATE TABLE public.event_instance_attendees (
     id uuid NOT NULL,
-    event_shape_id uuid NOT NULL,
+    event_instance_id uuid NOT NULL,
     user_type_block_instance_id uuid NOT NULL,
+    disabled boolean DEFAULT false NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
---
--- Name: COLUMN event_shape_attendees.event_shape_id; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.event_shape_attendees.event_shape_id IS 'Foreign key to event_shapes table';
-
-
---
--- Name: COLUMN event_shape_attendees.user_type_block_instance_id; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN event_instance_attendees.event_instance_id; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.event_shape_attendees.user_type_block_instance_id IS 'Foreign key to block_instances table (UserTypeBlock representing attendee type)';
+COMMENT ON COLUMN public.event_instance_attendees.event_instance_id IS 'Foreign key to event_instances table';
+
+
+-- Name: COLUMN event_instance_attendees.user_type_block_instance_id; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_instance_attendees.user_type_block_instance_id IS 'Foreign key to block_instances table (UserTypeBlock representing attendee type)';
 
 
 --
@@ -1641,10 +1625,9 @@ CREATE TABLE public.event_shapes (
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     order_index integer DEFAULT 0 NOT NULL,
     active boolean DEFAULT true NOT NULL,
-    is_ternary boolean DEFAULT false NOT NULL,
-    ternary_default character varying(10),
-    differential_role public.differential_role_enum,
-    CONSTRAINT check_ternary_default_valid CHECK (((ternary_default IS NULL) OR ((ternary_default)::text = ANY ((ARRAY['true'::character varying, 'false'::character varying, 'override'::character varying])::text[]))))
+    placement_kind character varying(32) DEFAULT 'primary'::character varying NOT NULL,
+    anchor_edge character varying(8),
+    CONSTRAINT chk_event_shapes_placement_anchor CHECK ((((placement_kind)::text = 'primary'::text) AND (anchor_edge IS NULL)) OR (((placement_kind)::text = ANY ((ARRAY['secondary'::character varying, 'marginal'::character varying, 'floating'::character varying])::text[])) AND ((anchor_edge)::text = ANY ((ARRAY['start'::character varying, 'end'::character varying])::text[]))))
 );
 
 
@@ -1652,7 +1635,7 @@ CREATE TABLE public.event_shapes (
 -- Name: COLUMN event_shapes.name; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.event_shapes.name IS 'Event shape name (e.g., OnSite, Moveable, ClientPresent)';
+COMMENT ON COLUMN public.event_shapes.name IS 'Placement type name (e.g., Primary, FrontSecondary)';
 
 
 --
@@ -1669,18 +1652,16 @@ COMMENT ON COLUMN public.event_shapes.order_index IS 'Order index for UI drag-an
 COMMENT ON COLUMN public.event_shapes.active IS 'Whether this event shape is active/enabled';
 
 
---
--- Name: COLUMN event_shapes.is_ternary; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.event_shapes.is_ternary IS 'Indicates if this event shape uses ternary logic (true/false/override)';
-
-
---
--- Name: COLUMN event_shapes.ternary_default; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN event_shapes.placement_kind; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.event_shapes.ternary_default IS 'Default ternary value to use when value cannot be determined (null means fail gracefully). Valid values: "true", "false", "override", or NULL';
+COMMENT ON COLUMN public.event_shapes.placement_kind IS 'primary | secondary | marginal | floating (Principles §5.1)';
+
+
+-- Name: COLUMN event_shapes.anchor_edge; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.event_shapes.anchor_edge IS 'start | end for non-primary; null for primary';
 
 
 --
@@ -1730,8 +1711,8 @@ CREATE TABLE public.part_instance_versions (
     name text,
     base_fee integer NOT NULL,
     base_time integer NOT NULL,
-    rate_over_base_fee integer NOT NULL,
-    rate_over_base_time integer NOT NULL,
+    fee_per_unit integer NOT NULL,
+    time_per_unit integer NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -1748,9 +1729,9 @@ CREATE TABLE public.part_instances (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     base_fee integer,
-    rate_over_base_fee integer,
+    fee_per_unit integer,
     base_time integer,
-    rate_over_base_time integer,
+    time_per_unit integer,
     active boolean DEFAULT true NOT NULL,
     zero_out_part boolean DEFAULT false NOT NULL
 );
@@ -2275,12 +2256,11 @@ ALTER TABLE ONLY public.event_instances
     ADD CONSTRAINT event_instances_pkey PRIMARY KEY (id);
 
 
---
--- Name: event_shape_attendees event_shape_attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: event_instance_attendees event_instance_attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.event_shape_attendees
-    ADD CONSTRAINT event_shape_attendees_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.event_instance_attendees
+    ADD CONSTRAINT event_instance_attendees_pkey PRIMARY KEY (id);
 
 
 --
@@ -2427,12 +2407,11 @@ ALTER TABLE ONLY public.event_assignments
     ADD CONSTRAINT unique_event_assignments_parent_child UNIQUE (parent_id, child_id);
 
 
---
--- Name: event_shape_attendees unique_event_shape_attendee; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: event_instance_attendees unique_event_instance_attendee; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.event_shape_attendees
-    ADD CONSTRAINT unique_event_shape_attendee UNIQUE (event_shape_id, user_type_block_instance_id);
+ALTER TABLE ONLY public.event_instance_attendees
+    ADD CONSTRAINT unique_event_instance_attendee UNIQUE (event_instance_id, user_type_block_instance_id);
 
 
 --
@@ -2819,20 +2798,6 @@ CREATE INDEX idx_block_instance_versions_created_at ON public.block_instance_ver
 
 
 --
--- Name: idx_block_instances_active; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX idx_block_instances_active ON public.block_instances USING btree (active);
-
-
---
--- Name: idx_block_types_poolable; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX idx_block_types_poolable ON public.block_shapes USING btree (composable);
-
-
---
 -- Name: idx_business_rules_active; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2881,18 +2846,16 @@ CREATE INDEX idx_event_assignments_child_id ON public.event_assignments USING bt
 CREATE INDEX idx_event_assignments_parent_id ON public.event_assignments USING btree (parent_id);
 
 
---
--- Name: idx_event_shape_attendees_event_shape_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX idx_event_shape_attendees_event_shape_id ON public.event_shape_attendees USING btree (event_shape_id);
-
-
---
--- Name: idx_event_shape_attendees_user_type_block_instance_id; Type: INDEX; Schema: public; Owner: -
+-- Name: idx_event_instance_attendees_event_instance_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_event_shape_attendees_user_type_block_instance_id ON public.event_shape_attendees USING btree (user_type_block_instance_id);
+CREATE INDEX idx_event_instance_attendees_event_instance_id ON public.event_instance_attendees USING btree (event_instance_id);
+
+
+-- Name: idx_event_instance_attendees_user_type_block_instance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_event_instance_attendees_user_type_block_instance_id ON public.event_instance_attendees USING btree (user_type_block_instance_id);
 
 
 --
@@ -3412,20 +3375,26 @@ ALTER TABLE ONLY public.event_instances
     ADD CONSTRAINT event_instances_event_shape_ref_fkey FOREIGN KEY (event_shape_ref) REFERENCES public.event_shapes(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
---
--- Name: event_shape_attendees event_shape_attendees_event_shape_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event_shape_attendees
-    ADD CONSTRAINT event_shape_attendees_event_shape_id_fkey FOREIGN KEY (event_shape_id) REFERENCES public.event_shapes(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: event_shape_attendees event_shape_attendees_user_type_block_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: event_instance_attendees event_instance_attendees_event_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.event_shape_attendees
-    ADD CONSTRAINT event_shape_attendees_user_type_block_instance_id_fkey FOREIGN KEY (user_type_block_instance_id) REFERENCES public.block_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.event_instance_attendees
+    ADD CONSTRAINT event_instance_attendees_event_instance_id_fkey FOREIGN KEY (event_instance_id) REFERENCES public.event_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+-- Name: event_instance_attendees event_instance_attendees_user_type_block_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_instance_attendees
+    ADD CONSTRAINT event_instance_attendees_user_type_block_instance_id_fkey FOREIGN KEY (user_type_block_instance_id) REFERENCES public.block_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: event_instances event_instances_parent_block_instance_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_instances
+    ADD CONSTRAINT event_instances_parent_block_instance_id_fkey FOREIGN KEY (parent_block_instance_id) REFERENCES public.block_instances(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

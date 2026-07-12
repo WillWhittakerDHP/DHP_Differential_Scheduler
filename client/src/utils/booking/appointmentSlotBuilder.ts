@@ -12,8 +12,8 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
+import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
 import { calculateSlotShape } from './partFinalizer'
 import {
   createBlockFinals,
@@ -40,65 +40,63 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       rawDifferentialOffset: 0,
       roundedDifferentialOffset: 0,
     },
-    eventAssignmentsByPartShape: {},
+    eventAssignmentsByPartInstanceId: {},
   }
 }
 
-function lookupEventsForPartShape(
-  partShapeName: string,
-  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+function lookupEventInstancesForPartLineage(
+  partInstanceId: string,
+  owningBlockInstanceId: string,
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
-  blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
-  const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
-  if (!partShapeEntity) return []
-
-  const blockInstanceIds = blockInstances
-    .filter((bi) => {
-      const p = bi.partInstances
-      if (p === undefined || p === null) {
-        logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-        return false
+  const eventIds = new Set<string>()
+  for (const rel of eventAssignmentsRelationships) {
+    if (rel.relationshipKind !== 'eventAssignments') {
+      continue
+    }
+    const parent = rel.parent
+    const matchesBlockBaseline =
+      parent.entityKey === 'blockInstance' && parent.id === owningBlockInstanceId
+    const matchesPartOverride = parent.entityKey === 'partInstance' && parent.id === partInstanceId
+    if (!matchesBlockBaseline && !matchesPartOverride) {
+      continue
+    }
+    for (const child of rel.children) {
+      if (child.entityKey === 'eventInstance') {
+        eventIds.add(child.id)
       }
-      return p.some((pi) => pi.partShape === partShapeName)
-    })
-    .map((bi) => bi.id)
-
-  const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
-    (rel) =>
-      rel.parent.entityKey === 'blockInstance' && blockInstanceIds.includes(rel.parent.id)
-  )
-  const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel =>
-    rel.children.map(child => child.id)
-  )
-  const uniqueEventInstanceIds = new Set(eventInstanceIds)
-  return Array.from(uniqueEventInstanceIds)
-    .map(id => eventInstances.find(ei => ei.id === id))
+    }
+  }
+  return Array.from(eventIds)
+    .map((id) => eventInstances.find((ei) => ei.id === id))
     .filter((ei): ei is EventInstance => ei !== undefined)
 }
 
-function buildEventAssignmentsByPartShape(
-  nonZeroedParts: { partShape: string }[],
-  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+function buildEventAssignmentsByPartInstanceId(
+  nonZeroedBlockFinals: BlockFinal[],
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
-  blockInstances: BookingBlockInstance[]
 ): Record<string, EventInstance[]> {
-  const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
-  const entries = Array.from(uniquePartShapes)
-    .map(partShapeName => {
-      const events = lookupEventsForPartShape(
-        partShapeName,
-        partShapeById,
+  const out: Record<string, EventInstance[]> = {}
+  for (const bf of nonZeroedBlockFinals) {
+    for (const pf of bf.finalizedParts) {
+      const lineageId = pf.sourcePartInstances[0]?.id
+      if (lineageId === undefined || lineageId === '') {
+        continue
+      }
+      const events = lookupEventInstancesForPartLineage(
+        lineageId,
+        bf.blockInstanceId,
         eventAssignmentsRelationships,
         eventInstances,
-        blockInstances
       )
-      return events.length > 0 ? ([partShapeName, events] as const) : null
-    })
-    .filter((entry): entry is [string, EventInstance[]] => entry !== null)
-  return Object.fromEntries(entries)
+      if (events.length > 0) {
+        out[lineageId] = events
+      }
+    }
+  }
+  return out
 }
 
 export function buildAppointmentShape(
@@ -107,23 +105,17 @@ export function buildAppointmentShape(
   eventInstances?: EventInstance[],
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
-  partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
   const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
-  const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
-    (blockFinal) => blockFinal.finalizedParts
-  )
 
-  const eventAssignmentsByPartShape =
-    eventInstances && eventAssignmentsRelationships && partShapeById
-      ? buildEventAssignmentsByPartShape(
-          nonZeroedPartsBeforeEnrich,
-          partShapeById,
+  const eventAssignmentsByPartInstanceId =
+    eventInstances && eventAssignmentsRelationships
+      ? buildEventAssignmentsByPartInstanceId(
+          nonZeroedBlockFinals,
           eventAssignmentsRelationships,
           eventInstances,
-          blockInstances
         )
       : {}
 
@@ -139,7 +131,7 @@ export function buildAppointmentShape(
 
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
-    eventAssignmentsByPartShape,
+    eventAssignmentsByPartInstanceId,
     resolvedEventShapes,
     settings ?? null,
     resolvedTimeRounding,
@@ -149,7 +141,7 @@ export function buildAppointmentShape(
     finalizedBlocks: nonZeroedBlockFinals,
     finalizedParts: nonZeroedParts,
     slotShape,
-    eventAssignmentsByPartShape,
+    eventAssignmentsByPartInstanceId,
   }
 }
 

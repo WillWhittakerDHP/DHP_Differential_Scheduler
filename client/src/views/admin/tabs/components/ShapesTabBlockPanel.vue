@@ -37,19 +37,20 @@ const {
       </div>
     </div>
     <div :ref="c.blockShapesContainer" class="drag-drop-container">
+      <ShapeCreationForm
+        v-if="isCreatingBlockShape"
+        class="mb-4"
+        entity-key="blockShape"
+        :entity="newBlockShapeInitialValues!"
+        @saved="handleBlockShapeCreated"
+        @cancelled="handleBlockShapeCancelled"
+      />
       <VExpansionPanels
-        v-if="isCreatingBlockShape || blockShapesList.length > 0"
+        v-if="blockShapesList.length > 0"
         :ref="c.blockShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >
-        <ShapeCreationForm
-          v-if="isCreatingBlockShape"
-          entity-key="blockShape"
-          :entity="newBlockShapeInitialValues!"
-          @saved="handleBlockShapeCreated"
-          @cancelled="handleBlockShapeCancelled"
-        />
         <ShapeCardList
           entity-key="blockShape"
           :items="blockShapesList"
@@ -61,7 +62,7 @@ const {
           @delete="handleDeleteBlockShape"
         />
       </VExpansionPanels>
-      <VAlert v-else type="info" variant="tonal" class="mt-4">
+      <VAlert v-else-if="!isCreatingBlockShape" type="info" variant="tonal" class="mt-4">
         No BlockShapes found. Create one to get started.
       </VAlert>
     </div>

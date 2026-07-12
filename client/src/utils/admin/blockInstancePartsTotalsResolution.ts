@@ -5,7 +5,7 @@ import { resolveByIds } from '@/utils/collections/resolveByIds'
 export function blockShapeAllowsParts(
   blockShapeEntity: GlobalEntity<'blockShape'> | null | undefined
 ): boolean {
-  return blockShapeEntity !== null && blockShapeEntity !== undefined && blockShapeEntity.type !== BLOCK_SHAPE_TYPES.USER
+  return blockShapeEntity !== null && blockShapeEntity !== undefined && blockShapeEntity.semanticType !== BLOCK_SHAPE_TYPES.USER
 }
 
 interface RelationshipLike {

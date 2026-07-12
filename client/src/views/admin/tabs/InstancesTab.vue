@@ -5,8 +5,13 @@
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
 import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
 import { useInstancesTab } from '@/composables/admin/useInstancesTab'
-import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
+
+const props = defineProps<{
+  allowedBlockShapeTypes?: readonly BlockShapeType[]
+  orchestratorInstancesOnly?: boolean
+}>()
 
 const {
   activeTab,
@@ -21,7 +26,10 @@ const {
   createModalBlockShapeId,
   createModalSourceEntity,
   handleInstanceCreated,
-} = useInstancesTab()
+} = useInstancesTab({
+  allowedBlockShapeTypes: () => props.allowedBlockShapeTypes,
+  orchestratorInstancesOnly: () => props.orchestratorInstancesOnly,
+})
 </script>
 
 <template>
@@ -48,14 +56,6 @@ const {
       >
         {{ blockShape.name }} ({{ blockInstancesCountByShape.get(blockShape.id) || 0 }})
       </VTab>
-      <VSpacer />
-      <VTab
-        value="calibration"
-        @click="activeTab = 'calibration'"
-        class="calibration-tab"
-      >
-        Calibration
-      </VTab>
     </VTabs>
 
     <!--
@@ -71,11 +71,6 @@ const {
         :value="blockShape.id"
       >
         <BlockInstancesGroup :block-shape="blockShape" />
-      </VWindowItem>
-
-      <!-- Fee Calibration Tab Content -->
-      <VWindowItem value="calibration">
-        <FeeCalibrationPanel />
       </VWindowItem>
     </VWindow>
 

@@ -11,7 +11,7 @@ export function getEligibleUserRoleAlignmentBlockInstances(data: GlobalData): Bl
   const shapes = asEmptyArray(data.entities.blockShape) as BlockShapeEntity[]
   const eligibleShapeIds = new Set(
     shapes
-      .filter((s) => s.type === BLOCK_SHAPE_TYPES.USER)
+      .filter((s) => s.semanticType === BLOCK_SHAPE_TYPES.USER)
       .map((s) => s.id)
   )
   const instances = asEmptyArray(data.entities.blockInstance) as BlockInstanceEntity[]

@@ -1,5 +1,5 @@
 /**
- * Phase 20.1.2.2 — Remove block_shapes.composable, can_have_parts, is_state_control and DB check constraint.
+ * Phase 20.1.2.2 — Remove block_shapes.allow_multiple_blocks, composable, can_have_parts, is_state_control and DB check constraint.
  * Prune admin_metadata rows for removed blockShape primitives.
  *
  * WHY: Feature 20 — semantics live on block_shapes.type and block_instances.composite / orchestrator / wizardVisible.
@@ -25,6 +25,7 @@ export default {
 
     await sequelize.query(`
       ALTER TABLE public.block_shapes
+        DROP COLUMN IF EXISTS allow_multiple_blocks,
         DROP COLUMN IF EXISTS composable,
         DROP COLUMN IF EXISTS can_have_parts,
         DROP COLUMN IF EXISTS is_state_control;
@@ -36,6 +37,7 @@ export default {
 
     await sequelize.query(`
       ALTER TABLE public.block_shapes
+        ADD COLUMN IF NOT EXISTS allow_multiple_blocks BOOLEAN NOT NULL DEFAULT false,
         ADD COLUMN IF NOT EXISTS composable BOOLEAN NOT NULL DEFAULT false,
         ADD COLUMN IF NOT EXISTS can_have_parts BOOLEAN NOT NULL DEFAULT false,
         ADD COLUMN IF NOT EXISTS is_state_control BOOLEAN NOT NULL DEFAULT false;

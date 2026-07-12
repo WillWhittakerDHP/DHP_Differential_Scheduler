@@ -41,12 +41,12 @@ function calculateTotalCouponDiscount(
     const multiplier = block.allowMultiple ? adu : 1
     for (const p of effectiveParts) {
       const baseFee = p.baseFee ?? 0
-      const rateOverBaseFee = p.rateOverBaseFee ?? 0
+      const feePerUnit = p.feePerUnit ?? 0
       const pct = normalizePercentageOffForFee(p.percentageOff)
       // Align with PartFinal: % off applies only to positive components; negative baseFee is a fixed discount.
       const discountFromPct =
         (baseFee > 0 ? (baseFee * pct) / 100 : 0) +
-        (rateOverBaseFee > 0 && sqft > 0 ? (rateOverBaseFee * sqft * pct) / 100 : 0)
+        (feePerUnit > 0 && sqft > 0 ? (feePerUnit * sqft * pct) / 100 : 0)
       const discountFromNegative = baseFee < 0 ? Math.abs(baseFee) : 0
       totalDiscount += (discountFromPct + discountFromNegative) * multiplier
     }

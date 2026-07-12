@@ -52,7 +52,7 @@ const appointmentSelectItems = computed(() => {
   const raw = listItems.value
   const items: AdminEntryAppointmentItem[] = Array.isArray(raw) ? raw : []
   return items.map((item) => ({
-    title: `${item.address} — ${formatUserDisplayName(getUserById(item.clientUserId))}`,
+    title: `${item.address} — ${formatUserDisplayName(getUserById(item.buyerUserId))}`,
     value: item.id,
   }))
 })

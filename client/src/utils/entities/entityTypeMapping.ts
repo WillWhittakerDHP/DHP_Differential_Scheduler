@@ -27,7 +27,7 @@ export function createBlockInstanceConfigSentinel(blockShapeId: string): BlockIn
     entityKey: 'blockInstance',
     name: 'Global Config',
     orderIndex: 0,
-    active: true,
+    wizardVisible: true,
     blockShapeRef: blockShapeId,
     baseSqFt: 0,
     icon: '',

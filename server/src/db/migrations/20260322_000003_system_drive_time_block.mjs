@@ -18,11 +18,11 @@ export default {
     await sequelize.query(
       `
       INSERT INTO public.block_instances (
-        id, name, order_index, block_shape_ref, created_at, updated_at, icon, base_sq_ft, active, composite,
+        id, name, order_index, block_shape_ref, created_at, updated_at, icon, base_sq_ft, composite,
         differential, allow_multiple, requires_unit_number, booking_mode, is_multi_family, requires_agent,
         pre_closing, agent_permissions
       )
-      SELECT :blockId, 'Drive time', 999, :shapeId, NOW(), NOW(), '', 0, true, false,
+      SELECT :blockId, 'Drive time', 999, :shapeId, NOW(), NOW(), '', 0, false,
         'false', false, false, 'true', false, false, false, 'false'
       WHERE NOT EXISTS (SELECT 1 FROM public.block_instances WHERE id = :blockId)
       `,
@@ -33,7 +33,7 @@ export default {
       `
       INSERT INTO public.part_instances (
         id, name, order_index, part_shape_ref, created_at, updated_at,
-        base_fee, rate_over_base_fee, base_time, rate_over_base_time, active, zero_out_part
+        base_fee, fee_per_unit, base_time, time_per_unit, active, zero_out_part
       )
       SELECT :partId, 'Drive time', 0, :partShapeId, NOW(), NOW(), 0, 0, 0, 0, true, false
       WHERE NOT EXISTS (SELECT 1 FROM public.part_instances WHERE id = :partId)

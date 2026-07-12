@@ -23,13 +23,19 @@ import {
 } from './blockInstanceEntityValidation.js'
 import {
   isEventShapeEntityType,
-  stripLegacyEventShapeResponseFields,
-  validateEventShapeWritePayload,
+  stripRejectedEventShapeResponseFields,
+  validateEventShapeWritePayloadAsync,
 } from './eventShapeEntityValidation.js'
 import {
   isEventInstanceEntityType,
   validateEventInstanceWritePayload,
+  validateEventInstanceParentBlockEventShapeAsync,
+  validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync,
 } from './eventInstanceEntityValidation.js'
+import {
+  isPartInstanceEntityType,
+  validatePartInstanceLedgerFieldsAsync,
+} from './partInstanceEntityValidation.js'
 import { handleBlockInstanceVersioning, handlePartInstanceCleanup } from './entityHelpers.js'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { AnnotationInstance } from '../../../config/app.js'
@@ -62,6 +68,8 @@ import {
   reconcileBlockShapeStateControlEligibility,
   removeDifferentialAttendeesForBlockInstanceIds,
 } from '../../../repositories/availabilityDifferentialAttendeeCleanup.js'
+import { reconcileUserShapeInstanceSemanticTypeUniqueness } from '../../../repositories/blockInstanceSemanticTypeReconcile.js'
+import { invalidateUserTypeMappingCaches } from '../../../utils/userTypeMapping.js'
 
 /**
  * Dependency-aware delete (preflight → resolve → finalize) will mount here in Phase 6.17.2.
@@ -144,7 +152,7 @@ router.post(
       }
 
       if (isEventShapeEntityType(createEntityType)) {
-        const eventShapeErr = validateEventShapeWritePayload(bodyForCreate)
+        const eventShapeErr = await validateEventShapeWritePayloadAsync(bodyForCreate, 'create')
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
@@ -155,6 +163,11 @@ router.post(
         const eventInstanceErr = validateEventInstanceWritePayload(bodyForCreate, 'create')
         if (eventInstanceErr !== null) {
           sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
+        const parentBlockErr = await validateEventInstanceParentBlockEventShapeAsync(bodyForCreate, 'create')
+        if (parentBlockErr !== null) {
+          sendBadRequest(res, parentBlockErr, parentBlockErr)
           return
         }
       }
@@ -179,7 +192,7 @@ router.post(
       }
       if (isEventShapeEntityType(createEntityType)) {
         const plain = (created as Model).get({ plain: true }) as Record<string, unknown>
-        stripLegacyEventShapeResponseFields(plain)
+        stripRejectedEventShapeResponseFields(plain)
         sendCreated(res, plain)
         return
       }
@@ -233,7 +246,7 @@ router.put(
       }
 
       if (isEventShapeEntityType(putEntityTypeEarly)) {
-        const eventShapeErr = validateEventShapeWritePayload(bodyForPut)
+        const eventShapeErr = await validateEventShapeWritePayloadAsync(bodyForPut, 'update', entityId)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
@@ -244,6 +257,25 @@ router.put(
         const eventInstanceErr = validateEventInstanceWritePayload(bodyForPut, 'update')
         if (eventInstanceErr !== null) {
           sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
+        const parentBlockErr = await validateEventInstanceParentBlockEventShapeAsync(bodyForPut, 'update')
+        if (parentBlockErr !== null) {
+          sendBadRequest(res, parentBlockErr, parentBlockErr)
+          return
+        }
+        const baselineAssignErr =
+          await validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync(entityId, bodyForPut)
+        if (baselineAssignErr !== null) {
+          sendBadRequest(res, baselineAssignErr, baselineAssignErr)
+          return
+        }
+      }
+
+      if (isPartInstanceEntityType(putEntityTypeEarly)) {
+        const partLedgerErr = await validatePartInstanceLedgerFieldsAsync(entityId, bodyForPut)
+        if (partLedgerErr !== null) {
+          sendBadRequest(res, partLedgerErr, partLedgerErr)
           return
         }
       }
@@ -297,9 +329,12 @@ router.put(
 
       if (putEntityTypeEarly === ENTITY_KEYS.BLOCK_INSTANCE || putEntityTypeEarly === 'blockInstance') {
         await reconcileBlockInstanceStateControlEligibility(entityId)
+        await reconcileUserShapeInstanceSemanticTypeUniqueness(entityId)
+        invalidateUserTypeMappingCaches()
       }
       if (putEntityTypeEarly === ENTITY_KEYS.BLOCK_SHAPE || putEntityTypeEarly === 'blockShape') {
         await reconcileBlockShapeStateControlEligibility(entityId)
+        invalidateUserTypeMappingCaches()
       }
 
       const successMessage = ERROR_MESSAGES.UPDATE_ENTITY.replace('{displayName}', entityConfig.displayName).replace('Error ', '')
@@ -373,7 +408,7 @@ router.patch(
       }
 
       if (isEventShapeEntityType(entityType)) {
-        const eventShapeErr = validateEventShapeWritePayload(updateData)
+        const eventShapeErr = await validateEventShapeWritePayloadAsync(updateData, 'update', entityId)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
@@ -384,6 +419,25 @@ router.patch(
         const eventInstanceErr = validateEventInstanceWritePayload(updateData, 'update')
         if (eventInstanceErr !== null) {
           sendBadRequest(res, eventInstanceErr, eventInstanceErr)
+          return
+        }
+        const parentBlockErr = await validateEventInstanceParentBlockEventShapeAsync(updateData, 'update')
+        if (parentBlockErr !== null) {
+          sendBadRequest(res, parentBlockErr, parentBlockErr)
+          return
+        }
+        const baselineAssignErr =
+          await validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync(entityId, updateData)
+        if (baselineAssignErr !== null) {
+          sendBadRequest(res, baselineAssignErr, baselineAssignErr)
+          return
+        }
+      }
+
+      if (isPartInstanceEntityType(entityType)) {
+        const partLedgerErr = await validatePartInstanceLedgerFieldsAsync(entityId, updateData)
+        if (partLedgerErr !== null) {
+          sendBadRequest(res, partLedgerErr, partLedgerErr)
           return
         }
       }
@@ -436,9 +490,12 @@ router.patch(
 
       if (patchedEntityType === ENTITY_KEYS.BLOCK_INSTANCE || patchedEntityType === 'blockInstance') {
         await reconcileBlockInstanceStateControlEligibility(entityId)
+        await reconcileUserShapeInstanceSemanticTypeUniqueness(entityId)
+        invalidateUserTypeMappingCaches()
       }
       if (patchedEntityType === ENTITY_KEYS.BLOCK_SHAPE || patchedEntityType === 'blockShape') {
         await reconcileBlockShapeStateControlEligibility(entityId)
+        invalidateUserTypeMappingCaches()
       }
 
       sendSuccess(res, { updated: updatedCount })

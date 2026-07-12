@@ -145,10 +145,10 @@ const parentBlockShapeIsStateControl = computed((): boolean => {
   if (parent.entityKey === 'blockInstance') {
     const bi = parent as BlockInstanceEntity
     const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
-    return shape?.type === BLOCK_SHAPE_TYPES.USER
+    return shape?.semanticType === BLOCK_SHAPE_TYPES.USER
   }
   if (parent.entityKey === 'blockShape') {
-    return (parent as BlockShapeEntity).type === BLOCK_SHAPE_TYPES.USER
+    return (parent as BlockShapeEntity).semanticType === BLOCK_SHAPE_TYPES.USER
   }
   return false
 })

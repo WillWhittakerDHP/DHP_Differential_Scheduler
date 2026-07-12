@@ -5,7 +5,7 @@ export interface BlockInstanceFormData {
   name: string
   blockShapeRef: string
   orderIndex: number
-  active: boolean
+  wizardVisible: boolean
 }
 
 export interface UseBlockInstanceFormReturn

@@ -91,7 +91,7 @@ export function useSelectFiltering(options: UseSelectFilteringOptions): UseSelec
     const allBlockShapes = adminComp.getEntities('blockShape')
     return new Set(
       allBlockShapes
-        .filter((bs: GlobalEntity<'blockShape'>) => bs.type === 'user')
+        .filter((bs: GlobalEntity<'blockShape'>) => bs.semanticType === 'user')
         .map((bs: GlobalEntity<'blockShape'>) => bs.id)
     )
   }

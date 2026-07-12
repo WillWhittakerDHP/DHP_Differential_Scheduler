@@ -11,15 +11,11 @@ import {
 } from '../../../repositories/availabilitySettingsRepository.js'
 import { ERROR_MESSAGES, AVAILABILITY_SETTINGS_KEY } from './businessSettingsConstants.js'
 import { handleRouteError } from '../../helpers/routerErrorHandler.js'
-import {
-  validateSettingKey,
-  validateSettingValue,
-  validateAvailabilitySettingsWithDetails,
-} from './businessSettingsValidators.js'
+import { validateSettingValue, validateAvailabilitySettingsWithDetails } from './businessSettingsValidators.js'
 import { mergeSettingValues } from './businessSettingsHelpers.js'
-import { sendSuccess, sendCreated, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
+import { sendSuccess, sendNotFound, sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { paramString } from '../../helpers/requestHelpers.js'
-import { csrfProtection, checkOwnership } from '../../../middlewares/security.js'
+import { staffMutations } from '../../../middlewares/security.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
 
 const router = Router()
@@ -66,44 +62,9 @@ router.get('/:key', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-router.post(
-  '/',
-  csrfProtection,
-  async (req: Request, res: Response): Promise<void> => {
-    try {
-      const { setting_key, setting_value } = req.body
-      const keyValidation = validateSettingKey(setting_key)
-      if (!keyValidation.valid) {
-        sendBadRequest(res, keyValidation.error)
-        return
-      }
-      if (!isAvailabilityKey(setting_key as string)) {
-        sendNotFound(res, ERROR_MESSAGES.AVAILABILITY_SETTINGS_ONLY, setting_key as string)
-        return
-      }
-      const valueValidation = validateSettingValue(setting_value)
-      if (!valueValidation.valid) {
-        sendBadRequest(res, valueValidation.error)
-        return
-      }
-      const availabilityValidation = validateAvailabilitySettingsWithDetails(setting_key, setting_value)
-      if (!availabilityValidation.valid) {
-        sendBadRequest(res, availabilityValidation.error, availabilityValidation.details?.message as string)
-        return
-      }
-      await saveAvailabilitySettingsData(setting_value as AvailabilitySettingsData)
-      const saved = await getAvailabilitySettingsData()
-      sendCreated(res, { setting_key: AVAILABILITY_SETTINGS_KEY, setting_value: saved })
-    } catch (error) {
-      handleRouteError(error, res, ERROR_MESSAGES.CREATE_SETTING, 'creating business setting')
-    }
-  }
-)
-
 router.put(
   '/:key',
-  csrfProtection,
-  checkOwnership('businessSetting', 'key'),
+  ...staffMutations('businessSetting', 'key'),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key')
@@ -133,8 +94,7 @@ router.put(
 
 router.patch(
   '/:key',
-  csrfProtection,
-  checkOwnership('businessSetting', 'key'),
+  ...staffMutations('businessSetting', 'key'),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key')
@@ -166,8 +126,7 @@ router.patch(
 
 router.delete(
   '/:key',
-  csrfProtection,
-  checkOwnership('businessSetting', 'key'),
+  ...staffMutations('businessSetting', 'key'),
   async (req: Request, res: Response): Promise<void> => {
     try {
       const key = paramString(req, 'key')

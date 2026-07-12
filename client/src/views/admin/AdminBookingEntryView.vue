@@ -30,7 +30,7 @@ const dropdownItems = computed(() => {
   const items = Array.isArray(raw) ? raw : []
   return items.map((item: AdminEntryAppointmentItem) => ({
     ...item,
-    clientName: formatUserDisplayName(getUserById(item.clientUserId)),
+    buyerName: formatUserDisplayName(getUserById(item.buyerUserId)),
     agentName: formatUserDisplayName(getUserById(item.agentUserId)),
   }))
 })
@@ -98,7 +98,7 @@ const canGo = computed(() => {
         <template v-if="selectedAction === 'quote' || selectedAction === 'reschedule'">
           <VRow class="mt-4" density="compact">
             <VCol cols="12">
-              <div class="text-caption mb-2">Select an appointment (Address, Client, Agent)</div>
+              <div class="text-caption mb-2">Select an appointment (Address, Buyer, Agent)</div>
               <VSelect
                 v-model="selectedAppointmentId"
                 :items="dropdownItems"
@@ -114,14 +114,14 @@ const canGo = computed(() => {
                   <VListItem v-bind="itemProps">
                     <VListItemTitle>{{ item?.address ?? '—' }}</VListItemTitle>
                     <VListItemSubtitle>
-                      Client: {{ item?.clientName ?? '—' }} · Agent: {{ item?.agentName ?? '—' }}
+                      Buyer: {{ item?.buyerName ?? '—' }} · Agent: {{ item?.agentName ?? '—' }}
                     </VListItemSubtitle>
                   </VListItem>
                 </template>
                 <template #selection="{ item }">
                   <span>{{ item?.address ?? '—' }}</span>
-                  <span v-if="item?.clientName || item?.agentName" class="text-caption text-medium-emphasis ml-2">
-                    ({{ item?.clientName }} / {{ item?.agentName }})
+                  <span v-if="item?.buyerName || item?.agentName" class="text-caption text-medium-emphasis ml-2">
+                    ({{ item?.buyerName }} / {{ item?.agentName }})
                   </span>
                 </template>
               </VSelect>

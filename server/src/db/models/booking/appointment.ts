@@ -28,7 +28,6 @@ export interface BlockInstanceSnapshot {
   name: string
   icon: string
   baseSqFt: number
-  allowMultiple: boolean
   orchestrator: boolean
   wizardVisible: boolean
   partInstances: Array<{
@@ -36,8 +35,8 @@ export interface BlockInstanceSnapshot {
     name: string
     baseFee: number
     baseTime: number
-    rateOverBaseFee: number
-    rateOverBaseTime: number
+    feePerUnit: number
+    timePerUnit: number
   }>
 }
 

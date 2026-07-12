@@ -48,9 +48,7 @@ export function buildBaseCollectionParentEntityComputed<
   GE extends GlobalEntityKey,
   GF extends GlobalFieldKey<GE>
 >(core: BaseCollectionFieldCoreState<GE, GF>): ComputedRef<GlobalEntity<GE> | undefined> {
-  return computed<GlobalEntity<GE> | undefined>(() =>
-    core.adminComp.getEntity(core.fieldContext.state.entityKey, core.fieldContext.state.entityId)
-  )
+  return computed<GlobalEntity<GE> | undefined>(() => core.entity.value ?? undefined)
 }
 
 export function buildBaseCollectionParentTypePropertyComputed<

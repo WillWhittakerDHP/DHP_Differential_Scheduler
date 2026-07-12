@@ -31,12 +31,6 @@
                 class="mb-4"
               ></v-text-field>
               
-              <v-checkbox
-                v-model="blockFormActive"
-                label="Active"
-                class="mb-4"
-              ></v-checkbox>
-              
               <v-btn
                 type="submit"
                 color="primary"
@@ -61,18 +55,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useShapeForm, type BlockShapeFormData } from '@/composables/admin/useShapeForm'
+import { useShapeForm } from '@/composables/admin/useShapeForm'
 
 const { isEdit, formData, isSubmitting, error, handleSubmit, goBack } =
   useShapeForm('blockShape')
-
-const blockFormActive = computed({
-  get: () => (formData as { value: BlockShapeFormData }).value?.active ?? false,
-  set: (v: boolean) => {
-    const ref = formData as { value: BlockShapeFormData }
-    ref.value = { ...ref.value, active: v }
-  },
-})
 </script>
 

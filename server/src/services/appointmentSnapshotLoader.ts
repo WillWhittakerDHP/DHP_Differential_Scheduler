@@ -28,7 +28,6 @@ function transformBlockVersionToBookingInstance(
     name: versionData.name as string,
     icon: asEmptyString(versionData.icon as string | null | undefined),
     baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
-    allowMultiple: Boolean(versionData.allowMultiple),
     orchestrator: Boolean(versionData.orchestrator),
     wizardVisible: Boolean(versionData.wizardVisible),
     partInstances: partVersions.map((partVersion: Model) => {
@@ -38,8 +37,8 @@ function transformBlockVersionToBookingInstance(
         name: asEmptyString(partData.name as string | null | undefined),
         baseFee: partData.baseFee as number,
         baseTime: partData.baseTime as number,
-        rateOverBaseFee: partData.rateOverBaseFee as number,
-        rateOverBaseTime: partData.rateOverBaseTime as number,
+        feePerUnit: partData.feePerUnit as number,
+        timePerUnit: partData.timePerUnit as number,
       };
     }),
   };

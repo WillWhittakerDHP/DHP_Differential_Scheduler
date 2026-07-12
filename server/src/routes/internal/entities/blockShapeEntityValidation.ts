@@ -1,6 +1,6 @@
 import { ENTITY_KEYS } from '../../../constants/entities.js'
 
-/** Matches Sequelize `block_shapes.type` ENUM and client `BLOCK_SHAPE_TYPES`. */
+/** Matches Sequelize `block_shapes.semantic_type` ENUM and client `BLOCK_SHAPE_TYPES`. */
 const CANONICAL_BLOCK_SHAPE_TYPES = ['user', 'service', 'time', 'event', 'price'] as const
 type CanonicalBlockShapeType = (typeof CANONICAL_BLOCK_SHAPE_TYPES)[number]
 
@@ -42,16 +42,18 @@ export function validateBlockShapeTypeValue(raw: unknown): string | null {
 }
 
 export function validateBlockShapeCreateBody(body: Record<string, unknown>): string | null {
-  if (!('type' in body)) {
-    return 'Block shape create requires type (user, service, time, event, or price).'
+  const raw = body.semanticType ?? body.semantic_type ?? body.type
+  if (raw === undefined) {
+    return 'Block shape create requires semanticType (user, service, time, event, or price).'
   }
-  return validateBlockShapeTypeValue(body.type)
+  return validateBlockShapeTypeValue(raw)
 }
 
-/** Validates `type` when present (PUT full body or PATCH partial / { key, value }). */
+/** Validates `semanticType` when present (PUT full body or PATCH partial / { key, value }). */
 export function validateBlockShapeUpdateBody(body: Record<string, unknown>): string | null {
-  if (!('type' in body)) {
+  const raw = body.semanticType ?? body.semantic_type ?? body.type
+  if (raw === undefined) {
     return null
   }
-  return validateBlockShapeTypeValue(body.type)
+  return validateBlockShapeTypeValue(raw)
 }

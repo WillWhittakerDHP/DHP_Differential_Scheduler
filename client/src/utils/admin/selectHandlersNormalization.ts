@@ -37,10 +37,7 @@ export function normalizeSelectChangeValue(
     normalizedValue = value.length > 0 ? String(value[0]) : undefined
   } else {
     const stringValue = String(value)
-    if (
-      stringValue === '__NULL__' &&
-      fieldKey === 'anchorEdge'
-    ) {
+    if (stringValue === '__NULL__' && (fieldKey === 'anchorEdge' || fieldKey === 'semanticType')) {
       normalizedValue = undefined
     } else {
       normalizedValue = stringValue

@@ -16,7 +16,6 @@ const {
   annotationShapesList,
   startCreatingAnnotationShape,
   isCreatingAnnotationShape,
-  filteredAnnotationShapes,
   isLoadingAnnotationShapes,
   newAnnotationShapeName,
   isCreatingAnnotationShapeLoading,
@@ -42,32 +41,25 @@ const {
       <div v-if="isLoadingAnnotationShapes" class="text-center py-4">
         <VProgressCircular indeterminate />
       </div>
-      <VExpansionPanels
-        v-else-if="isCreatingAnnotationShape || filteredAnnotationShapes.length > 0"
-        :ref="c.annotationShapesPanelsContainer"
-        v-model="expandedShapes"
-        multiple
-      >
-        <VExpansionPanel
+      <template v-else>
+        <VCard
           v-if="isCreatingAnnotationShape"
-          key="new-annotationShape"
-          value="new-annotationShape"
-          class="new-shape-card"
+          class="mb-4"
+          variant="outlined"
         >
-          <template #title>
-            <div class="d-flex align-center gap-2 flex-grow-1">
-              <VIcon icon="tabler-plus" size="small" color="primary" />
-              <span class="text-primary font-weight-medium">New Annotation Shape</span>
-            </div>
-          </template>
-          <template #text>
-            <div class="d-flex align-center gap-3">
+          <VCardTitle class="d-flex align-center gap-2 text-body-large">
+            <VIcon icon="tabler-plus" size="small" color="primary" />
+            <span class="text-primary font-weight-medium">New Annotation Shape</span>
+          </VCardTitle>
+          <VCardText>
+            <div class="d-flex align-center gap-3 flex-wrap">
               <VTextField
                 v-model="newAnnotationShapeName"
                 label="Name"
                 variant="outlined"
                 density="compact"
                 class="flex-grow-1"
+                style="min-width: 12rem"
                 @keyup.enter="handleAnnotationShapeCreate"
               />
               <VBtn
@@ -80,22 +72,29 @@ const {
               </VBtn>
               <VBtn variant="outlined" @click="handleAnnotationShapeCancelled">Cancel</VBtn>
             </div>
-          </template>
-        </VExpansionPanel>
-        <AnnotationShapeListCard
-          v-for="annotationShape in annotationShapesList"
-          :key="String(annotationShape.id)"
-          :class="`draggable-annotation-shape`"
-          :data-drag-id="String(annotationShape.id)"
-          :entity="annotationShape"
-          :expanded="isPanelExpanded(String(annotationShape.id))"
-          @saved="handleExistingShapeSaved"
-          @delete="handleDeleteAnnotationShape"
-        />
-      </VExpansionPanels>
-      <VAlert v-else type="info" variant="tonal" class="mt-4">
-        No annotation shapes found. Create one to get started.
-      </VAlert>
+          </VCardText>
+        </VCard>
+        <VExpansionPanels
+          v-if="annotationShapesList.length > 0"
+          :ref="c.annotationShapesPanelsContainer"
+          v-model="expandedShapes"
+          multiple
+        >
+          <AnnotationShapeListCard
+            v-for="annotationShape in annotationShapesList"
+            :key="String(annotationShape.id)"
+            :class="`draggable-annotation-shape`"
+            :data-drag-id="String(annotationShape.id)"
+            :entity="annotationShape"
+            :expanded="isPanelExpanded(String(annotationShape.id))"
+            @saved="handleExistingShapeSaved"
+            @delete="handleDeleteAnnotationShape"
+          />
+        </VExpansionPanels>
+        <VAlert v-else-if="!isCreatingAnnotationShape" type="info" variant="tonal" class="mt-4">
+          No annotation shapes found. Create one to get started.
+        </VAlert>
+      </template>
     </div>
   </div>
 </template>

@@ -17,8 +17,16 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { normalizeAnnotationShapeWritePayload } from '../../../services/annotations/annotationShapeUiSlot.js'
 import { sendBadRequest } from '../../helpers/routerResponseHelpers.js'
 import { validateBlockInstanceBooleanFields } from './blockInstanceEntityValidation.js'
-import { validateEventShapeWritePayload } from './eventShapeEntityValidation.js'
-import { validateEventInstanceWritePayload } from './eventInstanceEntityValidation.js'
+import {
+  validateEventShapeWritePayload,
+  validateEventShapeWritePayloadAsync,
+} from './eventShapeEntityValidation.js'
+import {
+  validateEventInstanceWritePayload,
+  validateEventInstanceParentBlockEventShapeAsync,
+  validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync,
+} from './eventInstanceEntityValidation.js'
+import { validatePartInstanceLedgerFieldsAsync } from './partInstanceEntityValidation.js'
 
 const router = Router()
 
@@ -59,7 +67,12 @@ router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRe
     }
     if (entityType === ENTITY_KEYS.EVENT_SHAPE) {
       for (const row of body) {
-        const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
+        const rowBody = row as Record<string, unknown>
+        const rowId = rowBody.id
+        const eventShapeErr =
+          typeof rowId === 'string' && rowId.trim() !== ''
+            ? await validateEventShapeWritePayloadAsync(rowBody, 'update', rowId)
+            : validateEventShapeWritePayload(rowBody)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
@@ -68,10 +81,38 @@ router.patch('/:entityType/order_index', csrfProtection, requireAuth, validateRe
     }
     if (entityType === ENTITY_KEYS.EVENT_INSTANCE) {
       for (const row of body) {
-        const eventInstanceErr = validateEventInstanceWritePayload(row as Record<string, unknown>, 'update')
+        const rowBody = row as Record<string, unknown>
+        const eventInstanceErr = validateEventInstanceWritePayload(rowBody, 'update')
         if (eventInstanceErr !== null) {
           sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
+        }
+        const parentBlockErr = await validateEventInstanceParentBlockEventShapeAsync(rowBody, 'update')
+        if (parentBlockErr !== null) {
+          sendBadRequest(res, parentBlockErr, parentBlockErr)
+          return
+        }
+        const rowId = rowBody.id
+        if (typeof rowId === 'string' && rowId.trim() !== '') {
+          const baselineAssignErr =
+            await validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync(rowId, rowBody)
+          if (baselineAssignErr !== null) {
+            sendBadRequest(res, baselineAssignErr, baselineAssignErr)
+            return
+          }
+        }
+      }
+    }
+    if (entityType === ENTITY_KEYS.PART_INSTANCE || entityType === 'partInstance') {
+      for (const row of body) {
+        const rowBody = row as Record<string, unknown>
+        const rowId = rowBody.id
+        if (typeof rowId === 'string' && rowId.trim() !== '') {
+          const partLedgerErr = await validatePartInstanceLedgerFieldsAsync(rowId, rowBody)
+          if (partLedgerErr !== null) {
+            sendBadRequest(res, partLedgerErr, partLedgerErr)
+            return
+          }
         }
       }
     }
@@ -134,7 +175,12 @@ router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(e
 
     if (entityType === ENTITY_KEYS.EVENT_SHAPE) {
       for (const row of updates) {
-        const eventShapeErr = validateEventShapeWritePayload(row as Record<string, unknown>)
+        const rowBody = row as Record<string, unknown>
+        const rowId = rowBody.id
+        const eventShapeErr =
+          typeof rowId === 'string' && rowId.trim() !== ''
+            ? await validateEventShapeWritePayloadAsync(rowBody, 'update', rowId)
+            : validateEventShapeWritePayload(rowBody)
         if (eventShapeErr !== null) {
           sendBadRequest(res, eventShapeErr, eventShapeErr)
           return
@@ -144,10 +190,39 @@ router.patch('/:entityType/bulk', csrfProtection, requireAuth, validateRequest(e
 
     if (entityType === ENTITY_KEYS.EVENT_INSTANCE) {
       for (const row of updates) {
-        const eventInstanceErr = validateEventInstanceWritePayload(row as Record<string, unknown>, 'update')
+        const rowBody = row as Record<string, unknown>
+        const eventInstanceErr = validateEventInstanceWritePayload(rowBody, 'update')
         if (eventInstanceErr !== null) {
           sendBadRequest(res, eventInstanceErr, eventInstanceErr)
           return
+        }
+        const parentBlockErr = await validateEventInstanceParentBlockEventShapeAsync(rowBody, 'update')
+        if (parentBlockErr !== null) {
+          sendBadRequest(res, parentBlockErr, parentBlockErr)
+          return
+        }
+        const rowId = rowBody.id
+        if (typeof rowId === 'string' && rowId.trim() !== '') {
+          const baselineAssignErr =
+            await validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync(rowId, rowBody)
+          if (baselineAssignErr !== null) {
+            sendBadRequest(res, baselineAssignErr, baselineAssignErr)
+            return
+          }
+        }
+      }
+    }
+
+    if (entityType === ENTITY_KEYS.PART_INSTANCE || entityType === 'partInstance') {
+      for (const row of updates) {
+        const rowBody = row as Record<string, unknown>
+        const rowId = rowBody.id
+        if (typeof rowId === 'string' && rowId.trim() !== '') {
+          const partLedgerErr = await validatePartInstanceLedgerFieldsAsync(rowId, rowBody)
+          if (partLedgerErr !== null) {
+            sendBadRequest(res, partLedgerErr, partLedgerErr)
+            return
+          }
         }
       }
     }

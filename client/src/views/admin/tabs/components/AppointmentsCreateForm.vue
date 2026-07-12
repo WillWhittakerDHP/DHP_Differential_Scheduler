@@ -9,11 +9,12 @@ import type { UserResponse } from '@/types/user'
 import { APPOINTMENT_STATUSES } from '@/types/appointment'
 import { APPOINTMENTS_TABLE_UI } from '@/constants/appointmentsTableConstants.js'
 import { toISO8601Date } from '@/utils/datetime'
+import { isBuyerUserRole } from '@/utils/admin/appointmentAttendees'
 
 /** Parent passes ref value so form can update fields (object is shared). */
 defineProps<{
   newAppointment: AppointmentRequest
-  formClientId: string | null
+  formBuyerId: string | null
   formAgentId: string | null
   properties: PropertyResponse[]
   users: UserResponse[]
@@ -21,7 +22,7 @@ defineProps<{
 
 const emit = defineEmits<{
   'update:patch': [patch: Partial<AppointmentRequest>]
-  'update:formClientId': [value: string | null]
+  'update:formBuyerId': [value: string | null]
   'update:formAgentId': [value: string | null]
   save: []
   cancel: []
@@ -66,14 +67,14 @@ function handlePatchSelectedDate(v: string): void {
         </VCol>
         <VCol cols="12" md="6">
           <VSelect
-            :model-value="formClientId"
-            :items="users.filter((u) => u.userRole === 'client')"
+            :model-value="formBuyerId"
+            :items="users.filter((u) => isBuyerUserRole(u.userRole))"
             item-title="firstName"
             item-value="id"
-            :label="APPOINTMENTS_TABLE_UI.CLIENT_LABEL"
+            :label="APPOINTMENTS_TABLE_UI.BUYER_LABEL"
             :return-object="false"
             clearable
-            @update:model-value="emit('update:formClientId', $event ?? null)"
+            @update:model-value="emit('update:formBuyerId', $event ?? null)"
           >
             <template #item="{ props: itemProps, item }">
               <VListItem v-bind="itemProps">

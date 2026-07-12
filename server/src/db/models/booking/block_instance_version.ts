@@ -22,7 +22,7 @@ export class BlockInstanceVersion extends Model<
   declare name: string;
   declare icon: string | null;
   declare baseSqFt: number | null;
-  declare allowMultiple: boolean;
+  declare composite: boolean;
   declare orchestrator: boolean;
   declare wizardVisible: boolean;
   declare preClosing: boolean;
@@ -59,11 +59,10 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: true,
         field: 'base_sq_ft',
       },
-      allowMultiple: {
+      composite: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'allow_multiple',
       },
       orchestrator: {
         type: DataTypes.BOOLEAN,

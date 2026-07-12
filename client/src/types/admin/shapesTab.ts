@@ -3,6 +3,20 @@
  * to avoid duplication (duplication-audit, COMPOSABLE_AUTHORING_PLAYBOOK).
  */
 import type { ComponentPublicInstance, ComputedRef, Ref } from 'vue'
+
+/** Tier-3 subtab under Instances domain “Shapes” tier (not the legacy `blockShapes` VTabs value). */
+export type ShapesDomainSubTab = 'block' | 'part' | 'annotation' | 'event'
+
+/** When set, shape-list FormKit binds only on the Shapes tier + visible subtab (lazy windows). */
+export type InstancesDomainDragContext = {
+  tier2Tab: Ref<string>
+  shapesSubTab: Ref<ShapesDomainSubTab>
+  shapesTier2Value: string
+}
+
+export interface UseShapesTabOptions {
+  instancesDomainDragContext?: InstancesDomainDragContext
+}
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { UseShapesTabCreationReturn } from '@/composables/admin/useShapesTabCreation'

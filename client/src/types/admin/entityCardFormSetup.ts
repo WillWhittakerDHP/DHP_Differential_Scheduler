@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -10,7 +10,8 @@ import type { UseEntityCardFieldConfigurationReturn } from '@/types/admin/entity
 
 export interface UseEntityCardFormSetupParams<GE extends GlobalEntityKey> {
   entityKey: GE
-  entity: GlobalEntity<GE>
+  /** WHY: Ref/getter so title row + names track cache updates after save (setup runs once). */
+  entity: MaybeRefOrGetter<GlobalEntity<GE>>
   composedFieldMetadata: ComputedRef<Record<string, FieldMetadataEntry>>
   isMetadataLoading: ComputedRef<boolean>
   isExpanded: ComputedRef<boolean>

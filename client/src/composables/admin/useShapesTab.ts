@@ -1,7 +1,7 @@
 /**
  * WHY: Keeps ShapesTab.vue thin; orchestration (state, creation, deletion, drag, tab labels) in composable.
  */
-import { ref, computed, type ComponentPublicInstance } from 'vue'
+import { ref, computed, type ComponentPublicInstance, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useEntityFiltering } from '@/composables/admin/useEntityFiltering'
 import { useShapeDisplayNames } from '@/composables/admin/useShapeDisplayNames'
@@ -14,11 +14,37 @@ import { useShapesTabDeletion } from '@/utils/admin/shapesTabDeletion'
 import type { GlobalEntity } from '@/types/entities'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
-import type { UseShapesTabReturn } from '@/types/admin/shapesTab'
+import type {
+  InstancesDomainDragContext,
+  ShapesDomainSubTab,
+  UseShapesTabOptions,
+  UseShapesTabReturn,
+} from '@/types/admin/shapesTab'
 
 const logger = createLogger('ShapesTab')
 
-export function useShapesTab(): UseShapesTabReturn {
+function shapeListDragBinding(
+  domain: InstancesDomainDragContext | undefined,
+  activeTab: Ref<string>,
+  subKey: ShapesDomainSubTab,
+  standaloneTabValue: string
+): { shouldBind: ComputedRef<boolean>; visibilityDeps: ComputedRef<readonly unknown[]> } {
+  const shouldBind = computed((): boolean => {
+    if (domain) {
+      return (
+        domain.tier2Tab.value === domain.shapesTier2Value && domain.shapesSubTab.value === subKey
+      )
+    }
+    return activeTab.value === standaloneTabValue
+  })
+  const visibilityDeps = computed((): readonly unknown[] =>
+    domain ? [domain.tier2Tab.value, domain.shapesSubTab.value] : [activeTab.value]
+  )
+  return { shouldBind, visibilityDeps }
+}
+
+export function useShapesTab(options?: UseShapesTabOptions): UseShapesTabReturn {
+  const domain = options?.instancesDomainDragContext
   const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
   const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
   const { filteredEntities: filteredAnnotationShapes } = useEntityFiltering('annotationShape')
@@ -75,6 +101,11 @@ export function useShapesTab(): UseShapesTabReturn {
   const annotationShapeIds = ref<string[]>([])
   const eventShapeIds = ref<string[]>([])
 
+  const partDragBinding = shapeListDragBinding(domain, activeTab, 'part', 'partShapes')
+  const blockDragBinding = shapeListDragBinding(domain, activeTab, 'block', 'blockShapes')
+  const annotationDragBinding = shapeListDragBinding(domain, activeTab, 'annotation', 'annotationShapes')
+  const eventDragBinding = shapeListDragBinding(domain, activeTab, 'event', 'eventShapes')
+
   const partShapesDragHandlers = useEntityDragHandlers({
     entityIds: partShapeIds,
     entityList: partShapesList,
@@ -99,6 +130,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'partShapes',
     draggableClass: 'draggable-part-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: partDragBinding.shouldBind,
+    visibilityDeps: partDragBinding.visibilityDeps,
   })
   useDragAndDrop({
     containerRef: blockShapesContainer,
@@ -110,6 +143,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'blockShapes',
     draggableClass: 'draggable-block-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: blockDragBinding.shouldBind,
+    visibilityDeps: blockDragBinding.visibilityDeps,
   })
 
   const annotationShapesDragHandlers = useEntityDragHandlers({
@@ -136,6 +171,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'annotationShapes',
     draggableClass: 'draggable-annotation-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: annotationDragBinding.shouldBind,
+    visibilityDeps: annotationDragBinding.visibilityDeps,
   })
   useDragAndDrop({
     containerRef: eventShapesContainer,
@@ -147,6 +184,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'eventShapes',
     draggableClass: 'draggable-event-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: eventDragBinding.shouldBind,
+    visibilityDeps: eventDragBinding.visibilityDeps,
   })
   const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
   const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)

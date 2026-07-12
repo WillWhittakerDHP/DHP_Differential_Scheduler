@@ -1,5 +1,6 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { ValidAdminValue } from '@/constants/primitives'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
@@ -70,6 +71,14 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
   // PATTERN: Explicit check with fallback to 0 (defensive check even though metadata should include it)
   if (result.orderIndex === null || result.orderIndex === undefined) {
     result.orderIndex = 0
+  }
+
+  // WHY: Metadata string defaults are '' for placeholders; API requires a canonical block shape type on create.
+  if (entityKey === 'blockShape') {
+    const t = result.semanticType
+    if (typeof t !== 'string' || t.trim() === '') {
+      result.semanticType = BLOCK_SHAPE_TYPES.USER
+    }
   }
 
   return result

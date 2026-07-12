@@ -42,8 +42,8 @@
               ></v-text-field>
               
               <v-checkbox
-                v-model="formData.active"
-                label="Active"
+                v-model="formData.wizardVisible"
+                label="Wizard visible"
                 class="mb-4"
               ></v-checkbox>
               

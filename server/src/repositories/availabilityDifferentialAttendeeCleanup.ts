@@ -36,10 +36,10 @@ export async function reconcileBlockInstanceStateControlEligibility(
     return
   }
   const shape = await BlockShape.findByPk(inst.blockShapeRef, {
-    attributes: ['type'],
+    attributes: ['semanticType'],
     transaction,
   })
-  if (shape?.type === 'user') {
+  if (shape?.semanticType === 'user') {
     return
   }
   await removeDifferentialAttendeesForBlockInstanceIds([String(inst.id)], transaction)
@@ -51,10 +51,10 @@ export async function reconcileBlockShapeStateControlEligibility(
   transaction?: Transaction
 ): Promise<void> {
   const shape = await BlockShape.findByPk(blockShapeId, {
-    attributes: ['type'],
+    attributes: ['semanticType'],
     transaction,
   })
-  if (!shape || shape.type === 'user') {
+  if (!shape || shape.semanticType === 'user') {
     return
   }
   const rows = await BlockInstance.findAll({

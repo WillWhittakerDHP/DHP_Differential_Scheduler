@@ -3,6 +3,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { SubPanelRecord } from '@/constants/fieldMetadata'
 import type { FormContext } from 'vee-validate'
+import type { Ref } from 'vue'
 
 export type FieldsByLocation<GE extends GlobalEntityKey = GlobalEntityKey> = {
   titleRow: GlobalFieldKey<GE>[]
@@ -17,6 +18,8 @@ export interface UseConditionalFieldVisibilityOptions<GE extends GlobalEntityKey
   entityKey: GE
   isComposable: ComputedRef<boolean>
   form: FormContext
+  /** When false, blockInstance `semanticType` (user-role) field is hidden. */
+  isUserSemanticBlockInstance?: ComputedRef<boolean> | Ref<boolean>
 }
 
 export interface UseConditionalFieldVisibilityReturn<GE extends GlobalEntityKey = GlobalEntityKey> {

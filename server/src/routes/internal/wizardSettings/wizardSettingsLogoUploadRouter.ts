@@ -20,7 +20,7 @@ import {
 import { handleRouteError } from '../../helpers/routerErrorHandler.js'
 import { sendError, sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { HTTP_STATUS_CODES } from '../../../constants/router.js'
-import { csrfProtection, checkOwnership, requireAuth } from '../../../middlewares/security.js'
+import { staffMutations } from '../../../middlewares/security.js'
 import { createLogger } from '../../../utils/logger.js'
 
 const logger = createLogger('wizardSettingsLogoUpload')
@@ -70,9 +70,7 @@ async function persistLogoAndRespond(req: Request, res: Response): Promise<void>
 
 router.post(
   '/logo',
-  csrfProtection,
-  requireAuth,
-  checkOwnership('wizardSetting', 'id'),
+  ...staffMutations('wizardSetting', 'id'),
   (req: Request, res: Response, _next) => {
     upload.single(WIZARD_LOGO_UPLOAD_FIELD)(req, res, (err: unknown) => {
       if (err) {

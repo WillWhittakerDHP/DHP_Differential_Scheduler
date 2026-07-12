@@ -57,7 +57,10 @@ export function pickFieldMetadataEntry(
 }
 
 export function isEnumTypeSelectField(entityKey: string, fieldKey: string): boolean {
-  return (entityKey === 'blockShape' || entityKey === 'partShape') && fieldKey === 'type'
+  return (
+    (entityKey === 'blockShape' && fieldKey === 'semanticType') ||
+    (entityKey === 'partShape' && fieldKey === 'type')
+  )
 }
 
 export function parseOptionsSelectConfigFromMeta(

@@ -1,5 +1,5 @@
 
-import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
+import { DISPLAY_LABELS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { DisplayFieldType } from '../displayFieldTypes'
 import { baseEntityDisplays } from './baseEntityDisplays'
@@ -43,15 +43,6 @@ export const blockInstanceDisplays = {
     stacked: false,
     width: "auto",
     align: "right",
-  },
-
-  active: {
-    label: ENTITY_STATUS.ACTIVE,
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "auto",
-    align: "center",
   },
 
   composite: {
@@ -111,6 +102,17 @@ export const blockInstanceDisplays = {
     stacked: true,
     width: "15%",
     align: "left",
+  },
+
+  semanticType: {
+    label: "App-wide Semantic Type",
+    placeholder: "Select canonical user role",
+    inline: false,
+    stacked: true,
+    width: "20%",
+    align: "left",
+    tooltip:
+      "For user-type block shapes only: canonical user role for this instance. At most one instance per role.",
   },
 
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, DisplayFieldType<"blockInstance", GlobalFieldKey<"blockInstance">>>>;

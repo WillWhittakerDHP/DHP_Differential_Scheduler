@@ -3,14 +3,13 @@ export interface VersionBlockInstance {
   name: string
   icon: string
   baseSqFt: number
-  allowMultiple: boolean
   partInstances: Array<{
     id: string
     name: string
     baseFee: number
     baseTime: number
-    rateOverBaseFee: number
-    rateOverBaseTime: number
+    feePerUnit: number
+    timePerUnit: number
   }>
 }
 

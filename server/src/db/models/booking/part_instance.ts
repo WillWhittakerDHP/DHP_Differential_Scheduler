@@ -10,6 +10,10 @@ import {
 import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
 import type { PricingCascade } from './pricing_cascade.js';
 
+/**
+ * Part-instance value ledger (per block instance). Column names match the
+ * canonical Base + PerUnit vocabulary in `.project-manager/ARCHITECTURE.md` §10.1a.
+ */
 export class PartInstance extends Model<
   InferAttributes<PartInstance>,
   InferCreationAttributes<PartInstance>
@@ -19,9 +23,9 @@ export class PartInstance extends Model<
   declare partShapeRef: ForeignKey<string>;
   declare name: CreationOptional<string>;
   declare baseFee: number;
-  declare rateOverBaseFee: number;
+  declare feePerUnit: number;
   declare baseTime: number;
-  declare rateOverBaseTime: number;
+  declare timePerUnit: number;
   declare active: boolean;
   declare zeroOutPart: boolean;
   declare createdAt: CreationOptional<Date>;
@@ -59,7 +63,7 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      rateOverBaseFee: {
+      feePerUnit: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -67,7 +71,7 @@ export function PartInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      rateOverBaseTime: {
+      timePerUnit: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

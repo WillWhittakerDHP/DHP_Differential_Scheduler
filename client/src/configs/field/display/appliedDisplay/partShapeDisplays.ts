@@ -1,5 +1,5 @@
 
-import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
+import { DISPLAY_LABELS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { DisplayFieldType } from '../displayFieldTypes'
 import { baseEntityDisplays } from './baseEntityDisplays'
@@ -34,15 +34,6 @@ export const partShapeDisplays = {
     width: "5%",
     align: "left",
     style: { margin: "auto", resize: "none", width: "100%" },
-  },
-
-  active: {
-    label: ENTITY_STATUS.ACTIVE,
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "auto",
-    align: "center",
   },
 } satisfies Partial<Record<GlobalFieldKey<"partShape">, DisplayFieldType<"partShape", GlobalFieldKey<"partShape">>>>;
 

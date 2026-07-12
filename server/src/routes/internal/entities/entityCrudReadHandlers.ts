@@ -13,7 +13,7 @@ import { sendSuccess, sendNotFound, sendError } from '../../helpers/routerRespon
 import { paramString } from '../../helpers/requestHelpers.js';
 import { HTTP_STATUS_CODES } from '../../../constants/router.js';
 import {
-  stripLegacyEventShapeResponseFields,
+  stripRejectedEventShapeResponseFields,
 } from './eventShapeEntityValidation.js';
 
 export async function handleEntityCrudList(req: Request, res: Response): Promise<void> {
@@ -56,7 +56,7 @@ export async function handleEntityCrudList(req: Request, res: Response): Promise
     if (entityTypeParam === ENTITY_KEYS.EVENT_SHAPE || entityTypeParam === 'eventShape') {
       const formatted = (data as Model[]).map((row) => {
         const plain = row.get({ plain: true }) as Record<string, unknown>;
-        stripLegacyEventShapeResponseFields(plain);
+        stripRejectedEventShapeResponseFields(plain);
         return plain;
       });
       sendSuccess(res, formatted);
@@ -114,7 +114,7 @@ export async function handleEntityCrudGetById(req: Request, res: Response): Prom
 
     if (entityTypeParam === ENTITY_KEYS.EVENT_SHAPE || entityTypeParam === 'eventShape') {
       const plain = (record as Model).get({ plain: true }) as Record<string, unknown>;
-      stripLegacyEventShapeResponseFields(plain);
+      stripRejectedEventShapeResponseFields(plain);
       sendSuccess(res, plain);
       return;
     }

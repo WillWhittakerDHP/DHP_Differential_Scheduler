@@ -4,13 +4,11 @@ import type { ReadonlyVueRef } from '@/types/vueRefTypes'
 
 import type { UseStepValidationReturn } from '@/types/booking/stepValidation'
 export interface UseContactsValidationParams {
-  clientInfo: Ref<ContactInfo>
+  buyerInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
+  anotherBuyerInfo: Ref<ContactInfo>
   ownerInfo: Ref<ContactInfo>
-  showAnotherClient: ReadonlyVueRef<boolean>
-  showTransactionManager: ReadonlyVueRef<boolean>
+  showAnotherBuyer: ReadonlyVueRef<boolean>
   showOwner: ReadonlyVueRef<boolean>
   requiresAgent?: ReadonlyVueRef<boolean>
 }

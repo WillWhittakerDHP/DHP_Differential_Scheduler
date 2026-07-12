@@ -8,6 +8,7 @@ import apiClient, { getOrderIndexEndpoint } from '@/utils/api'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalData } from '@/utils/transformers/fetchToGlobalTransformer'
 import type { EntityCrudMutationContext, OrderIndexUpdate } from '@/types/entityCrud/entityCrudTypes'
+import { sortEntitiesByOrderIndex } from '@/utils/admin/sortEntitiesByOrderIndex'
 
 export function createEntityOrderMutationOptions<GlobalEntityTypeKey extends GlobalEntityKey>(
   context: EntityCrudMutationContext<GlobalEntityTypeKey>
@@ -27,23 +28,26 @@ export function createEntityOrderMutationOptions<GlobalEntityTypeKey extends Glo
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
         const currentEntities = getEntitiesForKey(old)
-        const updateMap = new Map(updates.map((update) => [update.id, update.orderIndex]))
-        const updatedEntities = currentEntities.map((entity) => {
-          const newOrder = updateMap.get(entity.id)
-          let orderIndex: number
-          if (newOrder !== undefined) {
-            orderIndex = newOrder
-          } else if (entity.orderIndex !== undefined && entity.orderIndex !== null) {
-            orderIndex = entity.orderIndex
-          } else {
-            logger.debug('Entity crud: orderIndex missing when patching order', { entityKey, entityId: entity.id })
-            orderIndex = 0
-          }
-          return {
-            ...entity,
-            orderIndex,
-          }
-        })
+        // WHY: String() so Map matches cache ids vs FormKit/drag id values (branded UUID vs plain string).
+        const updateMap = new Map(updates.map((update) => [String(update.id), update.orderIndex]))
+        const updatedEntities = sortEntitiesByOrderIndex(
+          currentEntities.map((entity) => {
+            const newOrder = updateMap.get(String(entity.id))
+            let orderIndex: number
+            if (newOrder !== undefined) {
+              orderIndex = newOrder
+            } else if (entity.orderIndex !== undefined && entity.orderIndex !== null) {
+              orderIndex = Number(entity.orderIndex)
+            } else {
+              logger.debug('Entity crud: orderIndex missing when patching order', { entityKey, entityId: entity.id })
+              orderIndex = 0
+            }
+            return {
+              ...entity,
+              orderIndex,
+            }
+          })
+        )
         return {
           ...old,
           entities: {

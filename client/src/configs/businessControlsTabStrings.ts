@@ -127,8 +127,13 @@ export const BUSINESS_CONTROLS_TAB_STRINGS = {
   roleAlignment: {
     cardTitle: 'User role → user-type block instance',
     helpIntro:
-      'Maps each canonical user role to a user-type block instance under a state-control shape. When set, this override is used before the older name-based map. Create or edit instances under Admin → Instances if you need new options.',
+      'Maps each canonical user role to at most one user-type block instance (state-control / user shape). When set, this override is used before the older name-based map. Choose one role per instance, then save.',
     instanceLabel: 'User-type instance',
+    instanceColumnLabel: 'Instance',
+    canonicalRoleColumnLabel: 'Canonical user role',
+    /** Outlined select placeholder (mirrors block shape Type field wording). */
+    canonicalRoleSelectPlaceholder: 'Select canonical user role',
+    mapsToThisInstanceAria: 'This user-type instance is the alignment for this role',
   },
   calendar: {
     integrationTitle: 'Calendar Integration',

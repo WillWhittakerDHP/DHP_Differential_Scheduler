@@ -13,7 +13,6 @@ import { resolveBookingNumericPolicyFromLoadedData } from '@/utils/booking/resol
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
 import { createLogger } from '@/utils/logger'
 import type { UseAppointmentShapeParams, UseAppointmentShapeReturn } from '@/types/booking/appointmentShape'
 import { mergeAttendeesIntoEventShapes } from '@/utils/booking/appointmentShapeEventAttendees'
@@ -85,16 +84,12 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
         attendeeAssignmentsRelationships
       )
 
-      const partShapes = getGlobalEntities('partShape')
-      const partShapeById = new Map(partShapes.map((ps) => [ps.id, ps as GlobalEntity<'partShape'>]))
-
       return buildAppointmentShape(
         instances,
         settings.value,
         eventInstances,
         eventShapes,
         eventAssignmentsRelationships,
-        partShapeById,
         resolvedTimeRounding.value,
       )
     } catch (error) {

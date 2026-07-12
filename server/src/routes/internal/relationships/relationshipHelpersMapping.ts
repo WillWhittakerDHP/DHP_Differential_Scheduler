@@ -1,4 +1,4 @@
-import { BlockInstance } from '../../../config/app.js'
+import { BlockInstance, PartInstance } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind } from './relationshipConstants.js'
 
@@ -40,7 +40,13 @@ async function mapEventAssignmentsFields(
   if (blockInstance) {
     return { parentId, parentKind: 'blockInstance', childId }
   }
-  throw new Error(`Parent ID ${parentId} is not a valid BlockInstance for eventAssignments`)
+  const partInstance = await PartInstance.findByPk(parentId)
+  if (partInstance) {
+    return { parentId, parentKind: 'partInstance', childId }
+  }
+  throw new Error(
+    `Parent ID ${parentId} is not a valid BlockInstance or PartInstance for eventAssignments`
+  )
 }
 
 export async function mapRelationshipFields(

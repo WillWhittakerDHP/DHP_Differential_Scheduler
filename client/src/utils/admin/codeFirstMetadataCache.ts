@@ -9,6 +9,7 @@ import { DISPLAY_LABELS, FIELD_NAMES } from '@/constants/entityFieldConstants'
 import type { MetadataCache } from '@/types/admin/metadataCache'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldPanelFromKey'
 import { ANNOTATION_UI_SLOT_REGISTRY } from '@shared/constants/annotationSlots'
+import { USER_ROLE_VALUES } from '@shared/constants/roleConstants'
 import {
   codeFirstBlockInstanceSelectInputs,
   codeFirstBlockShapeSelectInputs,
@@ -55,6 +56,14 @@ const blockShapeTypeOptions = [
   { label: 'Time', value: BLOCK_SHAPE_TYPES.TIME },
   { label: 'Event', value: BLOCK_SHAPE_TYPES.EVENT },
   { label: 'Price', value: BLOCK_SHAPE_TYPES.PRICE },
+]
+
+const blockInstanceUserSemanticOptions = [
+  { label: '—', value: null },
+  ...USER_ROLE_VALUES.map((r) => ({
+    label: r.length > 0 ? r.charAt(0).toUpperCase() + r.slice(1).replace(/_/g, ' ') : r,
+    value: r,
+  })),
 ]
 
 const placementKindOptions = [
@@ -106,8 +115,7 @@ function globalBlockShape(): Record<string, FieldMetadataEntry> {
       visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    active: mk('active', 'Active', 4, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    type: mk('type', 'Type', 3, {
+    semanticType: mk('semanticType', 'App-wide Semantic Type', 3, {
       dataType: 'string',
       renderAs: R.SELECT,
       inputConfig: { options: blockShapeTypeOptions },
@@ -145,7 +153,6 @@ function globalPartShape(): Record<string, FieldMetadataEntry> {
       visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    active: mk('active', 'Active', 3, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
     validPricingCascades: mk('validPricingCascades', 'Valid pricing cascades', 10, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
@@ -163,7 +170,6 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    active: mk('active', 'Active', 3, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
     blockShapeRef: mk('blockShapeRef', 'Block shape', 4, {
       dataType: 'string',
       renderAs: R.REFERENCE,
@@ -211,6 +217,12 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
     requiresAgent: mk('requiresAgent', 'Requires agent', 15, {
       dataType: 'boolean',
       renderAs: R.STATUS_BUTTON,
+      panel: P.NONE,
+    }),
+    semanticType: mk('semanticType', 'App-wide Semantic Type', 16, {
+      dataType: 'string',
+      renderAs: R.SELECT,
+      inputConfig: { options: blockInstanceUserSemanticOptions },
       panel: P.NONE,
     }),
     partAssignments: mk('partAssignments', 'Part assignments', 20, {
@@ -267,13 +279,13 @@ function globalPartInstance(): Record<string, FieldMetadataEntry> {
       panel: P.NONE,
     }),
     baseTime: mk('baseTime', 'Base time', 5, { dataType: 'number', renderAs: R.NUMBER, panel: P.NONE }),
-    rateOverBaseTime: mk('rateOverBaseTime', 'Rate over base time', 6, {
+    timePerUnit: mk('timePerUnit', 'Time per unit', 6, {
       dataType: 'number',
       renderAs: R.NUMBER,
       panel: P.NONE,
     }),
     baseFee: mk('baseFee', 'Base fee', 7, { dataType: 'number', renderAs: R.NUMBER, panel: P.NONE }),
-    rateOverBaseFee: mk('rateOverBaseFee', 'Rate over base fee', 8, {
+    feePerUnit: mk('feePerUnit', 'Fee per unit', 8, {
       dataType: 'number',
       renderAs: R.NUMBER,
       panel: P.NONE,
@@ -307,19 +319,19 @@ function globalEventShape(): Record<string, FieldMetadataEntry> {
       visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    active: mk('active', 'Active', 3, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    placementKind: mk('placementKind', 'Placement kind', 4, {
+    placementKind: mk('placementKind', 'Placement kind', 3, {
       dataType: 'string',
       renderAs: R.SELECT,
       inputConfig: { options: placementKindOptions },
       panel: P.NONE,
     }),
-    anchorEdge: mk('anchorEdge', 'Anchor edge', 5, {
+    anchorEdge: mk('anchorEdge', 'Anchor edge', 4, {
       dataType: 'string',
       renderAs: R.SELECT,
       inputConfig: { options: anchorEdgeOptions },
       panel: P.NONE,
     }),
+    active: mk('active', 'Active', 5, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
     attendeeAssignments: mk('attendeeAssignments', 'Attendees', 6, {
       dataType: 'array',
       renderAs: R.MULTISELECT,

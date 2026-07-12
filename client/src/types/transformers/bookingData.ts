@@ -20,9 +20,9 @@ export type BookingPartInstance = CoreEntity & {
   entityKey: 'partInstance'
   partShape: string
   baseTime: number
-  rateOverBaseTime: number
+  timePerUnit: number
   baseFee: number
-  rateOverBaseFee: number
+  feePerUnit: number
   orderIndex: number
   zeroOutPart: boolean
   activePartIds: string[]
@@ -33,7 +33,7 @@ export type BookingPartInstance = CoreEntity & {
 export type BookingBlockShape = {
   id: string
   name: string
-  type: BlockShapeType
+  semanticType: BlockShapeType
 }
 
 export type BookingBlockInstance = CoreEntity & {
@@ -54,6 +54,7 @@ export type BookingBlockInstance = CoreEntity & {
   number?: number | null
   isMultiFamily: boolean
   requiresAgent: boolean
+  semanticType?: string | null
   annotationUi?: BookingBlockAnnotationUi
   [key: string]: unknown
 }

@@ -102,11 +102,11 @@ const isSelectedServiceDifferential = computed(() => {
   return false
 })
 
-const hasEventForPart = (partShapeName: string, eventShape: EventShape): boolean => {
+const hasEventForPart = (partLineageKey: string, eventShape: EventShape): boolean => {
   const shape = appointmentData.value.appointmentShape
-  if (!shape || !shape.eventAssignmentsByPartShape) return false
+  if (!shape?.eventAssignmentsByPartInstanceId) return false
 
-  const rawEvents = shape.eventAssignmentsByPartShape[partShapeName]
+  const rawEvents = shape.eventAssignmentsByPartInstanceId[partLineageKey]
   const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
   if (events.length === 0) return false
 

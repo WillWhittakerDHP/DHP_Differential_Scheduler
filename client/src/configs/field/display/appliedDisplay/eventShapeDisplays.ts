@@ -23,13 +23,6 @@ export const eventShapeDisplays = {
     stacked: false,
   },
 
-  active: {
-    label: ENTITY_STATUS.ACTIVE,
-    placeholder: ENTITY_STATUS.ACTIVE,
-    inline: true,
-    stacked: false,
-  },
-
   placementKind: {
     label: 'Placement kind',
     placeholder: 'e.g. Primary (main segment), or Secondary / Marginal / Floating',
@@ -40,6 +33,13 @@ export const eventShapeDisplays = {
   anchorEdge: {
     label: 'Anchor edge',
     placeholder: 'For non-primary: start or end of the block time window',
+    inline: true,
+    stacked: false,
+  },
+
+  active: {
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

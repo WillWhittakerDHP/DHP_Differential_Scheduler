@@ -35,11 +35,14 @@ export interface SlotShape extends DifferentialDurationOffsets {
   eventFinals: EventFinal[]
 }
 
+/** Keys are booking `partInstance.id` values (lineage), not part-shape display names. */
+export type EventAssignmentsByPartInstanceId = Record<string, EventInstance[]>
+
 export interface AppointmentShape {
   finalizedBlocks: BlockFinal[]
   finalizedParts: PartFinal[]
   slotShape: SlotShape
-  eventAssignmentsByPartShape: Record<string, EventInstance[]>
+  eventAssignmentsByPartInstanceId: EventAssignmentsByPartInstanceId
 }
 
 export interface AppointmentSlot {

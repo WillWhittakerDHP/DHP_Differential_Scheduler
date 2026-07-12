@@ -39,9 +39,9 @@ export function transformPartInstance(
   const partShape = partShapeEntity?.name ? partShapeEntity.name : partShapeRef
   const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
     baseTime?: number
-    rateOverBaseTime?: number
+    timePerUnit?: number
     baseFee?: number
-    rateOverBaseFee?: number
+    feePerUnit?: number
     zeroOutPart?: boolean
     percentageOff?: number
     percentage_off?: number
@@ -59,9 +59,9 @@ export function transformPartInstance(
     active: isBookingEntityActive(partInstance),
     partShape,
     baseTime: partInstanceWithProps.baseTime ?? 0,
-    rateOverBaseTime: partInstanceWithProps.rateOverBaseTime ?? 0,
+    timePerUnit: partInstanceWithProps.timePerUnit ?? 0,
     baseFee: partInstanceWithProps.baseFee ?? 0,
-    rateOverBaseFee: partInstanceWithProps.rateOverBaseFee ?? 0,
+    feePerUnit: partInstanceWithProps.feePerUnit ?? 0,
     orderIndex: partInstance.orderIndex,
     zeroOutPart: partInstanceWithProps.zeroOutPart ?? false,
     activePartIds,

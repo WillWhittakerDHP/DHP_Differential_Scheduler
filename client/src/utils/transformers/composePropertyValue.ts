@@ -110,7 +110,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
         }
         if (blockShape.entityKey !== 'blockShape') return true // Defensive: ensure correct narrowing
 
-        return blockShape.type !== BLOCK_SHAPE_TYPES.USER
+        return blockShape.semanticType !== BLOCK_SHAPE_TYPES.USER
       })
       
       values = filteredComponents

@@ -5,9 +5,11 @@
 import { watch, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import { dragLayoutSignature } from '@/composables/admin/useInstanceDragAndDropGrouped'
-import { syncBlockInstanceShapeMapsFromSources } from '@/utils/admin/instanceDragAndDropShapeMapsSync'
+import {
+  syncBlockInstanceShapeMapsFromSources,
+  type BlockInstanceZoneDragHandlers,
+} from '@/utils/admin/instanceDragAndDropShapeMapsSync'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
-import type { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import type { dragAndDrop } from '@formkit/drag-and-drop/vue'
 export function registerInstanceDragShapeLayoutWatch(input: {
   mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -16,7 +18,7 @@ export function registerInstanceDragShapeLayoutWatch(input: {
   patchBlockInstanceOrderIndex: PatchOrderIndex
   blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>
   blockInstanceIdsMap: Ref<Map<string, Ref<string[]>>>
-  groupDragHandlers: Ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>
+  groupDragHandlers: Ref<Map<string, BlockInstanceZoneDragHandlers>>
   groupDragInstances: Ref<Map<string, ReturnType<typeof dragAndDrop>>>
   shapeDragBoundNonce: Ref<Map<string, number>>
   dragReinitNonce: Ref<number>

@@ -6,7 +6,7 @@
 export const ENTITY_SCHEMA_DEFAULTS = {
   REQUIRED_BOOLEANS: {
     partInstance: ['active', 'zeroOutPart'],
-    blockInstance: ['active', 'composite', 'differential', 'preClosing', 'allowMultiple', 'requiresUnitNumber'],
+    blockInstance: ['composite', 'differential', 'preClosing', 'requiresUnitNumber'],
     blockShape: [],
     partShape: [],
   },
@@ -17,7 +17,7 @@ export const ENTITY_SCHEMA_DEFAULTS = {
     partShape: [],
   },
   REQUIRED_NUMBERS: {
-    partInstance: ['baseFee', 'rateOverBaseFee', 'baseTime', 'rateOverBaseTime'],
+    partInstance: ['baseFee', 'feePerUnit', 'baseTime', 'timePerUnit'],
     blockInstance: ['baseSqFt'],
     blockShape: [],
     partShape: [],

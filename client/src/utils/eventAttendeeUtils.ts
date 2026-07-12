@@ -11,7 +11,7 @@ import { asEmptyArray } from '@/utils/safeDefaults'
 export function getAllUserTypeBlockIds(globalData: GlobalData): GlobalEntityId[] {
   const blockShapes = asEmptyArray(globalData.entities.blockShape) as BlockShapeEntity[]
   const userBlockShapeIds = new Set(
-    blockShapes.filter((bs) => bs.type === BLOCK_SHAPE_TYPES.USER).map((bs) => bs.id)
+    blockShapes.filter((bs) => bs.semanticType === BLOCK_SHAPE_TYPES.USER).map((bs) => bs.id)
   )
 
   const blockInstances = asEmptyArray(globalData.entities.blockInstance) as BlockInstanceEntity[]

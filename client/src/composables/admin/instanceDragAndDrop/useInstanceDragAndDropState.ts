@@ -3,9 +3,9 @@
  */
 
 import { ref, type Ref, type ComponentPublicInstance } from 'vue'
-import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { panelRefSnapshot, type InstanceDragFormKitBinderDeps } from '@/utils/admin/instanceDragAndDropFormKitBind'
+import type { BlockInstanceZoneDragHandlers } from '@/utils/admin/instanceDragAndDropShapeMapsSync'
 import type { GlobalEntity } from '@/types/entities'
 
 /** Grouped refs for layout + FormKit watches (keeps composable return surface small). */
@@ -15,7 +15,7 @@ interface UseInstanceDragAndDropLayoutState {
   groupContainers: Ref<Map<string, HTMLElement | null>>
   groupPanelsContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
   groupPanelsGroupedContainers: Ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>
-  groupDragHandlers: Ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>
+  groupDragHandlers: Ref<Map<string, BlockInstanceZoneDragHandlers>>
   groupDragInstances: Ref<Map<string, ReturnType<typeof dragAndDrop>>>
   dragReinitNonce: Ref<number>
   shapeDragBoundNonce: Ref<Map<string, number>>
@@ -34,7 +34,7 @@ export function useInstanceDragAndDropState(): UseInstanceDragAndDropStateReturn
   const groupContainers = ref<Map<string, HTMLElement | null>>(new Map())
   const groupPanelsContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
   const groupPanelsGroupedContainers = ref<Map<string, Ref<ComponentPublicInstance | HTMLElement | null>>>(new Map())
-  const groupDragHandlers = ref<Map<string, ReturnType<typeof useEntityDragHandlers<'blockInstance'>>>>(new Map())
+  const groupDragHandlers = ref<Map<string, BlockInstanceZoneDragHandlers>>(new Map())
   const groupDragInstances = ref<Map<string, ReturnType<typeof dragAndDrop>>>(new Map())
   const formKitParentElByZone = ref<Map<string, HTMLElement>>(new Map())
   const isMounted = ref(false)

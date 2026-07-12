@@ -17,15 +17,15 @@ export function createBlockFinal(
   const blockTotals = {
     baseTime: finalizedParts.reduce((sum, part) => sum + part.baseTime, 0),
     baseFee: finalizedParts.reduce((sum, part) => sum + part.baseFee, 0),
-    rateOverBaseTime: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseTime, 0),
-    rateOverBaseFee: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseFee, 0)
+    timePerUnit: finalizedParts.reduce((sum, part) => sum + part.timePerUnit, 0),
+    feePerUnit: finalizedParts.reduce((sum, part) => sum + part.feePerUnit, 0)
   }
   
   return {
     blockInstanceId: blockInstance.id,
     blockName: blockInstance.name,
     blockShapeRef: blockInstance.blockShapeRef,
-    allowMultiple: blockInstance.allowMultiple,
+    allowMultiple: blockInstance.allowMultiple ?? false,
     finalizedParts,
     blockTotals,
     sourceBlockInstance: blockInstance

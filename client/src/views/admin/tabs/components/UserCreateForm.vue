@@ -81,7 +81,7 @@ const firstName = computed(() => asEmptyString(props.newUser?.value?.firstName))
 const lastName = computed(() => asEmptyString(props.newUser?.value?.lastName))
 const email = computed(() => asEmptyString(props.newUser?.value?.email))
 const phone = computed(() => asEmptyString(props.newUser?.value?.phone))
-const userRole = computed(() => props.newUser?.value?.userRole != null ? props.newUser.value.userRole : 'client')
+const userRole = computed(() => props.newUser?.value?.userRole != null ? props.newUser.value.userRole : 'buyer')
 const loginId = computed(() => props.newUser?.value?.loginId ?? null)
 
 function setFirstName(v: string): void {

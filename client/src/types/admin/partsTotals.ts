@@ -4,6 +4,6 @@ export interface UsePartsTotalsReturn {
   canHaveParts: ComputedRef<boolean>
   totalBaseFee: ComputedRef<number>
   totalBaseTime: ComputedRef<number>
-  totalRateOverBaseFee: ComputedRef<number>
-  totalRateOverBaseTime: ComputedRef<number>
+  totalFeePerUnit: ComputedRef<number>
+  totalTimePerUnit: ComputedRef<number>
 }

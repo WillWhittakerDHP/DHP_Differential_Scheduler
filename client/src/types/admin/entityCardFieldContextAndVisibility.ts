@@ -1,4 +1,4 @@
-import type { ComputedRef } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -19,6 +19,7 @@ export interface UseEntityCardFieldContextAndVisibilityParams<
   isComposable: ComputedRef<boolean>
   form: FormContext
   logger: AppLogger
+  isUserSemanticBlockInstance?: ComputedRef<boolean> | Ref<boolean>
 }
 
 export interface UseEntityCardFieldContextAndVisibilityReturn<

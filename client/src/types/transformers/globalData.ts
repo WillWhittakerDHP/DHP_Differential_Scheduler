@@ -12,8 +12,11 @@ export type AnnotationAssignmentEdge = {
   orderIndex: number
 }
 
+/** Per-key entity arrays (avoids `Record<K, GlobalEntity<K>[]>` widening every bucket to a union). */
+export type GlobalEntitiesByKey = { [GE in GlobalEntityKey]: GlobalEntity<GE>[] }
+
 export type GlobalData = {
-  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+  entities: GlobalEntitiesByKey
   relationships: Record<GlobalRelationshipKey, GlobalRelationship[]>
   /** Populated by fetch hydrate; optional for legacy/partial fixtures. */
   annotationAssignmentEdges?: AnnotationAssignmentEdge[]

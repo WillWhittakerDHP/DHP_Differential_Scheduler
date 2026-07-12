@@ -14,12 +14,13 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
 import EntityCardPrimaryTitleRow from './EntityCardPrimaryTitleRow.vue'
 import EntityCardContent from './EntityCardContent.vue'
 import EntityCardPartsTotals from './EntityCardPartsTotals.vue'
-import EntityCardFeePreview from './EntityCardFeePreview.vue'
 import { useEntityCardExpansion } from '@/composables/admin/useEntityCardExpansion'
 import { useEntityCardFieldContextAndVisibility } from '@/composables/admin/useEntityCardFieldContextAndVisibility'
 import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY } from './entityCardConstants'
@@ -89,9 +90,12 @@ const admin = useAdmin()
 
 const logger = createLogger('AdminEntityEditorPanel')
 
+/** WHY: Setup runs once; prop object is replaced after save — ref keeps title row + metadata in sync. */
+const entityModel = computed(() => props.entity)
+
 const { form } = useEntityCardForm({
   entityKey: props.entityKey,
-  entity: props.entity,
+  entity: entityModel,
   entityId: computed(() => props.entity.id),
   isNew: props.isNew,
   form: props.form
@@ -102,7 +106,7 @@ const formForTemplate = computed(() => form.value!)
 
 const { composedFieldMetadata: baseComposedFieldMetadata, isMetadataLoading } = useEntityCardMetadata({
   entityKey: props.entityKey,
-  entity: props.entity,
+  entity: entityModel,
   filteredMetadata: props.fieldMetadata
 })
 
@@ -126,13 +130,26 @@ const {
   isFormReady,
 } = useEntityCardFormSetup({
   entityKey: props.entityKey,
-  entity: props.entity,
+  entity: entityModel,
   composedFieldMetadata,
   isMetadataLoading,
   isExpanded,
   filteredMetadata: props.fieldMetadata,
   form,
   adminConfig,
+})
+
+const isUserSemanticBlockInstance = computed((): boolean => {
+  if (props.entityKey !== 'blockInstance') {
+    return false
+  }
+  const bi = props.entity as GlobalEntity<'blockInstance'>
+  const shapeRef = bi.blockShapeRef
+  if (shapeRef === undefined || shapeRef === null || shapeRef === '') {
+    return false
+  }
+  const shape = admin.getEntity('blockShape', toGlobalEntityId(shapeRef)) as GlobalEntity<'blockShape'> | undefined
+  return shape?.semanticType === BLOCK_SHAPE_TYPES.USER
 })
 
 const { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation } =
@@ -145,6 +162,7 @@ const { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation } =
     isComposable,
     form: form.value!,
     logger,
+    isUserSemanticBlockInstance,
   })
 
 const {
@@ -164,7 +182,7 @@ const {
   unifiedSaveState,
 } = useEntityCardSaveAndActions({
   entityKey: props.entityKey,
-  entity: props.entity,
+  entity: entityModel,
   isNew: props.isNew,
   form,
   admin,
@@ -253,10 +271,14 @@ defineExpose({
       <!-- WHY: VExpansionPanel has card-like appearance, adding VCard inside creates "card within card" visual issue -->
       <!-- PATTERN: Use div wrapper when useExpansionPanel=true, VCard wrapper when useExpansionPanel=false -->
       <div class="entity-card-content pa-4">
-        <EntityCardFeePreview
+        <!--
+          WHY: Domain-specific convergence surfaces (e.g. ServiceAtomicEditor) without forking the whole shell.
+          PATTERN: Parent passes slot only for shapes that need it (FEATURE_20 Phase 3.4).
+        -->
+        <slot
           v-if="entityKey === 'blockInstance'"
-          :entity-key="entityKey"
-          :entity-id="entity.id"
+          name="blockInstanceConvergence"
+          :entity="entity"
         />
         <EntityCardContent
           :entity-key="entityKey"
@@ -333,10 +355,10 @@ defineExpose({
       <EntityCardPrimaryTitleRow :title-row="primaryTitleRowModal" />
     </div>
 
-    <EntityCardFeePreview
+    <slot
       v-if="entityKey === 'blockInstance'"
-      :entity-key="entityKey"
-      :entity-id="entity.id"
+      name="blockInstanceConvergence"
+      :entity="entity"
     />
     <EntityCardContent
       :entity-key="entityKey"

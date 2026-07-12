@@ -9,7 +9,7 @@ import {
 } from '../../../repositories/wizardSettingsRepository.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js';
-import { csrfProtection, checkOwnership, requireAuth } from '../../../middlewares/security.js';
+import { staffMutations } from '../../../middlewares/security.js';
 import { validateRequest } from '../../../middlewares/validateRequest.js';
 import { wizardSettingsPutBodySchema } from '../../schemas/wizardSettingsSchemas.js';
 
@@ -29,9 +29,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
 router.put(
   '/',
-  csrfProtection,
-  requireAuth,
-  checkOwnership('wizardSetting', 'id'),
+  ...staffMutations('wizardSetting', 'id'),
   validateRequest(wizardSettingsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {

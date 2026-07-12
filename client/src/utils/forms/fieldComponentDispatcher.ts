@@ -42,7 +42,8 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
   const selectRenderAs: Array<FieldMetadataEntry['renderAs']> = ['select', 'multiselect', 'reference']
   if (selectRenderAs.includes(effectiveRenderAs)) {
     const isEnumSelect =
-      String(fieldKey) === 'type' && (entityKey === 'blockShape' || entityKey === 'partShape')
+      (entityKey === 'blockShape' && String(fieldKey) === 'semanticType') ||
+      (entityKey === 'partShape' && String(fieldKey) === 'type')
 
     if (isEnumSelect) {
       return { type: 'select', reason: effectiveRenderAs as 'select' | 'multiselect' | 'reference' }

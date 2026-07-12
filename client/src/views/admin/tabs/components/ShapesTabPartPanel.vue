@@ -40,19 +40,20 @@ const {
       </div>
     </div>
     <div :ref="c.partShapesContainer" class="drag-drop-container">
+      <ShapeCreationForm
+        v-if="isCreatingPartShape"
+        class="mb-4"
+        entity-key="partShape"
+        :entity="newPartShapeInitialValues!"
+        @saved="handlePartShapeCreated"
+        @cancelled="handlePartShapeCancelled"
+      />
       <VExpansionPanels
-        v-if="isCreatingPartShape || partShapesList.length > 0"
+        v-if="partShapesList.length > 0"
         :ref="c.partShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >
-        <ShapeCreationForm
-          v-if="isCreatingPartShape"
-          entity-key="partShape"
-          :entity="newPartShapeInitialValues!"
-          @saved="handlePartShapeCreated"
-          @cancelled="handlePartShapeCancelled"
-        />
         <ShapeCardList
           entity-key="partShape"
           :items="partShapesList"
@@ -64,7 +65,7 @@ const {
           @delete="handleDeletePartShape"
         />
       </VExpansionPanels>
-      <VAlert v-else type="info" variant="tonal" class="mt-4">
+      <VAlert v-else-if="!isCreatingPartShape" type="info" variant="tonal" class="mt-4">
         No PartShapes found. Create one to get started.
       </VAlert>
       <VDivider class="my-6" />

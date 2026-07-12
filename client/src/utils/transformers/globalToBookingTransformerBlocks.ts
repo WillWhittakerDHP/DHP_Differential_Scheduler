@@ -32,9 +32,8 @@ export function filterAndSortBlockInstances(
 ): BookingBlockInstance[] {
   const mapped = blockInstances
     .filter((blockInstance) => {
-      const isActive = isBookingEntityActive(blockInstance)
       const isComponentChild = componentIds.has(blockInstance.id)
-      return isActive && !isComponentChild && predicate(blockInstance)
+      return isWizardMainBlock(blockInstance) && !isComponentChild && predicate(blockInstance)
     })
     .map((blockInstance) =>
       transformBlockInstance(
@@ -73,7 +72,7 @@ function resolveComponentPartIds(
   )
   return componentPartIds.filter((partId) => {
     const partInstance = partInstanceById.get(partId)
-    return isBookingEntityActive(partInstance)
+    return partInstance !== undefined && isBookingEntityActive(partInstance)
   })
 }
 
@@ -123,6 +122,7 @@ type BlockInstanceOptionalProps = {
   requiresUnitNumber?: boolean | null
   isMultiFamily?: boolean
   requiresAgent?: boolean
+  semanticType?: string | null
 }
 
 function extractBlockInstanceProps(
@@ -144,6 +144,7 @@ function extractBlockInstanceProps(
     requiresUnitNumber: b.requiresUnitNumber,
     isMultiFamily: b.isMultiFamily,
     requiresAgent: b.requiresAgent,
+    semanticType: typeof b.semanticType === 'string' && b.semanticType.length > 0 ? b.semanticType : null,
   }
 }
 
@@ -158,11 +159,12 @@ function buildBookingBlockInstance(
   wizardVisible: boolean
 ): BookingBlockInstance {
   const agentPermissions = convertToTernaryBoolean(props.agentPermissions, 'false')
-  return {
+  const st = props.semanticType
+  const out: BookingBlockInstance = {
     id: blockInstance.id,
     entityKey: 'blockInstance',
     name: blockInstance.name,
-    active: isBookingEntityActive(blockInstance),
+    active: wizardVisible,
     baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
     agentPermissions,
@@ -180,6 +182,10 @@ function buildBookingBlockInstance(
     isMultiFamily: props.isMultiFamily ?? false,
     requiresAgent: props.requiresAgent ?? false,
   }
+  if (typeof st === 'string' && st.length > 0) {
+    out.semanticType = st
+  }
+  return out
 }
 
 function transformBlockInstance(

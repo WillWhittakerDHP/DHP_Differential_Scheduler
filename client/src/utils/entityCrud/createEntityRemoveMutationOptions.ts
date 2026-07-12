@@ -34,10 +34,11 @@ export function createEntityRemoveMutationOptions<GlobalEntityTypeKey extends Gl
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['globalData'] })
       const previousData = queryClient.getQueryData<GlobalData>(['globalData'])
+      const idNormalized = String(id)
       queryClient.setQueryData<GlobalData>(['globalData'], (old) => {
         if (!old) return old
         const currentEntities = getEntitiesForKey(old)
-        const updatedEntities = currentEntities.filter((entity) => entity.id !== id)
+        const updatedEntities = currentEntities.filter((entity) => String(entity.id) !== idNormalized)
         return {
           ...old,
           entities: {
@@ -47,6 +48,13 @@ export function createEntityRemoveMutationOptions<GlobalEntityTypeKey extends Gl
         }
       })
       return { previousData }
+    },
+    onSuccess: async () => {
+      /**
+       * WHY: Optimistic filter only updates one entity array; server may CASCADE-delete dependents
+       * (e.g. event_instances when event_shape is removed) and relationship rows must match API truth.
+       */
+      await queryClient.invalidateQueries({ queryKey: ['globalData'] })
     },
     onError: (error: unknown, _variables: GlobalEntityId, context: { previousData?: GlobalData } | undefined) => {
       logger.error(`Failed to remove ${entityKey}:`, {

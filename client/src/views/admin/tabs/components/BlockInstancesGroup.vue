@@ -3,22 +3,44 @@
 import { computed, inject, ref, type Ref } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
+import BlockInstanceConvergenceEditors from '@/components/admin/generic/BlockInstanceConvergenceEditors.vue'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { instancesTabContextKey } from '@/types/admin/adminInjectionKeys'
 import { groupedInstanceDragZoneKey } from '@/composables/admin/useInstanceDragAndDrop'
 import type { GlobalEntity } from '@/types/entities'
 import { asEmptyArray } from '@/utils/safeDefaults'
 
-const props = defineProps<{
-  blockShape: GlobalEntity<'blockShape'>
-}>()
+const props = withDefaults(
+  defineProps<{
+    blockShape: GlobalEntity<'blockShape'>
+    /** Instances-first IA: block shape editor at top, bottom (legacy), or hidden (atomic column when split). */
+    blockShapePanelPlacement?: 'top' | 'bottom' | 'none'
+  }>(),
+  { blockShapePanelPlacement: 'bottom' }
+)
 
 const injected = inject(instancesTabContextKey)
-if (!injected) throw new Error('BlockInstancesGroup must be used inside InstancesTab')
+if (!injected) throw new Error('BlockInstancesGroup requires instances tab context (provide instancesTabContextKey)')
 const ctx = injected as NonNullable<typeof injected>
 
-// inject() returns a plain object so ctx.expandedInstances is a raw Ref —
-// VExpansionPanels would receive the Ref wrapper instead of the string[].
-const expandedInstances = ctx.expandedInstances
+/**
+ * WHY: One shared v-model across multiple VExpansionPanels (main + grouped + block shape) makes Vuetify's
+ * group composable fight itself → "Maximum recursive updates" when switching tabs (e.g. Atomic).
+ * PATTERN: Each panel stack gets its own model; :expanded still reflects any stack that holds the id.
+ */
+const expandedTopBlockShape = ref<string[]>([])
+const expandedMainInstances = ref<string[]>([])
+const expandedGroupedInstances = ref<string[]>([])
+const expandedBottomBlockShape = ref<string[]>([])
+
+function isEntityExpanded(entityId: string): boolean {
+  return (
+    expandedTopBlockShape.value.includes(entityId) ||
+    expandedMainInstances.value.includes(entityId) ||
+    expandedGroupedInstances.value.includes(entityId) ||
+    expandedBottomBlockShape.value.includes(entityId)
+  )
+}
 
 const blockShapeComposableMap = computed(() => ctx.blockShapeComposable.value)
 const blockShapeStateControlMap = computed(() => ctx.blockShapeStateControl.value)
@@ -41,8 +63,22 @@ const cascadeLabel = computed(() => {
   return cascades.length > 0 ? `Cascades: ${cascades.join(', ')}` : 'No Cascades'
 })
 
+/** Service / time / price instances use the part-ledger convergence path (Feature 20 Phase 3). */
+const showPartLedgerConvergence = computed((): boolean => {
+  const t = props.blockShape.semanticType
+  return (
+    t === BLOCK_SHAPE_TYPES.SERVICE ||
+    t === BLOCK_SHAPE_TYPES.TIME ||
+    t === BLOCK_SHAPE_TYPES.PRICE
+  )
+})
+
 function setGroupContainer(_id: string, el: HTMLElement | null): void {
-  ctx.groupContainers.value.set(props.blockShape.id, el)
+  const id = props.blockShape.id
+  if (ctx.groupContainers.value.get(id) === el) {
+    return
+  }
+  ctx.groupContainers.value.set(id, el)
 }
 
 function setPanelsRefOnMap(
@@ -55,7 +91,9 @@ function setPanelsRefOnMap(
     mapRef.value.set(blockShapeId, ref(elTyped))
   } else {
     const panelsRef = mapRef.value.get(blockShapeId)
-    if (panelsRef) panelsRef.value = elTyped
+    if (panelsRef && panelsRef.value !== elTyped) {
+      panelsRef.value = elTyped
+    }
   }
 }
 
@@ -70,6 +108,19 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
 
 <template>
   <div class="block-shape-tab-content">
+    <VExpansionPanels
+      v-if="blockShapePanelPlacement === 'top'"
+      v-model="expandedTopBlockShape"
+      multiple
+      class="mb-4 block-shape-entity-card-wrapper"
+    >
+      <AdminEntityEditorPanel
+        entity-key="blockShape"
+        :entity="blockShape"
+        :expanded="isEntityExpanded(blockShape.id)"
+      />
+    </VExpansionPanels>
+
     <div class="d-flex justify-space-between align-center mb-4">
       <div class="d-flex align-center gap-2 flex-wrap">
         <VChip
@@ -117,6 +168,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
         </VBtn>
       </div>
     </div>
+
     <div
       :ref="(el) => setGroupContainer(blockShape.id, el as HTMLElement | null)"
       class="block-instances-container"
@@ -124,7 +176,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
       <VExpansionPanels
         v-if="blockInstances.length > 0"
         :ref="setGroupPanelsRef"
-        v-model="expandedInstances"
+        v-model="expandedMainInstances"
         multiple
       >
         <AdminEntityEditorPanel
@@ -134,11 +186,21 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
           :data-drag-id="instance.id"
           entity-key="blockInstance"
           :entity="instance"
-          :expanded="ctx.isPanelExpanded(instance.id)"
+          :expanded="isEntityExpanded(instance.id)"
           @saved="ctx.handleExistingBlockInstanceSaved"
           @delete="(id: string) => ctx.handleDeleteBlockInstance(id)"
           @duplicate="ctx.handleDuplicateClick"
-        />
+        >
+          <template
+            v-if="showPartLedgerConvergence"
+            #blockInstanceConvergence="{ entity }"
+          >
+            <BlockInstanceConvergenceEditors
+              :block-shape="blockShape"
+              :block-instance-id="entity.id"
+            />
+          </template>
+        </AdminEntityEditorPanel>
       </VExpansionPanels>
       <VCard
         v-if="groupedInstances.length > 0"
@@ -156,7 +218,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
         <VCardText>
           <VExpansionPanels
             :ref="setGroupPanelsGroupedRef"
-            v-model="expandedInstances"
+            v-model="expandedGroupedInstances"
             multiple
           >
             <AdminEntityEditorPanel
@@ -166,11 +228,21 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
               :data-drag-id="instance.id"
               entity-key="blockInstance"
               :entity="instance"
-              :expanded="ctx.isPanelExpanded(instance.id)"
+              :expanded="isEntityExpanded(instance.id)"
               @saved="ctx.handleExistingBlockInstanceSaved"
               @delete="(id: string) => ctx.handleDeleteBlockInstance(id)"
               @duplicate="ctx.handleDuplicateClick"
-            />
+            >
+              <template
+                v-if="showPartLedgerConvergence"
+                #blockInstanceConvergence="{ entity }"
+              >
+                <BlockInstanceConvergenceEditors
+                  :block-shape="blockShape"
+                  :block-instance-id="entity.id"
+                />
+              </template>
+            </AdminEntityEditorPanel>
           </VExpansionPanels>
         </VCardText>
       </VCard>
@@ -182,14 +254,23 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
       >
         No BlockInstances found for {{ blockShape.name }}. Create one to get started.
       </VAlert>
-      <VDivider class="my-6" />
-      <VExpansionPanels v-model="expandedInstances" multiple>
-        <AdminEntityEditorPanel
-          entity-key="blockShape"
-          :entity="blockShape"
-          :expanded="ctx.isPanelExpanded(blockShape.id)"
-        />
-      </VExpansionPanels>
+      <template v-if="blockShapePanelPlacement === 'bottom'">
+        <VDivider class="my-6" />
+        <VExpansionPanels v-model="expandedBottomBlockShape" multiple>
+          <AdminEntityEditorPanel
+            entity-key="blockShape"
+            :entity="blockShape"
+            :expanded="isEntityExpanded(blockShape.id)"
+          />
+        </VExpansionPanels>
+      </template>
     </div>
   </div>
 </template>
+
+<style scoped>
+.block-shape-entity-card-wrapper {
+  border: 2px solid rgb(var(--v-theme-primary));
+  background-color: rgba(var(--v-theme-primary), 0.03);
+}
+</style>

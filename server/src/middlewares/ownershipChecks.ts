@@ -12,7 +12,6 @@ import {
   USER_ROLE_ADMIN,
   USER_ROLE_INSPECTOR,
   USER_ROLE_OWNER,
-  USER_ROLE_TRANSACTION_MANAGER,
 } from '../constants/userRoles.js'
 
 const logger = createLogger('middleware.ownership')
@@ -26,7 +25,6 @@ function isPrivilegedRole(role: string | undefined): boolean {
   }
   return (
     role === USER_ROLE_ADMIN ||
-    role === USER_ROLE_TRANSACTION_MANAGER ||
     role === USER_ROLE_INSPECTOR ||
     role === USER_ROLE_OWNER
   )

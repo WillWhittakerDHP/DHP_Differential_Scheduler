@@ -25,7 +25,7 @@ interface BlockInstanceVersionComparison {
   name?: string;
   icon?: string | null;
   baseSqFt?: number | null;
-  allowMultiple?: boolean;
+  composite?: boolean;
   orchestrator?: boolean;
   wizardVisible?: boolean;
   preClosing?: boolean;
@@ -41,7 +41,7 @@ function versionsMatch(
   return versionData.name === instanceData.name &&
          versionData.icon === instanceData.icon &&
          versionData.baseSqFt === instanceData.baseSqFt &&
-         versionData.allowMultiple === instanceData.allowMultiple &&
+         versionData.composite === instanceData.composite &&
          versionData.orchestrator === instanceData.orchestrator &&
          versionData.wizardVisible === instanceData.wizardVisible &&
          versionData.preClosing === instanceData.preClosing;
@@ -72,7 +72,7 @@ async function createVersionFromInstance(
     name: instanceData.name,
     icon: instanceData.icon,
     baseSqFt: instanceData.baseSqFt,
-    allowMultiple: instanceData.allowMultiple,
+    composite: instanceData.composite ?? false,
     orchestrator: instanceData.orchestrator,
     wizardVisible: instanceData.wizardVisible,
     preClosing: instanceData.preClosing ?? false,
@@ -102,8 +102,8 @@ async function createVersionFromInstance(
           name: partData.name,
           baseFee: partData.baseFee,
           baseTime: partData.baseTime,
-          rateOverBaseFee: partData.rateOverBaseFee,
-          rateOverBaseTime: partData.rateOverBaseTime,
+          feePerUnit: partData.feePerUnit,
+          timePerUnit: partData.timePerUnit,
         };
       })
     );
