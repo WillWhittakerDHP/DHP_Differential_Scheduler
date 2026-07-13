@@ -9,8 +9,8 @@ export interface UseInstancesTabReturn {
   sortedBlockShapes: ComputedRef<GlobalEntity<'blockShape'>[]>
   blockInstancesCountByShape: ComputedRef<Map<string, number>>
   bulkEditMode: Ref<Map<string, boolean>>
-  getBulkEditData: (blockShapeId: string) => Record<string, number | null | undefined>
-  handleBulkEditConfirm: (blockShapeId: string, data: Record<string, number | null | undefined>) => void
+  getBulkEditData: (blockShapeId: string) => Record<string, unknown>
+  handleBulkEditConfirm: (blockShapeId: string, data: Record<string, unknown>) => void
   handleTabClick: (tabValue: string) => void
   createModalOpen: Ref<boolean>
   setCreateModalOpen: (value: boolean) => void

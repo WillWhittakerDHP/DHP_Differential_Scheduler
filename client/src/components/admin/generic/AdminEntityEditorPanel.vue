@@ -14,7 +14,6 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { useEntityCardMetadata } from '@/composables/admin/useEntityCardMetadata'
 import { useEntityCardFormSetup } from '@/composables/admin/useEntityCardFormSetup'
 import type { GlobalEntity } from '@/types/entities'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -139,17 +138,17 @@ const {
   adminConfig,
 })
 
-const isUserSemanticBlockInstance = computed((): boolean => {
+const blockInstanceSemanticType = computed(() => {
   if (props.entityKey !== 'blockInstance') {
-    return false
+    return null
   }
   const bi = props.entity as GlobalEntity<'blockInstance'>
   const shapeRef = bi.blockShapeRef
   if (shapeRef === undefined || shapeRef === null || shapeRef === '') {
-    return false
+    return null
   }
   const shape = admin.getEntity('blockShape', toGlobalEntityId(shapeRef)) as GlobalEntity<'blockShape'> | undefined
-  return shape?.semanticType === BLOCK_SHAPE_TYPES.USER
+  return shape?.semanticType ?? null
 })
 
 const { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation } =
@@ -162,7 +161,7 @@ const { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation } =
     isComposable,
     form: form.value!,
     logger,
-    isUserSemanticBlockInstance,
+    blockInstanceSemanticType,
   })
 
 const {

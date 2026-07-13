@@ -101,7 +101,6 @@
               <VListItemSubtitle class="text-body-small">
                 Orchestrator: {{ service.orchestrator ? 'Yes' : 'No' }} |
                 Wizard visible: {{ service.wizardVisible ? 'Yes' : 'No' }} |
-                Base SqFt: {{ service.baseSqFt }} |
                 Parts: {{ service.partCount }}
               </VListItemSubtitle>
             </VListItem>

@@ -20,13 +20,11 @@ export class BlockInstance extends Model<
   declare orderIndex: CreationOptional<number>;
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
-  declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
   declare orchestrator: boolean;
   declare wizardVisible: boolean;
   declare preClosing: boolean;
   declare icon: string | null;
-  declare baseSqFt: number | null;
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
@@ -64,11 +62,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      agentPermissions: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
-        allowNull: false,
-        defaultValue: 'false',
-      },
       composite: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -93,10 +86,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       icon: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      baseSqFt: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
       },
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,

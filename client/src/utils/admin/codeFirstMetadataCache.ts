@@ -176,12 +176,6 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.blockShapeRef },
       panel: P.NONE,
     }),
-    baseSqFt: mk('baseSqFt', 'Base sq ft', 5, { dataType: 'number', renderAs: R.NUMBER, panel: P.NONE }),
-    agentPermissions: mk('agentPermissions', 'Agent permissions', 6, {
-      dataType: 'ternary',
-      renderAs: R.STATUS_BUTTON,
-      panel: P.NONE,
-    }),
     composite: mk('composite', 'Composite', 7, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
     orchestrator: mk('orchestrator', 'Orchestrator', 8, {
       dataType: 'boolean',

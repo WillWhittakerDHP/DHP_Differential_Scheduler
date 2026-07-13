@@ -24,7 +24,6 @@ type BlockInstanceWithPartAssignments = BlockInstanceType & { part_assignment_in
 interface BlockInstanceVersionComparison {
   name?: string;
   icon?: string | null;
-  baseSqFt?: number | null;
   composite?: boolean;
   orchestrator?: boolean;
   wizardVisible?: boolean;
@@ -40,7 +39,6 @@ function versionsMatch(
   
   return versionData.name === instanceData.name &&
          versionData.icon === instanceData.icon &&
-         versionData.baseSqFt === instanceData.baseSqFt &&
          versionData.composite === instanceData.composite &&
          versionData.orchestrator === instanceData.orchestrator &&
          versionData.wizardVisible === instanceData.wizardVisible &&
@@ -71,7 +69,6 @@ async function createVersionFromInstance(
     blockInstanceId: instanceData.id,
     name: instanceData.name,
     icon: instanceData.icon,
-    baseSqFt: instanceData.baseSqFt,
     composite: instanceData.composite ?? false,
     orchestrator: instanceData.orchestrator,
     wizardVisible: instanceData.wizardVisible,

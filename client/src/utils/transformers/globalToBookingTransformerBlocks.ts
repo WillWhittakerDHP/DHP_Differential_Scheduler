@@ -2,12 +2,10 @@ import type { GlobalRelationship } from '@/types/relationships'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
-import type { TernaryBoolean } from '@/types/ternary'
 import type { BookingBlockInstance, BookingPartInstance } from '@/types/transformers/bookingData'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import {
   safeString,
-  convertToTernaryBoolean,
 } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
 import { isBookingEntityActive } from './globalToBookingEntityActive'
@@ -111,9 +109,7 @@ function resolvePartInstanceIds(
 
 /** Optional block instance fields used when building BookingBlockInstance (API/storage shape). */
 type BlockInstanceOptionalProps = {
-  baseSqFt?: number
   icon?: string
-  agentPermissions?: TernaryBoolean
   orchestrator?: boolean
   wizardVisible?: boolean
   preClosing?: boolean
@@ -133,9 +129,7 @@ function extractBlockInstanceProps(
   const numberProp =
     typeof numberRaw === 'number' || numberRaw === null ? numberRaw : undefined
   return {
-    baseSqFt: b.baseSqFt,
     icon: b.icon,
-    agentPermissions: b.agentPermissions,
     orchestrator: b.orchestrator,
     wizardVisible: b.wizardVisible,
     preClosing: b.preClosing,
@@ -158,16 +152,13 @@ function buildBookingBlockInstance(
   orchestrator: boolean,
   wizardVisible: boolean
 ): BookingBlockInstance {
-  const agentPermissions = convertToTernaryBoolean(props.agentPermissions, 'false')
   const st = props.semanticType
   const out: BookingBlockInstance = {
     id: blockInstance.id,
     entityKey: 'blockInstance',
     name: blockInstance.name,
     active: wizardVisible,
-    baseSqFt: props.baseSqFt ?? 0,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    agentPermissions,
     orchestrator,
     wizardVisible,
     preClosing: props.preClosing ?? false,

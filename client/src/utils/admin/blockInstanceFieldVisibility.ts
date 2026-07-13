@@ -1,0 +1,76 @@
+import type { GlobalEntityKey } from '@/constants/entities'
+import type { GlobalFieldKey } from '@/constants/primitives'
+import { BLOCK_SHAPE_TYPES, type BlockShapeType } from '@/constants/blockShapeTypes'
+
+/**
+ * WHY: Phase 1 grab-bag cleanup — block_instances used to expose every domain flag on
+ * every card. Admin cards should only surface fields that belong to the parent shape.
+ *
+ * PATTERN: Central allowlist keyed by `block_shapes.semantic_type`, not by display name.
+ */
+const TIME_BLOCK_INSTANCE_FIELDS = new Set([
+  'requiresUnitNumber',
+  'isMultiFamily',
+])
+
+const SERVICE_BLOCK_INSTANCE_FIELDS = new Set([
+  'requiresAgent',
+  'preClosing',
+])
+
+const USER_BLOCK_INSTANCE_FIELDS = new Set(['semanticType'])
+
+const BLOCK_INSTANCE_FIELDS_BY_SEMANTIC_TYPE: Partial<
+  Record<BlockShapeType, ReadonlySet<string>>
+> = {
+  [BLOCK_SHAPE_TYPES.TIME]: TIME_BLOCK_INSTANCE_FIELDS,
+  [BLOCK_SHAPE_TYPES.SERVICE]: SERVICE_BLOCK_INSTANCE_FIELDS,
+  [BLOCK_SHAPE_TYPES.USER]: USER_BLOCK_INSTANCE_FIELDS,
+}
+
+export function shouldShowBlockInstanceField(
+  fieldKey: GlobalFieldKey<'blockInstance'>,
+  semanticType: BlockShapeType | null | undefined
+): boolean {
+  const key = String(fieldKey)
+
+  // Dropped in Phase 1 — no live booking/admin behaviour depends on these columns.
+  if (key === 'baseSqFt' || key === 'agentPermissions') {
+    return false
+  }
+
+  if (!semanticType) {
+    return !TIME_BLOCK_INSTANCE_FIELDS.has(key) &&
+      !SERVICE_BLOCK_INSTANCE_FIELDS.has(key) &&
+      !USER_BLOCK_INSTANCE_FIELDS.has(key)
+  }
+
+  const allowed = BLOCK_INSTANCE_FIELDS_BY_SEMANTIC_TYPE[semanticType]
+  if (!allowed) {
+    return !TIME_BLOCK_INSTANCE_FIELDS.has(key) &&
+      !SERVICE_BLOCK_INSTANCE_FIELDS.has(key) &&
+      !USER_BLOCK_INSTANCE_FIELDS.has(key)
+  }
+
+  if (allowed.has(key)) {
+    return true
+  }
+
+  return !TIME_BLOCK_INSTANCE_FIELDS.has(key) &&
+    !SERVICE_BLOCK_INSTANCE_FIELDS.has(key) &&
+    !USER_BLOCK_INSTANCE_FIELDS.has(key)
+}
+
+export function shouldShowEntityField<GE extends GlobalEntityKey>(
+  entityKey: GE,
+  fieldKey: GlobalFieldKey<GE>,
+  blockInstanceSemanticType?: BlockShapeType | null
+): boolean {
+  if (entityKey !== 'blockInstance') {
+    return true
+  }
+  return shouldShowBlockInstanceField(
+    fieldKey as GlobalFieldKey<'blockInstance'>,
+    blockInstanceSemanticType
+  )
+}

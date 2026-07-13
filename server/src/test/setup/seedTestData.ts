@@ -62,7 +62,6 @@ export async function seedBasicTestData() {
     blockShapeRef: getModelId(blockShape1),
     disabled: false,
     orderIndex: 1,
-    baseSqFt: 2000,
   })
   
   const partInstance1 = await PartInstance.create({

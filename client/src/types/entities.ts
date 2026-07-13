@@ -5,7 +5,6 @@ export type { GlobalEntityId }
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
 import type { EventAnchorEdge, EventPlacementKind } from '@shared/utils/eventPlacementUtils'
-import type { TernaryBoolean } from "./ternary";
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface GlobalEntityBase<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
@@ -19,8 +18,6 @@ interface GlobalEntityBase<GE extends GlobalEntityKey> {
 
 export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   blockShapeRef: string;
-  baseSqFt: number;
-  agentPermissions?: TernaryBoolean;
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   /** When true, this block coordinates differential scheduling for selected services. */
   orchestrator?: boolean;

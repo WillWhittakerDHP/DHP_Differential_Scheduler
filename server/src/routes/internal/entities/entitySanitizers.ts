@@ -56,17 +56,7 @@ function sanitizeBlockShapeCreate(data: Record<string, unknown>): Record<string,
 }
 
 function sanitizeBlockInstancePrimitiveFields(data: Record<string, unknown>): Record<string, unknown> {
-  const sanitized = { ...data }
-
-  if (sanitized[FIELD_NAMES.AGENT_PERMISSIONS] === '') {
-    sanitized[FIELD_NAMES.AGENT_PERMISSIONS] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
-  }
-
-  if (sanitized[FIELD_NAMES.AGENT_PERMISSIONS_SNAKE] === '') {
-    sanitized[FIELD_NAMES.AGENT_PERMISSIONS_SNAKE] = DEFAULT_VALUES.BOOKING_MODE_STORAGE
-  }
-
-  return sanitized
+  return { ...data }
 }
 
 function sanitizeEventShapeFields(data: Record<string, unknown>): Record<string, unknown> {

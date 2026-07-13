@@ -2,7 +2,6 @@ export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   ORCHESTRATOR: 'orchestrator',
   WIZARD_VISIBLE: 'wizardVisible',
-  AGENT_PERMISSIONS: 'agentPermissions',
   ID: 'id',
   ENTITY_KEY: 'entityKey',
   CREATED_AT: 'createdAt',

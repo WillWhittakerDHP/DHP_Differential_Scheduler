@@ -57,8 +57,8 @@ export function useInstancesTab(options?: {
   useEntityCrud('blockShape')
   useGlobal()
 
-  const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, number | null | undefined>): void => {
-    bulkEditData.value.set(blockShapeId, data as { baseSqFt?: number })
+  const handleBulkEditConfirm = (blockShapeId: string, data: Record<string, unknown>): void => {
+    bulkEditData.value.set(blockShapeId, data)
     applyBulkEdit(blockShapeId)
   }
 

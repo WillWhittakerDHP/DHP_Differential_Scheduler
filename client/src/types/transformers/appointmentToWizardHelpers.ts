@@ -2,7 +2,6 @@ export interface VersionBlockInstance {
   id: string
   name: string
   icon: string
-  baseSqFt: number
   partInstances: Array<{
     id: string
     name: string

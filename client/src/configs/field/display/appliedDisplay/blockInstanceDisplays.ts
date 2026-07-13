@@ -36,15 +36,6 @@ export const blockInstanceDisplays = {
     style: { margin: "auto", resize: "none", width: "100%" },
   },
 
-  baseSqFt: {
-    label: "Base Sq Ft",
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "auto",
-    align: "right",
-  },
-
   composite: {
     label: "Composite",
     placeholder: "",

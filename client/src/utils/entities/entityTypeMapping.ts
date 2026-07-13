@@ -29,7 +29,6 @@ export function createBlockInstanceConfigSentinel(blockShapeId: string): BlockIn
     orderIndex: 0,
     wizardVisible: true,
     blockShapeRef: blockShapeId,
-    baseSqFt: 0,
     icon: '',
     allowMultiple: false,
     isMultiFamily: false,

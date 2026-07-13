@@ -19,7 +19,6 @@ export interface ServiceSummary {
   name: string
   orchestrator: boolean
   wizardVisible: boolean
-  baseSqFt: number
   partCount: number
 }
 

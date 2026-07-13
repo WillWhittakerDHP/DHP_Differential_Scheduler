@@ -12,11 +12,6 @@ export const STATUS_BUTTON_LABELS: Record<
   composite: { true: 'Composite', false: 'Atomic' },
   orchestrator: { true: 'Orchestrator', false: 'Not orchestrator' },
   wizardVisible: { true: 'Wizard visible', false: 'Add-on only' },
-  agentPermissions: {
-    true: 'Agents Only',
-    false: 'Clients Only',
-    override: 'Admin Override'
-  },
   allowMultiple: { true: 'Allow Multiple', false: 'Single' },
   requiresUnitNumber: { true: 'Unit Number', false: 'No Unit Number' },
   zeroOutPart: { true: 'Zero Out', false: 'Keep Value' },

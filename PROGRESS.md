@@ -119,12 +119,12 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 | `orchestrator` | Cascade graphs, drag-order, booking filters | Admin entity editor | ✅ §2 instance property | **KEEP — verify behaviour** |
 | `wizard_visible` | `globalToBookingTransformerBlocks`, wizard filtering | Admin entity editor | ✅ §2 instance property | **KEEP — verify behaviour** |
 | `semantic_type` | User-role block instances | Admin + reconcile repo | ✅ User-semantic instances | **KEEP** |
-| `base_sq_ft` | `appointmentToWizardHelpers`, entity transformers | Admin bulk edit, versioning | ⚠️ Time-domain concern on all instances | **MOVE** to time orchestrator instances or derive from property — not every instance |
-| `requires_unit_number` | `PropertyDetailsStep`, validation | Admin bulk edit | ⚠️ Property-type concern | **MOVE** to time/property orchestrator instances only |
-| `is_multi_family` | `PropertyDetailsStep`, `usePropertyValidation` | Admin bulk edit | ⚠️ Property-type concern | **MOVE** to time orchestrator instances only |
-| `requires_agent` | Contacts / attendee flows | Admin + migration 070 | ⚠️ Also on `block_shapes` — duplicate? | **VERIFY owner** — shape vs instance; likely keep one |
-| `pre_closing` | `useAvailabilityOrchestratorMinimizerGates`, versioning | Admin forms | ⚠️ Booking-context flag on all instances | **MOVE** to service or appointment context |
-| `agent_permissions` | `entityTransformers`, code-first metadata | Admin forms | ⚠️ Agent-domain ternary on all instances | **MOVE** to agent/user instances or contacts domain |
+| `base_sq_ft` | legacy threshold on all instances | Admin bulk edit, versioning | ⚠️ Time-domain concern on all instances | **DROP** — booking uses `property_details.squareFootage` (Will, 2026-07-12) |
+| `requires_unit_number` | `PropertyDetailsStep`, validation | Admin bulk edit | ⚠️ Property-type concern | **KEEP** — TIME shape cards only (`blockInstanceFieldVisibility.ts`) |
+| `is_multi_family` | `PropertyDetailsStep`, `usePropertyValidation` | Admin bulk edit | ⚠️ Property-type concern | **KEEP** — TIME shape cards only |
+| `requires_agent` | Contacts / attendee flows | Admin | Instance-level authoritative (071 dropped shape duplicate) | **KEEP** — SERVICE shape cards only |
+| `pre_closing` | `useAvailabilityOrchestratorMinimizerGates`, versioning | Admin forms | ⚠️ Booking-context flag on all instances | **KEEP** — SERVICE shape cards only |
+| `agent_permissions` | unused in live data | Admin forms | ⚠️ Agent-domain ternary on all instances | **DROP** (Will, 2026-07-12) |
 | `icon` | Wizard display, admin | Admin forms | Presentation | **KEEP** (low priority) |
 
 #### `block_shapes`
@@ -200,7 +200,7 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 | **Pipeline zero-out** (§4.4/§4.8) | ✅ Fixed + tested | Per-part exclusion inside mixed blocks; `blockTotals` excludes zeroed parts |
 | **Event override semantics** (§4.2/§5.2) | ✅ Fixed + tested | Part-level `event_assignments` now **replace** block baseline (not unioned) |
 | **§6.1 flagship test** | ✅ Added | `minimizeTimeOnSite.test.ts` — segment layout from data-only profile |
-| **Grab-bag cleanup** | ✅ Partial | Dropped dead `appointments.*_snapshots` JSONB; dropped `block_shapes.requires_agent` |
+| **Grab-bag cleanup** | ✅ Done | Migration `072`: dropped `base_sq_ft`, `agent_permissions`; shape-scoped admin visibility via `blockInstanceFieldVisibility.ts` (quieter expanded instance cards) |
 | **Booking pipeline tests** | ✅ 10 tests | First pipeline tests since deliberate test-suite removal |
 
 ### Flag audit (`composite` / `orchestrator` / `wizardVisible`)

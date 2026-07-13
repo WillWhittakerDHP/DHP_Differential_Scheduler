@@ -76,8 +76,6 @@ export const FIELD_NAMES = {
   ORCHESTRATOR: 'orchestrator',
   WIZARD_VISIBLE: 'wizardVisible',
   WIZARD_VISIBLE_SNAKE: 'wizard_visible',
-  AGENT_PERMISSIONS: 'agentPermissions',
-  AGENT_PERMISSIONS_SNAKE: 'agent_permissions',
   PLACEMENT_KIND: 'placementKind',
   PLACEMENT_KIND_SNAKE: 'placement_kind',
   ANCHOR_EDGE: 'anchorEdge',

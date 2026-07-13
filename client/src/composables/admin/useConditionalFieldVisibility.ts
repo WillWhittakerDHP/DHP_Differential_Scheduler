@@ -6,21 +6,28 @@ import type {
   UseConditionalFieldVisibilityReturn,
   FieldsByLocation,
 } from '@/types/admin/conditionalFieldVisibility'
+import { shouldShowEntityField } from '@/utils/admin/blockInstanceFieldVisibility'
 
-function showBlockInstanceSemanticTypeField<GE extends GlobalEntityKey>(
+function resolveBlockInstanceSemanticType<GE extends GlobalEntityKey>(
+  options: UseConditionalFieldVisibilityOptions<GE>
+) {
+  const flag = options.blockInstanceSemanticType
+  if (flag === undefined) {
+    return null
+  }
+  return 'value' in flag ? flag.value : flag
+}
+
+function showFieldForEntity<GE extends GlobalEntityKey>(
   entityKey: GE,
   fieldKey: GlobalFieldKey<GE>,
   options: UseConditionalFieldVisibilityOptions<GE>
 ): boolean {
-  if (String(fieldKey) !== 'semanticType' || entityKey !== 'blockInstance') {
-    return true
-  }
-  const flag = options.isUserSemanticBlockInstance
-  if (flag === undefined) {
-    return false
-  }
-  const v = 'value' in flag ? flag.value : flag
-  return v === true
+  return shouldShowEntityField(
+    entityKey,
+    fieldKey,
+    resolveBlockInstanceSemanticType(options)
+  )
 }
 
 export function useConditionalFieldVisibility<GE extends GlobalEntityKey = GlobalEntityKey>(
@@ -37,7 +44,7 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
       if (String(fieldKey) === 'composite') {
         return isComposable.value === true
       }
-      if (!showBlockInstanceSemanticTypeField(entityKey, fieldKey, options)) {
+      if (!showFieldForEntity(entityKey, fieldKey, options)) {
         return false
       }
       return true
@@ -47,7 +54,7 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
       if (String(fieldKey) === 'composite') {
         return isComposable.value === true
       }
-      if (!showBlockInstanceSemanticTypeField(entityKey, fieldKey, options)) {
+      if (!showFieldForEntity(entityKey, fieldKey, options)) {
         return false
       }
       return true

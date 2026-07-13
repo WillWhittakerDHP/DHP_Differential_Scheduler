@@ -7,6 +7,7 @@ import type { UseFieldLocationReturn } from '@/types/admin/fieldLocation'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import type { AppLogger } from '@/utils/logger'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
 
 export interface UseEntityCardFieldContextAndVisibilityParams<
   GE extends GlobalEntityKey = GlobalEntityKey,
@@ -19,7 +20,7 @@ export interface UseEntityCardFieldContextAndVisibilityParams<
   isComposable: ComputedRef<boolean>
   form: FormContext
   logger: AppLogger
-  isUserSemanticBlockInstance?: ComputedRef<boolean> | Ref<boolean>
+  blockInstanceSemanticType?: ComputedRef<BlockShapeType | null> | Ref<BlockShapeType | null>
 }
 
 export interface UseEntityCardFieldContextAndVisibilityReturn<

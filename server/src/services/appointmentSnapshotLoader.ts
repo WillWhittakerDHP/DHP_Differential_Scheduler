@@ -27,7 +27,6 @@ function transformBlockVersionToBookingInstance(
     id: versionData.blockInstanceId as string,
     name: versionData.name as string,
     icon: asEmptyString(versionData.icon as string | null | undefined),
-    baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
     orchestrator: Boolean(versionData.orchestrator),
     wizardVisible: Boolean(versionData.wizardVisible),
     partInstances: partVersions.map((partVersion: Model) => {

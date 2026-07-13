@@ -21,7 +21,6 @@ export class BlockInstanceVersion extends Model<
   declare blockInstanceId: string; // NO FK constraint - allows deletion
   declare name: string;
   declare icon: string | null;
-  declare baseSqFt: number | null;
   declare composite: boolean;
   declare orchestrator: boolean;
   declare wizardVisible: boolean;
@@ -53,11 +52,6 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
       icon: {
         type: DataTypes.TEXT,
         allowNull: true,
-      },
-      baseSqFt: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        field: 'base_sq_ft',
       },
       composite: {
         type: DataTypes.BOOLEAN,

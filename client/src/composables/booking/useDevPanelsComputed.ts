@@ -32,7 +32,6 @@ export function useDevPanelsComputed(
       name: block.name,
       orchestrator: block.orchestrator,
       wizardVisible: block.wizardVisible,
-      baseSqFt: block.baseSqFt ?? 0,
       partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0
     }))
   })
