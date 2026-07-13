@@ -7,7 +7,11 @@ import type { BookingBlockShape, BookingData, BookingBlockInstance } from '@/typ
 import { safeArray } from './transformerPrimitives'
 import { immutableSort } from './transformerCollections'
 import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
-import { filterAndSortBlockInstances, isWizardMainBlock } from './globalToBookingTransformerBlocks'
+import {
+  filterAndSortBlockInstances,
+  isWizardTopLineBlock,
+  isWizardSubOptionBlock,
+} from './globalToBookingTransformerBlocks'
 
 export type {
   BookingAnnotationUiCandidate,
@@ -48,7 +52,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const bookingBlockInstances = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => isWizardMainBlock(bi),
+    (bi) => isWizardTopLineBlock(bi),
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
@@ -61,7 +65,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const lineItemBlocks = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => !isWizardMainBlock(bi),
+    (bi) => isWizardSubOptionBlock(bi),
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,

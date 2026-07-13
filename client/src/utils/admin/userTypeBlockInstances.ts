@@ -7,6 +7,7 @@ import type { BlockInstanceEntity } from '@/types/entities'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
 import { nilToEmptyString } from '@shared/utils/nilDefaults'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 
 export function listSortedUserTypeBlockInstances(admin: UseAdminReturn): BlockInstanceEntity[] {
   const shapes = admin.getEntitiesByKey('blockShape')
@@ -15,7 +16,7 @@ export function listSortedUserTypeBlockInstances(admin: UseAdminReturn): BlockIn
   )
   const instances = admin.getEntitiesByKey('blockInstance')
   return instances
-    .filter((i) => userShapeIds.has(toGlobalEntityId(i.blockShapeRef)) && i.wizardVisible !== false)
+    .filter((i) => userShapeIds.has(toGlobalEntityId(i.blockShapeRef)) && isWizardTopLine(i.wizardPlacement))
     .slice()
     .sort((a, b) => {
       const ao = a[FIELD_NAMES.ORDER_INDEX] ?? 0

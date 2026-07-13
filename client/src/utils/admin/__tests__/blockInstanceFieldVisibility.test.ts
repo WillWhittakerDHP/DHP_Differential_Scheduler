@@ -30,7 +30,7 @@ describe('blockInstanceFieldVisibility', () => {
     for (const semanticType of Object.values(BLOCK_SHAPE_TYPES)) {
       expect(shouldShowBlockInstanceField('composite', semanticType)).toBe(true)
       expect(shouldShowBlockInstanceField('orchestrator', semanticType)).toBe(true)
-      expect(shouldShowBlockInstanceField('wizardVisible', semanticType)).toBe(true)
+      expect(shouldShowBlockInstanceField('wizardPlacement', semanticType)).toBe(true)
     }
   })
 })

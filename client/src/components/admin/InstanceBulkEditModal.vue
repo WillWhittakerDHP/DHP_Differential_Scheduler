@@ -17,6 +17,7 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { buildBulkEditDataFromForm } from '@/utils/admin/instanceBulkEdit'
 import BulkEditModal from '@/components/admin/BulkEditModal.vue'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 
 const logger = createLogger('InstanceBulkEditModal')
 
@@ -52,7 +53,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       allowMultiple: false,
       requiresUnitNumber: false,
       orchestrator: undefined as boolean | undefined,
-      wizardVisible: true,
+      wizardPlacement: WIZARD_PLACEMENT.TOP_LINE,
       isMultiFamily: false,
       requiresAgent: false
     }
@@ -73,7 +74,7 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       allowMultiple: false,
       requiresUnitNumber: false,
       orchestrator: undefined,
-      wizardVisible: true,
+      wizardPlacement: WIZARD_PLACEMENT.TOP_LINE,
       isMultiFamily: false,
       requiresAgent: false
     } satisfies GlobalEntity<'blockInstance'>

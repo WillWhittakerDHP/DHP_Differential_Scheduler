@@ -44,17 +44,12 @@ export function buildRelationshipTypesForSubPanel(
 ): string[] {
   const relationshipTypes: string[] = []
   if (entityKey === 'blockInstance') {
-    appendIfNonEmptyArray(formValues.bookingCascades, relationshipTypes, 'Booking Cascades')
+    appendIfNonEmptyArray(formValues.bookingCascades, relationshipTypes, 'Downstream Instance Links')
     appendIfNonEmptyArray(formValues.instanceComponents, relationshipTypes, `${blockShapeDisplayName} Components`)
-    appendIfNonEmptyArray(
-      formValues.dependentInstances,
-      relationshipTypes,
-      `Dependent ${blockShapeDisplayName} Instances`
-    )
     return relationshipTypes
   }
   if (entityKey === 'blockShape') {
-    appendIfNonEmptyArray(formValues.validBookingCascades, relationshipTypes, 'Valid Booking Cascades')
+    appendIfNonEmptyArray(formValues.validBookingCascades, relationshipTypes, 'Allowed Downstream Shapes')
     return relationshipTypes
   }
   if (entityKey === 'partInstance') {

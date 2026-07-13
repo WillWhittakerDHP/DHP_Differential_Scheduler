@@ -2,7 +2,7 @@ import {
   sanitizeEventAnchorEdgeInput,
   sanitizeEventPlacementKindInput,
 } from '../../../../../shared/utils/eventPlacementUtils.js'
-import { DEFAULT_VALUES, FIELD_NAMES } from './entityConstants.js'
+import { FIELD_NAMES } from './entityConstants.js'
 import {
   EVENT_SHAPE_REJECTED_DIFFERENTIAL_ROLE_CAMEL,
   EVENT_SHAPE_REJECTED_DIFFERENTIAL_ROLE_SNAKE,

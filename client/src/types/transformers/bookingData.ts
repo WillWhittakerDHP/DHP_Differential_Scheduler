@@ -1,6 +1,7 @@
 import type { CoreEntity } from '@shared/types/coreEntityTypes'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { AnnotationUiSlot } from '@shared/constants/annotationSlots'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 /** One annotation assignment row eligible for wizard slot resolution (from global batch + edges). */
 export type BookingAnnotationUiCandidate = {
@@ -39,7 +40,7 @@ export type BookingBlockInstance = CoreEntity & {
   entityKey: 'blockInstance'
   icon: string
   orchestrator: boolean
-  wizardVisible: boolean
+  wizardPlacement: WizardPlacement
   preClosing: boolean
   orderIndex: number
   blockShape: string

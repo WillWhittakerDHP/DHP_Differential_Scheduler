@@ -157,7 +157,7 @@ export function useBookingWizardSetup(): UseBookingWizardSetupReturn {
       selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks,
       selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks,
       selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks,
-      selectedCouponBlocks: wizard.selectedCouponBlocks,
+      selectedPriceBlocks: wizard.selectedPriceBlocks,
       selectedLineItemBlocks: wizard.selectedLineItemBlocks,
       selectedUserTypeBlock: wizard.selectedUserTypeBlock,
       isQuoteMode: wizard.isQuoteMode,

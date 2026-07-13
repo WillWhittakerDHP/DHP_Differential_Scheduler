@@ -6,10 +6,11 @@ import { computed, type ComputedRef, type Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { UseInstanceBlockInstancesByShapeOptions } from '@/types/admin/instanceComposableOptions'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 
 function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {
   const b = instance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
 }
 
 function isOrchestratorInstance(instance: GlobalEntity<'blockInstance'>): boolean {

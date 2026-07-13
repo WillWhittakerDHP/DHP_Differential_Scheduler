@@ -100,7 +100,7 @@
               <VListItemTitle class="text-body-medium">{{ service.name }}</VListItemTitle>
               <VListItemSubtitle class="text-body-small">
                 Orchestrator: {{ service.orchestrator ? 'Yes' : 'No' }} |
-                Wizard visible: {{ service.wizardVisible ? 'Yes' : 'No' }} |
+                Placement: {{ service.wizardPlacement }} |
                 Parts: {{ service.partCount }}
               </VListItemSubtitle>
             </VListItem>

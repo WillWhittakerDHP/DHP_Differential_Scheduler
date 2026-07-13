@@ -40,25 +40,35 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
 
     const formValues = form.values
 
-    const filteredDirectStacked = base.directStacked.filter((fieldKey) => {
-      if (String(fieldKey) === 'composite') {
-        return isComposable.value === true
-      }
-      if (!showFieldForEntity(entityKey, fieldKey, options)) {
-        return false
-      }
-      return true
-    })
+  const filteredDirectStacked = base.directStacked.filter((fieldKey) => {
+    if (String(fieldKey) === 'composite') {
+      return isComposable.value === true
+    }
+    if (!showFieldForEntity(entityKey, fieldKey, options)) {
+      return false
+    }
+    return true
+  })
 
-    const filteredDirectInline = base.directInline.filter((fieldKey) => {
-      if (String(fieldKey) === 'composite') {
-        return isComposable.value === true
-      }
-      if (!showFieldForEntity(entityKey, fieldKey, options)) {
-        return false
-      }
-      return true
-    })
+  const filteredDirectInline = base.directInline.filter((fieldKey) => {
+    if (String(fieldKey) === 'composite') {
+      return isComposable.value === true
+    }
+    if (!showFieldForEntity(entityKey, fieldKey, options)) {
+      return false
+    }
+    return true
+  })
+
+  const filteredTitleRow = base.titleRow.filter((fieldKey) => {
+    if (String(fieldKey) === 'composite') {
+      return isComposable.value === true
+    }
+    if (!showFieldForEntity(entityKey, fieldKey, options)) {
+      return false
+    }
+    return true
+  })
 
     const filteredComposition = base.subPanels.composition.filter((fieldKey) => {
       if (String(fieldKey) === 'instanceComponents') {
@@ -70,6 +80,7 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
 
     return {
       ...base,
+      titleRow: filteredTitleRow,
       directInline: filteredDirectInline,
       directStacked: filteredDirectStacked,
       subPanels: {

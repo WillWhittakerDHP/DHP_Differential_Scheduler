@@ -136,8 +136,8 @@ async function fetchVersionSnapshots(
 ): Promise<AppointmentVersionsResponse | null> {
   if (
     !appointment.serviceSnapshotIds &&
-    !appointment.propertySnapshotIds &&
-    !appointment.optionSnapshotIds
+    !appointment.timeSnapshotIds &&
+    !appointment.eventSnapshotIds
   ) {
     return null
   }
@@ -167,7 +167,7 @@ function resolveBlockCategories(
     logger,
   })
 
-  const propertyTypeBlockIds = safeArray(appointment.selectedPropertyIds)
+  const propertyTypeBlockIds = safeArray(appointment.selectedTimeIds)
   const propertyTypeBlocks = resolveBlockCategory({
     ids: propertyTypeBlockIds,
     bookingData,
@@ -177,7 +177,7 @@ function resolveBlockCategories(
     logger,
   })
 
-  const optionTypeBlockIds = safeArray(appointment.selectedOptionIds)
+  const optionTypeBlockIds = safeArray(appointment.selectedEventIds)
   const optionTypeBlocks = resolveBlockCategory({
     ids: optionTypeBlockIds,
     bookingData,

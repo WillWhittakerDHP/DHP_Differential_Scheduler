@@ -5,10 +5,11 @@
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { GlobalEntity } from '@/types/entities'
 import { groupedInstanceDragZoneKey as groupedInstanceDragZoneKeyUtil } from '@/utils/admin/instanceDragZoneKeys'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 
 function isAdminStandaloneSectionCore(instance: GlobalEntity<'blockInstance'>): boolean {
   const b = instance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
 }
 
 export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {

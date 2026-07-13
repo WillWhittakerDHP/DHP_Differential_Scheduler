@@ -51,18 +51,18 @@ export const blockInstanceDisplays = {
     label: "Orchestrator",
     placeholder: "",
     tooltip:
-      "When on, this instance selects which downstream instances are active from options already allowed on the block shape and relationships. It does not create new valid relationships.",
+      "Marks this instance as a coordinating/root option in the scheduling graph. Downstream instance links are configured separately and are not limited to orchestrators.",
     inline: true,
     stacked: false,
     width: "auto",
     align: "left",
   },
 
-  wizardVisible: {
-    label: "Wizard visible",
-    placeholder: "",
+  wizardPlacement: {
+    label: "Wizard placement",
+    placeholder: "Choose where this appears",
     tooltip:
-      "When off, this instance is add-on / line-item style in the booking wizard. Visibility does not change which relationships are valid on the block shape.",
+      "Where this instance appears in the booking wizard — Hidden: never shown; Top-line: a main wizard card; Sub-option only: a nested add-on under a parent; Both: a top-line card that is also offered as a sub-option.",
     inline: true,
     stacked: false,
     width: "auto",
@@ -80,30 +80,62 @@ export const blockInstanceDisplays = {
   allowMultiple: {
     label: "Allow Multiple",
     placeholder: "",
-    inline: false,
-    stacked: true,
-    width: "15%",
+    tooltip: "When on, the booking wizard lets the customer select this instance more than once.",
+    inline: true,
+    stacked: false,
+    width: "auto",
     align: "left",
   },
 
   requiresUnitNumber: {
     label: "Requires Unit Number",
     placeholder: "",
-    inline: false,
-    stacked: true,
-    width: "15%",
+    tooltip: "For time/property instances: the property step must collect a unit number.",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "left",
+  },
+
+  preClosing: {
+    label: "Pre-closing",
+    placeholder: "",
+    tooltip: "For service instances: gates availability rules tied to pre-closing appointments.",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "left",
+  },
+
+  isMultiFamily: {
+    label: "Multi-family",
+    placeholder: "",
+    tooltip: "For time/property instances: marks multi-family property types for validation and display.",
+    inline: true,
+    stacked: false,
+    width: "auto",
+    align: "left",
+  },
+
+  requiresAgent: {
+    label: "Requires agent",
+    placeholder: "",
+    tooltip: "For service instances: attendee/contact flows expect an agent on the appointment.",
+    inline: true,
+    stacked: false,
+    width: "auto",
     align: "left",
   },
 
   semanticType: {
-    label: "App-wide Semantic Type",
+    label: "User role",
     placeholder: "Select canonical user role",
     inline: false,
     stacked: true,
     width: "20%",
     align: "left",
     tooltip:
-      "For user-type block shapes only: canonical user role for this instance. At most one instance per role.",
+      "User-type instances only: which booking role this instance represents (buyer, agent, etc.). At most one instance per role on a shape.",
   },
 
 } satisfies Partial<Record<GlobalFieldKey<"blockInstance">, DisplayFieldType<"blockInstance", GlobalFieldKey<"blockInstance">>>>;

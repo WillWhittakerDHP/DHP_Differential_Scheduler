@@ -32,7 +32,7 @@ function transformNullValueForDehydrate(
   fieldMetadata: FieldMetadataEntry | undefined
 ): [string, unknown] | null {
   /**
-   * WHY: Server strict-boolean validation rejects `null`; omitted keys use Sequelize defaults (e.g. wizardVisible → true).
+   * WHY: Server strict-boolean validation rejects `null`; omitted keys use Sequelize defaults (e.g. wizardPlacement → 'topLine').
    */
   if (fieldMetadata?.dataType === 'boolean' && !isReferenceField(frontendKey, fieldMetadata)) {
     return null

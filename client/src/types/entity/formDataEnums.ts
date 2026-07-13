@@ -38,7 +38,6 @@ export enum RelationshipSelectTypeEnum {
   ValidPartCascadeSelect = 'validPartCascadeSelect',
   ValidAnnotationAssignmentSelect = 'validAnnotationAssignmentSelect',
   ValidEventCascadeSelect = 'validEventCascadeSelect',
-  DependentInstanceSelect = 'dependentInstanceSelect',
   BookingCascadeSelect = 'bookingCascadeSelect',
   PricingCascadeSelect = 'pricingCascadeSelect',
   ValidPricingCascadeSelect = 'validPricingCascadeSelect',

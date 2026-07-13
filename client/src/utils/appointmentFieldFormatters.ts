@@ -117,7 +117,7 @@ const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   status: (_appointment, value) => String(value || APPOINTMENT_STATUS_STARTED),
   selectedDate: (_appointment, value) => formatDateField(value),
   selectedTimeSlots: (_appointment, value) => formatArrayCountField(value, 'slot(s)'),
-  selectedOptionIds: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
+  selectedEventIds: (_appointment, value) => formatArrayCountField(value, 'event(s)'),
   selectedOptionTypeBlocks: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
   propertyDetails: (_appointment, value) => formatNullValue(value),
 }

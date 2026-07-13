@@ -15,6 +15,10 @@ export function getFieldComponent<GE extends GlobalEntityKey>(
     return { type: 'eventShapePlacement', reason: 'eventShapePlacement' }
   }
 
+  if (entityKey === 'blockInstance' && String(fieldKey) === 'wizardPlacement') {
+    return { type: 'wizardPlacement', reason: 'wizardPlacement' }
+  }
+
   if (!fieldMetadata) {
     return { type: 'unknown', reason: 'notConfigured' }
   }

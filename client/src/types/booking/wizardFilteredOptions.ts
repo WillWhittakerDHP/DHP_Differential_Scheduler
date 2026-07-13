@@ -8,7 +8,7 @@ export type UseWizardFilteredOptionsParams = {
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   selectedAvailabilityOptions: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedCouponBlocks: Ref<BookingBlockInstance[]>
+  selectedPriceBlocks: Ref<BookingBlockInstance[]>
 }
 
 export type UseWizardFilteredOptionsReturn = WizardComputedProperties

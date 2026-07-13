@@ -197,7 +197,7 @@ provide(ENTITY_CARD_SAVE_KEY, {
 
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
-const titleRowFields = fieldLocation.titleRowFields
+const titleRowFields = computed(() => filteredFieldsByLocation.value.titleRow)
 
 const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle } = useEntityCardPrimaryTitleModels({
   entityKey: computed(() => props.entityKey),

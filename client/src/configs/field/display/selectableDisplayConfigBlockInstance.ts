@@ -62,14 +62,15 @@ export const selectableDisplayBlockInstanceSection = {
         selectMode: RelationshipSelectModeEnum.Multiple,
         groupByKey: "blockShapeRef",
         
-        label: "Booking Cascade",
-        placeholder: "No cascades selected",
+        label: "Downstream Instance Links",
+        placeholder: "Choose downstream instances...",
+        tooltip: "Concrete instance links used by the wizard after this option is selected. The available choices come from the parent shape's Allowed downstream shapes list.",
         inline: false,
         stacked: true,
         width: "100%",
         align: "left",
         displayFormat: "chips",
-        emptyStateText: "No cascades assigned",
+        emptyStateText: "No downstream instances linked. If this list is empty, check Allowed downstream shapes on the parent shape card.",
         maxDisplayItems: 10,
         showCount: true,
         sortBy: "name",
@@ -188,41 +189,6 @@ export const selectableDisplayBlockInstanceSection = {
         },
       },
 
-      dependentInstances: {
-        targetMode: "relationship",
-        targetKey: "dependentInstances",
-        globalField: "dependentInstances",
-
-        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
-        selectedChildPath: ["dependentInstances"],
-
-        candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
-        candidateParentPath: [],
-        candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
-        candidateChildPath: ["blockShapeRef"],
-
-        selectType: RelationshipSelectTypeEnum.DependentInstanceSelect,
-        selectMode: RelationshipSelectModeEnum.Multiple,
-        
-        label: "Dependent Instances",
-        placeholder: "No dependent instances",
-        inline: false,
-        stacked: true,
-        width: "100%",
-        align: "left",
-        displayFormat: "badges",
-        emptyStateText: "No dependent instances defined",
-        maxDisplayItems: 8,
-        showCount: true,
-        sortBy: "name",
-        sortDirection: "asc",
-        
-        meta: {
-          visible: true
-        },
-      },
-
       instanceComponents: {
         targetMode: "relationship",
         targetKey: "instanceComponents",
@@ -233,7 +199,7 @@ export const selectableDisplayBlockInstanceSection = {
         selectedChildPath: ["instanceComponents"],
 
         candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
-        candidateParentPath: ["dependentInstances"],
+        candidateParentPath: ["blockShapeRef"],
         candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
         candidateChildPath: [],
 
@@ -241,13 +207,14 @@ export const selectableDisplayBlockInstanceSection = {
         selectMode: RelationshipSelectModeEnum.Multiple,
         
         label: "{blockShapeName} Components",
-        placeholder: "Select components...",
+        placeholder: "Select same-shape sub-options...",
+        tooltip: "Same-shape children bundled under this composite instance. This is separate from Downstream instance links, which connect to other shapes.",
         inline: false,
         stacked: true,
         width: "100%",
         align: "left",
         displayFormat: "chips",
-        emptyStateText: "No service components selected",
+        emptyStateText: "No same-shape components selected",
         maxDisplayItems: 10,
         showCount: true,
         sortBy: "name",

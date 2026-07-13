@@ -6,7 +6,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import {
   normalizeBlockInstanceOrchestratorFromApi,
-  normalizeBlockInstanceWizardVisibleFromApi,
+  normalizeBlockInstanceWizardPlacementFromApi,
 } from './apiEntityFieldNormalization'
 import { sanitizeEventAnchorEdgeInput, sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
 
@@ -37,8 +37,9 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
   if (entityKey === 'blockInstance') {
     const orchestratorRaw = transformed.orchestrator ?? rawEntity.orchestrator
     transformed.orchestrator = normalizeBlockInstanceOrchestratorFromApi(orchestratorRaw)
-    const wizardRaw = transformed.wizardVisible ?? rawEntity.wizard_visible
-    transformed.wizardVisible = normalizeBlockInstanceWizardVisibleFromApi(wizardRaw)
+    const placementRaw =
+      transformed.wizardPlacement ?? rawEntity.wizard_placement ?? rawEntity.wizard_visible
+    transformed.wizardPlacement = normalizeBlockInstanceWizardPlacementFromApi(placementRaw)
   }
 
   if (entityKey === 'eventShape') {

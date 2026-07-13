@@ -202,16 +202,32 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 | **§6.1 flagship test** | ✅ Added | `minimizeTimeOnSite.test.ts` — segment layout from data-only profile |
 | **Grab-bag cleanup** | ✅ Done | Migration `072`: dropped `base_sq_ft`, `agent_permissions`; shape-scoped admin visibility via `blockInstanceFieldVisibility.ts` (quieter expanded instance cards) |
 | **Booking pipeline tests** | ✅ 10 tests | First pipeline tests since deliberate test-suite removal |
+| **Admin relationship-label cleanup** | ✅ Phase A | `dependentInstances` removed from client/admin surfaces; shape cards now say "Allowed downstream shapes"; instance cards now say "Downstream instance links" |
+| **Three-way wizard placement** | ✅ Phase B | `wizardVisible` boolean replaced by 4-state `wizardPlacement` (`hidden`/`topLine`/`subOption`/`both`); migration `073` backfills (`false → hidden`, `true → topLine`) and drops `wizard_visible`; fixed dead line-item path in `filterAndSortBlockInstances`. Admin control is a click-through title-row chip (`WizardPlacementInput.vue`, dispatched like `eventShapePlacement`) with a hover tooltip — matches the other flags rather than a dropdown |
 
-### Flag audit (`composite` / `orchestrator` / `wizardVisible`)
+### Flag audit (`composite` / `orchestrator` / `wizardPlacement`) — ✅ audited 2026-07-12
 
-| Flag | Verdict | Notes |
-|------|---------|-------|
-| `composite` | **FLAG-DRIVEN** | `instanceComponents`, nested wizard UX, part rollup, server link validation |
-| `wizardVisible` | **PARTIALLY WIRED** | Main vs line-item split works; cascade uses shape type + `bookingCascades`, not flag re-check; differential user-type sets ignore flag |
-| `orchestrator` | **PARTIALLY WIRED** | Differential availability + server base-ledger rules; cascade roots are relationship-driven, not flag-driven |
+| Flag | Verdict | Where it drives behavior |
+|------|---------|--------------------------|
+| `composite` | **FLAG-DRIVEN** | `instanceComponents` panel + server validation (`validateBlockInstancesCompositeForComponents`); composite parents rollup child parts (`resolveComponentPartIds`); nested wizard selection cards; admin composition UI gated on `composite=true` |
+| `orchestrator` | **FLAG-DRIVEN** (see notes) | Differential scheduling: `isDifferentialFromSelectedBlocks` true when any selected block has `orchestrator=true` (`useAvailabilityLogic`). Server ledger: `baseTime`/`baseFee` only on service-shape parts under `orchestrator=true` parent (`partInstanceEntityValidation`). Admin: orchestrator tab filters `orchestrator===true`. **`bookingCascades` → `activeBlockIds` is relationship-driven, not re-checked against `orchestrator` — intentional per Will sign-off below.** |
+| `wizardPlacement` | **FLAG-DRIVEN** | Main wizard pool (`topLine`/`both`), line items (`subOption`/`both`), admin title-row chip, cascade fallbacks (`isWizardTopLine`), migration `073` |
 
-**No code changes yet** — audit only. Wiring `orchestrator` into cascade roots is a design decision for Will.
+**Will sign-off (2026-07-12):** restore three-way wizard placement (`topLine` / `subOption` / `both` / `hidden`); remove `dependentInstances`; **do not gate `bookingCascades` on `orchestrator`**. `bookingCascades` = concrete downstream instance links from the parent shape's `validBookingCascades` allowlist.
+
+**Phase B done (2026-07-12):** `wizardVisible` → `wizardPlacement` (4-state enum); migration `073`; click-through admin chip; tests green.
+
+**Test added:** `flagSemantics.test.ts` — orchestrator flag drives differential detection.
+
+### Accumulator *(corrected — Will 2026-07-13)*
+
+**Earlier write-up was wrong** (treated accumulator as a truth-filter over `bookingCascades`). Correct model:
+
+- **Vertical within shape** = `composite` / `instanceComponents` (code names kept).
+- **Lateral user options** (“validator” in conversation) = `bookingCascades` / `validBookingCascades` (code names kept; admin copy may say “downstream options”).
+- **Accumulator** = service selected **AND** property has linked characteristic → auto-include that characteristic; **not** a user pick of HVAC. **Not implemented.** MLS `property_feature_mappings` is adjacent but not service-gated and currently empty (0 rows).
+
+**Hybrid naming (Will):** keep `composite` + `bookingCascades`; new feature = `accumulator`; clarify or rename the existing `orchestrator` flag separately (today = differential + base ledger only).
 
 ### Event routing audit
 
@@ -230,10 +246,19 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 - **Fixed:** `baseline_data.sql` `block_shapes` rows + `users.user_role` (`client` → `buyer`) aligned to baseline schema
 - **Remaining:** Full `baseline_data.sql` still has stale column refs (`differential` on `block_instance_versions`, etc.). Fresh migrate fails mid-seed. **Next step:** re-squash baseline schema+data from live DB at one point in time, or scripted row-by-row alignment — not a quick grep fix
 
+### Vocabulary retirement — ✅ complete (2026-07-12)
+
+**Scope guard:** real-estate `property` (the house being inspected — `propertyVersionId`, `propertyDetails`, `PropertyResponse`, `selectedPropertyTypeBlocks`, the whole Property Details step) is legitimate first-class domain vocabulary and is **kept**. Only `property`/`coupon`/`option` used as *aliases for the `time`/`price`/`event` semantic types* are retired.
+
+- **Slice 1 ✅** — appointment-selection API boundary renamed (`selectedPropertyIds`→`selectedTimeIds`, `propertyQuantities`→`timeQuantities`, `propertySnapshotIds`→`timeSnapshotIds`, `selectedOptionIds`→`selectedEventIds`, `optionQuantities`→`eventQuantities`, `optionSnapshotIds`→`eventSnapshotIds`) across codec + 9 consumers. No data migration (source of truth is `appointment_selection_lines.lineKind`, already `service/time/event`). Typecheck + tests + lint green.
+- **Slice 2 ✅** — (a) removed dead legacy semantic-type string fallbacks (`'option'`/`'property'`/`'coupon'`) from `blockShapeTypeLookupCandidates` (DB `block_shapes.semantic_type` fully migrated to `user/service/time/event/price`, so unreachable); (b) **Will's call (2026-07-12): internal-only** — renamed the price-block plumbing (`selectedCouponBlocks`→`selectedPriceBlocks`, `availableCouponBlocks`→`availablePriceBlocks`, `toggleCouponBlock`→`togglePriceBlock`, `couponCascadeError`→`priceCascadeError`, cascade label `'coupons'`→`'prices'`) and **kept** the genuine customer-facing discount feature (`showApplyCoupon` DB column, "Apply Coupon"/"Coupon Discount" UI, `couponDiscount`) — a coupon is a real product concept, not old vocabulary. Typecheck + tests + lint green.
+- **Slice 3 — Will's call (2026-07-12): KEEP as-is.** `selectedPropertyTypeBlocks` and `selectedOptionTypeBlocks` (+ `availabilityOptions`) are named after genuine customer-facing concepts ("property type", "availability option"), not old semantic-type aliases. Renaming would touch ~70 files and make the UI/code read more abstractly for no user benefit. **Vocabulary retirement considered complete** after slices 1–2 + legacy dead-code removal; grep-clean on the true aliases (the appointment-selection API fields, the legacy `'property'`/`'coupon'`/`'option'` semantic-type strings, and the `*CouponBlock*` price plumbing).
+
 ### Still open (Phase 1 backlog)
 
-1. **Vocabulary retirement** (`property`/`coupon`/`option` → `time`/`price`/`event`) — ~300+ identifiers; start with `appointmentSelectionCodec.ts` API rename
-2. **Flag wiring gaps** — `wizardVisible` on hidden orchestrators; `orchestrator` not gating cascade roots
-3. **Attendee logic** — align to `placement_kind`-only per spec §6 item 4
-4. **Fresh DB migrate** — baseline seed refresh (see above)
-5. **Manual §6.1 E2E** — wizard UI walkthrough with dev server (pipeline test covers math; UI still needs Will's eyes)
+1. ~~Vocabulary retirement~~ ✅ done (see above)
+2. ~~Flag wiring / three-property semantics audit~~ ✅ audited — see table above; `bookingCascades` intentionally not orchestrator-gated
+3. **Accumulator** — implement per `ARCHITECTURE_PRINCIPLES.md` §2.3 (after Will reviews doc)
+4. **Attendee logic** — align to `placement_kind`-only per spec §6 item 4
+5. **Fresh DB migrate** — baseline seed refresh (see above)
+6. **Manual §6.1 E2E** — wizard UI walkthrough with dev server (pipeline test covers math; UI still needs Will's eyes)

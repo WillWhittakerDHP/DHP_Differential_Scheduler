@@ -215,8 +215,8 @@ const router = createCrudRouter({
       attendees?: AttendeeRequest[]
       feeBreakdown?: AppointmentFeeBreakdownPayload | null
       selectedServiceIds?: string[]
-      selectedPropertyIds?: string[]
-      selectedOptionIds?: string[]
+      selectedTimeIds?: string[]
+      selectedEventIds?: string[]
     }
     const attendeesData = (() => {
       const raw = appointmentData.attendees

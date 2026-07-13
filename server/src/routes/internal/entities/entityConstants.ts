@@ -74,8 +74,8 @@ export const ENTITY_DELETE_ROUTE_SEGMENTS = {
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   ORCHESTRATOR: 'orchestrator',
-  WIZARD_VISIBLE: 'wizardVisible',
-  WIZARD_VISIBLE_SNAKE: 'wizard_visible',
+  WIZARD_PLACEMENT: 'wizardPlacement',
+  WIZARD_PLACEMENT_SNAKE: 'wizard_placement',
   PLACEMENT_KIND: 'placementKind',
   PLACEMENT_KIND_SNAKE: 'placement_kind',
   ANCHOR_EDGE: 'anchorEdge',

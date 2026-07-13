@@ -3,6 +3,12 @@ import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingPartInstance } from '@/types/transformers/bookingData'
+import {
+  isWizardTopLine,
+  isWizardSubOption,
+  resolveWizardPlacement,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import {
   safeString,
@@ -11,9 +17,16 @@ import { collectIds, findByIds, immutableSort } from './transformerCollections'
 import { isBookingEntityActive } from './globalToBookingEntityActive'
 import { transformPartInstance } from './globalToBookingPartInstanceTransform'
 
-export function isWizardMainBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
+/** Appears as a top-line wizard card (placement topLine or both). */
+export function isWizardTopLineBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
   const b = blockInstance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
+}
+
+/** Appears as a nested sub-option / add-on line item (placement subOption or both). */
+export function isWizardSubOptionBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
+  const b = blockInstance as BlockInstanceEntity
+  return isWizardSubOption(b.wizardPlacement)
 }
 
 export function filterAndSortBlockInstances(
@@ -30,8 +43,10 @@ export function filterAndSortBlockInstances(
 ): BookingBlockInstance[] {
   const mapped = blockInstances
     .filter((blockInstance) => {
+      // WHY: Placement (main pool vs line items) is decided entirely by the caller's `predicate`.
+      // Component children roll up into their composite parent and never appear on their own.
       const isComponentChild = componentIds.has(blockInstance.id)
-      return isWizardMainBlock(blockInstance) && !isComponentChild && predicate(blockInstance)
+      return !isComponentChild && predicate(blockInstance)
     })
     .map((blockInstance) =>
       transformBlockInstance(
@@ -111,7 +126,7 @@ function resolvePartInstanceIds(
 type BlockInstanceOptionalProps = {
   icon?: string
   orchestrator?: boolean
-  wizardVisible?: boolean
+  wizardPlacement?: WizardPlacement
   preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
@@ -131,7 +146,7 @@ function extractBlockInstanceProps(
   return {
     icon: b.icon,
     orchestrator: b.orchestrator,
-    wizardVisible: b.wizardVisible,
+    wizardPlacement: b.wizardPlacement,
     preClosing: b.preClosing,
     number: numberProp,
     allowMultiple: b.allowMultiple,
@@ -150,17 +165,17 @@ function buildBookingBlockInstance(
   blockShapeRef: string,
   activeBlockIds: string[],
   orchestrator: boolean,
-  wizardVisible: boolean
+  wizardPlacement: WizardPlacement
 ): BookingBlockInstance {
   const st = props.semanticType
   const out: BookingBlockInstance = {
     id: blockInstance.id,
     entityKey: 'blockInstance',
     name: blockInstance.name,
-    active: wizardVisible,
+    active: true,
     icon: safeString(props.icon, 'blockInstance.icon'),
     orchestrator,
-    wizardVisible,
+    wizardPlacement,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
     blockShape,
@@ -223,7 +238,7 @@ function transformBlockInstance(
   const activeBlockIds = extractChildIds(bookingCascadesRels)
   const props = extractBlockInstanceProps(blockInstance)
   const orchestrator = props.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR
-  const wizardVisible = props.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE
+  const wizardPlacement = resolveWizardPlacement(props.wizardPlacement)
   const blockShapeEntity = _blockShapeById.get(blockShapeRef)
   const blockShape = safeString(blockShapeEntity?.name, 'blockShape.name')
 
@@ -235,6 +250,6 @@ function transformBlockInstance(
     blockShapeRef,
     activeBlockIds,
     orchestrator,
-    wizardVisible
+    wizardPlacement
   )
 }

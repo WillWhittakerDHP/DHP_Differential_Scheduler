@@ -7,7 +7,7 @@ export interface BookingWizardSelectionRefs {
   selectedServiceTypeBlocks: Ref<BookingBlockInstance[]>
   selectedOptionTypeBlocks: Ref<BookingBlockInstance[]>
   selectedPropertyTypeBlocks: Ref<BookingBlockInstance[]>
-  selectedCouponBlocks: Ref<BookingBlockInstance[]>
+  selectedPriceBlocks: Ref<BookingBlockInstance[]>
   selectedLineItemBlocks: Ref<BookingBlockInstance[]>
   _inBatch: Ref<boolean>
 }
@@ -18,7 +18,7 @@ export function bookingWizardSelectUserType(refs: BookingWizardSelectionRefs, bl
     refs.selectedServiceTypeBlocks.value = []
     refs.selectedOptionTypeBlocks.value = []
     refs.selectedPropertyTypeBlocks.value = []
-    refs.selectedCouponBlocks.value = []
+    refs.selectedPriceBlocks.value = []
   }
 }
 
@@ -31,7 +31,7 @@ export function bookingWizardToggleServiceTypeBlock(refs: BookingWizardSelection
   if (!refs._inBatch.value) {
     refs.selectedOptionTypeBlocks.value = []
     refs.selectedPropertyTypeBlocks.value = []
-    refs.selectedCouponBlocks.value = []
+    refs.selectedPriceBlocks.value = []
   }
 }
 
@@ -55,12 +55,12 @@ export function bookingWizardToggleOptionTypeBlock(refs: BookingWizardSelectionR
   }
 }
 
-export function bookingWizardToggleCouponBlock(refs: BookingWizardSelectionRefs, block: BookingBlockInstance): void {
-  if (refs.selectedCouponBlocks.value.length === 1 && refs.selectedCouponBlocks.value[0]?.id === block.id) {
-    refs.selectedCouponBlocks.value = []
+export function bookingWizardTogglePriceBlock(refs: BookingWizardSelectionRefs, block: BookingBlockInstance): void {
+  if (refs.selectedPriceBlocks.value.length === 1 && refs.selectedPriceBlocks.value[0]?.id === block.id) {
+    refs.selectedPriceBlocks.value = []
     return
   }
-  refs.selectedCouponBlocks.value = [block]
+  refs.selectedPriceBlocks.value = [block]
 }
 
 export function bookingWizardToggleLineItemBlock(refs: BookingWizardSelectionRefs, block: BookingBlockInstance): void {

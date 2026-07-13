@@ -8,6 +8,10 @@ import {
   PartInstanceVersion,
 } from '../config/app.js';
 import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityConstants.js';
+import {
+  resolveWizardPlacement,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 
 /**
  * Instance Versioning Service
@@ -26,7 +30,7 @@ interface BlockInstanceVersionComparison {
   icon?: string | null;
   composite?: boolean;
   orchestrator?: boolean;
-  wizardVisible?: boolean;
+  wizardPlacement?: WizardPlacement;
   preClosing?: boolean;
 }
 
@@ -41,7 +45,7 @@ function versionsMatch(
          versionData.icon === instanceData.icon &&
          versionData.composite === instanceData.composite &&
          versionData.orchestrator === instanceData.orchestrator &&
-         versionData.wizardVisible === instanceData.wizardVisible &&
+         resolveWizardPlacement(versionData.wizardPlacement) === resolveWizardPlacement(instanceData.wizardPlacement) &&
          versionData.preClosing === instanceData.preClosing;
 }
 
@@ -71,7 +75,7 @@ async function createVersionFromInstance(
     icon: instanceData.icon,
     composite: instanceData.composite ?? false,
     orchestrator: instanceData.orchestrator,
-    wizardVisible: instanceData.wizardVisible,
+    wizardPlacement: resolveWizardPlacement(instanceData.wizardPlacement),
     preClosing: instanceData.preClosing ?? false,
   });
 

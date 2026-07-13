@@ -10,6 +10,7 @@ import type { MetadataCache } from '@/types/admin/metadataCache'
 import { determinePanelFromFieldKey } from '@/utils/forms/fieldPanelFromKey'
 import { ANNOTATION_UI_SLOT_REGISTRY } from '@shared/constants/annotationSlots'
 import { USER_ROLE_VALUES } from '@shared/constants/roleConstants'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import {
   codeFirstBlockInstanceSelectInputs,
   codeFirstBlockShapeSelectInputs,
@@ -64,6 +65,13 @@ const blockInstanceUserSemanticOptions = [
     label: r.length > 0 ? r.charAt(0).toUpperCase() + r.slice(1).replace(/_/g, ' ') : r,
     value: r,
   })),
+]
+
+const wizardPlacementOptions = [
+  { label: 'Hidden', value: WIZARD_PLACEMENT.HIDDEN },
+  { label: 'Top-line', value: WIZARD_PLACEMENT.TOP_LINE },
+  { label: 'Sub-option only', value: WIZARD_PLACEMENT.SUB_OPTION },
+  { label: 'Both', value: WIZARD_PLACEMENT.BOTH },
 ]
 
 const placementKindOptions = [
@@ -121,7 +129,7 @@ function globalBlockShape(): Record<string, FieldMetadataEntry> {
       inputConfig: { options: blockShapeTypeOptions },
       panel: P.NONE,
     }),
-    validBookingCascades: mk('validBookingCascades', 'Valid booking cascades', 10, {
+    validBookingCascades: mk('validBookingCascades', 'Allowed downstream shapes', 10, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockShapeSelectInputs.validBookingCascades },
@@ -162,8 +170,29 @@ function globalPartShape(): Record<string, FieldMetadataEntry> {
 }
 
 function globalBlockInstance(): Record<string, FieldMetadataEntry> {
+  const titleRowFlag = (
+    fieldKey: string,
+    label: string,
+    displayOrder: number,
+    base: Partial<Omit<FieldMetadataEntry, 'dataType' | 'renderAs' | 'label' | 'displayOrder'>> = {}
+  ): FieldMetadataEntry =>
+    mk(fieldKey, label, displayOrder, {
+      dataType: 'boolean',
+      renderAs: R.STATUS_BUTTON,
+      visibility: V.TITLE_ROW,
+      layout: L.INLINE,
+      panel: P.NONE,
+      ...base,
+    })
+
   return {
-    name: mk('name', DISPLAY_LABELS.NAME, 1, { dataType: 'string', renderAs: R.TEXT, panel: P.NONE }),
+    name: mk('name', DISPLAY_LABELS.NAME, 1, {
+      dataType: 'string',
+      renderAs: R.TEXT,
+      visibility: V.STATIC_AS_TITLE,
+      layout: L.INLINE,
+      panel: P.NONE,
+    }),
     orderIndex: mk('orderIndex', 'Order index', 2, {
       dataType: 'number',
       renderAs: R.NUMBER,
@@ -174,49 +203,34 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       dataType: 'string',
       renderAs: R.REFERENCE,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.blockShapeRef },
+      visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    composite: mk('composite', 'Composite', 7, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    orchestrator: mk('orchestrator', 'Orchestrator', 8, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      statusButtonColor: 'secondary',
+    composite: titleRowFlag('composite', 'Composite', 7),
+    orchestrator: titleRowFlag('orchestrator', 'Orchestrator', 8, {
       bulkEdit: true,
-      panel: P.NONE,
     }),
-    wizardVisible: mk('wizardVisible', 'Wizard visible', 9, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      statusButtonColor: 'secondary',
-      bulkEdit: true,
+    wizardPlacement: mk('wizardPlacement', 'Wizard placement', 9, {
+      dataType: 'string',
+      renderAs: R.SELECT,
+      inputConfig: { options: wizardPlacementOptions },
+      visibility: V.TITLE_ROW,
+      layout: L.INLINE,
       panel: P.NONE,
+      bulkEdit: true,
     }),
     icon: mk('icon', 'Icon', 10, { dataType: 'string', renderAs: R.ICON_SELECT, panel: P.NONE }),
-    allowMultiple: mk('allowMultiple', 'Allow multiple', 11, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      panel: P.NONE,
-    }),
-    requiresUnitNumber: mk('requiresUnitNumber', 'Requires unit number', 12, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      panel: P.NONE,
-    }),
-    preClosing: mk('preClosing', 'Pre-closing', 13, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    isMultiFamily: mk('isMultiFamily', 'Multi-family', 14, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      panel: P.NONE,
-    }),
-    requiresAgent: mk('requiresAgent', 'Requires agent', 15, {
-      dataType: 'boolean',
-      renderAs: R.STATUS_BUTTON,
-      panel: P.NONE,
-    }),
-    semanticType: mk('semanticType', 'App-wide Semantic Type', 16, {
+    allowMultiple: titleRowFlag('allowMultiple', 'Allow multiple', 11),
+    requiresUnitNumber: titleRowFlag('requiresUnitNumber', 'Requires unit number', 12),
+    preClosing: titleRowFlag('preClosing', 'Pre-closing', 13),
+    isMultiFamily: titleRowFlag('isMultiFamily', 'Multi-family', 14),
+    requiresAgent: titleRowFlag('requiresAgent', 'Requires agent', 15),
+    semanticType: mk('semanticType', 'User role', 16, {
       dataType: 'string',
       renderAs: R.SELECT,
       inputConfig: { options: blockInstanceUserSemanticOptions },
+      visibility: V.EXPANDED_DIRECT,
+      layout: L.STACKED,
       panel: P.NONE,
     }),
     partAssignments: mk('partAssignments', 'Part assignments', 20, {
@@ -231,7 +245,7 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.annotationAssignments },
       panel: FIELD_NAMES.ANNOTATIONS,
     }),
-    bookingCascades: mk('bookingCascades', 'Booking cascades', 22, {
+    bookingCascades: mk('bookingCascades', 'Downstream instance links', 22, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.bookingCascades },
@@ -247,11 +261,6 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.instanceComponents },
-    }),
-    dependentInstances: mk('dependentInstances', 'Dependent instances', 25, {
-      dataType: 'array',
-      renderAs: R.MULTISELECT,
-      inputConfig: { ...codeFirstBlockInstanceSelectInputs.dependentInstances },
     }),
   }
 }

@@ -1,6 +1,7 @@
 
 import type { BookingData, BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import { getBlockShapeIdByType, getStateControlBlockInstances } from '@/utils/blockInstanceUtils'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { createLogger } from '@/utils/logger'
 import type { CascadeFilterParamsBase } from '@/types/booking/cascadeFilterPipeline'
@@ -100,7 +101,7 @@ function applyFallback(params: FallbackParams): BookingBlockInstance[] {
   const shapeId = getBlockShapeIdByType(bookingData, shapeType)
   if (!shapeId) return []
   return bookingData.blockInstances.filter(
-    instance => instance.blockShapeRef === shapeId && instance.wizardVisible
+    instance => instance.blockShapeRef === shapeId && isWizardTopLine(instance.wizardPlacement)
   )
 }
 

@@ -13,6 +13,7 @@ import { createLogger } from '@/utils/logger'
 import { asEmptyString } from '@/utils/safeDefaults'
 import type { UseEntityFormRedirectOptions } from '@/types/admin/entityFormRedirectOptions'
 import type { BlockInstanceFormData, UseBlockInstanceFormReturn } from '@/types/admin/blockInstanceForm'
+import { DEFAULT_WIZARD_PLACEMENT, resolveWizardPlacement } from '@shared/constants/wizardPlacement'
 
 const logger = createLogger('useBlockInstanceForm')
 
@@ -56,7 +57,7 @@ export function useBlockInstanceForm(
     name: '',
     blockShapeRef: '',
     orderIndex: 0,
-    wizardVisible: true,
+    wizardPlacement: DEFAULT_WIZARD_PLACEMENT,
   })
   
   const isSubmitting = ref(false)
@@ -76,7 +77,7 @@ export function useBlockInstanceForm(
         name: asEmptyString(entity.name),
         blockShapeRef: asEmptyString(entity.blockShapeRef),
         orderIndex: entity.orderIndex ?? 0,
-        wizardVisible: entity.wizardVisible !== false,
+        wizardPlacement: resolveWizardPlacement(entity.wizardPlacement),
       }
     }
   }

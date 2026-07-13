@@ -8,8 +8,6 @@ import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
-import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
-import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
 import EventBlockInstanceSegmentsPanel from './EventBlockInstanceSegmentsPanel.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
@@ -103,16 +101,6 @@ const showEventSegments = computed((): boolean => {
   </VRow>
 
   <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
-
-  <ServiceAtomicEditor
-    v-if="entityKey === 'blockInstance' && !isNew"
-    :block-instance-id="entityId"
-  />
-
-  <TimePriceAtomicPartLedgerEditor
-    v-if="entityKey === 'blockInstance' && !isNew"
-    :block-instance-id="entityId"
-  />
 
   <EventBlockInstanceSegmentsPanel
     v-if="showEventSegments"

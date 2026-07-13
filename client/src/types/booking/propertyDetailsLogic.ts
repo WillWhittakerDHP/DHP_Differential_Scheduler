@@ -1,5 +1,6 @@
 import type { Ref, ComputedRef } from 'vue'
 import type { BookingBlockInstance, BookingPartInstance } from '@/types/transformers/bookingData'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement'
 import type { ComponentItem as SelectionCardComponentItem, SelectionCardItem } from '@/components/booking/types/selectionCardTypes'
 import type { WizardStateData } from '@/types/booking/wizardStateData'
 import type { PropertyDetailsData, PropertyFormData } from '@/types/propertyForm'
@@ -11,7 +12,7 @@ export interface ComponentItem extends SelectionCardComponentItem {
 
 export interface SelectionCardItemWithComponents extends SelectionCardItem {
   blockShapeName?: string
-  wizardVisible?: boolean
+  wizardPlacement?: WizardPlacement
   partInstances?: BookingPartInstance[]
 }
 

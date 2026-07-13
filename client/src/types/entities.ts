@@ -5,6 +5,7 @@ export type { GlobalEntityId }
 import type { GlobalEntityKey } from "@/constants/entities";
 import type { BlockShapeType } from "@/constants/blockShapeTypes";
 import type { EventAnchorEdge, EventPlacementKind } from '@shared/utils/eventPlacementUtils'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement'
 /** Index signature allows dynamic field access (e.g. dependencyCleanup, store sync) without type escape. */
 interface GlobalEntityBase<GE extends GlobalEntityKey> {
   id: GlobalEntityId;
@@ -21,8 +22,8 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   /** When true, this block coordinates differential scheduling for selected services. */
   orchestrator?: boolean;
-  /** When false, instance is add-on / line-item style (not main wizard-visible). */
-  wizardVisible?: boolean;
+  /** Four-state wizard placement (hidden / topLine / subOption / both); replaces the old wizardVisible boolean. */
+  wizardPlacement?: WizardPlacement;
   annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
   description?: string; // Derived description from annotations for display
   icon: string;

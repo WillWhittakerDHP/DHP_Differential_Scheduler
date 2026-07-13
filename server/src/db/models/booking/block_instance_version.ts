@@ -6,6 +6,10 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
+import {
+  DEFAULT_WIZARD_PLACEMENT,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 
 /**
  * BlockInstanceVersion Model
@@ -23,7 +27,7 @@ export class BlockInstanceVersion extends Model<
   declare icon: string | null;
   declare composite: boolean;
   declare orchestrator: boolean;
-  declare wizardVisible: boolean;
+  declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
   declare createdAt: CreationOptional<Date>;
   
@@ -63,11 +67,11 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
-      wizardVisible: {
-        type: DataTypes.BOOLEAN,
+      wizardPlacement: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        defaultValue: true,
-        field: 'wizard_visible',
+        defaultValue: DEFAULT_WIZARD_PLACEMENT,
+        field: 'wizard_placement',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,

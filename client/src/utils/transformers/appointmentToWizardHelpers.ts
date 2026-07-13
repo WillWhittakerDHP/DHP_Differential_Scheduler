@@ -6,6 +6,7 @@ WHY: Reduces duplication and ...
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { DEFAULT_WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -49,9 +50,9 @@ function transformVersionToBookingInstance(
   const base: Partial<BookingBlockInstance> = currentInstance ?? {
     id: version.id,
     entityKey: 'blockInstance' as const,
-    active: DEFAULT_VALUES.WIZARD_VISIBLE,
+    active: true,
     orchestrator: DEFAULT_VALUES.ORCHESTRATOR,
-    wizardVisible: DEFAULT_VALUES.WIZARD_VISIBLE,
+    wizardPlacement: DEFAULT_WIZARD_PLACEMENT,
     preClosing: false,
     orderIndex: 0,
     blockShape: '',
@@ -91,7 +92,7 @@ function transformVersionToBookingInstance(
     name: version.name,
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     orchestrator: currentInstance?.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR,
-    wizardVisible: currentInstance?.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE,
+    wizardPlacement: currentInstance?.wizardPlacement ?? DEFAULT_WIZARD_PLACEMENT,
     partInstances,
   } as BookingBlockInstance
 }

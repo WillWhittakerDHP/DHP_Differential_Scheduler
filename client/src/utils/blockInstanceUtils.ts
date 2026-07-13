@@ -4,6 +4,7 @@ import type { GlobalEntity } from '@/types/entities'
 import type { BookingBlockInstance, BookingData, BookingBlockShape } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockShapeType } from '@/constants/blockShapeTypes'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 import { createLogger } from '@/utils/logger'
 
 const logger = createLogger('blockInstanceUtils')
@@ -26,22 +27,6 @@ function getBlockInstances(bookingData: BookingData, context: string): BookingBl
   return raw
 }
 
-/**
- * Canonical BlockShapeType first, then legacy DB/API enum values from before domain alignment.
- */
-function blockShapeTypeLookupCandidates(type: BlockShapeType): readonly string[] {
-  switch (type) {
-    case BLOCK_SHAPE_TYPES.EVENT:
-      return [BLOCK_SHAPE_TYPES.EVENT, 'option']
-    case BLOCK_SHAPE_TYPES.TIME:
-      return [BLOCK_SHAPE_TYPES.TIME, 'property']
-    case BLOCK_SHAPE_TYPES.PRICE:
-      return [BLOCK_SHAPE_TYPES.PRICE, 'coupon']
-    default:
-      return [type]
-  }
-}
-
 function getUserTypeBlockShapes(bookingData: BookingData): BookingBlockShape[] {
   const blockShapes = getBlockShapes(bookingData, 'getUserTypeBlockShapes')
   return blockShapes.filter((blockShape) => blockShape.semanticType === BLOCK_SHAPE_TYPES.USER)
@@ -55,7 +40,8 @@ export function getStateControlBlockInstances(bookingData: BookingData): Booking
 
   return blockInstances.filter(
     (instance) =>
-      userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) && instance.wizardVisible
+      userBlockShapeIds.has(toGlobalEntityId(instance.blockShapeRef)) &&
+      isWizardTopLine(instance.wizardPlacement)
   )
 }
 
@@ -64,11 +50,9 @@ export function getBlockShapeIdByType(
   type: BlockShapeType
 ): string | null {
   const blockShapes = getBlockShapes(bookingData, 'getBlockShapeIdByType')
-  for (const candidate of blockShapeTypeLookupCandidates(type)) {
-    const blockShape = blockShapes.find((bs) => bs.semanticType === candidate)
-    if (blockShape !== undefined) {
-      return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
-    }
+  const blockShape = blockShapes.find((bs) => bs.semanticType === type)
+  if (blockShape !== undefined) {
+    return blockShape.id !== undefined && blockShape.id !== null ? blockShape.id : null
   }
   return null
 }

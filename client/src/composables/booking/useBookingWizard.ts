@@ -10,7 +10,7 @@ import { useWizardFilteredOptions } from './useWizardFilteredOptions'
 import {
   bookingWizardBatchUpdate,
   bookingWizardSelectUserType,
-  bookingWizardToggleCouponBlock,
+  bookingWizardTogglePriceBlock,
   bookingWizardToggleLineItemBlock,
   bookingWizardToggleOptionTypeBlock,
   bookingWizardTogglePropertyTypeBlock,
@@ -35,7 +35,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
   const selectedServiceTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedOptionTypeBlocks = ref<BookingBlockInstance[]>([])
   const selectedPropertyTypeBlocks = ref<BookingBlockInstance[]>([])
-  const selectedCouponBlocks = ref<BookingBlockInstance[]>([])
+  const selectedPriceBlocks = ref<BookingBlockInstance[]>([])
   const selectedLineItemBlocks = ref<BookingBlockInstance[]>([])
 
   const persistedWizardMode = useStorage<WizardMode>('booking-wizard-mode', 'new')
@@ -55,7 +55,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     selectedServiceTypeBlocks,
     selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
-    selectedCouponBlocks,
+    selectedPriceBlocks,
     selectedLineItemBlocks,
     _inBatch,
   }
@@ -74,12 +74,12 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     availableServices,
     availableOptionTypeBlocks,
     availablePropertyTypeBlocks,
-    availableCouponBlocks,
+    availablePriceBlocks,
     availableLineItemBlocks,
     servicesCascadeError,
     availabilityOptionsCascadeError,
     propertyTypesCascadeError,
-    couponCascadeError,
+    priceCascadeError,
     accServices,
     accProperty,
     accAvailability,
@@ -89,7 +89,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     selectedServiceTypeBlocks: selectedServiceTypeBlocks,
     selectedAvailabilityOptions: selectedOptionTypeBlocks,
     selectedPropertyTypeBlocks,
-    selectedCouponBlocks,
+    selectedPriceBlocks,
   })
 
   watch(
@@ -105,7 +105,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     const prevServiceIds = wizardCascadeBlockIds(selectedServiceTypeBlocks.value)
     const prevPropertyIds = wizardCascadeBlockIds(selectedPropertyTypeBlocks.value)
     const prevOptionIds = wizardCascadeBlockIds(selectedOptionTypeBlocks.value)
-    const prevCouponIds = wizardCascadeBlockIds(selectedCouponBlocks.value)
+    const prevPriceIds = wizardCascadeBlockIds(selectedPriceBlocks.value)
 
     bookingWizardSelectUserType(selectionRefs, block)
 
@@ -116,19 +116,19 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
     selectedServiceTypeBlocks.value = restoreSingleCascadeSelection(prevServiceIds, availableServices.value)
     selectedPropertyTypeBlocks.value = restoreSingleCascadeSelection(prevPropertyIds, availablePropertyTypeBlocks.value)
     selectedOptionTypeBlocks.value = restoreMultiCascadeSelection(prevOptionIds, availableOptionTypeBlocks.value)
-    selectedCouponBlocks.value = restoreSingleCascadeSelection(prevCouponIds, availableCouponBlocks.value)
+    selectedPriceBlocks.value = restoreSingleCascadeSelection(prevPriceIds, availablePriceBlocks.value)
   }
 
   const toggleServiceTypeBlockWithCascadeReselect = (block: BookingBlockInstance): void => {
     const prevPropertyIds = wizardCascadeBlockIds(selectedPropertyTypeBlocks.value)
     const prevOptionIds = wizardCascadeBlockIds(selectedOptionTypeBlocks.value)
-    const prevCouponIds = wizardCascadeBlockIds(selectedCouponBlocks.value)
+    const prevPriceIds = wizardCascadeBlockIds(selectedPriceBlocks.value)
 
     bookingWizardToggleServiceTypeBlock(selectionRefs, block)
 
     selectedPropertyTypeBlocks.value = restoreSingleCascadeSelection(prevPropertyIds, availablePropertyTypeBlocks.value)
     selectedOptionTypeBlocks.value = restoreMultiCascadeSelection(prevOptionIds, availableOptionTypeBlocks.value)
-    selectedCouponBlocks.value = restoreSingleCascadeSelection(prevCouponIds, availableCouponBlocks.value)
+    selectedPriceBlocks.value = restoreSingleCascadeSelection(prevPriceIds, availablePriceBlocks.value)
   }
 
   return {
@@ -137,7 +137,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
       selectedServiceTypeBlocks,
       selectedOptionTypeBlocks,
       selectedPropertyTypeBlocks,
-      selectedCouponBlocks,
+      selectedPriceBlocks,
       selectedLineItemBlocks,
       isQuoteMode,
       wizardMode,
@@ -147,7 +147,7 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
       toggleServiceTypeBlock: toggleServiceTypeBlockWithCascadeReselect,
       toggleOptionTypeBlock: (block) => bookingWizardToggleOptionTypeBlock(selectionRefs, block),
       togglePropertyTypeBlock: (block) => bookingWizardTogglePropertyTypeBlock(selectionRefs, block),
-      toggleCouponBlock: (block) => bookingWizardToggleCouponBlock(selectionRefs, block),
+      togglePriceBlock: (block) => bookingWizardTogglePriceBlock(selectionRefs, block),
       toggleLineItemBlock: (block) => bookingWizardToggleLineItemBlock(selectionRefs, block),
       batchUpdate: (fn) => bookingWizardBatchUpdate(selectionRefs, availableOptionTypeBlocks, fn),
       setWizardMode,
@@ -157,12 +157,12 @@ export function useBookingWizard(): UseBookingWizardReturnGrouped {
       availableServices,
       availableOptionTypeBlocks,
       availablePropertyTypeBlocks,
-      availableCouponBlocks,
+      availablePriceBlocks,
       availableLineItemBlocks,
       servicesCascadeError,
       availabilityOptionsCascadeError,
       propertyTypesCascadeError,
-      couponCascadeError,
+      priceCascadeError,
       accServices,
       accProperty,
       accAvailability,

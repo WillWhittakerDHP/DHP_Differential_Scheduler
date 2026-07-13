@@ -10,6 +10,7 @@ import {
   ValidPricingCascade,
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement.js'
 import { ERROR_MESSAGES as REL_ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
@@ -361,19 +362,21 @@ export async function updateComponentActiveStates(
 ): Promise<void> {
   const childBlockInstance = await BlockInstance.findByPk(childId)
   if (childBlockInstance) {
-    childBlockInstance.wizardVisible = false
+    // Bundled component children roll up into the composite parent; they should not
+    // surface independently in the wizard.
+    childBlockInstance.wizardPlacement = WIZARD_PLACEMENT.HIDDEN
     await childBlockInstance.save()
   }
 
   const parentBlockInstance = await BlockInstance.findByPk(parentId)
   if (parentBlockInstance) {
-    parentBlockInstance.wizardVisible = true
+    parentBlockInstance.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
     await parentBlockInstance.save()
   }
 }
 
 /**
- * WHY: Restore block instance wizard visibility when component is deleted
+ * WHY: Restore block instance wizard placement when component is deleted
  */
 export async function restoreComponentActiveState(childId: string): Promise<void> {
   const otherComponents = await InstanceComponent.count({
@@ -386,6 +389,6 @@ export async function restoreComponentActiveState(childId: string): Promise<void
   if (!childBlockInstance) {
     return
   }
-  childBlockInstance.wizardVisible = true
+  childBlockInstance.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
   await childBlockInstance.save()
 }

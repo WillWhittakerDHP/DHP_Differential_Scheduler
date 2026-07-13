@@ -3,14 +3,16 @@ import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { UseInstanceFilteringReturn } from '@/types/admin/instanceFiltering'
 import type { UseInstanceBlockInstancesByShapeOptions } from '@/types/admin/instanceComposableOptions'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 
 function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {
   const b = instance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
 }
 
 /**
- * Main admin grid uses `wizardVisible !== false` (aligned with booking “main vs add-on line item” split).
+ * Main admin grid shows top-line-capable instances (placement topLine or both); the grouped
+ * section shows the rest (subOption / hidden). Aligned with the booking main-pool vs line-item split.
  */
 export function useInstanceFiltering(
   options: UseInstanceBlockInstancesByShapeOptions

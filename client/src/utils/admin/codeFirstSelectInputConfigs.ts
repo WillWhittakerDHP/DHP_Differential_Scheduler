@@ -87,7 +87,6 @@ export const codeFirstBlockInstanceSelectInputs = {
   partAssignments: pickSelectInputConfig(blockInstanceDisplay.partAssignments as Record<string, unknown>),
   annotationAssignments: pickSelectInputConfig(blockInstanceDisplay.annotationAssignments as Record<string, unknown>),
   eventAssignments: pickSelectInputConfig(blockInstanceDisplay.eventAssignments as Record<string, unknown>),
-  dependentInstances: pickSelectInputConfig(blockInstanceDisplay.dependentInstances as Record<string, unknown>),
   instanceComponents: pickSelectInputConfig(blockInstanceDisplay.instanceComponents as Record<string, unknown>),
 } as const
 

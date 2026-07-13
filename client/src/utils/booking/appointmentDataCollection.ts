@@ -77,7 +77,7 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
         selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks.value,
         selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
         selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
-        selectedCouponBlocks: wizard.selectedCouponBlocks.value,
+        selectedPriceBlocks: wizard.selectedPriceBlocks.value,
         selectedLineItemBlocks,
         selectedUserTypeBlock: wizard.selectedUserTypeBlock.value,
         isQuoteMode: wizard.isQuoteMode.value,

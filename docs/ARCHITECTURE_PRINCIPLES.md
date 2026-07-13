@@ -24,23 +24,24 @@ All five types participate in the three-property instance model (§2). The curre
 
 ---
 
-## 2. Three-property instance model
+## 2. Instance behavior model
 
-In addition to `id,` `entityKey,` `orderIndex,` `ref` values, and any other properties necessary to support domain operations, every block instance has three independent boolean properties:
-
-
-| Property            | Axis         | Question it answers                                             |
-| ------------------- | ------------ | --------------------------------------------------------------- |
-| `**orchestrator`**  | Behavior     | Is this instance the root of an active assignment graph?        |
-| `**composite`**     | Structure    | Does this instance own child block instances of the same shape? |
-| `**wizardVisible**` | Presentation | Should this instance appear in the booking wizard?              |
+Every block instance carries independent behavior flags on orthogonal axes. As of Phase B (2026-07-12), wizard presentation uses the four-state `wizardPlacement` enum (`hidden` / `topLine` / `subOption` / `both`) instead of the retired `wizardVisible` boolean.
 
 
-**These are orthogonal axes.** Any combination is valid.
+| Property | Axis | Question it answers |
+| --- | --- | --- |
+| `orchestrator` | Behavior | Current code: differential scheduling + (service shapes) may own base time/fee. **Naming under review** — not vertical packaging, not accumulator. See §2.3. |
+| `composite` | Structure (vertical) | Same-shape package: owns children via `instanceComponents`. |
+| `wizardPlacement` | Presentation | Where this instance appears in the booking wizard. |
+| `accumulator` *(planned)* | Lateral (runtime) | When this service is selected, auto-include linked time characteristics that are **present in property data** — not a user pick of those characteristics. |
+
+
+**Composite and wizardPlacement are orthogonal.** Accumulator is a separate lateral axis (§2.3), distinct from `bookingCascades` (user-selectable lateral options).
 
 ### 2.1 The composite × orchestrator grid
 
-**Compositeness is always a relationship within the same block shape, and orchestration is always between different block shapes.** Any combination is valid.
+**Compositeness is always a relationship within the same block shape (vertical).** Lateral user options use `bookingCascades`. Any combination of composite × current `orchestrator` flag is valid in today's data; see §2.3 for naming clarification.
 
 |               | Orchestrator                                                                                                                                                                                 | Independent                                                                                              |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -51,22 +52,57 @@ In addition to `id,` `entityKey,` `orderIndex,` `ref` values, and any other prop
 **As an example,** Buyer's Inspection is a composite service (made up of atomic services: roof observations, equipment observations, equipment testing, visible surface observations, infrared surface observations, etc.) and — as an orchestrator — it *assigns* which time instances (all property types except multifamily), fee instances (perUnit rates and discount values or percentages), and event instances (minimize time on site, no report, extra presentation time) are active. The shape-level validity graph defines the universe of options; the orchestrator picks from it.
 
 
-### 2.2 wizardVisible examples
+### 2.2 wizardPlacement examples
 
-| Example                      | composite | orchestrator | wizardVisible | Why                                                     |
-| ---------------------------- | --------- | ------------ | ------------- | ------------------------------------------------------- |
-| "Buyer's Inspection Package" | ✓         | ✓            | ✓             | Top-level service the user picks                        |
-| "Single-Family Home"         | ✓         | ✓            | ✓             | Top-level property type the user picks                  |
-| {currently none}             | ✓         | ✓            | ✗             | Legitimate possibility with no current use-case         |
-| "Additional Units"           | ✓         | ✗            | ✓             | Add-on visible in wizard, only valid under Multi-Family |
-| "Minimize Time On Site"      | ✓         | ✗            | ✓             | Composite event profile (owns segments); not a cross-shape orchestrator |
-| "Radon Testing"              | ✗         | ✓            | ✓             | Atomic service orchestrator; user picks it; assigns fee/event |
-| "Standard Event Schedule"    | ✗         | ✓            | ✗             | Atomic event orchestrator; owns baseline segment assignments (default routing); not user-facing |
-| "Inspector"                  | ✗         | ✓            | ✗             | Atomic user orchestrator (drives cross-shape cascade selections) |
-| "Square Footage"             | ✗         | ✗            | ✓             | Property characteristic — MLS-populated and user-editable field       |
-| {currently none}             | ✗         | ✗            | ✗             | Legitimate possibility with no current use-case         |
+| Example                      | composite | orchestrator | wizardPlacement | Why                                                     |
+| ---------------------------- | --------- | ------------ | --------------- | ------------------------------------------------------- |
+| "Buyer's Inspection Package" | ✓         | ✓            | topLine         | Top-level service the user picks                        |
+| "Single-Family Home"         | ✓         | ✓            | topLine         | Top-level property type the user picks                  |
+| {currently none}             | ✓         | ✓            | hidden          | Legitimate possibility with no current use-case         |
+| "Additional Units"           | ✓         | ✗            | topLine         | Add-on visible in wizard, only valid under Multi-Family |
+| "Minimize Time On Site"      | ✓         | ✗            | topLine         | Composite event profile (owns segments); not a cross-shape orchestrator |
+| "Radon Testing"              | ✗         | ✓            | topLine         | Atomic service orchestrator; user picks it; assigns fee/event |
+| "Standard Event Schedule"    | ✗         | ✓            | hidden          | Atomic event orchestrator; owns baseline segment assignments (default routing); not user-facing |
+| "Inspector"                  | ✗         | ✓            | hidden          | Atomic user orchestrator (drives cross-shape cascade selections) |
+| "Square Footage"             | ✗         | ✗            | topLine         | Property characteristic — MLS-populated and user-editable field       |
+| {currently none}             | ✗         | ✗            | hidden          | Legitimate possibility with no current use-case         |
 
-**The booking wizard shows only instances where `wizardVisible = true`, filtered by the validity graph of the selected orchestrators.**
+**The booking wizard shows instances by `wizardPlacement` (`topLine` / `subOption` / `both`), filtered by the validity graph and `bookingCascades` of selected parents.**
+
+### 2.3 Lateral relationships and accumulator *(corrected — Will 2026-07-13)*
+
+**Axes (Will):**
+
+| Axis | Meaning | Code today |
+| ---- | ------- | ---------- |
+| **Vertical (within shape)** | Package owns same-shape children | `composite` + `instanceComponents` |
+| **Lateral — user options** | Downstream instances offered for user selection | `validBookingCascades` / `bookingCascades` (admin/UI may say “validator” / “downstream options”; **code keys stay**) |
+| **Lateral — property auto-include** | Include a time/property characteristic when a linked service is selected **and** property data has that fact | **`accumulator` — planned; not implemented** |
+
+**Accumulator rule (signed off):**
+
+For an atomic service with an accumulator link to HVAC equipment:
+
+| Service selected? | Property has HVAC? | HVAC included? |
+| ----------------- | ------------------ | -------------- |
+| Yes | Yes | Yes |
+| Yes | No | No |
+| No | Yes or No | No |
+
+Accumulator is **ambivalent of user selection** of the HVAC block itself, but **not** ambivalent of property data. It is also gated on the owning service being selected.
+
+**What exists that looks similar but is not accumulator:**
+
+- `property_feature_mappings` + MLS `suggestedBlockInstanceIds`: property-fact → suggest/auto-select time blocks. **Does not** check whether a related service is selected. Table currently has **0 rows**. Adjacent infrastructure only.
+- `bookingCascades`: admin-configured lateral **options** for the wizard. User (or cascade filter) chooses among them — not property-fact auto-include.
+
+**Hybrid naming decision (Will 2026-07-13):**
+
+1. Keep code identifiers `composite` and `bookingCascades` (no rename).
+2. New feature = **`accumulator`** exactly as the rule above.
+3. Current `orchestrator` flag: **clarify or rename separately** — today it drives differential scheduling + service base ledger, **not** vertical packaging and **not** accumulator. Vertical packaging already has the name `composite`.
+
+**Implementation sketch (future):** Accumulator edges (service instance → time characteristic instance) + evaluation: `serviceSelected && propertyFactPresent(characteristic)`. Distinct from `bookingCascades`. Admin labels for cascades may say “downstream options / validator”; code keys stay `bookingCascades`.
 
 ---
 
@@ -76,12 +112,12 @@ In addition to `id,` `entityKey,` `orderIndex,` `ref` values, and any other prop
 
 ```
 Block Shape (template — defines type, domain, and valid shape-level relationships)
-  └─ Block Instance (runtime — a concrete occurrence; carries orchestrator/composite/wizardVisible)
+  └─ Block Instance (runtime — a concrete occurrence; carries orchestrator/composite/wizardPlacement; accumulator planned)
        └─ Part Instance (value ledger — accumulates domain values)
 ```
 
-- **Shapes** define the template: the block type, the domain, and which shape-level relationships are structurally valid. (Shapes do not carry `orchestrator`, `composite`, or `wizardVisible` — those live on instances.)
-- **Block instances** are the runtime occurrences. Each instance carries the three boolean properties (§2). An orchestrator instance sets active cross-shape cascade relationships. Service orchestrators are the only instances that establish base/default/minimum time and fee values. A composite instance owns child instances of the same shape. Every block instance creates part instances.
+- **Shapes** define the template: the block type, the domain, and which shape-level relationships are structurally valid. (Shapes do not carry `orchestrator`, `composite`, `wizardPlacement`, or `accumulator` — those live on instances.)
+- **Block instances** are the runtime occurrences. Each instance carries the behavior flags (§2). An orchestrator instance sets active cross-shape cascade relationships via `bookingCascades`. Service orchestrators are the only instances that establish base/default/minimum time and fee values. A composite instance owns child instances of the same shape. Every block instance creates part instances.
 - **Part instances** are the value ledger. They belong to block instances across all block shapes (via `part_assignments`), including user block instances. Many fields may be null depending on the instance's domain role. The server returns these raw, versionable records; the booking client’s PartFinalizer resolves final time/fee/segment numbers (§4.3).
 
 ### 3.2 Orchestrator → atomic → part instance flow

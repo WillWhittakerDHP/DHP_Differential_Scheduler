@@ -9,6 +9,10 @@ import {
 } from 'sequelize';
 
 import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
+import {
+  DEFAULT_WIZARD_PLACEMENT,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 import { PartAssignment } from './part_assignment';
 import { BookingCascade } from './booking_cascade';
 
@@ -22,7 +26,8 @@ export class BlockInstance extends Model<
   declare name: string;
   declare composite: boolean;
   declare orchestrator: boolean;
-  declare wizardVisible: boolean;
+  /** Four-state wizard placement (replaces the old wizardVisible boolean); see shared/constants/wizardPlacement.ts. */
+  declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
   declare icon: string | null;
   declare requiresUnitNumber: boolean;
@@ -72,11 +77,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
-      wizardVisible: {
-        type: DataTypes.BOOLEAN,
+      wizardPlacement: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        defaultValue: true,
-        field: 'wizard_visible',
+        defaultValue: DEFAULT_WIZARD_PLACEMENT,
+        field: 'wizard_placement',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,

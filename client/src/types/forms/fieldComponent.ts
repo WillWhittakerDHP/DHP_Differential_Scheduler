@@ -8,4 +8,6 @@ export type FieldComponent =
   | { type: 'select'; reason: 'select' | 'multiselect' | 'reference' }
   /** Grouped placementKind + anchorEdge for admin event shapes (Feature 20). */
   | { type: 'eventShapePlacement'; reason: 'eventShapePlacement' }
+  /** Click-through 4-state wizard placement button for block instances (Phase B). */
+  | { type: 'wizardPlacement'; reason: 'wizardPlacement' }
   | { type: 'unknown'; reason: 'notConfigured' | 'invalidRenderAs' }
