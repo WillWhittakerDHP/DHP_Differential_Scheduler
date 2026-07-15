@@ -60,16 +60,17 @@ const groupedInstances = computed(() => {
 const hasMainOrGrouped = computed(() => blockInstances.value.length > 0 || groupedInstances.value.length > 0)
 const cascadeLabel = computed(() => {
   const cascades = asEmptyArray(blockShapeValidBookingCascadesMap.value.get(props.blockShape.id))
-  return cascades.length > 0 ? `Cascades: ${cascades.join(', ')}` : 'No Cascades'
+  return cascades.length > 0 ? `Allowed active time shapes: ${cascades.join(', ')}` : 'No active time shapes'
 })
 
-/** Service / time / price instances use the part-ledger convergence path (Feature 20 Phase 3). */
+/** Service / time / price / event instances use the part-ledger convergence path (Feature 20 Phase 3). */
 const showPartLedgerConvergence = computed((): boolean => {
   const t = props.blockShape.semanticType
   return (
     t === BLOCK_SHAPE_TYPES.SERVICE ||
     t === BLOCK_SHAPE_TYPES.TIME ||
-    t === BLOCK_SHAPE_TYPES.PRICE
+    t === BLOCK_SHAPE_TYPES.PRICE ||
+    t === BLOCK_SHAPE_TYPES.EVENT
   )
 })
 
@@ -211,7 +212,7 @@ function setGroupPanelsGroupedRef(el: Element | ComponentPublicInstance | null):
       >
         <VCardTitle class="text-body-large d-flex align-center gap-2">
           <VIcon icon="tabler-folders" size="small" />
-          Not standalone-only (add-on only or both)
+          Additional / option-only instances
           <VChip size="small" variant="tonal" class="ml-2">
             {{ groupedInstances.length }}
           </VChip>

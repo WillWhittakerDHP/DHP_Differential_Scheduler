@@ -25,6 +25,8 @@ function makePart(overrides: Partial<BookingPartInstance> & { id: string }): Boo
     partShape: 'Work Item',
     baseTime: 0,
     timePerUnit: 0,
+    baseMultiplier: 1,
+    rateMultiplier: 1,
     baseFee: 0,
     feePerUnit: 0,
     orderIndex: 0,
@@ -49,6 +51,7 @@ function makeBlock(
     orderIndex: 0,
     blockShape: 'service',
     blockShapeRef: 'shape-service',
+    blockShapeSemanticType: 'service',
     activeBlockIds: [],
     allowMultiple: false,
     requiresUnitNumber: null,
@@ -178,6 +181,32 @@ describe('zero-out ordering (§4.4 step 5, §4.8: last, per part)', () => {
     // Provenance preserved: zeroed part still present in finalizedParts for admin/dev surfaces.
     expect(blockFinal.finalizedParts).toHaveLength(2)
   })
+
+  it('applies base and rate multipliers from the part instance ledger', () => {
+    const blockFinal = createBlockFinal(
+      makeBlock({
+        id: 'block-1',
+        partInstances: [
+          makePart({
+            id: 'part-multiplied',
+            baseTime: 20,
+            baseFee: 100,
+            timePerUnit: 3,
+            feePerUnit: 5,
+            baseMultiplier: 1.5,
+            rateMultiplier: 2,
+          }),
+        ],
+      })
+    )
+
+    expect(blockFinal.blockTotals).toEqual({
+      baseTime: 30,
+      baseFee: 150,
+      timePerUnit: 6,
+      feePerUnit: 10,
+    })
+  })
 })
 
 describe('event assignment resolution (§4.2/§5.2: override ?? baseline)', () => {
@@ -234,5 +263,124 @@ describe('event assignment resolution (§4.2/§5.2: override ?? baseline)', () =
     )
     expect(floatingFinal?.rawDuration).toBe(30)
     expect(primaryFinal?.rawDuration).toBe(60)
+  })
+})
+
+describe('event block part modifiers', () => {
+  it('adds fixed event part time to the matching segment through normal part assignments', () => {
+    const primaryShape = makeEventShape('es-primary', 'primary')
+    const primaryInstance = makeEventInstance('ei-primary', 'es-primary')
+    const service = makeBlock({
+      id: 'service-1',
+      partInstances: [makePart({ id: 'part-presentation', partShape: 'Formal Presentation', baseTime: 30 })],
+    })
+    const eventModifier = makeBlock({
+      id: 'event-extra-presentation',
+      blockShapeSemanticType: 'event',
+      partInstances: [
+        makePart({ id: 'part-extra-presentation', partShape: 'Formal Presentation', baseTime: 15 }),
+      ],
+    })
+    const assignments = [
+      makeAssignment('blockInstance', 'service-1', ['ei-primary']),
+      makeAssignment('blockInstance', 'event-extra-presentation', ['ei-primary']),
+    ]
+
+    const shape = buildAppointmentShape(
+      [service, eventModifier],
+      null,
+      [primaryInstance],
+      [primaryShape],
+      assignments
+    )
+
+    expect(shape.slotShape.rawDuration).toBe(45)
+    expect(shape.slotShape.eventFinals[0]?.rawDuration).toBe(45)
+  })
+
+  it('multiplies the current non-event part total for the matching part type', () => {
+    const primaryShape = makeEventShape('es-primary', 'primary')
+    const primaryInstance = makeEventInstance('ei-primary', 'es-primary')
+    const service = makeBlock({
+      id: 'service-1',
+      partInstances: [makePart({ id: 'part-presentation', partShape: 'Formal Presentation', baseTime: 40 })],
+    })
+    const eventModifier = makeBlock({
+      id: 'event-longer-presentation',
+      blockShapeSemanticType: 'event',
+      partInstances: [
+        makePart({
+          id: 'part-presentation-multiplier',
+          partShape: 'Formal Presentation',
+          baseTime: 0,
+          baseMultiplier: 1.5,
+        }),
+      ],
+    })
+    const assignments = [
+      makeAssignment('blockInstance', 'service-1', ['ei-primary']),
+      makeAssignment('blockInstance', 'event-longer-presentation', ['ei-primary']),
+    ]
+
+    const shape = buildAppointmentShape(
+      [service, eventModifier],
+      null,
+      [primaryInstance],
+      [primaryShape],
+      assignments
+    )
+
+    expect(shape.slotShape.rawDuration).toBe(60)
+    expect(shape.slotShape.eventFinals[0]?.rawDuration).toBe(60)
+  })
+
+  it('multiplies only matching parts routed to the same event segment', () => {
+    const primaryShape = makeEventShape('es-primary', 'primary')
+    const floatingShape = makeEventShape('es-floating', 'floating')
+    const primaryInstance = makeEventInstance('ei-primary', 'es-primary')
+    const floatingInstance = makeEventInstance('ei-floating', 'es-floating')
+    const service = makeBlock({
+      id: 'service-1',
+      partInstances: [
+        makePart({ id: 'part-primary-presentation', partShape: 'Formal Presentation', baseTime: 40 }),
+        makePart({ id: 'part-floating-presentation', partShape: 'Formal Presentation', baseTime: 20 }),
+      ],
+    })
+    const eventModifier = makeBlock({
+      id: 'event-longer-primary-presentation',
+      blockShapeSemanticType: 'event',
+      partInstances: [
+        makePart({
+          id: 'part-primary-presentation-multiplier',
+          partShape: 'Formal Presentation',
+          baseTime: 0,
+          baseMultiplier: 1.5,
+        }),
+      ],
+    })
+    const assignments = [
+      makeAssignment('partInstance', 'part-primary-presentation', ['ei-primary']),
+      makeAssignment('partInstance', 'part-floating-presentation', ['ei-floating']),
+      makeAssignment('blockInstance', 'event-longer-primary-presentation', ['ei-primary']),
+    ]
+
+    const shape = buildAppointmentShape(
+      [service, eventModifier],
+      null,
+      [primaryInstance, floatingInstance],
+      [primaryShape, floatingShape],
+      assignments
+    )
+
+    const primaryFinal = shape.slotShape.eventFinals.find(
+      (ef) => ef.eventShape.id === 'es-primary'
+    )
+    const floatingFinal = shape.slotShape.eventFinals.find(
+      (ef) => ef.eventShape.id === 'es-floating'
+    )
+
+    expect(primaryFinal?.rawDuration).toBe(60)
+    expect(floatingFinal?.rawDuration).toBe(20)
+    expect(shape.slotShape.rawDuration).toBe(80)
   })
 })

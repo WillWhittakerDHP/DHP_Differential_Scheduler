@@ -26,6 +26,8 @@ export class PartInstance extends Model<
   declare feePerUnit: number;
   declare baseTime: number;
   declare timePerUnit: number;
+  declare baseMultiplier: number;
+  declare rateMultiplier: number;
   declare active: boolean;
   declare zeroOutPart: boolean;
   declare createdAt: CreationOptional<Date>;
@@ -74,6 +76,16 @@ export function PartInstanceFactory(sequelize: Sequelize) {
       timePerUnit: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      baseMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
+      },
+      rateMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
       },
       active: {
         type: DataTypes.BOOLEAN,

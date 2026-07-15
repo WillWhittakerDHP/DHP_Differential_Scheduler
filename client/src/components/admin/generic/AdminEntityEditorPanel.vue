@@ -31,7 +31,7 @@ import AdminEntityDeleteWizard from '@/components/admin/generic/AdminEntityDelet
 import { usesDependencyDeleteContract } from '@/utils/admin/dependencyDeleteContractKeys'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
-import { BLOCK_SHAPE_TYPES, type BlockShapeType } from '@/constants/blockShapeTypes'
+import { type BlockShapeType } from '@/constants/blockShapeTypes'
 import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 defineOptions({
@@ -220,13 +220,6 @@ const eventShapeTimingTitle = computed(() => {
   ).shortTitle
 })
 
-const showPartsTotals = computed(() => {
-  if (props.entityKey === 'blockInstance' && blockInstanceSemanticType.value === BLOCK_SHAPE_TYPES.EVENT) {
-    return false
-  }
-  return true
-})
-
 const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle } = useEntityCardPrimaryTitleModels({
   entityKey: computed(() => props.entityKey),
   entity: computed(() => props.entity),
@@ -296,7 +289,6 @@ defineExpose({
         
         <!-- WHY: Shows parts totals when shape type allows part ledger (non-user) — see usePartsTotals / blockShapeAllowsParts -->
         <EntityCardPartsTotals
-          v-if="showPartsTotals"
           :entity-key="entityKey"
           :entity-id="entity.id"
         />

@@ -23,6 +23,11 @@ describe('blockInstanceFieldVisibility', () => {
     expect(shouldShowBlockInstanceField('requiresAgent', BLOCK_SHAPE_TYPES.TIME)).toBe(false)
   })
 
+  it('hides generic activation and event assignment fields on service cards', () => {
+    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
+    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
+  })
+
   it('shows user semantic type only on user shapes', () => {
     expect(shouldShowBlockInstanceField('semanticType', BLOCK_SHAPE_TYPES.USER)).toBe(true)
     expect(shouldShowBlockInstanceField('semanticType', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
@@ -36,11 +41,10 @@ describe('blockInstanceFieldVisibility', () => {
     }
   })
 
-  it('hides unrelated admin plumbing on event block instances', () => {
-    expect(shouldShowBlockInstanceField('icon', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
-    expect(shouldShowBlockInstanceField('accumulator', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
-    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
-    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
-    expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+  it('keeps event block instances on the normal relationship surface', () => {
+    expect(shouldShowBlockInstanceField('partAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
+    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
+    expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
+    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
   })
 })

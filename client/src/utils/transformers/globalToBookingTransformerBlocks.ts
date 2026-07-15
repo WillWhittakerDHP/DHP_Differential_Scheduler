@@ -165,6 +165,7 @@ function buildBookingBlockInstance(
   partInstances: BookingPartInstance[],
   blockShape: string,
   blockShapeRef: string,
+  blockShapeSemanticType: BookingBlockInstance['blockShapeSemanticType'],
   activeBlockIds: string[],
   orchestrator: boolean,
   wizardPlacement: WizardPlacement
@@ -176,6 +177,7 @@ function buildBookingBlockInstance(
     name: blockInstance.name,
     active: true,
     icon: safeString(props.icon, 'blockInstance.icon'),
+    blockShapeSemanticType,
     orchestrator,
     accumulator: props.accumulator === true,
     wizardPlacement,
@@ -244,6 +246,7 @@ function transformBlockInstance(
   const wizardPlacement = resolveWizardPlacement(props.wizardPlacement)
   const blockShapeEntity = _blockShapeById.get(blockShapeRef)
   const blockShape = safeString(blockShapeEntity?.name, 'blockShape.name')
+  const blockShapeSemanticType = blockShapeEntity?.semanticType ?? 'service'
 
   return buildBookingBlockInstance(
     blockInstance,
@@ -251,6 +254,7 @@ function transformBlockInstance(
     partInstances,
     blockShape,
     blockShapeRef,
+    blockShapeSemanticType,
     activeBlockIds,
     orchestrator,
     wizardPlacement

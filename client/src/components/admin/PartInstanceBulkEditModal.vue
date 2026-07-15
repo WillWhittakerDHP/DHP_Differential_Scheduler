@@ -41,6 +41,8 @@ const props = withDefaults(defineProps<Props>(), {
   bulkEditData: () => ({
     baseTime: null,
     timePerUnit: null,
+    baseMultiplier: null,
+    rateMultiplier: null,
     baseFee: null,
     feePerUnit: null
   })
@@ -75,6 +77,8 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       orderIndex: 0,
       baseTime: editData.baseTime ?? 0,
       timePerUnit: editData.timePerUnit ?? 0,
+      baseMultiplier: editData.baseMultiplier ?? 1,
+      rateMultiplier: editData.rateMultiplier ?? 1,
       baseFee: editData.baseFee ?? 0,
       feePerUnit: editData.feePerUnit ?? 0,
       active: true,
@@ -94,6 +98,8 @@ const templateEntity = computed<GlobalEntity<'partInstance'>>(() => {
       orderIndex: 0,
       baseTime: 0,
       timePerUnit: 0,
+      baseMultiplier: 1,
+      rateMultiplier: 1,
       baseFee: 0,
       feePerUnit: 0,
       active: true,

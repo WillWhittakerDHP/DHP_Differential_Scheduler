@@ -37,6 +37,8 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   requiresAgent: boolean;
   /** Assigned event instances (parent_kind = blockInstance on event_assignments). */
   eventAssignments?: GlobalEntityId[];
+  /** Default event instance for this block; additional choices live in eventAssignments. */
+  defaultEventInstanceId?: string | null;
   /** Canonical user role (USER_ROLE_VALUES) when parent shape is user-semantic; null if unset. */
   semanticType?: string | null;
   /** Default Property Detail Fact when this time block is added to an accumulator link. */
@@ -56,6 +58,8 @@ export interface PartInstanceEntity extends GlobalEntityBase<"partInstance"> {
   partShapeRef: string;
   baseTime: number;
   timePerUnit: number;
+  baseMultiplier: number;
+  rateMultiplier: number;
   baseFee: number;
   feePerUnit: number;
   active: boolean;

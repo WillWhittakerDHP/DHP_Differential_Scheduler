@@ -21,6 +21,8 @@ export type BookingPartInstance = CoreEntity & {
   partShape: string
   baseTime: number
   timePerUnit: number
+  baseMultiplier: number
+  rateMultiplier: number
   baseFee: number
   feePerUnit: number
   orderIndex: number
@@ -39,6 +41,8 @@ export type BookingBlockShape = {
 export type BookingBlockInstance = CoreEntity & {
   entityKey: 'blockInstance'
   icon: string
+  /** Semantic type of the parent block shape; distinct from user-role semanticType on user block instances. */
+  blockShapeSemanticType: BlockShapeType
   orchestrator: boolean
   /** Lateral inclusion gates — see shared/constants/accumulator.ts */
   accumulator: boolean

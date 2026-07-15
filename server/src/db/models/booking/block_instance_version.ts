@@ -30,6 +30,7 @@ export class BlockInstanceVersion extends Model<
   declare accumulator: boolean;
   declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
+  declare defaultEventInstanceId: string | null;
   declare propertyFactKey: string | null;
   declare createdAt: CreationOptional<Date>;
   
@@ -85,6 +86,11 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
         field: 'pre_closing',
+      },
+      defaultEventInstanceId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'default_event_instance_id',
       },
       propertyFactKey: {
         type: DataTypes.TEXT,

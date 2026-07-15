@@ -100,7 +100,6 @@ defineExpose({
 
 <template>
   <div v-if="!usesSegmentManager" class="mt-4 event-block-instance-segment">
-    <div class="text-title-small mb-3">Segment details</div>
     <VAlert
       v-if="eventShapes.length === 0"
       type="warning"

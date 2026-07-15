@@ -73,6 +73,24 @@ export const partInstanceDisplays = {
     align: "right",
     },
 
+  baseMultiplier: {
+    label: "Base multiplier",
+    placeholder: "1",
+    inline: false,
+    stacked: true,
+    width: "15%",
+    align: "right",
+    },
+
+  rateMultiplier: {
+    label: "Rate multiplier",
+    placeholder: "1",
+    inline: false,
+    stacked: true,
+    width: "15%",
+    align: "right",
+    },
+
   baseFee: {
     label: "Base Fee ($)",
     placeholder: "",

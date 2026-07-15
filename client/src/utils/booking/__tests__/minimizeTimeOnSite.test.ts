@@ -34,6 +34,8 @@ function makePart(id: string, baseTime: number): BookingPartInstance {
     partShape: id,
     baseTime,
     timePerUnit: 0,
+    baseMultiplier: 1,
+    rateMultiplier: 1,
     baseFee: 0,
     feePerUnit: 0,
     orderIndex: 0,

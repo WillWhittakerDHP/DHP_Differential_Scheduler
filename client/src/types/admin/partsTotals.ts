@@ -6,4 +6,6 @@ export interface UsePartsTotalsReturn {
   totalBaseTime: ComputedRef<number>
   totalFeePerUnit: ComputedRef<number>
   totalTimePerUnit: ComputedRef<number>
+  totalBaseMultiplier: ComputedRef<number>
+  totalRateMultiplier: ComputedRef<number>
 }

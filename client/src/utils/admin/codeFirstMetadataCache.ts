@@ -70,9 +70,10 @@ const blockInstanceUserSemanticOptions = [
 
 const wizardPlacementOptions = [
   { label: 'Hidden', value: WIZARD_PLACEMENT.HIDDEN },
-  { label: 'Top-line', value: WIZARD_PLACEMENT.TOP_LINE },
-  { label: 'Sub-option only', value: WIZARD_PLACEMENT.SUB_OPTION },
-  { label: 'Both', value: WIZARD_PLACEMENT.BOTH },
+  { label: 'Base', value: WIZARD_PLACEMENT.TOP_LINE },
+  { label: 'Additional', value: WIZARD_PLACEMENT.ADDITIONAL },
+  { label: 'Option only', value: WIZARD_PLACEMENT.SUB_OPTION },
+  { label: 'Base or additional', value: WIZARD_PLACEMENT.BOTH },
 ]
 
 const propertyFactKeyOptions = [
@@ -135,7 +136,7 @@ function globalBlockShape(): Record<string, FieldMetadataEntry> {
       inputConfig: { options: blockShapeTypeOptions },
       panel: P.NONE,
     }),
-    validBookingCascades: mk('validBookingCascades', 'Allowed downstream shapes', 10, {
+    validBookingCascades: mk('validBookingCascades', 'Allowed time block shapes', 10, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockShapeSelectInputs.validBookingCascades },
@@ -228,7 +229,13 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       panel: P.NONE,
       bulkEdit: true,
     }),
-    icon: mk('icon', 'Icon', 10, { dataType: 'string', renderAs: R.ICON_SELECT, panel: P.NONE }),
+    icon: mk('icon', 'Icon', 10, {
+      dataType: 'string',
+      renderAs: R.ICON_SELECT,
+      visibility: V.TITLE_ROW,
+      layout: L.INLINE,
+      panel: P.NONE,
+    }),
     allowMultiple: titleRowFlag('allowMultiple', 'Allow multiple', 11),
     requiresUnitNumber: titleRowFlag('requiresUnitNumber', 'Requires unit number', 12),
     preClosing: titleRowFlag('preClosing', 'Pre-closing', 13),
@@ -262,7 +269,7 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.annotationAssignments },
       panel: FIELD_NAMES.ANNOTATIONS,
     }),
-    bookingCascades: mk('bookingCascades', 'Downstream instance links', 22, {
+    bookingCascades: mk('bookingCascades', 'Active time blocks', 22, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.bookingCascades },
@@ -309,23 +316,33 @@ function globalPartInstance(): Record<string, FieldMetadataEntry> {
       renderAs: R.NUMBER,
       panel: P.NONE,
     }),
-    baseFee: mk('baseFee', 'Base fee', 7, { dataType: 'number', renderAs: R.NUMBER, panel: P.NONE }),
-    feePerUnit: mk('feePerUnit', 'Fee per unit', 8, {
+    baseMultiplier: mk('baseMultiplier', 'Base multiplier', 7, {
       dataType: 'number',
       renderAs: R.NUMBER,
       panel: P.NONE,
     }),
-    zeroOutPart: mk('zeroOutPart', 'Zero out part', 9, {
+    rateMultiplier: mk('rateMultiplier', 'Rate multiplier', 8, {
+      dataType: 'number',
+      renderAs: R.NUMBER,
+      panel: P.NONE,
+    }),
+    baseFee: mk('baseFee', 'Base fee', 9, { dataType: 'number', renderAs: R.NUMBER, panel: P.NONE }),
+    feePerUnit: mk('feePerUnit', 'Fee per unit', 10, {
+      dataType: 'number',
+      renderAs: R.NUMBER,
+      panel: P.NONE,
+    }),
+    zeroOutPart: mk('zeroOutPart', 'Zero out part', 11, {
       dataType: 'boolean',
       renderAs: R.STATUS_BUTTON,
       panel: P.NONE,
     }),
-    pricingCascades: mk('pricingCascades', 'Pricing cascades', 10, {
+    pricingCascades: mk('pricingCascades', 'Pricing cascades', 12, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstPartInstanceSelectInputs.pricingCascades },
     }),
-    eventAssignments: mk('eventAssignments', 'Event assignments', 11, {
+    eventAssignments: mk('eventAssignments', 'Event assignments', 13, {
       dataType: 'reference',
       renderAs: R.RELATIONSHIP_COLLECTION,
       visibility: V.EXPANDED_PANEL,

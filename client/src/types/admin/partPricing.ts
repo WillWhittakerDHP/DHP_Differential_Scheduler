@@ -6,4 +6,6 @@ export interface PartPricingFields {
   baseTime?: number | null
   feePerUnit?: number | null
   timePerUnit?: number | null
+  baseMultiplier?: number | null
+  rateMultiplier?: number | null
 }

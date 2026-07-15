@@ -153,6 +153,20 @@ const parentBlockShapeIsStateControl = computed((): boolean => {
   return false
 })
 
+const parentBlockShapeSemanticType = computed((): string | null => {
+  const parent = parentEntity.value
+  if (!parent) return null
+  if (parent.entityKey === 'blockInstance') {
+    const bi = parent as BlockInstanceEntity
+    const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
+    return shape?.semanticType ?? null
+  }
+  if (parent.entityKey === 'blockShape') {
+    return (parent as BlockShapeEntity).semanticType ?? null
+  }
+  return null
+})
+
 const effectiveCollectionType = computed<CollectionType>(() => {
   if (props.collectionType) return props.collectionType
   const fieldKey = String(props.fieldContext.state.fieldKey)
@@ -160,6 +174,10 @@ const effectiveCollectionType = computed<CollectionType>(() => {
   if (fieldKey.includes('event')) return 'events'
   return 'parts' // default
 })
+
+const isEventPartsCollection = computed(() =>
+  effectiveCollectionType.value === 'parts' && parentBlockShapeSemanticType.value === BLOCK_SHAPE_TYPES.EVENT
+)
 
 const collectionModel = useRelationshipCollection({
   fieldContext: props.fieldContext,
@@ -196,6 +214,9 @@ const placeholderCardClass = computed(() => {
 })
 
 const placeholderText = computed(() => {
+  if (isEventPartsCollection.value) {
+    return 'Click to create part modifier'
+  }
   const typeMap: Record<CollectionType, string> = {
     parts: 'Click to create part instance',
     annotations: 'Click to create annotation instance',
@@ -205,6 +226,9 @@ const placeholderText = computed(() => {
 })
 
 const emptyStateMessage = computed(() => {
+  if (isEventPartsCollection.value) {
+    return 'No valid PartShapes configured for this event block shape. Configure validPartCascades on the Event BlockShape to add part modifiers.'
+  }
   const typeMap: Record<CollectionType, string> = {
     parts: 'No valid PartShapes configured for this BlockShape. Configure validPartCascades on the BlockShape to add PartInstances.',
     annotations: 'No valid AnnotationShapes configured for this BlockShape. Configure validAnnotationAssignments on the BlockShape to add AnnotationInstances.',

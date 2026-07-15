@@ -58,6 +58,7 @@ function transformVersionToBookingInstance(
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',
+    blockShapeSemanticType: BLOCK_SHAPE_TYPES.SERVICE,
     activeBlockIds: [],
     partInstances: [],
     requiresUnitNumber: null,
@@ -77,6 +78,8 @@ function transformVersionToBookingInstance(
       baseTime: pi.baseTime,
       feePerUnit: pi.feePerUnit,
       timePerUnit: pi.timePerUnit,
+      baseMultiplier: pi.baseMultiplier ?? 1,
+      rateMultiplier: pi.rateMultiplier ?? 1,
       active: currentPart?.active ?? true,
       orderIndex: safeNumber(currentPart?.orderIndex, 'VersionBlockInstance.partInstances.orderIndex'),
       partShape: safeString(currentPart?.partShape, 'VersionBlockInstance.partInstances.partShape'),
@@ -95,6 +98,7 @@ function transformVersionToBookingInstance(
     orchestrator: currentInstance?.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR,
     accumulator: currentInstance?.accumulator ?? DEFAULT_VALUES.ACCUMULATOR,
     wizardPlacement: currentInstance?.wizardPlacement ?? DEFAULT_WIZARD_PLACEMENT,
+    blockShapeSemanticType: currentInstance?.blockShapeSemanticType ?? BLOCK_SHAPE_TYPES.SERVICE,
     partInstances,
   } as BookingBlockInstance
 }

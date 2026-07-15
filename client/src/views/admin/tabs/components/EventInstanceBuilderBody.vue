@@ -17,6 +17,7 @@ import EventInstanceTemplateFields from './EventInstanceTemplateFields.vue'
 import EventInstanceVariableChips from './EventInstanceVariableChips.vue'
 import EventInstancePreviewPanel from './EventInstancePreviewPanel.vue'
 import EventInstanceCalendarSettings from './EventInstanceCalendarSettings.vue'
+import EventInstanceTimeBlockClaims from './EventInstanceTimeBlockClaims.vue'
 import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 const draft = defineModel<NewEventInstanceData>({ required: true })
@@ -25,7 +26,7 @@ const props = defineProps<{
   eventShapesList: GlobalEntity<'eventShape'>[]
 }>()
 
-const expandedSections = ref<string[]>(['template'])
+const expandedSections = ref<string[]>(['segment', 'template'])
 
 const titleWarnings = computed(() => templateFieldUnknownWarnings(draft.value.titleTemplate))
 const descriptionWarnings = computed(() => templateFieldUnknownWarnings(draft.value.descriptionTemplate))
@@ -112,56 +113,66 @@ const attendeeSelection = computed<string[]>({
 
 <template>
   <div class="d-flex flex-column gap-2">
-    <VRow density="comfortable">
-      <VCol cols="12" md="6">
-        <VSelect
-          v-model="draft.eventShapeRef"
-          :items="eventShapeItems"
-          item-title="title"
-          item-value="value"
-          label="Event type"
-          variant="outlined"
-          density="compact"
-          hint="Controls where this segment sits in time. Attendees are configured separately."
-          persistent-hint
-        />
-        <div
-          v-if="selectedTimingBehavior"
-          class="text-body-small text-medium-emphasis mt-1"
-        >
-          {{ selectedTimingBehavior.description }}
-        </div>
-      </VCol>
-      <VCol cols="12" md="6">
-        <VTextField
-          v-model="draft.name"
-          label="Segment name"
-          hint="Example: Early Arrival, Client Presentation, Report Writing"
-          persistent-hint
-          variant="outlined"
-          density="compact"
-        />
-      </VCol>
-    </VRow>
-
-    <VSelect
-      v-model="attendeeSelection"
-      :items="attendeeTypeItems"
-      item-title="title"
-      item-value="value"
-      label="Attendee types included"
-      variant="outlined"
-      density="compact"
-      multiple
-      chips
-      closable-chips
-      clearable
-      no-data-text="Create user-type block instances before assigning attendees."
-      hint="People are routed to this calendar event through their user type, such as Inspector, Buyer, or Agent."
-      persistent-hint
-    />
-
     <VExpansionPanels v-model="expandedSections" multiple class="event-instance-builder-cards">
+      <VExpansionPanel value="segment">
+        <VExpansionPanelTitle>
+          Segment details
+        </VExpansionPanelTitle>
+        <VExpansionPanelText>
+          <VTextField
+            v-model="draft.name"
+            label="Segment label"
+            hint="Internal/admin label for this segment. The actual Google Calendar title is the Calendar Title field in Template builder."
+            persistent-hint
+            variant="outlined"
+            density="compact"
+            class="mb-3"
+          />
+
+          <VRow density="comfortable">
+            <VCol cols="12" md="6">
+              <VSelect
+                v-model="draft.eventShapeRef"
+                :items="eventShapeItems"
+                item-title="title"
+                item-value="value"
+                label="Event type"
+                variant="outlined"
+                density="compact"
+                hint="Controls where this segment sits in time. Attendees are configured separately."
+                persistent-hint
+              />
+              <div
+                v-if="selectedTimingBehavior"
+                class="text-body-small text-medium-emphasis mt-1"
+              >
+                {{ selectedTimingBehavior.description }}
+              </div>
+            </VCol>
+            <VCol cols="12" md="6">
+              <VSelect
+                v-model="attendeeSelection"
+                :items="attendeeTypeItems"
+                item-title="title"
+                item-value="value"
+                label="Attendee types included"
+                variant="outlined"
+                density="compact"
+                multiple
+                chips
+                closable-chips
+                clearable
+                no-data-text="Create user-type block instances before assigning attendees."
+                hint="People are routed to this calendar event through their user type, such as Inspector, Buyer, or Agent."
+                persistent-hint
+              />
+            </VCol>
+          </VRow>
+
+          <EventInstanceTimeBlockClaims v-model="draft.eventPartClaims" />
+        </VExpansionPanelText>
+      </VExpansionPanel>
+
       <VExpansionPanel value="template">
         <VExpansionPanelTitle>
           Template builder

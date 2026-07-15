@@ -7,6 +7,8 @@ const ENTITY_COMPUTED_PROPERTY_KEYS = [
   'baseTime',
   'feePerUnit',
   'timePerUnit',
+  'baseMultiplier',
+  'rateMultiplier',
   'partAssignments',
 ] as const
 

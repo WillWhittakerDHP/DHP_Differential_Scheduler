@@ -46,6 +46,7 @@ const props = defineProps<Props>()
 
 const admin = useAdmin()
 const eventSegmentsPanelRef = ref<InstanceType<typeof EventBlockInstanceSegmentsPanel> | null>(null)
+
 const showEventSegments = computed((): boolean => {
   if (props.entityKey !== 'blockInstance' || props.isNew) {
     return false
@@ -57,6 +58,19 @@ async function handleSaveWithEventSegments(): Promise<void> {
   await eventSegmentsPanelRef.value?.saveDirectSegment()
   await props.handleSave()
 }
+
+function isBlockInstanceNameOrIcon(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  return props.entityKey === 'blockInstance' &&
+    (String(fieldKey) === 'name' || String(fieldKey) === 'icon')
+}
+
+const directInlineFields = computed(() =>
+  props.fieldsByLocation.directInline.filter((fieldKey) => !isBlockInstanceNameOrIcon(fieldKey))
+)
+
+const directStackedFields = computed(() =>
+  props.fieldsByLocation.directStacked.filter((fieldKey) => !isBlockInstanceNameOrIcon(fieldKey))
+)
 </script>
 
 <template>
@@ -81,9 +95,9 @@ async function handleSaveWithEventSegments(): Promise<void> {
 
   <!-- WHY: Fields without panel assignment render in main card area -->
   <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
-  <VRow v-if="fieldsByLocation.directInline.length > 0" class="mb-4">
+  <VRow v-if="directInlineFields.length > 0" class="mb-4">
     <VCol
-      v-for="fieldKey in fieldsByLocation.directInline"
+      v-for="fieldKey in directInlineFields"
       :key="fieldKey"
       cols="12"
       sm="12"
@@ -114,7 +128,7 @@ async function handleSaveWithEventSegments(): Promise<void> {
     :block-instance-id="entityId"
   />
 
-  <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
+  <div v-for="fieldKey in directStackedFields" :key="fieldKey" class="mb-4">
     <FieldRenderer
       v-if="getFieldContext(fieldKey)"
       :field-context="getFieldContext(fieldKey)!"

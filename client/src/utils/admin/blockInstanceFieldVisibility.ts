@@ -21,15 +21,6 @@ const SERVICE_BLOCK_INSTANCE_FIELDS = new Set([
 
 const USER_BLOCK_INSTANCE_FIELDS = new Set(['semanticType'])
 
-const EVENT_BLOCK_INSTANCE_HIDDEN_FIELDS = new Set([
-  'icon',
-  'accumulator',
-  'bookingCascades',
-  'accumulationLinks',
-  'eventAssignments',
-  'instanceComponents',
-])
-
 const BLOCK_INSTANCE_FIELDS_BY_SEMANTIC_TYPE: Partial<
   Record<BlockShapeType, ReadonlySet<string>>
 > = {
@@ -49,14 +40,21 @@ export function shouldShowBlockInstanceField(
     return false
   }
 
+  // Service cards use semantic controls for Active time blocks / Active fee blocks instead
+  // of the generic mixed downstream relationship field.
+  if (semanticType === BLOCK_SHAPE_TYPES.SERVICE && key === 'bookingCascades') {
+    return false
+  }
+
+  // Service cards use the dedicated Default/Optional event selectors in Service activation.
+  if (semanticType === BLOCK_SHAPE_TYPES.SERVICE && key === 'eventAssignments') {
+    return false
+  }
+
   if (!semanticType) {
     return !TIME_BLOCK_INSTANCE_FIELDS.has(key) &&
       !SERVICE_BLOCK_INSTANCE_FIELDS.has(key) &&
       !USER_BLOCK_INSTANCE_FIELDS.has(key)
-  }
-
-  if (semanticType === BLOCK_SHAPE_TYPES.EVENT && EVENT_BLOCK_INSTANCE_HIDDEN_FIELDS.has(key)) {
-    return false
   }
 
   const allowed = BLOCK_INSTANCE_FIELDS_BY_SEMANTIC_TYPE[semanticType]

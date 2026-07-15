@@ -73,7 +73,7 @@ export const blockInstanceDisplays = {
     label: "Wizard placement",
     placeholder: "Choose where this appears",
     tooltip:
-      "Where this instance appears in the booking wizard — Hidden: never shown; Top-line: a main wizard card; Sub-option only: a nested add-on under a parent; Both: a top-line card that is also offered as a sub-option.",
+      "Where this instance appears in the booking wizard — Hidden: never shown; Base: a main wizard card; Additional: an add-on/extra; Option only: a nested option; Base or additional: available in both places.",
     inline: true,
     stacked: false,
     width: "auto",
@@ -85,7 +85,6 @@ export const blockInstanceDisplays = {
     placeholder: "e.g. 🧱 or custom path",
     inline: true,
     stacked: true,
-    style: { display: "none" },
   },
 
   allowMultiple: {

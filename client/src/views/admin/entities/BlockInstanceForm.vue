@@ -93,9 +93,10 @@ const {
 
 const wizardPlacementOptions = [
   { label: 'Hidden', value: WIZARD_PLACEMENT.HIDDEN },
-  { label: 'Top-line', value: WIZARD_PLACEMENT.TOP_LINE },
-  { label: 'Sub-option only', value: WIZARD_PLACEMENT.SUB_OPTION },
-  { label: 'Both', value: WIZARD_PLACEMENT.BOTH },
+  { label: 'Base', value: WIZARD_PLACEMENT.TOP_LINE },
+  { label: 'Additional', value: WIZARD_PLACEMENT.ADDITIONAL },
+  { label: 'Option only', value: WIZARD_PLACEMENT.SUB_OPTION },
+  { label: 'Base or additional', value: WIZARD_PLACEMENT.BOTH },
 ]
 </script>
 

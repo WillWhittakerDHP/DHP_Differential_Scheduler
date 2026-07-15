@@ -9,6 +9,8 @@ export interface VersionBlockInstance {
     baseTime: number
     feePerUnit: number
     timePerUnit: number
+    baseMultiplier?: number | null
+    rateMultiplier?: number | null
   }>
 }
 

@@ -1086,7 +1086,8 @@ CREATE TABLE public.block_instance_versions (
     orchestrator boolean DEFAULT false NOT NULL,
     wizard_visible boolean DEFAULT true NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    pre_closing boolean DEFAULT false NOT NULL
+    pre_closing boolean DEFAULT false NOT NULL,
+    default_event_instance_id uuid
 );
 
 
@@ -1119,6 +1120,7 @@ CREATE TABLE public.block_instances (
     requires_agent boolean DEFAULT false NOT NULL,
     pre_closing boolean DEFAULT false NOT NULL,
     agent_permissions public.ternary_boolean DEFAULT 'false'::public.ternary_boolean NOT NULL,
+    default_event_instance_id uuid,
     semantic_type character varying(64)
 );
 
@@ -1713,6 +1715,8 @@ CREATE TABLE public.part_instance_versions (
     base_time integer NOT NULL,
     fee_per_unit integer NOT NULL,
     time_per_unit integer NOT NULL,
+    base_multiplier double precision DEFAULT 1 NOT NULL,
+    rate_multiplier double precision DEFAULT 1 NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -1732,6 +1736,8 @@ CREATE TABLE public.part_instances (
     fee_per_unit integer,
     base_time integer,
     time_per_unit integer,
+    base_multiplier double precision DEFAULT 1 NOT NULL,
+    rate_multiplier double precision DEFAULT 1 NOT NULL,
     active boolean DEFAULT true NOT NULL,
     zero_out_part boolean DEFAULT false NOT NULL
 );

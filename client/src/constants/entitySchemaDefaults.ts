@@ -17,7 +17,7 @@ export const ENTITY_SCHEMA_DEFAULTS = {
     partShape: [],
   },
   REQUIRED_NUMBERS: {
-    partInstance: ['baseFee', 'feePerUnit', 'baseTime', 'timePerUnit'],
+    partInstance: ['baseFee', 'feePerUnit', 'baseTime', 'timePerUnit', 'baseMultiplier', 'rateMultiplier'],
     blockInstance: [],
     blockShape: [],
     partShape: [],

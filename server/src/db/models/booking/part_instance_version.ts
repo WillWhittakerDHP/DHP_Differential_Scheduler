@@ -21,6 +21,8 @@ export class PartInstanceVersion extends Model<
   declare baseTime: number;
   declare feePerUnit: number;
   declare timePerUnit: number;
+  declare baseMultiplier: number;
+  declare rateMultiplier: number;
   declare createdAt: CreationOptional<Date>;
   
   /** Associated block instance version (typed as Model | null to avoid circular type reference with BlockInstanceVersion) */
@@ -74,6 +76,18 @@ export function PartInstanceVersionFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'time_per_unit',
+      },
+      baseMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
+        field: 'base_multiplier',
+      },
+      rateMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
+        field: 'rate_multiplier',
       },
       createdAt: {
         type: DataTypes.DATE,

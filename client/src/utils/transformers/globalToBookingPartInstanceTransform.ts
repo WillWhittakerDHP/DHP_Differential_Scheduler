@@ -40,6 +40,10 @@ export function transformPartInstance(
   const partInstanceWithProps = partInstance as GlobalEntity<'partInstance'> & {
     baseTime?: number
     timePerUnit?: number
+    baseMultiplier?: number
+    base_multiplier?: number
+    rateMultiplier?: number
+    rate_multiplier?: number
     baseFee?: number
     feePerUnit?: number
     zeroOutPart?: boolean
@@ -60,6 +64,8 @@ export function transformPartInstance(
     partShape,
     baseTime: partInstanceWithProps.baseTime ?? 0,
     timePerUnit: partInstanceWithProps.timePerUnit ?? 0,
+    baseMultiplier: partInstanceWithProps.baseMultiplier ?? partInstanceWithProps.base_multiplier ?? 1,
+    rateMultiplier: partInstanceWithProps.rateMultiplier ?? partInstanceWithProps.rate_multiplier ?? 1,
     baseFee: partInstanceWithProps.baseFee ?? 0,
     feePerUnit: partInstanceWithProps.feePerUnit ?? 0,
     orderIndex: partInstance.orderIndex,

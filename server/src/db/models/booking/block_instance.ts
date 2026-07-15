@@ -35,6 +35,8 @@ export class BlockInstance extends Model<
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
+  /** Default event instance for this block; event_assignments carries the option set. */
+  declare defaultEventInstanceId: string | null;
   /** Canonical user role when parent block shape is user-semantic; null otherwise. */
   declare semanticType: string | null;
   /** Default inspected-property fact used when this time block is added as an accumulator link. */
@@ -115,6 +117,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      defaultEventInstanceId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'default_event_instance_id',
       },
       semanticType: {
         type: DataTypes.STRING(64),

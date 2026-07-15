@@ -298,11 +298,45 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 - event shape `placementKind` + `anchorEdge` render as one **Timing behavior** selector (`Main appointment window`, `Inside end of main window`, `Work before main window`, `Flexible/off-site after main window`, etc.)
 - event instance cards expose **Event type** instead of hiding `eventShapeRef`; any segment/event instance can be assigned to any configured Event Type
 - collapsed event shape / event instance cards include friendly timing chips so admins are not forced to reason from `marginal` / `floating` terminology
-- event block instance cards are segment-focused: irrelevant icon, accumulator, downstream links, instance components, and event-assignment panels are hidden for `event` block instances
+- event block instance cards are segment-focused but still use the normal block-instance relationship surface: part assignments, event assignments, and components remain available where configured
 - atomic event block instance cards now edit one segment directly; the multi-segment add/manage UI is reserved for event orchestrators
 - segment editors now keep attendee type routing visible as a multi-select and persist it through `event_instance_attendees`
 - template builder and Calendar behavior sections are collapsible cards so the core segment routing fields stay readable
 - segment location copy now treats location as appointment-derived by default; the field is only a Zoom/custom virtual link override, while Google Meet stays controlled by the Meet switch
+
+**Event part modifier follow-up 2026-07-15:**
+- Event block instances now expose normal part assignment/configuration again, with event wording (`Included part types`, `Event part modifiers`) instead of a separate event-only pathway.
+- Added `part_instances.base_multiplier` / `rate_multiplier` and version-table mirrors (default `1`) plus client/server model plumbing and metadata.
+- Booking finalization keeps fixed add behavior (`baseTime`) and adds event-semantic multiplier behavior: an event block's part row targets the matching non-event Part Shape total routed to that same event segment and contributes `baseTime + currentEventPartTotal * (baseMultiplier - 1)`.
+- API validation now allows event part rows to write time fields (`baseTime`, `timePerUnit`, `baseMultiplier`, `rateMultiplier`) while fee fields remain service-orchestrator only.
+- Tests added in `bookingPipeline.test.ts` for fixed event part time and multiplier event part time; event field-visibility test now locks that event blocks keep the normal relationship surface.
+
+**Segment part-claim UI follow-up 2026-07-15:**
+- Segment builder now has a collapsible **Segment details** card containing Segment label, Event type, attendee types, and a **Claimed time blocks** checkbox system.
+- Checkbox groups are built as service context -> active time block choices; selecting a time block persists a block-scoped `event_assignments` edge so the time block's parts pass through to the event segment.
+- Clarified naming: `eventInstance.name` is an internal/admin **Segment label**, not the Google Calendar title. The actual calendar title remains `titleTemplate` / **Calendar Title** in Template builder.
+- Added `eventPartClaimAssignments.test.ts` to lock cascade expansion, existing claim reads, and create/remove sync.
+
+**Service event coverage warning follow-up 2026-07-15:**
+- Base service block cards now show a red **Event coverage incomplete** alert when parts from active time blocks are not covered by active event assignments.
+- Coverage expands active service -> time block links plus each time block's component parts, then reports uncovered parts and their source blocks.
+- Added `serviceEventCoverage.test.ts` to lock active time block expansion, event coverage, and base-service-only warning scope.
+
+**Service/time/event dependency follow-up 2026-07-15:**
+- Reframed event segment claiming so events claim **time block instances**, not service blocks or individual service parts; the selected time block then passes its parts through to the event segment.
+- Segment details now group claim controls as Service collapses -> Time block collapses -> time block checkbox, with service rows acting only as context.
+- Service block cards use `bookingCascades` as **Active time blocks**; the coverage warning now reports unclaimed parts from active time blocks under the service.
+- Wizard placement vocabulary is now admin-facing **Base**, **Additional**, **Option only**, and **Base or additional**; added the stored `additional` placement value and widened DB constraints via `20260715_000077_wizard_placement_additional.mjs`.
+
+**Semantic service card surfaces follow-up 2026-07-15:**
+- Service block cards now show a **Service activation** card with separate **Active time blocks** and **Active fee blocks** selectors, both backed by `bookingCascades` but filtered by block-shape semantic type.
+- The generic service `bookingCascades` field is hidden to avoid a mixed downstream selector that combines time and fee blocks.
+- Time cards render a named events readout (`{Block Shape Name} Events`) in the Events collapse; service cards choose a persisted **Default event instance** plus **Optional event instances** in Service activation.
+- Added `serviceBlockActivation.test.ts` and `serviceEventRoutingReadout.test.ts` to lock semantic splitting and event readout behavior.
+- Follow-up polish: **Service activation** now renders as a collapse like Events, and already-linked time/fee block instances remain in the select item list so chips display block names instead of raw ids.
+- Layout polish: service work-item convergence now appears above Service activation, block instance `Icon` sits beside the existing expanded title-row `Name`, service cards no longer render an empty generic Events collapse, and active time/fee blocks are hidden on orchestrator services because they belong to atomic services.
+- Added `block_instances.default_event_instance_id` / version mirror via `20260715_000078_block_instance_default_event.mjs` so default event selection is persisted separately from the event option relationship set.
+- Flatten/slim pass: removed stale service/time event-routing helpers, removed unused part-scoped event-claim exports, replaced the old service readout helper with a time-block-only readout, and moved the nested event time-block claim checkbox UI into `EventInstanceTimeBlockClaims.vue`.
 - stored enum values are unchanged; this is a presentation layer over the existing placement engine
 
 **UI follow-up quality gates 2026-07-14:** client typecheck, full client Vitest (14 files / 42 tests), client lint, and client production build green.

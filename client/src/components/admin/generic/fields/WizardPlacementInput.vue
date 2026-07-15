@@ -28,14 +28,14 @@
 
 <script setup lang="ts">
 /**
- * WHY: `wizardPlacement` is a 4-state enum (hidden / topLine / subOption / both). The owner asked
+ * WHY: `wizardPlacement` is a placement enum (hidden / base / additional / option only / base or additional). The owner asked
  * for a click-through button that looks like the other title-row flags rather than a dropdown, and
  * for the description to appear only on hover (a tooltip) rather than as always-visible field text.
  *
  * PATTERN: Dedicated field-input widget dispatched by `getFieldComponent` (mirrors the
  * `eventShapePlacement` precedent), reusing `StatusButton` + `VTooltip` for identical look-and-feel
  * to the boolean buttons. Kept isolated so the shared boolean/ternary status-button machinery stays
- * strictly two/three-state and is not destabilised by a fourth state.
+ * strictly two/three-state and is not destabilised by this domain-specific state cycle.
  */
 import { computed, inject, ref } from 'vue'
 import BaseInput from './BaseInput.vue'
@@ -70,15 +70,17 @@ const placement = computed<WizardPlacement>(() => resolveWizardPlacement(rawFiel
 /** Short, human labels for the chip. Prefixed so the button reads clearly among the other flags. */
 const PLACEMENT_LABELS: Record<WizardPlacement, string> = {
   [WIZARD_PLACEMENT.HIDDEN]: 'Wizard: Hidden',
-  [WIZARD_PLACEMENT.TOP_LINE]: 'Wizard: Top-line',
-  [WIZARD_PLACEMENT.SUB_OPTION]: 'Wizard: Sub-option',
-  [WIZARD_PLACEMENT.BOTH]: 'Wizard: Both',
+  [WIZARD_PLACEMENT.TOP_LINE]: 'Wizard: Base',
+  [WIZARD_PLACEMENT.ADDITIONAL]: 'Wizard: Additional',
+  [WIZARD_PLACEMENT.SUB_OPTION]: 'Wizard: Option only',
+  [WIZARD_PLACEMENT.BOTH]: 'Wizard: Base or additional',
 }
 
 /** Readable Vuetify theme colours per state (hidden renders as a muted outline via isActive=false). */
 const PLACEMENT_COLORS: Record<WizardPlacement, string> = {
   [WIZARD_PLACEMENT.HIDDEN]: 'primary',
   [WIZARD_PLACEMENT.TOP_LINE]: 'success',
+  [WIZARD_PLACEMENT.ADDITIONAL]: 'secondary',
   [WIZARD_PLACEMENT.SUB_OPTION]: 'info',
   [WIZARD_PLACEMENT.BOTH]: 'warning',
 }

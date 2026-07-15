@@ -27,6 +27,7 @@ import {
   firstPartsCollectionInstance,
   readBulkEditModeFromPartsCollection,
 } from '@/utils/admin/partsCollectionInstanceHelpers'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 
 type RelationshipCollectionRef = InstanceType<typeof RelationshipCollection>
 type PartsCollectionRefValue = (RelationshipCollectionRef)[] | RelationshipCollectionRef | null
@@ -68,12 +69,17 @@ export interface UseEntityCardSubPanelsReturn {
   blockShapeName: import('vue').ComputedRef<string>
   getEntityNames: (ids: unknown[], entityType: 'blockInstance' | 'partInstance') => string[]
   partsSummary: import('vue').ComputedRef<string>
+  partsPanelTitle: import('vue').ComputedRef<string>
+  partsBulkEditLabel: import('vue').ComputedRef<string>
   isRelationshipCollectionField: (fieldKey: GlobalFieldKey<GlobalEntityKey>) => boolean
   partsCollectionRef: import('vue').Ref<PartsCollectionRefValue>
   expandedPanels: import('vue').Ref<string[]>
   partsBulkEditMode: import('vue').ComputedRef<boolean>
   togglePartsBulkEditMode: () => void
   relationshipsSummary: import('vue').ComputedRef<string>
+  eventsPanelTitle: import('vue').ComputedRef<string>
+  showTimeBlockEventReadout: import('vue').ComputedRef<boolean>
+  showEventsPanel: import('vue').ComputedRef<boolean>
   hasAnySubPanelFields: import('vue').ComputedRef<boolean>
 }
 
@@ -93,6 +99,13 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
     return blockShapeDisplayNameForBlockInstance(entity.value as GlobalEntity<'blockInstance'>, blockShapes.value)
   })
 
+  const blockShapeSemanticType = computed((): string | null => {
+    if (entityKey.value !== 'blockInstance') return null
+    const blockInstance = entity.value as GlobalEntity<'blockInstance'>
+    const blockShape = blockShapes.value.find((shape) => shape.id === blockInstance.blockShapeRef)
+    return blockShape?.semanticType ?? null
+  })
+
   const getEntityNames = (ids: unknown[], entityType: 'blockInstance' | 'partInstance'): string[] =>
     getEntityNamesForCard(ids, entityType, blockInstances.value, partInstances.value)
 
@@ -103,6 +116,10 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
     })
   )
 
+  const partsPanelTitle = computed(() =>
+    blockShapeSemanticType.value === BLOCK_SHAPE_TYPES.EVENT ? 'Included part types' : 'Parts'
+  )
+
   const isRelationshipCollectionField = (fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean =>
     isEntityCardRelationshipCollectionField(entityKey.value, fieldKey, fieldMetadata.value)
 
@@ -111,6 +128,10 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
 
   const partsBulkEditMode = computed(() =>
     readBulkEditModeFromPartsCollection(firstPartsCollectionInstance(partsCollectionRef.value))
+  )
+
+  const partsBulkEditLabel = computed(() =>
+    partsBulkEditMode.value ? 'Exit Bulk Edit' : 'Bulk Edit'
   )
 
   const togglePartsBulkEditMode = (): void =>
@@ -128,20 +149,40 @@ export function useEntityCardSubPanels(props: UseEntityCardSubPanelsOptions): Us
     )
   )
 
+  const eventsPanelTitle = computed(() =>
+    blockShapeName.value ? `${blockShapeName.value} Events` : 'Events'
+  )
+
+  const showTimeBlockEventReadout = computed(() =>
+    entityKey.value === 'blockInstance' &&
+    blockShapeSemanticType.value === BLOCK_SHAPE_TYPES.TIME
+  )
+
+  const showEventsPanel = computed(() =>
+    subPanelFields.value.events.length > 0 || showTimeBlockEventReadout.value
+  )
+
   const hasAnySubPanelFields = computed(() =>
-    SUB_PANEL_KEYS.some((key) => subPanelFields.value[key].length > 0)
+    SUB_PANEL_KEYS.some((key) =>
+      key === 'events' ? showEventsPanel.value : subPanelFields.value[key].length > 0
+    )
   )
 
   return {
     blockShapeName,
     getEntityNames,
     partsSummary,
+    partsPanelTitle,
+    partsBulkEditLabel,
     isRelationshipCollectionField,
     partsCollectionRef,
     expandedPanels,
     partsBulkEditMode,
     togglePartsBulkEditMode,
     relationshipsSummary,
+    eventsPanelTitle,
+    showTimeBlockEventReadout,
+    showEventsPanel,
     hasAnySubPanelFields,
   }
 }

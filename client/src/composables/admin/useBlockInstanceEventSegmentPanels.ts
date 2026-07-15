@@ -12,6 +12,7 @@ import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstan
 import type { UseBlockInstanceEventSegmentPanelsReturn } from '@/types/admin/blockInstanceEventSegments'
 import { useRelationshipCrud } from '@/composables/useRelationship'
 import { syncEventInstanceAttendeeAssignments } from '@/utils/admin/eventInstanceAttendeeAssignments'
+import { syncEventInstanceTimeBlockClaimAssignments } from '@/utils/admin/eventPartClaimAssignments'
 
 const logger = createLogger('useBlockInstanceEventSegmentPanels')
 
@@ -51,6 +52,7 @@ function defaultNewSegmentDraft(firstShapeId: string): NewEventInstanceData {
     status: 'confirmed',
     active: true,
     attendees: [],
+    eventPartClaims: [],
   }
 }
 
@@ -69,6 +71,11 @@ export function useBlockInstanceEventSegmentPanels(
     create: createAttendeeAssignment,
     remove: removeAttendeeAssignment,
   } = useRelationshipCrud('attendeeAssignments')
+  const {
+    create: createEventAssignment,
+    remove: removeEventAssignment,
+    refetch: refetchEventAssignments,
+  } = useRelationshipCrud('eventAssignments')
 
   const newSegmentPanelValue = computed((): string => `new-segment-${String(blockInstanceId.value)}`)
 
@@ -140,6 +147,14 @@ export function useBlockInstanceEventSegmentPanels(
         createAttendeeAssignment,
         removeAttendeeAssignment,
       })
+      await syncEventInstanceTimeBlockClaimAssignments({
+        eventInstanceId: String(createdEventInstance.id),
+        oldTimeBlockIds: [],
+        newTimeBlockIds: data.eventPartClaims,
+        createEventAssignment,
+        removeEventAssignment,
+      })
+      await refetchEventAssignments()
       success('Segment created')
       isCreatingEventInstance.value = false
       newEventInstanceData.value = null

@@ -33,6 +33,7 @@ interface BlockInstanceVersionComparison {
   accumulator?: boolean;
   wizardPlacement?: WizardPlacement;
   preClosing?: boolean;
+  defaultEventInstanceId?: string | null;
   propertyFactKey?: string | null;
 }
 
@@ -50,6 +51,7 @@ function versionsMatch(
          versionData.accumulator === instanceData.accumulator &&
          resolveWizardPlacement(versionData.wizardPlacement) === resolveWizardPlacement(instanceData.wizardPlacement) &&
          versionData.preClosing === instanceData.preClosing &&
+         (versionData.defaultEventInstanceId ?? null) === (instanceData.defaultEventInstanceId ?? null) &&
          (versionData.propertyFactKey ?? null) === (instanceData.propertyFactKey ?? null);
 }
 
@@ -82,6 +84,7 @@ async function createVersionFromInstance(
     accumulator: instanceData.accumulator ?? false,
     wizardPlacement: resolveWizardPlacement(instanceData.wizardPlacement),
     preClosing: instanceData.preClosing ?? false,
+    defaultEventInstanceId: instanceData.defaultEventInstanceId ?? null,
     propertyFactKey: instanceData.propertyFactKey ?? null,
   });
 
@@ -111,6 +114,8 @@ async function createVersionFromInstance(
           baseTime: partData.baseTime,
           feePerUnit: partData.feePerUnit,
           timePerUnit: partData.timePerUnit,
+          baseMultiplier: partData.baseMultiplier ?? 1,
+          rateMultiplier: partData.rateMultiplier ?? 1,
         };
       })
     );

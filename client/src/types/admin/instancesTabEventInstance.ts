@@ -18,4 +18,6 @@ export type NewEventInstanceData = EventInstanceTemplateStrings & {
   active: boolean
   /** User-type block instance ids invited to this segment via event_instance_attendees. */
   attendees: string[]
+  /** Time block instance ids this segment claims via block-scoped event_assignments. */
+  eventPartClaims: string[]
 }

@@ -7,6 +7,8 @@ interface PartsTotalsResult {
   totalBaseTime: number
   totalFeePerUnit: number
   totalTimePerUnit: number
+  totalBaseMultiplier: number
+  totalRateMultiplier: number
 }
 
 /**
@@ -18,11 +20,15 @@ export function calculatePartsTotals(parts: PartWithTotals[]): PartsTotalsResult
   const totalBaseTime = parts.reduce((sum, part) => sum + (part.baseTime ?? 0), 0)
   const totalFeePerUnit = parts.reduce((sum, part) => sum + (part.feePerUnit ?? 0), 0)
   const totalTimePerUnit = parts.reduce((sum, part) => sum + (part.timePerUnit ?? 0), 0)
+  const totalBaseMultiplier = parts.reduce((product, part) => product * (part.baseMultiplier ?? 1), 1)
+  const totalRateMultiplier = parts.reduce((product, part) => product * (part.rateMultiplier ?? 1), 1)
 
   return {
     totalBaseFee,
     totalBaseTime,
     totalFeePerUnit,
-    totalTimePerUnit
+    totalTimePerUnit,
+    totalBaseMultiplier,
+    totalRateMultiplier
   }
 }

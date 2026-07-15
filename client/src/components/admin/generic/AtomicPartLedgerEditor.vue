@@ -36,6 +36,8 @@ const drafts = reactive<
       name: string
       baseTime: string
       timePerUnit: string
+      baseMultiplier: string
+      rateMultiplier: string
       baseFee: string
       feePerUnit: string
     }
@@ -48,6 +50,8 @@ function seedDraftFromRow(r: ServiceAtomicPartRow): void {
     name: r.name,
     baseTime: String(r.baseTime),
     timePerUnit: String(r.timePerUnit),
+    baseMultiplier: String(r.baseMultiplier),
+    rateMultiplier: String(r.rateMultiplier),
     baseFee: String(r.baseFee),
     feePerUnit: String(r.feePerUnit),
   }
@@ -77,6 +81,8 @@ const headers = [
   { title: 'Work item', key: 'name', sortable: false },
   { title: 'Base time', key: 'baseTime', sortable: false },
   { title: 'Time / unit', key: 'timePerUnit', sortable: false },
+  { title: 'Base multiplier', key: 'baseMultiplier', sortable: false },
+  { title: 'Rate multiplier', key: 'rateMultiplier', sortable: false },
   { title: 'Base fee', key: 'baseFee', sortable: false },
   { title: 'Fee / unit', key: 'feePerUnit', sortable: false },
   { title: 'Zero out', key: 'zeroOutPart', sortable: false },
@@ -139,7 +145,7 @@ async function onNameBlur(item: TableRow): Promise<void> {
 
 async function onNumericBlur(
   item: TableRow,
-  key: 'baseTime' | 'timePerUnit' | 'baseFee' | 'feePerUnit'
+  key: 'baseTime' | 'timePerUnit' | 'baseMultiplier' | 'rateMultiplier' | 'baseFee' | 'feePerUnit'
 ): Promise<void> {
   const id = String(item.partInstance.id)
   const d = drafts[id]
@@ -231,6 +237,30 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
               hide-details
               :disabled="isSaving"
               @blur="onNumericBlur(item, 'timePerUnit')"
+            />
+          </template>
+          <template #item.baseMultiplier="{ item }">
+            <VTextField
+              v-if="item && drafts[item.id]"
+              v-model="drafts[item.id].baseMultiplier"
+              type="number"
+              density="compact"
+              variant="underlined"
+              hide-details
+              :disabled="isSaving"
+              @blur="onNumericBlur(item, 'baseMultiplier')"
+            />
+          </template>
+          <template #item.rateMultiplier="{ item }">
+            <VTextField
+              v-if="item && drafts[item.id]"
+              v-model="drafts[item.id].rateMultiplier"
+              type="number"
+              density="compact"
+              variant="underlined"
+              hide-details
+              :disabled="isSaving"
+              @blur="onNumericBlur(item, 'rateMultiplier')"
             />
           </template>
           <template #item.baseFee="{ item }">

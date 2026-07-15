@@ -82,6 +82,8 @@ export function useAtomicPartLedgerRows(
         baseTime: partInstance.baseTime,
         baseFee: partInstance.baseFee,
         timePerUnit: partInstance.timePerUnit,
+        baseMultiplier: partInstance.baseMultiplier,
+        rateMultiplier: partInstance.rateMultiplier,
         feePerUnit: partInstance.feePerUnit,
         zeroOutPart: partInstance.zeroOutPart,
         partShapeName,

@@ -90,5 +90,14 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
     }
   }
 
+  if (entityKey === 'partInstance') {
+    for (const key of ['baseMultiplier', 'rateMultiplier'] as const) {
+      const multiplier = result[key]
+      if (typeof multiplier !== 'number' || !Number.isFinite(multiplier) || multiplier === 0) {
+        result[key] = 1
+      }
+    }
+  }
+
   return result
 }

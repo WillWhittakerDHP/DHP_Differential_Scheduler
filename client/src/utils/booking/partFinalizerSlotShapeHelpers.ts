@@ -1,4 +1,3 @@
-import type { PartFinal } from '@/types/booking/partFinal'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { DifferentialDurationOffsets } from '@/types/appointmentModels'
 import type { EventInstance, EventShape } from '@/types/events'
@@ -11,18 +10,18 @@ import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/bo
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { AppLogger } from '@/utils/logger'
 import { sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
+import {
+  eventPartModifierDurationMinutes,
+  eventShapeIdForEventInstance,
+  isEventBlock,
+  nonEventPartDurationByEventAndShape,
+  partBaseDuration,
+  partFinalLineageKey,
+} from '@/utils/booking/eventPartTimeModifiers'
 
 type AccumulatedRawDurations = {
   totalRawDuration: number
   eventRawDurations: Map<string, number>
-}
-
-function partFinalLineageKey(part: PartFinal): string {
-  const id = part.sourcePartInstances[0]?.id
-  if (id !== undefined && id !== '') {
-    return id
-  }
-  return part.partShape
 }
 
 export function accumulateRawDurationsFromBlockFinals(
@@ -32,32 +31,52 @@ export function accumulateRawDurationsFromBlockFinals(
   _logger: AppLogger
 ): AccumulatedRawDurations {
   const eventRawDurationsByShapeId = new Map<string, number>()
+  const nonEventDurationsByEventAndShape = nonEventPartDurationByEventAndShape(
+    blockFinals,
+    eventAssignmentsByPartInstanceId,
+    eventShapeById
+  )
 
   const { totalRawDuration, eventRawDurations } = blockFinals.reduce(
     (blockAcc, blockFinal) => {
       return blockFinal.finalizedParts.reduce(
         (partAcc, part) => {
-          const baseTime = part.baseTime
-          const newRawDuration = partAcc.totalRawDuration + baseTime
-
           const lineageKey = partFinalLineageKey(part)
           const rawEvents = eventAssignmentsByPartInstanceId[lineageKey]
           const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
-
           const updatedEventRawDurations = new Map(partAcc.eventRawDurations)
 
+          if (isEventBlock(blockFinal)) {
+            let totalEventModifierDuration = 0
+            for (const eventInstance of events) {
+              const eventShapeId = eventShapeIdForEventInstance(eventInstance, eventShapeById)
+              if (eventShapeId === null) continue
+              const duration = eventPartModifierDurationMinutes(
+                part,
+                eventShapeId,
+                nonEventDurationsByEventAndShape
+              )
+              totalEventModifierDuration += duration
+              const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
+              updatedEventRawDurations.set(eventShapeId, currentRawDuration + duration)
+            }
+            return {
+              totalRawDuration: partAcc.totalRawDuration + totalEventModifierDuration,
+              eventRawDurations: updatedEventRawDurations,
+            }
+          }
+
+          const duration = partBaseDuration(part)
           for (const eventInstance of events) {
             const eventShape = eventShapeById.get(toGlobalEntityId(eventInstance.eventShapeRef))
             if (!eventShape) continue
-
             const eventShapeId = eventShape.id
-
             const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
-            updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
+            updatedEventRawDurations.set(eventShapeId, currentRawDuration + duration)
           }
 
           return {
-            totalRawDuration: newRawDuration,
+            totalRawDuration: partAcc.totalRawDuration + duration,
             eventRawDurations: updatedEventRawDurations,
           }
         },

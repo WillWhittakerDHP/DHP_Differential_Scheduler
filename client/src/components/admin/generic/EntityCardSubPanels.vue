@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
+import TimeBlockEventReadout from './TimeBlockEventReadout.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -25,11 +26,16 @@ const props = defineProps<Props>()
 const {
   blockShapeName,
   partsSummary,
+  partsPanelTitle,
+  partsBulkEditLabel,
   isRelationshipCollectionField,
   expandedPanels,
   partsBulkEditMode,
   togglePartsBulkEditMode,
   relationshipsSummary,
+  eventsPanelTitle,
+  showTimeBlockEventReadout,
+  showEventsPanel,
   hasAnySubPanelFields,
 } = useEntityCardSubPanels(props)
 </script>
@@ -47,7 +53,7 @@ const {
       <template #title>
         <div class="d-flex align-center justify-space-between flex-grow-1">
           <div>
-            <span class="font-weight-medium">Parts</span>
+            <span class="font-weight-medium">{{ partsPanelTitle }}</span>
             <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-medium">
               {{ partsSummary }}
             </span>
@@ -60,7 +66,7 @@ const {
             prepend-icon="tabler-edit"
             @click.stop="togglePartsBulkEditMode"
           >
-            {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+            {{ partsBulkEditLabel }}
           </VBtn>
         </div>
       </template>
@@ -123,12 +129,21 @@ const {
 
     <!-- WHY: Shows event instances configured for shapes -->
     <!-- PATTERN: Simple panel with "Events" label -->
-    <VExpansionPanel v-if="subPanelFields.events.length" value="events">
+    <VExpansionPanel v-if="showEventsPanel" value="events">
       <template #title>
-        <span class="font-weight-medium">Events</span>
+        <span class="font-weight-medium">{{ eventsPanelTitle }}</span>
       </template>
       <template #text>
-        <div v-for="fieldKey in subPanelFields.events" :key="fieldKey" class="mb-4">
+        <TimeBlockEventReadout
+          v-if="showTimeBlockEventReadout"
+          :block-instance-id="String(entity.id)"
+        />
+        <div
+          v-for="fieldKey in subPanelFields.events"
+          v-else
+          :key="fieldKey"
+          class="mb-4"
+        >
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="true"

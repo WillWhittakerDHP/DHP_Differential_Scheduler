@@ -5,16 +5,28 @@ type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
   block_shape?: InstanceType<typeof BlockShape> | null
 }
 
-/** Per-unit tier applies to service / time / price block shapes (ledger atomics). */
-const PER_UNIT_BLOCK_SHAPE_TYPES = new Set(['service', 'time', 'price'])
+/** Time modifiers apply to service / time / price / event block shapes (event blocks alter calendar durations). */
+const TIME_BLOCK_SHAPE_TYPES = new Set(['service', 'time', 'price', 'event'])
 
-function bodyMentionsBaseLedgerFields(body: Record<string, unknown>): boolean {
-  const keys = ['baseTime', 'base_time', 'baseFee', 'base_fee'] as const
+function bodyMentionsBaseTimeFields(body: Record<string, unknown>): boolean {
+  const keys = ['baseTime', 'base_time'] as const
   return keys.some((k) => Object.prototype.hasOwnProperty.call(body, k))
 }
 
-function bodyMentionsPerUnitFields(body: Record<string, unknown>): boolean {
-  const keys = ['timePerUnit', 'time_per_unit', 'feePerUnit', 'fee_per_unit'] as const
+function bodyMentionsTimeModifierFields(body: Record<string, unknown>): boolean {
+  const keys = [
+    'timePerUnit',
+    'time_per_unit',
+    'baseMultiplier',
+    'base_multiplier',
+    'rateMultiplier',
+    'rate_multiplier',
+  ] as const
+  return keys.some((k) => Object.prototype.hasOwnProperty.call(body, k))
+}
+
+function bodyMentionsFeeFields(body: Record<string, unknown>): boolean {
+  const keys = ['baseFee', 'base_fee', 'feePerUnit', 'fee_per_unit'] as const
   return keys.some((k) => Object.prototype.hasOwnProperty.call(body, k))
 }
 
@@ -52,9 +64,10 @@ export async function validatePartInstanceLedgerFieldsAsync(
   partInstanceId: string,
   body: Record<string, unknown>
 ): Promise<string | null> {
-  const mentionsBase = bodyMentionsBaseLedgerFields(body)
-  const mentionsPerUnit = bodyMentionsPerUnitFields(body)
-  if (!mentionsBase && !mentionsPerUnit) {
+  const mentionsBaseTime = bodyMentionsBaseTimeFields(body)
+  const mentionsTimeModifier = bodyMentionsTimeModifierFields(body)
+  const mentionsFee = bodyMentionsFeeFields(body)
+  if (!mentionsBaseTime && !mentionsTimeModifier && !mentionsFee) {
     return null
   }
 
@@ -65,21 +78,21 @@ export async function validatePartInstanceLedgerFieldsAsync(
 
   const { blockInstance, shape } = ctx
 
-  if (mentionsPerUnit) {
-    if (!PER_UNIT_BLOCK_SHAPE_TYPES.has(shape.semanticType)) {
+  if (mentionsBaseTime || mentionsTimeModifier) {
+    if (!TIME_BLOCK_SHAPE_TYPES.has(shape.semanticType)) {
       return (
-        'timePerUnit and feePerUnit may only be set on part instances under block shapes of type ' +
-        'service, time, or price (see ARCHITECTURE §10.1).'
+        'baseTime, timePerUnit, baseMultiplier, and rateMultiplier may only be set on part instances under block shapes of type ' +
+        'service, time, price, or event.'
       )
     }
   }
 
-  if (mentionsBase) {
+  if (mentionsFee) {
     if (shape.semanticType === 'service' && blockInstance.orchestrator === true) {
       return null
     }
     return (
-      'baseTime and baseFee may only be set on part instances under a service block instance with ' +
+      'baseFee and feePerUnit may only be set on part instances under a service block instance with ' +
       'orchestrator enabled (see ARCHITECTURE §10.1).'
     )
   }
