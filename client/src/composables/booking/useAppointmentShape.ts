@@ -19,6 +19,59 @@ import { mergeAttendeesIntoEventShapes } from '@/utils/booking/appointmentShapeE
 
 const logger = createLogger('useAppointmentShape')
 
+function emptyRelationshipsWhenMissing(
+  rels: GlobalRelationship[] | undefined | null,
+  relationshipName: string
+): GlobalRelationship[] {
+  if (rels === undefined || rels === null) {
+    logger.debug(`useAppointmentShape: ${relationshipName} missing, using []`)
+    return []
+  }
+  return rels
+}
+
+async function resolveTimeRoundingFromAvailability(
+  availabilitySettings: ReturnType<typeof useAvailabilitySettings>['settings']['value']
+): Promise<ResolvedNumericPolicy['timeAndRounding'] | null> {
+  if (availabilitySettings === null || availabilitySettings === undefined) {
+    return null
+  }
+  const [org, cal] = await Promise.all([getOrganizationDefaults(), getCalendarSettings()])
+  return resolveBookingNumericPolicyFromLoadedData(org, availabilitySettings, cal).timeAndRounding
+}
+
+function buildShapeFromGlobalData(params: {
+  instances: UseAppointmentShapeParams['blockInstances']['value']
+  settings: ReturnType<typeof useAvailabilitySettings>['settings']['value']
+  eventInstances: EventInstance[]
+  eventShapes: EventShape[]
+  globalRelationships: Record<string, GlobalRelationship[]> | undefined
+  resolvedTimeRounding: ResolvedNumericPolicy['timeAndRounding'] | null
+}): AppointmentShape {
+  const eventAssignmentsRelationships = emptyRelationshipsWhenMissing(
+    params.globalRelationships?.eventAssignments,
+    'eventAssignments'
+  )
+  const attendeeAssignmentsRelationships = emptyRelationshipsWhenMissing(
+    params.globalRelationships?.attendeeAssignments,
+    'attendeeAssignments'
+  )
+  const eventShapesWithAttendees = mergeAttendeesIntoEventShapes(
+    params.eventShapes,
+    params.eventInstances,
+    attendeeAssignmentsRelationships
+  )
+
+  return buildAppointmentShape(
+    params.instances,
+    params.settings,
+    params.eventInstances,
+    eventShapesWithAttendees,
+    eventAssignmentsRelationships,
+    params.resolvedTimeRounding,
+  )
+}
+
 /**
  * WHY: useAppointmentShape composable
 
@@ -33,14 +86,8 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
   watch(
     () => settings.value,
     async (avail) => {
-      if (avail === null || avail === undefined) {
-        resolvedTimeRounding.value = null
-        return
-      }
       try {
-        const [org, cal] = await Promise.all([getOrganizationDefaults(), getCalendarSettings()])
-        const policy = resolveBookingNumericPolicyFromLoadedData(org, avail, cal)
-        resolvedTimeRounding.value = policy.timeAndRounding
+        resolvedTimeRounding.value = await resolveTimeRoundingFromAvailability(avail)
       } catch (error) {
         logger.error('Failed to resolve booking numeric policy for duration rounding', error)
         resolvedTimeRounding.value = null
@@ -60,38 +107,16 @@ export function useAppointmentShape(params: UseAppointmentShapeParams): UseAppoi
 
     try {
       const globalData = getGlobalData()
-
       const eventInstances = getGlobalEntities('eventInstance') as EventInstance[]
-      let eventShapes = getGlobalEntities('eventShape') as EventShape[]
-      const rawEventAssignments = globalData?.relationships?.eventAssignments
-      const rawAttendeeAssignments = globalData?.relationships?.attendeeAssignments
-      if (rawEventAssignments === undefined || rawEventAssignments === null) {
-        logger.debug('useAppointmentShape: eventAssignments missing, using []')
-      }
-      if (rawAttendeeAssignments === undefined || rawAttendeeAssignments === null) {
-        logger.debug('useAppointmentShape: attendeeAssignments missing, using []')
-      }
-      const eventAssignmentsRelationships = (
-        rawEventAssignments !== undefined && rawEventAssignments !== null ? rawEventAssignments : []
-      ) as GlobalRelationship[]
-      const attendeeAssignmentsRelationships = (
-        rawAttendeeAssignments !== undefined && rawAttendeeAssignments !== null ? rawAttendeeAssignments : []
-      ) as GlobalRelationship[]
-
-      eventShapes = mergeAttendeesIntoEventShapes(
-        eventShapes,
-        eventInstances,
-        attendeeAssignmentsRelationships
-      )
-
-      return buildAppointmentShape(
+      const eventShapes = getGlobalEntities('eventShape') as EventShape[]
+      return buildShapeFromGlobalData({
         instances,
-        settings.value,
-        eventInstances,
+        settings: settings.value,
         eventShapes,
-        eventAssignmentsRelationships,
-        resolvedTimeRounding.value,
-      )
+        eventInstances,
+        globalRelationships: globalData?.relationships as Record<string, GlobalRelationship[]> | undefined,
+        resolvedTimeRounding: resolvedTimeRounding.value,
+      })
     } catch (error) {
       logger.error('Error building appointment shape:', error)
       return null

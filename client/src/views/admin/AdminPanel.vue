@@ -8,6 +8,7 @@ import { useAdmin } from '@/composables/admin/useAdmin'
 import { adminCurrentTabKey } from '@/types/admin/adminInjectionKeys'
 
 const InstancesDomainTab = defineAsyncComponent(() => import('./tabs/InstancesDomainTab.vue'))
+const ShapesTab = defineAsyncComponent(() => import('./tabs/ShapesTab.vue'))
 const DataManagementTab = defineAsyncComponent(() => import('./tabs/DataManagementTab.vue'))
 const BusinessControlsTab = defineAsyncComponent(() => import('./tabs/BusinessControlsTab.vue'))
 
@@ -31,6 +32,9 @@ provide(adminCurrentTabKey, currentTab)
       <VTab value="instances">
         Instances
       </VTab>
+      <VTab value="shapes">
+        Shapes
+      </VTab>
       <VTab value="data">
         Appointments
       </VTab>
@@ -42,6 +46,9 @@ provide(adminCurrentTabKey, currentTab)
     <VWindow v-model="currentTab">
       <VWindowItem key="instances" value="instances">
         <InstancesDomainTab />
+      </VWindowItem>
+      <VWindowItem key="shapes" value="shapes">
+        <ShapesTab />
       </VWindowItem>
       <VWindowItem key="data" value="data">
         <DataManagementTab />

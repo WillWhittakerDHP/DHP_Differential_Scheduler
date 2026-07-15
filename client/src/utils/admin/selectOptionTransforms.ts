@@ -62,6 +62,10 @@ interface GroupWithParent {
   children: GlobalEntity<GlobalEntityKey>[]
 }
 
+interface SelectOptionGroup extends SelectOption {
+  children: SelectOption[]
+}
+
 /**
  * Build a map of group key -> { parent, children } for grouped select options.
  * Skips entities whose group key is not found in groupParentMap.
@@ -91,6 +95,43 @@ export function buildGroupedOptionsMap(
   return groupedMap
 }
 
+function groupToSelectOptionGroup(group: GroupWithParent, optionLabelKey: string): SelectOptionGroup {
+  return {
+    title: getOptionTitle(group.parent, optionLabelKey),
+    value: `group-${group.parent.id}`,
+    children: group.children.map((entity) => ({
+      title: getOptionTitle(entity, optionLabelKey),
+      value: entity.id,
+    })),
+  }
+}
+
+function groupedEntitiesToSelectOptionGroups(
+  groupedMap: Map<string, GroupWithParent>,
+  optionLabelKey: string
+): SelectOptionGroup[] {
+  return Array.from(groupedMap.values()).map((group) => groupToSelectOptionGroup(group, optionLabelKey))
+}
+
+function groupHeaderOption(groupLabel: string): SelectOptionGroupHeader {
+  return {
+    header: groupLabel,
+    title: groupLabel,
+    value: SELECT_OPTION_GROUP_HEADER_VALUE,
+  } as SelectOptionGroupHeader
+}
+
+function groupedOptionsWithHeaders(groups: SelectOptionGroup[]): SelectOptionOrHeader[] {
+  return groups.flatMap((group) => [
+    groupHeaderOption(group.title),
+    ...asEmptyArray(group.children),
+  ])
+}
+
+function groupedOptionsWithoutHeaders(groups: SelectOptionGroup[]): SelectOption[] {
+  return groups.flatMap((group) => asEmptyArray(group.children))
+}
+
 /**
  * Convert grouped map to select options.
  * - When isMultiple && withHeaders: flat array with group header rows (block shape name) then options per group.
@@ -103,33 +144,10 @@ export function groupedMapToSelectOptions(
   isMultiple: boolean,
   withHeaders: boolean = false
 ): SelectOption[] | SelectOptionOrHeader[] {
-  const groupedEntities = Array.from(groupedMap.values())
-  const result = groupedEntities.map((group) => ({
-    title: getOptionTitle(group.parent, optionLabelKey),
-    value: `group-${group.parent.id}`,
-    children: group.children.map((entity) => ({
-      title: getOptionTitle(entity, optionLabelKey),
-      value: entity.id,
-    })),
-  }))
+  const groups = groupedEntitiesToSelectOptionGroups(groupedMap, optionLabelKey)
 
-  if (isMultiple) {
-    if (withHeaders) {
-      const withHeaderRows: SelectOptionOrHeader[] = []
-      for (const group of result) {
-        const groupLabel = group.title
-        withHeaderRows.push({
-          header: groupLabel,
-          title: groupLabel,
-          value: SELECT_OPTION_GROUP_HEADER_VALUE,
-        } as SelectOptionGroupHeader)
-        for (const child of asEmptyArray(group.children)) {
-          withHeaderRows.push(child)
-        }
-      }
-      return withHeaderRows
-    }
-    return result.flatMap((group) => asEmptyArray(group.children))
+  if (!isMultiple) {
+    return groups
   }
-  return result
+  return withHeaders ? groupedOptionsWithHeaders(groups) : groupedOptionsWithoutHeaders(groups)
 }

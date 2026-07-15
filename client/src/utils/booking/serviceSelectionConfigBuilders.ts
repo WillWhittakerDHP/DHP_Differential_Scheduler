@@ -8,21 +8,29 @@ type SelectionConfigBuildOptions = {
   stateKeyNameForDebug?: string
 }
 
+function visibleComponentData(comp: ComponentItem) {
+  return {
+    id: comp.id,
+    name: comp.name,
+    icon: comp.icon,
+  }
+}
+
+function activeVisibleComponents(item: SelectionCardItem) {
+  return item.instanceComponents
+    ?.filter((comp: ComponentItem) => comp.active === true)
+    .map(visibleComponentData) ?? []
+}
+
 function buildExpansionComponentData() {
   return (item: SelectionCardItem) => {
-    if (item.composite && item.instanceComponents) {
-      return {
-        composite: true,
-        visibleComponents: item.instanceComponents
-          .filter((comp: ComponentItem) => comp.active === true)
-          .map((comp: ComponentItem) => ({
-            id: comp.id,
-            name: comp.name,
-            icon: comp.icon,
-          })),
-      }
+    if (!item.composite || !item.instanceComponents) {
+      return null
     }
-    return null
+    return {
+      composite: true,
+      visibleComponents: activeVisibleComponents(item),
+    }
   }
 }
 

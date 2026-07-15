@@ -114,41 +114,50 @@ export function mapOptionsSelectToSelectOptions(config: OptionsSelectConfigLike 
   }))
 }
 
-function resolveRelationshipOrVirtualSelectConfig(
+function requireInputConfig(
   meta: FieldMetadataEntry,
-  isEnumSelect: boolean,
-  isOptionsSelect: boolean,
   entityKey: string,
-  fieldKey: string,
-  logger: SelectConfigLogger
-): RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined {
-  if (isEnumSelect || isOptionsSelect) {
-    return undefined
-  }
-
+  fieldKey: string
+): Record<string, unknown> {
   if (!meta.inputConfig) {
     throw new Error(
       `[useSelectConfig] Missing inputConfig in FieldMetadataEntry for ${entityKey}.${fieldKey}. ` +
         'Select fields (renderAs: select/multiselect/reference) must have inputConfig configured.'
     )
   }
+  return meta.inputConfig as Record<string, unknown>
+}
 
-  let inputConfig = meta.inputConfig as Record<string, unknown>
-  if (!('targetMode' in inputConfig) && 'relationshipSelect' in inputConfig) {
-    const wrapped = inputConfig.relationshipSelect
-    if (typeof wrapped === 'object' && wrapped !== null && 'targetMode' in wrapped) {
-      logger.warn(
-        `Wrapped inputConfig detected (stale relationshipSelect format) for ${entityKey}.${fieldKey}. ` +
-          'inputConfig is wrapped in "relationshipSelect" key — fix in admin_metadata.',
-        {
-          entityKey,
-          fieldKey,
-          wrappedKeys: Object.keys(inputConfig),
-        }
-      )
-    }
+function warnOnWrappedRelationshipSelectConfig(
+  inputConfig: Record<string, unknown>,
+  entityKey: string,
+  fieldKey: string,
+  logger: SelectConfigLogger
+): void {
+  if ('targetMode' in inputConfig || !('relationshipSelect' in inputConfig)) {
+    return
   }
+  const wrapped = inputConfig.relationshipSelect
+  if (typeof wrapped !== 'object' || wrapped === null || !('targetMode' in wrapped)) {
+    return
+  }
+  logger.warn(
+    `Wrapped inputConfig detected (stale relationshipSelect format) for ${entityKey}.${fieldKey}. ` +
+      'inputConfig is wrapped in "relationshipSelect" key — fix in admin_metadata.',
+    {
+      entityKey,
+      fieldKey,
+      wrappedKeys: Object.keys(inputConfig),
+    }
+  )
+}
 
+function assertAllowedSelectInputTargetMode(
+  inputConfig: Record<string, unknown>,
+  entityKey: string,
+  fieldKey: string,
+  logger: SelectConfigLogger
+): void {
   try {
     assertSelectInputConfigNotPropertyTargetMode(inputConfig)
   } catch (err) {
@@ -163,9 +172,25 @@ function resolveRelationshipOrVirtualSelectConfig(
     }
     throw err
   }
+}
 
-  inputConfig = unwrapInputConfig(inputConfig, entityKey, fieldKey)
-  return getSelectConfigFromUnwrapped(inputConfig, entityKey, fieldKey) as
+function resolveRelationshipOrVirtualSelectConfig(
+  meta: FieldMetadataEntry,
+  isEnumSelect: boolean,
+  isOptionsSelect: boolean,
+  entityKey: string,
+  fieldKey: string,
+  logger: SelectConfigLogger
+): RelationshipFieldType<GlobalEntityKey> | VirtualFieldType<GlobalEntityKey> | undefined {
+  if (isEnumSelect || isOptionsSelect) {
+    return undefined
+  }
+
+  const inputConfig = requireInputConfig(meta, entityKey, fieldKey)
+  warnOnWrappedRelationshipSelectConfig(inputConfig, entityKey, fieldKey, logger)
+  assertAllowedSelectInputTargetMode(inputConfig, entityKey, fieldKey, logger)
+  const unwrappedInputConfig = unwrapInputConfig(inputConfig, entityKey, fieldKey)
+  return getSelectConfigFromUnwrapped(unwrappedInputConfig, entityKey, fieldKey) as
     | RelationshipFieldType<GlobalEntityKey>
     | VirtualFieldType<GlobalEntityKey>
 }

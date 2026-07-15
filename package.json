@@ -26,7 +26,8 @@
     "seed": "npm --prefix server run seed",
     "migrate": "npm --prefix server run migrate",
     "db:reset": "npm --prefix server run db:reset",
-    "test": "vitest"
+    "test": "vitest",
+    "smoke:render": "node scripts/render-smoke.mjs"
   },
   "dependencies": {
     "@types/express": "^5.0.0",

@@ -37,59 +37,57 @@ function filterFieldsForEntity<GE extends GlobalEntityKey>(
   return fields.filter((fieldKey) => showFieldForEntity(options.entityKey, fieldKey, options))
 }
 
+function shouldShowDirectField<GE extends GlobalEntityKey>(
+  fieldKey: GlobalFieldKey<GE>,
+  options: UseConditionalFieldVisibilityOptions<GE>
+): boolean {
+  if (String(fieldKey) === 'composite') {
+    return options.isComposable.value === true
+  }
+  if (String(fieldKey) === 'accumulationLinks') {
+    return options.form.values.accumulator === true
+  }
+  return showFieldForEntity(options.entityKey, fieldKey, options)
+}
+
+function shouldShowTitleRowField<GE extends GlobalEntityKey>(
+  fieldKey: GlobalFieldKey<GE>,
+  options: UseConditionalFieldVisibilityOptions<GE>
+): boolean {
+  if (String(fieldKey) === 'composite') {
+    return options.isComposable.value === true
+  }
+  return showFieldForEntity(options.entityKey, fieldKey, options)
+}
+
+function shouldShowCompositionField<GE extends GlobalEntityKey>(
+  fieldKey: GlobalFieldKey<GE>,
+  options: UseConditionalFieldVisibilityOptions<GE>
+): boolean {
+  if (String(fieldKey) !== 'instanceComponents') {
+    return showFieldForEntity(options.entityKey, fieldKey, options)
+  }
+  return (
+    options.form.values.composite === true &&
+    options.isComposable.value === true &&
+    showFieldForEntity(options.entityKey, fieldKey, options)
+  )
+}
+
 export function useConditionalFieldVisibility<GE extends GlobalEntityKey = GlobalEntityKey>(
   options: UseConditionalFieldVisibilityOptions<GE>
 ): UseConditionalFieldVisibilityReturn<GE> {
-  const { fieldsByLocation, isComposable, form, entityKey } = options
+  const { fieldsByLocation } = options
 
   const filteredFieldsByLocation = computed<FieldsByLocation<GE>>(() => {
     const base = fieldsByLocation.value
 
-    const formValues = form.values
-
-  const filteredDirectStacked = base.directStacked.filter((fieldKey) => {
-    if (String(fieldKey) === 'composite') {
-      return isComposable.value === true
-    }
-    if (String(fieldKey) === 'accumulationLinks') {
-      return formValues.accumulator === true
-    }
-    if (!showFieldForEntity(entityKey, fieldKey, options)) {
-      return false
-    }
-    return true
-  })
-
-  const filteredDirectInline = base.directInline.filter((fieldKey) => {
-    if (String(fieldKey) === 'composite') {
-      return isComposable.value === true
-    }
-    if (String(fieldKey) === 'accumulationLinks') {
-      return formValues.accumulator === true
-    }
-    if (!showFieldForEntity(entityKey, fieldKey, options)) {
-      return false
-    }
-    return true
-  })
-
-  const filteredTitleRow = base.titleRow.filter((fieldKey) => {
-    if (String(fieldKey) === 'composite') {
-      return isComposable.value === true
-    }
-    if (!showFieldForEntity(entityKey, fieldKey, options)) {
-      return false
-    }
-    return true
-  })
-
-    const filteredComposition = base.subPanels.composition.filter((fieldKey) => {
-      if (String(fieldKey) === 'instanceComponents') {
-        const compositeValue = formValues.composite === true
-        return compositeValue && isComposable.value === true && showFieldForEntity(entityKey, fieldKey, options)
-      }
-      return showFieldForEntity(entityKey, fieldKey, options)
-    })
+    const filteredDirectStacked = base.directStacked.filter((fieldKey) => shouldShowDirectField(fieldKey, options))
+    const filteredDirectInline = base.directInline.filter((fieldKey) => shouldShowDirectField(fieldKey, options))
+    const filteredTitleRow = base.titleRow.filter((fieldKey) => shouldShowTitleRowField(fieldKey, options))
+    const filteredComposition = base.subPanels.composition.filter((fieldKey) =>
+      shouldShowCompositionField(fieldKey, options)
+    )
 
     return {
       ...base,

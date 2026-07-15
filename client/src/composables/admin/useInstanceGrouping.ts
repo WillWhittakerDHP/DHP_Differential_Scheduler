@@ -7,7 +7,6 @@ import { computed, toValue, watch, type MaybeRefOrGetter } from 'vue'
 import { useGlobal } from '../useGlobal'
 import { useAdmin } from './useAdmin'
 import type { GlobalEntity } from '@/types/entities'
-import { INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB } from '@/constants/adminInstancesUi'
 import { BLOCK_SHAPE_TYPES, type BlockShapeType } from '@/constants/blockShapeTypes'
 import type { UseInstanceGroupingOptions, UseInstanceGroupingReturn } from '@/types/admin/instanceGrouping'
 import { sortEntitiesByOrderIndex } from '@/utils/admin/sortEntitiesByOrderIndex'
@@ -132,12 +131,11 @@ export function useInstanceGrouping(
     if (shapes.length > 0) {
       const v = activeTab.value
       const isShapeId = shapes.some((s) => s.id === v)
-      const isShapesDefinitionsTab = v === INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB
-      if (!v || (!isShapeId && !isShapesDefinitionsTab)) {
-        activeTab.value = shapes[0].id
+      if (!v || !isShapeId) {
+        activeTab.value = shapes.find((shape) => shape.semanticType === BLOCK_SHAPE_TYPES.USER)?.id ?? shapes[0].id
       }
     } else {
-      activeTab.value = INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB
+      activeTab.value = ''
     }
   }, { immediate: true })
 

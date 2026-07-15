@@ -1,38 +1,17 @@
 <!--
-  WHY: Instances-first IA — tier 2: all blockShapes (left) + Shapes (right); tier 3 under Shapes: Block | Part | Annotation | Event
-  (Block reuses ShapesTabBlockPanel — same AdminEntityEditorPanel cards as shape tabs + Shapes tab block list).
+  WHY: Instances-first IA — tier 2: blockShape instance tabs only.
+  Shape definitions now live in the top-level Shapes admin tab.
 -->
 <script setup lang="ts">
-import { defineAsyncComponent, provide, ref } from 'vue'
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
 import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
 import { useInstancesTab } from '@/composables/admin/useInstancesTab'
-import { useShapesTab } from '@/composables/admin/useShapesTab'
-import { INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB } from '@/constants/adminInstancesUi'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
-import { shapesTabInjectionKey } from './shapesTabContext'
 import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
-
-const ShapesTabBlockPanel = defineAsyncComponent(() => import('./components/ShapesTabBlockPanel.vue'))
-const ShapesTabPartPanel = defineAsyncComponent(() => import('./components/ShapesTabPartPanel.vue'))
-const ShapesTabAnnotationPanel = defineAsyncComponent(() => import('./components/ShapesTabAnnotationPanel.vue'))
-const ShapesTabEventPanel = defineAsyncComponent(() => import('./components/ShapesTabEventPanel.vue'))
-
-/** Tier 3 when tier 2 is "Shapes" — Block (blockShape cards) + Part / Annotation / Event. */
-const shapesSubTab = ref<'block' | 'part' | 'annotation' | 'event'>('block')
 
 const instancesTab = useInstancesTab({
   splitOrchestratorAtomic: true,
 })
-
-const shapesTabApi = useShapesTab({
-  instancesDomainDragContext: {
-    tier2Tab: instancesTab.activeTab,
-    shapesSubTab,
-    shapesTier2Value: INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB,
-  },
-})
-provide(shapesTabInjectionKey, shapesTabApi)
 
 const {
   activeTab,
@@ -54,35 +33,20 @@ const {
 
 <template>
   <div class="instances-domain-tab">
-    <VRow class="mb-4 tier2-row align-end" no-gutters>
-      <VCol class="tier2-block-shapes-col flex-grow-1 min-width-0 pr-2">
-        <VTabs
-          v-model="activeTab"
-          class="instances-tabs-container"
-          :mandatory="false"
-        >
-          <VTab
-            v-for="blockShape in sortedBlockShapes"
-            :key="blockShape.id"
-            :value="blockShape.id"
-            @click="handleTabClick(blockShape.id)"
-          >
-            {{ blockShape.name }} ({{ blockInstancesCountByShape.get(blockShape.id) || 0 }})
-          </VTab>
-        </VTabs>
-      </VCol>
-      <VCol cols="auto" class="flex-shrink-0">
-        <VTabs
-          v-model="activeTab"
-          density="compact"
-          class="tier2-shapes-right-tab"
-        >
-          <VTab :value="INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB">
-            Shapes
-          </VTab>
-        </VTabs>
-      </VCol>
-    </VRow>
+    <VTabs
+      v-model="activeTab"
+      class="instances-tabs-container mb-4"
+      :mandatory="false"
+    >
+      <VTab
+        v-for="blockShape in sortedBlockShapes"
+        :key="blockShape.id"
+        :value="blockShape.id"
+        @click="handleTabClick(blockShape.id)"
+      >
+        {{ blockShape.name }} ({{ blockInstancesCountByShape.get(blockShape.id) || 0 }})
+      </VTab>
+    </VTabs>
 
     <VWindow v-model="activeTab">
       <VWindowItem
@@ -127,43 +91,6 @@ const {
         />
       </VWindowItem>
 
-      <VWindowItem
-        :key="INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB"
-        :value="INSTANCES_TIER2_SHAPES_DEFINITIONS_TAB"
-      >
-        <VTabs
-          v-model="shapesSubTab"
-          class="mb-4 shapes-subtabs"
-          density="compact"
-        >
-          <VTab value="block">
-            Block
-          </VTab>
-          <VTab value="part">
-            Part
-          </VTab>
-          <VTab value="annotation">
-            Annotation
-          </VTab>
-          <VTab value="event">
-            Event
-          </VTab>
-        </VTabs>
-        <VWindow v-model="shapesSubTab">
-          <VWindowItem value="block">
-            <ShapesTabBlockPanel />
-          </VWindowItem>
-          <VWindowItem value="part">
-            <ShapesTabPartPanel />
-          </VWindowItem>
-          <VWindowItem value="annotation">
-            <ShapesTabAnnotationPanel />
-          </VWindowItem>
-          <VWindowItem value="event">
-            <ShapesTabEventPanel />
-          </VWindowItem>
-        </VWindow>
-      </VWindowItem>
     </VWindow>
 
     <VAlert
@@ -203,14 +130,6 @@ const {
   margin-top: 1rem;
 }
 
-.tier2-row {
-  flex-wrap: nowrap;
-}
-
-.tier2-block-shapes-col :deep(.v-tabs) {
-  width: 100%;
-}
-
 .instances-tabs-container :deep(.v-tab) {
   flex: 0 1 auto;
 }
@@ -223,11 +142,6 @@ const {
   display: flex;
 }
 
-.tier2-shapes-right-tab :deep(.v-slide-group__content) {
-  justify-content: flex-end;
-}
-
-.shapes-subtabs :deep(.v-tab),
 .orchestrator-atomic-tabs :deep(.v-tab) {
   flex: 0 1 auto;
 }
