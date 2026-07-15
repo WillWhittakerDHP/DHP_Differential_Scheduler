@@ -15,22 +15,31 @@ export default {
   `)
 
     await sequelize.query(`
-    ALTER TABLE public.event_shapes
-      ALTER COLUMN differential_role DROP DEFAULT;
-  `)
+    DO $$
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'event_shapes'
+          AND column_name = 'differential_role'
+      ) THEN
+        ALTER TABLE public.event_shapes
+          ALTER COLUMN differential_role DROP DEFAULT;
 
-    await sequelize.query(`
-    ALTER TABLE public.event_shapes
-      ALTER COLUMN differential_role TYPE public.differential_role_enum
-      USING (
-        CASE
-          WHEN differential_role IS NULL THEN NULL::public.differential_role_enum
-          WHEN trim(differential_role::text) = 'major' THEN 'major'::public.differential_role_enum
-          WHEN trim(differential_role::text) = 'minor' THEN 'minor'::public.differential_role_enum
-          WHEN trim(differential_role::text) = 'moveable' THEN 'moveable'::public.differential_role_enum
-          ELSE NULL
-        END
-      );
+        ALTER TABLE public.event_shapes
+          ALTER COLUMN differential_role TYPE public.differential_role_enum
+          USING (
+            CASE
+              WHEN differential_role IS NULL THEN NULL::public.differential_role_enum
+              WHEN trim(differential_role::text) = 'major' THEN 'major'::public.differential_role_enum
+              WHEN trim(differential_role::text) = 'minor' THEN 'minor'::public.differential_role_enum
+              WHEN trim(differential_role::text) = 'moveable' THEN 'moveable'::public.differential_role_enum
+              ELSE NULL
+            END
+          );
+      END IF;
+    END $$;
   `)
 
     await sequelize.query(`
@@ -44,14 +53,25 @@ export default {
     const sequelize = queryInterface.sequelize
 
     await sequelize.query(`
-    ALTER TABLE public.event_shapes
-      ALTER COLUMN differential_role TYPE character varying(12)
-      USING (
-        CASE
-          WHEN differential_role IS NULL THEN NULL::character varying
-          ELSE differential_role::text::character varying(12)
-        END
-      );
+    DO $$
+    BEGIN
+      IF EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND table_name = 'event_shapes'
+          AND column_name = 'differential_role'
+      ) THEN
+        ALTER TABLE public.event_shapes
+          ALTER COLUMN differential_role TYPE character varying(12)
+          USING (
+            CASE
+              WHEN differential_role IS NULL THEN NULL::character varying
+              ELSE differential_role::text::character varying(12)
+            END
+          );
+      END IF;
+    END $$;
   `)
 
     await sequelize.query(`

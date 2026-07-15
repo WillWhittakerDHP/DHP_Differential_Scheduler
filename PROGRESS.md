@@ -315,8 +315,9 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 ### Migration coherence (fresh DB)
 
 - **Fixed:** Pre-baseline `split_settings_data` no longer crashes when legacy tables absent; `baseline_from_dump` drops partial pre-baseline settings tables before applying squashed schema
-- **Fixed:** `baseline_data.sql` `block_shapes` rows + `users.user_role` (`client` → `buyer`) aligned to baseline schema
-- **Remaining:** Full `baseline_data.sql` still has stale column refs (`differential` on `block_instance_versions`, etc.). Fresh migrate fails mid-seed. **Next step:** re-squash baseline schema+data from live DB at one point in time, or scripted row-by-row alignment — not a quick grep fix
+- **Fixed:** `baseline_data.sql` is aligned to the squashed baseline schema for version rows, event placement, event-instance attendees, parent event instances, and part ledger column names
+- **Fixed:** legacy migrations now no-op safely when the squashed baseline already contains their final table/column shape (`differential_role`, attendee table rename, soft-delete attendee columns, semantic type metadata/backfill, `organization_defaults`)
+- **Verified:** full migration chain passes against a throwaway fresh local Postgres DB, then drops the throwaway DB
 
 ### Vocabulary retirement — ✅ complete (2026-07-12)
 

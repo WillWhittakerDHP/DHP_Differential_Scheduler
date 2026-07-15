@@ -7,15 +7,25 @@ export default {
   async up(queryInterface) {
     const sequelize = queryInterface.sequelize
     await sequelize.query(`
-      ALTER TABLE public.availability_settings
-        ADD COLUMN IF NOT EXISTS organization_defaults JSONB;
+      DO $$
+      BEGIN
+        IF to_regclass('public.availability_settings') IS NOT NULL THEN
+          ALTER TABLE public.availability_settings
+            ADD COLUMN IF NOT EXISTS organization_defaults JSONB;
+        END IF;
+      END $$;
     `)
   },
 
   async down(queryInterface) {
     const sequelize = queryInterface.sequelize
     await sequelize.query(`
-      ALTER TABLE public.availability_settings DROP COLUMN IF EXISTS organization_defaults;
+      DO $$
+      BEGIN
+        IF to_regclass('public.availability_settings') IS NOT NULL THEN
+          ALTER TABLE public.availability_settings DROP COLUMN IF EXISTS organization_defaults;
+        END IF;
+      END $$;
     `)
   },
 }

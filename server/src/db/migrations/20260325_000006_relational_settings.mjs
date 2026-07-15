@@ -127,6 +127,7 @@ export default {
         duration_rounding_increment INTEGER,
         duration_rounding_method TEXT,
         overlap_out_of_office_enforcement TEXT,
+        organization_defaults JSONB,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );

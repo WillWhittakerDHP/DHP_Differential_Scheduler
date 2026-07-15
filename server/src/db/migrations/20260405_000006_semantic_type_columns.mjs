@@ -50,27 +50,43 @@ export default {
     `)
 
     await sequelize.query(`
-      UPDATE public.admin_metadata
-      SET input_config = replace(
-        input_config::text,
-        '"filterCandidates": {"blockShape": {"type": "user"}}',
-        '"filterCandidates": {"blockShape": {"semanticType": "user"}}'
-      )::jsonb
-      WHERE input_config::text LIKE '%"filterCandidates": {"blockShape": {"type": "user"}}%';
+      DO $$
+      BEGIN
+        IF EXISTS (
+          SELECT 1
+          FROM information_schema.columns
+          WHERE table_schema = 'public'
+            AND table_name = 'admin_metadata'
+            AND column_name = 'input_config'
+        ) THEN
+          UPDATE public.admin_metadata
+          SET input_config = replace(
+            input_config::text,
+            '"filterCandidates": {"blockShape": {"type": "user"}}',
+            '"filterCandidates": {"blockShape": {"semanticType": "user"}}'
+          )::jsonb
+          WHERE input_config::text LIKE '%"filterCandidates": {"blockShape": {"type": "user"}}%';
+        END IF;
+      END $$;
     `)
 
     await sequelize.query(`
-      UPDATE public.block_instances bi
-      SET semantic_type = x.role_key
-      FROM (
-        SELECT t.k AS role_key, NULLIF(trim(t.v), '') AS instance_id
-        FROM (
-          SELECT alignments FROM public.user_role_block_alignments ORDER BY created_at ASC LIMIT 1
-        ) ur
-        CROSS JOIN LATERAL jsonb_each_text(ur.alignments) AS t(k, v)
-      ) AS x
-      WHERE x.instance_id IS NOT NULL
-        AND bi.id::text = x.instance_id;
+      DO $$
+      BEGIN
+        IF to_regclass('public.user_role_block_alignments') IS NOT NULL THEN
+          UPDATE public.block_instances bi
+          SET semantic_type = x.role_key
+          FROM (
+            SELECT t.k AS role_key, NULLIF(trim(t.v), '') AS instance_id
+            FROM (
+              SELECT alignments FROM public.user_role_block_alignments ORDER BY created_at ASC LIMIT 1
+            ) ur
+            CROSS JOIN LATERAL jsonb_each_text(ur.alignments) AS t(k, v)
+          ) AS x
+          WHERE x.instance_id IS NOT NULL
+            AND bi.id::text = x.instance_id;
+        END IF;
+      END $$;
     `)
   },
 
