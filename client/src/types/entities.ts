@@ -22,6 +22,8 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   composite?: boolean; // If true, this instance is intended to be composite (composed of components)
   /** When true, this block coordinates differential scheduling for selected services. */
   orchestrator?: boolean;
+  /** When true, accumulation_links apply as lateral inclusion gates (property-fact driven). */
+  accumulator?: boolean;
   /** Four-state wizard placement (hidden / topLine / subOption / both); replaces the old wizardVisible boolean. */
   wizardPlacement?: WizardPlacement;
   annotations?: BlockInstanceAnnotation[]; // Embedded annotations for optimistic updates and fast reads
@@ -37,6 +39,8 @@ export interface BlockInstanceEntity extends GlobalEntityBase<"blockInstance"> {
   eventAssignments?: GlobalEntityId[];
   /** Canonical user role (USER_ROLE_VALUES) when parent shape is user-semantic; null if unset. */
   semanticType?: string | null;
+  /** Default Property Detail Fact when this time block is added to an accumulator link. */
+  propertyFactKey?: string | null;
 }
 
 export interface BlockShapeEntity extends GlobalEntityBase<"blockShape"> {
@@ -66,7 +70,8 @@ export interface EventShapeEntity extends GlobalEntityBase<"eventShape"> {
   placementKind: EventPlacementKind
   /** null for primary; start | end for other kinds. */
   anchorEdge: EventAnchorEdge | null
-  attendees?: GlobalEntityId[] // Union of segment attendee user-types, merged client-side for booking
+  /** Booking-only aggregate: union of attendee user-types from this shape's event instances. */
+  attendees?: GlobalEntityId[]
 }
 
 export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
@@ -95,6 +100,8 @@ export interface EventInstanceEntity extends GlobalEntityBase<"eventInstance"> {
   includeCancelLink: boolean;
   /** Virtual: visibility in metadata controls inclusion in display/export; value from appointment at invite time */
   scheduledBy?: string | null;
+  /** Segment-scoped attendee user-type block ids from event_instance_attendees. */
+  attendees?: GlobalEntityId[];
 }
 
 export interface AnnotationShapeEntity extends GlobalEntityBase<"annotationShape"> {

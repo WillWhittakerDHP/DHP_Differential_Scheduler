@@ -49,6 +49,7 @@ function makeServiceBlock(id: string, partInstances: BookingPartInstance[]): Boo
     name: id,
     active: true,
     orchestrator: true,
+    accumulator: false,
     wizardPlacement: 'topLine',
     preClosing: false,
     orderIndex: 0,

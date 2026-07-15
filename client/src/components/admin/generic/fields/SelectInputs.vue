@@ -6,7 +6,7 @@
     :show-label="false"
     :is-disabled="fieldContext.state.isDisabled.value"
   >
-    <!-- WHY: Allows users to quickly select major/minor attendees from business settings -->
+    <!-- WHY: Convenience presets only; saved rows are still segment-scoped attendee relationships. -->
     <!-- PATTERN: Conditionally render buttons above select field only for AttendeeSelect type -->
     <div v-if="isAttendeeSelect" class="attendee-quick-select mb-3">
       <div class="d-flex gap-2 flex-wrap">
@@ -17,7 +17,7 @@
           :loading="quickSelect.isLoading.value"
           @click="handleQuickSelectMajor"
         >
-          Select Major
+          Select Internal
         </VBtn>
         <VBtn
           size="small"
@@ -26,7 +26,7 @@
           :loading="quickSelect.isLoading.value"
           @click="handleQuickSelectMinor"
         >
-          Select Minor
+          Select Client-Facing
         </VBtn>
         <VBtn
           size="small"
@@ -42,10 +42,10 @@
         {{ quickSelect.error.value }}
       </div>
       <div v-else-if="!quickSelect.hasMajorAttendees.value && !quickSelect.hasMinorAttendees.value && !quickSelect.isLoading.value" class="text-body-small text-medium-emphasis mt-1">
-        Configure major/minor attendees in Business Controls to use quick-select
+        Configure attendee presets in Business Controls to use quick-select
       </div>
     </div>
-    
+
     <!-- WHY: Single AppSelect with all options; groupByKey only affects option grouping inside the dropdown -->
     <AppSelect
       :key="`select-${String(fieldContext.state.fieldKey)}-${isMultiple}`"
@@ -66,7 +66,7 @@
       item-value="value"
       class="select-field"
       :class="{ 'select-field--multiple': isMultiple }"
-      @update:model-value="handleChange"
+      @update:model-value="handleSelectChange"
       @focus="handleFocus"
       @blur="handleBlur"
       @keydown="handleKeydown"
@@ -104,6 +104,7 @@ import type { GlobalEntityKey } from '@/constants/entities'
 import { useFieldValue } from '@/composables/useFieldValue'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useSelectOptions } from '@/composables/useSelectOptions'
 import { useSelectConfig } from '@/composables/admin/useSelectConfig'
 import { useSelectFiltering } from '@/composables/admin/useSelectFiltering'
@@ -118,6 +119,9 @@ import { ENTITY_CARD_SAVE_KEY, ENTITY_CARD_DISABLE_AUTOSAVE_KEY, type EntityCard
 import { useSelectInputsAsync } from '@/composables/admin/useSelectInputsAsync'
 import { isSelectOptionGroupHeader } from '@/types/selectOptions'
 import type { FieldInputProps } from './fieldTypes'
+import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
+import { PROPERTY_FACT_OPTIONS, type PropertyFactKey } from '@shared/constants/accumulator'
+import { setAccumulationLinkChildFactKey } from '@/utils/admin/accumulationLinkFactKeySelection'
 
 const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
@@ -199,12 +203,55 @@ const selectOptionsComposable = useSelectOptions({
 // PATTERN: Destructure composable return values for use in template
 const { options: entityOptions } = selectOptionsComposable
 
+const propertyFactSelectOptions = computed(() => [
+  ...PROPERTY_FACT_OPTIONS.map((option) => ({
+    title: option.label,
+    value: option.value,
+  })),
+])
+
+const isPropertyFactKeyField = computed(
+  () => fieldContext.state.entityKey === 'blockInstance' && String(fieldContext.state.fieldKey) === 'propertyFactKey'
+)
+
 const options = computed(() => {
+  if (isPropertyFactKeyField.value) {
+    return propertyFactSelectOptions.value
+  }
   if (isOptionsSelect.value) {
     return optionsSelectOptions.value
   }
   return isEnumSelect.value ? enumOptions.value : entityOptions.value
 })
+
+const isAccumulationLinkSelect = computed(
+  () =>
+    selectConfig.value &&
+    'selectType' in selectConfig.value &&
+    selectConfig.value.selectType === RelationshipSelectTypeEnum.AccumulationLinkSelect
+)
+
+function registerAddedChildFactKeys(nextValue: string | string[] | null): void {
+  if (!isAccumulationLinkSelect.value) {
+    return
+  }
+  const parentId = String(fieldContext.state.entityId)
+  const nextIds = Array.isArray(nextValue)
+    ? nextValue.map((v) => String(v))
+    : nextValue
+      ? [String(nextValue)]
+      : []
+  for (const selectedId of nextIds) {
+    const child = adminComp.getEntity('blockInstance', toGlobalEntityId(selectedId)) as
+      | { propertyFactKey?: unknown }
+      | undefined
+    const factKey =
+      typeof child?.propertyFactKey === 'string' && child.propertyFactKey.trim().length > 0
+        ? child.propertyFactKey
+        : ''
+    setAccumulationLinkChildFactKey(parentId, selectedId, factKey as PropertyFactKey)
+  }
+}
 
 // WHY: Moves value normalization logic out of component into reusable composable
 // PATTERN: Composable handles annotation values, value normalization, and option validation
@@ -240,6 +287,11 @@ const {
   handleBlur,
   handleKeydown
 } = selectHandlersComposable
+
+function handleSelectChange(value: string | string[] | null): void {
+  registerAddedChildFactKeys(value)
+  void handleChange(value)
+}
 
 const { selectDomTargets } = useSelectDomTargets({ fieldContext })
 

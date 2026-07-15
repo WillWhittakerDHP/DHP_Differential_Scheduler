@@ -34,7 +34,7 @@ Every block instance carries independent behavior flags on orthogonal axes. As o
 | `orchestrator` | Behavior | Current code: differential scheduling + (service shapes) may own base time/fee. **Naming under review** — not vertical packaging, not accumulator. See §2.3. |
 | `composite` | Structure (vertical) | Same-shape package: owns children via `instanceComponents`. |
 | `wizardPlacement` | Presentation | Where this instance appears in the booking wizard. |
-| `accumulator` *(planned)* | Lateral (runtime) | When this service is selected, auto-include linked time characteristics that are **present in property data** — not a user pick of those characteristics. |
+| `accumulator` | Lateral (runtime) | When this service is selected, auto-include linked time characteristics that are **present in property data** — not a user pick of those characteristics. Flag + `accumulation_links.property_fact_key`. |
 
 
 **Composite and wizardPlacement are orthogonal.** Accumulator is a separate lateral axis (§2.3), distinct from `bookingCascades` (user-selectable lateral options).
@@ -77,7 +77,7 @@ Every block instance carries independent behavior flags on orthogonal axes. As o
 | ---- | ------- | ---------- |
 | **Vertical (within shape)** | Package owns same-shape children | `composite` + `instanceComponents` |
 | **Lateral — user options** | Downstream instances offered for user selection | `validBookingCascades` / `bookingCascades` (admin/UI may say “validator” / “downstream options”; **code keys stay**) |
-| **Lateral — property auto-include** | Include a time/property characteristic when a linked service is selected **and** property data has that fact | **`accumulator` — planned; not implemented** |
+| **Lateral — property auto-include** | Include a time/property characteristic when a linked service is selected **and** property data has that fact | **`accumulator` + `accumulation_links`** — usable bridge verified 2026-07-14; evaluator + booking/appointment wire live; manual equipment fact columns live |
 
 **Accumulator rule (signed off):**
 
@@ -102,7 +102,7 @@ Accumulator is **ambivalent of user selection** of the HVAC block itself, but **
 2. New feature = **`accumulator`** exactly as the rule above.
 3. Current `orchestrator` flag: **clarify or rename separately** — today it drives differential scheduling + service base ledger, **not** vertical packaging and **not** accumulator. Vertical packaging already has the name `composite`.
 
-**Implementation sketch (future):** Accumulator edges (service instance → time characteristic instance) + evaluation: `serviceSelected && propertyFactPresent(characteristic)`. Distinct from `bookingCascades`. Admin labels for cascades may say “downstream options / validator”; code keys stay `bookingCascades`.
+**Implementation status (2026-07-14):** Migration `074` (`accumulator` columns + `accumulation_links`), migration `075` (equipment Property Detail Facts: `hvacCount`, `waterHeaterCount`, `kitchenApplianceCount`), and migration `076` (default `property_fact_key` on time block instances). Shared evaluator `shared/constants/accumulator.ts`. Booking merge via `mergeWizardSelectionWithAccumulatorInclusions` / `resolveAccumulatedBlockInstances` (availability + appointment payload). Admin: time blocks expose **Property Detail Fact** as a reusable default; accumulator services expose Accumulation links gated on `accumulator=true` and currently limited to active `time` block instances. Runtime still uses `accumulation_links.property_fact_key`; link POST upserts by parent-child and stores/updates the time block default fact key. Empty key → never include. MLS enrichment can populate the same manual property-detail fields later; MLS is not required for accumulator gates.
 
 ---
 
@@ -112,7 +112,7 @@ Accumulator is **ambivalent of user selection** of the HVAC block itself, but **
 
 ```
 Block Shape (template — defines type, domain, and valid shape-level relationships)
-  └─ Block Instance (runtime — a concrete occurrence; carries orchestrator/composite/wizardPlacement; accumulator planned)
+  └─ Block Instance (runtime — a concrete occurrence; carries orchestrator/composite/wizardPlacement/accumulator)
        └─ Part Instance (value ledger — accumulates domain values)
 ```
 
@@ -337,12 +337,12 @@ Event shapes are **admin-managed placement types**. Each row defines a `placemen
 | Event shape        | Placement kind | Anchor edge | Description                                |
 | ------------------ | -------------- | ----------- | ------------------------------------------ |
 | **Primary**        | `primary`      | —           | The main segment. Time-axis anchor.        |
-| **FrontSecondary** | `secondary`    | `start`     | Anchored at the start of primary.          |
-| **BackSecondary**  | `secondary`    | `end`       | Anchored at the end of primary.            |
-| **FrontMarginal**  | `marginal`     | `start`     | Overlapping/abutting the front of primary. |
-| **BackMarginal**   | `marginal`     | `end`       | Overlapping/abutting the back of primary.  |
-| **FrontFloating**  | `floating`     | `start`     | Preferring before primary.                 |
-| **BackFloating**   | `floating`     | `end`       | Preferring after primary.                  |
+| **FrontSecondary** | `secondary`    | `start`     | Inside the primary window, sharing the primary start. |
+| **BackSecondary**  | `secondary`    | `end`       | Inside the primary window, sharing the primary end. |
+| **FrontMarginal**  | `marginal`     | `start`     | Adjacent before primary; expands the main busy window. |
+| **BackMarginal**   | `marginal`     | `end`       | Adjacent after primary; expands the main busy window. |
+| **FrontFloating**  | `floating`     | `start`     | Separate segment preferring before primary; minimizer/completion scheduling handles availability separately. |
+| **BackFloating**   | `floating`     | `end`       | Separate segment preferring after primary; minimizer/completion scheduling handles availability separately. |
 
 
 These are **defaults, not fixed**. Admins can add, rename, or remove placement types.
@@ -371,11 +371,11 @@ Event profile (type='event', "Minimize Time On Site", composite=true, orchestrat
 
 **Resolution:** PartFinalizer checks whether the selected event profile has an explicit assignment for each part instance. If yes, use the profile's segment; if no, fall back to the event orchestrator's baseline (typically Primary).
 
-### 5.3 Event is data, not computation
+### 5.3 Event placement is data-driven
 
-The booking pipeline does **no placement calculation**. It reads the event assignment graph, groups part durations by event instance, and looks up each event instance's placement kind from its event shape ref.
+The booking pipeline does **no role-based placement calculation**. It reads the event assignment graph, groups part durations by event instance, and resolves concrete segment ranges from each event instance's event shape (`placement_kind` + `anchor_edge`). `major` / `minor` labels are display perspectives and admin presets, not the placement source of truth.
 
-Adding a new placement type requires only a new event shape row — no code changes to the layout engine.
+Adding a new event shape row that uses one of the existing placement kinds requires no layout-code change. Adding a new placement kind is a deliberate engine extension.
 
 ### 5.4 Event instances are self-describing calendar segments
 

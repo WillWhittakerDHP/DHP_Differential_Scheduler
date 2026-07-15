@@ -11,6 +11,7 @@ export const STATUS_BUTTON_LABELS: Record<
   active: { true: ENTITY_STATUS.ACTIVE, false: ENTITY_STATUS.INACTIVE },
   composite: { true: 'Composite', false: 'Atomic' },
   orchestrator: { true: 'Orchestrator', false: 'Not orchestrator' },
+  accumulator: { true: 'Accumulator', false: 'Not accumulator' },
   allowMultiple: { true: 'Allow Multiple', false: 'Single' },
   requiresUnitNumber: { true: 'Unit Number', false: 'No Unit Number' },
   preClosing: { true: 'Pre-closing', false: 'Not pre-closing' },

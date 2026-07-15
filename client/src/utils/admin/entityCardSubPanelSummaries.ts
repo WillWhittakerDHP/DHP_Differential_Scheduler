@@ -45,6 +45,7 @@ export function buildRelationshipTypesForSubPanel(
   const relationshipTypes: string[] = []
   if (entityKey === 'blockInstance') {
     appendIfNonEmptyArray(formValues.bookingCascades, relationshipTypes, 'Downstream Instance Links')
+    appendIfNonEmptyArray(formValues.accumulationLinks, relationshipTypes, 'Accumulation Links')
     appendIfNonEmptyArray(formValues.instanceComponents, relationshipTypes, `${blockShapeDisplayName} Components`)
     return relationshipTypes
   }

@@ -2,6 +2,7 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { ValidAdminValue } from '@/constants/primitives'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
@@ -14,7 +15,7 @@ const ENTITY_DISPLAY_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shape',
   partInstance: 'Part Profile',
   partShape: 'Part Shape',
-  eventShape: 'Event Shape',
+  eventShape: 'Event Type',
   eventInstance: 'Event Profile',
   annotationShape: 'Annotation Shape',
   annotationInstance: 'Annotation Profile',
@@ -78,6 +79,14 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
     const t = result.semanticType
     if (typeof t !== 'string' || t.trim() === '') {
       result.semanticType = BLOCK_SHAPE_TYPES.USER
+    }
+  }
+
+  // New block instances must satisfy server validation even before the title-row chip renders.
+  if (entityKey === 'blockInstance') {
+    const placement = result.wizardPlacement
+    if (typeof placement !== 'string' || placement.trim() === '') {
+      result.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
     }
   }
 

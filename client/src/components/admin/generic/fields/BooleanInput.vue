@@ -57,6 +57,7 @@ import type { FieldInputProps } from './fieldTypes'
 const STATUS_BUTTON_THEME_COLORS: Record<string, string> = {
   composite: 'primary',
   orchestrator: 'info',
+  accumulator: 'warning',
   allowMultiple: 'warning',
   requiresUnitNumber: 'info',
   preClosing: 'warning',

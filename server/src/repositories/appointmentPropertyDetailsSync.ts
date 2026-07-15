@@ -57,6 +57,9 @@ function buildPropertyDetailsPatchFromWizardBlob(b: Record<string, unknown>): {
   bathrooms?: number | null
   foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits?: number | null
+  hvacCount?: number | null
+  waterHeaterCount?: number | null
+  kitchenApplianceCount?: number | null
 } {
   const sq = numOrNull(b.squareFootage) ?? numOrNull(b.propertySize)
   const patch: {
@@ -66,6 +69,9 @@ function buildPropertyDetailsPatchFromWizardBlob(b: Record<string, unknown>): {
     bathrooms?: number | null
     foundationAccess?: 'basement' | 'crawlspace' | 'slab' | null
     additionalUnits?: number | null
+    hvacCount?: number | null
+    waterHeaterCount?: number | null
+    kitchenApplianceCount?: number | null
   } = {}
   const PK = PATCH_PROPERTY_FIELD_KEY
   if (PK.MLS_NUMBER in b) patch.mlsNumber = strOrNull(b.mlsNumber)
@@ -75,6 +81,9 @@ function buildPropertyDetailsPatchFromWizardBlob(b: Record<string, unknown>): {
   if (PK.FOUNDATION_ACCESS in b) patch.foundationAccess = foundationOrNull(b.foundationAccess)
   if (PK.ADDITIONAL_UNITS in b) patch.additionalUnits = numOrNull(b.additionalUnits)
   if ('numberOfUnits' in b && !(PK.ADDITIONAL_UNITS in b)) patch.additionalUnits = numOrNull(b.numberOfUnits)
+  if (PK.HVAC_COUNT in b) patch.hvacCount = numOrNull(b.hvacCount)
+  if (PK.WATER_HEATER_COUNT in b) patch.waterHeaterCount = numOrNull(b.waterHeaterCount)
+  if (PK.KITCHEN_APPLIANCE_COUNT in b) patch.kitchenApplianceCount = numOrNull(b.kitchenApplianceCount)
   return patch
 }
 
@@ -115,6 +124,9 @@ export async function syncPropertyDetailsFromWizardBlob(
       bathrooms: patch.bathrooms ?? null,
       foundationAccess: patch.foundationAccess ?? null,
       additionalUnits: patch.additionalUnits ?? null,
+      hvacCount: patch.hvacCount ?? null,
+      waterHeaterCount: patch.waterHeaterCount ?? null,
+      kitchenApplianceCount: patch.kitchenApplianceCount ?? null,
     },
     { transaction }
   )

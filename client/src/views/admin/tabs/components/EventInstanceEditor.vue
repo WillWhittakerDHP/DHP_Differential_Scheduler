@@ -4,11 +4,16 @@ import { ref, watch } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { useRelationshipCrud } from '@/composables/useRelationship'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
 import EventInstanceBuilderBody from './EventInstanceBuilderBody.vue'
 import { nilToEmptyString } from '@shared/utils/nilDefaults'
+import {
+  attendeeIdsFromDraftValue,
+  syncEventInstanceAttendeeAssignments,
+} from '@/utils/admin/eventInstanceAttendeeAssignments'
 
 const logger = createLogger('EventInstanceEditor')
 
@@ -16,6 +21,7 @@ const props = defineProps<{
   entity: GlobalEntity<'eventInstance'>
   expanded: boolean
   eventShapesList: GlobalEntity<'eventShape'>[]
+  showActions?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -40,6 +46,7 @@ function cloneFromEntity(e: GlobalEntity<'eventInstance'>): NewEventInstanceData
     colorId: e.colorId,
     status: e.status,
     active: e.active,
+    attendees: attendeeIdsFromDraftValue(e.attendees),
   }
 }
 
@@ -60,6 +67,10 @@ watch(
 )
 
 const { update } = useEntityCrud('eventInstance')
+const {
+  create: createAttendeeAssignment,
+  remove: removeAttendeeAssignment,
+} = useRelationshipCrud('attendeeAssignments')
 const { success, error: notifyError } = useNotification()
 const saving = ref(false)
 const deleteDialogOpen = ref(false)
@@ -91,6 +102,13 @@ async function handleSave(): Promise<void> {
       },
       toGlobalEntityId(props.entity.id)
     )
+    await syncEventInstanceAttendeeAssignments({
+      eventInstanceId: String(props.entity.id),
+      oldAttendeeIds: attendeeIdsFromDraftValue(props.entity.attendees),
+      newAttendeeIds: draft.value.attendees,
+      createAttendeeAssignment,
+      removeAttendeeAssignment,
+    })
     success('Event instance saved')
   } catch (err) {
     notifyError('Failed to save event instance')
@@ -108,13 +126,17 @@ function executeDelete(): void {
   emit('delete', props.entity.id)
   deleteDialogOpen.value = false
 }
+
+defineExpose({
+  handleSave,
+})
 </script>
 
 <template>
   <div class="event-instance-editor pa-2">
     <EventInstanceBuilderBody v-model="draft" :event-shapes-list="eventShapesList" />
 
-    <div class="d-flex flex-wrap gap-2 justify-end mt-4">
+    <div v-if="showActions !== false" class="d-flex flex-wrap gap-2 justify-end mt-4">
       <VBtn
         color="error"
         variant="outlined"

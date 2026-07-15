@@ -11,12 +11,13 @@ import { determinePanelFromFieldKey } from '@/utils/forms/fieldPanelFromKey'
 import { ANNOTATION_UI_SLOT_REGISTRY } from '@shared/constants/annotationSlots'
 import { USER_ROLE_VALUES } from '@shared/constants/roleConstants'
 import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
+import { PROPERTY_FACT_OPTIONS } from '@shared/constants/accumulator'
 import {
   codeFirstBlockInstanceSelectInputs,
   codeFirstBlockShapeSelectInputs,
   codeFirstPartInstanceSelectInputs,
   codeFirstPartShapeSelectInputs,
-  EVENT_SHAPE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG,
+  EVENT_INSTANCE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG,
   PART_INSTANCE_EVENT_ASSIGNMENTS_INPUT_CONFIG,
 } from '@/utils/admin/codeFirstSelectInputConfigs'
 
@@ -74,11 +75,16 @@ const wizardPlacementOptions = [
   { label: 'Both', value: WIZARD_PLACEMENT.BOTH },
 ]
 
+const propertyFactKeyOptions = [
+  { label: 'None', value: null },
+  ...PROPERTY_FACT_OPTIONS,
+]
+
 const placementKindOptions = [
-  { label: 'Primary', value: 'primary' },
-  { label: 'Secondary', value: 'secondary' },
-  { label: 'Marginal', value: 'marginal' },
-  { label: 'Floating', value: 'floating' },
+  { label: 'Main appointment window', value: 'primary' },
+  { label: 'Inside main window', value: 'secondary' },
+  { label: 'Adjacent work window', value: 'marginal' },
+  { label: 'Flexible/off-site window', value: 'floating' },
 ]
 
 const anchorEdgeOptions = [
@@ -144,7 +150,7 @@ function globalBlockShape(): Record<string, FieldMetadataEntry> {
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockShapeSelectInputs.validAnnotationAssignments },
     }),
-    validEventCascades: mk('validEventCascades', 'Valid event shapes', 13, {
+    validEventCascades: mk('validEventCascades', 'Valid event types', 13, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockShapeSelectInputs.validEventCascades },
@@ -210,6 +216,9 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
     orchestrator: titleRowFlag('orchestrator', 'Orchestrator', 8, {
       bulkEdit: true,
     }),
+    accumulator: titleRowFlag('accumulator', 'Accumulator', 16, {
+      bulkEdit: true,
+    }),
     wizardPlacement: mk('wizardPlacement', 'Wizard placement', 9, {
       dataType: 'string',
       renderAs: R.SELECT,
@@ -233,6 +242,14 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       layout: L.STACKED,
       panel: P.NONE,
     }),
+    propertyFactKey: mk('propertyFactKey', 'Property Detail Fact', 17, {
+      dataType: 'string',
+      renderAs: R.SELECT,
+      inputConfig: { options: propertyFactKeyOptions },
+      visibility: V.EXPANDED_DIRECT,
+      layout: L.STACKED,
+      panel: P.NONE,
+    }),
     partAssignments: mk('partAssignments', 'Part assignments', 20, {
       dataType: 'array',
       renderAs: R.RELATIONSHIP_COLLECTION,
@@ -249,6 +266,11 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
       dataType: 'array',
       renderAs: R.MULTISELECT,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.bookingCascades },
+    }),
+    accumulationLinks: mk('accumulationLinks', 'Accumulation links', 28, {
+      dataType: 'array',
+      renderAs: R.MULTISELECT,
+      inputConfig: { ...codeFirstBlockInstanceSelectInputs.accumulationLinks },
     }),
     eventAssignments: mk('eventAssignments', 'Event assignments', 23, {
       dataType: 'reference',
@@ -322,7 +344,7 @@ function globalEventShape(): Record<string, FieldMetadataEntry> {
       visibility: V.HIDDEN,
       panel: P.NONE,
     }),
-    placementKind: mk('placementKind', 'Placement kind', 3, {
+    placementKind: mk('placementKind', 'Timing behavior', 3, {
       dataType: 'string',
       renderAs: R.SELECT,
       inputConfig: { options: placementKindOptions },
@@ -335,12 +357,6 @@ function globalEventShape(): Record<string, FieldMetadataEntry> {
       panel: P.NONE,
     }),
     active: mk('active', 'Active', 5, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    attendeeAssignments: mk('attendeeAssignments', 'Attendees', 6, {
-      dataType: 'array',
-      renderAs: R.MULTISELECT,
-      inputConfig: { ...EVENT_SHAPE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG },
-      panel: 'events',
-    }),
   }
 }
 
@@ -354,10 +370,16 @@ function globalEventInstance(): Record<string, FieldMetadataEntry> {
       panel: P.NONE,
     }),
     active: mk('active', 'Active', 3, { dataType: 'boolean', renderAs: R.STATUS_BUTTON, panel: P.NONE }),
-    eventShapeRef: mk('eventShapeRef', 'Event shape ref', 4, {
+    eventShapeRef: mk('eventShapeRef', 'Event type', 4, {
       dataType: 'string',
-      renderAs: R.TEXT,
-      visibility: V.HIDDEN,
+      renderAs: R.REFERENCE,
+      visibility: V.EXPANDED_DIRECT,
+      inputConfig: {
+        targetMode: 'primitive',
+        targetKey: 'eventShape',
+        selectMode: 'single',
+        selectType: 'entitySelect',
+      },
       panel: P.NONE,
     }),
     titleTemplate: mk('titleTemplate', 'Title template', 5, { dataType: 'string', renderAs: R.TEXT, panel: P.NONE }),
@@ -451,6 +473,12 @@ function globalEventInstance(): Record<string, FieldMetadataEntry> {
       panel: P.NONE,
     }),
     scheduledBy: mk('scheduledBy', 'Scheduled by', 26, { dataType: 'string', renderAs: R.TEXT, panel: P.NONE }),
+    attendeeAssignments: mk('attendeeAssignments', 'Attendees', 27, {
+      dataType: 'array',
+      renderAs: R.MULTISELECT,
+      inputConfig: { ...EVENT_INSTANCE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG },
+      panel: 'events',
+    }),
   }
 }
 

@@ -22,8 +22,9 @@ import {
 import { selectedBlocksHaveDifferentialOverride } from '@/utils/booking/availabilityDifferentialOverride'
 import { propertyDetailsSliceForAvailability } from '@/utils/booking/availabilityPropertyDetailsSlice'
 import { iso8601DateFromPickerValue } from '@/utils/booking/selectedDatePickerNormalize'
-import { accumulateWizardSelectedBlockInstances } from '@/utils/booking/wizardSelectedBlocksAccumulation'
+import { accumulateWizardSelectedBlockInstances, mergeWizardSelectionWithAccumulatorInclusions } from '@/utils/booking/wizardSelectedBlocksAccumulation'
 import type { TimeSlotsPerDay } from '@/types/booking/availabilityLogic'
+import type { BookingData } from '@/types/transformers/bookingData'
 
 export type { TimeSlotsPerDay }
 
@@ -56,6 +57,8 @@ interface UseAvailabilityLogicParams {
   }
   timeSlots: ComputedRef<TimeSlot[]>
   loadedWizardState: Ref<WizardStateData | null> | null
+  /** Booking catalog + accumulation edges; when null, selections alone are used. */
+  bookingData?: Ref<BookingData | null> | null
 }
 
 export interface UseAvailabilityLogicReturn {
@@ -84,6 +87,7 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     wizard,
     timeSlots,
     loadedWizardState: _loadedWizardState,
+    bookingData = null,
   } = params
 
   const { settings } = useAvailabilitySettings()
@@ -98,7 +102,24 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
 
   const propertyDetails = computed(() => propertyDetailsSliceForAvailability(propertyDetailsStepData?.value))
 
-  const accumulatedBlockInstances = computed(() => accumulateWizardSelectedBlockInstances(wizard))
+  const accumulatedBlockInstances = computed(() => {
+    const selection = accumulateWizardSelectedBlockInstances(wizard)
+    const data = bookingData?.value
+    if (!data) {
+      return selection
+    }
+    // Prefer full property step for future equipment facts (hvacCount, …); slice is availability-API only.
+    const facts =
+      (propertyDetailsStepData?.value as Record<string, unknown> | null | undefined) ??
+      (propertyDetails.value as Record<string, unknown> | null)
+    return mergeWizardSelectionWithAccumulatorInclusions({
+      wizardSelection: selection,
+      selectedServiceBlocks: wizard.selectedServiceTypeBlocks.value,
+      blockInstanceCatalog: data.blockInstanceCatalog,
+      accumulationLinks: data.accumulationLinks,
+      propertyDetails: facts,
+    })
+  })
 
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 

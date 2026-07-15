@@ -30,6 +30,13 @@ function showFieldForEntity<GE extends GlobalEntityKey>(
   )
 }
 
+function filterFieldsForEntity<GE extends GlobalEntityKey>(
+  fields: GlobalFieldKey<GE>[],
+  options: UseConditionalFieldVisibilityOptions<GE>
+): GlobalFieldKey<GE>[] {
+  return fields.filter((fieldKey) => showFieldForEntity(options.entityKey, fieldKey, options))
+}
+
 export function useConditionalFieldVisibility<GE extends GlobalEntityKey = GlobalEntityKey>(
   options: UseConditionalFieldVisibilityOptions<GE>
 ): UseConditionalFieldVisibilityReturn<GE> {
@@ -44,6 +51,9 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
     if (String(fieldKey) === 'composite') {
       return isComposable.value === true
     }
+    if (String(fieldKey) === 'accumulationLinks') {
+      return formValues.accumulator === true
+    }
     if (!showFieldForEntity(entityKey, fieldKey, options)) {
       return false
     }
@@ -53,6 +63,9 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
   const filteredDirectInline = base.directInline.filter((fieldKey) => {
     if (String(fieldKey) === 'composite') {
       return isComposable.value === true
+    }
+    if (String(fieldKey) === 'accumulationLinks') {
+      return formValues.accumulator === true
     }
     if (!showFieldForEntity(entityKey, fieldKey, options)) {
       return false
@@ -73,9 +86,9 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
     const filteredComposition = base.subPanels.composition.filter((fieldKey) => {
       if (String(fieldKey) === 'instanceComponents') {
         const compositeValue = formValues.composite === true
-        return compositeValue && isComposable.value === true
+        return compositeValue && isComposable.value === true && showFieldForEntity(entityKey, fieldKey, options)
       }
-      return true
+      return showFieldForEntity(entityKey, fieldKey, options)
     })
 
     return {
@@ -85,6 +98,9 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
       directStacked: filteredDirectStacked,
       subPanels: {
         ...base.subPanels,
+        parts: filterFieldsForEntity(base.subPanels.parts, options),
+        relationships: filterFieldsForEntity(base.subPanels.relationships, options),
+        events: filterFieldsForEntity(base.subPanels.events, options),
         composition: filteredComposition,
       },
     }

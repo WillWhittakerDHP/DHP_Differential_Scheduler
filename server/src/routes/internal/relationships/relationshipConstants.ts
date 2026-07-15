@@ -7,6 +7,7 @@ import {
   ValidPricingCascade,
   DependentInstance,
   BookingCascade,
+  AccumulationLink,
   PricingCascade,
   PartAssignment,
   AnnotationAssignment,
@@ -16,7 +17,7 @@ import {
 } from '../../../config/app.js'
 import { Model, ModelStatic } from 'sequelize'
 
-export type RelationshipKind = 'validBookingCascades' | 'validPartCascades' | 'validAnnotationAssignments' | 'validEventCascades' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
+export type RelationshipKind = 'validBookingCascades' | 'validPartCascades' | 'validAnnotationAssignments' | 'validEventCascades' | 'validPricingCascades' | 'dependentInstances' | 'bookingCascades' | 'accumulationLinks' | 'pricingCascades' | 'partAssignments' | 'annotationAssignments' | 'eventAssignments' | 'attendeeAssignments' | 'instanceComponents'
 
 export interface RelationshipConfig {
   model: ModelStatic<Model>
@@ -59,6 +60,12 @@ export const RELATIONSHIP_REGISTRY: Record<RelationshipKind, RelationshipConfig>
   bookingCascades: {
     model: BookingCascade,
     displayName: 'Booking Cascade',
+    parentEntity: 'blockInstance',
+    childEntity: 'blockInstance'
+  },
+  accumulationLinks: {
+    model: AccumulationLink,
+    displayName: 'Accumulation Link',
     parentEntity: 'blockInstance',
     childEntity: 'blockInstance'
   },

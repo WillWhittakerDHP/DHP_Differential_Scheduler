@@ -16,4 +16,6 @@ export type NewEventInstanceData = EventInstanceTemplateStrings & {
   status: 'confirmed' | 'tentative'
   /** Create + edit builder: persisted on save (create defaults to true). */
   active: boolean
+  /** User-type block instance ids invited to this segment via event_instance_attendees. */
+  attendees: string[]
 }

@@ -261,7 +261,12 @@ router.post(
               userTypeBlockInstanceId:
                 req.body.userTypeBlockInstanceId ?? req.body.user_type_block_instance_id,
             }
-          : undefined
+          : normalizedKind === RELATIONSHIP_TYPES.ACCUMULATION_LINKS
+            ? {
+                propertyFactKey:
+                  req.body.propertyFactKey ?? req.body.property_fact_key ?? '',
+              }
+            : undefined
       const baseCreateData = await mapRelationshipFields(
         normalizedKind,
         parentId,

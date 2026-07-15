@@ -82,6 +82,9 @@ const propertyDetailsLogic = usePropertyDetailsLogic({
     bathrooms: formData.bathrooms,
     foundationAccess: formData.foundationAccess,
     additionalUnits: formData.additionalUnits,
+    hvacCount: formData.hvacCount,
+    waterHeaterCount: formData.waterHeaterCount,
+    kitchenApplianceCount: formData.kitchenApplianceCount,
     source: formData.source,
     suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds
   },
@@ -121,6 +124,9 @@ usePropertyFormWatchers({
     bathrooms: formData.bathrooms,
     foundationAccess: formData.foundationAccess,
     additionalUnits: formData.additionalUnits,
+    hvacCount: formData.hvacCount,
+    waterHeaterCount: formData.waterHeaterCount,
+    kitchenApplianceCount: formData.kitchenApplianceCount,
     source: formData.source,
     suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds
   },

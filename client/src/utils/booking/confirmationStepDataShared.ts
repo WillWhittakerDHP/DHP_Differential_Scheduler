@@ -22,6 +22,9 @@ export type PropertyDetailsStepData = {
   zipCode: string
   propertySize: number | null
   squareFootage: number | null
+  hvacCount?: number | null
+  waterHeaterCount?: number | null
+  kitchenApplianceCount?: number | null
 }
 
 /** UI label for the virtual drive-time row (Phase 6.11). */

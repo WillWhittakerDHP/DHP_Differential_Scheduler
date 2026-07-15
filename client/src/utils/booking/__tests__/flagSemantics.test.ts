@@ -13,6 +13,7 @@ function stubBlock(overrides: Partial<BookingBlockInstance> = {}): BookingBlockI
     name: 'stub',
     active: true,
     orchestrator: false,
+    accumulator: false,
     wizardPlacement: 'topLine',
     preClosing: false,
     orderIndex: 0,

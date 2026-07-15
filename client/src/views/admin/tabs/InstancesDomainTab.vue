@@ -173,7 +173,7 @@ const {
       class="mt-4"
     >
       No block shapes found. Create block shapes in your data workflow as needed. Use the <strong>Shapes</strong> tab for
-      block, part, annotation, and event shape definitions.
+      block, part, annotation, and event type definitions.
     </VAlert>
 
     <template v-for="blockShape in sortedBlockShapes" :key="`bulk-${blockShape.id}`">

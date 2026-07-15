@@ -2,6 +2,7 @@
 import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { SlotShape, EventFinal } from '@/types/appointment'
 import { createTimeRange } from './slotTimeUtils'
+import { createPlacedEventTimeRanges } from '@/utils/booking/eventSegmentPlacement'
 
 export function findEventFinalByName(
   slotShape: SlotShape,
@@ -17,24 +18,15 @@ export function createTimeRangesFromSlotShape(
   totalTimeRange: SlotTimeBounds | null
   eventTimeRanges: Record<string, SlotTimeBounds | null>
 } {
-  const eventFinals = Array.isArray(slotShape.eventFinals) ? slotShape.eventFinals : []
-
-  const eventTimeRanges = eventFinals.reduce<Record<string, SlotTimeBounds | null>>(
-    (acc, eventFinal) => {
-      const eventName = eventFinal.eventShape.name
-      const duration = eventFinal.roundedDuration
-      return duration > 0
-        ? { ...acc, [eventName]: createTimeRange(startTime, duration) }
-        : { ...acc, [eventName]: null }
-    },
-    {}
-  )
+  if (Array.isArray(slotShape.eventFinals) && slotShape.eventFinals.length > 0) {
+    return createPlacedEventTimeRanges(slotShape, startTime)
+  }
 
   return {
     totalTimeRange:
       slotShape.roundedDuration > 0
         ? createTimeRange(startTime, slotShape.roundedDuration)
         : null,
-    eventTimeRanges
+    eventTimeRanges: {}
   }
 }

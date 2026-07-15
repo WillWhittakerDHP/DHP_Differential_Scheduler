@@ -81,6 +81,45 @@ export const selectableDisplayBlockInstanceSection = {
           groupByKey: ENTITY_KEY_BLOCK_SHAPE
         },
       },
+
+      accumulationLinks: {
+        targetMode: "relationship",
+        targetKey: "accumulationLinks",
+        globalField: "accumulationLinks",
+
+        selectedParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildKey: ENTITY_KEY_BLOCK_INSTANCE,
+        selectedChildPath: ["accumulationLinks"],
+
+        candidateParentKey: ENTITY_KEY_BLOCK_INSTANCE,
+        candidateParentPath: [],
+        candidateChildKey: ENTITY_KEY_BLOCK_INSTANCE,
+        candidateChildPath: [],
+
+        selectType: RelationshipSelectTypeEnum.AccumulationLinkSelect,
+        selectMode: RelationshipSelectModeEnum.Multiple,
+        groupByKey: "blockShapeRef",
+
+        label: "Accumulation Links",
+        placeholder: "Choose time characteristics to auto-include...",
+        tooltip:
+          "Lateral inclusion gates: when this accumulator service is selected, include these time characteristics only if the matching Property Detail Fact is present for the inspected property. Set property_fact_key on each link (API/SQL for now) — empty key never includes.",
+        inline: false,
+        stacked: true,
+        width: "100%",
+        align: "left",
+        displayFormat: "chips",
+        emptyStateText: "No eligible time characteristics found. Create active time block instances first; then link them here and set each link's Property Detail Fact.",
+        maxDisplayItems: 10,
+        showCount: true,
+        sortBy: "name",
+        sortDirection: "asc",
+
+        meta: {
+          visible: true,
+          groupByKey: ENTITY_KEY_BLOCK_SHAPE
+        },
+      },
             
       partAssignments: {
         targetMode: "relationship",

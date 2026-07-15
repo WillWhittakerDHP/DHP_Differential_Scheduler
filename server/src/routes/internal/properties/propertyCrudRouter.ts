@@ -70,6 +70,9 @@ router.post(
         bathrooms,
         foundationAccess,
         additionalUnits,
+        hvacCount,
+        waterHeaterCount,
+        kitchenApplianceCount,
         source = DEFAULT_VALUES.SOURCE,
       } = req.body
 
@@ -105,6 +108,9 @@ router.post(
           bathrooms: bathrooms || null,
           foundationAccess: foundationAccess || null,
           additionalUnits: additionalUnits || null,
+          hvacCount: hvacCount ?? null,
+          waterHeaterCount: waterHeaterCount ?? null,
+          kitchenApplianceCount: kitchenApplianceCount ?? null,
         }, { transaction })
 
         const completePropertyVersion = await getPropertyWithAssociations(propertyVersion.id, transaction)
@@ -141,6 +147,9 @@ router.put(
         bathrooms,
         foundationAccess,
         additionalUnits,
+        hvacCount,
+        waterHeaterCount,
+        kitchenApplianceCount,
         source,
       } = req.body
 
@@ -154,6 +163,9 @@ router.put(
           bathrooms: bathrooms !== undefined ? bathrooms : propertyDetails.bathrooms,
           foundationAccess: foundationAccess !== undefined ? foundationAccess : propertyDetails.foundationAccess,
           additionalUnits: additionalUnits !== undefined ? additionalUnits : propertyDetails.additionalUnits,
+          hvacCount: hvacCount !== undefined ? hvacCount : propertyDetails.hvacCount,
+          waterHeaterCount: waterHeaterCount !== undefined ? waterHeaterCount : propertyDetails.waterHeaterCount,
+          kitchenApplianceCount: kitchenApplianceCount !== undefined ? kitchenApplianceCount : propertyDetails.kitchenApplianceCount,
           source: source !== undefined ? source : propertyDetails.source,
         })
       }

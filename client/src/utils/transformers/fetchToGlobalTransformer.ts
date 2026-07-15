@@ -122,6 +122,11 @@ function transformApiRelationship(
   }
   const orderRaw = raw.orderIndex ?? raw.order_index
   const orderIndex = typeof orderRaw === 'number' ? orderRaw : undefined
+  const propertyFactKeyRaw = raw.propertyFactKey ?? raw.property_fact_key
+  const propertyFactKey =
+    relationshipKey === 'accumulationLinks' && typeof propertyFactKeyRaw === 'string'
+      ? propertyFactKeyRaw
+      : undefined
 
   return {
     id: toGlobalEntityId(asEmptyString(idResolved)),
@@ -137,6 +142,7 @@ function transformApiRelationship(
         typeof userTypeBlockInstanceIdRaw === 'string') && {
         userTypeBlockInstanceId: toGlobalEntityIdOrNull(userTypeBlockInstanceIdRaw),
       }),
+    ...(propertyFactKey !== undefined && { propertyFactKey }),
   }
 }
 

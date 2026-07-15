@@ -15,6 +15,7 @@ import { calculateArrayDiff } from '@/utils/collections/arrayDiff'
 import { createLogger } from '@/utils/logger'
 import { invalidateEntityQueries } from '@/composables/entityCrud/useSharedMutationHandlers'
 import { RELATIONSHIP_ALREADY_EXISTS } from '@/constants/errorMessages'
+import { getAccumulationLinkChildFactKey } from '@/utils/admin/accumulationLinkFactKeySelection'
 
 import type { SaveComponentEntityParams, SaveRelationshipFieldParams, SaveRegularFieldParams } from '@/types/fieldContext/fieldContextSaveHelpers'
 
@@ -71,6 +72,14 @@ function dedupeIdsPreserveOrderCore(ids: string[]): string[] {
 
 export function dedupeIdsPreserveOrder(ids: string[]): string[] {
   return dedupeIdsPreserveOrderCore(ids)
+}
+
+export function relationshipIdsToPostForSave(
+  relationshipKey: GlobalRelationshipKey,
+  toAdd: string[],
+  normalizedNew: string[]
+): string[] {
+  return relationshipKey === 'accumulationLinks' ? normalizedNew : toAdd
 }
 
 function isRelationshipAlreadyExistsConflict(error: unknown): boolean {
@@ -154,12 +163,16 @@ async function applyRelationshipIdDiffCore(params: {
   const relationshipEndpoint = getRelationshipEndpoint(relationshipKey)
   const normalizedNew = dedupeIdsPreserveOrderCore(newIds)
   const { toAdd, toRemove } = calculateArrayDiff(oldIds, normalizedNew)
+  const idsToPost = relationshipIdsToPostForSave(relationshipKey, toAdd, normalizedNew)
 
   const promises: Promise<void>[] = [
-    ...toAdd.map((childId) => {
+    ...idsToPost.map((childId) => {
       const payload: CreateRelationshipPayload = {
         parentId: toGlobalEntityId(parentId),
         childId: toGlobalEntityId(childId),
+      }
+      if (relationshipKey === 'accumulationLinks') {
+        payload.propertyFactKey = getAccumulationLinkChildFactKey(parentId, childId)
       }
       return apiClient
         .post(relationshipEndpoint, payload)

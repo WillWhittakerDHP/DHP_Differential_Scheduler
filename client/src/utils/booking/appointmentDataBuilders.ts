@@ -33,6 +33,9 @@ export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyReq
     bathrooms: step.bathrooms ?? null,
     foundationAccess: step.foundationAccess ?? null,
     additionalUnits: step.additionalUnits ?? null,
+    hvacCount: step.hvacCount ?? null,
+    waterHeaterCount: step.waterHeaterCount ?? null,
+    kitchenApplianceCount: step.kitchenApplianceCount ?? null,
     source: step.source ?? undefined,
   }
 }
@@ -52,6 +55,9 @@ export function buildPropertyDetailsForRequest(step: PropertyDetailsStepData): A
     bathrooms: step.bathrooms,
     foundationAccess: step.foundationAccess,
     additionalUnits: step.additionalUnits,
+    hvacCount: step.hvacCount,
+    waterHeaterCount: step.waterHeaterCount,
+    kitchenApplianceCount: step.kitchenApplianceCount,
   }
 }
 

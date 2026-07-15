@@ -3,13 +3,17 @@
   PATTERN: Thin shell; focused composables (parent filter, drag order, panels); reuse Instances-tab children.
 -->
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
+import { useAdmin } from '@/composables/admin/useAdmin'
 import { useBlockInstanceEventInstancesForParent } from '@/composables/admin/useBlockInstanceEventInstancesForParent'
 import { useBlockInstanceEventSegmentDragOrder } from '@/composables/admin/useBlockInstanceEventSegmentDragOrder'
 import { useBlockInstanceEventSegmentPanels } from '@/composables/admin/useBlockInstanceEventSegmentPanels'
 import EventInstanceBuilderBody from '@/views/admin/tabs/components/EventInstanceBuilderBody.vue'
+import EventInstanceEditor from '@/views/admin/tabs/components/EventInstanceEditor.vue'
 import EventInstanceListItem from '@/views/admin/tabs/components/EventInstanceListItem.vue'
+import type { GlobalEntity } from '@/types/entities'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 
 const props = defineProps<{
   blockInstanceId: string
@@ -18,6 +22,18 @@ const props = defineProps<{
 const blockIdRef = toRef(props, 'blockInstanceId')
 const parent = useBlockInstanceEventInstancesForParent(blockIdRef)
 const { entities: eventShapes } = useEntityCrud('eventShape')
+const admin = useAdmin()
+const directSegmentEditorRef = ref<InstanceType<typeof EventInstanceEditor> | null>(null)
+
+const blockInstance = computed(() =>
+  admin.getEntity('blockInstance', toGlobalEntityId(props.blockInstanceId)) as
+    | GlobalEntity<'blockInstance'>
+    | undefined
+)
+
+const usesSegmentManager = computed(() => blockInstance.value?.orchestrator === true)
+
+const directSegment = computed(() => parent.filteredEventInstances.value[0] ?? null)
 
 const drag = useBlockInstanceEventSegmentDragOrder({
   filteredEventInstances: parent.filteredEventInstances,
@@ -52,19 +68,78 @@ const {
   bindEventInstancesPanelsContainer,
 } = drag
 const { hasEventInstances, isLoadingEventInstances } = parent
+
+watch(
+  [usesSegmentManager, directSegment, eventShapes],
+  ([usesManager, segment, shapes]) => {
+    if (usesManager || segment || shapes.length === 0 || isCreatingEventInstance.value) {
+      return
+    }
+    openCreateEventInstanceForm()
+  },
+  { immediate: true }
+)
+
+async function saveDirectSegment(): Promise<void> {
+  if (usesSegmentManager.value) {
+    return
+  }
+  if (directSegment.value) {
+    await directSegmentEditorRef.value?.handleSave()
+    return
+  }
+  if (newEventInstanceData.value) {
+    await handleEventInstanceCreate()
+  }
+}
+
+defineExpose({
+  saveDirectSegment,
+})
 </script>
 
 <template>
-  <VCard variant="outlined" class="mt-4 event-block-instance-segments">
+  <div v-if="!usesSegmentManager" class="mt-4 event-block-instance-segment">
+    <div class="text-title-small mb-3">Segment details</div>
+    <VAlert
+      v-if="eventShapes.length === 0"
+      type="warning"
+      variant="tonal"
+      density="compact"
+      class="mb-4"
+    >
+      Create an Event Type before configuring this segment.
+    </VAlert>
+    <div v-else-if="isLoadingEventInstances" class="text-center py-4">
+      <VProgressCircular indeterminate />
+    </div>
+    <EventInstanceEditor
+      v-else-if="directSegment"
+      ref="directSegmentEditorRef"
+      :entity="directSegment"
+      :expanded="true"
+      :event-shapes-list="eventShapes"
+      :show-actions="false"
+      @delete="handleDeleteEventInstance"
+    />
+    <div v-else-if="newEventInstanceData">
+      <EventInstanceBuilderBody
+        v-model="newEventInstanceData"
+        :event-shapes-list="eventShapes"
+      />
+    </div>
+  </div>
+
+  <VCard v-else variant="outlined" class="mt-4 event-block-instance-segments">
     <VCardTitle class="text-subtitle-1 d-flex align-center justify-space-between flex-wrap gap-2">
-      <span>Calendar segments</span>
+      <span>Orchestrated calendar segments</span>
       <VBtn
         color="primary"
         size="small"
         prepend-icon="tabler-plus"
         @click="openCreateEventInstanceForm"
       >
-        Add segment
+        Add segment / choose event type
       </VBtn>
     </VCardTitle>
     <VCardText>
@@ -126,7 +201,8 @@ const { hasEventInstances, isLoadingEventInstances } = parent
         </VExpansionPanels>
       </div>
       <VAlert v-else type="info" variant="tonal" density="compact" class="mb-0">
-        No segments yet. Add a segment to attach calendar templates to this block instance.
+        No segments yet. Click <strong>Add segment / choose event type</strong> to create an event instance,
+        choose its Event Type, set attendees, and attach calendar templates.
       </VAlert>
     </VCardText>
   </VCard>

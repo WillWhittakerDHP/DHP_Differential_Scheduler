@@ -66,7 +66,7 @@ export function useEventTemplatePreview(params: UseEventTemplatePreviewParams): 
 
     const shapeRef = params.draft.value.eventShapeRef
     if (shapeRef === '') {
-      realPreviewError.value = 'Select an event shape before real preview.'
+      realPreviewError.value = 'Select an event type before real preview.'
       realPreview.value = null
       return
     }

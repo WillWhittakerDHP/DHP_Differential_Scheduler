@@ -40,6 +40,8 @@ export type BookingBlockInstance = CoreEntity & {
   entityKey: 'blockInstance'
   icon: string
   orchestrator: boolean
+  /** Lateral inclusion gates — see shared/constants/accumulator.ts */
+  accumulator: boolean
   wizardPlacement: WizardPlacement
   preClosing: boolean
   orderIndex: number
@@ -61,4 +63,15 @@ export type BookingData = {
   blockInstances: BookingBlockInstance[]
   lineItemBlocks: BookingBlockInstance[]
   blockShapes: BookingBlockShape[]
+  /**
+   * Full booking-transformed catalog (including hidden placement) for accumulator lookups.
+   * Component children stay excluded — they roll up into composites.
+   */
+  blockInstanceCatalog: BookingBlockInstance[]
+  /** Lateral inclusion-gate edges (service → characteristic), with property fact keys. */
+  accumulationLinks: Array<{
+    parentId: string
+    childId: string
+    propertyFactKey: string
+  }>
 }

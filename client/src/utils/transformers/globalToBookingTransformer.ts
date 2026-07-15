@@ -32,6 +32,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const bookingCascadesRelationships = safeArray(relationships.bookingCascades)
   const instanceComponentsRelationships = safeArray(relationships.instanceComponents)
   const pricingCascadesRelationships = safeArray(relationships.pricingCascades)
+  const accumulationLinksRelationships = safeArray(relationships.accumulationLinks)
 
   const partInstanceById = new Map(
     partInstances.map((partInstance) => [partInstance.id, partInstance])
@@ -75,6 +76,20 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     partShapeById
   )
 
+  /** Catalog includes hidden blocks so accumulator can resolve characteristic children. */
+  const blockInstanceCatalog = filterAndSortBlockInstances(
+    blockInstances,
+    componentIds,
+    () => true,
+    partAssignmentsRelationships,
+    bookingCascadesRelationships,
+    instanceComponentsRelationships,
+    pricingCascadesRelationships,
+    partInstanceById,
+    blockShapeById,
+    partShapeById
+  )
+
   const bookingBlockShapes: BookingBlockShape[] = immutableSort(
     blockShapes.map((blockShape) => ({
       id: blockShape.id,
@@ -91,10 +106,25 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     })
   }
 
+  const accumulationLinks = accumulationLinksRelationships.flatMap((rel) => {
+    const parentId = rel.parent?.id
+    if (!parentId) {
+      return []
+    }
+    const factKey = typeof rel.propertyFactKey === 'string' ? rel.propertyFactKey : ''
+    return rel.children.map((child) => ({
+      parentId,
+      childId: child.id,
+      propertyFactKey: factKey,
+    }))
+  })
+
   return {
     blockInstances: withAnnotationUi(bookingBlockInstances),
     lineItemBlocks: withAnnotationUi(lineItemBlocks),
     blockShapes: bookingBlockShapes,
+    blockInstanceCatalog: withAnnotationUi(blockInstanceCatalog),
+    accumulationLinks,
   }
 }
 

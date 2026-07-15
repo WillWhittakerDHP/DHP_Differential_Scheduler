@@ -30,8 +30,10 @@ interface BlockInstanceVersionComparison {
   icon?: string | null;
   composite?: boolean;
   orchestrator?: boolean;
+  accumulator?: boolean;
   wizardPlacement?: WizardPlacement;
   preClosing?: boolean;
+  propertyFactKey?: string | null;
 }
 
 function versionsMatch(
@@ -45,8 +47,10 @@ function versionsMatch(
          versionData.icon === instanceData.icon &&
          versionData.composite === instanceData.composite &&
          versionData.orchestrator === instanceData.orchestrator &&
+         versionData.accumulator === instanceData.accumulator &&
          resolveWizardPlacement(versionData.wizardPlacement) === resolveWizardPlacement(instanceData.wizardPlacement) &&
-         versionData.preClosing === instanceData.preClosing;
+         versionData.preClosing === instanceData.preClosing &&
+         (versionData.propertyFactKey ?? null) === (instanceData.propertyFactKey ?? null);
 }
 
 async function findAppointmentsUsingBlockInstance(
@@ -75,8 +79,10 @@ async function createVersionFromInstance(
     icon: instanceData.icon,
     composite: instanceData.composite ?? false,
     orchestrator: instanceData.orchestrator,
+    accumulator: instanceData.accumulator ?? false,
     wizardPlacement: resolveWizardPlacement(instanceData.wizardPlacement),
     preClosing: instanceData.preClosing ?? false,
+    propertyFactKey: instanceData.propertyFactKey ?? null,
   });
 
   const blockInstanceWithParts = await BlockInstance.findByPk(instanceData.id, {

@@ -13,6 +13,7 @@ export type SequelizeModelsBag = {
   ValidEventCascade: ModelCtor<Model>
   DependentInstance: ModelCtor<Model>
   BookingCascade: ModelCtor<Model>
+  AccumulationLink: ModelCtor<Model>
   PricingCascade: ModelCtor<Model>
   ValidPricingCascade: ModelCtor<Model>
   PartAssignment: ModelCtor<Model>

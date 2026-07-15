@@ -33,6 +33,7 @@
             :expanded="true"
             :disable-auto-save="true"
             :use-expansion-panel="false"
+            :block-instance-semantic-type-override="blockInstanceSemanticType"
             @saved="handleEntityCardSaved"
             @cancelled="handleCancel"
           />
@@ -71,6 +72,8 @@ import { getDefaultEntityValues } from '@/utils/entityDefaults'
 import { generateIncrementedName } from '@/utils/blockInstanceUtils'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import { useBlockInstanceCreate } from '@/composables/admin/useBlockInstanceCreate'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
+import { toGlobalEntityId } from '@/utils/globalEntity'
 
 interface Props {
   modelValue?: boolean
@@ -104,6 +107,16 @@ const createButtonText = computed(() => {
   return props.sourceEntity ? 'Duplicate' : 'Create'
 })
 
+const blockInstanceSemanticType = computed(() => {
+  if (!props.blockShapeId) {
+    return null
+  }
+  const blockShape = admin.getEntity('blockShape', toGlobalEntityId(props.blockShapeId)) as
+    | GlobalEntity<'blockShape'>
+    | undefined
+  return blockShape?.semanticType ?? null
+})
+
 const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   if (props.sourceEntity) {
     const sourceName = props.sourceEntity.name
@@ -117,6 +130,7 @@ const initialEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       ...props.sourceEntity,
       name: newName,
       id: tempEntityId.value,
+      wizardPlacement: props.sourceEntity.wizardPlacement || WIZARD_PLACEMENT.TOP_LINE,
     } as GlobalEntity<'blockInstance'>
   } else {
     const defaults = getDefaultEntityValues('blockInstance')

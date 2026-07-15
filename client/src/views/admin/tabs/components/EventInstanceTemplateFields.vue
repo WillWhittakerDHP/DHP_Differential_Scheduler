@@ -16,11 +16,9 @@ defineProps<{
 <template>
   <VAlert type="info" variant="tonal" density="compact" class="mb-4 text-body-small">
     <strong>What this creates in Google Calendar:</strong>
-    Calendar Title → <em>summary</em> · Calendar Description → <em>description</em> · Calendar Location →
-    <em>location</em>
+    Calendar Title → <em>summary</em> · Calendar Description → <em>description</em>. Location normally comes
+    from the scheduled appointment; only set an override for Zoom/custom virtual links.
   </VAlert>
-
-  <div class="text-title-small mb-2">Template builder</div>
 
   <VTextarea
     v-model="draft.titleTemplate"
@@ -51,11 +49,11 @@ defineProps<{
   <VTextarea
     v-model="draft.locationTemplate"
     data-event-template-field="locationTemplate"
-    label="Calendar Location"
+    label="Location override (Zoom/custom link)"
     variant="outlined"
     density="compact"
     rows="3"
-    hint="Shown as the event location field."
+    hint="Leave blank to use the appointment address. Use only for Zoom/custom virtual links; use the Google Meet switch below for Meet."
     persistent-hint
     :error-messages="locationErrorMessages"
     class="mb-2"

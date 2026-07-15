@@ -4,6 +4,7 @@ import { type RelationshipKind } from './relationshipConstants.js'
 
 type MapRelationshipFieldOptions = {
   userTypeBlockInstanceId?: string | null
+  propertyFactKey?: string
 }
 
 function mapAnnotationAssignmentsFields(
@@ -62,6 +63,13 @@ export async function mapRelationshipFields(
       return mapAttendeeAssignmentsFields(parentId, childId)
     case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS:
       return mapEventAssignmentsFields(parentId, childId)
+    case RELATIONSHIP_TYPES.ACCUMULATION_LINKS:
+      return {
+        parentId,
+        childId,
+        propertyFactKey:
+          typeof options?.propertyFactKey === 'string' ? options.propertyFactKey : '',
+      }
     default:
       return { parentId, childId }
   }

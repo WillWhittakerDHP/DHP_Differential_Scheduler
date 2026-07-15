@@ -126,6 +126,7 @@ function resolvePartInstanceIds(
 type BlockInstanceOptionalProps = {
   icon?: string
   orchestrator?: boolean
+  accumulator?: boolean
   wizardPlacement?: WizardPlacement
   preClosing?: boolean
   number?: number | null
@@ -146,6 +147,7 @@ function extractBlockInstanceProps(
   return {
     icon: b.icon,
     orchestrator: b.orchestrator,
+    accumulator: b.accumulator,
     wizardPlacement: b.wizardPlacement,
     preClosing: b.preClosing,
     number: numberProp,
@@ -175,6 +177,7 @@ function buildBookingBlockInstance(
     active: true,
     icon: safeString(props.icon, 'blockInstance.icon'),
     orchestrator,
+    accumulator: props.accumulator === true,
     wizardPlacement,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,

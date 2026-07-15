@@ -11,7 +11,9 @@ describe('blockInstanceFieldVisibility', () => {
   it('shows time-only fields on time shapes only', () => {
     expect(shouldShowBlockInstanceField('requiresUnitNumber', BLOCK_SHAPE_TYPES.TIME)).toBe(true)
     expect(shouldShowBlockInstanceField('isMultiFamily', BLOCK_SHAPE_TYPES.TIME)).toBe(true)
+    expect(shouldShowBlockInstanceField('propertyFactKey', BLOCK_SHAPE_TYPES.TIME)).toBe(true)
     expect(shouldShowBlockInstanceField('requiresUnitNumber', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
+    expect(shouldShowBlockInstanceField('propertyFactKey', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
     expect(shouldShowBlockInstanceField('preClosing', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
   })
 
@@ -32,5 +34,13 @@ describe('blockInstanceFieldVisibility', () => {
       expect(shouldShowBlockInstanceField('orchestrator', semanticType)).toBe(true)
       expect(shouldShowBlockInstanceField('wizardPlacement', semanticType)).toBe(true)
     }
+  })
+
+  it('hides unrelated admin plumbing on event block instances', () => {
+    expect(shouldShowBlockInstanceField('icon', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('accumulator', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
   })
 })

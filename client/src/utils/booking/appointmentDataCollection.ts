@@ -19,6 +19,7 @@ import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import type { ConfirmationDriveContext } from '@/utils/booking/confirmationStepData'
 import { resolveSystemDriveTimeBlockForFees } from '@/utils/booking/systemDriveTimeBlock'
+import { resolveAccumulatedBlockInstances } from '@/utils/booking/resolveAccumulatedBlockInstances'
 
 const logger = createLogger('useAppointmentDataCollection')
 
@@ -73,9 +74,28 @@ export function useAppointmentDataCollection(params: UseAppointmentDataCollectio
       const lineItemBlocksRef = wizard.selectedLineItemBlocks?.value
       const selectedLineItemBlocks =
         lineItemBlocksRef !== undefined && lineItemBlocksRef !== null ? lineItemBlocksRef : []
+
+      const data = bookingData.value
+      const selectedServices = wizard.selectedServiceTypeBlocks.value
+      const userSelectedTimes = wizard.selectedPropertyTypeBlocks.value
+      const accumulatedTimes =
+        data != null
+          ? resolveAccumulatedBlockInstances({
+              selectedServiceBlocks: selectedServices,
+              allBlockInstances: data.blockInstanceCatalog,
+              accumulationRelationships: data.accumulationLinks,
+              propertyDetails: propertyStep as unknown as Record<string, unknown>,
+            })
+          : []
+      const seenTimeIds = new Set(userSelectedTimes.map((b) => b.id))
+      const selectedPropertyTypeBlocks = [
+        ...userSelectedTimes,
+        ...accumulatedTimes.filter((b) => !seenTimeIds.has(b.id)),
+      ]
+
       const wizardBlocks: WizardBlocksForBuilders = {
-        selectedServiceTypeBlocks: wizard.selectedServiceTypeBlocks.value,
-        selectedPropertyTypeBlocks: wizard.selectedPropertyTypeBlocks.value,
+        selectedServiceTypeBlocks: selectedServices,
+        selectedPropertyTypeBlocks,
         selectedOptionTypeBlocks: wizard.selectedOptionTypeBlocks.value,
         selectedPriceBlocks: wizard.selectedPriceBlocks.value,
         selectedLineItemBlocks,

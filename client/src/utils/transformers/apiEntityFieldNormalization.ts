@@ -17,6 +17,10 @@ export function normalizeBlockInstanceOrchestratorFromApi(raw: unknown): boolean
   return normalizeBooleanFieldWithDefault(raw, DEFAULT_VALUES.ORCHESTRATOR)
 }
 
+export function normalizeBlockInstanceAccumulatorFromApi(raw: unknown): boolean {
+  return normalizeBooleanFieldWithDefault(raw, DEFAULT_VALUES.ACCUMULATOR)
+}
+
 /**
  * Coalesce the API value into a concrete placement. Accepts the new enum, and tolerates
  * the legacy boolean (`wizard_visible`) during the migration window.

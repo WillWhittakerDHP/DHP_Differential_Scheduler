@@ -31,6 +31,8 @@ import AdminEntityDeleteWizard from '@/components/admin/generic/AdminEntityDelet
 import { usesDependencyDeleteContract } from '@/utils/admin/dependencyDeleteContractKeys'
 import { Icon } from '@iconify/vue'
 import { VExpansionPanel, VCard } from 'vuetify/components'
+import { BLOCK_SHAPE_TYPES, type BlockShapeType } from '@/constants/blockShapeTypes'
+import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 defineOptions({
   inheritAttrs: false
@@ -47,6 +49,8 @@ interface Props<GE extends GlobalEntityKey> {
   fieldMetadata?: Record<string, FieldMetadataEntry>
   /** Set when this card is a child inside RelationshipCollection; true if parent block shape is state control (user type). */
   parentBlockShapeIsStateControl?: boolean
+  /** Parent block shape semantic type when the parent list already knows it. */
+  blockInstanceSemanticTypeOverride?: BlockShapeType | null
   /** Shapes tab reorder grip; pairs with FormKit `dragHandle: '.shape-list-drag-handle'`. */
   showShapeListDragHandle?: boolean
 }
@@ -57,6 +61,7 @@ const props = withDefaults(defineProps<Props<GlobalEntityKey>>(), {
   disableAutoSave: false,
   useExpansionPanel: true,
   parentBlockShapeIsStateControl: false,
+  blockInstanceSemanticTypeOverride: null,
   showShapeListDragHandle: false,
 })
 
@@ -142,8 +147,12 @@ const blockInstanceSemanticType = computed(() => {
   if (props.entityKey !== 'blockInstance') {
     return null
   }
+  if (props.blockInstanceSemanticTypeOverride) {
+    return props.blockInstanceSemanticTypeOverride
+  }
   const bi = props.entity as GlobalEntity<'blockInstance'>
-  const shapeRef = bi.blockShapeRef
+  const formValues = form.value?.values as Record<string, unknown> | undefined
+  const shapeRef = String(formValues?.blockShapeRef ?? bi.blockShapeRef ?? '')
   if (shapeRef === undefined || shapeRef === null || shapeRef === '') {
     return null
   }
@@ -198,6 +207,25 @@ provide(ENTITY_CARD_SAVE_KEY, {
 provide(ENTITY_CARD_DISABLE_AUTOSAVE_KEY, props.disableAutoSave)
 
 const titleRowFields = computed(() => filteredFieldsByLocation.value.titleRow)
+
+const eventShapeTimingTitle = computed(() => {
+  if (props.entityKey !== 'eventShape') {
+    return ''
+  }
+  const values = form.value?.values as Record<string, unknown> | undefined
+  const eventShape = props.entity as GlobalEntity<'eventShape'>
+  return eventTimingBehaviorFromPlacement(
+    values?.placementKind ?? eventShape.placementKind,
+    values?.anchorEdge ?? eventShape.anchorEdge
+  ).shortTitle
+})
+
+const showPartsTotals = computed(() => {
+  if (props.entityKey === 'blockInstance' && blockInstanceSemanticType.value === BLOCK_SHAPE_TYPES.EVENT) {
+    return false
+  }
+  return true
+})
 
 const { primaryTitleRowExpansion, primaryTitleRowModal, expansionFallbackTitle } = useEntityCardPrimaryTitleModels({
   entityKey: computed(() => props.entityKey),
@@ -256,10 +284,19 @@ defineExpose({
             PATTERN: .instance-drag-handle lives in the panel default slot (sibling of title), positioned over the title rail — see below.
           -->
           <EntityCardPrimaryTitleRow :title-row="primaryTitleRowExpansion" />
+          <VChip
+            v-if="eventShapeTimingTitle"
+            size="x-small"
+            variant="tonal"
+            color="info"
+          >
+            {{ eventShapeTimingTitle }}
+          </VChip>
         </div>
         
         <!-- WHY: Shows parts totals when shape type allows part ledger (non-user) — see usePartsTotals / blockShapeAllowsParts -->
         <EntityCardPartsTotals
+          v-if="showPartsTotals"
           :entity-key="entityKey"
           :entity-id="entity.id"
         />

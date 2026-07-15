@@ -18,6 +18,9 @@ export interface PropertyDetailsData extends PropertyAddressBase {
   bathrooms: number | null
   foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits: number | null
+  hvacCount: number | null
+  waterHeaterCount: number | null
+  kitchenApplianceCount: number | null
   source?: PropertySource
   suggestedBlockInstanceIds?: string[]
 }
@@ -42,6 +45,9 @@ export interface PropertyFormData {
   bathrooms: Ref<number | null>
   foundationAccess: Ref<'basement' | 'crawlspace' | 'slab' | null>
   additionalUnits: Ref<number | null>
+  hvacCount: Ref<number | null>
+  waterHeaterCount: Ref<number | null>
+  kitchenApplianceCount: Ref<number | null>
   source?: Ref<PropertySource | undefined>
   suggestedBlockInstanceIds?: Ref<string[]>
 }

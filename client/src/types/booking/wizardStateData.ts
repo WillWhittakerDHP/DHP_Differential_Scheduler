@@ -23,6 +23,9 @@ export interface WizardStateData {
     bathrooms: number | null
     foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
     additionalUnits: number | null
+    hvacCount: number | null
+    waterHeaterCount: number | null
+    kitchenApplianceCount: number | null
   }
 
   contacts: {

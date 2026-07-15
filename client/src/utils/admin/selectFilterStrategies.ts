@@ -92,6 +92,23 @@ export function filterByActiveChildSelect(
 }
 
 /**
+ * Accumulator links are intentionally narrower than generic block-instance links:
+ * this first version links an accumulator service to active time characteristics.
+ */
+export function filterByAccumulationLinkSelectBlockInstances(
+  allEntities: GlobalEntity<GlobalEntityKey>[],
+  timeBlockShapeIds: Set<string>,
+  excludeEntityId: string
+): GlobalEntity<GlobalEntityKey>[] {
+  return allEntities.filter((candidate) => {
+    if (candidate.id === excludeEntityId) return false
+    if (candidate.active === false) return false
+    const blockShapeRef = getEntityFieldValue(candidate, 'blockShapeRef')
+    return blockShapeRef != null && timeBlockShapeIds.has(String(blockShapeRef))
+  })
+}
+
+/**
  * Filter entities by direct matching: candidate's path value must equal current entity value; exclude self.
  */
 export function filterByDirectMatching(

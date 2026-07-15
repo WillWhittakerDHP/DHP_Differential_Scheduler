@@ -32,6 +32,9 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
   const bathrooms = ref<number | null>(null)
   const foundationAccess = ref<'basement' | 'crawlspace' | 'slab' | null>(null)
   const additionalUnits = ref<number | null>(null)
+  const hvacCount = ref<number | null>(null)
+  const waterHeaterCount = ref<number | null>(null)
+  const kitchenApplianceCount = ref<number | null>(null)
   const source = ref<PropertySource | undefined>(undefined)
   const suggestedBlockInstanceIds = ref<string[]>([])
   
@@ -56,6 +59,9 @@ export function usePropertyFormState(): UsePropertyFormStateReturn {
     bathrooms,
     foundationAccess,
     additionalUnits,
+    hvacCount,
+    waterHeaterCount,
+    kitchenApplianceCount,
     source,
     suggestedBlockInstanceIds
   }

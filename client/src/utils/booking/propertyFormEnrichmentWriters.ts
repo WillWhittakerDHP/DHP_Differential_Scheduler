@@ -27,6 +27,15 @@ export function buildPropertyEnrichmentWritersFromFormData(
     setAdditionalUnits: (v) => {
       formData.additionalUnits.value = v
     },
+    setHvacCount: (v) => {
+      formData.hvacCount.value = v
+    },
+    setWaterHeaterCount: (v) => {
+      formData.waterHeaterCount.value = v
+    },
+    setKitchenApplianceCount: (v) => {
+      formData.kitchenApplianceCount.value = v
+    },
     setSource: (v) => {
       if (formData.source) {
         formData.source.value = v

@@ -45,8 +45,8 @@ const blockShapeDisplay = selectableDisplayBlockShapeSection[ENTITY_KEY_BLOCK_SH
 const partInstanceDisplay = selectableDisplayPartsAndPlaceholderSection[ENTITY_KEY_PART_INSTANCE]
 const partShapeDisplay = selectableDisplayPartsAndPlaceholderSection[ENTITY_KEY_PART_SHAPE]
 
-/** Baseline admin_metadata JSON for eventShape.attendeeAssignments (server 20260320 baseline_data). */
-export const EVENT_SHAPE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG: Record<string, unknown> = {
+/** Segment-level attendee assignments: event_instance_attendees parent is eventInstance. */
+export const EVENT_INSTANCE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG: Record<string, unknown> = {
   targetKey: 'attendeeAssignments',
   selectMode: 'multiple',
   selectType: 'attendeeSelect',
@@ -57,9 +57,9 @@ export const EVENT_SHAPE_ATTENDEE_ASSIGNMENTS_INPUT_CONFIG: Record<string, unkno
   selectedChildKey: 'blockInstance',
   candidateChildKey: 'blockInstance',
   selectedChildPath: ['attendees'],
-  selectedParentKey: 'eventShape',
+  selectedParentKey: 'eventInstance',
   candidateChildPath: [],
-  candidateParentKey: 'eventShape',
+  candidateParentKey: 'eventInstance',
   candidateParentPath: [],
 }
 
@@ -84,6 +84,7 @@ export const PART_INSTANCE_EVENT_ASSIGNMENTS_INPUT_CONFIG: Record<string, unknow
 export const codeFirstBlockInstanceSelectInputs = {
   blockShapeRef: pickSelectInputConfig(blockInstanceDisplay.blockShapeRef as Record<string, unknown>),
   bookingCascades: pickSelectInputConfig(blockInstanceDisplay.bookingCascades as Record<string, unknown>),
+  accumulationLinks: pickSelectInputConfig(blockInstanceDisplay.accumulationLinks as Record<string, unknown>),
   partAssignments: pickSelectInputConfig(blockInstanceDisplay.partAssignments as Record<string, unknown>),
   annotationAssignments: pickSelectInputConfig(blockInstanceDisplay.annotationAssignments as Record<string, unknown>),
   eventAssignments: pickSelectInputConfig(blockInstanceDisplay.eventAssignments as Record<string, unknown>),

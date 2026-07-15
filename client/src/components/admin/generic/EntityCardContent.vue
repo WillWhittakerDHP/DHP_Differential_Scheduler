@@ -3,7 +3,7 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
-import { computed, type ComputedRef } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
@@ -45,12 +45,18 @@ interface Props extends EntityCardSharedProps {
 const props = defineProps<Props>()
 
 const admin = useAdmin()
+const eventSegmentsPanelRef = ref<InstanceType<typeof EventBlockInstanceSegmentsPanel> | null>(null)
 const showEventSegments = computed((): boolean => {
   if (props.entityKey !== 'blockInstance' || props.isNew) {
     return false
   }
   return getBlockInstanceShapeProperties(admin, toGlobalEntityId(props.entityId)).isEventShape
 })
+
+async function handleSaveWithEventSegments(): Promise<void> {
+  await eventSegmentsPanelRef.value?.saveDirectSegment()
+  await props.handleSave()
+}
 </script>
 
 <template>
@@ -104,6 +110,7 @@ const showEventSegments = computed((): boolean => {
 
   <EventBlockInstanceSegmentsPanel
     v-if="showEventSegments"
+    ref="eventSegmentsPanelRef"
     :block-instance-id="entityId"
   />
 
@@ -159,8 +166,8 @@ const showEventSegments = computed((): boolean => {
     <VBtn
       color="primary"
       prepend-icon="tabler-device-floppy"
-      :disabled="isNew ? false : !unifiedSaveState.canSave.value"
-      @click="handleSave"
+      :disabled="isNew || showEventSegments ? false : !unifiedSaveState.canSave.value"
+      @click="handleSaveWithEventSegments"
       class="mr-2"
     >
       Save

@@ -155,12 +155,12 @@ export function useShapesTabCreation(params: UseShapesTabCreationParams): UseSha
         active: true,
         entityKey: 'eventShape' as const,
       })
-      success('Event shape created successfully')
+      success('Event type created successfully')
       ui.isCreatingEventShape = false
       ui.newEventShapeName = ''
       removeExpandedShapeId(expandedShapes, 'new-eventShape')
     } catch (error) {
-      logger.error('Failed to create event shape', { error, name: ui.newEventShapeName })
+      logger.error('Failed to create event type', { error, name: ui.newEventShapeName })
     } finally {
       ui.isCreatingEventShapeLoading = false
     }

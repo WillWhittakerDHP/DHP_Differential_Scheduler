@@ -64,6 +64,34 @@ function transformEventAssignmentsToGlobalRelationships(
 }
 
 /**
+ * WHY: `accumulation_links` carry a propertyFactKey per edge. Keep one GlobalRelationship
+ * per edge (single child) so the fact key is not lost when collapsing children.
+ */
+function transformAccumulationLinksToGlobalRelationships(
+  filteredRelationships: FetchedRelationship[],
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+): GlobalRelationship[] {
+  const config = RELATIONSHIP_KEYS.accumulationLinks
+  const out: GlobalRelationship[] = []
+
+  for (const rel of filteredRelationships) {
+    const parentEntity = findById(safeArray(entities[config.parentEntity]), rel.parentId)
+    const childEntity = findById(safeArray(entities[config.childEntity]), rel.childId)
+    if (!parentEntity || !childEntity) {
+      continue
+    }
+    out.push({
+      relationshipKind: 'accumulationLinks',
+      parent: parentEntity,
+      children: [childEntity],
+      propertyFactKey: typeof rel.propertyFactKey === 'string' ? rel.propertyFactKey : '',
+    })
+  }
+
+  return out
+}
+
+/**
  * WHY: Transform FetchedRelationship[] to GlobalRelationship[] format
 WHY: Conv...
  */
@@ -81,6 +109,9 @@ export function transformApiRelationships(
 
   if (relationshipKey === 'eventAssignments') {
     return transformEventAssignmentsToGlobalRelationships(filteredRelationships, entities)
+  }
+  if (relationshipKey === 'accumulationLinks') {
+    return transformAccumulationLinksToGlobalRelationships(filteredRelationships, entities)
   }
 
   const parentMap = groupByParentId(

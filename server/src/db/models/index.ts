@@ -12,6 +12,7 @@ import { ValidAnnotationAssignmentFactory } from "./admin/valid_annotation_assig
 import { ValidEventCascadeFactory } from "./admin/valid_event_cascade.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
+import { AccumulationLinkFactory } from "./booking/accumulation_link.js";
 import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
@@ -73,6 +74,7 @@ export function initializeModels(sequelize: Sequelize) {
   const DependentInstance = DependentInstanceFactory(sequelize);
 
   const BookingCascade = BookingCascadeFactory(sequelize);
+  const AccumulationLink = AccumulationLinkFactory(sequelize);
   const PricingCascade = PricingCascadeFactory(sequelize);
   const ValidPricingCascade = ValidPricingCascadeFactory(sequelize);
   const PartAssignment = PartAssignmentFactory(sequelize);
@@ -137,7 +139,7 @@ export function initializeModels(sequelize: Sequelize) {
   associateSequelizeModels({
     PartShape, PartInstance, BlockShape, BlockInstance, BlockInstanceVersion, PartInstanceVersion,
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, DependentInstance,
-    BookingCascade, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
+    BookingCascade, AccumulationLink, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventInstanceAttendee, AppointmentAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
@@ -155,7 +157,7 @@ export function initializeModels(sequelize: Sequelize) {
     BlockInstance, BlockShape,
     BlockInstanceVersion, PartInstanceVersion,
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, ValidPricingCascade, DependentInstance,
-    BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
+    BookingCascade, AccumulationLink, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventInstanceAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,

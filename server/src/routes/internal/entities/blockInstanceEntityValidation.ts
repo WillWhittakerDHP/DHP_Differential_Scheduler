@@ -2,7 +2,7 @@ import { ENTITY_KEYS } from '../../../constants/entities.js'
 import { WIZARD_PLACEMENT_VALUES, isWizardPlacement } from '@shared/constants/wizardPlacement.js'
 
 /** Sequelize `block_instances` boolean flags (camelCase API / model attributes). */
-const BLOCK_INSTANCE_STRICT_BOOLEAN_KEYS = ['composite', 'orchestrator'] as const
+const BLOCK_INSTANCE_STRICT_BOOLEAN_KEYS = ['composite', 'orchestrator', 'accumulator'] as const
 
 export function isBlockInstanceEntityType(entityType: string): boolean {
   return entityType === ENTITY_KEYS.BLOCK_INSTANCE || entityType === 'blockInstance'

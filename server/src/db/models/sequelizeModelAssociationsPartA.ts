@@ -15,6 +15,7 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
     ValidEventCascade,
     DependentInstance,
     BookingCascade,
+    AccumulationLink,
     PricingCascade,
     ValidPricingCascade,
     PartAssignment,
@@ -86,6 +87,9 @@ export function associateSequelizeShapesAndEvents(m: SequelizeModelsBag): void {
 
   BlockInstance.hasMany(BookingCascade, { foreignKey: 'parent_id', as: 'booking_cascades' });
   BookingCascade.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'booking_cascade_instance' });
+
+  BlockInstance.hasMany(AccumulationLink, { foreignKey: 'parent_id', as: 'accumulation_links' });
+  AccumulationLink.belongsTo(BlockInstance, { foreignKey: 'child_id', as: 'accumulation_link_instance' });
 
   PartInstance.hasMany(PricingCascade, { foreignKey: 'parent_id', as: 'pricing_cascades' });
   PricingCascade.belongsTo(PartInstance, { foreignKey: 'child_id', as: 'pricing_cascade_instance' });

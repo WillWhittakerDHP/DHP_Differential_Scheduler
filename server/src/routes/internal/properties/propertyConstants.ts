@@ -44,6 +44,9 @@ export const PATCH_PROPERTY_DETAILS_FIELDS = [
   'bathrooms',
   'foundationAccess',
   'additionalUnits',
+  'hvacCount',
+  'waterHeaterCount',
+  'kitchenApplianceCount',
   'source',
 ] as const
 
@@ -54,6 +57,9 @@ export const PATCH_PROPERTY_FIELD_KEY = {
   BATHROOMS: 'bathrooms',
   FOUNDATION_ACCESS: 'foundationAccess',
   ADDITIONAL_UNITS: 'additionalUnits',
+  HVAC_COUNT: 'hvacCount',
+  WATER_HEATER_COUNT: 'waterHeaterCount',
+  KITCHEN_APPLIANCE_COUNT: 'kitchenApplianceCount',
   SOURCE: 'source',
 } as const
 

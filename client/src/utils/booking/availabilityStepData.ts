@@ -2,8 +2,7 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { AppointmentSlot } from '@/types/appointment'
 import type { MinimizerSchedulingOptions } from '@/types/minimizerScheduling'
 import type { AvailabilityStepData } from '@/types/booking/availabilityStepData'
-import type { EventShapeEntity } from '@/types/entities'
-import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
+import type { AppointmentSelectedTimeSlotPayload } from '@shared/types/appointmentTypes'
 import { asEmptyArray } from '@/utils/safeDefaults'
 import { createLogger } from '@/utils/logger'
 
@@ -34,64 +33,54 @@ type BuildSelectedTimeSlotsParams = {
   selectedSlot: AppointmentSlot | null
 }
 
-export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): SlotTimeBounds[] | null {
+function timeSlotPayloadFromRange(
+  range: SlotTimeBounds,
+  metadata: Omit<AppointmentSelectedTimeSlotPayload, keyof SlotTimeBounds> = {}
+): AppointmentSelectedTimeSlotPayload {
+  return {
+    startTime: range.startTime,
+    endTime: range.endTime,
+    duration: range.duration,
+    ...metadata,
+  }
+}
+
+export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): AppointmentSelectedTimeSlotPayload[] | null {
   if (!params.selectedSlot || !params.selectedDateStart) {
     return null
   }
 
-  const slots: SlotTimeBounds[] = []
+  const slots: AppointmentSelectedTimeSlotPayload[] = []
   const eventTimeRanges = params.selectedSlot.eventTimeRanges
 
   const eventFinals = asEmptyArray(params.selectedSlot.shape?.slotShape?.eventFinals)
-  const eventShapeEntities = eventFinals.map(ef => ef.eventShape) as EventShapeEntity[]
-
-  const { hasMajorMinorPair, major: majorEventShape, minor: minorEventShape } =
-    resolveDifferentialMajorMinorFromEventShapes(eventShapeEntities)
-
-  if (!hasMajorMinorPair) {
+  if (eventFinals.length === 0) {
     const total = params.selectedSlot.totalTimeRange
     if (total) {
-      logger.debug('buildSelectedTimeSlots: no major+minor pair, using totalTimeRange')
-      return [
-        {
-          startTime: total.startTime,
-          endTime: total.endTime,
-          duration: total.duration,
-        },
-      ]
+      logger.debug('buildSelectedTimeSlots: no event finals, using totalTimeRange')
+      return [timeSlotPayloadFromRange(total)]
     }
     return null
   }
 
-  const majorEventName = majorEventShape?.name ?? null
-  const majorTimeRange = majorEventName ? eventTimeRanges?.[majorEventName] : null
-
-  if (majorTimeRange) {
-    slots.push({
-      startTime: majorTimeRange.startTime,
-      endTime: majorTimeRange.endTime,
-      duration: majorTimeRange.duration,
-    })
-  }
-
-  const minorEventName = minorEventShape?.name ?? null
-  const minorTimeRange = minorEventName ? eventTimeRanges?.[minorEventName] : null
-
-  if (minorTimeRange && minorTimeRange.startTime !== majorTimeRange?.startTime) {
-    slots.push({
-      startTime: minorTimeRange.startTime,
-      endTime: minorTimeRange.endTime,
-      duration: minorTimeRange.duration,
-    })
+  for (const eventFinal of eventFinals) {
+    const eventShape = eventFinal.eventShape
+    const eventShapeName = eventShape.name
+    const range = eventTimeRanges?.[eventShapeName] ?? null
+    if (!range) {
+      continue
+    }
+    slots.push(timeSlotPayloadFromRange(range, {
+      eventShapeId: String(eventShape.id),
+      eventShapeName,
+      placementKind: String(eventShape.placementKind ?? ''),
+      anchorEdge: eventShape.anchorEdge ?? null,
+    }))
   }
 
   if (slots.length === 0 && params.selectedSlot.totalTimeRange) {
-    logger.debug('buildSelectedTimeSlots: no role-based time ranges found, using totalTimeRange')
-    slots.push({
-      startTime: params.selectedSlot.totalTimeRange.startTime,
-      endTime: params.selectedSlot.totalTimeRange.endTime,
-      duration: params.selectedSlot.totalTimeRange.duration,
-    })
+    logger.debug('buildSelectedTimeSlots: no event time ranges found, using totalTimeRange')
+    slots.push(timeSlotPayloadFromRange(params.selectedSlot.totalTimeRange))
   }
 
   return slots.length > 0 ? slots : null
@@ -99,7 +88,7 @@ export function buildSelectedTimeSlots(params: BuildSelectedTimeSlotsParams): Sl
 
 export function buildAvailabilityStepData(params: {
   candidateDate: { start: string | null; end: string | null }
-  candidateTimeSlots: SlotTimeBounds[] | null
+  candidateTimeSlots: AppointmentSelectedTimeSlotPayload[] | null
   minimizerScheduling?: MinimizerSchedulingOptions | null
   totalDriveMinutes: number | null
 }): AvailabilityStepData {

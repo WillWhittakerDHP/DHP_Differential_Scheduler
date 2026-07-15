@@ -33,12 +33,12 @@ const {
       <h3 class="text-headline-small">Events</h3>
       <div class="d-flex gap-2">
         <VBtn color="primary" prepend-icon="tabler-plus" @click="startCreatingEventShape">
-          Create Event Shape
+          Create Event Type
         </VBtn>
       </div>
     </div>
     <div class="mb-6">
-      <h4 class="text-body-large mb-3">Event Shapes</h4>
+      <h4 class="text-body-large mb-3">Event Types</h4>
       <div v-if="isLoadingEventShapes" class="text-center py-4">
         <VProgressCircular indeterminate />
       </div>
@@ -50,7 +50,7 @@ const {
         >
           <VCardTitle class="d-flex align-center gap-2 text-body-large">
             <VIcon icon="tabler-plus" size="small" color="primary" />
-            <span class="text-primary font-weight-medium">New Event Shape</span>
+            <span class="text-primary font-weight-medium">New Event Type</span>
           </VCardTitle>
           <VCardText>
             <div class="d-flex align-center gap-3 flex-wrap">
@@ -95,7 +95,7 @@ const {
           />
         </VExpansionPanels>
         <VAlert v-else-if="!isCreatingEventShape" type="info" variant="tonal" class="mt-4">
-          No event shapes found. Create one to get started.
+          No event types found. Create one to get started.
         </VAlert>
       </div>
     </div>

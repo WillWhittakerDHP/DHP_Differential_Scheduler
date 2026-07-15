@@ -36,7 +36,7 @@ const logger = createLogger('InviteOrchestrationService')
 
 /** `findEventInstancesForBlockInstances` eager-loads `eventShape`; Sequelize typings omit the association. */
 type EventSegmentForCalendarSort = EventInstanceType & {
-  eventShape?: { placementKind?: string; anchorEdge?: string | null }
+  eventShape?: { id?: string; name?: string; placementKind?: string; anchorEdge?: string | null }
 }
 
 interface SingleEventResult {
@@ -231,8 +231,8 @@ async function createEventForInstance(
       summary,
       description: description || undefined,
       location: location || undefined,
-      start: extractStartTime(appointment),
-      end: extractEndTime(appointment),
+      start: extractStartTime(appointment, eventInstance),
+      end: extractEndTime(appointment, eventInstance),
       attendees,
       sendUpdates: eventInstance.sendUpdates,
       visibility: eventInstance.visibility,
@@ -279,25 +279,57 @@ async function createEventForInstance(
   }
 }
 
-/**
- * WHY: All calendar segments for this appointment currently share the **first** wizard `selectedTimeSlots` row.
- * Per-segment windows require a client payload + persistence change — server does not recompute from PartFinalizer.
- */
-function extractStartTime(appointment: NormalizedAppointmentForInviteFlow): string {
-  const firstSlot = (appointment.selectedTimeSlots as Array<{ startTime: string }> | null)?.[0]
-  if (!firstSlot?.startTime) {
-    throw new Error(`Appointment ${appointment.id} has no selectedTimeSlots — cannot create calendar event`)
-  }
-  return new Date(firstSlot.startTime).toISOString()
+function slotString(slot: Record<string, unknown> | null, key: 'startTime' | 'endTime'): string | null {
+  const value = slot?.[key]
+  return typeof value === 'string' && value.trim().length > 0 ? value : null
 }
 
-/** @see extractStartTime — same single-slot policy for end time. */
-function extractEndTime(appointment: NormalizedAppointmentForInviteFlow): string {
-  const firstSlot = (appointment.selectedTimeSlots as Array<{ endTime: string }> | null)?.[0]
-  if (!firstSlot?.endTime) {
+function slotMatchesEventInstance(
+  slot: Record<string, unknown>,
+  eventInstance: EventInstanceType
+): boolean {
+  const eventShape = (eventInstance as EventSegmentForCalendarSort).eventShape
+  const eventShapeId = eventShape != null && 'id' in eventShape ? String(eventShape.id) : null
+  const eventShapeName = eventShape != null && 'name' in eventShape ? String(eventShape.name) : null
+  return (
+    (eventShapeId !== null && slot.eventShapeId === eventShapeId) ||
+    (eventShapeName !== null && slot.eventShapeName === eventShapeName)
+  )
+}
+
+function findTimeSlotForEventInstance(
+  appointment: NormalizedAppointmentForInviteFlow,
+  eventInstance: EventInstanceType
+): Record<string, unknown> | null {
+  const slots = appointment.selectedTimeSlots
+  if (!slots?.length) {
+    return null
+  }
+  return slots.find((slot) => slotMatchesEventInstance(slot, eventInstance)) ?? slots[0] ?? null
+}
+
+function extractStartTime(
+  appointment: NormalizedAppointmentForInviteFlow,
+  eventInstance: EventInstanceType
+): string {
+  const slot = findTimeSlotForEventInstance(appointment, eventInstance)
+  const startTime = slotString(slot, 'startTime')
+  if (!startTime) {
+    throw new Error(`Appointment ${appointment.id} has no selectedTimeSlots — cannot create calendar event`)
+  }
+  return new Date(startTime).toISOString()
+}
+
+function extractEndTime(
+  appointment: NormalizedAppointmentForInviteFlow,
+  eventInstance: EventInstanceType
+): string {
+  const slot = findTimeSlotForEventInstance(appointment, eventInstance)
+  const endTime = slotString(slot, 'endTime')
+  if (!endTime) {
     throw new Error(`Appointment ${appointment.id} has no endTime in selectedTimeSlots`)
   }
-  return new Date(firstSlot.endTime).toISOString()
+  return new Date(endTime).toISOString()
 }
 
 

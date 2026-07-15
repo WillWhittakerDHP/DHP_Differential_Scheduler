@@ -28,8 +28,9 @@ export function resolveGroupEntityKey(
   groupByKey: string,
   config?: { candidateParentKey?: GlobalEntityKey }
 ): GlobalEntityKey | null {
-  if (config?.candidateParentKey) return config.candidateParentKey
-  return PROPERTY_TO_ENTITY_KEY_MAP[groupByKey] ?? null
+  // PATTERN: A `*Ref` group key names the parent entity directly. For accumulator links,
+  // candidateParentKey is blockInstance, but blockShapeRef must still group by blockShape.
+  return PROPERTY_TO_ENTITY_KEY_MAP[groupByKey] ?? config?.candidateParentKey ?? null
 }
 
 /**

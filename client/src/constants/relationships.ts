@@ -32,6 +32,12 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },
+  accumulationLinks: {
+    backendName: 'accumulation_links',
+    frontendKey: 'accumulationLinks',
+    parentEntity: 'blockInstance' as GlobalEntityKey,
+    childEntity: 'blockInstance' as GlobalEntityKey,
+  },
   pricingCascades: {
     backendName: 'pricing_cascades',
     frontendKey: 'pricingCascades',

@@ -20,7 +20,6 @@ import {
   filterZeroedBlocks
 } from './blockFinalizer'
 import { createTimeRangesFromSlotShape } from './slotShapeLookups'
-import { resolveEventShapes, adjustMinorTimeRange } from './perspectiveResolver'
 
 export { createTimeRange } from './slotTimeUtils'
 export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShapeLookups'
@@ -188,50 +187,12 @@ export function applyShapeToTime(
   
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
-  const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(effectiveSlotShape.eventFinals)
-    : {
-        majorEventShape: null,
-        minorEventShape: null,
-        majorEventName: null,
-        minorEventName: null
-      }
-
-  const majorTimeRange =
-    resolved.majorEventName != null
-      ? timeRanges.eventTimeRanges[resolved.majorEventName] ?? null
-      : null
-  const minorTimeRange =
-    resolved.minorEventName != null
-      ? timeRanges.eventTimeRanges[resolved.minorEventName] ?? null
-      : null
-
-  const { adjustedEventTimeRanges, adjustedMinorTimeRange } = adjustMinorTimeRange(
-    startTime,
-    timeRanges.eventTimeRanges,
-    resolved.majorEventName,
-    resolved.minorEventName,
-    majorTimeRange,
-    minorTimeRange,
-    effectiveSlotShape.roundedDifferentialOffset
-  )
-
-  if (adjustedMinorTimeRange != null && majorTimeRange != null) {
-    if (adjustedMinorTimeRange.endTime !== majorTimeRange.endTime) {
-      throw new Error(
-        `AppointmentSlot validation failed: ` +
-          `minorTimeRange.endTime (${adjustedMinorTimeRange.endTime}) !== ` +
-          `majorTimeRange.endTime (${majorTimeRange.endTime})`
-      )
-    }
-  }
-
   return {
     buttonIndex,
     isAvailable,
     shape,
     startTime,
     totalTimeRange: timeRanges.totalTimeRange,
-    eventTimeRanges: adjustedEventTimeRanges
+    eventTimeRanges: timeRanges.eventTimeRanges
   }
 }

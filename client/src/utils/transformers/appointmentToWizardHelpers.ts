@@ -52,6 +52,7 @@ function transformVersionToBookingInstance(
     entityKey: 'blockInstance' as const,
     active: true,
     orchestrator: DEFAULT_VALUES.ORCHESTRATOR,
+    accumulator: DEFAULT_VALUES.ACCUMULATOR,
     wizardPlacement: DEFAULT_WIZARD_PLACEMENT,
     preClosing: false,
     orderIndex: 0,
@@ -92,6 +93,7 @@ function transformVersionToBookingInstance(
     name: version.name,
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
     orchestrator: currentInstance?.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR,
+    accumulator: currentInstance?.accumulator ?? DEFAULT_VALUES.ACCUMULATOR,
     wizardPlacement: currentInstance?.wizardPlacement ?? DEFAULT_WIZARD_PLACEMENT,
     partInstances,
   } as BookingBlockInstance
@@ -255,6 +257,9 @@ export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
   bathrooms: number | null
   foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits: number | null
+  hvacCount: number | null
+  waterHeaterCount: number | null
+  kitchenApplianceCount: number | null
 } {
   const rec = propertyDetailsRecord != null && typeof propertyDetailsRecord === 'object'
     ? propertyDetailsRecord as Record<string, unknown>
@@ -268,5 +273,9 @@ export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
     bathrooms: rec?.bathrooms != null ? Number(rec.bathrooms) : null,
     foundationAccess: extractFoundationAccess(rec?.foundationAccess),
     additionalUnits: rec?.additionalUnits != null ? Number(rec.additionalUnits) : null,
+    hvacCount: rec?.hvacCount != null ? Number(rec.hvacCount) : null,
+    waterHeaterCount: rec?.waterHeaterCount != null ? Number(rec.waterHeaterCount) : null,
+    kitchenApplianceCount:
+      rec?.kitchenApplianceCount != null ? Number(rec.kitchenApplianceCount) : null,
   }
 }

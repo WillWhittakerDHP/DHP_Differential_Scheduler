@@ -26,6 +26,8 @@ export class BlockInstance extends Model<
   declare name: string;
   declare composite: boolean;
   declare orchestrator: boolean;
+  /** Lateral inclusion gates — when true, accumulation_links apply (shared/constants/accumulator.ts). */
+  declare accumulator: boolean;
   /** Four-state wizard placement (replaces the old wizardVisible boolean); see shared/constants/wizardPlacement.ts. */
   declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
@@ -35,6 +37,8 @@ export class BlockInstance extends Model<
   declare requiresAgent: boolean;
   /** Canonical user role when parent block shape is user-semantic; null otherwise. */
   declare semanticType: string | null;
+  /** Default inspected-property fact used when this time block is added as an accumulator link. */
+  declare propertyFactKey: string | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -77,6 +81,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
+      accumulator: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       wizardPlacement: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -111,6 +120,11 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.STRING(64),
         allowNull: true,
         field: 'semantic_type',
+      },
+      propertyFactKey: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'property_fact_key',
       },
       createdAt: {
         type: DataTypes.DATE,

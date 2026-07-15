@@ -4,8 +4,12 @@
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
 import type { RelationshipFieldType, VirtualFieldType } from '@/types/entity/formFields'
+import { RelationshipSelectTypeEnum } from '@/types/entity/formDataEnums'
 import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-import { filterByAttendeeSelectBlockInstances } from '@/utils/admin/selectFilterStrategies'
+import {
+  filterByAccumulationLinkSelectBlockInstances,
+  filterByAttendeeSelectBlockInstances,
+} from '@/utils/admin/selectFilterStrategies'
 import { TEMPORARY_ID_PATTERNS } from '@/constants/entityFieldConstants'
 import {
   resolveActiveChildBranch,
@@ -33,6 +37,7 @@ interface SelectFilteringResolveInput {
   composedEntityData: ComponentEntityData | null
   tryReadFormValue: (key: string) => string | null
   getStateControlBlockShapeIds: () => Set<string>
+  getTimeBlockShapeIds: () => Set<string>
 }
 
 export function resolveFilteredEntities(input: SelectFilteringResolveInput): GlobalEntity<GlobalEntityKey>[] {
@@ -53,10 +58,23 @@ export function resolveFilteredEntities(input: SelectFilteringResolveInput): Glo
     composedEntityData,
     tryReadFormValue,
     getStateControlBlockShapeIds,
+    getTimeBlockShapeIds,
   } = input
 
   if (!selectConfig) {
     return allEntities
+  }
+
+  if (
+    'selectType' in selectConfig &&
+    selectConfig.selectType === RelationshipSelectTypeEnum.AccumulationLinkSelect &&
+    optionEntityKey === 'blockInstance'
+  ) {
+    return filterByAccumulationLinkSelectBlockInstances(
+      allEntities,
+      getTimeBlockShapeIds(),
+      String(entityId)
+    )
   }
 
   if (composedEntityData && entityId) {

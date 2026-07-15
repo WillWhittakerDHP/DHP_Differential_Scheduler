@@ -50,7 +50,8 @@ function findOrCreateParentRelationship(
   parentId: string,
   parentEntity: GlobalEntity<GlobalEntityKey>,
   childEntity: GlobalEntity<GlobalEntityKey>,
-  relationshipKey: GlobalRelationshipKey
+  relationshipKey: GlobalRelationshipKey,
+  propertyFactKey?: string
 ): GlobalRelationship[] {
   const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
   if (parentRelIndex === -1) {
@@ -60,6 +61,7 @@ function findOrCreateParentRelationship(
         relationshipKind: relationshipKey,
         parent: parentEntity,
         children: [childEntity],
+        ...(propertyFactKey !== undefined && { propertyFactKey }),
       },
     ]
   }
@@ -68,6 +70,7 @@ function findOrCreateParentRelationship(
   updated[parentRelIndex] = {
     ...existing,
     children: [...existing.children, childEntity],
+    ...(propertyFactKey !== undefined && { propertyFactKey }),
   }
   return updated
 }
@@ -104,7 +107,8 @@ function addRelationshipToCache(
     parentId,
     parentEntity,
     childEntity,
-    relationshipKey
+    relationshipKey,
+    payload.propertyFactKey
   )
   return {
     ...old,

@@ -219,21 +219,93 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 
 **Test added:** `flagSemantics.test.ts` — orchestrator flag drives differential detection.
 
-### Accumulator *(corrected — Will 2026-07-13)*
+### Accumulator *(Will 2026-07-13 — usable bridge verified)*
 
 **Earlier write-up was wrong** (treated accumulator as a truth-filter over `bookingCascades`). Correct model:
 
 - **Vertical within shape** = `composite` / `instanceComponents` (code names kept).
 - **Lateral user options** (“validator” in conversation) = `bookingCascades` / `validBookingCascades` (code names kept; admin copy may say “downstream options”).
-- **Accumulator** = service selected **AND** property has linked characteristic → auto-include that characteristic; **not** a user pick of HVAC. **Not implemented.** MLS `property_feature_mappings` is adjacent but not service-gated and currently empty (0 rows).
+- **Accumulator** = service selected **AND** property has linked characteristic → auto-include that characteristic; **not** a user pick of HVAC.
 
-**Hybrid naming (Will):** keep `composite` + `bookingCascades`; new feature = `accumulator`; clarify or rename the existing `orchestrator` flag separately (today = differential + base ledger only).
+**Shipped in this pass:**
+- Migration `074`: `block_instances.accumulator` + `accumulation_links` (`property_fact_key`)
+- Migration `075`: persisted equipment Property Detail Facts (`hvacCount`, `waterHeaterCount`, `kitchenApplianceCount`) so accumulator gates work without MLS
+- Migration `076`: time blocks can carry a default `propertyFactKey` (“Property Detail Fact”) for accumulator setup
+- Shared evaluator + 8 unit tests (`accumulatorInclusions.test.ts`)
+- Booking: inclusions merged into availability `accumulatedBlockInstances` and appointment `selectedTimeIds` / fee time list
+- Property Details step: manual equipment fact inputs; MLS enrichment can populate the same fields later
+- Admin: Time blocks expose `Property Detail Fact`; Accumulator services expose Accumulation links (active `time` block instances only). Linking a time block stores/updates the edge's runtime `property_fact_key` from the selected time block's default fact key.
+
+**Verified 2026-07-14:** Will manually created/edited time blocks (`Furnace`, `Water Heater`, `Kitchen Range`), set each Property Detail Fact, and linked multiple time blocks from `Equipment Testing`. Agent verified DB/API edge facts:
+- `Furnace` → `hvacCount`
+- `Water Heater` → `waterHeaterCount`
+- `Kitchen Range` → `kitchenApplianceCount`
+
+**Quality gates 2026-07-14:**
+- ✅ Client typecheck
+- ✅ Server compile
+- ✅ Full client Vitest: 9 files / 32 tests
+- ✅ Focused accumulator/admin tests
+- ✅ Client lint
+- ✅ Server lint
+- ✅ Client production build
+- ⚠️ Server Jest command exits 0 but reports no server tests found
+
+**Code-shape review 2026-07-14:** accumulator behavior now lives in flat helpers and server invariants, not one-off UI workarounds:
+- `resolveAccumulatorInclusions` is the pure booking rule
+- `relationshipIdsToPostForSave` is the pure client relationship-save rule
+- accumulator relationship POST is a parent-child upsert on the server, so `propertyFactKey` can change without duplicate-row conflicts
+- unconfigured link fact saves as empty key (`''`) and therefore never includes accidentally
+
+**Still deferred:** broader non-service/time accumulator relationship types require an explicit future design.
+
+**Hybrid naming (Will):** keep `composite` + `bookingCascades`; feature name = `accumulator`; clarify or rename `orchestrator` separately (not to differential-themed names that imply inclusion gates).
 
 ### Event routing audit
 
 - **Part → segment:** DATA-DRIVEN via `event_assignments` (override fix applied)
 - **Minimizer detection:** DATA-DRIVEN (`placement_kind === 'floating'`)
-- **Attendee resolution:** MIXED — invites use `event_instance_attendees`; admin quick-select uses availability `major`/`minor` lists (not `placement_kind`-only per spec)
+- **Placement resolution:** DATA-DRIVEN via `event_shapes.placement_kind` + `anchor_edge`; old `adjustMinorTimeRange` path removed
+- **Attendee resolution:** SEGMENT-DRIVEN via `event_instance_attendees`; admin quick-select presets are convenience labels only, not the placement source of truth
+
+### Event + attendee alignment *(2026-07-14 — first aligned slice complete)*
+
+**Shipped:**
+- Added flat placement resolver `createPlacedEventTimeRanges`: primary, front/back secondary, front/back marginal, front/back floating.
+- `secondary` segments live inside the primary window; `marginal` segments are adjacent and expand the main busy window; `floating` segments remain separate minimizer/completion segments.
+- `slotShape.roundedDuration` now reflects the main availability hold (primary + marginal, excluding floating when primary exists).
+- Appointment slots persist event-shape metadata (`eventShapeId`, `eventShapeName`, `placementKind`, `anchorEdge`) with selected time ranges.
+- Calendar invite creation now picks the matching selected time slot for each event instance by event-shape metadata, with legacy first-slot fallback.
+- Admin attendee selector moved to `eventInstance` metadata; `eventShape` remains placement-only. Business Controls copy now describes attendee quick-select presets instead of “major/minor determines event role.”
+
+**Tests added:**
+- `eventSegmentPlacement.test.ts`
+- `appointmentShapeEventAttendees.test.ts`
+- `availabilityStepData.test.ts`
+
+**Quality gates 2026-07-14:**
+- ✅ Client typecheck
+- ✅ Server build
+- ✅ Full client Vitest: 12 files / 37 tests
+- ✅ Client lint
+- ✅ Server lint
+- ✅ Client production build
+
+**Still needs manual proof:** full §6.1 wizard walkthrough with a real Minimize Time On Site appointment and calendar invite creation.
+
+**UI follow-up 2026-07-14:** Event admin now translates internal placement enums into scheduling-language labels:
+- admin-facing `eventShape` vocabulary is now **Event Type**; the database/code key stays `eventShape`
+- event shape `placementKind` + `anchorEdge` render as one **Timing behavior** selector (`Main appointment window`, `Inside end of main window`, `Work before main window`, `Flexible/off-site after main window`, etc.)
+- event instance cards expose **Event type** instead of hiding `eventShapeRef`; any segment/event instance can be assigned to any configured Event Type
+- collapsed event shape / event instance cards include friendly timing chips so admins are not forced to reason from `marginal` / `floating` terminology
+- event block instance cards are segment-focused: irrelevant icon, accumulator, downstream links, instance components, and event-assignment panels are hidden for `event` block instances
+- atomic event block instance cards now edit one segment directly; the multi-segment add/manage UI is reserved for event orchestrators
+- segment editors now keep attendee type routing visible as a multi-select and persist it through `event_instance_attendees`
+- template builder and Calendar behavior sections are collapsible cards so the core segment routing fields stay readable
+- segment location copy now treats location as appointment-derived by default; the field is only a Zoom/custom virtual link override, while Google Meet stays controlled by the Meet switch
+- stored enum values are unchanged; this is a presentation layer over the existing placement engine
+
+**UI follow-up quality gates 2026-07-14:** client typecheck, full client Vitest (14 files / 42 tests), client lint, and client production build green.
 
 ### Ledger naming
 
@@ -258,7 +330,7 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 
 1. ~~Vocabulary retirement~~ ✅ done (see above)
 2. ~~Flag wiring / three-property semantics audit~~ ✅ audited — see table above; `bookingCascades` intentionally not orchestrator-gated
-3. **Accumulator** — implement per `ARCHITECTURE_PRINCIPLES.md` §2.3 (after Will reviews doc)
-4. **Attendee logic** — align to `placement_kind`-only per spec §6 item 4
+3. ~~Accumulator~~ ✅ usable bridge verified (flag + links + evaluator + manual equipment facts + booking/appointment wire + existing-link fact-key upsert)
+4. ~~Attendee logic~~ ✅ aligned first slice — placement from `placement_kind`/`anchor_edge`, attendees from `event_instance_attendees`, calendar invites use segment slot metadata
 5. **Fresh DB migrate** — baseline seed refresh (see above)
 6. **Manual §6.1 E2E** — wizard UI walkthrough with dev server (pipeline test covers math; UI still needs Will's eyes)

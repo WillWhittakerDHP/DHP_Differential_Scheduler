@@ -5,6 +5,7 @@ import type { GlobalEntity } from '@/types/entities'
 import { buildSampleInviteContextFromTemplateVariables } from '@shared/utils/buildSampleInviteContext'
 import { resolveEventTemplates } from '@shared/utils/eventTemplateResolver'
 import EventInstanceEditor from './EventInstanceEditor.vue'
+import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 const props = defineProps<{
   entity: GlobalEntity<'eventInstance'>
@@ -16,10 +17,22 @@ const emit = defineEmits<{
   delete: [id: string]
 }>()
 
-const shapeName = computed((): string => {
+const eventShape = computed(() => {
   const id = props.entity.eventShapeRef
-  const shape = props.eventShapesList.find((s) => String(s.id) === String(id))
+  return props.eventShapesList.find((s) => String(s.id) === String(id)) ?? null
+})
+
+const shapeName = computed((): string => {
+  const shape = eventShape.value
   return shape?.name?.trim() ? shape.name : '—'
+})
+
+const timingLabel = computed((): string => {
+  const shape = eventShape.value
+  if (!shape) {
+    return 'Timing unknown'
+  }
+  return eventTimingBehaviorFromPlacement(shape.placementKind, shape.anchorEdge).shortTitle
 })
 
 const summaryPreview = computed((): string => {
@@ -49,6 +62,7 @@ const summaryPreview = computed((): string => {
         <div class="d-flex align-center gap-2 flex-wrap">
           <span class="font-weight-medium text-truncate">{{ entity.name }}</span>
           <VChip size="x-small" variant="tonal" color="secondary">{{ shapeName }}</VChip>
+          <VChip size="x-small" variant="tonal" color="info">{{ timingLabel }}</VChip>
           <VChip
             v-if="entity.active === false"
             size="x-small"

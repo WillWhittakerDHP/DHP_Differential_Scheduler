@@ -73,6 +73,9 @@ export function coercePatchPropertyField(key: string, value: unknown): CoercePat
     case PATCH_PROPERTY_FIELD_KEY.SQUARE_FOOTAGE:
     case PATCH_PROPERTY_FIELD_KEY.BEDROOMS:
     case PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS:
+    case PATCH_PROPERTY_FIELD_KEY.HVAC_COUNT:
+    case PATCH_PROPERTY_FIELD_KEY.WATER_HEATER_COUNT:
+    case PATCH_PROPERTY_FIELD_KEY.KITCHEN_APPLIANCE_COUNT:
       return coerceIntegerNullableFieldPatch(key, value)
     case PATCH_PROPERTY_FIELD_KEY.BATHROOMS:
       return coerceBathroomsPatch(value)

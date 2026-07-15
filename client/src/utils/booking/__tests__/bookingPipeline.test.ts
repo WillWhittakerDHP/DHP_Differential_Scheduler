@@ -43,6 +43,7 @@ function makeBlock(
     active: true,
     icon: '',
     orchestrator: false,
+    accumulator: false,
     wizardPlacement: 'topLine',
     preClosing: false,
     orderIndex: 0,

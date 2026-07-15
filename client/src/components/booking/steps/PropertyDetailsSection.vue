@@ -141,6 +141,49 @@
             required
           />
         </VCol>
+
+        <VCol cols="12">
+          <div class="text-body-medium font-weight-medium mt-2 mb-1">Equipment facts</div>
+          <div class="text-body-small text-medium-emphasis mb-3">
+            Enter manually when MLS is unavailable. These counts can trigger accumulator time blocks.
+          </div>
+        </VCol>
+
+        <VCol cols="12" sm="4">
+          <WizardTextField
+            v-model.number="formData.hvacCount.value"
+            label="HVAC Count"
+            type="number"
+            min="0"
+            placeholder="0"
+            :field-errors="fieldErrors"
+            error-key="hvacCount"
+          />
+        </VCol>
+
+        <VCol cols="12" sm="4">
+          <WizardTextField
+            v-model.number="formData.waterHeaterCount.value"
+            label="Water Heater Count"
+            type="number"
+            min="0"
+            placeholder="0"
+            :field-errors="fieldErrors"
+            error-key="waterHeaterCount"
+          />
+        </VCol>
+
+        <VCol cols="12" sm="4">
+          <WizardTextField
+            v-model.number="formData.kitchenApplianceCount.value"
+            label="Kitchen Appliance Count"
+            type="number"
+            min="0"
+            placeholder="0"
+            :field-errors="fieldErrors"
+            error-key="kitchenApplianceCount"
+          />
+        </VCol>
       </VRow>
     </VCol>
   </VRow>

@@ -3,6 +3,7 @@ import type { GlobalEntity } from '@/types/entities'
 import { FIELD_VISIBILITY, type FieldMetadataEntry } from '@/constants/fieldMetadata'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntityId } from '@shared/types/primitiveBrands'
+import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 export function annotationInstanceShapeDisplayTitle(
   entityKey: GlobalEntityKey,
@@ -27,7 +28,9 @@ export function eventInstanceShapeDisplayTitle(
   if (ei.eventShapeRef == null || String(ei.eventShapeRef) === '') return ''
   const shape = lookupEventShape(toGlobalEntityId(String(ei.eventShapeRef)))
   const n = shape?.name
-  return typeof n === 'string' && n.trim() !== '' ? n.trim() : ''
+  if (typeof n !== 'string' || n.trim() === '') return ''
+  const timing = eventTimingBehaviorFromPlacement(shape?.placementKind, shape?.anchorEdge)
+  return `${n.trim()} - ${timing.shortTitle}`
 }
 
 export function expansionFallbackTitleForCard(

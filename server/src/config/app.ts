@@ -18,6 +18,7 @@ export const {
   ValidPricingCascade,
   DependentInstance,
   BookingCascade,
+  AccumulationLink,
   PricingCascade,
   PartAssignment,
   InstanceComponent,

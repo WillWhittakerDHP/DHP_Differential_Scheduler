@@ -43,6 +43,7 @@ export enum RelationshipSelectTypeEnum {
   ValidPricingCascadeSelect = 'validPricingCascadeSelect',
   PartAssignmentSelect = 'partAssignmentSelect',
   InstanceComponentSelect = 'instanceComponentSelect',
+  AccumulationLinkSelect = 'accumulationLinkSelect',
   EventAssignmentSelect = 'eventAssignmentSelect',
   AnnotationAssignmentSelect = 'annotationAssignmentSelect',
 }

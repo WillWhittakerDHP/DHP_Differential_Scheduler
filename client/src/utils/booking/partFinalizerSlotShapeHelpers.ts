@@ -10,6 +10,7 @@ import { resolvePrimarySecondaryEventShapesForBooking } from '@/utils/eventAtten
 import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/booking/durationRounding'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { AppLogger } from '@/utils/logger'
+import { sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
 
 type AccumulatedRawDurations = {
   totalRawDuration: number
@@ -112,7 +113,36 @@ export function buildEventFinalsList(
 }
 
 export function computeTopLevelRoundedDuration(eventFinals: EventFinal[]): number {
-  return eventFinals.length > 0 ? Math.max(...eventFinals.map((ef) => ef.roundedDuration)) : 0
+  if (eventFinals.length === 0) {
+    return 0
+  }
+
+  const primaryDurations: number[] = []
+  const insideDurations: number[] = []
+  let adjacentDuration = 0
+
+  for (const eventFinal of eventFinals) {
+    const duration = eventFinal.roundedDuration
+    const kind = sanitizeEventPlacementKindInput(eventFinal.eventShape.placementKind) ?? 'primary'
+    if (kind === 'primary') {
+      primaryDurations.push(duration)
+      continue
+    }
+    if (kind === 'secondary') {
+      insideDurations.push(duration)
+      continue
+    }
+    if (kind === 'marginal') {
+      adjacentDuration += duration
+    }
+  }
+
+  if (primaryDurations.length === 0) {
+    return Math.max(...eventFinals.map((ef) => ef.roundedDuration))
+  }
+
+  const primaryWindow = Math.max(...primaryDurations, ...insideDurations, 0)
+  return primaryWindow + adjacentDuration
 }
 
 export function computeDifferentialOffsetsFromMaps(

@@ -1,6 +1,7 @@
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   ORCHESTRATOR: 'orchestrator',
+  ACCUMULATOR: 'accumulator',
   WIZARD_PLACEMENT: 'wizardPlacement',
   ID: 'id',
   ENTITY_KEY: 'entityKey',
@@ -18,6 +19,8 @@ export const TEMPORARY_ID_PATTERNS = {
 export const DEFAULT_VALUES = {
   /** Default when API omits orchestrator. */
   ORCHESTRATOR: false as const,
+  /** Default when API omits accumulator. */
+  ACCUMULATOR: false as const,
 } as const
 
 /** Status labels for entity active/inactive (display and form defaults). */

@@ -27,8 +27,10 @@ export class BlockInstanceVersion extends Model<
   declare icon: string | null;
   declare composite: boolean;
   declare orchestrator: boolean;
+  declare accumulator: boolean;
   declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
+  declare propertyFactKey: string | null;
   declare createdAt: CreationOptional<Date>;
   
   /** Associated part instance versions (typed as Model[] to avoid circular type reference with PartInstanceVersion) */
@@ -67,6 +69,11 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
+      accumulator: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       wizardPlacement: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -78,6 +85,11 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
         field: 'pre_closing',
+      },
+      propertyFactKey: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'property_fact_key',
       },
       createdAt: {
         type: DataTypes.DATE,
