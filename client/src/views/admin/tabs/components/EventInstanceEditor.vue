@@ -1,11 +1,10 @@
 <!-- PATTERN: Edit existing event instance — draft resets when panel opens; save uses entity CRUD update. -->
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useRelationshipCrud } from '@/composables/useRelationship'
-import { useGlobal } from '@/composables/useGlobal'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
@@ -15,11 +14,6 @@ import {
   attendeeIdsFromDraftValue,
   syncEventInstanceAttendeeAssignments,
 } from '@/utils/admin/eventInstanceAttendeeAssignments'
-import {
-  buildEventTimeClaimServiceOptions,
-  syncEventInstanceTimeBlockClaimAssignments,
-  timeBlockIdsForEventInstance,
-} from '@/utils/admin/eventPartClaimAssignments'
 
 const logger = createLogger('EventInstanceEditor')
 
@@ -35,33 +29,10 @@ const emit = defineEmits<{
 }>()
 
 const { update } = useEntityCrud('eventInstance')
-const { globalData } = useGlobal()
-const { entities: blockInstances } = useEntityCrud('blockInstance')
-const { entities: blockShapes } = useEntityCrud('blockShape')
-const { entities: partInstances } = useEntityCrud('partInstance')
-const { entities: partShapes } = useEntityCrud('partShape')
 const {
   create: createAttendeeAssignment,
   remove: removeAttendeeAssignment,
 } = useRelationshipCrud('attendeeAssignments')
-const {
-  relationships: eventAssignments,
-  create: createEventAssignment,
-  remove: removeEventAssignment,
-  refetch: refetchEventAssignments,
-} = useRelationshipCrud('eventAssignments')
-
-const allowedTimeBlockIds = computed(() =>
-  buildEventTimeClaimServiceOptions({
-    blockInstances: blockInstances.value,
-    blockShapes: blockShapes.value,
-    partInstances: partInstances.value,
-    partShapes: partShapes.value,
-    partAssignments: globalData.value?.relationships?.partAssignments ?? [],
-    bookingCascades: globalData.value?.relationships?.bookingCascades ?? [],
-    instanceComponents: globalData.value?.relationships?.instanceComponents ?? [],
-  }).flatMap((service) => service.timeBlocks.map((timeBlock) => timeBlock.id))
-)
 
 function cloneFromEntity(e: GlobalEntity<'eventInstance'>): NewEventInstanceData {
   return {
@@ -82,11 +53,6 @@ function cloneFromEntity(e: GlobalEntity<'eventInstance'>): NewEventInstanceData
     status: e.status,
     active: e.active,
     attendees: attendeeIdsFromDraftValue(e.attendees),
-    eventPartClaims: timeBlockIdsForEventInstance(
-      String(e.id),
-      eventAssignments.value,
-      allowedTimeBlockIds.value
-    ),
   }
 }
 
@@ -144,18 +110,6 @@ async function handleSave(): Promise<void> {
       createAttendeeAssignment,
       removeAttendeeAssignment,
     })
-    await syncEventInstanceTimeBlockClaimAssignments({
-      eventInstanceId: String(props.entity.id),
-      oldTimeBlockIds: timeBlockIdsForEventInstance(
-        String(props.entity.id),
-        eventAssignments.value,
-        allowedTimeBlockIds.value
-      ),
-      newTimeBlockIds: draft.value.eventPartClaims,
-      createEventAssignment,
-      removeEventAssignment,
-    })
-    await refetchEventAssignments()
     success('Event instance saved')
   } catch (err) {
     notifyError('Failed to save event instance')

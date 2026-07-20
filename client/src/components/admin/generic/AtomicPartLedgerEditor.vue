@@ -14,12 +14,19 @@ import { toGlobalEntityId } from '@/utils/globalEntity'
 
 const logger = createLogger('AtomicPartLedgerEditor')
 
-const props = defineProps<{
-  blockInstanceId: string
-  allowedShapeTypes: readonly BlockShapeType[]
-  title: string
-  subtitle: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    blockInstanceId: string
+    allowedShapeTypes: readonly BlockShapeType[]
+    title: string
+    subtitle: string
+    /** When false, work-item name is display-only (event modifiers). */
+    nameEditable?: boolean
+  }>(),
+  {
+    nameEditable: true,
+  }
+)
 
 const { matchesShapeGate, rows } = useAtomicPartLedgerRows(
   () => props.blockInstanceId,
@@ -206,7 +213,7 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
           </template>
           <template #item.name="{ item }">
             <VTextField
-              v-if="item && drafts[item.id]"
+              v-if="item && drafts[item.id] && nameEditable"
               v-model="drafts[item.id].name"
               density="compact"
               variant="underlined"
@@ -214,6 +221,10 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
               :disabled="isSaving"
               @blur="onNameBlur(item)"
             />
+            <span
+              v-else-if="item"
+              class="text-body-2"
+            >{{ item.name || '—' }}</span>
           </template>
           <template #item.baseTime="{ item }">
             <VTextField

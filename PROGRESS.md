@@ -342,6 +342,15 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 - **Event placement `none` (2026-07-20):** Eighth event type — `placement_kind = none` / Event Type **None** — for intentionally unscheduled segments (e.g. no presentation). No calendar range; no anchor edge. Migration `081`.
 - stored enum values are unchanged; this is a presentation layer over the existing placement engine
 
+**Work-item → segment routing (2026-07-20):**
+- Locked routing contract to match PartFinalizer / flagship Minimize Time On Site: **baseline** = service `blockInstance` → segment; **override** = work-item `partInstance` → segment.
+- Server `validateEventAssignmentIntegrity` now allows service-block baselines (cascade checked against the segment’s owning event block); keeps event-block → owned segment; keeps part overrides; **rejects** time/price/user block parents (retired claim path).
+- Event package cards get **Work item routing** (`EventWorkItemRoutingPanel`) below Event part modifiers — table of service work items → this package’s segments; empty = use service default.
+- Service activation labels: **Default calendar segment (baseline)** / **Optional calendar segments**.
+- Retired **Claimed time blocks** UI + `eventPartClaimAssignments` sync from segment create/save.
+- Principles §4.2 / §5.2 wording updated to match code (service baseline + part overrides).
+- Tests: `eventWorkItemRouting.test.ts` (replaces claim-assignment tests).
+
 **UI follow-up quality gates 2026-07-14:** client typecheck, full client Vitest (14 files / 42 tests), client lint, and client production build green.
 
 ### Ledger naming

@@ -155,7 +155,8 @@ function setOptionEventIds(ids: unknown): void {
       </VExpansionPanelTitle>
       <VExpansionPanelText>
         <div class="text-body-small text-medium-emphasis mb-4">
-          Choose the default event instance and optional event instances for this block. Atomic services also choose the time and fee blocks they activate.
+          Choose the default calendar segment (baseline) and optional event segments for this service.
+          Work-item overrides live on the event package card. Atomic services also choose the time and fee blocks they activate.
         </div>
         <VRow class="mb-2">
           <VCol cols="12" md="6">
@@ -164,7 +165,7 @@ function setOptionEventIds(ids: unknown): void {
               :items="eventItems"
               item-title="title"
               item-value="value"
-              label="Default event instance"
+              label="Default calendar segment (baseline)"
               variant="outlined"
               density="compact"
               clearable
@@ -178,7 +179,7 @@ function setOptionEventIds(ids: unknown): void {
               :items="eventItems"
               item-title="title"
               item-value="value"
-              label="Optional event instances"
+              label="Optional calendar segments"
               variant="outlined"
               density="compact"
               multiple

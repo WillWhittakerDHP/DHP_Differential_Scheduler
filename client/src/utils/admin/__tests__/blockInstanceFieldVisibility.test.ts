@@ -45,10 +45,10 @@ describe('blockInstanceFieldVisibility', () => {
     }
   })
 
-  it('keeps event block instances on the normal relationship surface', () => {
+  it('hides grab-bag relationship surfaces on event cards', () => {
     expect(shouldShowBlockInstanceField('partAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
-    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
-    expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
-    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
+    expect(shouldShowBlockInstanceField('bookingCascades', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
+    expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
   })
 })

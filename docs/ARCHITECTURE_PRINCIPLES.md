@@ -46,7 +46,7 @@ Every block instance carries independent behavior flags on orthogonal axes. As o
 |               | Orchestrator                                                                                                                                                                                 | Independent                                                                                              |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **Composite** | "Buyer's Inspection" (service — assigns time, fee, event profiles), "Single-Family Home" (time — assigns property characteristics) | "Additional Units" (composite time add-on), "Standard add-on fee bundle" (composite pricing package), "Minimize Time On Site" (composite event profile — owns named segments) |
-| **Atomic**    | "Radon Testing" (service — assigns its own fee drivers and event profiles), "Standard Event Schedule" (event — owns baseline segment assignments for default routing) | "Square Footage" (time), "Base Fee" (price), "Cosmetic Observations" (service), "Deck" (time add-on)           |
+| **Atomic**    | "Radon Testing" (service — assigns its own fee drivers and event profiles), "Standard Event Schedule" (event — owns default Primary segment(s); services point baseline routing here) | "Square Footage" (time), "Base Fee" (price), "Cosmetic Observations" (service), "Deck" (time add-on)           |
 
 
 **As an example,** Buyer's Inspection is a composite service (made up of atomic services: roof observations, equipment observations, equipment testing, visible surface observations, infrared surface observations, etc.) and — as an orchestrator — it *assigns* which time instances (all property types except multifamily), fee instances (perUnit rates and discount values or percentages), and event instances (minimize time on site, no report, extra presentation time) are active. The shape-level validity graph defines the universe of options; the orchestrator picks from it.
@@ -62,7 +62,7 @@ Every block instance carries independent behavior flags on orthogonal axes. As o
 | "Additional Units"           | ✓         | ✗            | topLine         | Add-on visible in wizard, only valid under Multi-Family |
 | "Minimize Time On Site"      | ✓         | ✗            | topLine         | Composite event profile (owns segments); not a cross-shape orchestrator |
 | "Radon Testing"              | ✗         | ✓            | topLine         | Atomic service orchestrator; user picks it; assigns fee/event |
-| "Standard Event Schedule"    | ✗         | ✓            | hidden          | Atomic event orchestrator; owns baseline segment assignments (default routing); not user-facing |
+| "Standard Event Schedule"    | ✗         | ✓            | hidden          | Atomic event package; owns default Primary segment(s); services point baseline routing here; not user-facing |
 | "Inspector"                  | ✗         | ✓            | hidden          | Atomic user orchestrator (drives cross-shape cascade selections) |
 | "Square Footage"             | ✗         | ✗            | topLine         | Property characteristic — MLS-populated and user-editable field       |
 | {currently none}             | ✗         | ✗            | hidden          | Legitimate possibility with no current use-case         |
@@ -179,7 +179,7 @@ flowchart TB
 - Service orchestrator (atomic, e.g. Radon Testing): which fee drivers and event profiles are assigned to this standalone service
 - Time orchestrator: which property characteristics are assigned (e.g. "Single-Family Home" bundles sqft + foundation + roof + HVAC)
 - Price orchestrator: which fee drivers are assigned in this pricing context
-- Event orchestrator (e.g. "Standard Event Schedule"): which event profiles and baseline segment assignments are active
+- Event orchestrator / package (e.g. "Standard Event Schedule"): owns named segments; services set baseline routing to those segments; packages set part overrides
 - Only **service orchestrators** set base/default/minimum time and fee values. All other orchestrators define active selections, not base values.
 
 **Shape-level validity vs instance-level assignment:** The **shapes tab** defines which cross-shape relationships are structurally possible (the `valid_*` tables). Orchestrator editors **select from** that pre-built universe — they do not redefine it.
@@ -225,14 +225,14 @@ Only service orchestrator part instances carry base values. Only domain atomic p
 
 Time and price values are **quantitative** — numeric columns on part instances that the PartFinalizer sums. Event assignments are **relational** — which segment does this part belong to?
 
-Event assignments live in the `event_assignments` through-table (event_instance ↔ part_instance), not as scalar columns on part instances:
+Event assignments live in the `event_assignments` through-table (parent → event_instance segment), not as scalar columns on part instances:
 
 | Tier | Who sets it | What it means |
 | --- | --- | --- |
-| **Baseline assignment** | Event orchestrator (e.g. "Standard Event Schedule") | "All parts default to the Primary segment" — rows in `event_assignments` linking baseline event-orchestrator part instances to the default event instance. |
-| **Override assignment** | Event profile (e.g. "Minimize Time On Site") | "Reassign specific parts to EarlyArrival, OffSite" — rows in `event_assignments` linking event-profile part instances to specific segments. |
+| **Baseline assignment** | Service block (via service card “Default calendar segment”) | "Work items on this service default to this segment" — rows with parent = **service `blockInstance`**, child = `eventInstance` (usually Primary on the active event package). |
+| **Override assignment** | Event profile / package (via “Work item routing”) | "This specific work item uses a different segment" — rows with parent = **work-item `partInstance`**, child = `eventInstance` owned by that event package. |
 
-The PartFinalizer resolves event assignments **per part instance**: if the selected event profile has an explicit assignment for that part instance, use it; otherwise, fall back to the event orchestrator baseline.
+The PartFinalizer resolves event assignments **per part instance**: if a part-scoped override exists, use it; otherwise fall back to the owning service block’s baseline assignment.
 
 ### 4.2.1 Correlation across block-instance part rows (implementation contract)
 
@@ -251,7 +251,7 @@ Part instances are storage. The **PartFinalizer** (reactive pipeline in the book
 ```
 resolvedTime  = base (from service) + sum(timePerUnit × input) across time atomics
 resolvedFee   = base (from service) + sum(feePerUnit × input) across price atomics
-resolvedEvent = event profile override ?? event orchestrator baseline assignment
+resolvedEvent = part override (partInstance → segment) ?? service-block baseline (blockInstance → segment)
 ```
 
 The PartFinalizer enforces the base as a floor — resolved values cannot drop below the service orchestrator's base.
@@ -274,7 +274,7 @@ For each part instance, PartFinalizer starts with the service orchestrator's bas
 For each part instance, PartFinalizer starts with the service orchestrator's base and applies price atomic `feePerUnit` contributions and percentage adjustments.
 
 4. **Resolve part-level event assignment.**
-For each part instance, PartFinalizer chooses `event profile override ?? event orchestrator baseline assignment`.
+For each part instance, PartFinalizer chooses `part override ?? owning service block baseline assignment`.
 
 5. **Apply zero-out last (per part).**
 After each part’s resolved time and fee — i.e. after `base + sum(perUnit × input)` (and percentage passes for fees) and **enforcing the service orchestrator floor** — if `zeroOutPart` (or equivalent) is set, **force that part’s resolved time and fee contributions to zero** (or exclude it from rollups). This is intentionally the **last** numeric step for the part — same spirit as doing addition after multiplication in PEMDAS (“… Aunt Sally, **Z**ach”): zero-out overrides the outcome of the prior steps, including floor.
@@ -299,7 +299,7 @@ The PartFinalizer sums perUnit contributions additively (or multiplicatively for
 
 **Price (short):** Same as time: base + summed `feePerUnit` contributions (and percentage passes) per lineage bucket, then floor, then zero-out if set.
 
-**Event (short):** Per part instance: `event_assignments` override from selected event profile else baseline from the event orchestrator.
+**Event (short):** Per part instance: `event_assignments` part override else service-block baseline.
 
 ### 4.6 Time atomics: rates vs inputs
 
@@ -315,7 +315,7 @@ Rate (from time atomic config) × Input (from property_details) = Duration contr
 
 This design provides three guarantees:
 
-- **Provenance:** You always know which block instance contributed what — base values trace to the service orchestrator, perUnit values trace to specific domain atomics, and event assignments trace to either event-orchestrator baselines or event-profile overrides.
+- **Provenance:** You always know which block instance contributed what — base values trace to the service orchestrator, perUnit values trace to specific domain atomics, and event assignments trace to either service-block baselines or part-scoped overrides on an event package.
 - **Clean undo:** Removing a block instance means deleting its part instances. No shared records to recalculate.
 - **Versioned reconfiguration:** A reschedule after admin rate changes only affects the reconfigured block instance's part instances. The rest are untouched. The PartFinalizer recomputes from the current part instance set.
 
@@ -352,25 +352,24 @@ These are **defaults, not fixed**. Admins can add, rename, or remove placement t
 
 Event instances are **named segments** owned by an event block instance (via `parent_block_instance_id`). The owning event block instance can be an orchestrator or a composite profile:
 
-- The **event orchestrator** (e.g. "Standard Event Schedule", `orchestrator = true`) owns the **baseline** segment graph — the default assignment of all parts to the Primary segment. Service orchestrators reference this as their default event package.
-- **Event profiles** (e.g. "Minimize Time On Site", `composite = true, orchestrator = false`) **override** parts of the baseline — reassigning specific parts to different segments. Profiles own their own named segments.
+- An **event package** (e.g. "Standard Event Schedule" or "Minimize Time On Site") **owns** the named segments (Primary, Early Arrival, …).
+- **Baseline routing** is set on the **service card**: service `blockInstance` → default segment (usually that package’s Primary) via `event_assignments`.
+- **Overrides** are set on the **event package card** (“Work item routing”): work-item `partInstance` → a specific segment owned by that package.
 
 ```
-Event orchestrator (type='event', "Standard Event Schedule", orchestrator=true)
-  └─ owns Event Instances (baseline segments):
-       └─ "Primary"            → event_shape_ref = Primary
-            └─ default event_assignments → all service parts
+Service block (e.g. "Buyer's Inspection" / atomic service)
+  └─ baseline event_assignments → Primary (on the active event package)
 
-Event profile (type='event', "Minimize Time On Site", composite=true, orchestrator=false)
-  └─ owns Event Instances (override segments):
+Event package (type='event', e.g. "Minimize Time On Site")
+  └─ owns Event Instances (segments):
        ├─ "EarlyArrival"       → event_shape_ref = FrontMarginal
        ├─ "Primary"            → event_shape_ref = Primary
        ├─ "FormalPresentation" → event_shape_ref = BackSecondary
        └─ "OffSite"            → event_shape_ref = BackFloating
-            └─ each has event_assignments → overridden part instances
+            └─ override event_assignments ← specific work-item part instances
 ```
 
-**Resolution:** PartFinalizer checks whether the selected event profile has an explicit assignment for each part instance. If yes, use the profile's segment; if no, fall back to the event orchestrator's baseline (typically Primary).
+**Resolution:** PartFinalizer checks for a part-scoped override for each work item. If present, use that segment; otherwise fall back to the owning service block’s baseline assignment (typically Primary).
 
 ### 5.3 Event placement is data-driven
 
@@ -472,7 +471,7 @@ Rules stated as assertions. If any of these are violated, the architecture has d
 
    3d. **Correlation (lineage):** PartFinalizer must not resolve by `part_shape` alone when multiple logical work items could collide; bucket rows by **lineage to the atomic service / appointment line** per §4.2.1.
 
-   3e. **Event assignments are relational:** Event assignments live in the `event_assignments` through-table, not as scalar columns. Event orchestrators set baseline assignments; event profiles set overrides. The PartFinalizer resolves per part instance: override wins if present, else baseline.
+   3e. **Event assignments are relational:** Event assignments live in the `event_assignments` through-table, not as scalar columns. Service blocks set baseline assignments (block → segment); event packages set part overrides (part → segment). The PartFinalizer resolves per part instance: override wins if present, else service-block baseline.
 
    3f. **PartFinalizer is the aggregation layer (client-only resolution):** Resolves `base + sum(perUnit × input)` for time/fee at the part-instance level within each lineage bucket, applies base floor, applies **zero-out last** (§4.8), then groups time by event and rolls fees by orchestrator. The server does not recompute these totals for booking — it persists the client-submitted appointment payload. Provenance is preserved — each contribution traces to a specific block instance's part instances.
 

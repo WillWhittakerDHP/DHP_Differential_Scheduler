@@ -226,7 +226,45 @@ async function validateEventAssignmentAgainstSegmentBlockShape(params: {
 }
 
 /**
- * WHY: Baseline routing — parent is the event block instance that owns the segment.
+ * WHY: Load segment + owning event block for cascade checks shared by service baseline and event-owner edges.
+ */
+async function loadEventSegmentWithOwner(
+  eventInstanceId: string
+): Promise<
+  | { valid: true; eventInstance: InstanceType<typeof EventInstance>; segmentOwner: BlockInstanceWithShape }
+  | { valid: false; error: string }
+> {
+  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
+    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
+  })
+  if (!eventInstance) {
+    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
+  }
+  const segmentParentId = eventInstance.parentBlockInstanceId
+  if (segmentParentId == null || segmentParentId === '') {
+    return {
+      valid: false,
+      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
+    }
+  }
+  const segmentOwner = await BlockInstance.findByPk(segmentParentId, {
+    include: [{ model: BlockShape, as: 'block_shape' }],
+  })
+  if (!segmentOwner) {
+    return { valid: false, error: `Event segment parent block instance ${segmentParentId} not found` }
+  }
+  return {
+    valid: true,
+    eventInstance,
+    segmentOwner: segmentOwner as BlockInstanceWithShape,
+  }
+}
+
+/**
+ * WHY: Block-parent event_assignments are either:
+ * - service baseline (service block → any segment; cascade checked against the segment's owning event block), or
+ * - event packaging (event block → a segment it owns).
+ * Time/price/user parents are rejected (retired time-block claim path).
  */
 async function validateEventAssignmentBlockParent(
   parentBlockInstance: BlockInstanceWithShape,
@@ -237,32 +275,38 @@ async function validateEventAssignmentBlockParent(
   if (!parentBlockShape) {
     return { valid: false, error: `Block instance ${parentBlockInstanceId} has no block shape` }
   }
-  if (parentBlockShape.semanticType !== 'event') {
-    return { valid: false, error: 'Event assignment parent must be an event-type block instance' }
-  }
 
-  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
-    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
-  })
-  if (!eventInstance) {
-    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
-  }
-  const segmentParent = eventInstance.parentBlockInstanceId
-  if (segmentParent == null || segmentParent === '') {
+  const semanticType = parentBlockShape.semanticType
+  if (semanticType !== 'service' && semanticType !== 'event') {
     return {
       valid: false,
-      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
-    }
-  }
-  if (segmentParent !== parentBlockInstanceId) {
-    return {
-      valid: false,
-      error: 'Event segment parent block instance does not match this relationship parent',
+      error:
+        'Event assignment block parent must be a service block (baseline) or an event block that owns the segment',
     }
   }
 
+  const loaded = await loadEventSegmentWithOwner(eventInstanceId)
+  if (!loaded.valid) {
+    return loaded
+  }
+  const { eventInstance, segmentOwner } = loaded
+
+  if (semanticType === 'event') {
+    if (segmentOwner.id !== parentBlockInstanceId) {
+      return {
+        valid: false,
+        error: 'Event segment parent block instance does not match this relationship parent',
+      }
+    }
+    return validateEventAssignmentAgainstSegmentBlockShape({
+      segmentBlockInstance: parentBlockInstance,
+      eventInstance,
+    })
+  }
+
+  // Service baseline: parent does not own the segment; cascade still validates against the owner shape.
   return validateEventAssignmentAgainstSegmentBlockShape({
-    segmentBlockInstance: parentBlockInstance,
+    segmentBlockInstance: segmentOwner,
     eventInstance,
   })
 }
@@ -288,36 +332,21 @@ async function validateEventAssignmentPartParent(
     }
   }
 
-  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
-    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
-  })
-  if (!eventInstance) {
-    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
-  }
-  const segmentParentId = eventInstance.parentBlockInstanceId
-  if (segmentParentId == null || segmentParentId === '') {
-    return {
-      valid: false,
-      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
-    }
-  }
-
-  const segmentBlockInstance = await BlockInstance.findByPk(segmentParentId, {
-    include: [{ model: BlockShape, as: 'block_shape' }],
-  })
-  if (!segmentBlockInstance) {
-    return { valid: false, error: `Event segment parent block instance ${segmentParentId} not found` }
+  const loaded = await loadEventSegmentWithOwner(eventInstanceId)
+  if (!loaded.valid) {
+    return loaded
   }
 
   return validateEventAssignmentAgainstSegmentBlockShape({
-    segmentBlockInstance: segmentBlockInstance as BlockInstanceWithShape,
-    eventInstance,
+    segmentBlockInstance: loaded.segmentOwner,
+    eventInstance: loaded.eventInstance,
   })
 }
 
 /**
- * WHY: EventAssignment links an event **block instance** (baseline) or a **part instance** (override)
- * to a **segment**; segment ownership and shape graph must match (FEATURE_20 §5.2, §5.1).
+ * WHY: EventAssignment links a **service block** (baseline), an **event block** that owns the segment
+ * (packaging), or a **part instance** (override) to a **segment**; segment ownership and shape graph
+ * must match (FEATURE_20 §5.2, PartFinalizer / flagship Minimize Time On Site).
  */
 export async function validateEventAssignmentIntegrity(
   parentId: string,

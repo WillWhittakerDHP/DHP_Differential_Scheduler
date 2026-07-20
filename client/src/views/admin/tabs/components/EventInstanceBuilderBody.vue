@@ -17,7 +17,6 @@ import EventInstanceTemplateFields from './EventInstanceTemplateFields.vue'
 import EventInstanceVariableChips from './EventInstanceVariableChips.vue'
 import EventInstancePreviewPanel from './EventInstancePreviewPanel.vue'
 import EventInstanceCalendarSettings from './EventInstanceCalendarSettings.vue'
-import EventInstanceTimeBlockClaims from './EventInstanceTimeBlockClaims.vue'
 import { eventTimingBehaviorFromPlacement } from '@/utils/admin/eventPlacementLabels'
 
 const draft = defineModel<NewEventInstanceData>({ required: true })
@@ -26,7 +25,8 @@ const props = defineProps<{
   eventShapesList: GlobalEntity<'eventShape'>[]
 }>()
 
-const expandedSections = ref<string[]>(['segment', 'template'])
+// WHY: Keep Segment details / Template builder / Calendar behavior collapsed until Will opens them.
+const expandedSections = ref<string[]>([])
 
 const titleWarnings = computed(() => templateFieldUnknownWarnings(draft.value.titleTemplate))
 const descriptionWarnings = computed(() => templateFieldUnknownWarnings(draft.value.descriptionTemplate))
@@ -168,8 +168,6 @@ const attendeeSelection = computed<string[]>({
               />
             </VCol>
           </VRow>
-
-          <EventInstanceTimeBlockClaims v-model="draft.eventPartClaims" />
         </VExpansionPanelText>
       </VExpansionPanel>
 

@@ -54,6 +54,15 @@ export function shouldShowBlockInstanceField(
     return false
   }
 
+  // Event cards own segments (event instances), not lateral time activation, same-shape
+  // component packages, or a nested "Events Events" relationship collapse.
+  if (
+    semanticType === BLOCK_SHAPE_TYPES.EVENT &&
+    (key === 'bookingCascades' || key === 'instanceComponents' || key === 'eventAssignments')
+  ) {
+    return false
+  }
+
   if (!semanticType) {
     return !TIME_BLOCK_INSTANCE_FIELDS.has(key) &&
       !SERVICE_BLOCK_INSTANCE_FIELDS.has(key) &&

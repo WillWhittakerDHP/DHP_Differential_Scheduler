@@ -9,6 +9,7 @@ import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
 import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
 import AtomicPartLedgerEditor from './AtomicPartLedgerEditor.vue'
 import ServiceActiveBlockControls from './ServiceActiveBlockControls.vue'
+import EventWorkItemRoutingPanel from './EventWorkItemRoutingPanel.vue'
 
 defineProps<{
   blockShape: GlobalEntity<'blockShape'>
@@ -36,12 +37,15 @@ const EVENT_TYPES = [BLOCK_SHAPE_TYPES.EVENT] as const
     :block-instance-id="blockInstanceId"
     class="mb-4"
   />
-  <AtomicPartLedgerEditor
-    v-else-if="blockShape.semanticType === BLOCK_SHAPE_TYPES.EVENT"
-    :block-instance-id="blockInstanceId"
-    :allowed-shape-types="EVENT_TYPES"
-    title="Event part modifiers"
-    subtitle="Use fixed minutes, time per unit, or a multiplier to modify the selected part types for this event profile."
-    class="mb-4"
-  />
+  <template v-else-if="blockShape.semanticType === BLOCK_SHAPE_TYPES.EVENT">
+    <AtomicPartLedgerEditor
+      :block-instance-id="blockInstanceId"
+      :allowed-shape-types="EVENT_TYPES"
+      :name-editable="false"
+      title="Event part modifiers"
+      subtitle="Optional duration tweaks for part types under this event profile (extra minutes, multipliers, or zero-out). This does not choose which work items land in which calendar segment."
+      class="mb-4"
+    />
+    <EventWorkItemRoutingPanel :block-instance-id="blockInstanceId" />
+  </template>
 </template>
