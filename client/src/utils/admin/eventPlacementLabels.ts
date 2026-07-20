@@ -13,6 +13,7 @@ export type EventTimingBehaviorValue =
   | 'marginal:end'
   | 'floating:start'
   | 'floating:end'
+  | 'none'
 
 export interface EventTimingBehaviorDescriptor {
   value: EventTimingBehaviorValue
@@ -80,14 +81,23 @@ export const EVENT_TIMING_BEHAVIOR_OPTIONS: EventTimingBehaviorDescriptor[] = [
     shortTitle: 'Flexible after',
     description: 'Separate work near the back of the appointment. It does not expand the main availability hold.',
   },
+  {
+    value: 'none',
+    placementKind: 'none',
+    anchorEdge: null,
+    title: 'None (no timed segment)',
+    shortTitle: 'None',
+    description:
+      'No calendar placement among the other timing options — for example a “no presentation” profile where that segment is intentionally not scheduled.',
+  },
 ]
 
 function eventTimingValue(
   placementKind: EventPlacementKind,
   anchorEdge: EventAnchorEdge | null
 ): EventTimingBehaviorValue {
-  if (placementKind === 'primary') {
-    return 'primary'
+  if (placementKind === 'primary' || placementKind === 'none') {
+    return placementKind
   }
   return `${placementKind}:${anchorEdge ?? 'start'}` as EventTimingBehaviorValue
 }
@@ -98,7 +108,9 @@ export function eventTimingBehaviorFromPlacement(
 ): EventTimingBehaviorDescriptor {
   const placementKind = sanitizeEventPlacementKindInput(placementKindInput) ?? 'primary'
   const anchorEdge =
-    placementKind === 'primary' ? null : sanitizeEventAnchorEdgeInput(anchorEdgeInput) ?? 'start'
+    placementKind === 'primary' || placementKind === 'none'
+      ? null
+      : sanitizeEventAnchorEdgeInput(anchorEdgeInput) ?? 'start'
   const value = eventTimingValue(placementKind, anchorEdge)
   return (
     EVENT_TIMING_BEHAVIOR_OPTIONS.find((option) => option.value === value) ??

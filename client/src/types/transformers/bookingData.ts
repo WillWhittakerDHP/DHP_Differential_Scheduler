@@ -46,6 +46,8 @@ export type BookingBlockInstance = CoreEntity & {
   orchestrator: boolean
   /** Lateral inclusion gates — see shared/constants/accumulator.ts */
   accumulator: boolean
+  /** Vertical packaging — composite packages do not participate in accumulation. */
+  composite: boolean
   wizardPlacement: WizardPlacement
   preClosing: boolean
   orderIndex: number

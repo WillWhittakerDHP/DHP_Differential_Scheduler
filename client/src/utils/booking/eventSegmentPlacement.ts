@@ -21,9 +21,10 @@ interface EventPlacementFields {
 
 function placementFieldsFor(eventFinal: EventFinal): EventPlacementFields {
   const placementKind = sanitizeEventPlacementKindInput(eventFinal.eventShape.placementKind) ?? 'primary'
-  const anchorEdge = placementKind === 'primary'
-    ? null
-    : sanitizeEventAnchorEdgeInput(eventFinal.eventShape.anchorEdge) ?? 'end'
+  const anchorEdge =
+    placementKind === 'primary' || placementKind === 'none'
+      ? null
+      : sanitizeEventAnchorEdgeInput(eventFinal.eventShape.anchorEdge) ?? 'end'
   return { placementKind, anchorEdge }
 }
 
@@ -48,11 +49,17 @@ function adjacentRange(primary: SlotTimeBounds, duration: number, edge: EventAnc
 function rangeForEventFinal(eventFinal: EventFinal, primary: SlotTimeBounds): PlacedSegment {
   const duration = eventFinal.roundedDuration
   const name = eventFinal.eventShape.name
+  const { placementKind, anchorEdge } = placementFieldsFor(eventFinal)
+
+  // WHY: `none` = intentionally unscheduled (e.g. no presentation) — no calendar range.
+  if (placementKind === 'none') {
+    return { name, range: null, expandsMainWindow: false }
+  }
+
   if (duration <= 0) {
     return { name, range: null, expandsMainWindow: false }
   }
 
-  const { placementKind, anchorEdge } = placementFieldsFor(eventFinal)
   if (placementKind === 'primary') {
     return { name, range: primaryRange(primary.startTime, duration), expandsMainWindow: true }
   }

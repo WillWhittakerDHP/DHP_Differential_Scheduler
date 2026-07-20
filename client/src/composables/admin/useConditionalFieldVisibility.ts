@@ -7,6 +7,7 @@ import type {
   FieldsByLocation,
 } from '@/types/admin/conditionalFieldVisibility'
 import { shouldShowEntityField } from '@/utils/admin/blockInstanceFieldVisibility'
+import { isAtomicAccumulatorServiceForm } from '@/utils/admin/accumulatorFieldVisibility'
 
 function resolveBlockInstanceSemanticType<GE extends GlobalEntityKey>(
   options: UseConditionalFieldVisibilityOptions<GE>
@@ -30,22 +31,52 @@ function showFieldForEntity<GE extends GlobalEntityKey>(
   )
 }
 
+/**
+ * WHY: Accumulator lives on atomic services only; links appear when Accumulator is on.
+ * PATTERN: Same gate for direct fields and the Relationships subpanel (field lives there).
+ */
+function shouldShowAccumulatorScopedField<GE extends GlobalEntityKey>(
+  fieldKey: GlobalFieldKey<GE>,
+  options: UseConditionalFieldVisibilityOptions<GE>
+): boolean | null {
+  const key = String(fieldKey)
+  if (key !== 'accumulator' && key !== 'accumulationLinks') {
+    return null
+  }
+  if (
+    !isAtomicAccumulatorServiceForm({
+      semanticType: resolveBlockInstanceSemanticType(options),
+      composite: options.form.values.composite,
+    })
+  ) {
+    return false
+  }
+  if (key === 'accumulationLinks') {
+    return options.form.values.accumulator === true && showFieldForEntity(options.entityKey, fieldKey, options)
+  }
+  return showFieldForEntity(options.entityKey, fieldKey, options)
+}
+
 function filterFieldsForEntity<GE extends GlobalEntityKey>(
   fields: GlobalFieldKey<GE>[],
   options: UseConditionalFieldVisibilityOptions<GE>
 ): GlobalFieldKey<GE>[] {
-  return fields.filter((fieldKey) => showFieldForEntity(options.entityKey, fieldKey, options))
+  return fields.filter((fieldKey) => {
+    const accumulatorGate = shouldShowAccumulatorScopedField(fieldKey, options)
+    if (accumulatorGate !== null) {
+      return accumulatorGate
+    }
+    return showFieldForEntity(options.entityKey, fieldKey, options)
+  })
 }
 
 function shouldShowDirectField<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   options: UseConditionalFieldVisibilityOptions<GE>
 ): boolean {
-  if (String(fieldKey) === 'composite') {
-    return options.isComposable.value === true
-  }
-  if (String(fieldKey) === 'accumulationLinks') {
-    return options.form.values.accumulator === true
+  const accumulatorGate = shouldShowAccumulatorScopedField(fieldKey, options)
+  if (accumulatorGate !== null) {
+    return accumulatorGate
   }
   return showFieldForEntity(options.entityKey, fieldKey, options)
 }
@@ -54,8 +85,9 @@ function shouldShowTitleRowField<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   options: UseConditionalFieldVisibilityOptions<GE>
 ): boolean {
-  if (String(fieldKey) === 'composite') {
-    return options.isComposable.value === true
+  const accumulatorGate = shouldShowAccumulatorScopedField(fieldKey, options)
+  if (accumulatorGate !== null) {
+    return accumulatorGate
   }
   return showFieldForEntity(options.entityKey, fieldKey, options)
 }
@@ -67,9 +99,9 @@ function shouldShowCompositionField<GE extends GlobalEntityKey>(
   if (String(fieldKey) !== 'instanceComponents') {
     return showFieldForEntity(options.entityKey, fieldKey, options)
   }
+  // PATTERN: Vertical packaging UI appears when the form says Composite is on.
   return (
     options.form.values.composite === true &&
-    options.isComposable.value === true &&
     showFieldForEntity(options.entityKey, fieldKey, options)
   )
 }

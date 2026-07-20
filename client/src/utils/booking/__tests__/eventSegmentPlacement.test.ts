@@ -7,7 +7,7 @@ const START = '2026-01-01T10:00:00.000Z'
 
 function eventFinal(
   name: string,
-  placementKind: 'primary' | 'secondary' | 'marginal' | 'floating',
+  placementKind: 'primary' | 'secondary' | 'marginal' | 'floating' | 'none',
   anchorEdge: 'start' | 'end' | null,
   roundedDuration: number
 ): EventFinal {
@@ -111,6 +111,23 @@ describe('event segment placement resolver', () => {
       startTime: '2026-01-01T12:00:00.000Z',
       endTime: '2026-01-01T12:20:00.000Z',
     })
+    expect(result.totalTimeRange).toMatchObject({
+      startTime: '2026-01-01T10:00:00.000Z',
+      endTime: '2026-01-01T12:00:00.000Z',
+      duration: 120,
+    })
+  })
+
+  it('leaves none-placement segments unscheduled (no presentation)', () => {
+    const result = createPlacedEventTimeRanges(
+      slotShape([
+        eventFinal('Primary', 'primary', null, 120),
+        eventFinal('NoPresentation', 'none', null, 45),
+      ]),
+      START
+    )
+
+    expect(range('NoPresentation', result)).toBeNull()
     expect(result.totalTimeRange).toMatchObject({
       startTime: '2026-01-01T10:00:00.000Z',
       endTime: '2026-01-01T12:00:00.000Z',

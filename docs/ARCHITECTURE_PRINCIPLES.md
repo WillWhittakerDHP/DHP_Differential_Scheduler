@@ -343,6 +343,7 @@ Event shapes are **admin-managed placement types**. Each row defines a `placemen
 | **BackMarginal**   | `marginal`     | `end`       | Adjacent after primary; expands the main busy window. |
 | **FrontFloating**  | `floating`     | `start`     | Separate segment preferring before primary; minimizer/completion scheduling handles availability separately. |
 | **BackFloating**   | `floating`     | `end`       | Separate segment preferring after primary; minimizer/completion scheduling handles availability separately. |
+| **None**           | `none`         | —           | Intentionally unscheduled — no timed calendar segment (e.g. no presentation). |
 
 
 These are **defaults, not fixed**. Admins can add, rename, or remove placement types.

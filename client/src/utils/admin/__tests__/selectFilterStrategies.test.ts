@@ -18,11 +18,12 @@ function block(overrides: Partial<GlobalEntity<'blockInstance'>> & { id: string;
 }
 
 describe('filterByAccumulationLinkSelectBlockInstances', () => {
-  it('shows active time block instances only and excludes the current service', () => {
+  it('shows active atomic time block instances only and excludes the current service', () => {
     const result = filterByAccumulationLinkSelectBlockInstances(
       [
         block({ id: 'service', blockShapeRef: 'shape-service' }),
-        block({ id: 'hvac-time', blockShapeRef: 'shape-time' }),
+        block({ id: 'hvac-time', blockShapeRef: 'shape-time', composite: false }),
+        block({ id: 'package-time', blockShapeRef: 'shape-time', composite: true }),
         block({ id: 'inactive-time', blockShapeRef: 'shape-time', active: false }),
         block({ id: 'event-option', blockShapeRef: 'shape-event' }),
       ],

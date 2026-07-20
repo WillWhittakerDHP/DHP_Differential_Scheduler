@@ -16,12 +16,17 @@ describe('eventPlacementLabels', () => {
     expect(eventTimingBehaviorFromPlacement('floating', 'end').title).toBe(
       'Flexible/off-site after main window'
     )
+    expect(eventTimingBehaviorFromPlacement('none', null).title).toBe('None (no timed segment)')
   })
 
   it('maps a combined admin choice back to stored placement fields', () => {
     expect(eventTimingBehaviorFromValue('marginal:end')).toMatchObject({
       placementKind: 'marginal',
       anchorEdge: 'end',
+    })
+    expect(eventTimingBehaviorFromValue('none')).toMatchObject({
+      placementKind: 'none',
+      anchorEdge: null,
     })
   })
 })

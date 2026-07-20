@@ -101,20 +101,61 @@ export async function validateBlockInstancesWithShapes(
 }
 
 /**
- * WHY: Instance components require both instances composite=true and matching BlockShape (Feature 20).
+ * WHY: Vertical packaging — the *parent* is the composite package; children are
+ * same-shape atomics (composite=false), matching Buyer's Inspection → Equipment
+ * Observations and Property Details → Roof/Exterior.
+ * LEARNING: Requiring child.composite=true contradicted live data and blocked saves.
  */
 export function validateBlockInstancesCompositeForComponents(
   parentBlockInstance: BlockInstanceWithShape,
-  childBlockInstance: BlockInstanceWithShape,
+  _childBlockInstance: BlockInstanceWithShape,
   parentBlockShape: InstanceType<typeof BlockShape>,
   childBlockShape: InstanceType<typeof BlockShape>
 ): void {
-  if (!parentBlockInstance.composite || !childBlockInstance.composite) {
+  if (!parentBlockInstance.composite) {
     throw new Error(REL_ERROR_MESSAGES.NOT_COMPOSABLE)
   }
   if (parentBlockShape.id !== childBlockShape.id) {
     throw new Error(REL_ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
   }
+}
+
+/**
+ * WHY: Accumulation is atomic service → atomic time only (same BlockShape types allowed
+ * by the admin picker; composites use instanceComponents instead).
+ */
+export async function validateAccumulationLinkEntities(
+  parentId: string,
+  childId: string
+): Promise<ValidationResult> {
+  const { parentBlockInstance, childBlockInstance, parentBlockShape, childBlockShape } =
+    await validateBlockInstancesWithShapes(parentId, childId)
+
+  if (parentBlockInstance.composite === true) {
+    return {
+      valid: false,
+      error: 'Accumulation links require an atomic (non-composite) parent service instance',
+    }
+  }
+  if (childBlockInstance.composite === true) {
+    return {
+      valid: false,
+      error: 'Accumulation links require an atomic (non-composite) time characteristic child',
+    }
+  }
+  if (parentBlockShape.semanticType !== 'service') {
+    return {
+      valid: false,
+      error: 'Accumulation link parent must be a service block instance',
+    }
+  }
+  if (childBlockShape.semanticType !== 'time') {
+    return {
+      valid: false,
+      error: 'Accumulation link child must be a time block instance',
+    }
+  }
+  return { valid: true }
 }
 
 /**

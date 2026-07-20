@@ -1,10 +1,10 @@
 /**
- * Accumulator = lateral inclusion gates (Will, 2026-07-13).
+ * Accumulator = lateral inclusion gates (Will, 2026-07-13; atomic-only 2026-07-20).
  *
- * WHEN a selected service has accumulator=true and an accumulation_link to a
- * time/characteristic block, that child is included only if the linked
- * property fact is present for this booking — independent of whether the user
- * picks that characteristic in the wizard.
+ * WHEN a selected **atomic** service has accumulator=true and an accumulation_link
+ * to an **atomic** time/characteristic block, that child is included only if the
+ * linked property fact is present for this booking — independent of whether the
+ * user picks that characteristic in the wizard.
  *
  * Truth table (Equipment Testing → HVAC):
  *   service selected + fact present → include
@@ -13,6 +13,7 @@
  *
  * Distinct from bookingCascades (user-selectable lateral options) and from
  * composite/instanceComponents (vertical same-shape packaging).
+ * Composite parents never participate — accumulation is atomic ↔ atomic only.
  */
 
 export type PropertyFactValue = number | boolean | string | null | undefined
@@ -56,6 +57,8 @@ export interface AccumulatorParent {
   id: string
   /** Only parents with accumulator=true participate. */
   accumulator: boolean
+  /** Composite packages never accumulate — atomic services only. */
+  composite?: boolean
 }
 
 /**
@@ -93,7 +96,9 @@ export function resolveAccumulatorInclusions(params: {
 }): string[] {
   const selected = new Set(params.selectedParentIds)
   const accumulatorIds = new Set(
-    params.parents.filter((p) => p.accumulator === true).map((p) => p.id)
+    params.parents
+      .filter((p) => p.accumulator === true && p.composite !== true)
+      .map((p) => p.id)
   )
 
   const included: string[] = []

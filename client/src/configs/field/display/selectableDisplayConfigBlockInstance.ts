@@ -101,15 +101,15 @@ export const selectableDisplayBlockInstanceSection = {
         groupByKey: "blockShapeRef",
 
         label: "Accumulation Links",
-        placeholder: "Choose time characteristics to auto-include...",
+        placeholder: "Choose atomic time characteristics to auto-include...",
         tooltip:
-          "Lateral inclusion gates: when this accumulator service is selected, include these time characteristics only if the matching Property Detail Fact is present for the inspected property. Set property_fact_key on each link (API/SQL for now) — empty key never includes.",
+          "Atomic ↔ atomic only. When this accumulator service is selected, include these atomic time characteristics only if the matching Property Detail Fact is present. Composite packages cannot own accumulation links.",
         inline: false,
         stacked: true,
         width: "100%",
         align: "left",
         displayFormat: "chips",
-        emptyStateText: "No eligible time characteristics found. Create active time block instances first; then link them here and set each link's Property Detail Fact.",
+        emptyStateText: "No eligible atomic time characteristics found. Create atomic time block instances first; then link them here.",
         maxDisplayItems: 10,
         showCount: true,
         sortBy: "name",

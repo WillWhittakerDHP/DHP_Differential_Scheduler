@@ -51,7 +51,9 @@ export function transformApiEntity<GE extends GlobalEntityKey>(
     transformed.placementKind = sanitizeEventPlacementKindInput(pkRaw) ?? 'primary'
     const anchorParsed = sanitizeEventAnchorEdgeInput(aeRaw)
     transformed.anchorEdge =
-      transformed.placementKind === 'primary' ? null : anchorParsed ?? 'start'
+      transformed.placementKind === 'primary' || transformed.placementKind === 'none'
+        ? null
+        : anchorParsed ?? 'start'
     delete transformed.includeRescheduleLink
     delete transformed.includeCancelLink
     delete transformed.differential_role

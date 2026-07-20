@@ -20,7 +20,11 @@ describe('blockInstanceFieldVisibility', () => {
   it('shows service-only fields on service shapes only', () => {
     expect(shouldShowBlockInstanceField('requiresAgent', BLOCK_SHAPE_TYPES.SERVICE)).toBe(true)
     expect(shouldShowBlockInstanceField('preClosing', BLOCK_SHAPE_TYPES.SERVICE)).toBe(true)
+    expect(shouldShowBlockInstanceField('accumulator', BLOCK_SHAPE_TYPES.SERVICE)).toBe(true)
+    expect(shouldShowBlockInstanceField('accumulationLinks', BLOCK_SHAPE_TYPES.SERVICE)).toBe(true)
     expect(shouldShowBlockInstanceField('requiresAgent', BLOCK_SHAPE_TYPES.TIME)).toBe(false)
+    expect(shouldShowBlockInstanceField('accumulator', BLOCK_SHAPE_TYPES.TIME)).toBe(false)
+    expect(shouldShowBlockInstanceField('accumulationLinks', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
   })
 
   it('hides generic activation and event assignment fields on service cards', () => {

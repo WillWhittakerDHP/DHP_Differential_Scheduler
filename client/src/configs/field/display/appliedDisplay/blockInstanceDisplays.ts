@@ -62,7 +62,7 @@ export const blockInstanceDisplays = {
     label: "Accumulator",
     placeholder: "",
     tooltip:
-      "Lateral inclusion gates: when this service is selected, include linked time characteristics only if the matching property fact is present (e.g. HVAC count). Not a user pick of those characteristics.",
+      "Atomic services only. When this atomic service is selected, include linked atomic time characteristics only if the matching property fact is present (e.g. HVAC count). Not a user pick of those characteristics — and not for composite packages.",
     inline: true,
     stacked: false,
     width: "auto",

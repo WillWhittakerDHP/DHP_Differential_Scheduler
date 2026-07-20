@@ -89,6 +89,7 @@ export function resolveAccumulatedBlockInstances(params: {
       parents: params.allBlockInstances.map((b) => ({
         id: b.id,
         accumulator: b.accumulator === true,
+        composite: b.composite === true,
       })),
       links,
       propertyFacts: propertyFactsFromPropertyDetails(params.propertyDetails),

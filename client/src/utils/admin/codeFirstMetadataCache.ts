@@ -86,6 +86,7 @@ const placementKindOptions = [
   { label: 'Inside main window', value: 'secondary' },
   { label: 'Adjacent work window', value: 'marginal' },
   { label: 'Flexible/off-site window', value: 'floating' },
+  { label: 'None (no timed segment)', value: 'none' },
 ]
 
 const anchorEdgeOptions = [

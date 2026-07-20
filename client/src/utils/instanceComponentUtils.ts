@@ -28,9 +28,8 @@ export function extractInstanceComponents(params: {
       const componentBlockShape = getGlobalEntityById('blockShape', componentWithShapeRef.blockShapeRef)
       if (!componentBlockShape) return null
 
-      const bi = componentBlockInstance as GlobalEntity<'blockInstance'> & { composite?: boolean }
-      if (bi.composite !== true) return null
-
+      // WHY: Component children are atomics (`composite=false`) under a composite parent.
+      // Requiring child.composite=true hid every real package child in booking UI.
       const componentWithIcon = componentBlockInstance as GlobalEntity<'blockInstance'> & {
         icon?: string
       }

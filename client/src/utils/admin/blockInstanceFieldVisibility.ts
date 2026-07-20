@@ -17,6 +17,9 @@ const TIME_BLOCK_INSTANCE_FIELDS = new Set([
 const SERVICE_BLOCK_INSTANCE_FIELDS = new Set([
   'requiresAgent',
   'preClosing',
+  // Accumulator is atomic-service → atomic-time only (not packages/orchestrator packages).
+  'accumulator',
+  'accumulationLinks',
 ])
 
 const USER_BLOCK_INSTANCE_FIELDS = new Set(['semanticType'])

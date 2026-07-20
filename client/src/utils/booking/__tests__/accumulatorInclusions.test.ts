@@ -122,4 +122,23 @@ describe('resolveAccumulatorInclusions', () => {
     })
     expect(ids).toEqual([])
   })
+
+  it('ignores composite accumulator parents even when selected', () => {
+    const ids = resolveAccumulatorInclusions({
+      selectedParentIds: ['svc-package'],
+      parents: [
+        { id: 'svc-package', accumulator: true, composite: true },
+        { id: 'svc-equipment-testing', accumulator: true, composite: false },
+      ],
+      links: [
+        {
+          parentId: 'svc-package',
+          childId: 'time-hvac',
+          propertyFactKey: PROPERTY_FACT_KEYS.HVAC_COUNT,
+        },
+      ],
+      propertyFacts: { hvacCount: 2 },
+    })
+    expect(ids).toEqual([])
+  })
 })

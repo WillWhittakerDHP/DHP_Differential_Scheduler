@@ -127,6 +127,7 @@ type BlockInstanceOptionalProps = {
   icon?: string
   orchestrator?: boolean
   accumulator?: boolean
+  composite?: boolean
   wizardPlacement?: WizardPlacement
   preClosing?: boolean
   number?: number | null
@@ -148,6 +149,7 @@ function extractBlockInstanceProps(
     icon: b.icon,
     orchestrator: b.orchestrator,
     accumulator: b.accumulator,
+    composite: b.composite,
     wizardPlacement: b.wizardPlacement,
     preClosing: b.preClosing,
     number: numberProp,
@@ -180,6 +182,7 @@ function buildBookingBlockInstance(
     blockShapeSemanticType,
     orchestrator,
     accumulator: props.accumulator === true,
+    composite: props.composite === true,
     wizardPlacement,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,

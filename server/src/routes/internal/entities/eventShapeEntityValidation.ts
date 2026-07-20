@@ -70,12 +70,12 @@ function validateEventShapePlacementPair(placementKind: unknown, anchorEdge: unk
     return 'Event shape anchorEdge requires placementKind in the same request when anchor is set.'
   }
   if (!isEventPlacementKind(placementKind)) {
-    return 'Invalid event shape placementKind; use primary, secondary, marginal, or floating.'
+    return 'Invalid event shape placementKind; use primary, secondary, marginal, floating, or none.'
   }
   const kind = placementKind as EventPlacementKind
-  if (kind === 'primary') {
+  if (kind === 'primary' || kind === 'none') {
     if (!isEmptyAnchorValue(anchorEdge)) {
-      return 'Event shape with placementKind "primary" must not set anchorEdge (omit or null).'
+      return `Event shape with placementKind "${kind}" must not set anchorEdge (omit or null).`
     }
     return null
   }
