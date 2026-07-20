@@ -21,7 +21,8 @@ export interface EventWorkItemRoutingRow {
   partInstanceId: string
   workItemName: string
   partShapeName: string
-  serviceBlockName: string
+  /** Owning service or time block name (admin “Source” column). */
+  sourceBlockName: string
   /** Segment on this package, or null = use service default (baseline). */
   assignedSegmentId: string | null
 }
@@ -83,7 +84,8 @@ function assignedSegmentIdForPartOnPackage(
 }
 
 /**
- * Rows: active work items on service blocks, with any override into this event package's segments.
+ * Rows: active parts on service and time blocks, with overrides into this package's segments.
+ * When limitToPartShapeIds is set (atomic event with one attached shape), only those shapes appear.
  */
 export function buildEventWorkItemRoutingRows(params: {
   eventBlockInstanceId: string
@@ -94,6 +96,8 @@ export function buildEventWorkItemRoutingRows(params: {
   partAssignments: readonly GlobalRelationship[]
   eventInstances: readonly GlobalEntity<'eventInstance'>[]
   eventAssignments: readonly GlobalRelationship[]
+  /** When non-empty, only work items of these part shapes are listed. */
+  limitToPartShapeIds?: ReadonlySet<string> | readonly string[] | null
 }): EventWorkItemRoutingRow[] {
   const packageSegmentIdSet = new Set(
     packageSegmentIdsForEventBlock(params.eventBlockInstanceId, params.eventInstances)
@@ -102,19 +106,30 @@ export function buildEventWorkItemRoutingRows(params: {
     return []
   }
 
+  const shapeLimit =
+    params.limitToPartShapeIds == null
+      ? null
+      : new Set(
+          [...params.limitToPartShapeIds].map(String).filter((id) => id.trim() !== '')
+        )
+  if (shapeLimit && shapeLimit.size === 0) {
+    return []
+  }
+
   const blockShapesById = new Map(params.blockShapes.map((shape) => [entityId(shape), shape]))
   const blockInstancesById = new Map(params.blockInstances.map((block) => [entityId(block), block]))
   const partInstancesById = new Map(params.partInstances.map((part) => [entityId(part), part]))
   const partShapesById = new Map(params.partShapes.map((shape) => [entityId(shape), shape]))
 
-  const serviceBlockIds = new Set(
+  const sourceBlockIds = new Set(
     params.blockInstances
       .filter((block) => {
         if (block.active === false) {
           return false
         }
         const shape = blockShapesById.get(String(block.blockShapeRef))
-        return shape?.semanticType === BLOCK_SHAPE_TYPES.SERVICE
+        const semantic = shape?.semanticType
+        return semantic === BLOCK_SHAPE_TYPES.SERVICE || semantic === BLOCK_SHAPE_TYPES.TIME
       })
       .map(entityId)
   )
@@ -126,12 +141,12 @@ export function buildEventWorkItemRoutingRows(params: {
     if (rel.parent.entityKey !== 'blockInstance') {
       continue
     }
-    const serviceId = String(rel.parent.id)
-    if (!serviceBlockIds.has(serviceId)) {
+    const sourceId = String(rel.parent.id)
+    if (!sourceBlockIds.has(sourceId)) {
       continue
     }
-    const serviceBlock = blockInstancesById.get(serviceId)
-    if (!serviceBlock) {
+    const sourceBlock = blockInstancesById.get(sourceId)
+    if (!sourceBlock) {
       continue
     }
     for (const child of rel.children) {
@@ -146,12 +161,15 @@ export function buildEventWorkItemRoutingRows(params: {
       if (!part || part.active === false) {
         continue
       }
+      if (shapeLimit && !shapeLimit.has(String(part.partShapeRef))) {
+        continue
+      }
       seenPartIds.add(partId)
       rows.push({
         partInstanceId: partId,
         workItemName: part.name,
         partShapeName: partShapesById.get(String(part.partShapeRef))?.name ?? '',
-        serviceBlockName: serviceBlock.name,
+        sourceBlockName: sourceBlock.name,
         assignedSegmentId: assignedSegmentIdForPartOnPackage(
           partId,
           packageSegmentIdSet,
@@ -162,11 +180,11 @@ export function buildEventWorkItemRoutingRows(params: {
   }
 
   return rows.sort((a, b) => {
-    const serviceCmp = a.serviceBlockName.localeCompare(b.serviceBlockName)
-    if (serviceCmp !== 0) {
-      return serviceCmp
+    const sourceCmp = a.sourceBlockName.localeCompare(b.sourceBlockName)
+    if (sourceCmp !== 0) {
+      return sourceCmp
     }
-    return a.workItemName.localeCompare(b.workItemName)
+    return a.partShapeName.localeCompare(b.partShapeName)
   })
 }
 

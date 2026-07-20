@@ -20,7 +20,7 @@ const props = withDefaults(
     allowedShapeTypes: readonly BlockShapeType[]
     title: string
     subtitle: string
-    /** When false, work-item name is display-only (event modifiers). */
+    /** When false, hide Work item and Part shape columns (event modifiers — shape is chosen above). */
     nameEditable?: boolean
   }>(),
   {
@@ -83,17 +83,30 @@ watch(
   { immediate: true, deep: true }
 )
 
-const headers = [
-  { title: 'Part shape', key: 'partShapeName', sortable: false },
-  { title: 'Work item', key: 'name', sortable: false },
-  { title: 'Base time', key: 'baseTime', sortable: false },
-  { title: 'Time / unit', key: 'timePerUnit', sortable: false },
-  { title: 'Base multiplier', key: 'baseMultiplier', sortable: false },
-  { title: 'Rate multiplier', key: 'rateMultiplier', sortable: false },
-  { title: 'Base fee', key: 'baseFee', sortable: false },
-  { title: 'Fee / unit', key: 'feePerUnit', sortable: false },
-  { title: 'Zero out', key: 'zeroOutPart', sortable: false },
-] as const
+const headers = computed(() => {
+  if (!props.nameEditable) {
+    return [
+      { title: 'Base time', key: 'baseTime', sortable: false as const },
+      { title: 'Time / unit', key: 'timePerUnit', sortable: false as const },
+      { title: 'Base multiplier', key: 'baseMultiplier', sortable: false as const },
+      { title: 'Rate multiplier', key: 'rateMultiplier', sortable: false as const },
+      { title: 'Base fee', key: 'baseFee', sortable: false as const },
+      { title: 'Fee / unit', key: 'feePerUnit', sortable: false as const },
+      { title: 'Zero out', key: 'zeroOutPart', sortable: false as const },
+    ]
+  }
+  return [
+    { title: 'Part shape', key: 'partShapeName', sortable: false as const },
+    { title: 'Work item', key: 'name', sortable: false as const },
+    { title: 'Base time', key: 'baseTime', sortable: false as const },
+    { title: 'Time / unit', key: 'timePerUnit', sortable: false as const },
+    { title: 'Base multiplier', key: 'baseMultiplier', sortable: false as const },
+    { title: 'Rate multiplier', key: 'rateMultiplier', sortable: false as const },
+    { title: 'Base fee', key: 'baseFee', sortable: false as const },
+    { title: 'Fee / unit', key: 'feePerUnit', sortable: false as const },
+    { title: 'Zero out', key: 'zeroOutPart', sortable: false as const },
+  ]
+})
 
 type TableRow = ServiceAtomicPartRow & { id: string }
 
@@ -200,7 +213,7 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
     <VCardText class="pa-2">
       <div class="overflow-x-auto">
         <VDataTable
-          :headers="[...headers]"
+          :headers="headers"
           :items="tableItems"
           :loading="isSaving"
           item-value="id"
@@ -211,9 +224,12 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
           <template #item.partShapeName="{ item }">
             <span v-if="item" class="text-body-2">{{ item.partShapeName || '—' }}</span>
           </template>
-          <template #item.name="{ item }">
+          <template
+            v-if="nameEditable"
+            #item.name="{ item }"
+          >
             <VTextField
-              v-if="item && drafts[item.id] && nameEditable"
+              v-if="item && drafts[item.id]"
               v-model="drafts[item.id].name"
               density="compact"
               variant="underlined"
@@ -221,10 +237,6 @@ async function onZeroOutUpdate(item: TableRow, value: boolean | null): Promise<v
               :disabled="isSaving"
               @blur="onNameBlur(item)"
             />
-            <span
-              v-else-if="item"
-              class="text-body-2"
-            >{{ item.name || '—' }}</span>
           </template>
           <template #item.baseTime="{ item }">
             <VTextField

@@ -350,6 +350,12 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
 - Retired **Claimed time blocks** UI + `eventPartClaimAssignments` sync from segment create/save.
 - Principles §4.2 / §5.2 wording updated to match code (service baseline + part overrides).
 - Tests: `eventWorkItemRouting.test.ts` (replaces claim-assignment tests).
+- **Event part modifier attach (2026-07-20):** Modifiers panel can attach part shapes directly (create part instance + `part_assignments`). **Atomic** event = exactly one part shape; **orchestrator** may attach many. Candidates from shape `validPartCascades` when set, else all active part shapes.
+- **Atomic purity correction (2026-07-20):** Orchestrators do **not** attach part shapes — they package atomic events via Components (`instanceComponents` un-hidden on EVENT; requires Composite). Atomic attach UI is a top card (“Part shape for this atomic event”). Work-item routing on atomics filters to the attached part shape only.
+- **Strategy C event packages (2026-07-20):** Package owns segments + override routing; atomics own one part shape for modifiers; booker picks one curated package.
+  - Routing rows now include **service + time** parts (Source column); packages (`composite` or `orchestrator`) see full catalog; modifier-only atomics stay segment-gated (panel hidden without segments).
+  - Migration `082`: **Minimize Time On Site** composite with Early Arrival / Primary / Formal Presentation / Off-Site; **Standard Event Schedule** (hidden) with Primary; Buyer's Inspection cascades + baseline → Standard Primary; report→Off-Site and presentation→Formal Presentation overrides; soft-hid competing segment-named wizard atomics.
+  - Flagship `minimizeTimeOnSite.test.ts` + routing tests green. Manual wizard walkthrough still needed for §6.1 calendar invites.
 
 **UI follow-up quality gates 2026-07-14:** client typecheck, full client Vitest (14 files / 42 tests), client lint, and client production build green.
 

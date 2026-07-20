@@ -54,12 +54,17 @@ export function shouldShowBlockInstanceField(
     return false
   }
 
-  // Event cards own segments (event instances), not lateral time activation, same-shape
-  // component packages, or a nested "Events Events" relationship collapse.
+  // Event cards own segments (event instances) and may package atomic events via
+  // instanceComponents. Hide lateral time activation and nested eventAssignments grab-bag.
   if (
     semanticType === BLOCK_SHAPE_TYPES.EVENT &&
-    (key === 'bookingCascades' || key === 'instanceComponents' || key === 'eventAssignments')
+    (key === 'bookingCascades' || key === 'eventAssignments')
   ) {
+    return false
+  }
+
+  // Event part modifiers use the dedicated atomic attach UI — hide the generic Parts panel.
+  if (semanticType === BLOCK_SHAPE_TYPES.EVENT && key === 'partAssignments') {
     return false
   }
 

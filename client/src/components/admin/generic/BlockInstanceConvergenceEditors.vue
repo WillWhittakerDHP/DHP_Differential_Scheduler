@@ -7,16 +7,14 @@ import type { GlobalEntity } from '@/types/entities'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
 import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
-import AtomicPartLedgerEditor from './AtomicPartLedgerEditor.vue'
 import ServiceActiveBlockControls from './ServiceActiveBlockControls.vue'
+import EventPartModifiersEditor from './EventPartModifiersEditor.vue'
 import EventWorkItemRoutingPanel from './EventWorkItemRoutingPanel.vue'
 
 defineProps<{
   blockShape: GlobalEntity<'blockShape'>
   blockInstanceId: string
 }>()
-
-const EVENT_TYPES = [BLOCK_SHAPE_TYPES.EVENT] as const
 </script>
 
 <template>
@@ -38,14 +36,7 @@ const EVENT_TYPES = [BLOCK_SHAPE_TYPES.EVENT] as const
     class="mb-4"
   />
   <template v-else-if="blockShape.semanticType === BLOCK_SHAPE_TYPES.EVENT">
-    <AtomicPartLedgerEditor
-      :block-instance-id="blockInstanceId"
-      :allowed-shape-types="EVENT_TYPES"
-      :name-editable="false"
-      title="Event part modifiers"
-      subtitle="Optional duration tweaks for part types under this event profile (extra minutes, multipliers, or zero-out). This does not choose which work items land in which calendar segment."
-      class="mb-4"
-    />
+    <EventPartModifiersEditor :block-instance-id="blockInstanceId" />
     <EventWorkItemRoutingPanel :block-instance-id="blockInstanceId" />
   </template>
 </template>

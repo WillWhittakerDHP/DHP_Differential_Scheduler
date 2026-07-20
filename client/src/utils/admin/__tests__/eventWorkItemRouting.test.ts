@@ -129,13 +129,50 @@ describe('eventWorkItemRouting', () => {
       eventAssignments: [partToSegment(exterior, [early])],
     })
 
-    expect(rows).toHaveLength(1)
-    expect(rows[0]).toMatchObject({
-      partInstanceId: 'part-exterior',
+    expect(rows).toHaveLength(2)
+    expect(rows.find((row) => row.partInstanceId === 'part-exterior')).toMatchObject({
       workItemName: 'Exterior',
-      serviceBlockName: 'Roof Observations',
+      sourceBlockName: 'Roof Observations',
       assignedSegmentId: 'ei-early',
     })
+    expect(rows.find((row) => row.partInstanceId === 'part-time')).toMatchObject({
+      workItemName: 'SqFt time',
+      sourceBlockName: 'Square Footage',
+      assignedSegmentId: null,
+    })
+  })
+
+  it('includes time-block parts when filtered by part shape', () => {
+    const serviceShape = shape('shape-service', BLOCK_SHAPE_TYPES.SERVICE)
+    const timeShape = shape('shape-time', BLOCK_SHAPE_TYPES.TIME)
+    const service = block('svc-1', 'Buyer Inspection', 'shape-service')
+    const time = block('time-1', 'Square Footage', 'shape-time')
+    const dataShape = partShape('ps-data', 'Data Collection')
+    const reportShape = partShape('ps-report', 'Report Writing')
+    const exterior = part('part-exterior', 'Exterior', 'ps-data')
+    const report = part('part-report', 'Report', 'ps-report')
+    const timeExterior = part('part-time-ext', 'Exterior time', 'ps-data')
+    const early = event('ei-early', 'Early Arrival', 'event-mtos')
+
+    const rows = buildEventWorkItemRoutingRows({
+      eventBlockInstanceId: 'event-mtos',
+      blockInstances: [service, time],
+      blockShapes: [serviceShape, timeShape],
+      partInstances: [exterior, report, timeExterior],
+      partShapes: [dataShape, reportShape],
+      partAssignments: [
+        partAssign(service, [exterior, report]),
+        partAssign(time, [timeExterior]),
+      ],
+      eventInstances: [early],
+      eventAssignments: [],
+      limitToPartShapeIds: new Set(['ps-data']),
+    })
+
+    expect(rows.map((row) => row.partInstanceId).sort()).toEqual([
+      'part-exterior',
+      'part-time-ext',
+    ])
   })
 
   it('syncs part → segment override create and remove within the package', async () => {
@@ -158,20 +195,28 @@ describe('eventWorkItemRouting', () => {
     expect(removeEventAssignment).toHaveBeenCalledWith('part-exterior', 'ei-primary')
   })
 
-  it('clears package overrides when desired segment is null', async () => {
-    const createEventAssignment = vi.fn()
-    const removeEventAssignment = vi.fn().mockResolvedValue(undefined)
+  it('filters routing rows to a single attached part shape', () => {
+    const serviceShape = shape('shape-service', BLOCK_SHAPE_TYPES.SERVICE)
+    const service = block('svc-1', 'Roof Observations', 'shape-service')
+    const dataShape = partShape('ps-data', 'Data Collection')
+    const reportShape = partShape('ps-report', 'Report Writing')
+    const exterior = part('part-exterior', 'Exterior', 'ps-data')
+    const report = part('part-report', 'Report', 'ps-report')
+    const primary = event('ei-primary', 'Primary', 'event-atomic')
 
-    await syncPartEventSegmentOverride({
-      partInstanceId: 'part-exterior',
-      packageSegmentIds: ['ei-primary', 'ei-early'],
-      desiredSegmentId: null,
-      currentlyAssignedSegmentIds: ['ei-early'],
-      createEventAssignment,
-      removeEventAssignment,
+    const rows = buildEventWorkItemRoutingRows({
+      eventBlockInstanceId: 'event-atomic',
+      blockInstances: [service],
+      blockShapes: [serviceShape],
+      partInstances: [exterior, report],
+      partShapes: [dataShape, reportShape],
+      partAssignments: [partAssign(service, [exterior, report])],
+      eventInstances: [primary],
+      eventAssignments: [],
+      limitToPartShapeIds: new Set(['ps-data']),
     })
 
-    expect(createEventAssignment).not.toHaveBeenCalled()
-    expect(removeEventAssignment).toHaveBeenCalledWith('part-exterior', 'ei-early')
+    expect(rows).toHaveLength(1)
+    expect(rows[0]?.partInstanceId).toBe('part-exterior')
   })
 })

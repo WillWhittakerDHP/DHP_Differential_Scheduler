@@ -37,10 +37,14 @@ interface RelationshipKeyConfig {
 function relationshipAlreadyExists(
   currentRelationships: GlobalRelationship[],
   parentId: string,
-  childId: string
+  childId: string,
+  parentEntityKey?: GlobalEntityKey
 ): boolean {
   return currentRelationships.some(
-    (rel) => rel.parent.id === parentId && rel.children.some((c: { id: string }) => c.id === childId)
+    (rel) =>
+      String(rel.parent.id) === parentId &&
+      (parentEntityKey === undefined || rel.parent.entityKey === parentEntityKey) &&
+      rel.children.some((c: { id: string }) => String(c.id) === childId)
   )
 }
 
@@ -53,7 +57,10 @@ function findOrCreateParentRelationship(
   relationshipKey: GlobalRelationshipKey,
   propertyFactKey?: string
 ): GlobalRelationship[] {
-  const parentRelIndex = currentRelationships.findIndex((rel) => rel.parent.id === parentId)
+  const parentRelIndex = currentRelationships.findIndex(
+    (rel) =>
+      String(rel.parent.id) === parentId && rel.parent.entityKey === parentEntity.entityKey
+  )
   if (parentRelIndex === -1) {
     return [
       ...currentRelationships,
@@ -75,6 +82,26 @@ function findOrCreateParentRelationship(
   return updated
 }
 
+/**
+ * WHY: event_assignments parents are either service/event blockInstance (baseline) or
+ * partInstance (override). RELATIONSHIP_KEYS lists only blockInstance — resolve both.
+ */
+function resolveRelationshipParentEntity(
+  old: GlobalData,
+  relationshipKey: GlobalRelationshipKey,
+  config: RelationshipKeyConfig,
+  parentId: string
+): GlobalEntity<GlobalEntityKey> | undefined {
+  const primary = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
+  if (primary) {
+    return primary
+  }
+  if (relationshipKey === 'eventAssignments') {
+    return old.entities.partInstance?.find((e) => String(e.id) === parentId)
+  }
+  return undefined
+}
+
 function addRelationshipToCache(
   old: GlobalData,
   relationshipKey: GlobalRelationshipKey,
@@ -85,7 +112,7 @@ function addRelationshipToCache(
   const currentRelationships = asEmptyArray(old.relationships[relationshipKey])
   const parentId = String(payload.parentId)
   const childId = String(payload.childId)
-  const parentEntity = old.entities[config.parentEntity]?.find((e) => String(e.id) === parentId)
+  const parentEntity = resolveRelationshipParentEntity(old, relationshipKey, config, parentId)
   const childEntity = old.entities[config.childEntity]?.find((e) => String(e.id) === childId)
 
   if (!parentEntity || !childEntity) {
@@ -100,7 +127,9 @@ function addRelationshipToCache(
     }
     return old
   }
-  if (relationshipAlreadyExists(currentRelationships, parentId, childId)) return old
+  if (relationshipAlreadyExists(currentRelationships, parentId, childId, parentEntity.entityKey)) {
+    return old
+  }
 
   const updatedRelationships = findOrCreateParentRelationship(
     currentRelationships,
@@ -124,12 +153,12 @@ function removeRelationshipFromCache(
 ): GlobalData {
   const currentRelationships = asEmptyArray(old.relationships[relationshipKey])
   const parentRelIndex = currentRelationships.findIndex(
-    (rel: GlobalRelationship) => rel.parent.id === parentIdStr
+    (rel: GlobalRelationship) => String(rel.parent.id) === parentIdStr
   )
   if (parentRelIndex === -1) return old
   const parentRel = currentRelationships[parentRelIndex]
   const updatedChildren = parentRel.children.filter(
-    (child: { id: string }) => child.id !== childIdStr
+    (child: { id: string }) => String(child.id) !== childIdStr
   )
   if (updatedChildren.length === 0) {
     const updatedRelationships = currentRelationships.filter(
