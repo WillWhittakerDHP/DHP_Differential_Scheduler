@@ -166,6 +166,7 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.9.0",
+    "esbuild": "^0.27.7",
     "eslint-plugin-security": "^4.0.0",
     "eslint-plugin-vue": "^10.5.1",
     "jsdom": "^27.0.0",
