@@ -5,7 +5,7 @@ import { computed, isRef, unref } from 'vue'
 import type { Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -14,7 +14,7 @@ const props = withDefaults(
     expanded: Ref<string[]> | string[]
     isPanelExpanded: (id: string) => boolean
     dragClass?: string
-    /** When false, only render EntityCards (parent wraps in VExpansionPanels). */
+    /** When false, only render editor panels (parent wraps in VExpansionPanels). */
     wrapInPanels?: boolean
     showShapeListDragHandle?: boolean
   }>(),
@@ -38,7 +38,7 @@ const expandedModel = computed({
 
 <template>
   <VExpansionPanels v-if="wrapInPanels" v-model="expandedModel" multiple>
-    <EntityCard
+    <AdminEntityEditorPanel
       v-for="item in itemsArray"
       :key="String(item.id)"
       :class="props.dragClass || undefined"
@@ -52,7 +52,7 @@ const expandedModel = computed({
     />
   </VExpansionPanels>
   <template v-else>
-    <EntityCard
+    <AdminEntityEditorPanel
       v-for="item in itemsArray"
       :key="String(item.id)"
       :class="props.dragClass || undefined"

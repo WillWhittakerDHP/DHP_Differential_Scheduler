@@ -13,7 +13,7 @@ import type { EventInstance } from './event_instance.js';
 /**
  * EventAssignment Model
  *
- * Through-table: BlockInstance → EventInstance (parent_id is always a block instance).
+ * Through-table: parent block instance (baseline) or part instance (per-part override) → event instance (segment).
  */
 export class EventAssignment extends Model<
   InferAttributes<EventAssignment>,
@@ -21,7 +21,7 @@ export class EventAssignment extends Model<
 > {
   declare id: CreationOptional<string>;
   declare kind: CreationOptional<string>;
-  declare parentKind: 'blockInstance';
+  declare parentKind: 'blockInstance' | 'partInstance';
   declare childKind: CreationOptional<string>;
   declare parentId: ForeignKey<string>;
   declare childId: ForeignKey<string>;
@@ -51,7 +51,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
         type: DataTypes.ENUM('partInstance', 'blockInstance'),
         allowNull: false,
         field: 'parent_kind',
-        comment: 'Parent is always blockInstance (DB enum lists historical partInstance value but unused)',
+        comment: 'blockInstance = baseline segment link; partInstance = per-part override',
       },
       childKind: {
         type: DataTypes.VIRTUAL,
@@ -62,7 +62,7 @@ export function EventAssignmentFactory(sequelize: Sequelize) {
       parentId: {
         type: DataTypes.UUID,
         allowNull: false,
-        comment: 'Foreign key to block_instances.id',
+        comment: 'Foreign key to block_instances.id or part_instances.id per parent_kind',
       },
       childId: {
         type: DataTypes.UUID,

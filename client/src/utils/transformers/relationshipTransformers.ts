@@ -19,6 +19,79 @@ import { safeArray } from './transformerPrimitives'
 import { groupByParentId } from './transformerCollections'
 
 /**
+ * WHY: `event_assignments.parent_kind` is `blockInstance` (baseline) or `partInstance` (override).
+ * Default `RELATIONSHIP_KEYS.eventAssignments.parentEntity` is blockInstance only — resolve the real parent row.
+ */
+function transformEventAssignmentsToGlobalRelationships(
+  filteredRelationships: FetchedRelationship[],
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+): GlobalRelationship[] {
+  const config = RELATIONSHIP_KEYS.eventAssignments
+  type GroupKey = `${GlobalEntityKey}:${string}`
+  const groups = new Map<GroupKey, Set<string>>()
+
+  for (const rel of filteredRelationships) {
+    const parentKind: GlobalEntityKey =
+      rel.parentKind === 'partInstance' ? 'partInstance' : 'blockInstance'
+    const key: GroupKey = `${parentKind}:${rel.parentId}`
+    const childSet = groups.get(key) ?? new Set<string>()
+    childSet.add(rel.childId)
+    groups.set(key, childSet)
+  }
+
+  const globalRelationships: GlobalRelationship[] = []
+
+  for (const [compositeKey, childIdSet] of groups.entries()) {
+    const sep = compositeKey.indexOf(':')
+    const parentKind = compositeKey.slice(0, sep) as GlobalEntityKey
+    const parentId = compositeKey.slice(sep + 1)
+    const parentEntity = findById(safeArray(entities[parentKind]), parentId)
+    if (!parentEntity) {
+      continue
+    }
+    const childEntityArray = safeArray(entities[config.childEntity])
+    const { resolved: childEntities } = resolveByIds(childEntityArray, Array.from(childIdSet))
+    if (childEntities.length > 0) {
+      globalRelationships.push({
+        relationshipKind: 'eventAssignments',
+        parent: parentEntity,
+        children: childEntities,
+      })
+    }
+  }
+
+  return globalRelationships
+}
+
+/**
+ * WHY: `accumulation_links` carry a propertyFactKey per edge. Keep one GlobalRelationship
+ * per edge (single child) so the fact key is not lost when collapsing children.
+ */
+function transformAccumulationLinksToGlobalRelationships(
+  filteredRelationships: FetchedRelationship[],
+  entities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+): GlobalRelationship[] {
+  const config = RELATIONSHIP_KEYS.accumulationLinks
+  const out: GlobalRelationship[] = []
+
+  for (const rel of filteredRelationships) {
+    const parentEntity = findById(safeArray(entities[config.parentEntity]), rel.parentId)
+    const childEntity = findById(safeArray(entities[config.childEntity]), rel.childId)
+    if (!parentEntity || !childEntity) {
+      continue
+    }
+    out.push({
+      relationshipKind: 'accumulationLinks',
+      parent: parentEntity,
+      children: [childEntity],
+      propertyFactKey: typeof rel.propertyFactKey === 'string' ? rel.propertyFactKey : '',
+    })
+  }
+
+  return out
+}
+
+/**
  * WHY: Transform FetchedRelationship[] to GlobalRelationship[] format
 WHY: Conv...
  */
@@ -29,37 +102,48 @@ export function transformApiRelationships(
 ): GlobalRelationship[] {
   const config = RELATIONSHIP_KEYS[relationshipKey]
   if (!config) return []
-  
+
   const filteredRelationships = fetchedRelationships.filter(
     (rel) => rel.kind === relationshipKey && !rel.disabled
   )
+
+  if (relationshipKey === 'eventAssignments') {
+    return transformEventAssignmentsToGlobalRelationships(filteredRelationships, entities)
+  }
+  if (relationshipKey === 'accumulationLinks') {
+    return transformAccumulationLinksToGlobalRelationships(filteredRelationships, entities)
+  }
+
   const parentMap = groupByParentId(
     filteredRelationships,
     (rel) => rel.parentId,
     (rel) => rel.childId
   )
 
-  const globalRelationships: GlobalRelationship[] = Array.from(parentMap.entries())
-    .map(([parentId, childIds]) => {
+  /** flatMap avoids `(T | null)[]` + type-predicate drift when `relationshipKey` is narrowed past `eventAssignments`. */
+  const globalRelationships: GlobalRelationship[] = Array.from(parentMap.entries()).flatMap(
+    ([parentId, childIds]): GlobalRelationship[] => {
       const parentEntity = findById(safeArray(entities[config.parentEntity]), parentId)
       if (!parentEntity) {
-        return null
+        return []
       }
       const childEntityArray = safeArray(entities[config.childEntity])
       const { resolved: childEntities } = resolveByIds(childEntityArray, childIds)
-      
-      if (childEntities.length > 0) {
-        return {
+
+      if (childEntities.length === 0) {
+        return []
+      }
+
+      return [
+        {
           relationshipKind: relationshipKey,
           parent: parentEntity,
           children: childEntities,
-        }
-      }
-      
-      return null
-    })
-    .filter((rel): rel is GlobalRelationship => rel !== null)
-  
+        },
+      ]
+    },
+  )
+
   return globalRelationships
 }
 

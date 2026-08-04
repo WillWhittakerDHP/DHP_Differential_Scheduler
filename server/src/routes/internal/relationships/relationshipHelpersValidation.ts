@@ -2,6 +2,7 @@ import {
   BlockInstance,
   BlockShape,
   PartInstance,
+  PartAssignment,
   EventInstance,
   EventShape,
   InstanceComponent,
@@ -9,6 +10,7 @@ import {
   ValidPricingCascade,
 } from '../../../config/app.js'
 import { getModelAttributes } from '../../../utils/sequelizeHelpers.js'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement.js'
 import { ERROR_MESSAGES as REL_ERROR_MESSAGES } from './relationshipConstants.js'
 import type { ValidationResult } from '../../helpers/routerValidators.js'
 
@@ -99,20 +101,61 @@ export async function validateBlockInstancesWithShapes(
 }
 
 /**
- * WHY: Instance components require both instances composite=true and matching BlockShape (Feature 20).
+ * WHY: Vertical packaging — the *parent* is the composite package; children are
+ * same-shape atomics (composite=false), matching Buyer's Inspection → Equipment
+ * Observations and Property Details → Roof/Exterior.
+ * LEARNING: Requiring child.composite=true contradicted live data and blocked saves.
  */
 export function validateBlockInstancesCompositeForComponents(
   parentBlockInstance: BlockInstanceWithShape,
-  childBlockInstance: BlockInstanceWithShape,
+  _childBlockInstance: BlockInstanceWithShape,
   parentBlockShape: InstanceType<typeof BlockShape>,
   childBlockShape: InstanceType<typeof BlockShape>
 ): void {
-  if (!parentBlockInstance.composite || !childBlockInstance.composite) {
+  if (!parentBlockInstance.composite) {
     throw new Error(REL_ERROR_MESSAGES.NOT_COMPOSABLE)
   }
   if (parentBlockShape.id !== childBlockShape.id) {
     throw new Error(REL_ERROR_MESSAGES.DIFFERENT_BLOCK_SHAPES)
   }
+}
+
+/**
+ * WHY: Accumulation is atomic service → atomic time only (same BlockShape types allowed
+ * by the admin picker; composites use instanceComponents instead).
+ */
+export async function validateAccumulationLinkEntities(
+  parentId: string,
+  childId: string
+): Promise<ValidationResult> {
+  const { parentBlockInstance, childBlockInstance, parentBlockShape, childBlockShape } =
+    await validateBlockInstancesWithShapes(parentId, childId)
+
+  if (parentBlockInstance.composite === true) {
+    return {
+      valid: false,
+      error: 'Accumulation links require an atomic (non-composite) parent service instance',
+    }
+  }
+  if (childBlockInstance.composite === true) {
+    return {
+      valid: false,
+      error: 'Accumulation links require an atomic (non-composite) time characteristic child',
+    }
+  }
+  if (parentBlockShape.semanticType !== 'service') {
+    return {
+      valid: false,
+      error: 'Accumulation link parent must be a service block instance',
+    }
+  }
+  if (childBlockShape.semanticType !== 'time') {
+    return {
+      valid: false,
+      error: 'Accumulation link child must be a time block instance',
+    }
+  }
+  return { valid: true }
 }
 
 /**
@@ -149,50 +192,25 @@ export async function validatePricingCascadeAgainstShapeRules(
   return { valid: true }
 }
 
-/**
- * WHY: EventAssignment links an event **block instance** to a **segment**; segment ownership and shape graph must match (FEATURE_20 §5.2, §5.1).
- */
-export async function validateEventAssignmentIntegrity(
-  parentBlockInstanceId: string,
-  eventInstanceId: string
-): Promise<ValidationResult> {
-  const parentBlockInstance = await BlockInstance.findByPk(parentBlockInstanceId, {
-    include: [{ model: BlockShape, as: 'block_shape' }],
-  })
-  if (!parentBlockInstance) {
-    return { valid: false, error: `Parent block instance ${parentBlockInstanceId} not found` }
-  }
-  const parentBlockShape = (parentBlockInstance as BlockInstanceWithShape).block_shape
-  if (!parentBlockShape) {
-    return { valid: false, error: `Block instance ${parentBlockInstanceId} has no block shape` }
-  }
-  if (parentBlockShape.type !== 'event') {
-    return { valid: false, error: 'Event assignment parent must be an event-type block instance' }
-  }
-
-  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
-    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
-  })
-  if (!eventInstance) {
-    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
-  }
-  const segmentParent = eventInstance.parentBlockInstanceId
-  if (segmentParent == null || segmentParent === '') {
+async function validateEventAssignmentAgainstSegmentBlockShape(params: {
+  segmentBlockInstance: BlockInstanceWithShape
+  eventInstance: Pick<InstanceType<typeof EventInstance>, 'eventShapeRef'>
+}): Promise<ValidationResult> {
+  const { segmentBlockInstance, eventInstance } = params
+  const segmentBlockShape = segmentBlockInstance.block_shape
+  if (!segmentBlockShape) {
     return {
       valid: false,
-      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
+      error: `Block instance ${segmentBlockInstance.id} has no block shape`,
     }
   }
-  if (segmentParent !== parentBlockInstanceId) {
-    return {
-      valid: false,
-      error: 'Event segment parent block instance does not match this relationship parent',
-    }
+  if (segmentBlockShape.semanticType !== 'event') {
+    return { valid: false, error: 'Event segment must be owned by an event-type block instance' }
   }
 
   const validRow = await ValidEventCascade.findOne({
     where: {
-      parentId: parentBlockShape.id,
+      parentId: segmentBlockShape.id,
       childId: eventInstance.eventShapeRef,
       disabled: false,
     },
@@ -205,6 +223,151 @@ export async function validateEventAssignmentIntegrity(
     }
   }
   return { valid: true }
+}
+
+/**
+ * WHY: Load segment + owning event block for cascade checks shared by service baseline and event-owner edges.
+ */
+async function loadEventSegmentWithOwner(
+  eventInstanceId: string
+): Promise<
+  | { valid: true; eventInstance: InstanceType<typeof EventInstance>; segmentOwner: BlockInstanceWithShape }
+  | { valid: false; error: string }
+> {
+  const eventInstance = await EventInstance.findByPk(eventInstanceId, {
+    attributes: ['id', 'eventShapeRef', 'parentBlockInstanceId'],
+  })
+  if (!eventInstance) {
+    return { valid: false, error: `Event instance ${eventInstanceId} not found` }
+  }
+  const segmentParentId = eventInstance.parentBlockInstanceId
+  if (segmentParentId == null || segmentParentId === '') {
+    return {
+      valid: false,
+      error: 'Event segment must have parentBlockInstanceId before creating an event assignment',
+    }
+  }
+  const segmentOwner = await BlockInstance.findByPk(segmentParentId, {
+    include: [{ model: BlockShape, as: 'block_shape' }],
+  })
+  if (!segmentOwner) {
+    return { valid: false, error: `Event segment parent block instance ${segmentParentId} not found` }
+  }
+  return {
+    valid: true,
+    eventInstance,
+    segmentOwner: segmentOwner as BlockInstanceWithShape,
+  }
+}
+
+/**
+ * WHY: Block-parent event_assignments are either:
+ * - service baseline (service block → any segment; cascade checked against the segment's owning event block), or
+ * - event packaging (event block → a segment it owns).
+ * Time/price/user parents are rejected (retired time-block claim path).
+ */
+async function validateEventAssignmentBlockParent(
+  parentBlockInstance: BlockInstanceWithShape,
+  eventInstanceId: string
+): Promise<ValidationResult> {
+  const parentBlockInstanceId = parentBlockInstance.id
+  const parentBlockShape = parentBlockInstance.block_shape
+  if (!parentBlockShape) {
+    return { valid: false, error: `Block instance ${parentBlockInstanceId} has no block shape` }
+  }
+
+  const semanticType = parentBlockShape.semanticType
+  if (semanticType !== 'service' && semanticType !== 'event') {
+    return {
+      valid: false,
+      error:
+        'Event assignment block parent must be a service block (baseline) or an event block that owns the segment',
+    }
+  }
+
+  const loaded = await loadEventSegmentWithOwner(eventInstanceId)
+  if (!loaded.valid) {
+    return loaded
+  }
+  const { eventInstance, segmentOwner } = loaded
+
+  if (semanticType === 'event') {
+    if (segmentOwner.id !== parentBlockInstanceId) {
+      return {
+        valid: false,
+        error: 'Event segment parent block instance does not match this relationship parent',
+      }
+    }
+    return validateEventAssignmentAgainstSegmentBlockShape({
+      segmentBlockInstance: parentBlockInstance,
+      eventInstance,
+    })
+  }
+
+  // Service baseline: parent does not own the segment; cascade still validates against the owner shape.
+  return validateEventAssignmentAgainstSegmentBlockShape({
+    segmentBlockInstance: segmentOwner,
+    eventInstance,
+  })
+}
+
+/**
+ * WHY: Per-part override routing — parent is a part instance; segment ownership and cascades still apply.
+ */
+async function validateEventAssignmentPartParent(
+  partInstance: InstanceType<typeof PartInstance>,
+  eventInstanceId: string
+): Promise<ValidationResult> {
+  const assignmentRow = await PartAssignment.findOne({
+    where: {
+      childId: partInstance.id,
+      disabled: false,
+    },
+  })
+  if (!assignmentRow) {
+    return {
+      valid: false,
+      error:
+        'Part instance must be assigned to at least one block instance before creating a part-scoped event assignment',
+    }
+  }
+
+  const loaded = await loadEventSegmentWithOwner(eventInstanceId)
+  if (!loaded.valid) {
+    return loaded
+  }
+
+  return validateEventAssignmentAgainstSegmentBlockShape({
+    segmentBlockInstance: loaded.segmentOwner,
+    eventInstance: loaded.eventInstance,
+  })
+}
+
+/**
+ * WHY: EventAssignment links a **service block** (baseline), an **event block** that owns the segment
+ * (packaging), or a **part instance** (override) to a **segment**; segment ownership and shape graph
+ * must match (FEATURE_20 §5.2, PartFinalizer / flagship Minimize Time On Site).
+ */
+export async function validateEventAssignmentIntegrity(
+  parentId: string,
+  eventInstanceId: string
+): Promise<ValidationResult> {
+  const asBlockParent = await BlockInstance.findByPk(parentId, {
+    include: [{ model: BlockShape, as: 'block_shape' }],
+  })
+  if (asBlockParent) {
+    return validateEventAssignmentBlockParent(asBlockParent as BlockInstanceWithShape, eventInstanceId)
+  }
+
+  const asPartParent = await PartInstance.findByPk(parentId)
+  if (asPartParent) {
+    return validateEventAssignmentPartParent(asPartParent, eventInstanceId)
+  }
+
+  return {
+    valid: false,
+    error: `Parent ID ${parentId} is not a block instance or part instance`,
+  }
 }
 
 /**
@@ -257,7 +420,7 @@ export async function validateAttendeeAssignmentEntities(
     if (!blockShape) {
       throw new Error(`BlockInstance ${childId} references non-existent BlockShape ${blockInstance.blockShapeRef}`)
     }
-    if (blockShape.type !== 'user') {
+    if (blockShape.semanticType !== 'user') {
       throw new Error(`BlockInstance ${childId} is not a UserTypeBlock (block shape type must be user)`)
     }
   }
@@ -269,19 +432,21 @@ export async function updateComponentActiveStates(
 ): Promise<void> {
   const childBlockInstance = await BlockInstance.findByPk(childId)
   if (childBlockInstance) {
-    childBlockInstance.active = false
+    // Bundled component children roll up into the composite parent; they should not
+    // surface independently in the wizard.
+    childBlockInstance.wizardPlacement = WIZARD_PLACEMENT.HIDDEN
     await childBlockInstance.save()
   }
 
   const parentBlockInstance = await BlockInstance.findByPk(parentId)
   if (parentBlockInstance) {
-    parentBlockInstance.active = true
+    parentBlockInstance.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
     await parentBlockInstance.save()
   }
 }
 
 /**
- * WHY: Restore block instance active state when component is deleted
+ * WHY: Restore block instance wizard placement when component is deleted
  */
 export async function restoreComponentActiveState(childId: string): Promise<void> {
   const otherComponents = await InstanceComponent.count({
@@ -294,6 +459,6 @@ export async function restoreComponentActiveState(childId: string): Promise<void
   if (!childBlockInstance) {
     return
   }
-  childBlockInstance.active = true
+  childBlockInstance.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
   await childBlockInstance.save()
 }

@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { useForm } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import { useAdmin } from './useAdmin'
 import { useComponentEntity } from '../useComponentEntity'
@@ -91,7 +92,16 @@ export function useSelectFiltering(options: UseSelectFilteringOptions): UseSelec
     const allBlockShapes = adminComp.getEntities('blockShape')
     return new Set(
       allBlockShapes
-        .filter((bs: GlobalEntity<'blockShape'>) => bs.type === 'user')
+        .filter((bs: GlobalEntity<'blockShape'>) => bs.semanticType === 'user')
+        .map((bs: GlobalEntity<'blockShape'>) => bs.id)
+    )
+  }
+
+  const getTimeBlockShapeIds = (): Set<string> => {
+    const allBlockShapes = adminComp.getEntities('blockShape')
+    return new Set(
+      allBlockShapes
+        .filter((bs: GlobalEntity<'blockShape'>) => bs.semanticType === BLOCK_SHAPE_TYPES.TIME)
         .map((bs: GlobalEntity<'blockShape'>) => bs.id)
     )
   }
@@ -121,6 +131,7 @@ export function useSelectFiltering(options: UseSelectFilteringOptions): UseSelec
         : null,
       tryReadFormValue,
       getStateControlBlockShapeIds: getUserTypeBlockShapeIds,
+      getTimeBlockShapeIds,
     })
   )
 

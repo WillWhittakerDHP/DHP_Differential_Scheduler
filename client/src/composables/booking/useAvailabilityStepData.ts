@@ -9,7 +9,7 @@ import {
   buildSelectedTimeSlots,
   totalDriveMinutesFromAppointmentSlot,
 } from '@/utils/booking/availabilityStepData'
-import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
+import type { AppointmentSelectedTimeSlotPayload } from '@shared/types/appointmentTypes'
 import type {
   AvailabilityStepData,
   UseAvailabilityStepDataParams,
@@ -28,7 +28,7 @@ export function useAvailabilityStepData(params: UseAvailabilityStepDataParams): 
     minimizerScheduling
   } = params
 
-  const selectedTimeSlots = computed<SlotTimeBounds[] | null>(() => {
+  const selectedTimeSlots = computed<AppointmentSelectedTimeSlotPayload[] | null>(() => {
     return buildSelectedTimeSlots({
       selectedDateStart: selectedDate.value.start,
       selectedSlot: selectedSlot.value,

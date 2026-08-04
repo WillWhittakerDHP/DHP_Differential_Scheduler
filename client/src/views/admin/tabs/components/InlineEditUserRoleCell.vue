@@ -3,6 +3,7 @@
 -->
 <script setup lang="ts">
 import type { UserRequest } from '@/types/user'
+import { USER_ROLE_VALUES } from '@/constants/attendeeRoles'
 
 defineProps<{
   isEditing: boolean
@@ -14,14 +15,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: UserRequest['userRole'] | undefined]
 }>()
 
-const ROLE_ITEMS = [
-  'client',
-  'agent',
-  'transaction_manager',
-  'owner',
-  'inspector',
-  'admin',
-] as const satisfies readonly UserRequest['userRole'][]
+const ROLE_ITEMS: UserRequest['userRole'][] = [...USER_ROLE_VALUES]
 </script>
 
 <template>

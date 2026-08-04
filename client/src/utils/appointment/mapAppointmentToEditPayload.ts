@@ -5,7 +5,7 @@ export function mapAppointmentToEditPayload(appointment: AppointmentResponse): P
   return {
     propertyVersionId: appointment.propertyVersionId || null,
     userTypeBlockId: appointment.userTypeId || null,
-    selectedOptionIds: appointment.selectedOptionIds || null,
+    selectedEventIds: appointment.selectedEventIds || null,
     selectedDate: appointment.selectedDate || null,
     selectedDateRangeEnd: appointment.selectedDateRangeEnd || null,
     selectedTimeSlots: appointment.selectedTimeSlots

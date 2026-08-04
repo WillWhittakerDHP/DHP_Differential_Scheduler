@@ -32,6 +32,7 @@ const OWNERSHIP_RESOURCE_NAMES = [
   'businessSetting',
   'calendarSetting',
   'entity',
+  'organizationDefaults',
   'property',
   'property feature mapping',
   'property field mapping',
@@ -41,7 +42,7 @@ const OWNERSHIP_RESOURCE_NAMES = [
   'wizardSetting',
 ] as const
 
-type OwnershipResourceName = (typeof OWNERSHIP_RESOURCE_NAMES)[number]
+export type OwnershipResourceName = (typeof OWNERSHIP_RESOURCE_NAMES)[number]
 
 const OWNERSHIP_REGISTRY: Record<OwnershipResourceName, OwnershipRegistryEntry> = {
   appointment: {
@@ -78,6 +79,11 @@ const OWNERSHIP_REGISTRY: Record<OwnershipResourceName, OwnershipRegistryEntry> 
   entity: {
     kind: 'dynamic_entity',
     notes: 'Model + owner semantics from `req.entityConfig` after `entityTypeParamHandler`.',
+  },
+  organizationDefaults: {
+    kind: 'special',
+    reason:
+      'Singleton `organization_defaults` JSONB on `availability_settings` — internal staff only; route has no `:id` param.',
   },
   property: {
     kind: 'special',

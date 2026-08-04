@@ -22,8 +22,6 @@ const {
   handleBlockShapeCancelled,
   handleExistingShapeSaved,
   handleDeleteBlockShape,
-  blockShapeMetadataModalOpen,
-  toggleBlockShapeMetadataModal,
   isPanelExpanded,
 } = c
 </script>
@@ -33,33 +31,26 @@ const {
     <div class="d-flex justify-space-between align-center mb-4">
       <h3 class="text-headline-small">Block</h3>
       <div class="d-flex gap-2">
-        <VBtn
-          :variant="blockShapeMetadataModalOpen ? 'flat' : 'outlined'"
-          :color="blockShapeMetadataModalOpen ? 'primary' : 'default'"
-          prepend-icon="tabler-settings"
-          @click="toggleBlockShapeMetadataModal"
-        >
-          Shape Fields
-        </VBtn>
         <VBtn color="primary" prepend-icon="tabler-plus" @click="createBlockShape">
           Create Block Shape
         </VBtn>
       </div>
     </div>
     <div :ref="c.blockShapesContainer" class="drag-drop-container">
+      <ShapeCreationForm
+        v-if="isCreatingBlockShape"
+        class="mb-4"
+        entity-key="blockShape"
+        :entity="newBlockShapeInitialValues!"
+        @saved="handleBlockShapeCreated"
+        @cancelled="handleBlockShapeCancelled"
+      />
       <VExpansionPanels
-        v-if="isCreatingBlockShape || blockShapesList.length > 0"
+        v-if="blockShapesList.length > 0"
         :ref="c.blockShapesPanelsContainer"
         v-model="expandedShapes"
         multiple
       >
-        <ShapeCreationForm
-          v-if="isCreatingBlockShape"
-          entity-key="blockShape"
-          :entity="newBlockShapeInitialValues!"
-          @saved="handleBlockShapeCreated"
-          @cancelled="handleBlockShapeCancelled"
-        />
         <ShapeCardList
           entity-key="blockShape"
           :items="blockShapesList"
@@ -71,7 +62,7 @@ const {
           @delete="handleDeleteBlockShape"
         />
       </VExpansionPanels>
-      <VAlert v-else type="info" variant="tonal" class="mt-4">
+      <VAlert v-else-if="!isCreatingBlockShape" type="info" variant="tonal" class="mt-4">
         No BlockShapes found. Create one to get started.
       </VAlert>
     </div>

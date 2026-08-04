@@ -39,8 +39,7 @@
               >
                 <v-list-item-title>{{ entity.name || `Block Shape ${entity.id}` }}</v-list-item-title>
                 <v-list-item-subtitle>
-                  ID: {{ entity.id }} | Order: {{ entity.orderIndex }} |
-                  Active: {{ entity.active ? 'Yes' : 'No' }}
+                  ID: {{ entity.id }} | Order: {{ entity.orderIndex }}
                 </v-list-item-subtitle>
                 <template v-slot:append>
                   <v-btn

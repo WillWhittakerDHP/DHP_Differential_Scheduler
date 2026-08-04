@@ -36,13 +36,11 @@ const contactsStepData = useContactsStepData({
 })
 
 const {
-  clientInfo,
+  buyerInfo,
   agentInfo,
-  anotherClientInfo,
-  transactionManagerInfo,
+  anotherBuyerInfo,
   ownerInfo,
-  showAnotherClient,
-  showTransactionManager,
+  showAnotherBuyer,
   showOwner,
   stepData,
   toggleSection
@@ -57,13 +55,11 @@ const {
   isFormValid,
   validateForm
 } = useContactsValidation({
-  clientInfo,
+  buyerInfo,
   agentInfo,
-  anotherClientInfo,
-  transactionManagerInfo,
+  anotherBuyerInfo,
   ownerInfo,
-  showAnotherClient,
-  showTransactionManager,
+  showAnotherBuyer,
   showOwner,
   requiresAgent
 })
@@ -78,13 +74,11 @@ useWizardStepSync({
 })
 
 provide(contactsFormContextKey, {
-  clientInfo,
+  buyerInfo,
   agentInfo,
-  anotherClientInfo,
-  transactionManagerInfo,
+  anotherBuyerInfo,
   ownerInfo,
-  showAnotherClient,
-  showTransactionManager,
+  showAnotherBuyer,
   showOwner,
   validationRules,
   fieldErrors,

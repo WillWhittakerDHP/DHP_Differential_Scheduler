@@ -9,7 +9,6 @@ import type { ComponentPublicInstance } from 'vue'
 import type { BusinessRule, BusinessRuleFormData, RuleType } from '@/types/admin/businessRules'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-
 /** Context provided by BusinessRulesTab and consumed by RuleFormDialog (replaces prop-drilling). */
 export interface RuleFormDialogContext {
   showRuleDialog: Ref<boolean | undefined>
@@ -40,8 +39,6 @@ export interface InstancesTabContext {
   blockShapeValidBookingCascades: ComputedRef<Map<string, string[]>>
   bulkEditMode: Ref<Map<string, boolean>>
   toggleBulkEditMode: (blockShapeId: string) => void
-  shapeEditModalOpen: Ref<Map<string, boolean>>
-  toggleShapeEditModal: (blockShapeId: string) => void
   handleCreateClick: (blockShapeId: string) => void
   groupContainers: Ref<Map<string, HTMLElement | null>>
   blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>

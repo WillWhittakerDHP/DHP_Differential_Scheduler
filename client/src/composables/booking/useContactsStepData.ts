@@ -15,6 +15,17 @@ import type { WizardStateData } from '@/types/booking/wizardStateData'
 
 const logger = createLogger('useContactsStepData')
 
+/** Persisted wizard JSON may still use pre-rename keys (`client`, `anotherClient`). */
+type LegacyWizardContacts = WizardStateData['contacts'] & {
+  client?: { firstName: string; lastName: string; email: string }
+  additionalContacts?: Array<{
+    firstName: string
+    lastName: string
+    email: string
+    role: string
+  }>
+}
+
 function contactField(value: string | null | undefined, context: string): string {
   if (value === null || value === undefined) {
     logger.warn('Contact field missing', { context })
@@ -23,13 +34,19 @@ function contactField(value: string | null | undefined, context: string): string
   return value
 }
 
+function isAnotherBuyerRole(role: string): boolean {
+  return role === 'anotherBuyer' || role === 'anotherClient'
+}
+
 function populateContactFromAdditional(
   additionalContacts: Array<{ firstName: string; lastName: string; email: string; role: string }>,
-  role: 'anotherClient' | 'transactionManager' | 'owner',
+  role: 'anotherBuyer' | 'owner',
   infoRef: Ref<ContactInfo>,
   showRef: Ref<boolean>
 ): void {
-  const contact = additionalContacts.find((c) => c.role === role)
+  const contact = additionalContacts.find((c) =>
+    role === 'anotherBuyer' ? isAnotherBuyerRole(c.role) : c.role === 'owner'
+  )
   if (!contact) return
   infoRef.value = {
     firstName: contactField(contact.firstName, `${role}.firstName`),
@@ -41,13 +58,14 @@ function populateContactFromAdditional(
 
 function loadContactsFromWizardState(newState: WizardStateData | null, refs: ContactRefs): void {
   if (!newState?.contacts) return
-  const contacts = newState.contacts
+  const contacts = newState.contacts as LegacyWizardContacts
 
-  if (contacts.client) {
-    refs.clientInfo.value = {
-      firstName: contactField(contacts.client.firstName, 'client.firstName'),
-      lastName: contactField(contacts.client.lastName, 'client.lastName'),
-      email: contactField(contacts.client.email, 'client.email'),
+  const buyerBlock = contacts.buyer ?? contacts.client
+  if (buyerBlock) {
+    refs.buyerInfo.value = {
+      firstName: contactField(buyerBlock.firstName, 'buyer.firstName'),
+      lastName: contactField(buyerBlock.lastName, 'buyer.lastName'),
+      email: contactField(buyerBlock.email, 'buyer.email'),
     }
   }
 
@@ -62,15 +80,9 @@ function loadContactsFromWizardState(newState: WizardStateData | null, refs: Con
   if (contacts.additionalContacts && contacts.additionalContacts.length > 0) {
     populateContactFromAdditional(
       contacts.additionalContacts,
-      'anotherClient',
-      refs.anotherClientInfo,
-      refs.showAnotherClient
-    )
-    populateContactFromAdditional(
-      contacts.additionalContacts,
-      'transactionManager',
-      refs.transactionManagerInfo,
-      refs.showTransactionManager
+      'anotherBuyer',
+      refs.anotherBuyerInfo,
+      refs.showAnotherBuyer
     )
     populateContactFromAdditional(
       contacts.additionalContacts,
@@ -82,33 +94,27 @@ function loadContactsFromWizardState(newState: WizardStateData | null, refs: Con
 }
 
 function restoreContactsFromStepData(data: ContactsStepData, refs: ContactRefs): void {
-  refs.clientInfo.value = {
-    firstName: contactField(data.clientInfo.firstName, 'client.firstName'),
-    lastName: contactField(data.clientInfo.lastName, 'client.lastName'),
-    email: contactField(data.clientInfo.email, 'client.email'),
+  refs.buyerInfo.value = {
+    firstName: contactField(data.buyerInfo.firstName, 'buyer.firstName'),
+    lastName: contactField(data.buyerInfo.lastName, 'buyer.lastName'),
+    email: contactField(data.buyerInfo.email, 'buyer.email'),
   }
   refs.agentInfo.value = {
     firstName: contactField(data.agentInfo.firstName, 'agent.firstName'),
     lastName: contactField(data.agentInfo.lastName, 'agent.lastName'),
     email: contactField(data.agentInfo.email, 'agent.email'),
   }
-  refs.anotherClientInfo.value = {
-    firstName: contactField(data.anotherClientInfo.firstName, 'anotherClient.firstName'),
-    lastName: contactField(data.anotherClientInfo.lastName, 'anotherClient.lastName'),
-    email: contactField(data.anotherClientInfo.email, 'anotherClient.email'),
-  }
-  refs.transactionManagerInfo.value = {
-    firstName: contactField(data.transactionManagerInfo.firstName, 'transactionManager.firstName'),
-    lastName: contactField(data.transactionManagerInfo.lastName, 'transactionManager.lastName'),
-    email: contactField(data.transactionManagerInfo.email, 'transactionManager.email'),
+  refs.anotherBuyerInfo.value = {
+    firstName: contactField(data.anotherBuyerInfo.firstName, 'anotherBuyer.firstName'),
+    lastName: contactField(data.anotherBuyerInfo.lastName, 'anotherBuyer.lastName'),
+    email: contactField(data.anotherBuyerInfo.email, 'anotherBuyer.email'),
   }
   refs.ownerInfo.value = {
     firstName: contactField(data.ownerInfo.firstName, 'owner.firstName'),
     lastName: contactField(data.ownerInfo.lastName, 'owner.lastName'),
     email: contactField(data.ownerInfo.email, 'owner.email'),
   }
-  refs.showAnotherClient.value = data.showAnotherClient
-  refs.showTransactionManager.value = data.showTransactionManager
+  refs.showAnotherBuyer.value = data.showAnotherBuyer
   refs.showOwner.value = data.showOwner
 }
 
@@ -117,25 +123,19 @@ export function useContactsStepData(
 ): UseContactsStepDataReturn {
   const { loadedWizardState, restoreFrom } = options
 
-  const clientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const buyerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const agentInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
-  const anotherClientInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
-  const transactionManagerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
+  const anotherBuyerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
   const ownerInfo = ref<ContactInfo>({ firstName: '', lastName: '', email: '' })
-  const showAnotherClient = ref(false)
-  const showTransactionManager = ref(false)
+  const showAnotherBuyer = ref(false)
   const showOwner = ref(false)
 
-  const sectionMap: Record<'anotherClient' | 'transactionManager' | 'owner', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
-    anotherClient: { show: showAnotherClient, info: anotherClientInfo },
-    transactionManager: { show: showTransactionManager, info: transactionManagerInfo },
+  const sectionMap: Record<'anotherBuyer' | 'owner', { show: Ref<boolean>; info: Ref<ContactInfo> }> = {
+    anotherBuyer: { show: showAnotherBuyer, info: anotherBuyerInfo },
     owner: { show: showOwner, info: ownerInfo },
   }
 
-  const toggleSection = (
-    section: 'anotherClient' | 'transactionManager' | 'owner',
-    show: boolean
-  ): void => {
+  const toggleSection = (section: 'anotherBuyer' | 'owner', show: boolean): void => {
     const entry = sectionMap[section]
     entry.show.value = show
     if (!show) {
@@ -144,12 +144,10 @@ export function useContactsStepData(
   }
 
   const contactRefs: ContactRefs = {
-    clientInfo,
+    buyerInfo,
     agentInfo,
-    anotherClientInfo,
-    showAnotherClient,
-    transactionManagerInfo,
-    showTransactionManager,
+    anotherBuyerInfo,
+    showAnotherBuyer,
     ownerInfo,
     showOwner,
   }
@@ -171,24 +169,20 @@ export function useContactsStepData(
   }
 
   const stepData = computed(() => ({
-    clientInfo: clientInfo.value,
+    buyerInfo: buyerInfo.value,
     agentInfo: agentInfo.value,
-    anotherClientInfo: anotherClientInfo.value,
-    transactionManagerInfo: transactionManagerInfo.value,
+    anotherBuyerInfo: anotherBuyerInfo.value,
     ownerInfo: ownerInfo.value,
-    showAnotherClient: showAnotherClient.value,
-    showTransactionManager: showTransactionManager.value,
+    showAnotherBuyer: showAnotherBuyer.value,
     showOwner: showOwner.value,
   }))
 
   return {
-    clientInfo,
+    buyerInfo,
     agentInfo,
-    anotherClientInfo,
-    transactionManagerInfo,
+    anotherBuyerInfo,
     ownerInfo,
-    showAnotherClient,
-    showTransactionManager,
+    showAnotherBuyer,
     showOwner,
     stepData,
     toggleSection,

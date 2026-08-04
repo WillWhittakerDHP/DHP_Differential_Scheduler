@@ -29,7 +29,7 @@
             NOTE: Field blur auto-save is disabled by using a non-existent entity ID
             NOTE: Pass filtered metadata that only includes fields with bulkEdit: true
           -->
-          <EntityCard
+          <AdminEntityEditorPanel
             ref="entityCardRef"
             :entity-key="content.entityKey"
             :entity="content.entity"
@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import type { BulkEditModalContent, BulkEditModalLabels } from '@/types/admin/bulkEditModal'
 
 interface Props {
@@ -87,7 +87,7 @@ withDefaults(defineProps<Props>(), {
 })
 const emit = defineEmits<Emits>()
 
-const entityCardRef = ref<InstanceType<typeof EntityCard> | null>(null)
+const entityCardRef = ref<InstanceType<typeof AdminEntityEditorPanel> | null>(null)
 
 function updateModelValue(value: boolean) {
   emit('update:modelValue', value)

@@ -1,7 +1,7 @@
 /**
- * WHY: Keeps ShapesTab.vue thin; orchestration (state, modals, creation, deletion, drag, tab labels, entity config) in composable.
+ * WHY: Keeps ShapesTab.vue thin; orchestration (state, creation, deletion, drag, tab labels) in composable.
  */
-import { ref, computed, type ComponentPublicInstance } from 'vue'
+import { ref, computed, type ComponentPublicInstance, type ComputedRef, type Ref } from 'vue'
 import { useEntityCrud } from '@/composables/entityCrud/useEntityCrud'
 import { useEntityFiltering } from '@/composables/admin/useEntityFiltering'
 import { useShapeDisplayNames } from '@/composables/admin/useShapeDisplayNames'
@@ -9,25 +9,42 @@ import { useDragAndDrop } from '@/composables/admin/useDragAndDrop'
 import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
 import { useExpansionState } from '@/composables/admin/useExpansionState'
 import { useEntityTabState } from '@/composables/admin/useEntityTabState'
-import { useShapesTabModals } from '@/composables/admin/useShapesTabModals'
 import { useShapesTabCreation } from '@/composables/admin/useShapesTabCreation'
 import { useShapesTabDeletion } from '@/utils/admin/shapesTabDeletion'
-import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import {
-  PART_INSTANCE_GLOBAL_CONFIG_ID,
-  ANNOTATION_SHAPE_GLOBAL_CONFIG_ID,
-  ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID,
-  EVENT_SHAPE_GLOBAL_CONFIG_ID,
-  EVENT_INSTANCE_GLOBAL_CONFIG_ID,
-} from '@/utils/entities/entityTypeMapping'
 import { useNotification } from '@/composables/useNotification'
 import { createLogger } from '@/utils/logger'
-import type { UseShapesTabReturn } from '@/types/admin/shapesTab'
+import type {
+  InstancesDomainDragContext,
+  ShapesDomainSubTab,
+  UseShapesTabOptions,
+  UseShapesTabReturn,
+} from '@/types/admin/shapesTab'
 
 const logger = createLogger('ShapesTab')
 
-export function useShapesTab(): UseShapesTabReturn {
+function shapeListDragBinding(
+  domain: InstancesDomainDragContext | undefined,
+  activeTab: Ref<string>,
+  subKey: ShapesDomainSubTab,
+  standaloneTabValue: string
+): { shouldBind: ComputedRef<boolean>; visibilityDeps: ComputedRef<readonly unknown[]> } {
+  const shouldBind = computed((): boolean => {
+    if (domain) {
+      return (
+        domain.tier2Tab.value === domain.shapesTier2Value && domain.shapesSubTab.value === subKey
+      )
+    }
+    return activeTab.value === standaloneTabValue
+  })
+  const visibilityDeps = computed((): readonly unknown[] =>
+    domain ? [domain.tier2Tab.value, domain.shapesSubTab.value] : [activeTab.value]
+  )
+  return { shouldBind, visibilityDeps }
+}
+
+export function useShapesTab(options?: UseShapesTabOptions): UseShapesTabReturn {
+  const domain = options?.instancesDomainDragContext
   const { filteredEntities: filteredPartShapes } = useEntityFiltering('partShape')
   const { filteredEntities: filteredBlockShapes } = useEntityFiltering('blockShape')
   const { filteredEntities: filteredAnnotationShapes } = useEntityFiltering('annotationShape')
@@ -50,7 +67,6 @@ export function useShapesTab(): UseShapesTabReturn {
   const { expandedEntities: expandedShapes, isPanelExpanded } = expansionStateComposable
   const { success } = useNotification()
 
-  const modals = useShapesTabModals()
   const creation = useShapesTabCreation({
     expandedShapes,
     success,
@@ -85,6 +101,11 @@ export function useShapesTab(): UseShapesTabReturn {
   const annotationShapeIds = ref<string[]>([])
   const eventShapeIds = ref<string[]>([])
 
+  const partDragBinding = shapeListDragBinding(domain, activeTab, 'part', 'partShapes')
+  const blockDragBinding = shapeListDragBinding(domain, activeTab, 'block', 'blockShapes')
+  const annotationDragBinding = shapeListDragBinding(domain, activeTab, 'annotation', 'annotationShapes')
+  const eventDragBinding = shapeListDragBinding(domain, activeTab, 'event', 'eventShapes')
+
   const partShapesDragHandlers = useEntityDragHandlers({
     entityIds: partShapeIds,
     entityList: partShapesList,
@@ -109,6 +130,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'partShapes',
     draggableClass: 'draggable-part-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: partDragBinding.shouldBind,
+    visibilityDeps: partDragBinding.visibilityDeps,
   })
   useDragAndDrop({
     containerRef: blockShapesContainer,
@@ -120,6 +143,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'blockShapes',
     draggableClass: 'draggable-block-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: blockDragBinding.shouldBind,
+    visibilityDeps: blockDragBinding.visibilityDeps,
   })
 
   const annotationShapesDragHandlers = useEntityDragHandlers({
@@ -146,6 +171,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'annotationShapes',
     draggableClass: 'draggable-annotation-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: annotationDragBinding.shouldBind,
+    visibilityDeps: annotationDragBinding.visibilityDeps,
   })
   useDragAndDrop({
     containerRef: eventShapesContainer,
@@ -157,6 +184,8 @@ export function useShapesTab(): UseShapesTabReturn {
     group: 'eventShapes',
     draggableClass: 'draggable-event-shape',
     dragHandle: '.shape-list-drag-handle',
+    shouldBind: eventDragBinding.shouldBind,
+    visibilityDeps: eventDragBinding.visibilityDeps,
   })
   const blockShapesTabLabel = computed(() => `🧱 Block (${filteredBlockShapes.value.length})`)
   const partShapesTabLabel = computed(() => `🧩 Part (${filteredPartShapes.value.length})`)
@@ -164,35 +193,6 @@ export function useShapesTab(): UseShapesTabReturn {
     () => `🏷️ Annotations (${filteredAnnotationShapes.value.length})`
   )
   const eventShapesTabLabel = computed(() => `📅 Events (${safeEventShapes.value.length})`)
-
-  const partInstanceConfigEntity = computed((): GlobalEntity<'partInstance'> => ({
-    id: PART_INSTANCE_GLOBAL_CONFIG_ID,
-    entityKey: 'partInstance',
-  } as GlobalEntity<'partInstance'>))
-  const annotationInstanceConfigEntity = computed((): GlobalEntity<'annotationInstance'> => ({
-    id: toGlobalEntityId(ANNOTATION_INSTANCE_GLOBAL_CONFIG_ID),
-    entityKey: 'annotationInstance',
-  } as GlobalEntity<'annotationInstance'>))
-  const eventInstanceConfigEntity = computed((): GlobalEntity<'eventInstance'> => ({
-    id: toGlobalEntityId(EVENT_INSTANCE_GLOBAL_CONFIG_ID),
-    entityKey: 'eventInstance',
-  } as GlobalEntity<'eventInstance'>))
-  const annotationShapeFieldsEntity = computed((): GlobalEntity<'annotationShape'> => ({
-    id: toGlobalEntityId(ANNOTATION_SHAPE_GLOBAL_CONFIG_ID),
-    name: 'Annotation Shape Fields (Global)',
-    entityKey: 'annotationShape',
-    orderIndex: 0,
-    active: true,
-  }))
-  const eventShapeFieldsEntity = computed((): GlobalEntity<'eventShape'> => ({
-    id: toGlobalEntityId(EVENT_SHAPE_GLOBAL_CONFIG_ID),
-    name: 'Event Shape Fields (Global)',
-    entityKey: 'eventShape',
-    orderIndex: 0,
-    active: true,
-    placementKind: 'primary',
-    anchorEdge: null,
-  }))
 
   return {
     activeTab,
@@ -214,7 +214,6 @@ export function useShapesTab(): UseShapesTabReturn {
     partShapesTabLabel,
     annotationShapesTabLabel,
     eventShapesTabLabel,
-    ...modals,
     ...creation.state,
     ...creation.actions,
     handleDeletePartShape,
@@ -226,10 +225,5 @@ export function useShapesTab(): UseShapesTabReturn {
     safeEventShapes,
     isLoadingAnnotationShapes,
     isLoadingEventShapes,
-    partInstanceConfigEntity,
-    annotationInstanceConfigEntity,
-    eventInstanceConfigEntity,
-    annotationShapeFieldsEntity,
-    eventShapeFieldsEntity,
   } as UseShapesTabReturn
 }

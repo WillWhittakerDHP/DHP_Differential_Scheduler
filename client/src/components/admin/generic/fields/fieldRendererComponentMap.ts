@@ -4,6 +4,7 @@ import SelectInputs from './SelectInputs.vue'
 import RelationshipCollection from '../collections/RelationshipCollection.vue'
 import IconInput from './IconInput.vue'
 import EventShapePlacementFields from './EventShapePlacementFields.vue'
+import WizardPlacementInput from './WizardPlacementInput.vue'
 import type { FieldComponent } from '@/utils/forms/fieldComponentDispatcher'
 
 /** Central map so FieldRenderer.vue stays under component-coupling .vue import threshold. */
@@ -14,6 +15,7 @@ export function createFieldRendererComponentMap(): Record<FieldComponent['type']
     relationshipCollection: RelationshipCollection,
     select: SelectInputs,
     eventShapePlacement: EventShapePlacementFields,
+    wizardPlacement: WizardPlacementInput,
     unknown: null,
   }
 }

@@ -2,7 +2,7 @@
  * WHY: Appointment field formatters
 WHY: Field formatting logic is hardcoded in...
  */
-import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
+import { getBuyerAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
 import type { AppointmentResponse } from '@/types/appointment'
 import type { PropertyResponse } from '@/types/property'
 import type { UserResponse } from '@/types/user'
@@ -70,18 +70,18 @@ function formatArrayCountField(value: unknown, label: string): string {
   return Array.isArray(value) ? `${value.length} ${label}` : formatNullValue(value)
 }
 
-function formatClientField(
+function formatBuyerField(
   appointment: AppointmentResponse,
   _value: unknown,
   _properties: PropertyResponse[],
   users: UserResponse[]
 ): string {
-  const clientAttendee = getClientAttendee(appointment)
-  if (clientAttendee?.user) {
-    return `${clientAttendee.user.firstName} ${clientAttendee.user.lastName}`
+  const buyerAttendee = getBuyerAttendee(appointment)
+  if (buyerAttendee?.user) {
+    return `${buyerAttendee.user.firstName} ${buyerAttendee.user.lastName}`
   }
-  if (clientAttendee?.userId) {
-    const user = users.find(u => u.id === clientAttendee.userId)
+  if (buyerAttendee?.userId) {
+    const user = users.find(u => u.id === buyerAttendee.userId)
     return user ? `${user.firstName} ${user.lastName}` : '—'
   }
   return '—'
@@ -111,13 +111,13 @@ WHY: Eliminates repeated field === ".....
 const APPOINTMENT_FIELD_FORMATTERS: Record<string, FieldFormatter> = {
   propertyVersionId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
   propertyId: (appointment, value, properties) => formatPropertyField(appointment, value, properties),
-  client: (appointment, value, properties, users) => formatClientField(appointment, value, properties, users),
+  buyer: (appointment, value, properties, users) => formatBuyerField(appointment, value, properties, users),
   agent: (appointment, value, properties, users) => formatAgentField(appointment, value, properties, users),
   scheduledById: (_appointment, value, _properties, users) => formatScheduledByField(value, users),
   status: (_appointment, value) => String(value || APPOINTMENT_STATUS_STARTED),
   selectedDate: (_appointment, value) => formatDateField(value),
   selectedTimeSlots: (_appointment, value) => formatArrayCountField(value, 'slot(s)'),
-  selectedOptionIds: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
+  selectedEventIds: (_appointment, value) => formatArrayCountField(value, 'event(s)'),
   selectedOptionTypeBlocks: (_appointment, value) => formatArrayCountField(value, 'option(s)'),
   propertyDetails: (_appointment, value) => formatNullValue(value),
 }

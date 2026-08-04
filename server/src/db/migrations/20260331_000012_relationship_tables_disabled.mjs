@@ -21,18 +21,36 @@ export default {
       COMMENT ON COLUMN public.event_assignments.disabled IS 'When true, relationship is inactive (soft-deleted); excluded from active graph queries.';
     `)
     await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees
-        ADD COLUMN IF NOT EXISTS disabled boolean NOT NULL DEFAULT false;
-    `)
-    await sequelize.query(`
-      COMMENT ON COLUMN public.event_shape_attendees.disabled IS 'When true, relationship is inactive (soft-deleted); excluded from active graph queries.';
+      DO $$
+      BEGIN
+        IF to_regclass('public.event_shape_attendees') IS NOT NULL THEN
+          ALTER TABLE public.event_shape_attendees
+            ADD COLUMN IF NOT EXISTS disabled boolean NOT NULL DEFAULT false;
+          COMMENT ON COLUMN public.event_shape_attendees.disabled IS 'When true, relationship is inactive (soft-deleted); excluded from active graph queries.';
+        END IF;
+
+        IF to_regclass('public.event_instance_attendees') IS NOT NULL THEN
+          ALTER TABLE public.event_instance_attendees
+            ADD COLUMN IF NOT EXISTS disabled boolean NOT NULL DEFAULT false;
+          COMMENT ON COLUMN public.event_instance_attendees.disabled IS 'When true, relationship is inactive (soft-deleted); excluded from active graph queries.';
+        END IF;
+      END $$;
     `)
   },
 
   async down(queryInterface) {
     const sequelize = queryInterface.sequelize
     await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees DROP COLUMN IF EXISTS disabled;
+      DO $$
+      BEGIN
+        IF to_regclass('public.event_shape_attendees') IS NOT NULL THEN
+          ALTER TABLE public.event_shape_attendees DROP COLUMN IF EXISTS disabled;
+        END IF;
+
+        IF to_regclass('public.event_instance_attendees') IS NOT NULL THEN
+          ALTER TABLE public.event_instance_attendees DROP COLUMN IF EXISTS disabled;
+        END IF;
+      END $$;
     `)
     await sequelize.query(`
       ALTER TABLE public.event_assignments DROP COLUMN IF EXISTS disabled;

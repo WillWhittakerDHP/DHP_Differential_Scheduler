@@ -1,11 +1,8 @@
 import type { ComponentStrategy } from '@shared/types/componentTypes'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import { COMPONENT_STRATEGIES } from '@/constants/component'
 import { FIELD_NAMES } from '@/constants/entityFieldConstants'
-import { getEntityFieldValue } from '@/utils/entities/entityFieldAccess'
-import { findById } from '@/utils/collections/findById'
 
 type ComposablePropertyValue = string | number | boolean | unknown[]
 
@@ -59,8 +56,8 @@ function composeProperty<T extends string | number | boolean | unknown[]>(
 
 export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   components: GlobalEntity<GE>[],
-  entityKind: GE,
-  blockShapes?: GlobalEntity<GlobalEntityKey>[]
+  _entityKind: GE,
+  _blockShapes?: GlobalEntity<GlobalEntityKey>[]
 ): Partial<GlobalEntity<GE>> {
   if (components.length === 0) {
     return {}
@@ -75,7 +72,7 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
   )
 
   const composed = Array.from(propertyKeys).reduce((acc, propertyKey) => {
-    let values: unknown[] = components
+    const values: unknown[] = components
       .map((component) => (component as Record<string, unknown>)[String(propertyKey)])
       .filter((val) => val !== undefined)
     
@@ -97,32 +94,9 @@ export function composePropertiesFromComponents<GE extends GlobalEntityKey>(
       strategy = 'first'
     }
     
-    // WHY: User-type block shapes should not contribute to square footage accumulation
-    if (propertyKey === 'baseSqFt' && entityKind === 'blockInstance' && strategy === COMPONENT_STRATEGIES.SUM && blockShapes) {
-      const filteredComponents = components.filter(component => {
-        const blockInstance = component as GlobalEntity<'blockInstance'>
-        const blockShapeRef = getEntityFieldValue(blockInstance, 'blockShapeRef')
-        if (!blockShapeRef) return true // Include if no blockShapeRef (shouldn't happen, but safe)
-        
-        const blockShape = findById(blockShapes, String(blockShapeRef)) as GlobalEntity<'blockShape'> | undefined
-        if (!blockShape) {
-          return true // Preserve previous behavior: include component if blockShape missing
-        }
-        if (blockShape.entityKey !== 'blockShape') return true // Defensive: ensure correct narrowing
-
-        return blockShape.type !== BLOCK_SHAPE_TYPES.USER
-      })
-      
-      values = filteredComponents
-        .map((component) => (component as Record<string, unknown>)[String(propertyKey)])
-        .filter((val) => val !== undefined)
-      
-      const filteredComposableValues = values.filter(isComposablePropertyValue)
-      if (filteredComposableValues.length > 0) {
-        acc[propertyKey] = composeProperty(filteredComposableValues, strategy)
-      }
-    } else {
-      acc[propertyKey] = composeProperty(composableValues, strategy)
+    const composedValue = composeProperty(composableValues, strategy)
+    if (composedValue !== undefined) {
+      acc[propertyKey] = composedValue
     }
     return acc
   }, {} as Record<string, unknown>)

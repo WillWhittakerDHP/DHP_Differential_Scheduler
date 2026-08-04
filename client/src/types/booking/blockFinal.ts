@@ -10,8 +10,8 @@ export interface BlockFinal {
   blockTotals: {
     baseTime: number
     baseFee: number
-    rateOverBaseTime: number
-    rateOverBaseFee: number
+    timePerUnit: number
+    feePerUnit: number
   }
   sourceBlockInstance: BookingBlockInstance
 }

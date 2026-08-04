@@ -20,6 +20,9 @@ interface PropertyDetailsFormValues {
   bathrooms: number | null
   foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits: number | null
+  hvacCount: number | null
+  waterHeaterCount: number | null
+  kitchenApplianceCount: number | null
   source?: PropertySource
   suggestedBlockInstanceIds?: string[]
 }
@@ -41,6 +44,9 @@ export function propertyDetailsFormValuesFromRefs(formData: PropertyFormData): P
     bathrooms: formData.bathrooms.value,
     foundationAccess: formData.foundationAccess.value,
     additionalUnits: formData.additionalUnits.value,
+    hvacCount: formData.hvacCount.value,
+    waterHeaterCount: formData.waterHeaterCount.value,
+    kitchenApplianceCount: formData.kitchenApplianceCount.value,
     source: formData.source?.value,
     suggestedBlockInstanceIds: formData.suggestedBlockInstanceIds?.value,
   }
@@ -63,6 +69,9 @@ export function buildPropertyDetailsStepData(values: PropertyDetailsFormValues):
     bathrooms: values.bathrooms,
     foundationAccess: values.foundationAccess,
     additionalUnits: values.additionalUnits,
+    hvacCount: values.hvacCount,
+    waterHeaterCount: values.waterHeaterCount,
+    kitchenApplianceCount: values.kitchenApplianceCount,
     source: values.source,
     suggestedBlockInstanceIds: values.suggestedBlockInstanceIds,
   }

@@ -4,7 +4,6 @@ import type { AppointmentSlot } from '@/types/appointment'
 import type { SlotShape } from '@/types/appointment'
 import type { EventShapeEntity } from '@/types/entities'
 import { resolveDifferentialMajorMinorFromEventShapes } from '@/utils/eventAttendeeUtils'
-import { createTimeRange, addMinutes } from './slotTimeUtils'
 import { EVENT_PERSPECTIVE_KEYS } from '@/configs/eventPerspectiveLabels'
 import type { ResolvedEventShapes } from '@/types/booking/perspectiveResolver'
 
@@ -37,43 +36,6 @@ function resolveEventShapesCore(eventFinals: SlotShape['eventFinals']): Resolved
 
 export function resolveEventShapes(eventFinals: SlotShape['eventFinals']): ResolvedEventShapes {
   return resolveEventShapesCore(eventFinals)
-}
-
-export function adjustMinorTimeRange(
-  startTime: string,
-  eventTimeRanges: Record<string, SlotTimeBounds | null>,
-  majorEventName: string | null,
-  minorEventName: string | null,
-  majorTimeRange: SlotTimeBounds | null,
-  minorTimeRange: SlotTimeBounds | null,
-  roundedDifferentialOffset: number
-): { adjustedEventTimeRanges: Record<string, SlotTimeBounds | null>; adjustedMinorTimeRange: SlotTimeBounds | null } {
-  if (
-    !majorTimeRange ||
-    !minorTimeRange ||
-    !majorEventName ||
-    !minorEventName ||
-    roundedDifferentialOffset < 0
-  ) {
-    return { adjustedEventTimeRanges: { ...eventTimeRanges }, adjustedMinorTimeRange: minorTimeRange }
-  }
-
-  const minorDuration = majorTimeRange.duration - roundedDifferentialOffset
-  if (minorDuration <= 0) {
-    return {
-      adjustedEventTimeRanges: { ...eventTimeRanges, [minorEventName]: null },
-      adjustedMinorTimeRange: null
-    }
-  }
-
-  const adjustedMinorTimeRange = createTimeRange(
-    addMinutes(startTime, roundedDifferentialOffset),
-    minorDuration
-  )
-  return {
-    adjustedEventTimeRanges: { ...eventTimeRanges, [minorEventName]: adjustedMinorTimeRange },
-    adjustedMinorTimeRange
-  }
 }
 
 function majorOrTotalRange(slot: AppointmentSlot, majorEventName: string | null): SlotTimeBounds | null {

@@ -49,7 +49,7 @@ function createAdminInstance(): UseAdminReturn {
 
   const { globalData } = useGlobal()
 
-  // PATTERN: Separate cache key ['adminMetadata'] from globalData
+  // PATTERN: Field layout from code-first metadata cache (separate from globalData)
   const metadataCache = useMetadataCache()
 
   /**
@@ -59,19 +59,19 @@ function createAdminInstance(): UseAdminReturn {
    * globalData.value changes. Since globalData comes from VueQuery cache, it's stable and
    * only changes when actual data updates occur (not reference changes).
    */
-  const transformedEntities = computed(() => {
+  const transformedEntities = computed((): AdminObjectMap => {
     const data = globalData?.value ?? null
 
     if (!data) {
       return {
-        blockInstance: [],
-        blockShape: [],
-        partInstance: [],
-        partShape: [],
-        eventShape: [],
-        eventInstance: [],
-        annotationShape: [],
-        annotationInstance: []
+        blockInstance: [] as AdminObject<'blockInstance'>[],
+        blockShape: [] as AdminObject<'blockShape'>[],
+        partInstance: [] as AdminObject<'partInstance'>[],
+        partShape: [] as AdminObject<'partShape'>[],
+        eventShape: [] as AdminObject<'eventShape'>[],
+        eventInstance: [] as AdminObject<'eventInstance'>[],
+        annotationShape: [] as AdminObject<'annotationShape'>[],
+        annotationInstance: [] as AdminObject<'annotationInstance'>[],
       }
     }
 

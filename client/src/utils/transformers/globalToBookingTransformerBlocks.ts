@@ -2,20 +2,31 @@ import type { GlobalRelationship } from '@/types/relationships'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
 import type { GlobalEntity } from '@/types/entities'
 import type { BlockInstanceEntity } from '@/types/entities'
-import type { TernaryBoolean } from '@/types/ternary'
 import type { BookingBlockInstance, BookingPartInstance } from '@/types/transformers/bookingData'
+import {
+  isWizardTopLine,
+  isWizardSubOption,
+  resolveWizardPlacement,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement'
 import { findRelationshipsByParent, extractChildIds, composePartInstances } from './relationshipTransformers'
 import {
   safeString,
-  convertToTernaryBoolean,
 } from './transformerPrimitives'
 import { collectIds, findByIds, immutableSort } from './transformerCollections'
 import { isBookingEntityActive } from './globalToBookingEntityActive'
 import { transformPartInstance } from './globalToBookingPartInstanceTransform'
 
-export function isWizardMainBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
+/** Appears as a top-line wizard card (placement topLine or both). */
+export function isWizardTopLineBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
   const b = blockInstance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
+}
+
+/** Appears as a nested sub-option / add-on line item (placement subOption or both). */
+export function isWizardSubOptionBlock(blockInstance: GlobalEntity<'blockInstance'>): boolean {
+  const b = blockInstance as BlockInstanceEntity
+  return isWizardSubOption(b.wizardPlacement)
 }
 
 export function filterAndSortBlockInstances(
@@ -32,9 +43,10 @@ export function filterAndSortBlockInstances(
 ): BookingBlockInstance[] {
   const mapped = blockInstances
     .filter((blockInstance) => {
-      const isActive = isBookingEntityActive(blockInstance)
+      // WHY: Placement (main pool vs line items) is decided entirely by the caller's `predicate`.
+      // Component children roll up into their composite parent and never appear on their own.
       const isComponentChild = componentIds.has(blockInstance.id)
-      return isActive && !isComponentChild && predicate(blockInstance)
+      return !isComponentChild && predicate(blockInstance)
     })
     .map((blockInstance) =>
       transformBlockInstance(
@@ -73,7 +85,7 @@ function resolveComponentPartIds(
   )
   return componentPartIds.filter((partId) => {
     const partInstance = partInstanceById.get(partId)
-    return isBookingEntityActive(partInstance)
+    return partInstance !== undefined && isBookingEntityActive(partInstance)
   })
 }
 
@@ -112,17 +124,18 @@ function resolvePartInstanceIds(
 
 /** Optional block instance fields used when building BookingBlockInstance (API/storage shape). */
 type BlockInstanceOptionalProps = {
-  baseSqFt?: number
   icon?: string
-  agentPermissions?: TernaryBoolean
   orchestrator?: boolean
-  wizardVisible?: boolean
+  accumulator?: boolean
+  composite?: boolean
+  wizardPlacement?: WizardPlacement
   preClosing?: boolean
   number?: number | null
   allowMultiple?: boolean
   requiresUnitNumber?: boolean | null
   isMultiFamily?: boolean
   requiresAgent?: boolean
+  semanticType?: string | null
 }
 
 function extractBlockInstanceProps(
@@ -133,17 +146,18 @@ function extractBlockInstanceProps(
   const numberProp =
     typeof numberRaw === 'number' || numberRaw === null ? numberRaw : undefined
   return {
-    baseSqFt: b.baseSqFt,
     icon: b.icon,
-    agentPermissions: b.agentPermissions,
     orchestrator: b.orchestrator,
-    wizardVisible: b.wizardVisible,
+    accumulator: b.accumulator,
+    composite: b.composite,
+    wizardPlacement: b.wizardPlacement,
     preClosing: b.preClosing,
     number: numberProp,
     allowMultiple: b.allowMultiple,
     requiresUnitNumber: b.requiresUnitNumber,
     isMultiFamily: b.isMultiFamily,
     requiresAgent: b.requiresAgent,
+    semanticType: typeof b.semanticType === 'string' && b.semanticType.length > 0 ? b.semanticType : null,
   }
 }
 
@@ -153,21 +167,23 @@ function buildBookingBlockInstance(
   partInstances: BookingPartInstance[],
   blockShape: string,
   blockShapeRef: string,
+  blockShapeSemanticType: BookingBlockInstance['blockShapeSemanticType'],
   activeBlockIds: string[],
   orchestrator: boolean,
-  wizardVisible: boolean
+  wizardPlacement: WizardPlacement
 ): BookingBlockInstance {
-  const agentPermissions = convertToTernaryBoolean(props.agentPermissions, 'false')
-  return {
+  const st = props.semanticType
+  const out: BookingBlockInstance = {
     id: blockInstance.id,
     entityKey: 'blockInstance',
     name: blockInstance.name,
-    active: isBookingEntityActive(blockInstance),
-    baseSqFt: props.baseSqFt ?? 0,
+    active: true,
     icon: safeString(props.icon, 'blockInstance.icon'),
-    agentPermissions,
+    blockShapeSemanticType,
     orchestrator,
-    wizardVisible,
+    accumulator: props.accumulator === true,
+    composite: props.composite === true,
+    wizardPlacement,
     preClosing: props.preClosing ?? false,
     orderIndex: blockInstance.orderIndex,
     blockShape,
@@ -180,6 +196,10 @@ function buildBookingBlockInstance(
     isMultiFamily: props.isMultiFamily ?? false,
     requiresAgent: props.requiresAgent ?? false,
   }
+  if (typeof st === 'string' && st.length > 0) {
+    out.semanticType = st
+  }
+  return out
 }
 
 function transformBlockInstance(
@@ -226,9 +246,10 @@ function transformBlockInstance(
   const activeBlockIds = extractChildIds(bookingCascadesRels)
   const props = extractBlockInstanceProps(blockInstance)
   const orchestrator = props.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR
-  const wizardVisible = props.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE
+  const wizardPlacement = resolveWizardPlacement(props.wizardPlacement)
   const blockShapeEntity = _blockShapeById.get(blockShapeRef)
   const blockShape = safeString(blockShapeEntity?.name, 'blockShape.name')
+  const blockShapeSemanticType = blockShapeEntity?.semanticType ?? 'service'
 
   return buildBookingBlockInstance(
     blockInstance,
@@ -236,8 +257,9 @@ function transformBlockInstance(
     partInstances,
     blockShape,
     blockShapeRef,
+    blockShapeSemanticType,
     activeBlockIds,
     orchestrator,
-    wizardVisible
+    wizardPlacement
   )
 }

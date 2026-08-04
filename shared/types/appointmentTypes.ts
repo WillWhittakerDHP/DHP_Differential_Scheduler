@@ -3,16 +3,19 @@
  */
 import {
   USER_ROLE_AGENT,
-  USER_ROLE_CLIENT,
+  USER_ROLE_BUYER,
   USER_ROLE_INSPECTOR,
   USER_ROLE_OWNER,
-  USER_ROLE_TRANSACTION_MANAGER,
 } from '../constants/roleConstants'
 import type { SlotTimeBounds } from './availabilityTypes'
 
 /** Canonical one-slot payload for API and `appointment_time_slots` rows (ISO start/end, optional duration minutes). */
 export interface AppointmentSelectedTimeSlotPayload extends Omit<SlotTimeBounds, 'duration'> {
   duration?: number
+  eventShapeId?: string
+  eventShapeName?: string
+  placementKind?: string
+  anchorEdge?: string | null
 }
 
 /** Attendee request for calendar invitations; single source for client and server. */
@@ -21,9 +24,8 @@ export interface AttendeeRequest {
   userTypeBlockInstanceId?: string | null
   shouldReceiveInvitation?: boolean
   role?:
-    | typeof USER_ROLE_CLIENT
+    | typeof USER_ROLE_BUYER
     | typeof USER_ROLE_AGENT
-    | typeof USER_ROLE_TRANSACTION_MANAGER
     | typeof USER_ROLE_OWNER
     | typeof USER_ROLE_INSPECTOR
 }
@@ -36,8 +38,8 @@ export interface AttendeeRequest {
 export interface AdminEntryAppointmentItem {
   id: string
   address: string
-  /** User ID of the client attendee; resolve display name via users lookup. */
-  clientUserId: string | null
+  /** User ID of the buyer (primary) attendee; resolve display name via users lookup. */
+  buyerUserId: string | null
   /** User ID of the agent/inspector attendee; resolve display name via users lookup. */
   agentUserId: string | null
 }

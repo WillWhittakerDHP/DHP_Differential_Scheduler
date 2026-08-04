@@ -8,7 +8,6 @@ import BusinessControlsCalendarSection from './BusinessControlsCalendarSection.v
 import WizardConfigPanel from './components/WizardConfigPanel.vue'
 import BusinessControlsRulesSection from './BusinessControlsRulesSection.vue'
 import BusinessControlsOrganizationSection from './BusinessControlsOrganizationSection.vue'
-import BusinessControlsRoleAlignmentSection from './BusinessControlsRoleAlignmentSection.vue'
 
 const {
   loading,
@@ -50,7 +49,6 @@ const {
         <VTab value="wizard">{{ UI_STRINGS.tabs.wizard }}</VTab>
         <VTab value="rules">{{ UI_STRINGS.tabs.rules }}</VTab>
         <VTab value="organization">{{ UI_STRINGS.tabs.organization }}</VTab>
-        <VTab value="roleAlignment">{{ UI_STRINGS.tabs.roleAlignment }}</VTab>
       </VTabs>
 
       <VWindow v-model="currentMainTab">
@@ -77,17 +75,6 @@ const {
           <BusinessControlsOrganizationSection
             v-if="businessControlsState.organizationDefaults.formData"
             :model="businessControlsState.organizationDefaults.formData"
-          />
-        </VWindowItem>
-
-        <VWindowItem key="roleAlignment" value="roleAlignment">
-          <div v-if="businessControlsState.userRoleBlockAlignment.formData" class="d-flex flex-wrap gap-2 mb-4">
-            <VBtn v-bind="persistedSaveButtons.roleAlignment">{{ UI_STRINGS.buttons.saveRoleAlignment }}</VBtn>
-          </div>
-          <BusinessControlsRoleAlignmentSection
-            v-if="businessControlsState.userRoleBlockAlignment.formData"
-            :alignments="businessControlsState.userRoleBlockAlignment.formData"
-            :instance-items="businessControlsState.userRoleBlockAlignment.eligibleInstanceSelectItems"
           />
         </VWindowItem>
       </VWindow>

@@ -9,9 +9,8 @@
  */
 
 /** Lowercase role value as stored in DB / API (e.g. `users.user_role`) */
-export const USER_ROLE_CLIENT = 'client' as const
+export const USER_ROLE_BUYER = 'buyer' as const
 export const USER_ROLE_AGENT = 'agent' as const
-export const USER_ROLE_TRANSACTION_MANAGER = 'transaction_manager' as const
 /** Property owner role (DB/API); Phase 6.18.1 aligned naming with product language */
 export const USER_ROLE_OWNER = 'owner' as const
 export const USER_ROLE_INSPECTOR = 'inspector' as const
@@ -19,9 +18,8 @@ export const USER_ROLE_ADMIN = 'admin' as const
 
 /** Single authoritative list for Joi, Sequelize ENUM, and cross-stack validation */
 export const USER_ROLE_VALUES = [
-  USER_ROLE_CLIENT,
+  USER_ROLE_BUYER,
   USER_ROLE_AGENT,
-  USER_ROLE_TRANSACTION_MANAGER,
   USER_ROLE_OWNER,
   USER_ROLE_INSPECTOR,
   USER_ROLE_ADMIN,
@@ -30,5 +28,5 @@ export const USER_ROLE_VALUES = [
 export type UserRoleValue = (typeof USER_ROLE_VALUES)[number]
 
 /** Display/canonical attendee role label (e.g. for UI or mapping) */
-export const ATTENDEE_ROLE_CLIENT = 'Client' as const
+export const ATTENDEE_ROLE_BUYER = 'Buyer' as const
 export const ATTENDEE_ROLE_AGENT = 'Agent' as const

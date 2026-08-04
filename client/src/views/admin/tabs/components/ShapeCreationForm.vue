@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
-import EntityCard from '@/components/admin/generic/EntityCard.vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 
 defineProps<{
   entityKey: GlobalEntityKey
@@ -24,7 +24,7 @@ function notifyCancelled(): void {
 </script>
 
 <template>
-  <EntityCard
+  <AdminEntityEditorPanel
     key="new-shape"
     :entity-key="entityKey"
     :entity="entity"

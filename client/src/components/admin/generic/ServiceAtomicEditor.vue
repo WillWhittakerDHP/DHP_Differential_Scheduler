@@ -17,7 +17,7 @@ const SERVICE_TYPES = [BLOCK_SHAPE_TYPES.SERVICE] as const
   <AtomicPartLedgerEditor
     :block-instance-id="blockInstanceId"
     :allowed-shape-types="SERVICE_TYPES"
-    title="Work items (convergence)"
-    subtitle="Per-part time and fee for this service instance. Edits save when you leave a field."
+    title="Work items"
+    subtitle="Parts on this service — where base time and fee live. Add a part type, then edit values (saves when you leave a field)."
   />
 </template>

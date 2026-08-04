@@ -27,6 +27,9 @@ export const propertyCreateBodySchema = Joi.object({
     .allow(null)
     .optional(),
   additionalUnits: Joi.number().integer().allow(null).optional(),
+  hvacCount: Joi.number().integer().min(0).allow(null).optional(),
+  waterHeaterCount: Joi.number().integer().min(0).allow(null).optional(),
+  kitchenApplianceCount: Joi.number().integer().min(0).allow(null).optional(),
   source: Joi.string()
     .valid(...sourceValues)
     .optional(),
@@ -43,6 +46,9 @@ export const propertyUpdateBodySchema = Joi.object({
     .allow(null)
     .optional(),
   additionalUnits: Joi.number().integer().allow(null).optional(),
+  hvacCount: Joi.number().integer().min(0).allow(null).optional(),
+  waterHeaterCount: Joi.number().integer().min(0).allow(null).optional(),
+  kitchenApplianceCount: Joi.number().integer().min(0).allow(null).optional(),
   source: Joi.string()
     .valid(...sourceValues)
     .optional(),

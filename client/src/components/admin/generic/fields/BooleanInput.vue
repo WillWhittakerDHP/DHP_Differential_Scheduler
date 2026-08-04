@@ -4,11 +4,26 @@
     :display-config="fieldContext.state.displayConfig"
     :error="fieldContext.state.error?.value"
     :show-label="false"
+    :show-help="false"
     :is-disabled="fieldContext.state.isDisabled.value"
   >
     <!-- WHY: All boolean fields should render as status buttons for consistency -->
     <!-- PATTERN: Use StatusButton component instead of VSwitch toggle -->
-    <div @keydown="handleKeydown">
+    <VTooltip v-if="tooltipText" location="top" open-delay="300">
+      <template #activator="{ props: tooltipActivatorProps }">
+        <div v-bind="tooltipActivatorProps" @keydown="handleKeydown">
+          <StatusButton
+            :label="displayLabel"
+            :color="statusButtonColor"
+            :is-active="normalizedValue"
+            :disabled="statusButtonDisabled"
+            @click.stop="handleClick"
+          />
+        </div>
+      </template>
+      <span>{{ tooltipText }}</span>
+    </VTooltip>
+    <div v-else @keydown="handleKeydown">
       <StatusButton
         :label="displayLabel"
         :color="statusButtonColor"
@@ -37,6 +52,19 @@ import { useStatusButtonToggle } from '@/composables/admin/useStatusButtonToggle
 import { ENTITY_CARD_SAVE_KEY, type EntityCardSaveContext } from '../entityCardConstants'
 import { STATUS_BUTTON_LABELS } from '@/constants/statusButtonLabels'
 import type { FieldInputProps } from './fieldTypes'
+
+/** Readable Vuetify theme colors per flag — avoids grey/default chips on the title row. */
+const STATUS_BUTTON_THEME_COLORS: Record<string, string> = {
+  composite: 'primary',
+  orchestrator: 'info',
+  accumulator: 'warning',
+  allowMultiple: 'warning',
+  requiresUnitNumber: 'info',
+  preClosing: 'warning',
+  isMultiFamily: 'info',
+  requiresAgent: 'success',
+  active: 'success',
+}
 
 const props = withDefaults(defineProps<FieldInputProps>(), {
   showLabel: true
@@ -78,11 +106,18 @@ const fetchedMetadata = useEntityMetadata(
 )
 
 const statusButtonColor = computed(() => {
-  const metadata = fetchedMetadata.fieldMetadata.value
   const fieldKeyStr = String(fieldContext.state.fieldKey)
+  const preset = STATUS_BUTTON_THEME_COLORS[fieldKeyStr]
+  if (preset) {
+    return preset
+  }
+  const metadata = fetchedMetadata.fieldMetadata.value
   const meta = metadata[fieldKeyStr]
   const color = meta?.statusButtonColor
-  return color !== undefined && color !== null && color !== '' ? color : 'default'
+  if (color !== undefined && color !== null && color !== '' && color !== 'default' && color !== 'secondary') {
+    return color
+  }
+  return 'primary'
 })
 
 // WHY: Label reflects current state (e.g., Active/Inactive) instead of static field label
@@ -100,6 +135,15 @@ const displayLabel = computed((): string => {
     return labelMap.true
   }
   return labelMap.false
+})
+
+const tooltipText = computed((): string => {
+  const help = fieldContext.state.displayConfig.helpText
+  if (help === undefined || help === null) {
+    return ''
+  }
+  const trimmed = String(help).trim()
+  return trimmed
 })
 
 // PATTERN: Assert type since runtime behavior is correct

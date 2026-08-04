@@ -11,7 +11,7 @@ export const eventShapeDisplays = {
 
   name: {
     label: DISPLAY_LABELS.NAME,
-    placeholder: "Enter event shape name",
+    placeholder: "Enter event type name",
     inline: false,
     stacked: true,
   },
@@ -23,23 +23,23 @@ export const eventShapeDisplays = {
     stacked: false,
   },
 
-  active: {
-    label: ENTITY_STATUS.ACTIVE,
-    placeholder: ENTITY_STATUS.ACTIVE,
-    inline: true,
-    stacked: false,
-  },
-
   placementKind: {
-    label: 'Placement kind',
-    placeholder: 'e.g. Primary (main segment), or Secondary / Marginal / Floating',
+    label: 'Timing behavior',
+    placeholder: 'Choose where this segment sits relative to the main appointment window',
     inline: true,
     stacked: false,
   },
 
   anchorEdge: {
-    label: 'Anchor edge',
-    placeholder: 'For non-primary: start or end of the block time window',
+    label: 'Timing anchor',
+    placeholder: 'Managed by Timing behavior',
+    inline: true,
+    stacked: false,
+  },
+
+  active: {
+    label: ENTITY_STATUS.ACTIVE,
+    placeholder: ENTITY_STATUS.ACTIVE,
     inline: true,
     stacked: false,
   },

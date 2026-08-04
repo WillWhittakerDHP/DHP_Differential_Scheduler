@@ -1,6 +1,6 @@
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { BlockFinal } from './bookingFinalTypes'
-import { createPartFinals } from './partFinalizer'
+import { createPartFinals, filterZeroedParts } from './partFinalizer'
 
 export type { BlockFinal } from './bookingFinalTypes'
 
@@ -9,23 +9,25 @@ export function createBlockFinal(
 ): BlockFinal {
   const raw = blockInstance.partInstances
   const partInstances = raw !== undefined && raw !== null && Array.isArray(raw) ? raw : []
-  
-  // PATTERN: Create finalized parts for this block's parts
+
   const finalizedParts = createPartFinals(partInstances)
-  
-  // PATTERN: Calculate block totals from finalized parts
+
+  // WHY: Principles §4.8 — zeroed-out parts are excluded from booking rollups (zero-out
+  // is the last per-part step and wins over all prior math). finalizedParts keeps every
+  // part for provenance; only the totals exclude zeroed contributions.
+  const rollupParts = filterZeroedParts(finalizedParts)
   const blockTotals = {
-    baseTime: finalizedParts.reduce((sum, part) => sum + part.baseTime, 0),
-    baseFee: finalizedParts.reduce((sum, part) => sum + part.baseFee, 0),
-    rateOverBaseTime: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseTime, 0),
-    rateOverBaseFee: finalizedParts.reduce((sum, part) => sum + part.rateOverBaseFee, 0)
+    baseTime: rollupParts.reduce((sum, part) => sum + part.baseTime, 0),
+    baseFee: rollupParts.reduce((sum, part) => sum + part.baseFee, 0),
+    timePerUnit: rollupParts.reduce((sum, part) => sum + part.timePerUnit, 0),
+    feePerUnit: rollupParts.reduce((sum, part) => sum + part.feePerUnit, 0)
   }
   
   return {
     blockInstanceId: blockInstance.id,
     blockName: blockInstance.name,
     blockShapeRef: blockInstance.blockShapeRef,
-    allowMultiple: blockInstance.allowMultiple,
+    allowMultiple: blockInstance.allowMultiple ?? false,
     finalizedParts,
     blockTotals,
     sourceBlockInstance: blockInstance

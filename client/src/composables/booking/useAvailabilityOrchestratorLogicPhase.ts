@@ -8,6 +8,7 @@ import {
   type UseAvailabilityLogicReturn,
 } from '@/composables/booking/useAvailabilityLogic'
 import type { AvailabilityOrchestratorTimeSlotsShell } from '@/composables/booking/useAvailabilityOrchestratorTimeSlotsShell'
+import { useBooking } from '@/composables/useBooking'
 
 export function useAvailabilityOrchestratorLogicPhase(input: {
   selectedDate: UseAvailabilityUIParams['selectedDate']
@@ -17,6 +18,7 @@ export function useAvailabilityOrchestratorLogicPhase(input: {
   shell: AvailabilityOrchestratorTimeSlotsShell
 }): UseAvailabilityLogicReturn & { vDatePickerDisplayDate: Ref<Date> } {
   const { selectedDate, propertyDetailsStepData, wizard, loadedWizardState, shell } = input
+  const { bookingData } = useBooking()
 
   const today = new Date()
   const vDatePickerDisplayDate = ref<Date>(new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1)))
@@ -32,6 +34,7 @@ export function useAvailabilityOrchestratorLogicPhase(input: {
     },
     timeSlots: shell.timeSlotsForLogic,
     loadedWizardState,
+    bookingData,
   })
 
   return Object.assign({}, logic, { vDatePickerDisplayDate }) as UseAvailabilityLogicReturn & {

@@ -29,6 +29,13 @@ export function blockInstanceIsComposable(
   return blockInstance.composite === true
 }
 
+/**
+ * WHY: A composite package owns same-shape *atomic* children (`composite=false`),
+ * matching live service data (e.g. Buyer's Inspection → Equipment Observations).
+ * COMPARISON: The old filter required `composite=true` peers, so property-type
+ * orchestrators could never pick Roof/Exterior/HVAC-style atomics — and service
+ * composers could not add new atomics either (only historically seeded links remained).
+ */
 export function availableComposablePeersForComposer(
   globalData: GlobalData,
   composerId: GlobalEntityId,
@@ -49,21 +56,18 @@ export function availableComposablePeersForComposer(
 
   const existingComponentIds = new Set(activeForComposer.map((ac) => ac.childId))
 
-  const candidateBlockInstances = instances.filter((bp) => {
+  return instances.filter((bp) => {
     if (bp.blockShapeRef !== composer.blockShapeRef) {
       return false
     }
-    return bp.composite === true
-  })
-
-  return candidateBlockInstances.filter((bp) => {
     if (bp.id === composerId) {
       return false
     }
     if (existingComponentIds.has(bp.id)) {
       return false
     }
-    return true
+    // Atomic instances of this shape (not other packages / peer orchestrators).
+    return bp.composite !== true
   })
 }
 

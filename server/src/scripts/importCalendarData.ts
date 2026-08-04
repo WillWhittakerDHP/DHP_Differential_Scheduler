@@ -4,7 +4,7 @@ PATTERN: Orchestrator pattern with focused ...
  */
 import 'dotenv/config';
 import { Address, PropertyVersion, User, sequelize, initializeDatabase } from '../config/app.js';
-import { USER_ROLE_CLIENT } from '../constants/userRoles.js';
+import { USER_ROLE_BUYER } from '../constants/userRoles.js';
 import { createLogger } from '../utils/logger.js';
 import {
   CalendarEvent,
@@ -44,7 +44,7 @@ async function upsertUser(client: ParsedClient): Promise<string> {
       lastName: client.lastName,
       email: client.email,
       phone: client.phone,
-      userRole: USER_ROLE_CLIENT,
+      userRole: USER_ROLE_BUYER,
       loginId: null,
     },
   });

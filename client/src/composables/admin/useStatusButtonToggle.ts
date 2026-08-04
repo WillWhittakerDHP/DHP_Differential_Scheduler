@@ -3,7 +3,6 @@
 PATTERN: Pure configuration-bas...
  */
 import { ref, computed } from 'vue'
-import { useQueryClient } from '@tanstack/vue-query'
 import { usePrimitiveMutation } from '@/composables/entityCrud/usePrimitiveMutation'
 import { useGlobal } from '../useGlobal'
 import type { GlobalEntityKey } from '@/constants/entities'
@@ -39,15 +38,12 @@ export function useStatusButtonToggle<GE extends GlobalEntityKey>(
 
   const { mutateAsync } = usePrimitiveMutation(entityKey)
 
-  const queryClient = useQueryClient()
-
   const pendingToggles = ref(new Set<string>())
 
   const runTogglePayloads = async (payloads: StatusToggleMutationPayload[]): Promise<void> => {
     for (const payload of payloads) {
       await mutateAsync(payload)
     }
-    queryClient.invalidateQueries({ queryKey: ['adminMetadata'] })
   }
 
   const toggleStatusButton = async (fieldKey: GlobalFieldKey<GE>, event?: Event): Promise<void> => {

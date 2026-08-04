@@ -1,6 +1,6 @@
 <!--
   WHY: Unified component pattern for all relationship collections
-  PATTERN: Generic rendering of EntityCard with collectionType prop for customization
+  PATTERN: Renders AdminEntityEditorPanel rows with collectionType-driven chrome
 -->
 <template>
   <div v-if="shouldShow && parentEntity" :class="collectionClass">
@@ -20,9 +20,7 @@
     />
     
     <!--
-      WHY: Shows all valid shapes with EntityCard for both existing and new children
-      PATTERN: Loop through validShapes, use EntityCard with appropriate props
-      FIX: VExpansionPanels must be OUTSIDE v-for to avoid group context issues
+      WHY: One editor panel per existing child; VExpansionPanels stay outside v-for for group context
     -->
     <VExpansionPanels
       v-model="expandedChildren"
@@ -33,7 +31,7 @@
         :key="shape.id"
       >
         <!-- Existing child entity -->
-        <EntityCard
+        <AdminEntityEditorPanel
           v-if="getChildForShape(shape.id)"
           :key="getChildForShape(shape.id)!.id"
           :entity-key="childEntityKey"
@@ -68,9 +66,7 @@
           </template>
           
           <template #text>
-            <!-- WHY: Same component handles both create and edit - config drives fields -->
-            <!-- PATTERN: Pass temporary entity with new-{id} prefix, EntityCard handles the rest -->
-            <EntityCard
+            <AdminEntityEditorPanel
               :entity-key="childEntityKey"
               :entity="getNewChildEntity(shape.id)"
               :expanded="true"
@@ -101,14 +97,8 @@
 </template>
 
 <script setup lang="ts">
-/**
- * PATTERN: Uses EntityCard directly, matching the pattern used by InstancesTab
-
-PAT...
- */
-import { computed, defineAsyncComponent } from 'vue'
-
-const EntityCard = defineAsyncComponent(() => import('../EntityCard.vue'))
+import { computed } from 'vue'
+import AdminEntityEditorPanel from '@/components/admin/generic/AdminEntityEditorPanel.vue'
 import { useRelationshipCollection } from '@/composables/admin/useRelationshipCollection'
 import { useAdmin } from '@/composables/admin/useAdmin'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -155,12 +145,26 @@ const parentBlockShapeIsStateControl = computed((): boolean => {
   if (parent.entityKey === 'blockInstance') {
     const bi = parent as BlockInstanceEntity
     const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
-    return shape?.type === BLOCK_SHAPE_TYPES.USER
+    return shape?.semanticType === BLOCK_SHAPE_TYPES.USER
   }
   if (parent.entityKey === 'blockShape') {
-    return (parent as BlockShapeEntity).type === BLOCK_SHAPE_TYPES.USER
+    return (parent as BlockShapeEntity).semanticType === BLOCK_SHAPE_TYPES.USER
   }
   return false
+})
+
+const parentBlockShapeSemanticType = computed((): string | null => {
+  const parent = parentEntity.value
+  if (!parent) return null
+  if (parent.entityKey === 'blockInstance') {
+    const bi = parent as BlockInstanceEntity
+    const shape = admin.getEntity('blockShape', toGlobalEntityId(bi.blockShapeRef) as GlobalEntityId)
+    return shape?.semanticType ?? null
+  }
+  if (parent.entityKey === 'blockShape') {
+    return (parent as BlockShapeEntity).semanticType ?? null
+  }
+  return null
 })
 
 const effectiveCollectionType = computed<CollectionType>(() => {
@@ -170,6 +174,10 @@ const effectiveCollectionType = computed<CollectionType>(() => {
   if (fieldKey.includes('event')) return 'events'
   return 'parts' // default
 })
+
+const isEventPartsCollection = computed(() =>
+  effectiveCollectionType.value === 'parts' && parentBlockShapeSemanticType.value === BLOCK_SHAPE_TYPES.EVENT
+)
 
 const collectionModel = useRelationshipCollection({
   fieldContext: props.fieldContext,
@@ -206,6 +214,9 @@ const placeholderCardClass = computed(() => {
 })
 
 const placeholderText = computed(() => {
+  if (isEventPartsCollection.value) {
+    return 'Click to create part modifier'
+  }
   const typeMap: Record<CollectionType, string> = {
     parts: 'Click to create part instance',
     annotations: 'Click to create annotation instance',
@@ -215,6 +226,9 @@ const placeholderText = computed(() => {
 })
 
 const emptyStateMessage = computed(() => {
+  if (isEventPartsCollection.value) {
+    return 'No valid PartShapes configured for this event block shape. Configure validPartCascades on the Event BlockShape to add part modifiers.'
+  }
   const typeMap: Record<CollectionType, string> = {
     parts: 'No valid PartShapes configured for this BlockShape. Configure validPartCascades on the BlockShape to add PartInstances.',
     annotations: 'No valid AnnotationShapes configured for this BlockShape. Configure validAnnotationAssignments on the BlockShape to add AnnotationInstances.',

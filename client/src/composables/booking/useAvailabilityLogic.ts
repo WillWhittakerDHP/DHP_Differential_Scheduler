@@ -22,8 +22,9 @@ import {
 import { selectedBlocksHaveDifferentialOverride } from '@/utils/booking/availabilityDifferentialOverride'
 import { propertyDetailsSliceForAvailability } from '@/utils/booking/availabilityPropertyDetailsSlice'
 import { iso8601DateFromPickerValue } from '@/utils/booking/selectedDatePickerNormalize'
-import { accumulateWizardSelectedBlockInstances } from '@/utils/booking/wizardSelectedBlocksAccumulation'
+import { accumulateWizardSelectedBlockInstances, mergeWizardSelectionWithAccumulatorInclusions } from '@/utils/booking/wizardSelectedBlocksAccumulation'
 import type { TimeSlotsPerDay } from '@/types/booking/availabilityLogic'
+import type { BookingData } from '@/types/transformers/bookingData'
 
 export type { TimeSlotsPerDay }
 
@@ -56,7 +57,11 @@ interface UseAvailabilityLogicParams {
   }
   timeSlots: ComputedRef<TimeSlot[]>
   loadedWizardState: Ref<WizardStateData | null> | null
+  /** Booking catalog + accumulation edges; when null, selections alone are used. */
+  bookingData?: Ref<BookingData | null> | null
 }
+
+type AvailabilitySettingsRef = ReturnType<typeof useAvailabilitySettings>['settings']
 
 export interface UseAvailabilityLogicReturn {
   dateRangeForApi: ComputedRef<{ start: RFC3339DateTime; end: RFC3339DateTime } | null>
@@ -72,34 +77,58 @@ export interface UseAvailabilityLogicReturn {
   matchLoadedTimeSlots: (loadedSlots: LoadedTimeSlot[], availableSlots: TimeSlot[], majorAppointmentSlot: Ref<TimeSlot | null>, minorAppointmentSlot: Ref<TimeSlot | null>) => void
 }
 
-/**
- * WHY: useAvailabilityLogic composable
-
-WHY: Extracts business logic from compo...
- */
-export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAvailabilityLogicReturn {
-  const {
-    selectedDate,
-    propertyDetailsStepData,
-    wizard,
-    timeSlots,
-    loadedWizardState: _loadedWizardState,
-  } = params
-
-  const { settings } = useAvailabilitySettings()
-
+function useAvailabilityDateState(selectedDate: Ref<DateRange>) {
   const dateRangeForApi = computed(() => {
     const startValue = selectedDate.value.start
-    if (!startValue) {
-      return null
-    }
-    return buildRfc3339UtcDayRangeForSelectedDate(startValue)
+    return startValue ? buildRfc3339UtcDayRangeForSelectedDate(startValue) : null
   })
 
-  const propertyDetails = computed(() => propertyDetailsSliceForAvailability(propertyDetailsStepData?.value))
+  const selectedDateSingle = computed({
+    get: () => selectedDate.value.start,
+    set: (value: ISO8601Date | Date | null) => {
+      const dateString = iso8601DateFromPickerValue(value)
+      selectedDate.value = { start: dateString, end: null }
+    },
+  })
 
-  const accumulatedBlockInstances = computed(() => accumulateWizardSelectedBlockInstances(wizard))
+  return { dateRangeForApi, selectedDateSingle }
+}
 
+function useAccumulatedAvailabilityBlocks(params: {
+  wizard: UseAvailabilityLogicParams['wizard']
+  bookingData: Ref<BookingData | null> | null
+  propertyDetailsStepData: Ref<PropertyDetails | null> | null
+  propertyDetails: ComputedRef<PropertyDetails | null>
+}) {
+  const { wizard, bookingData, propertyDetailsStepData, propertyDetails } = params
+
+  return computed(() => {
+    const selection = accumulateWizardSelectedBlockInstances(wizard)
+    const data = bookingData?.value
+    if (!data) {
+      return selection
+    }
+    // Prefer full property step for future equipment facts (hvacCount, ...); slice is availability-API only.
+    const facts =
+      (propertyDetailsStepData?.value as Record<string, unknown> | null | undefined) ??
+      (propertyDetails.value as Record<string, unknown> | null)
+    return mergeWizardSelectionWithAccumulatorInclusions({
+      wizardSelection: selection,
+      selectedServiceBlocks: wizard.selectedServiceTypeBlocks.value,
+      blockInstanceCatalog: data.blockInstanceCatalog,
+      accumulationLinks: data.accumulationLinks,
+      propertyDetails: facts,
+    })
+  })
+}
+
+function useAvailabilitySlotRows(params: {
+  selectedDate: Ref<DateRange>
+  timeSlots: ComputedRef<TimeSlot[]>
+  settings: AvailabilitySettingsRef
+  accumulatedBlockInstances: ComputedRef<BookingBlockInstance[]>
+}) {
+  const { selectedDate, timeSlots, settings, accumulatedBlockInstances } = params
   const timeSlotsPerDay = ref<TimeSlotsPerDay[]>([])
 
   const appointmentSlotsPerDay = computed<AppointmentSlotsPerDayRow[]>(() => {
@@ -114,6 +143,27 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     return buildAppointmentSlotsPerDayRows(slots, blockInstances, settings.value)
   })
 
+  watch(
+    [timeSlots, selectedDate],
+    ([slots, date]) => {
+      timeSlotsPerDay.value =
+        !slots || slots.length === 0 || !date?.start ? [] : buildTimeSlotsPerDayFromSlots(slots)
+    },
+    { immediate: true }
+  )
+
+  const currentAppointmentSlots = computed(() => {
+    if (!selectedDate.value.start) {
+      return []
+    }
+    const daySlots = timeSlotsPerDay.value.find((day) => day.date === selectedDate.value.start)
+    return daySlots ? daySlots.inspectorTimeSlots : []
+  })
+
+  return { timeSlotsPerDay, appointmentSlotsPerDay, currentAppointmentSlots }
+}
+
+function useAvailabilityDifferentialState(wizard: UseAvailabilityLogicParams['wizard']) {
   const isDifferentialService = computed(() =>
     isDifferentialFromSelectedBlocksCore(wizard.selectedServiceTypeBlocks.value)
   )
@@ -125,46 +175,48 @@ export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAva
     )
   )
 
-  const isEffectivelyDifferential = computed(() => {
-    if (!isDifferentialService.value) {
-      return false
-    }
-    if (hasDifferentialOverride.value) {
-      return false
-    }
-    return true
-  })
-
-  watch(
-    [timeSlots, selectedDate],
-    ([slots, date]) => {
-      if (!slots || slots.length === 0 || !date?.start) {
-        timeSlotsPerDay.value = []
-        return
-      }
-      timeSlotsPerDay.value = buildTimeSlotsPerDayFromSlots(slots)
-    },
-    { immediate: true }
+  const isEffectivelyDifferential = computed(() =>
+    isDifferentialService.value && !hasDifferentialOverride.value
   )
 
-  const selectedDateSingle = computed({
-    get: () => selectedDate.value.start,
-    set: (value: ISO8601Date | Date | null) => {
-      const dateString = iso8601DateFromPickerValue(value)
-      selectedDate.value = { start: dateString, end: null }
-    },
+  return { isDifferentialService, isEffectivelyDifferential }
+}
+
+/**
+ * WHY: useAvailabilityLogic composable
+
+WHY: Extracts business logic from compo...
+ */
+export function useAvailabilityLogic(params: UseAvailabilityLogicParams): UseAvailabilityLogicReturn {
+  const {
+    selectedDate,
+    propertyDetailsStepData,
+    wizard,
+    timeSlots,
+    loadedWizardState: _loadedWizardState,
+    bookingData = null,
+  } = params
+
+  const { settings } = useAvailabilitySettings()
+
+  const { dateRangeForApi, selectedDateSingle } = useAvailabilityDateState(selectedDate)
+  const propertyDetails = computed(() => propertyDetailsSliceForAvailability(propertyDetailsStepData?.value))
+
+  const accumulatedBlockInstances = useAccumulatedAvailabilityBlocks({
+    wizard,
+    bookingData,
+    propertyDetailsStepData,
+    propertyDetails,
   })
 
-  const currentAppointmentSlots = computed(() => {
-    if (!selectedDate.value.start) {
-      return []
-    }
-    const daySlots = timeSlotsPerDay.value.find((day) => day.date === selectedDate.value.start)
-    if (!daySlots) {
-      return []
-    }
-    return daySlots.inspectorTimeSlots
+  const { timeSlotsPerDay, appointmentSlotsPerDay, currentAppointmentSlots } = useAvailabilitySlotRows({
+    selectedDate,
+    timeSlots,
+    settings,
+    accumulatedBlockInstances,
   })
+
+  const { isDifferentialService, isEffectivelyDifferential } = useAvailabilityDifferentialState(wizard)
 
   const matchLoadedTimeSlots = matchLoadedTimeSlotsUtil
 

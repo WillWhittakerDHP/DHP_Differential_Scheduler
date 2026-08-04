@@ -3,7 +3,6 @@ import type { AppointmentSlot, AppointmentSlots } from '@/types/appointment'
 import type { BookingBlockInstance } from '@/utils/transformers/globalToBookingTransformer'
 import type { EventInstance, EventShape } from '@/types/events'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import { buildAppointmentShape, applyShapeToTime } from './appointmentSlotBuilder'
@@ -14,7 +13,6 @@ export function calculateAppointmentSlots(
   eventInstances?: EventInstance[],
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
-  partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   settings?: AvailabilitySettings | null,
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentSlots {
@@ -24,12 +22,11 @@ export function calculateAppointmentSlots(
   
   // PATTERN: Use buildAppointmentShape to create shape, pass events data and settings if available
   const shape = buildAppointmentShape(
-    blockInstances, 
+    blockInstances,
     settings || null,
     eventInstances,
     eventShapes,
     eventAssignmentsRelationships,
-    partShapeById,
     resolvedTimeRounding,
   )
   

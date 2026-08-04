@@ -6,7 +6,6 @@ const draft = defineModel<NewEventInstanceData>({ required: true })
 </script>
 
 <template>
-  <div class="text-title-small mb-3 mt-4">Calendar behavior</div>
   <p class="text-body-small text-medium-emphasis mb-3">
     These map to Google Calendar event options (visibility, busy/free, color, guests, notifications, Meet).
   </p>

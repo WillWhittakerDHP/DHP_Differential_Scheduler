@@ -10,6 +10,7 @@ import { useBooking } from '@/composables/useBooking'
 import { useAvailabilitySettings } from '@/composables/booking/useAvailabilitySettings'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 import { DEFAULT_MINOR_EVENT_NAME } from '@/configs/availabilitySettings'
 import type {
   ServiceSummary,
@@ -31,8 +32,7 @@ export function useDevPanelsComputed(
     return instances.map((block: BookingBlockInstance) => ({
       name: block.name,
       orchestrator: block.orchestrator,
-      wizardVisible: block.wizardVisible,
-      baseSqFt: block.baseSqFt ?? 0,
+      wizardPlacement: block.wizardPlacement,
       partCount: block.partInstances?.length !== undefined && block.partInstances?.length !== null ? block.partInstances.length : 0
     }))
   })
@@ -97,7 +97,7 @@ export function useDevPanelsComputed(
   // PATTERN: Use useBooking composable to get booking data
   const { bookingData } = useBooking()
 
-  // PATTERN: Filter bookingData.blockInstances by service block shape ID and active status
+  // PATTERN: Filter bookingData.blockInstances by service block shape ID and top-line placement
   const allActiveServiceTypes = computed((): BookingBlockInstance[] => {
     const data = bookingData.value
     if (!data || !data.blockInstances || !Array.isArray(data.blockInstances)) return []
@@ -108,7 +108,7 @@ export function useDevPanelsComputed(
     return data.blockInstances
       .filter(instance => 
         instance.blockShapeRef === serviceBlockShapeId && 
-        instance.active === true
+        isWizardTopLine(instance.wizardPlacement)
       )
       .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
   })

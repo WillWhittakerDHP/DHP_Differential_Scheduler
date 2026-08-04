@@ -14,6 +14,7 @@ const IDEMPOTENT_RELATIONSHIP_POST_KINDS: ReadonlySet<string> = new Set([
   RELATIONSHIP_TYPES.VALID_PRICING_CASCADES,
   RELATIONSHIP_TYPES.DEPENDENT_INSTANCES,
   RELATIONSHIP_TYPES.BOOKING_CASCADES,
+  RELATIONSHIP_TYPES.ACCUMULATION_LINKS,
   RELATIONSHIP_TYPES.PRICING_CASCADES,
   RELATIONSHIP_TYPES.PART_ASSIGNMENTS,
   RELATIONSHIP_TYPES.ATTENDEE_ASSIGNMENTS,
@@ -35,6 +36,30 @@ export function whereActiveRelationships(
   return { ...baseWhere, disabled: false }
 }
 
+function accumulationLinkIdentityWhere(createData: Record<string, unknown>): Record<string, unknown> {
+  return {
+    parentId: createData.parentId,
+    childId: createData.childId,
+  }
+}
+
+async function upsertAccumulationLinkRow(
+  model: ModelStatic<Model>,
+  createData: Record<string, unknown>
+): Promise<{ row: Model; created: boolean }> {
+  const existing = await model.findOne({ where: accumulationLinkIdentityWhere(createData) })
+  if (!existing) {
+    const row = await model.create(createData)
+    return { row, created: true }
+  }
+  existing.set('propertyFactKey', createData.propertyFactKey ?? '')
+  if (relationshipModelSupportsDisabled(model)) {
+    existing.set('disabled', false)
+  }
+  await existing.save()
+  return { row: existing, created: false }
+}
+
 async function reenableRelationshipRowIfDisabled(model: ModelStatic<Model>, row: Model): Promise<void> {
   if (!relationshipModelSupportsDisabled(model)) {
     return
@@ -50,6 +75,9 @@ export async function findOrCreateRelationshipRow(
   createData: Record<string, unknown>,
   normalizedKind: string
 ): Promise<{ row: Model; created: boolean }> {
+  if (normalizedKind === RELATIONSHIP_TYPES.ACCUMULATION_LINKS) {
+    return upsertAccumulationLinkRow(model, createData)
+  }
   if (!IDEMPOTENT_RELATIONSHIP_POST_KINDS.has(normalizedKind)) {
     const row = await model.create(createData)
     return { row, created: true }

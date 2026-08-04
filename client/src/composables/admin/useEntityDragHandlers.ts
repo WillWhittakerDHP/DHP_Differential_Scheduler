@@ -5,6 +5,7 @@ WHY: Entities all have the same drag-a...
  */
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { sortEntitiesByOrderIndex } from '@/utils/admin/sortEntitiesByOrderIndex'
 import type { UseEntityDragHandlersParams, UseEntityDragHandlersReturn } from '@/types/admin/entityDragHandlers'
 import { createLogger } from '@/utils/logger'
 
@@ -38,19 +39,19 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
       // PATTERN: Map for O(1) lookup
       const entityMap = new Map<string, GlobalEntity<EntityKey>>()
       allEntities.forEach(entity => {
-        entityMap.set(entity.id, entity)
+        entityMap.set(String(entity.id), entity)
       })
       
       // PATTERN: Set for O(1) membership check
-      const draggedIds = new Set(entityIds.value)
+      const draggedIds = new Set(entityIds.value.map((id) => String(id)))
       
       // PATTERN: Map dragged IDs to entities, then append non-dragged entities
       const draggedEntities = entityIds.value
-        .map(id => entityMap.get(id))
+        .map(id => entityMap.get(String(id)))
         .filter((entity): entity is GlobalEntity<EntityKey> => entity !== undefined)
       
       const nonDraggedEntities = allEntities.filter(
-        entity => !draggedIds.has(entity.id)
+        entity => !draggedIds.has(String(entity.id))
       )
       
       // PATTERN: Spread operator to combine arrays
@@ -78,8 +79,9 @@ export function useEntityDragHandlers<EntityKey extends GlobalEntityKey>(
   }
 
   const syncArrays = (): void => {
-    entityList.value = [...filteredEntities.value]
-    entityIds.value = filteredEntities.value.map(entity => entity.id)
+    const sorted = sortEntitiesByOrderIndex([...filteredEntities.value])
+    entityList.value = sorted
+    entityIds.value = sorted.map((entity) => entity.id)
   }
 
   return {

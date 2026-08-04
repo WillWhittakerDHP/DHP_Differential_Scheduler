@@ -64,9 +64,27 @@ export const partInstanceDisplays = {
     align: "right",
     },
 
-  rateOverBaseTime: {
-    label: "Overtime Rate (time)",
+  timePerUnit: {
+    label: "Time / unit",
     placeholder: "",
+    inline: false,
+    stacked: true,
+    width: "15%",
+    align: "right",
+    },
+
+  baseMultiplier: {
+    label: "Base multiplier",
+    placeholder: "1",
+    inline: false,
+    stacked: true,
+    width: "15%",
+    align: "right",
+    },
+
+  rateMultiplier: {
+    label: "Rate multiplier",
+    placeholder: "1",
     inline: false,
     stacked: true,
     width: "15%",
@@ -82,8 +100,8 @@ export const partInstanceDisplays = {
     align: "right",
     },
 
-  rateOverBaseFee: {
-    label: "Overtime Rate ($)",
+  feePerUnit: {
+    label: "Fee / unit ($)",
     placeholder: "",
     inline: false,
     stacked: true,

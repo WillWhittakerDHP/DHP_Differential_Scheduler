@@ -32,7 +32,7 @@ export function getBlockInstanceShapeProperties(
   const shape = blockShape as GlobalEntity<'blockShape'>
   return {
     composable: bi.composite === true,
-    canHaveParts: shape.type !== BLOCK_SHAPE_TYPES.USER,
-    isEventShape: shape.type === BLOCK_SHAPE_TYPES.EVENT,
+    canHaveParts: shape.semanticType !== BLOCK_SHAPE_TYPES.USER,
+    isEventShape: shape.semanticType === BLOCK_SHAPE_TYPES.EVENT,
   }
 }

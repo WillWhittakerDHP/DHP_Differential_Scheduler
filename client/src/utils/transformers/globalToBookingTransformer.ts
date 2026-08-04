@@ -7,7 +7,11 @@ import type { BookingBlockShape, BookingData, BookingBlockInstance } from '@/typ
 import { safeArray } from './transformerPrimitives'
 import { immutableSort } from './transformerCollections'
 import { buildBookingBlockAnnotationUi } from './buildBookingBlockAnnotationUi'
-import { filterAndSortBlockInstances, isWizardMainBlock } from './globalToBookingTransformerBlocks'
+import {
+  filterAndSortBlockInstances,
+  isWizardTopLineBlock,
+  isWizardSubOptionBlock,
+} from './globalToBookingTransformerBlocks'
 
 export type {
   BookingAnnotationUiCandidate,
@@ -28,6 +32,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const bookingCascadesRelationships = safeArray(relationships.bookingCascades)
   const instanceComponentsRelationships = safeArray(relationships.instanceComponents)
   const pricingCascadesRelationships = safeArray(relationships.pricingCascades)
+  const accumulationLinksRelationships = safeArray(relationships.accumulationLinks)
 
   const partInstanceById = new Map(
     partInstances.map((partInstance) => [partInstance.id, partInstance])
@@ -48,7 +53,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const bookingBlockInstances = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => isWizardMainBlock(bi),
+    (bi) => isWizardTopLineBlock(bi),
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
@@ -61,7 +66,21 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
   const lineItemBlocks = filterAndSortBlockInstances(
     blockInstances,
     componentIds,
-    (bi) => !isWizardMainBlock(bi),
+    (bi) => isWizardSubOptionBlock(bi),
+    partAssignmentsRelationships,
+    bookingCascadesRelationships,
+    instanceComponentsRelationships,
+    pricingCascadesRelationships,
+    partInstanceById,
+    blockShapeById,
+    partShapeById
+  )
+
+  /** Catalog includes hidden blocks so accumulator can resolve characteristic children. */
+  const blockInstanceCatalog = filterAndSortBlockInstances(
+    blockInstances,
+    componentIds,
+    () => true,
     partAssignmentsRelationships,
     bookingCascadesRelationships,
     instanceComponentsRelationships,
@@ -75,7 +94,7 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     blockShapes.map((blockShape) => ({
       id: blockShape.id,
       name: blockShape.name,
-      type: blockShape.type,
+      semanticType: blockShape.semanticType,
     })),
     (a, b) => a.name.localeCompare(b.name)
   )
@@ -87,10 +106,25 @@ export function transformGlobalToBooking(globalData: GlobalData): BookingData {
     })
   }
 
+  const accumulationLinks = accumulationLinksRelationships.flatMap((rel) => {
+    const parentId = rel.parent?.id
+    if (!parentId) {
+      return []
+    }
+    const factKey = typeof rel.propertyFactKey === 'string' ? rel.propertyFactKey : ''
+    return rel.children.map((child) => ({
+      parentId,
+      childId: child.id,
+      propertyFactKey: factKey,
+    }))
+  })
+
   return {
     blockInstances: withAnnotationUi(bookingBlockInstances),
     lineItemBlocks: withAnnotationUi(lineItemBlocks),
     blockShapes: bookingBlockShapes,
+    blockInstanceCatalog: withAnnotationUi(blockInstanceCatalog),
+    accumulationLinks,
   }
 }
 

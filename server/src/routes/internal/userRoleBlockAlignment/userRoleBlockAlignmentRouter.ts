@@ -1,53 +1,20 @@
 /**
- * GET/PUT singleton: canonical user_role → block_instance_id overrides (Session 6.18.2.1).
+ * Legacy alignment API — retired: role → instance mapping lives on `block_instances.semantic_type`.
  */
 import { Router, Request, Response } from 'express'
-import { handleRouteError } from '../../helpers/routerErrorHandler.js'
-import { sendBadRequest, sendSuccess } from '../../helpers/routerResponseHelpers.js'
-import { checkOwnership, csrfProtection, requireAuth } from '../../../middlewares/security.js'
-import { validateRequest } from '../../../middlewares/validateRequest.js'
-import { userRoleBlockAlignmentPutBodySchema } from '../../schemas/userRoleBlockAlignmentSchemas.js'
-import {
-  getAlignmentOverrides,
-  saveAlignmentOverrides,
-} from '../../../repositories/userRoleBlockAlignmentRepository.js'
-import { validateUserRoleBlockAlignmentPayload } from '../../../utils/validateUserRoleBlockAlignmentPayload.js'
-import { invalidateUserTypeMappingCaches } from '../../../utils/userTypeMapping.js'
-
-const ERROR_FETCH = 'Failed to fetch user role block alignment'
-const ERROR_UPDATE = 'Failed to update user role block alignment'
-
+import { checkOwnership, requireAuth } from '../../../middlewares/security.js'
+import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 const router = Router()
 
-router.get('/', requireAuth, checkOwnership('userRoleBlockAlignment', 'id'), async (_req: Request, res: Response): Promise<void> => {
-  try {
-    const alignments = await getAlignmentOverrides()
-    sendSuccess(res, { alignments })
-  } catch (error) {
-    handleRouteError(error, res, ERROR_FETCH, 'fetching user role block alignment')
-  }
+router.get('/', requireAuth, checkOwnership('userRoleBlockAlignment', 'id'), (_req: Request, res: Response): void => {
+  sendSuccess(res, { alignments: {} })
 })
 
-router.put(
-  '/',
-  csrfProtection,
-  requireAuth,
-  checkOwnership('userRoleBlockAlignment', 'id'),
-  validateRequest(userRoleBlockAlignmentPutBodySchema),
-  async (req: Request, res: Response): Promise<void> => {
-    try {
-      const validated = await validateUserRoleBlockAlignmentPayload(req.body)
-      if (!validated.ok) {
-        sendBadRequest(res, validated.error)
-        return
-      }
-      const saved = await saveAlignmentOverrides(validated.normalized)
-      invalidateUserTypeMappingCaches()
-      sendSuccess(res, { alignments: saved })
-    } catch (error) {
-      handleRouteError(error, res, ERROR_UPDATE, 'updating user role block alignment')
-    }
-  }
-)
+router.put('/', requireAuth, checkOwnership('userRoleBlockAlignment', 'id'), (_req: Request, res: Response): void => {
+  res.status(410).json({
+    error:
+      'user_role_block_alignments is retired. Set canonical roles on each user-type block instance via semanticType (block_instances.semantic_type).',
+  })
+})
 
 export { router as UserRoleBlockAlignmentRouter }

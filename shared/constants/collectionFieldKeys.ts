@@ -10,4 +10,6 @@
 export const RELATIONSHIP_COLLECTION_FIELD_KEYS: ReadonlySet<string> = new Set([
   'partAssignments',
   'annotationAssignments',
+  /** Block + part instance event pools (admin_metadata migration 000029 / 000030). */
+  'eventAssignments',
 ])

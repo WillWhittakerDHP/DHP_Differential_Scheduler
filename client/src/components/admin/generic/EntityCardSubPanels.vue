@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FieldRenderer from './fields/FieldRenderer.vue'
 import RelationshipCollection from './collections/RelationshipCollection.vue'
+import TimeBlockEventReadout from './TimeBlockEventReadout.vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
@@ -25,11 +26,16 @@ const props = defineProps<Props>()
 const {
   blockShapeName,
   partsSummary,
+  partsPanelTitle,
+  partsBulkEditLabel,
   isRelationshipCollectionField,
   expandedPanels,
   partsBulkEditMode,
   togglePartsBulkEditMode,
   relationshipsSummary,
+  eventsPanelTitle,
+  showTimeBlockEventReadout,
+  showEventsPanel,
   hasAnySubPanelFields,
 } = useEntityCardSubPanels(props)
 </script>
@@ -47,7 +53,7 @@ const {
       <template #title>
         <div class="d-flex align-center justify-space-between flex-grow-1">
           <div>
-            <span class="font-weight-medium">Parts</span>
+            <span class="font-weight-medium">{{ partsPanelTitle }}</span>
             <span v-if="partsSummary" class="ml-2 text-medium-emphasis text-body-medium">
               {{ partsSummary }}
             </span>
@@ -60,7 +66,7 @@ const {
             prepend-icon="tabler-edit"
             @click.stop="togglePartsBulkEditMode"
           >
-            {{ partsBulkEditMode ? 'Exit Bulk Edit' : 'Bulk Edit' }}
+            {{ partsBulkEditLabel }}
           </VBtn>
         </div>
       </template>
@@ -104,15 +110,20 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- WHY: User requested no annotation chips/summary in panel titles -->
-    <!-- PATTERN: Simple panel with just "Annotations" label -->
+    <!-- WHY: Tool Tip / Top-line Description etc. live here — not as loose dashed cards. -->
     <VExpansionPanel v-if="subPanelFields.annotations.length" value="annotations">
       <template #title>
         <span class="font-weight-medium">Annotations</span>
       </template>
       <template #text>
         <div v-for="fieldKey in subPanelFields.annotations" :key="fieldKey" class="mb-4">
+          <RelationshipCollection
+            v-if="isRelationshipCollectionField(fieldKey)"
+            :field-context="props.getFieldContext(fieldKey)!"
+            collection-type="annotations"
+          />
           <FieldRenderer
+            v-else
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="false"
             :field-metadata="props.fieldMetadata"
@@ -123,12 +134,21 @@ const {
 
     <!-- WHY: Shows event instances configured for shapes -->
     <!-- PATTERN: Simple panel with "Events" label -->
-    <VExpansionPanel v-if="subPanelFields.events.length" value="events">
+    <VExpansionPanel v-if="showEventsPanel" value="events">
       <template #title>
-        <span class="font-weight-medium">Events</span>
+        <span class="font-weight-medium">{{ eventsPanelTitle }}</span>
       </template>
       <template #text>
-        <div v-for="fieldKey in subPanelFields.events" :key="fieldKey" class="mb-4">
+        <TimeBlockEventReadout
+          v-if="showTimeBlockEventReadout"
+          :block-instance-id="String(entity.id)"
+        />
+        <div
+          v-for="fieldKey in subPanelFields.events"
+          v-else
+          :key="fieldKey"
+          class="mb-4"
+        >
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"
             :show-label="true"
@@ -138,13 +158,17 @@ const {
       </template>
     </VExpansionPanel>
 
-    <!-- WHY: instanceComponents field renders here when composite and composable -->
-    <!-- PATTERN: Title uses blockShapeName for "{BlockShape} Components" -->
+    <!-- WHY: instanceComponents = Composite vertical packaging (same-shape children), NOT orchestrator -->
+    <!-- PATTERN: Title uses blockShapeName for "{BlockShape} Components"; only when Composite is on -->
     <VExpansionPanel v-if="subPanelFields.composition.length" value="composition">
       <template #title>
         <span class="font-weight-medium">{{ blockShapeName }} Components</span>
       </template>
       <template #text>
+        <div class="text-body-small text-medium-emphasis mb-3">
+          Same-shape children of this package (Composite). Independent of Orchestrator, which
+          picks cross-shape options like time or fee blocks.
+        </div>
         <div v-for="fieldKey in subPanelFields.composition" :key="fieldKey" class="mb-4">
           <FieldRenderer
             :field-context="props.getFieldContext(fieldKey)!"

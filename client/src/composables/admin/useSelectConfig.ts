@@ -86,15 +86,23 @@ export function useSelectConfig(options: FieldContextGroupedOptions): UseSelectC
 
   const isAttendeeSelect = computed(() => readAttendeeSelect(fieldMetadataEntry.value))
 
-  const isMultiple = computed(() =>
-    resolveSelectMultiple(
+  const isAccumulationLinksField = computed(
+    () => entityKeyStr === 'blockInstance' && fieldKeyStr === 'accumulationLinks'
+  )
+
+  const isMultiple = computed(() => {
+    // WHY: Accumulator links are a collection of time-characteristic gates, even if config is partial.
+    if (isAccumulationLinksField.value) {
+      return true
+    }
+    return resolveSelectMultiple(
       isEnumSelect.value,
       optionsSelectConfig.value,
       selectConfig.value,
       entityKeyStr,
       fieldKeyStr
     )
-  )
+  })
 
   const chipsProps = computed(() => selectChipsPropsForMultiple(isMultiple.value))
 

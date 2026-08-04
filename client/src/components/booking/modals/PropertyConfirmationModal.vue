@@ -75,6 +75,21 @@
               Foundation Access: {{ formatFoundationAccess(propertyDetails.foundationAccess) }}
             </VListItemTitle>
           </VListItem>
+          <VListItem v-if="propertyDetails.hvacCount">
+            <VListItemTitle>
+              HVAC Count: {{ propertyDetails.hvacCount }}
+            </VListItemTitle>
+          </VListItem>
+          <VListItem v-if="propertyDetails.waterHeaterCount">
+            <VListItemTitle>
+              Water Heater Count: {{ propertyDetails.waterHeaterCount }}
+            </VListItemTitle>
+          </VListItem>
+          <VListItem v-if="propertyDetails.kitchenApplianceCount">
+            <VListItemTitle>
+              Kitchen Appliance Count: {{ propertyDetails.kitchenApplianceCount }}
+            </VListItemTitle>
+          </VListItem>
         </VList>
   </RequiredConfirmationModal>
 </template>

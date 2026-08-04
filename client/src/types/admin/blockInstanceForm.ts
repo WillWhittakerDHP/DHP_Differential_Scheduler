@@ -1,11 +1,12 @@
 import type { Ref } from 'vue'
 import type { UseEntityInstanceFormReturn } from '@/types/admin/entityInstanceFormBase'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement'
 
 export interface BlockInstanceFormData {
   name: string
   blockShapeRef: string
   orderIndex: number
-  active: boolean
+  wizardPlacement: WizardPlacement
 }
 
 export interface UseBlockInstanceFormReturn

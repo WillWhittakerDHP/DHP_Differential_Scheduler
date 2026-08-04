@@ -5,7 +5,7 @@
 import { computed } from 'vue'
 import { useDataGridVTableProps } from '@/composables/admin/tables/useDataGridVTableProps'
 import type { AppointmentStatus, AppointmentResponse } from '@/types/appointment'
-import { getClientAttendee, getAgentAttendee } from '@/utils/admin/appointmentAttendees'
+import { getBuyerAttendee, getAgentAttendee, isBuyerUserRole } from '@/utils/admin/appointmentAttendees'
 import { APPOINTMENTS_TABLE_HEADERS } from '@/constants/appointmentsTableConstants.js'
 import AppointmentUserTooltipContent from './AppointmentUserTooltipContent.vue'
 import AppointmentPropertyTooltipContent from './AppointmentPropertyTooltipContent.vue'
@@ -21,7 +21,7 @@ const g = props.grid
 const { tableItems, isLoading } = useDataGridVTableProps(g)
 const editingId = g.editingId
 const editedData = g.editedData
-const editingClientId = g.editingClientId
+const editingBuyerId = g.editingBuyerId
 const editingAgentId = g.editingAgentId
 const properties = computed(() => g.properties.value)
 const users = computed(() => g.users.value)
@@ -78,26 +78,26 @@ const isItem = (item: unknown): item is AppointmentResponse =>
       </template>
     </template>
 
-    <template #item.client="{ item }">
+    <template #item.buyer="{ item }">
       <template v-if="isItem(item)">
         <span v-if="editingId !== item.id">
           <VTooltip location="top">
             <template #activator="{ props: tooltipProps }">
               <span v-bind="tooltipProps" class="clickable-cell" @click="g.navigateToUsers">
                 {{
-                  getClientAttendee(item)?.user
-                    ? `${getClientAttendee(item)?.user?.firstName} ${getClientAttendee(item)?.user?.lastName}`
+                  getBuyerAttendee(item)?.user
+                    ? `${getBuyerAttendee(item)?.user?.firstName} ${getBuyerAttendee(item)?.user?.lastName}`
                     : '—'
                 }}
               </span>
             </template>
-            <AppointmentUserTooltipContent :user="getClientAttendee(item)?.user ?? null" />
+            <AppointmentUserTooltipContent :user="getBuyerAttendee(item)?.user ?? null" />
           </VTooltip>
         </span>
         <VSelect
           v-else
-          v-model="editingClientId"
-          :items="users.filter((u) => u.userRole === 'client')"
+          v-model="editingBuyerId"
+          :items="users.filter((u) => isBuyerUserRole(u.userRole))"
           item-title="firstName"
           item-value="id"
           :return-object="false"

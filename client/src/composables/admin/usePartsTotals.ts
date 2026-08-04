@@ -68,8 +68,10 @@ export function usePartsTotals(entityKey: GlobalEntityKey, entityId: string): Us
       return {
         totalBaseFee: 0,
         totalBaseTime: 0,
-        totalRateOverBaseFee: 0,
-        totalRateOverBaseTime: 0,
+        totalFeePerUnit: 0,
+        totalTimePerUnit: 0,
+        totalBaseMultiplier: 1,
+        totalRateMultiplier: 1,
       }
     }
     return calculatePartsTotals(partInstancesForEntity.value)
@@ -79,7 +81,9 @@ export function usePartsTotals(entityKey: GlobalEntityKey, entityId: string): Us
     canHaveParts,
     totalBaseFee: computed(() => totals.value.totalBaseFee),
     totalBaseTime: computed(() => totals.value.totalBaseTime),
-    totalRateOverBaseFee: computed(() => totals.value.totalRateOverBaseFee),
-    totalRateOverBaseTime: computed(() => totals.value.totalRateOverBaseTime),
+    totalFeePerUnit: computed(() => totals.value.totalFeePerUnit),
+    totalTimePerUnit: computed(() => totals.value.totalTimePerUnit),
+    totalBaseMultiplier: computed(() => totals.value.totalBaseMultiplier),
+    totalRateMultiplier: computed(() => totals.value.totalRateMultiplier),
   }
 }

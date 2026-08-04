@@ -13,6 +13,9 @@ export interface PropertyEnrichmentFormWriters {
   setBathrooms: (v: number | null) => void
   setFoundationAccess: (v: 'basement' | 'crawlspace' | 'slab' | null) => void
   setAdditionalUnits: (v: number | null) => void
+  setHvacCount: (v: number | null) => void
+  setWaterHeaterCount: (v: number | null) => void
+  setKitchenApplianceCount: (v: number | null) => void
   setSource: (v: PropertySource) => void
   setSuggestedBlockInstanceIds: (v: string[]) => void
   setPropertySize: (v: number) => void
@@ -28,6 +31,9 @@ export function applyPropertyEnrichmentToFormFields(
   writers.setBathrooms(enrichment.bathrooms ?? null)
   writers.setFoundationAccess(enrichment.foundationAccess ?? null)
   writers.setAdditionalUnits(enrichment.additionalUnits ?? null)
+  writers.setHvacCount(enrichment.hvacCount ?? null)
+  writers.setWaterHeaterCount(enrichment.waterHeaterCount ?? null)
+  writers.setKitchenApplianceCount(enrichment.kitchenApplianceCount ?? null)
   writers.setSource(PROPERTY_SOURCE.API)
   writers.setSuggestedBlockInstanceIds(safeArray(enrichment.suggestedBlockInstanceIds))
   if (enrichment.squareFootage != null) {

@@ -22,22 +22,21 @@ import {
   type AppointmentStatusLiteral,
 } from '@shared/constants/appointmentStatusLiterals.js'
 import { manualCreatedUpdatedAtColumns } from '../shared/manualCreatedUpdatedAtColumns.js'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement.js'
 
 export interface BlockInstanceSnapshot {
   id: string
   name: string
   icon: string
-  baseSqFt: number
-  allowMultiple: boolean
   orchestrator: boolean
-  wizardVisible: boolean
+  wizardPlacement: WizardPlacement
   partInstances: Array<{
     id: string
     name: string
     baseFee: number
     baseTime: number
-    rateOverBaseFee: number
-    rateOverBaseTime: number
+    feePerUnit: number
+    timePerUnit: number
   }>
 }
 

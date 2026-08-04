@@ -16,7 +16,7 @@ const ENTITY_TYPE_LABELS: Record<GlobalEntityKey, string> = {
   partShape: 'Part Shapes',
   blockInstance: 'Block Instance',
   partInstance: 'Part Instance',
-  eventShape: 'Event Shapes',
+  eventShape: 'Event Types',
   eventInstance: 'Event Instances',
   annotationShape: 'Annotation Shapes',
   annotationInstance: 'Annotation Instances',

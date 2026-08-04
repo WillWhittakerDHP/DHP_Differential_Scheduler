@@ -1,26 +1,31 @@
 /**
- * WHY: Vue composables (useEntityDragHandlers) must run in setup; this module holds the branching logic only.
- * PLACEMENT: utils/admin — not a `use*` composable file; avoids composable-health false positives on inner ref().
+ * WHY: Block instance drag maps + handlers without calling Vue composables inside watch callbacks.
+ * PLACEMENT: utils/admin — invoked from registerInstanceDragShapeLayoutWatch only.
  */
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
-import { useEntityDragHandlers } from '@/composables/admin/useEntityDragHandlers'
-import { useEntityTabState } from '@/composables/admin/useEntityTabState'
+import { groupedInstanceDragZoneKey } from '@/composables/admin/useInstanceDragAndDropGrouped'
+import { sortEntitiesByOrderIndex } from '@/utils/admin/sortEntitiesByOrderIndex'
 import {
-  createGroupedZoneDragEndHandler,
-  groupedInstanceDragZoneKey,
-} from '@/composables/admin/useInstanceDragAndDropGrouped'
+  patchBlockInstanceOrderAfterGroupedZoneDrag,
+  patchBlockInstanceOrderAfterMainZoneDrag,
+  syncGroupedZoneFromFiltered,
+  syncMainZoneBlockInstanceLists,
+} from '@/utils/admin/blockInstanceDragOrderOrchestrator'
 
-type BlockInstanceDragHandlers = ReturnType<typeof useEntityDragHandlers<'blockInstance'>>
+export type BlockInstanceZoneDragHandlers = {
+  syncArrays: () => void
+  handleDragEnd: () => void | Promise<void>
+}
 
 export function syncBlockInstanceShapeMapsFromSources(params: {
   mainMap: Map<string, GlobalEntity<'blockInstance'>[]>
   groupedMap: Map<string, GlobalEntity<'blockInstance'>[]>
   blockInstancesLists: Ref<Map<string, Ref<GlobalEntity<'blockInstance'>[]>>>
   blockInstanceIdsMap: Ref<Map<string, Ref<string[]>>>
-  groupDragHandlers: Ref<Map<string, BlockInstanceDragHandlers>>
+  groupDragHandlers: Ref<Map<string, BlockInstanceZoneDragHandlers>>
   groupDragInstances: Ref<Map<string, ReturnType<typeof dragAndDrop>>>
   shapeDragBoundNonce: Ref<Map<string, number>>
   mainInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
@@ -44,25 +49,32 @@ export function syncBlockInstanceShapeMapsFromSources(params: {
 
   mainMap.forEach((instances, blockShapeId) => {
     if (!blockInstancesLists.value.has(blockShapeId)) {
-      blockInstancesLists.value.set(blockShapeId, ref([...instances]))
-      blockInstanceIdsMap.value.set(blockShapeId, ref(instances.map((i) => i.id)))
+      const sortedMain = sortEntitiesByOrderIndex<'blockInstance'>([...instances])
+      blockInstancesLists.value.set(blockShapeId, ref<GlobalEntity<'blockInstance'>[]>(sortedMain))
+      blockInstanceIdsMap.value.set(blockShapeId, ref(sortedMain.map((i) => i.id)))
 
       const filteredInstances = computed(() => {
         const raw = mainInstancesByShape.value.get(blockShapeId)
         return raw !== undefined ? raw : []
       })
 
-      const dragHandlers = useEntityDragHandlers({
-        entityIds: blockInstanceIdsMap.value.get(blockShapeId)!,
-        entityList: blockInstancesLists.value.get(blockShapeId)!,
-        filteredEntities: filteredInstances,
-        patchOrderIndex: patchBlockInstanceOrderIndex
-      })
-      groupDragHandlers.value.set(blockShapeId, dragHandlers)
+      const entityIds = blockInstanceIdsMap.value.get(blockShapeId)!
+      const entityList = blockInstancesLists.value.get(blockShapeId)!
 
-      useEntityTabState({
-        filteredEntities: filteredInstances,
-        dragHandlers
+      groupDragHandlers.value.set(blockShapeId, {
+        syncArrays: () =>
+          syncMainZoneBlockInstanceLists({
+            entityIds,
+            entityList,
+            filteredEntities: filteredInstances,
+          }),
+        handleDragEnd: () =>
+          patchBlockInstanceOrderAfterMainZoneDrag({
+            entityIds,
+            entityList,
+            filteredEntities: filteredInstances,
+            patchOrderIndex: patchBlockInstanceOrderIndex,
+          }),
       })
     } else {
       const handlers = groupDragHandlers.value.get(blockShapeId)
@@ -76,37 +88,33 @@ export function syncBlockInstanceShapeMapsFromSources(params: {
     const zoneKey = groupedInstanceDragZoneKey(blockShapeId)
     if (instances.length > 0) {
       if (!blockInstancesLists.value.has(zoneKey)) {
-        blockInstancesLists.value.set(zoneKey, ref([...instances]))
-        blockInstanceIdsMap.value.set(zoneKey, ref(instances.map((i) => i.id)))
+        const groupedSorted = sortEntitiesByOrderIndex<'blockInstance'>([...instances])
+        blockInstancesLists.value.set(zoneKey, ref<GlobalEntity<'blockInstance'>[]>(groupedSorted))
+        blockInstanceIdsMap.value.set(zoneKey, ref(groupedSorted.map((i) => i.id)))
 
         const filteredGrouped = computed(() => {
           const raw = groupedInstancesByShape.value.get(blockShapeId)
           return raw !== undefined ? raw : []
         })
 
-        const baseHandlers = useEntityDragHandlers({
-          entityIds: blockInstanceIdsMap.value.get(zoneKey)!,
-          entityList: blockInstancesLists.value.get(zoneKey)!,
-          filteredEntities: filteredGrouped,
-          patchOrderIndex: patchBlockInstanceOrderIndex
-        })
+        const groupedEntityIds = blockInstanceIdsMap.value.get(zoneKey)!
+        const groupedEntityList = blockInstancesLists.value.get(zoneKey)!
 
-        const groupedDragHandlers: BlockInstanceDragHandlers = {
-          syncArrays: baseHandlers.syncArrays,
-          handleDragEnd: createGroupedZoneDragEndHandler({
-            blockShapeId,
-            groupedEntityIds: blockInstanceIdsMap.value.get(zoneKey)!,
-            groupedEntityList: blockInstancesLists.value.get(zoneKey)!,
-            blockInstancesByShape,
-            patchOrderIndex: patchBlockInstanceOrderIndex
-          })
-        }
-
-        groupDragHandlers.value.set(zoneKey, groupedDragHandlers)
-
-        useEntityTabState({
-          filteredEntities: filteredGrouped,
-          dragHandlers: groupedDragHandlers
+        groupDragHandlers.value.set(zoneKey, {
+          syncArrays: () =>
+            syncGroupedZoneFromFiltered({
+              groupedEntityIds,
+              groupedEntityList,
+              filteredGrouped,
+            }),
+          handleDragEnd: () =>
+            patchBlockInstanceOrderAfterGroupedZoneDrag({
+              blockShapeId,
+              groupedEntityIds,
+              groupedEntityList,
+              blockInstancesByShape,
+              patchOrderIndex: patchBlockInstanceOrderIndex,
+            }),
         })
       } else {
         const handlers = groupDragHandlers.value.get(zoneKey)

@@ -7,40 +7,19 @@ export { calculateSlotShape } from './partFinalizerSlotShape'
 
 const logger = createLogger('partFinalizer')
 
-function partShapeKey(part: BookingPartInstance): string {
-  const raw = part.partShape
-  if (raw === undefined || raw === null || raw === '') {
-    logger.debug('groupPartsByShape: partShape missing', { partId: part.id })
-    return ''
-  }
-  return raw
-}
-
-function groupPartsByShape(
-  parts: BookingPartInstance[]
-): Map<string, BookingPartInstance[]> {
-  return parts.reduce((grouped, part) => {
-    const partShape = partShapeKey(part)
-    if (!grouped.has(partShape)) {
-      grouped.set(partShape, [])
+/**
+ * WHY: One `PartFinal` per booking part instance (lineage key = `partInstance.id`).
+ * Grouping only by `partShape` display name collides when multiple work items share a shape label (Architecture §14.3d).
+ */
+export function createPartFinals(parts: BookingPartInstance[]): PartFinal[] {
+  return parts.map((part) => {
+    if (part.partShape === undefined || part.partShape === null || part.partShape === '') {
+      logger.debug('createPartFinals: partShape missing on part instance', { partId: part.id })
     }
-    grouped.get(partShape)!.push(part)
-    return grouped
-  }, new Map<string, BookingPartInstance[]>())
+    return createPartFinal(part.partShape, [part])
+  })
 }
 
-export function createPartFinals(
-  parts: BookingPartInstance[]
-): PartFinal[] {
-  const partsByShape = groupPartsByShape(parts)
-
-  return Array.from(partsByShape.entries()).map(([partShape, shapeParts]) =>
-    createPartFinal(partShape, shapeParts)
-  )
-}
-
-export function filterZeroedParts(
-  partFinals: PartFinal[]
-): PartFinal[] {
-  return partFinals.filter(part => !part.zeroOutPart)
+export function filterZeroedParts(partFinals: PartFinal[]): PartFinal[] {
+  return partFinals.filter((part) => !part.zeroOutPart)
 }

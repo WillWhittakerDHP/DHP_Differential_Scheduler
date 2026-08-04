@@ -4,6 +4,7 @@ import { linesToFlatSelectionFields } from '../repositories/appointmentSelection
 import type { BlockInstanceSnapshot } from '../db/models/booking/appointment.js';
 import { createLogger } from '../utils/logger.js';
 import { asEmptyString } from '../utils/safeDefaults.js';
+import { resolveWizardPlacement } from '@shared/constants/wizardPlacement.js';
 
 const logger = createLogger('SnapshotLoader');
 
@@ -27,10 +28,8 @@ function transformBlockVersionToBookingInstance(
     id: versionData.blockInstanceId as string,
     name: versionData.name as string,
     icon: asEmptyString(versionData.icon as string | null | undefined),
-    baseSqFt: (versionData.baseSqFt as number | null) ?? 0,
-    allowMultiple: Boolean(versionData.allowMultiple),
     orchestrator: Boolean(versionData.orchestrator),
-    wizardVisible: Boolean(versionData.wizardVisible),
+    wizardPlacement: resolveWizardPlacement(versionData.wizardPlacement),
     partInstances: partVersions.map((partVersion: Model) => {
       const partData = partVersion.toJSON() as Record<string, unknown>;
       return {
@@ -38,8 +37,8 @@ function transformBlockVersionToBookingInstance(
         name: asEmptyString(partData.name as string | null | undefined),
         baseFee: partData.baseFee as number,
         baseTime: partData.baseTime as number,
-        rateOverBaseFee: partData.rateOverBaseFee as number,
-        rateOverBaseTime: partData.rateOverBaseTime as number,
+        feePerUnit: partData.feePerUnit as number,
+        timePerUnit: partData.timePerUnit as number,
       };
     }),
   };
@@ -86,8 +85,8 @@ async function loadAppointmentVersions(
 }
 
 function snapshotIdsOrEmpty(
-  appointment: { serviceSnapshotIds?: string[] | null; propertySnapshotIds?: string[] | null; optionSnapshotIds?: string[] | null },
-  key: 'serviceSnapshotIds' | 'propertySnapshotIds' | 'optionSnapshotIds'
+  appointment: { serviceSnapshotIds?: string[] | null; timeSnapshotIds?: string[] | null; eventSnapshotIds?: string[] | null },
+  key: 'serviceSnapshotIds' | 'timeSnapshotIds' | 'eventSnapshotIds'
 ): string[] {
   const raw = appointment[key];
   if (raw === undefined || raw === null) {
@@ -99,8 +98,8 @@ function snapshotIdsOrEmpty(
 
 async function loadAllAppointmentVersions(appointment: {
   serviceSnapshotIds?: string[] | null;
-  propertySnapshotIds?: string[] | null;
-  optionSnapshotIds?: string[] | null;
+  timeSnapshotIds?: string[] | null;
+  eventSnapshotIds?: string[] | null;
 }): Promise<{
   services: BlockInstanceSnapshot[];
   properties: BlockInstanceSnapshot[];
@@ -108,8 +107,8 @@ async function loadAllAppointmentVersions(appointment: {
 }> {
   const [services, properties, options] = await Promise.all([
     loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'serviceSnapshotIds')),
-    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'propertySnapshotIds')),
-    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'optionSnapshotIds')),
+    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'timeSnapshotIds')),
+    loadAppointmentVersions(snapshotIdsOrEmpty(appointment, 'eventSnapshotIds')),
   ]);
 
   return { services, properties, options };
@@ -126,7 +125,7 @@ export async function loadAllAppointmentVersionsForAppointmentId(
   const flat = linesToFlatSelectionFields(lines)
   return loadAllAppointmentVersions({
     serviceSnapshotIds: flat.serviceSnapshotIds,
-    propertySnapshotIds: flat.propertySnapshotIds,
-    optionSnapshotIds: flat.optionSnapshotIds,
+    timeSnapshotIds: flat.timeSnapshotIds,
+    eventSnapshotIds: flat.eventSnapshotIds,
   })
 }

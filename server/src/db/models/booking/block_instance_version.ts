@@ -6,6 +6,10 @@ import {
   CreationOptional,
   Sequelize,
 } from 'sequelize';
+import {
+  DEFAULT_WIZARD_PLACEMENT,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 
 /**
  * BlockInstanceVersion Model
@@ -21,11 +25,13 @@ export class BlockInstanceVersion extends Model<
   declare blockInstanceId: string; // NO FK constraint - allows deletion
   declare name: string;
   declare icon: string | null;
-  declare baseSqFt: number | null;
-  declare allowMultiple: boolean;
+  declare composite: boolean;
   declare orchestrator: boolean;
-  declare wizardVisible: boolean;
+  declare accumulator: boolean;
+  declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
+  declare defaultEventInstanceId: string | null;
+  declare propertyFactKey: string | null;
   declare createdAt: CreationOptional<Date>;
   
   /** Associated part instance versions (typed as Model[] to avoid circular type reference with PartInstanceVersion) */
@@ -54,33 +60,42 @@ export function BlockInstanceVersionFactory(sequelize: Sequelize) {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      baseSqFt: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        field: 'base_sq_ft',
-      },
-      allowMultiple: {
+      composite: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: 'allow_multiple',
       },
       orchestrator: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
-      wizardVisible: {
+      accumulator: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
-        field: 'wizard_visible',
+        defaultValue: false,
+      },
+      wizardPlacement: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: DEFAULT_WIZARD_PLACEMENT,
+        field: 'wizard_placement',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
         field: 'pre_closing',
+      },
+      defaultEventInstanceId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'default_event_instance_id',
+      },
+      propertyFactKey: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'property_fact_key',
       },
       createdAt: {
         type: DataTypes.DATE,

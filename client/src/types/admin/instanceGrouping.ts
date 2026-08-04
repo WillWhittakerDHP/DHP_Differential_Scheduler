@@ -1,8 +1,13 @@
-import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
 
 export interface UseInstanceGroupingOptions {
   activeTab?: Ref<string>
+  /** When set, only these block shape types appear in instance admin lists (domain-tab split). */
+  allowedBlockShapeTypes?: MaybeRefOrGetter<readonly BlockShapeType[] | undefined>
+  /** Orchestration tab: only block instances with `orchestrator === true` (FEATURE_20 admin acceptance). */
+  orchestratorInstancesOnly?: MaybeRefOrGetter<boolean | undefined>
 }
 
 export interface UseInstanceGroupingReturn {

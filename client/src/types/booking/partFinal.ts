@@ -4,8 +4,10 @@ export interface PartFinal {
   partShape: string
   baseTime: number
   baseFee: number
-  rateOverBaseTime: number
-  rateOverBaseFee: number
+  timePerUnit: number
+  baseMultiplier: number
+  rateMultiplier: number
+  feePerUnit: number
   zeroOutPart: boolean
   sourcePartInstances: BookingPartInstance[]
 }

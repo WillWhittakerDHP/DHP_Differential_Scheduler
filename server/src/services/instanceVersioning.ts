@@ -8,6 +8,10 @@ import {
   PartInstanceVersion,
 } from '../config/app.js';
 import { FIELD_NAMES, SORT_ORDERS } from '../routes/internal/entities/entityConstants.js';
+import {
+  resolveWizardPlacement,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 
 /**
  * Instance Versioning Service
@@ -24,11 +28,13 @@ type BlockInstanceWithPartAssignments = BlockInstanceType & { part_assignment_in
 interface BlockInstanceVersionComparison {
   name?: string;
   icon?: string | null;
-  baseSqFt?: number | null;
-  allowMultiple?: boolean;
+  composite?: boolean;
   orchestrator?: boolean;
-  wizardVisible?: boolean;
+  accumulator?: boolean;
+  wizardPlacement?: WizardPlacement;
   preClosing?: boolean;
+  defaultEventInstanceId?: string | null;
+  propertyFactKey?: string | null;
 }
 
 function versionsMatch(
@@ -40,11 +46,13 @@ function versionsMatch(
   
   return versionData.name === instanceData.name &&
          versionData.icon === instanceData.icon &&
-         versionData.baseSqFt === instanceData.baseSqFt &&
-         versionData.allowMultiple === instanceData.allowMultiple &&
+         versionData.composite === instanceData.composite &&
          versionData.orchestrator === instanceData.orchestrator &&
-         versionData.wizardVisible === instanceData.wizardVisible &&
-         versionData.preClosing === instanceData.preClosing;
+         versionData.accumulator === instanceData.accumulator &&
+         resolveWizardPlacement(versionData.wizardPlacement) === resolveWizardPlacement(instanceData.wizardPlacement) &&
+         versionData.preClosing === instanceData.preClosing &&
+         (versionData.defaultEventInstanceId ?? null) === (instanceData.defaultEventInstanceId ?? null) &&
+         (versionData.propertyFactKey ?? null) === (instanceData.propertyFactKey ?? null);
 }
 
 async function findAppointmentsUsingBlockInstance(
@@ -71,11 +79,13 @@ async function createVersionFromInstance(
     blockInstanceId: instanceData.id,
     name: instanceData.name,
     icon: instanceData.icon,
-    baseSqFt: instanceData.baseSqFt,
-    allowMultiple: instanceData.allowMultiple,
+    composite: instanceData.composite ?? false,
     orchestrator: instanceData.orchestrator,
-    wizardVisible: instanceData.wizardVisible,
+    accumulator: instanceData.accumulator ?? false,
+    wizardPlacement: resolveWizardPlacement(instanceData.wizardPlacement),
     preClosing: instanceData.preClosing ?? false,
+    defaultEventInstanceId: instanceData.defaultEventInstanceId ?? null,
+    propertyFactKey: instanceData.propertyFactKey ?? null,
   });
 
   const blockInstanceWithParts = await BlockInstance.findByPk(instanceData.id, {
@@ -102,8 +112,10 @@ async function createVersionFromInstance(
           name: partData.name,
           baseFee: partData.baseFee,
           baseTime: partData.baseTime,
-          rateOverBaseFee: partData.rateOverBaseFee,
-          rateOverBaseTime: partData.rateOverBaseTime,
+          feePerUnit: partData.feePerUnit,
+          timePerUnit: partData.timePerUnit,
+          baseMultiplier: partData.baseMultiplier ?? 1,
+          rateMultiplier: partData.rateMultiplier ?? 1,
         };
       })
     );

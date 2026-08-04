@@ -1,4 +1,6 @@
+import { Op } from 'sequelize'
 import { ENTITY_KEYS } from '../../../constants/entities.js'
+import { BlockInstance, BlockShape, EventAssignment, EventInstance } from '../../../config/app.js'
 import { TEMPORARY_ID_PATTERNS } from './entityConstants.js'
 
 export function isEventInstanceEntityType(entityType: string): boolean {
@@ -8,7 +10,7 @@ export function isEventInstanceEntityType(entityType: string): boolean {
 const PARENT_CAMEL = 'parentBlockInstanceId'
 const PARENT_SNAKE = 'parent_block_instance_id'
 
-/** Aligned with `validateUserRoleBlockAlignmentPayload` UUID check (entity layer stays local). */
+/** Local UUID shape check for dual-key parent id fields. */
 function isUuidString(value: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
 }
@@ -266,4 +268,96 @@ export function validateEventInstanceWritePayload(
     }
   }
   return validateEventInstanceSegmentFieldsWhenPresent(body)
+}
+
+type BlockInstanceWithShape = InstanceType<typeof BlockInstance> & {
+  block_shape?: InstanceType<typeof BlockShape> | null
+}
+
+/**
+ * After sync payload checks: ensure parentBlockInstanceId references a block whose shape type is `event`
+ * (event instances are segments on event blocks). Skips when update omits the parent field.
+ */
+export async function validateEventInstanceParentBlockEventShapeAsync(
+  body: Record<string, unknown>,
+  mode: 'create' | 'update'
+): Promise<string | null> {
+  const rd = readDualKey(body, PARENT_CAMEL, PARENT_SNAKE)
+  if (rd.err !== null) {
+    return rd.err
+  }
+  if (mode === 'update' && !rd.specified) {
+    return null
+  }
+  if (!rd.specified) {
+    return 'Event instance create requires parentBlockInstanceId (or parent_block_instance_id).'
+  }
+  const uuidErr =
+    mode === 'create'
+      ? validatePersistentUuidValue(rd.raw, CREATE_PARENT_MSG)
+      : validatePersistentUuidValue(rd.raw, UPDATE_PARENT_MSG)
+  if (uuidErr !== null) {
+    return uuidErr
+  }
+  const parentId = typeof rd.raw === 'string' ? rd.raw.trim() : ''
+  const parentBlock = await BlockInstance.findByPk(parentId, {
+    include: [{ model: BlockShape, as: 'block_shape' }],
+  })
+  if (!parentBlock) {
+    return 'Event instance parent block instance was not found.'
+  }
+  const shape = (parentBlock as BlockInstanceWithShape).block_shape
+  if (!shape) {
+    return 'Event instance parent block has no block shape.'
+  }
+  if (shape.semanticType !== 'event') {
+    return 'Event instance parent must be an event-type block instance.'
+  }
+  return null
+}
+
+/**
+ * WHY: Baseline `event_assignments` rows (parent_kind = blockInstance) must agree with
+ * `event_instances.parent_block_instance_id` — otherwise routing and booking drift (Phase 20.8.2).
+ */
+export async function validateEventInstanceParentChangeAgainstBaselineAssignmentsAsync(
+  entityId: string,
+  body: Record<string, unknown>
+): Promise<string | null> {
+  const rd = readDualKey(body, PARENT_CAMEL, PARENT_SNAKE)
+  if (rd.err !== null) {
+    return rd.err
+  }
+  if (!rd.specified) {
+    return null
+  }
+  const uuidErr = validatePersistentUuidValue(rd.raw, UPDATE_PARENT_MSG)
+  if (uuidErr !== null) {
+    return uuidErr
+  }
+  const newParentId = typeof rd.raw === 'string' ? rd.raw.trim() : ''
+  const instance = await EventInstance.findByPk(entityId, {
+    attributes: ['id', 'parentBlockInstanceId'],
+  })
+  if (!instance) {
+    return null
+  }
+  if (instance.parentBlockInstanceId === newParentId) {
+    return null
+  }
+  const conflicting = await EventAssignment.count({
+    where: {
+      childId: entityId,
+      parentKind: 'blockInstance',
+      disabled: false,
+      parentId: { [Op.ne]: newParentId },
+    },
+  })
+  if (conflicting > 0) {
+    return (
+      'Cannot reparent this event segment while active baseline event_assignments still point at a ' +
+      'different block instance. Remove or adjust those assignments first.'
+    )
+  }
+  return null
 }

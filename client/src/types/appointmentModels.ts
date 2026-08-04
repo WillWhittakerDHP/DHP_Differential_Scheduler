@@ -3,7 +3,7 @@ import type { SlotTimeBounds } from '@shared/types/availabilityTypes'
 import type { PartFinal } from '@/utils/booking/PartFinal'
 import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { EventInstance, EventShape } from './events'
-import type { DifferentialRole, DifferentialRoleStorage } from '@shared/types/differentialRole'
+import type { DifferentialRoleStorage } from '@shared/types/differentialRole'
 
 /** Minimal-slot generator / calendar row perspective — same literals as DB differential role (excl. none). */
 export type TimeSlotPerspectiveKind = DifferentialRoleStorage
@@ -35,12 +35,14 @@ export interface SlotShape extends DifferentialDurationOffsets {
   eventFinals: EventFinal[]
 }
 
+/** Keys are booking `partInstance.id` values (lineage), not part-shape display names. */
+export type EventAssignmentsByPartInstanceId = Record<string, EventInstance[]>
+
 export interface AppointmentShape {
   finalizedBlocks: BlockFinal[]
   finalizedParts: PartFinal[]
   slotShape: SlotShape
-  eventAssignmentsByPartShape: Record<string, EventInstance[]>
-  differentialEventRoleOverrides?: Record<string, DifferentialRole>
+  eventAssignmentsByPartInstanceId: EventAssignmentsByPartInstanceId
 }
 
 export interface AppointmentSlot {

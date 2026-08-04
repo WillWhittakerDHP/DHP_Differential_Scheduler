@@ -12,7 +12,6 @@ import { CalendarSettingsRouter } from "./calendarSettings/calendarSettingsRoute
 import { WizardSettingsRouter } from "./wizardSettings/wizardSettingsRouter.js";
 import { OrganizationDefaultsRouter } from "./organizationDefaults/organizationDefaultsRouter.js";
 import BusinessRulesRouter from "./businessRulesRouter.js";
-import adminMetadataRouter from "./admin-metadata/adminMetadataRouter.js";
 import { DevStatusRouter } from "./dev/devStatusRouter.js";
 import { BetaFeedbackRouter } from "./beta-feedback/betaFeedbackRouter.js";
 import { PropertyMappingsRouter } from "./property-mappings/propertyMappingsRouter.js";
@@ -39,9 +38,6 @@ router.use('/wizard-settings', WizardSettingsRouter);
 router.use('/organization-defaults', OrganizationDefaultsRouter);
 
 router.use(BUSINESS_RULES_ROUTE, BusinessRulesRouter);
-
-// WHY: Matches entity pattern where single endpoint handles all fields, backend routes based on type
-router.use('/admin-metadata', adminMetadataRouter);
 
 router.use('/dev', DevStatusRouter);
 

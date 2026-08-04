@@ -997,7 +997,7 @@
       "patterns": [],
       "specific": [
         {
-          "file": "client/src/components/admin/generic/EntityCard.vue",
+          "file": "client/src/components/admin/generic/AdminEntityEditorPanel.vue",
           "ruleId": "oversized",
           "reason": "Orchestrator component; further extraction in progress (Plan C)"
         },

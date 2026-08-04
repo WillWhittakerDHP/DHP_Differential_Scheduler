@@ -17,7 +17,7 @@ const TIME_PRICE_TYPES = [BLOCK_SHAPE_TYPES.TIME, BLOCK_SHAPE_TYPES.PRICE] as co
   <AtomicPartLedgerEditor
     :block-instance-id="blockInstanceId"
     :allowed-shape-types="TIME_PRICE_TYPES"
-    title="Part ledger (time & price)"
-    subtitle="Per-part time and fee fields for this time or price instance. Edits save when you leave a field."
+    title="Part ledger"
+    subtitle="Parts on this time or fee block — where per-unit duration and fee live. Add a part type, then edit values."
   />
 </template>

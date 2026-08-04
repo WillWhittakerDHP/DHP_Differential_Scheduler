@@ -23,16 +23,19 @@ export interface WizardStateData {
     bathrooms: number | null
     foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
     additionalUnits: number | null
+    hvacCount: number | null
+    waterHeaterCount: number | null
+    kitchenApplianceCount: number | null
   }
 
   contacts: {
-    client: { firstName: string; lastName: string; email: string }
+    buyer: { firstName: string; lastName: string; email: string }
     agent: { firstName: string; lastName: string; email: string }
     additionalContacts: Array<{
       firstName: string
       lastName: string
       email: string
-      role: 'anotherClient' | 'transactionManager' | 'owner'
+      role: 'anotherBuyer' | 'owner'
     }>
   }
 

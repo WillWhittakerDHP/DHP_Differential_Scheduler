@@ -21,7 +21,7 @@ export function useInstanceBulkEdit(
     return {
       ...noArgReturn,
       bulkEditMode: ref(new Map<string, boolean>()),
-      bulkEditData: ref(new Map<string, { baseSqFt?: number }>()),
+      bulkEditData: ref(new Map<string, Record<string, unknown>>()),
       getBulkEditBaseSqFt: () => computed(() => undefined),
       getBulkEditData: () => ({}),
       toggleBulkEditMode: () => {},
@@ -31,10 +31,10 @@ export function useInstanceBulkEdit(
 
   const { blockInstancesByShape } = options
   const bulkEditMode = ref(new Map<string, boolean>())
-  const bulkEditData = ref(new Map<string, { baseSqFt?: number }>())
+  const bulkEditData = ref(new Map<string, Record<string, unknown>>())
   const { patchBulk } = useEntityCrud('blockInstance')
 
-  function getBulkEditData(blockShapeId: string): { baseSqFt?: number } {
+  function getBulkEditData(blockShapeId: string): Record<string, unknown> {
     const existingBulkEditData = bulkEditData.value.get(blockShapeId)
     if (existingBulkEditData === undefined) {
       return {}

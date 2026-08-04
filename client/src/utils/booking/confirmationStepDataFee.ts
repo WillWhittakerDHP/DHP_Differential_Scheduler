@@ -29,17 +29,17 @@ export function calculateBlockInstanceFee(
   const blockTotals = nonZeroedFinalizedParts.reduce(
     (acc, part) => ({
       baseFee: acc.baseFee + part.baseFee,
-      rateOverBaseFee: acc.rateOverBaseFee + part.rateOverBaseFee
+      feePerUnit: acc.feePerUnit + part.feePerUnit
     }),
-    { baseFee: 0, rateOverBaseFee: 0 }
+    { baseFee: 0, feePerUnit: 0 }
   )
   const baseFee = blockTotals.baseFee
   const sqft = squareFootage ?? 0
-  const overageFee = blockTotals.rateOverBaseFee * sqft
+  const overageFee = blockTotals.feePerUnit * sqft
 
   const totalFeeBeforeMultiplier = baseFee + overageFee
 
-  if (blockInstance.allowMultiple) {
+  if (blockInstance.allowMultiple === true) {
     const multiplier = aduCount ?? 1
     return {
       baseFee: baseFee * multiplier,

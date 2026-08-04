@@ -2,6 +2,7 @@ import type { ComputedRef } from 'vue'
 import type { BookingBlockInstance } from '@/types/transformers/bookingData'
 import type { AppointmentShape, AppointmentSlot, SlotShape } from '@/types/appointment'
 import type { PartFinal } from '@/types/booking/partFinal'
+import type { WizardPlacement } from '@shared/constants/wizardPlacement'
 
 export interface DevPanelsComputedData {
   selectedBlockInstances: BookingBlockInstance[]
@@ -18,8 +19,7 @@ export interface UseDevPanelsComputedOptions {
 export interface ServiceSummary {
   name: string
   orchestrator: boolean
-  wizardVisible: boolean
-  baseSqFt: number
+  wizardPlacement: WizardPlacement
   partCount: number
 }
 

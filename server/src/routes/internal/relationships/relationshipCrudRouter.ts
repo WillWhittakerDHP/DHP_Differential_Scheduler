@@ -24,6 +24,7 @@ import {
   validateEventAssignmentIntegrity,
   validatePricingCascadeAgainstShapeRules,
   validateValidEventCascadeShapeIds,
+  validateAccumulationLinkEntities,
   updateComponentActiveStates,
 } from './relationshipHelpers.js'
 import { buildRelationshipWhereClause, buildRelationshipQueryOptions } from './relationshipQueryBuilders.js'
@@ -201,6 +202,13 @@ router.post(
     let createData: Record<string, unknown> | undefined
     try {
       const normalizedKind = normalizeRelationshipKind(paramString(req, 'relationshipType'))
+      if (normalizedKind === RELATIONSHIP_TYPES.ACCUMULATION_LINKS) {
+        const accumulationValidation = await validateAccumulationLinkEntities(parentId, childId)
+        if (!accumulationValidation.valid) {
+          sendBadRequest(res, accumulationValidation.error)
+          return
+        }
+      }
       if (normalizedKind === RELATIONSHIP_TYPES.PRICING_CASCADES) {
         const shapeValidation = await validatePricingCascadeAgainstShapeRules(parentId, childId)
         if (!shapeValidation.valid) {
@@ -261,7 +269,12 @@ router.post(
               userTypeBlockInstanceId:
                 req.body.userTypeBlockInstanceId ?? req.body.user_type_block_instance_id,
             }
-          : undefined
+          : normalizedKind === RELATIONSHIP_TYPES.ACCUMULATION_LINKS
+            ? {
+                propertyFactKey:
+                  req.body.propertyFactKey ?? req.body.property_fact_key ?? '',
+              }
+            : undefined
       const baseCreateData = await mapRelationshipFields(
         normalizedKind,
         parentId,

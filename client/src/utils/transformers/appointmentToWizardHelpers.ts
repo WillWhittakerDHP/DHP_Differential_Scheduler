@@ -6,6 +6,7 @@ WHY: Reduces duplication and ...
 import type { BookingBlockInstance, BookingPartInstance } from './globalToBookingTransformer'
 import type { BookingData } from './globalToBookingTransformer'
 import { DEFAULT_VALUES } from '@/constants/entityFieldConstants'
+import { DEFAULT_WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import { findById, findByIds } from './transformerCollections'
 import { getBlockShapeIdByType } from '@/utils/blockInstanceUtils'
 import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
@@ -50,17 +51,18 @@ function transformVersionToBookingInstance(
     id: version.id,
     entityKey: 'blockInstance' as const,
     active: true,
-    agentPermissions: 'false',
     orchestrator: DEFAULT_VALUES.ORCHESTRATOR,
-    wizardVisible: DEFAULT_VALUES.WIZARD_VISIBLE,
+    accumulator: DEFAULT_VALUES.ACCUMULATOR,
+    composite: false,
+    wizardPlacement: DEFAULT_WIZARD_PLACEMENT,
     preClosing: false,
     orderIndex: 0,
     blockShape: '',
     blockShapeRef: '',
+    blockShapeSemanticType: BLOCK_SHAPE_TYPES.SERVICE,
     activeBlockIds: [],
     partInstances: [],
     requiresUnitNumber: null,
-    baseSqFt: 0,
     icon: '',
     allowMultiple: false,
     isMultiFamily: false,
@@ -75,8 +77,10 @@ function transformVersionToBookingInstance(
       name: safeString(pi.name, 'VersionBlockInstance.partInstances.name'),
       baseFee: pi.baseFee,
       baseTime: pi.baseTime,
-      rateOverBaseFee: pi.rateOverBaseFee,
-      rateOverBaseTime: pi.rateOverBaseTime,
+      feePerUnit: pi.feePerUnit,
+      timePerUnit: pi.timePerUnit,
+      baseMultiplier: pi.baseMultiplier ?? 1,
+      rateMultiplier: pi.rateMultiplier ?? 1,
       active: currentPart?.active ?? true,
       orderIndex: safeNumber(currentPart?.orderIndex, 'VersionBlockInstance.partInstances.orderIndex'),
       partShape: safeString(currentPart?.partShape, 'VersionBlockInstance.partInstances.partShape'),
@@ -92,10 +96,11 @@ function transformVersionToBookingInstance(
     id: version.id,
     name: version.name,
     icon: safeString(version.icon, 'VersionBlockInstance.icon'),
-    baseSqFt: safeNumber(version.baseSqFt, 'VersionBlockInstance.baseSqFt'),
-    allowMultiple: version.allowMultiple,
     orchestrator: currentInstance?.orchestrator ?? DEFAULT_VALUES.ORCHESTRATOR,
-    wizardVisible: currentInstance?.wizardVisible ?? DEFAULT_VALUES.WIZARD_VISIBLE,
+    accumulator: currentInstance?.accumulator ?? DEFAULT_VALUES.ACCUMULATOR,
+    composite: currentInstance?.composite === true,
+    wizardPlacement: currentInstance?.wizardPlacement ?? DEFAULT_WIZARD_PLACEMENT,
+    blockShapeSemanticType: currentInstance?.blockShapeSemanticType ?? BLOCK_SHAPE_TYPES.SERVICE,
     partInstances,
   } as BookingBlockInstance
 }
@@ -258,6 +263,9 @@ export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
   bathrooms: number | null
   foundationAccess: 'basement' | 'crawlspace' | 'slab' | null
   additionalUnits: number | null
+  hvacCount: number | null
+  waterHeaterCount: number | null
+  kitchenApplianceCount: number | null
 } {
   const rec = propertyDetailsRecord != null && typeof propertyDetailsRecord === 'object'
     ? propertyDetailsRecord as Record<string, unknown>
@@ -271,5 +279,9 @@ export function extractPropertyDetailsFields(propertyDetailsRecord: unknown): {
     bathrooms: rec?.bathrooms != null ? Number(rec.bathrooms) : null,
     foundationAccess: extractFoundationAccess(rec?.foundationAccess),
     additionalUnits: rec?.additionalUnits != null ? Number(rec.additionalUnits) : null,
+    hvacCount: rec?.hvacCount != null ? Number(rec.hvacCount) : null,
+    waterHeaterCount: rec?.waterHeaterCount != null ? Number(rec.waterHeaterCount) : null,
+    kitchenApplianceCount:
+      rec?.kitchenApplianceCount != null ? Number(rec.kitchenApplianceCount) : null,
   }
 }

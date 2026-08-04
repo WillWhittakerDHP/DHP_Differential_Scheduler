@@ -7,38 +7,38 @@ import type { AppointmentSelectionLine, AppointmentSelectionLineKind } from '../
 const APPOINTMENT_SELECTION_ATTRIBUTE_KEYS = [
   'selectedServiceIds',
   'serviceQuantities',
-  'selectedPropertyIds',
-  'propertyQuantities',
-  'selectedOptionIds',
-  'optionQuantities',
+  'selectedTimeIds',
+  'timeQuantities',
+  'selectedEventIds',
+  'eventQuantities',
   'serviceSnapshotIds',
-  'propertySnapshotIds',
-  'optionSnapshotIds',
+  'timeSnapshotIds',
+  'eventSnapshotIds',
 ] as const
 
 type AppointmentSelectionFlatFields = {
   selectedServiceIds: string[] | null
   serviceQuantities: Record<string, number> | null
-  selectedPropertyIds: string[] | null
-  propertyQuantities: Record<string, number> | null
-  selectedOptionIds: string[] | null
-  optionQuantities: Record<string, number> | null
+  selectedTimeIds: string[] | null
+  timeQuantities: Record<string, number> | null
+  selectedEventIds: string[] | null
+  eventQuantities: Record<string, number> | null
   serviceSnapshotIds: string[] | null
-  propertySnapshotIds: string[] | null
-  optionSnapshotIds: string[] | null
+  timeSnapshotIds: string[] | null
+  eventSnapshotIds: string[] | null
 }
 
 export function emptyFlatSelectionFields(): AppointmentSelectionFlatFields {
   return {
     selectedServiceIds: null,
     serviceQuantities: null,
-    selectedPropertyIds: null,
-    propertyQuantities: null,
-    selectedOptionIds: null,
-    optionQuantities: null,
+    selectedTimeIds: null,
+    timeQuantities: null,
+    selectedEventIds: null,
+    eventQuantities: null,
     serviceSnapshotIds: null,
-    propertySnapshotIds: null,
-    optionSnapshotIds: null,
+    timeSnapshotIds: null,
+    eventSnapshotIds: null,
   }
 }
 
@@ -106,12 +106,12 @@ export function linesToFlatSelectionFields(lines: AppointmentSelectionLine[]): A
     selectedServiceIds: svc.ids,
     serviceQuantities: svc.quantities,
     serviceSnapshotIds: svc.snapshots,
-    selectedPropertyIds: prop.ids,
-    propertyQuantities: prop.quantities,
-    propertySnapshotIds: prop.snapshots,
-    selectedOptionIds: opt.ids,
-    optionQuantities: opt.quantities,
-    optionSnapshotIds: opt.snapshots,
+    selectedTimeIds: prop.ids,
+    timeQuantities: prop.quantities,
+    timeSnapshotIds: prop.snapshots,
+    selectedEventIds: opt.ids,
+    eventQuantities: opt.quantities,
+    eventSnapshotIds: opt.snapshots,
   }
 }
 
@@ -132,8 +132,8 @@ function coerceQuantityMap(value: unknown): Record<string, number> | null {
   return Object.keys(out).length > 0 ? out : null
 }
 
-type FlatSelectionIdKey = 'selectedServiceIds' | 'selectedPropertyIds' | 'selectedOptionIds'
-type FlatSelectionQtyKey = 'serviceQuantities' | 'propertyQuantities' | 'optionQuantities'
+type FlatSelectionIdKey = 'selectedServiceIds' | 'selectedTimeIds' | 'selectedEventIds'
+type FlatSelectionQtyKey = 'serviceQuantities' | 'timeQuantities' | 'eventQuantities'
 
 function mergeFlatIdArrayFromPatch(
   next: AppointmentSelectionFlatFields,
@@ -193,8 +193,8 @@ export function flatSelectionBodyToLineCreates(
   }
 
   pushKind('service', 'selectedServiceIds', 'serviceQuantities')
-  pushKind('time', 'selectedPropertyIds', 'propertyQuantities')
-  pushKind('event', 'selectedOptionIds', 'optionQuantities')
+  pushKind('time', 'selectedTimeIds', 'timeQuantities')
+  pushKind('event', 'selectedEventIds', 'eventQuantities')
 
   return rows
 }
@@ -205,11 +205,11 @@ export function mergeFlatSelectionPatch(
 ): AppointmentSelectionFlatFields {
   const next = { ...existing }
   mergeFlatIdArrayFromPatch(next, patch, 'selectedServiceIds')
-  mergeFlatIdArrayFromPatch(next, patch, 'selectedPropertyIds')
-  mergeFlatIdArrayFromPatch(next, patch, 'selectedOptionIds')
+  mergeFlatIdArrayFromPatch(next, patch, 'selectedTimeIds')
+  mergeFlatIdArrayFromPatch(next, patch, 'selectedEventIds')
   mergeFlatQuantityMapFromPatch(next, patch, 'serviceQuantities')
-  mergeFlatQuantityMapFromPatch(next, patch, 'propertyQuantities')
-  mergeFlatQuantityMapFromPatch(next, patch, 'optionQuantities')
+  mergeFlatQuantityMapFromPatch(next, patch, 'timeQuantities')
+  mergeFlatQuantityMapFromPatch(next, patch, 'eventQuantities')
   return next
 }
 
@@ -227,9 +227,9 @@ export function flatSelectionFieldsToBody(fields: AppointmentSelectionFlatFields
   return {
     selectedServiceIds: fields.selectedServiceIds,
     serviceQuantities: fields.serviceQuantities,
-    selectedPropertyIds: fields.selectedPropertyIds,
-    propertyQuantities: fields.propertyQuantities,
-    selectedOptionIds: fields.selectedOptionIds,
-    optionQuantities: fields.optionQuantities,
+    selectedTimeIds: fields.selectedTimeIds,
+    timeQuantities: fields.timeQuantities,
+    selectedEventIds: fields.selectedEventIds,
+    eventQuantities: fields.eventQuantities,
   }
 }

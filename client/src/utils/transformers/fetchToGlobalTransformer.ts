@@ -20,7 +20,7 @@ import { asEmptyString } from '@/utils/safeDefaults'
 import { buildFieldClassificationSets, transformFieldForDehydrate } from './fieldClassification'
 import { safeArray, safeString, safeId } from './transformerPrimitives'
 import { groupByParentId, immutableSort } from './transformerCollections'
-import type { GlobalData } from '@/types/transformers/globalData'
+import type { GlobalData, GlobalEntitiesByKey } from '@/types/transformers/globalData'
 import {
   applyAnnotationInstanceDisplayNames,
   buildAnnotationAssignmentEdges,
@@ -34,26 +34,23 @@ const LOG_STAGE_HYDRATION_FAILED = 'Failed to stage data for hydration'
 
 function transformBatchEntities(
   batchResponse: Record<GlobalEntityKey, Record<string, unknown>[]>
-): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
+): GlobalEntitiesByKey {
   const orderCompare = (a: { orderIndex?: number }, b: { orderIndex?: number }) =>
     (a.orderIndex ?? 0) - (b.orderIndex ?? 0)
 
-  const byKey = Object.fromEntries(
-    ENTITY_KEYS.map((entityKey) => {
-      const rawEntities = safeArray(batchResponse[entityKey])
-      const transformedEntities = rawEntities.map((raw: Record<string, unknown>) =>
-        transformApiEntity(raw, entityKey)
-      )
-      const sortedEntities = immutableSort(transformedEntities, orderCompare)
-      return [entityKey, sortedEntities]
-    })
-  ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+  const byKey = ENTITY_KEYS.reduce((acc, entityKey) => {
+    const rawEntities = safeArray(batchResponse[entityKey])
+    const transformedEntities = rawEntities.map((raw: Record<string, unknown>) =>
+      transformApiEntity(raw, entityKey)
+    )
+    const sortedEntities = immutableSort(transformedEntities, orderCompare)
+    return { ...acc, [entityKey]: sortedEntities as GlobalEntitiesByKey[typeof entityKey] }
+  }, {} as GlobalEntitiesByKey)
 
-  const shapeList = byKey.annotationShape as GlobalEntity<'annotationShape'>[]
-  const instanceList = byKey.annotationInstance as GlobalEntity<'annotationInstance'>[]
-  byKey.annotationInstance = applyAnnotationInstanceDisplayNames(instanceList, shapeList) as GlobalEntity<
-    GlobalEntityKey
-  >[]
+  byKey.annotationInstance = applyAnnotationInstanceDisplayNames(
+    byKey.annotationInstance,
+    byKey.annotationShape
+  )
 
   return byKey
 }
@@ -125,6 +122,11 @@ function transformApiRelationship(
   }
   const orderRaw = raw.orderIndex ?? raw.order_index
   const orderIndex = typeof orderRaw === 'number' ? orderRaw : undefined
+  const propertyFactKeyRaw = raw.propertyFactKey ?? raw.property_fact_key
+  const propertyFactKey =
+    relationshipKey === 'accumulationLinks' && typeof propertyFactKeyRaw === 'string'
+      ? propertyFactKeyRaw
+      : undefined
 
   return {
     id: toGlobalEntityId(asEmptyString(idResolved)),
@@ -140,37 +142,36 @@ function transformApiRelationship(
         typeof userTypeBlockInstanceIdRaw === 'string') && {
         userTypeBlockInstanceId: toGlobalEntityIdOrNull(userTypeBlockInstanceIdRaw),
       }),
+    ...(propertyFactKey !== undefined && { propertyFactKey }),
   }
 }
 
 /** Attach instanceComponents arrays to entities. */
 function attachInstanceComponents(
-  fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>,
+  fetchedEntities: GlobalEntitiesByKey,
   fetchedRelationships: FetchedRelationship[]
-): Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]> {
-  return Object.fromEntries(
-    ENTITY_KEYS.map((entityKey) => {
-      const entityList = safeArray(fetchedEntities[entityKey])
-      const componentRels = fetchedRelationships.filter(
-        (rel) =>
-          rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled
-      )
-      const composerMap = groupByParentId(
-        componentRels,
-        (r) => r.parentId,
-        (r) => r.childId
-      )
-      const list = entityList.map((entity) => {
-        const components = composerMap.get(entity.id)
-        if (components && components.length > 0) {
-          return { ...entity, instanceComponents: components, isComposer: true }
-        }
-        const { instanceComponents: _instanceComponents, ...entityWithoutComponents } = entity
-        return { ...entityWithoutComponents, isComposer: false }
-      })
-      return [entityKey, list]
-    })
-  ) as Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+): GlobalEntitiesByKey {
+  return ENTITY_KEYS.reduce((acc, entityKey) => {
+    const entityList = fetchedEntities[entityKey]
+    const componentRels = fetchedRelationships.filter(
+      (rel) =>
+        rel.kind === 'instanceComponents' && rel.parentKind === entityKey && !rel.disabled
+    )
+    const composerMap = groupByParentId(
+      componentRels,
+      (r) => r.parentId,
+      (r) => r.childId
+    )
+    const list = entityList.map((entity) => {
+      const components = composerMap.get(entity.id)
+      if (components && components.length > 0) {
+        return { ...entity, instanceComponents: components, isComposer: true }
+      }
+      const { instanceComponents: _instanceComponents, ...entityWithoutComponents } = entity
+      return { ...entityWithoutComponents, isComposer: false }
+    }) as GlobalEntitiesByKey[typeof entityKey]
+    return { ...acc, [entityKey]: list }
+  }, {} as GlobalEntitiesByKey)
 }
 
 /**
@@ -178,7 +179,7 @@ function attachInstanceComponents(
  */
 class GlobalTransformer {
   async stageForHydration(): Promise<{
-    fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+    fetchedEntities: GlobalEntitiesByKey
     fetchedRelationships: FetchedRelationship[]
   }> {
     try {
@@ -217,7 +218,7 @@ class GlobalTransformer {
   }
 
   hydrate(staged: {
-    fetchedEntities: Record<GlobalEntityKey, GlobalEntity<GlobalEntityKey>[]>
+    fetchedEntities: GlobalEntitiesByKey
     fetchedRelationships: FetchedRelationship[]
   }): GlobalData {
     const entities = attachInstanceComponents(

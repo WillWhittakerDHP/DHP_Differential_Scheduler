@@ -22,6 +22,7 @@ export function useEntityCardFieldContextAndVisibility<GE extends GlobalEntityKe
     isComposable,
     form,
     logger,
+    blockInstanceSemanticType,
   } = params
 
   watch(
@@ -49,6 +50,7 @@ export function useEntityCardFieldContextAndVisibility<GE extends GlobalEntityKe
     entityKey,
     isComposable,
     form,
+    blockInstanceSemanticType,
   })
 
   return { getFieldContext, fieldsMissingContexts, filteredFieldsByLocation }

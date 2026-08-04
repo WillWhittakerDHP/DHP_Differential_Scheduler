@@ -92,6 +92,24 @@ export function filterByActiveChildSelect(
 }
 
 /**
+ * Accumulator links: atomic accumulator service → atomic time characteristics only.
+ * WHY: Packages use vertical composition; lateral fact-gates belong on atomics.
+ */
+export function filterByAccumulationLinkSelectBlockInstances(
+  allEntities: GlobalEntity<GlobalEntityKey>[],
+  timeBlockShapeIds: Set<string>,
+  excludeEntityId: string
+): GlobalEntity<GlobalEntityKey>[] {
+  return allEntities.filter((candidate) => {
+    if (candidate.id === excludeEntityId) return false
+    if (candidate.active === false) return false
+    if (getEntityFieldValue(candidate, 'composite') === true) return false
+    const blockShapeRef = getEntityFieldValue(candidate, 'blockShapeRef')
+    return blockShapeRef != null && timeBlockShapeIds.has(String(blockShapeRef))
+  })
+}
+
+/**
  * Filter entities by direct matching: candidate's path value must equal current entity value; exclude self.
  */
 export function filterByDirectMatching(

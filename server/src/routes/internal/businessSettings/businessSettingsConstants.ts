@@ -57,7 +57,6 @@ export const ERROR_MESSAGES = {
   FETCH_SETTINGS: ERROR_FETCH_BUSINESS_SETTINGS,
   FETCH_SETTING: 'Failed to fetch business setting',
   SETTING_NOT_FOUND: 'Setting with key "{key}" not found',
-  CREATE_SETTING: 'Failed to create business setting',
   UPDATE_SETTING: 'Failed to update business setting',
   PATCH_SETTING: 'Failed to patch business setting',
   DELETE_SETTING: 'Failed to delete business setting',
@@ -65,8 +64,6 @@ export const ERROR_MESSAGES = {
   SETTING_KEY_REQUIRED: 'setting_key is required and must be a string',
   SETTING_VALUE_REQUIRED: 'setting_value is required',
   INVALID_AVAILABILITY_SETTINGS: 'Invalid availability_settings structure',
-  SETTING_ALREADY_EXISTS: 'Setting with key "{key}" already exists. Use PUT or PATCH to update.',
-  SETTING_NOT_FOUND_FOR_PATCH: 'Setting with key "{key}" not found. Use POST to create.',
   AVAILABILITY_SETTINGS_ONLY:
     'Only availability_settings is supported here; use /calendar-settings and /wizard-settings for other configuration.',
 } as const

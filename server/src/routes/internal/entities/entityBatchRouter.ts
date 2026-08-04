@@ -10,7 +10,7 @@ import type { AnnotationWithContentPlain } from '../../../services/annotations/a
 import { createLogger } from '../../../utils/logger.js'
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { ERROR_MESSAGES } from './entityConstants.js'
-import { stripLegacyEventShapeResponseFields } from './eventShapeEntityValidation.js'
+import { stripRejectedEventShapeResponseFields } from './eventShapeEntityValidation.js'
 import { handleRouteError } from './entityErrorHandler.js'
 
 const logger = createLogger('EntityBatchRouter')
@@ -61,7 +61,7 @@ router.get('/batch', async (_req: Request, res: Response): Promise<void> => {
       } else if (entityKey === ENTITY_KEYS.EVENT_SHAPE) {
         acc[entityKey] = (data as Model[]).map((row) => {
           const plain = row.get({ plain: true }) as Record<string, unknown>
-          stripLegacyEventShapeResponseFields(plain)
+          stripRejectedEventShapeResponseFields(plain)
           return plain
         })
       } else {

@@ -9,6 +9,15 @@ import { resolvePrimarySecondaryEventShapesForBooking } from '@/utils/eventAtten
 import { roundDuration, roundDurationFromResolvedTimeRounding } from '@/utils/booking/durationRounding'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { AppLogger } from '@/utils/logger'
+import { sanitizeEventPlacementKindInput } from '@shared/utils/eventPlacementUtils'
+import {
+  eventPartModifierDurationMinutes,
+  eventShapeIdForEventInstance,
+  isEventBlock,
+  nonEventPartDurationByEventAndShape,
+  partBaseDuration,
+  partFinalLineageKey,
+} from '@/utils/booking/eventPartTimeModifiers'
 
 type AccumulatedRawDurations = {
   totalRawDuration: number
@@ -17,36 +26,57 @@ type AccumulatedRawDurations = {
 
 export function accumulateRawDurationsFromBlockFinals(
   blockFinals: BlockFinal[],
-  eventAssignmentsByPartShape: Record<string, EventInstance[]>,
+  eventAssignmentsByPartInstanceId: Record<string, EventInstance[]>,
   eventShapeById: Map<string, EventShape>,
   _logger: AppLogger
 ): AccumulatedRawDurations {
   const eventRawDurationsByShapeId = new Map<string, number>()
+  const nonEventDurationsByEventAndShape = nonEventPartDurationByEventAndShape(
+    blockFinals,
+    eventAssignmentsByPartInstanceId,
+    eventShapeById
+  )
 
   const { totalRawDuration, eventRawDurations } = blockFinals.reduce(
     (blockAcc, blockFinal) => {
       return blockFinal.finalizedParts.reduce(
         (partAcc, part) => {
-          const baseTime = part.baseTime
-          const newRawDuration = partAcc.totalRawDuration + baseTime
-
-          const rawEvents = eventAssignmentsByPartShape[part.partShape]
+          const lineageKey = partFinalLineageKey(part)
+          const rawEvents = eventAssignmentsByPartInstanceId[lineageKey]
           const events = rawEvents !== undefined && rawEvents !== null ? rawEvents : []
-
           const updatedEventRawDurations = new Map(partAcc.eventRawDurations)
 
+          if (isEventBlock(blockFinal)) {
+            let totalEventModifierDuration = 0
+            for (const eventInstance of events) {
+              const eventShapeId = eventShapeIdForEventInstance(eventInstance, eventShapeById)
+              if (eventShapeId === null) continue
+              const duration = eventPartModifierDurationMinutes(
+                part,
+                eventShapeId,
+                nonEventDurationsByEventAndShape
+              )
+              totalEventModifierDuration += duration
+              const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
+              updatedEventRawDurations.set(eventShapeId, currentRawDuration + duration)
+            }
+            return {
+              totalRawDuration: partAcc.totalRawDuration + totalEventModifierDuration,
+              eventRawDurations: updatedEventRawDurations,
+            }
+          }
+
+          const duration = partBaseDuration(part)
           for (const eventInstance of events) {
             const eventShape = eventShapeById.get(toGlobalEntityId(eventInstance.eventShapeRef))
             if (!eventShape) continue
-
             const eventShapeId = eventShape.id
-
             const currentRawDuration = updatedEventRawDurations.get(eventShapeId) || 0
-            updatedEventRawDurations.set(eventShapeId, currentRawDuration + baseTime)
+            updatedEventRawDurations.set(eventShapeId, currentRawDuration + duration)
           }
 
           return {
-            totalRawDuration: newRawDuration,
+            totalRawDuration: partAcc.totalRawDuration + duration,
             eventRawDurations: updatedEventRawDurations,
           }
         },
@@ -102,7 +132,36 @@ export function buildEventFinalsList(
 }
 
 export function computeTopLevelRoundedDuration(eventFinals: EventFinal[]): number {
-  return eventFinals.length > 0 ? Math.max(...eventFinals.map((ef) => ef.roundedDuration)) : 0
+  if (eventFinals.length === 0) {
+    return 0
+  }
+
+  const primaryDurations: number[] = []
+  const insideDurations: number[] = []
+  let adjacentDuration = 0
+
+  for (const eventFinal of eventFinals) {
+    const duration = eventFinal.roundedDuration
+    const kind = sanitizeEventPlacementKindInput(eventFinal.eventShape.placementKind) ?? 'primary'
+    if (kind === 'primary') {
+      primaryDurations.push(duration)
+      continue
+    }
+    if (kind === 'secondary') {
+      insideDurations.push(duration)
+      continue
+    }
+    if (kind === 'marginal') {
+      adjacentDuration += duration
+    }
+  }
+
+  if (primaryDurations.length === 0) {
+    return Math.max(...eventFinals.map((ef) => ef.roundedDuration))
+  }
+
+  const primaryWindow = Math.max(...primaryDurations, ...insideDurations, 0)
+  return primaryWindow + adjacentDuration
 }
 
 export function computeDifferentialOffsetsFromMaps(

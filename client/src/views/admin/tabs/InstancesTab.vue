@@ -3,12 +3,15 @@
 -->
 <script setup lang="ts">
 import InstanceBulkEditModal from '@/components/admin/InstanceBulkEditModal.vue'
-import MetadataEditModal from '@/components/admin/MetadataEditModal.vue'
 import BlockInstanceCreateModal from '@/components/admin/BlockInstanceCreateModal.vue'
-import { createBlockInstanceConfigSentinel } from '@/utils/entities/entityTypeMapping'
 import { useInstancesTab } from '@/composables/admin/useInstancesTab'
-import FeeCalibrationPanel from './components/FeeCalibrationPanel.vue'
 import BlockInstancesGroup from './components/BlockInstancesGroup.vue'
+import type { BlockShapeType } from '@/constants/blockShapeTypes'
+
+const props = defineProps<{
+  allowedBlockShapeTypes?: readonly BlockShapeType[]
+  orchestratorInstancesOnly?: boolean
+}>()
 
 const {
   activeTab,
@@ -18,22 +21,23 @@ const {
   bulkEditMode,
   getBulkEditData,
   handleBulkEditConfirm,
-  shapeEditModalOpen,
   createModalOpen,
   setCreateModalOpen,
   createModalBlockShapeId,
   createModalSourceEntity,
   handleInstanceCreated,
-  handleExistingBlockShapeSaved,
-} = useInstancesTab()
+} = useInstancesTab({
+  allowedBlockShapeTypes: () => props.allowedBlockShapeTypes,
+  orchestratorInstancesOnly: () => props.orchestratorInstancesOnly,
+})
 </script>
 
 <template>
   <div class="instances-tab">
     <VAlert type="info" variant="tonal" density="comfortable" class="mb-4">
       <strong>Calendar segments</strong> are edited on each <strong>event</strong> block instance card (open the
-      instance under its block shape tab). To change which fields appear on segment forms, use
-      <strong>Shapes → Events → Instance Fields</strong>.
+      instance under its block shape tab). Segment form fields are defined in code
+      (<code>codeFirstMetadataCache.ts</code>).
     </VAlert>
 
     <!--
@@ -52,14 +56,6 @@ const {
       >
         {{ blockShape.name }} ({{ blockInstancesCountByShape.get(blockShape.id) || 0 }})
       </VTab>
-      <VSpacer />
-      <VTab
-        value="calibration"
-        @click="activeTab = 'calibration'"
-        class="calibration-tab"
-      >
-        Calibration
-      </VTab>
     </VTabs>
 
     <!--
@@ -75,11 +71,6 @@ const {
         :value="blockShape.id"
       >
         <BlockInstancesGroup :block-shape="blockShape" />
-      </VWindowItem>
-
-      <!-- Fee Calibration Tab Content -->
-      <VWindowItem value="calibration">
-        <FeeCalibrationPanel />
       </VWindowItem>
     </VWindow>
 
@@ -109,22 +100,6 @@ const {
         :instance-count="blockInstancesCountByShape.get(blockShape.id) || 0"
         @update:model-value="(value) => bulkEditMode.set(blockShape.id, value)"
         @confirm="(data) => handleBulkEditConfirm(blockShape.id, data)"
-      />
-    </template>
-
-    <!--
-      WHY: Modals for editing field metadata and shape templates
-      PATTERN: One modal per BlockShape, conditionally rendered
-    -->
-    <template v-for="blockShape in sortedBlockShapes" :key="`shape-${blockShape.id}`">
-      <MetadataEditModal
-        :model-value="shapeEditModalOpen.get(blockShape.id) || false"
-        entity-key="blockInstance"
-        :entity="createBlockInstanceConfigSentinel(blockShape.id)"
-        :block-shape-ref="blockShape.id"
-        :entity-name="blockShape.name || `BlockShape ${blockShape.id}`"
-        @update:model-value="(value) => shapeEditModalOpen.set(blockShape.id, value)"
-        @saved="() => handleExistingBlockShapeSaved(blockShape.id)"
       />
     </template>
 

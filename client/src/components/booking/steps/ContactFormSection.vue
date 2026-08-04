@@ -6,39 +6,39 @@
   <div class="contact-form-section">
     <VRow class="mt-5">
       <VCol cols="12">
-        <h6 class="text-headline-small mb-4">Client Information</h6>
+        <h6 class="text-headline-small mb-4">Buyer Information</h6>
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="clientInfo.firstName"
+          v-model="buyerInfo.firstName"
           label="First Name"
           placeholder="Joe"
-          :rules="validationRules.clientFirstName"
+          :rules="validationRules.buyerFirstName"
           :field-errors="fieldErrors"
-          error-key="clientFirstName"
+          error-key="buyerFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="clientInfo.lastName"
+          v-model="buyerInfo.lastName"
           label="Last Name"
           placeholder="Smith"
-          :rules="validationRules.clientLastName"
+          :rules="validationRules.buyerLastName"
           :field-errors="fieldErrors"
-          error-key="clientLastName"
+          error-key="buyerLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="clientInfo.email"
+          v-model="buyerInfo.email"
           type="email"
           label="Email"
           placeholder="joe.smith@xyz.com"
-          :rules="validationRules.clientEmail"
+          :rules="validationRules.buyerEmail"
           :field-errors="fieldErrors"
-          error-key="clientEmail"
+          error-key="buyerEmail"
           required
         />
       </VCol>
@@ -84,17 +84,17 @@
       </VCol>
     </VRow>
 
-    <VRow v-if="showAnotherClient" class="mt-5">
+    <VRow v-if="showAnotherBuyer" class="mt-5">
       <VCol cols="12">
         <div class="d-flex align-center mb-4">
-          <h6 class="text-headline-small mb-0">Another Client Information</h6>
+          <h6 class="text-headline-small mb-0">Another Buyer Information</h6>
           <VBtn
             icon
             color="inherit"
             size="small"
             variant="text"
             class="ml-2"
-            @click="toggleSection('anotherClient', false)"
+            @click="toggleSection('anotherBuyer', false)"
           >
             <VIcon icon="tabler-trash" />
           </VBtn>
@@ -102,87 +102,35 @@
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="anotherClientInfo.firstName"
+          v-model="anotherBuyerInfo.firstName"
           label="First Name"
           placeholder="Joe"
-          :rules="validationRules.anotherClientFirstName"
+          :rules="validationRules.anotherBuyerFirstName"
           :field-errors="fieldErrors"
-          error-key="anotherClientFirstName"
+          error-key="anotherBuyerFirstName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="anotherClientInfo.lastName"
+          v-model="anotherBuyerInfo.lastName"
           label="Last Name"
           placeholder="Smith"
-          :rules="validationRules.anotherClientLastName"
+          :rules="validationRules.anotherBuyerLastName"
           :field-errors="fieldErrors"
-          error-key="anotherClientLastName"
+          error-key="anotherBuyerLastName"
           required
         />
       </VCol>
       <VCol cols="12" md="4">
         <WizardTextField
-          v-model="anotherClientInfo.email"
+          v-model="anotherBuyerInfo.email"
           type="email"
           label="Email"
           placeholder="joe.smith@xyz.com"
-          :rules="validationRules.anotherClientEmail"
+          :rules="validationRules.anotherBuyerEmail"
           :field-errors="fieldErrors"
-          error-key="anotherClientEmail"
-          required
-        />
-      </VCol>
-    </VRow>
-
-    <VRow v-if="showTransactionManager" class="mt-5">
-      <VCol cols="12">
-        <div class="d-flex align-center mb-4">
-          <h6 class="text-headline-small mb-0">Transaction Manager Information</h6>
-          <VBtn
-            icon
-            color="inherit"
-            size="small"
-            variant="text"
-            class="ml-2"
-            @click="toggleSection('transactionManager', false)"
-          >
-            <VIcon icon="tabler-trash" />
-          </VBtn>
-        </div>
-      </VCol>
-      <VCol cols="12" md="4">
-        <WizardTextField
-          v-model="transactionManagerInfo.firstName"
-          label="First Name"
-          placeholder="Bob"
-          :rules="validationRules.transactionManagerFirstName"
-          :field-errors="fieldErrors"
-          error-key="transactionManagerFirstName"
-          required
-        />
-      </VCol>
-      <VCol cols="12" md="4">
-        <WizardTextField
-          v-model="transactionManagerInfo.lastName"
-          label="Last Name"
-          placeholder="Johnson"
-          :rules="validationRules.transactionManagerLastName"
-          :field-errors="fieldErrors"
-          error-key="transactionManagerLastName"
-          required
-        />
-      </VCol>
-      <VCol cols="12" md="4">
-        <WizardTextField
-          v-model="transactionManagerInfo.email"
-          type="email"
-          label="Email"
-          placeholder="bob.johnson@title.com"
-          :rules="validationRules.transactionManagerEmail"
-          :field-errors="fieldErrors"
-          error-key="transactionManagerEmail"
+          error-key="anotherBuyerEmail"
           required
         />
       </VCol>
@@ -246,19 +194,10 @@
           variant="outlined"
           size="small"
           class="mr-2"
-          :disabled="ctx.showAnotherClient.value"
-          @click="toggleSection('anotherClient', true)"
+          :disabled="ctx.showAnotherBuyer.value"
+          @click="toggleSection('anotherBuyer', true)"
         >
-          Add Another Client
-        </VBtn>
-        <VBtn
-          variant="outlined"
-          size="small"
-          class="mr-2"
-          :disabled="showTransactionManager"
-          @click="toggleSection('transactionManager', true)"
-        >
-          Add Transaction Manager
+          Add Another Buyer
         </VBtn>
         <VBtn
           variant="outlined"
@@ -282,13 +221,11 @@ const ctx = inject(contactsFormContextKey)
 if (!ctx) {
   throw new Error('ContactFormSection must be used within ContactsStep (contactsFormContextKey provided).')
 }
-const clientInfo = ctx.clientInfo
+const buyerInfo = ctx.buyerInfo
 const agentInfo = ctx.agentInfo
-const anotherClientInfo = ctx.anotherClientInfo
-const transactionManagerInfo = ctx.transactionManagerInfo
+const anotherBuyerInfo = ctx.anotherBuyerInfo
 const ownerInfo = ctx.ownerInfo
-const showAnotherClient = ctx.showAnotherClient
-const showTransactionManager = ctx.showTransactionManager
+const showAnotherBuyer = ctx.showAnotherBuyer
 const showOwner = ctx.showOwner
 const validationRules = computed(() => ctx.validationRules.value)
 const fieldErrors = computed(() => ctx.fieldErrors.value)

@@ -12,6 +12,7 @@ import { ValidAnnotationAssignmentFactory } from "./admin/valid_annotation_assig
 import { ValidEventCascadeFactory } from "./admin/valid_event_cascade.js";
 import { DependentInstanceFactory } from "./booking/dependent_instance.js";
 import { BookingCascadeFactory } from "./booking/booking_cascade.js";
+import { AccumulationLinkFactory } from "./booking/accumulation_link.js";
 import { PricingCascadeFactory } from "./booking/pricing_cascade.js";
 import { PartAssignmentFactory } from "./booking/part_assignment.js";
 import { InstanceComponentFactory } from "./booking/instance_component.js";
@@ -49,12 +50,6 @@ import { AvailabilityMaxIncomeRowFactory } from "./admin/availability_max_income
 import { AvailabilityDifferentialAttendeeFactory } from "./admin/availability_differential_attendee.js";
 import { CalendarSettingCalendarFactory } from "./admin/calendar_setting_calendar.js";
 import { BusinessRuleFactory } from "./admin/business_rule.js";
-import { AdminMetadataFactory } from "./admin/adminMetadata.js";
-import { AdminMetadataSelectOptionFactory } from "./admin/adminMetadataSelectOption.js";
-import { AdminPrimitiveMetadataFactory } from "./admin/adminPrimitiveMetadata.js";
-import { AdminPrimitiveMetadataSelectOptionFactory } from "./admin/adminPrimitiveMetadataSelectOption.js";
-import { AdminRelationshipMetadataFactory } from "./admin/adminRelationshipMetadata.js";
-import { AdminRelationshipMetadataSelectOptionFactory } from "./admin/adminRelationshipMetadataSelectOption.js";
 import { BetaFeedbackFactory } from "./beta/beta_feedback.js";
 import { BetaFeedbackTagFactory } from "./beta/beta_feedback_tag.js";
 import { PropertyFieldMappingFactory } from "./mappings/property_field_mapping.js";
@@ -79,6 +74,7 @@ export function initializeModels(sequelize: Sequelize) {
   const DependentInstance = DependentInstanceFactory(sequelize);
 
   const BookingCascade = BookingCascadeFactory(sequelize);
+  const AccumulationLink = AccumulationLinkFactory(sequelize);
   const PricingCascade = PricingCascadeFactory(sequelize);
   const ValidPricingCascade = ValidPricingCascadeFactory(sequelize);
   const PartAssignment = PartAssignmentFactory(sequelize);
@@ -121,38 +117,6 @@ export function initializeModels(sequelize: Sequelize) {
   const AvailabilityDifferentialAttendee = AvailabilityDifferentialAttendeeFactory(sequelize);
   const CalendarSettingCalendar = CalendarSettingCalendarFactory(sequelize);
   const BusinessRule = BusinessRuleFactory(sequelize);
-  // WHY: Follows entity pattern - single table with discriminator, backend routes based on field type
-  const AdminMetadata = AdminMetadataFactory(sequelize);
-  const AdminMetadataSelectOption = AdminMetadataSelectOptionFactory(sequelize);
-
-  AdminMetadata.hasMany(AdminMetadataSelectOption, {
-    foreignKey: "adminMetadataId",
-    as: "selectOptions",
-  });
-  AdminMetadataSelectOption.belongsTo(AdminMetadata, {
-    foreignKey: "adminMetadataId",
-  });
-
-  const AdminPrimitiveMetadata = AdminPrimitiveMetadataFactory(sequelize);
-  const AdminRelationshipMetadata = AdminRelationshipMetadataFactory(sequelize);
-  const AdminPrimitiveMetadataSelectOption = AdminPrimitiveMetadataSelectOptionFactory(sequelize);
-  const AdminRelationshipMetadataSelectOption = AdminRelationshipMetadataSelectOptionFactory(sequelize);
-
-  AdminPrimitiveMetadata.hasMany(AdminPrimitiveMetadataSelectOption, {
-    foreignKey: "primitiveMetadataId",
-    as: "selectOptions",
-  });
-  AdminPrimitiveMetadataSelectOption.belongsTo(AdminPrimitiveMetadata, {
-    foreignKey: "primitiveMetadataId",
-  });
-
-  AdminRelationshipMetadata.hasMany(AdminRelationshipMetadataSelectOption, {
-    foreignKey: "relationshipMetadataId",
-    as: "selectOptions",
-  });
-  AdminRelationshipMetadataSelectOption.belongsTo(AdminRelationshipMetadata, {
-    foreignKey: "relationshipMetadataId",
-  });
 
   const BetaFeedback = BetaFeedbackFactory(sequelize);
   const BetaFeedbackTag = BetaFeedbackTagFactory(sequelize);
@@ -175,7 +139,7 @@ export function initializeModels(sequelize: Sequelize) {
   associateSequelizeModels({
     PartShape, PartInstance, BlockShape, BlockInstance, BlockInstanceVersion, PartInstanceVersion,
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, DependentInstance,
-    BookingCascade, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
+    BookingCascade, AccumulationLink, PricingCascade, ValidPricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventInstanceAttendee, AppointmentAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
@@ -184,8 +148,6 @@ export function initializeModels(sequelize: Sequelize) {
     AvailabilityBusinessHour, AvailabilityBufferEntry, AvailabilityRangeConstraint,
     AvailabilityRangeConstraintHour, AvailabilityMaxWorkHour, AvailabilityMaxIncomeRow,
     AvailabilityDifferentialAttendee, CalendarSettingCalendar, BusinessRule,
-    AdminMetadata, AdminMetadataSelectOption, AdminPrimitiveMetadata, AdminPrimitiveMetadataSelectOption,
-    AdminRelationshipMetadata, AdminRelationshipMetadataSelectOption,
     BetaFeedback, BetaFeedbackTag, PropertyFieldMapping, PropertyFeatureMapping,
     UserRoleBlockAlignment,
   })
@@ -195,7 +157,7 @@ export function initializeModels(sequelize: Sequelize) {
     BlockInstance, BlockShape,
     BlockInstanceVersion, PartInstanceVersion,
     ValidBookingCascade, ValidPartCascade, ValidAnnotationAssignment, ValidEventCascade, ValidPricingCascade, DependentInstance,
-    BookingCascade, PricingCascade, PartAssignment, InstanceComponent,
+    BookingCascade, AccumulationLink, PricingCascade, PartAssignment, InstanceComponent,
     AnnotationShape, AnnotationInstance, AnnotationInstanceContent, AnnotationAssignment,
     EventShape, EventInstance, EventAssignment, EventInstanceAttendee,
     Address, PropertyVersion, PropertyDetails, PropertyVersionType, User, Session, MagicLink, Appointment,
@@ -217,12 +179,6 @@ export function initializeModels(sequelize: Sequelize) {
     AvailabilityDifferentialAttendee,
     CalendarSettingCalendar,
     BusinessRule,
-    AdminMetadata,
-    AdminMetadataSelectOption,
-    AdminPrimitiveMetadata,
-    AdminPrimitiveMetadataSelectOption,
-    AdminRelationshipMetadata,
-    AdminRelationshipMetadataSelectOption,
     BetaFeedback,
     BetaFeedbackTag,
     PropertyFieldMapping,

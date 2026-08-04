@@ -30,6 +30,27 @@ BEGIN
   ) THEN
     ALTER TYPE public.enum_block_shapes_type RENAME VALUE 'option' TO 'event';
   END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'property'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'property' TO 'time';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'coupon'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'coupon' TO 'price';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'option'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'option' TO 'event';
+  END IF;
 END
 $migrate$;
 `)
@@ -92,6 +113,27 @@ BEGIN
     WHERE t.typname = 'enum_block_shapes_type' AND e.enumlabel = 'event'
   ) THEN
     ALTER TYPE public.enum_block_shapes_type RENAME VALUE 'event' TO 'option';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'time'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'time' TO 'property';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'price'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'price' TO 'coupon';
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM pg_catalog.pg_enum e
+    JOIN pg_catalog.pg_type t ON e.enumtypid = t.oid
+    WHERE t.typname = 'block_shape_type' AND e.enumlabel = 'event'
+  ) THEN
+    ALTER TYPE public.block_shape_type RENAME VALUE 'event' TO 'option';
   END IF;
 END
 $migrate$;

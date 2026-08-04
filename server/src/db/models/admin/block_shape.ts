@@ -20,7 +20,7 @@ export class BlockShape extends Model<
   declare id: CreationOptional<string>;
   declare orderIndex: CreationOptional<number>;
   declare name: string;
-  declare type: 'user' | 'service' | 'time' | 'event' | 'price';
+  declare semanticType: 'user' | 'service' | 'time' | 'event' | 'price';
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -45,9 +45,10 @@ export function BlockShapeFactory(sequelize: Sequelize) {
         allowNull: true,
         unique: true,
       },
-      type: {
+      semanticType: {
         type: DataTypes.ENUM('user', 'service', 'time', 'event', 'price'),
         allowNull: false,
+        field: 'semantic_type',
       },
       orderIndex: {
         type: DataTypes.INTEGER,

@@ -10,11 +10,9 @@ import type { GlobalEntity } from '@/types/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { FieldContextTypeGrouped } from '@/composables/fieldContext/types'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
+import { useFieldContextMetadataEntity } from '@/composables/admin/useFieldContextMetadataEntity'
 import type { RelationshipFieldType } from '@/types/entity/formFields'
-import { createLogger } from '@/utils/logger'
 import type { CollectionFieldConfig } from '@/composables/admin/useBaseCollectionFieldTypes'
-
-const logger = createLogger('useBaseCollectionFieldCore')
 
 export interface BaseCollectionFieldCoreState<
   GE extends GlobalEntityKey,
@@ -39,19 +37,12 @@ export function useBaseCollectionFieldCore<
   const adminComp = useAdmin()
   const name = config.composableName
 
-  const entity = computed<GlobalEntity<GE> | null>(() => {
-    try {
-      const entityValue = adminComp.getEntity(fieldContext.state.entityKey, fieldContext.state.entityId)
-      return entityValue ?? null
-    } catch (err) {
-      logger.warn('getEntity failed', {
-        entityKey: fieldContext.state.entityKey,
-        entityId: fieldContext.state.entityId,
-        error: err,
-      })
-      return null
-    }
-  })
+  /**
+   * WHY: Same entity source as FieldRenderer — temp create ids (`new-…`) are not in the admin store;
+   * useFieldContextMetadataEntity builds a stub from form values (e.g. blockShapeRef) so
+   * resolveEntityFieldMetadataRecord can load code-first field metadata for RelationshipCollection.
+   */
+  const entity = useFieldContextMetadataEntity(fieldContext)
 
   const { fieldMetadata } = useEntityMetadata(fieldContext.state.entityKey, entity)
 
@@ -65,7 +56,7 @@ export function useBaseCollectionFieldCore<
     if (!meta) {
       throw new Error(
         `[${name}] Missing FieldMetadataEntry for ${String(fieldContext.state.entityKey)}.${String(fieldContext.state.fieldKey)}. ` +
-          `Field must be configured in /admin-metadata.`
+          `Field must be defined in codeFirstMetadataCache.`
       )
     }
     if (!meta.inputConfig) {

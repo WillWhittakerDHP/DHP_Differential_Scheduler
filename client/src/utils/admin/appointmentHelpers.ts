@@ -19,9 +19,9 @@ export function getStatusColor(status: string): string {
 export function getRoleColor(role: string | undefined): string {
   if (!role) return 'default'
   const colorMap: Record<string, string> = {
+    buyer: 'primary',
     client: 'primary',
     agent: 'info',
-    transaction_manager: 'warning',
     owner: 'secondary',
     inspector: 'success',
   }

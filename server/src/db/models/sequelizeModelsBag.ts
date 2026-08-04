@@ -13,6 +13,7 @@ export type SequelizeModelsBag = {
   ValidEventCascade: ModelCtor<Model>
   DependentInstance: ModelCtor<Model>
   BookingCascade: ModelCtor<Model>
+  AccumulationLink: ModelCtor<Model>
   PricingCascade: ModelCtor<Model>
   ValidPricingCascade: ModelCtor<Model>
   PartAssignment: ModelCtor<Model>
@@ -49,12 +50,6 @@ export type SequelizeModelsBag = {
   AvailabilityDifferentialAttendee: ModelCtor<Model>
   CalendarSettingCalendar: ModelCtor<Model>
   BusinessRule: ModelCtor<Model>
-  AdminMetadata: ModelCtor<Model>
-  AdminMetadataSelectOption: ModelCtor<Model>
-  AdminPrimitiveMetadata: ModelCtor<Model>
-  AdminPrimitiveMetadataSelectOption: ModelCtor<Model>
-  AdminRelationshipMetadata: ModelCtor<Model>
-  AdminRelationshipMetadataSelectOption: ModelCtor<Model>
   BetaFeedback: ModelCtor<Model>
   BetaFeedbackTag: ModelCtor<Model>
   PropertyFieldMapping: ModelCtor<Model>

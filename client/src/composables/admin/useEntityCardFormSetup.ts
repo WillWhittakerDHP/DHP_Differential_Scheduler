@@ -3,7 +3,7 @@
  * WHY: Keeps EntityCard.vue under vue-architecture script line limit.
  * Wave 4: useEntityCardComputed inlined here to reduce composable chain depth.
  */
-import { computed } from 'vue'
+import { computed, toValue } from 'vue'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import { useAdminConfig } from '@/composables/useAdminConfig'
@@ -41,11 +41,11 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
     return [] as GlobalFieldKey<GE>[]
   })
 
-  const entityName = computed(() => getEntityName(entityKey, entity))
+  const entityName = computed(() => getEntityName(entityKey, toValue(entity)))
 
   const isComposable = computed(() => {
     if (entityKey !== 'blockInstance') return false
-    return (entity as { composite?: boolean }).composite === true
+    return (toValue(entity) as { composite?: boolean }).composite === true
   })
 
   const {
@@ -63,7 +63,7 @@ export function useEntityCardFormSetup<GE extends GlobalEntityKey>(
 
   const formFields = useFormFields<GE>({
     entityKey,
-    entityId: computed(() => entity.id),
+    entityId: computed(() => toValue(entity).id),
     form,
     fieldKeys: finalFieldKeys,
     fieldMetadata: composedFieldMetadata,

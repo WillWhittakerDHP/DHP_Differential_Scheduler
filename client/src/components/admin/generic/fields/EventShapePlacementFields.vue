@@ -9,9 +9,9 @@
     <AppSelect
       :id="`field-${String(fieldContext.state.fieldKey)}`"
       :name="String(fieldContext.state.fieldKey)"
-      :model-value="placementModel"
-      :items="placementItems"
-      :label="placementLabel"
+      :model-value="timingBehaviorModel"
+      :items="timingBehaviorItems"
+      label="Timing behavior"
       :placeholder="fieldContext.state.displayConfig.placeholder"
       :disabled="fieldContext.state.displayConfig.disabled"
       :readonly="fieldContext.state.displayConfig.readOnly"
@@ -21,30 +21,10 @@
       item-title="title"
       item-value="value"
       class="select-field"
-      @update:model-value="onPlacementKindUpdate"
+      @update:model-value="onTimingBehaviorUpdate"
     />
-    <div
-      v-if="showAnchorRow"
-      class="mt-3"
-    >
-      <div class="text-caption text-medium-emphasis mb-1">
-        Anchor edge
-      </div>
-      <AppSelect
-        id="field-eventShape-anchorEdge"
-        name="anchorEdge"
-        :model-value="anchorModel"
-        :items="anchorItems"
-        label="Start or end of block window"
-        placeholder="start | end"
-        :disabled="anchorDisabled"
-        :readonly="fieldContext.state.displayConfig.readOnly"
-        :autocomplete="AUTCOMPLETE_OFF"
-        item-title="title"
-        item-value="value"
-        class="select-field"
-        @update:model-value="onAnchorUpdate"
-      />
+    <div class="text-body-small text-medium-emphasis mt-2">
+      {{ selectedTimingBehavior.description }}
     </div>
   </BaseInput>
 </template>
@@ -57,13 +37,13 @@ import { AUTCOMPLETE_OFF } from '@/utils/autocomplete'
 import { useFieldValue } from '@/composables/useFieldValue'
 import type { FieldInputProps } from './fieldTypes'
 import type { ValidAdminValue } from '@/constants/primitives'
-import {
-  isEventAnchorEdge,
-  isEventPlacementKind,
-  type EventAnchorEdge,
-  type EventPlacementKind,
-} from '@shared/utils/eventPlacementUtils'
 import { createLogger } from '@/utils/logger'
+import {
+  EVENT_TIMING_BEHAVIOR_OPTIONS,
+  eventTimingBehaviorFromPlacement,
+  eventTimingBehaviorFromValue,
+  type EventTimingBehaviorValue,
+} from '@/utils/admin/eventPlacementLabels'
 
 const logger = createLogger('EventShapePlacementFields')
 
@@ -73,92 +53,51 @@ const props = withDefaults(defineProps<FieldInputProps>(), {
 
 const { fieldContext } = props
 
-const placementItems: { title: string; value: EventPlacementKind }[] = [
-  { title: 'Primary', value: 'primary' },
-  { title: 'Secondary', value: 'secondary' },
-  { title: 'Marginal', value: 'marginal' },
-  { title: 'Floating', value: 'floating' },
-]
-
-const anchorItems: { title: string; value: EventAnchorEdge }[] = [
-  { title: 'Start', value: 'start' },
-  { title: 'End', value: 'end' },
-]
-
-const placementLabel = computed(() => fieldContext.state.displayConfig.label)
-
 const placementFromForm = useFieldValue(fieldContext)
 
-function normalizedPlacementKind(raw: ValidAdminValue): EventPlacementKind {
-  return isEventPlacementKind(raw) ? raw : 'primary'
-}
+const timingBehaviorItems = EVENT_TIMING_BEHAVIOR_OPTIONS.map((option) => ({
+  title: option.title,
+  value: option.value,
+}))
 
-const placementModel = computed(() => normalizedPlacementKind(placementFromForm.value))
-
-const showAnchorRow = computed(() => placementModel.value !== 'primary')
-
-const anchorDisabled = computed(
-  () => fieldContext.state.displayConfig.disabled || fieldContext.state.isDisabled.value
-)
-
-const anchorModel = computed((): EventAnchorEdge | null => {
+function currentAnchorEdge(): unknown {
   const form = fieldContext.state.formInstance
   if (!form) {
     return null
   }
-  const raw = (form.values as Record<string, unknown>).anchorEdge
-  return isEventAnchorEdge(raw) ? raw : null
-})
+  return (form.values as Record<string, unknown>).anchorEdge
+}
 
-function syncAnchorToPlacementKind(kind: EventPlacementKind): void {
+const selectedTimingBehavior = computed(() =>
+  eventTimingBehaviorFromPlacement(placementFromForm.value, currentAnchorEdge())
+)
+
+const timingBehaviorModel = computed<EventTimingBehaviorValue>(() => selectedTimingBehavior.value.value)
+
+function syncFieldsToTimingBehavior(value: EventTimingBehaviorValue): void {
+  const descriptor = eventTimingBehaviorFromValue(value)
+  fieldContext.actions.setValue(descriptor.placementKind as ValidAdminValue)
   const form = fieldContext.state.formInstance
   if (!form) {
-    logger.warn('syncAnchorToPlacementKind skipped: formInstance missing', {
+    logger.warn('syncFieldsToTimingBehavior skipped: formInstance missing', {
       entityKey: fieldContext.state.entityKey,
       fieldKey: String(fieldContext.state.fieldKey),
     })
     return
   }
-  if (kind === 'primary') {
-    const cur = (form.values as Record<string, unknown>).anchorEdge
-    if (cur != null && cur !== '') {
-      form.setFieldValue('anchorEdge', null)
-    }
-    return
-  }
-  const cur = (form.values as Record<string, unknown>).anchorEdge
-  if (!isEventAnchorEdge(cur)) {
-    form.setFieldValue('anchorEdge', 'start')
-  }
+  form.setFieldValue('anchorEdge', descriptor.anchorEdge)
 }
 
 watch(
   placementFromForm,
-  (raw) => {
-    syncAnchorToPlacementKind(normalizedPlacementKind(raw))
+  () => {
+    syncFieldsToTimingBehavior(timingBehaviorModel.value)
   },
   { immediate: true }
 )
 
-function onPlacementKindUpdate(next: unknown): void {
-  const v = next as ValidAdminValue
-  fieldContext.actions.setValue(v)
-  syncAnchorToPlacementKind(normalizedPlacementKind(v))
-}
-
-function onAnchorUpdate(next: unknown): void {
-  const form = fieldContext.state.formInstance
-  if (!form) {
-    logger.warn('onAnchorUpdate skipped: formInstance missing', {
-      entityKey: fieldContext.state.entityKey,
-    })
-    return
-  }
-  if (next === 'start' || next === 'end') {
-    form.setFieldValue('anchorEdge', next)
-    return
-  }
-  form.setFieldValue('anchorEdge', null)
+function onTimingBehaviorUpdate(next: unknown): void {
+  syncFieldsToTimingBehavior(eventTimingBehaviorFromValue(next).value)
 }
 </script>
 

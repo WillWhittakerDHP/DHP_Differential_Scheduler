@@ -8,22 +8,12 @@ import {
   Sequelize,
 } from 'sequelize';
 /**
- * EventInstance Model
- * 
- * Represents reusable, shared event instances (instance-level: concrete event configurations)
- * that can be associated with part shapes or block shapes. Event instances contain templates
- * for calendar event creation (title, description, location).
- * 
- * - Shared event configurations across multiple shapes
- * - Template management (update templates once, affects all shapes using it)
- * - Centralized event instance management
- * 
- * relationship through EventAssignment. This allows:
- * - Reusability: Same event instance can be used by multiple shapes
- * - Flexibility: Shapes can have multiple event instances (ordered)
- * - Maintainability: Update event templates once, all shapes using it get the update
- * 
- * PATTERN: Instance-level entity model matching block_instances/part_instances/annotation_instances pattern
+ * EventInstance — concrete event segment owned by a parent event block instance.
+ *
+ * Event shapes define placement type (`placementKind` + `anchorEdge`); event instances
+ * are the segment rows that carry invite templates, attendee behavior, and location data.
+ * Routing remains relational through `event_assignments`, while
+ * `parentBlockInstanceId` is the required ownership link for the segment itself.
  */
 export class EventInstance extends Model<
   InferAttributes<EventInstance>,
@@ -47,7 +37,7 @@ export class EventInstance extends Model<
   declare reminderOverrides: Array<{ method: 'email' | 'popup'; minutes: number }> | null;
   declare orderIndex: CreationOptional<number>;
   declare active: CreationOptional<boolean>;
-  declare parentBlockInstanceId: CreationOptional<string | null>;
+  declare parentBlockInstanceId: string;
   declare locationType: CreationOptional<string | null>;
   declare locationPlaceId: CreationOptional<string | null>;
   declare locationAddress: CreationOptional<string | null>;
@@ -182,7 +172,7 @@ export function EventInstanceFactory(sequelize: Sequelize) {
       },
       parentBlockInstanceId: {
         type: DataTypes.UUID,
-        allowNull: true,
+        allowNull: false,
         field: 'parent_block_instance_id',
         references: {
           model: 'block_instances',

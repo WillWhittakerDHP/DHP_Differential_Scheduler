@@ -12,13 +12,11 @@ export type { AvailabilityStepData }
 export type PropertyDetailsStepData = PropertyDetailsData
 
 export interface ContactsStepData {
-  clientInfo: { firstName: string; lastName: string; email: string }
+  buyerInfo: { firstName: string; lastName: string; email: string }
   agentInfo: { firstName: string; lastName: string; email: string }
-  anotherClientInfo: { firstName: string; lastName: string; email: string }
-  transactionManagerInfo: { firstName: string; lastName: string; email: string }
+  anotherBuyerInfo: { firstName: string; lastName: string; email: string }
   ownerInfo: { firstName: string; lastName: string; email: string }
-  showAnotherClient: boolean
-  showTransactionManager: boolean
+  showAnotherBuyer: boolean
   showOwner: boolean
 }
 

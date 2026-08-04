@@ -25,12 +25,15 @@ export function getMinimizerPartShapeName(
   eventShapeName?: string | null
 ): string {
   if (shape && minimizerEventShapeId) {
-    const matchingAssignments = Object.entries(shape.eventAssignmentsByPartShape).filter(
-      ([, eventInstances]) =>
-        eventInstances.some((eventInstance) => eventInstance.eventShapeRef === minimizerEventShapeId)
+    const byLineage = shape.eventAssignmentsByPartInstanceId
+    const matchingAssignments = Object.entries(byLineage).filter(([, eventInstances]) =>
+      eventInstances.some((eventInstance) => eventInstance.eventShapeRef === minimizerEventShapeId),
     )
     const matchingPartShapes = matchingAssignments
-      .map(([partShapeName]) => partShapeName)
+      .map(([partInstanceId]) => {
+        const pf = shape.finalizedParts.find((p) => p.sourcePartInstances[0]?.id === partInstanceId)
+        return pf?.partShape ?? ''
+      })
       .filter((name) => name.trim().length > 0)
       .filter((name) => !isGenericMinimizerLabel(name))
 

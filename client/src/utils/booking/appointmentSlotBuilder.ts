@@ -12,15 +12,14 @@ const logger = createLogger('appointmentSlotBuilder')
 import type { AvailabilitySettings } from '@/configs/availabilitySettings'
 import type { ResolvedNumericPolicy } from '@shared/types/organizationDefaults'
 import type { EventInstance, EventShape } from '@/types/events'
+import type { BlockFinal } from '@/types/booking/blockFinal'
 import type { GlobalRelationship } from '@/types/relationships'
-import type { GlobalEntity } from '@/types/entities'
-import { calculateSlotShape } from './partFinalizer'
+import { calculateSlotShape, filterZeroedParts } from './partFinalizer'
 import {
   createBlockFinals,
   filterZeroedBlocks
 } from './blockFinalizer'
 import { createTimeRangesFromSlotShape } from './slotShapeLookups'
-import { resolveEventShapes, adjustMinorTimeRange } from './perspectiveResolver'
 
 export { createTimeRange } from './slotTimeUtils'
 export { findEventFinalByName, createTimeRangesFromSlotShape } from './slotShapeLookups'
@@ -40,65 +39,71 @@ export function createMinimalAppointmentShapeForDuration(durationMinutes: number
       rawDifferentialOffset: 0,
       roundedDifferentialOffset: 0,
     },
-    eventAssignmentsByPartShape: {},
+    eventAssignmentsByPartInstanceId: {},
   }
 }
 
-function lookupEventsForPartShape(
-  partShapeName: string,
-  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+/**
+ * WHY: Principles §4.2/§5.2 — event assignment resolves per part instance as
+ * `event profile override ?? event orchestrator baseline`. A part-level assignment
+ * REPLACES the block baseline for that part; the two are never unioned.
+ */
+function lookupEventInstancesForPartLineage(
+  partInstanceId: string,
+  owningBlockInstanceId: string,
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
-  blockInstances: BookingBlockInstance[]
 ): EventInstance[] {
-  const partShapeEntity = Array.from(partShapeById.values()).find(ps => ps.name === partShapeName)
-  if (!partShapeEntity) return []
-
-  const blockInstanceIds = blockInstances
-    .filter((bi) => {
-      const p = bi.partInstances
-      if (p === undefined || p === null) {
-        logger.debug('partInstances missing on blockInstance', { blockInstanceId: bi.id })
-        return false
+  const baselineEventIds = new Set<string>()
+  const overrideEventIds = new Set<string>()
+  for (const rel of eventAssignmentsRelationships) {
+    if (rel.relationshipKind !== 'eventAssignments') {
+      continue
+    }
+    const parent = rel.parent
+    const matchesBlockBaseline =
+      parent.entityKey === 'blockInstance' && parent.id === owningBlockInstanceId
+    const matchesPartOverride = parent.entityKey === 'partInstance' && parent.id === partInstanceId
+    if (!matchesBlockBaseline && !matchesPartOverride) {
+      continue
+    }
+    const target = matchesPartOverride ? overrideEventIds : baselineEventIds
+    for (const child of rel.children) {
+      if (child.entityKey === 'eventInstance') {
+        target.add(child.id)
       }
-      return p.some((pi) => pi.partShape === partShapeName)
-    })
-    .map((bi) => bi.id)
-
-  const instanceEventAssignmentsRels = eventAssignmentsRelationships.filter(
-    (rel) =>
-      rel.parent.entityKey === 'blockInstance' && blockInstanceIds.includes(rel.parent.id)
-  )
-  const eventInstanceIds = instanceEventAssignmentsRels.flatMap(rel =>
-    rel.children.map(child => child.id)
-  )
-  const uniqueEventInstanceIds = new Set(eventInstanceIds)
-  return Array.from(uniqueEventInstanceIds)
-    .map(id => eventInstances.find(ei => ei.id === id))
+    }
+  }
+  const resolvedIds = overrideEventIds.size > 0 ? overrideEventIds : baselineEventIds
+  return Array.from(resolvedIds)
+    .map((id) => eventInstances.find((ei) => ei.id === id))
     .filter((ei): ei is EventInstance => ei !== undefined)
 }
 
-function buildEventAssignmentsByPartShape(
-  nonZeroedParts: { partShape: string }[],
-  partShapeById: Map<string, GlobalEntity<'partShape'>>,
+function buildEventAssignmentsByPartInstanceId(
+  nonZeroedBlockFinals: BlockFinal[],
   eventAssignmentsRelationships: GlobalRelationship[],
   eventInstances: EventInstance[],
-  blockInstances: BookingBlockInstance[]
 ): Record<string, EventInstance[]> {
-  const uniquePartShapes = new Set(nonZeroedParts.map(pf => pf.partShape))
-  const entries = Array.from(uniquePartShapes)
-    .map(partShapeName => {
-      const events = lookupEventsForPartShape(
-        partShapeName,
-        partShapeById,
+  const out: Record<string, EventInstance[]> = {}
+  for (const bf of nonZeroedBlockFinals) {
+    for (const pf of bf.finalizedParts) {
+      const lineageId = pf.sourcePartInstances[0]?.id
+      if (lineageId === undefined || lineageId === '') {
+        continue
+      }
+      const events = lookupEventInstancesForPartLineage(
+        lineageId,
+        bf.blockInstanceId,
         eventAssignmentsRelationships,
         eventInstances,
-        blockInstances
       )
-      return events.length > 0 ? ([partShapeName, events] as const) : null
-    })
-    .filter((entry): entry is [string, EventInstance[]] => entry !== null)
-  return Object.fromEntries(entries)
+      if (events.length > 0) {
+        out[lineageId] = events
+      }
+    }
+  }
+  return out
 }
 
 export function buildAppointmentShape(
@@ -107,23 +112,23 @@ export function buildAppointmentShape(
   eventInstances?: EventInstance[],
   eventShapes?: EventShape[],
   eventAssignmentsRelationships?: GlobalRelationship[],
-  partShapeById?: Map<string, GlobalEntity<'partShape'>>,
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
 ): AppointmentShape {
   const allBlockFinals = createBlockFinals(blockInstances)
-  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals)
-  const nonZeroedPartsBeforeEnrich = nonZeroedBlockFinals.flatMap(
-    (blockFinal) => blockFinal.finalizedParts
-  )
+  // WHY: Principles §4.4 step 5 / §4.8 — zero-out is per PART, applied last. A zeroed part
+  // inside a mixed block must not contribute to durations or rollups, so each surviving
+  // block's finalizedParts are re-filtered (not just fully-zeroed blocks dropped).
+  const nonZeroedBlockFinals = filterZeroedBlocks(allBlockFinals).map((blockFinal) => ({
+    ...blockFinal,
+    finalizedParts: filterZeroedParts(blockFinal.finalizedParts),
+  }))
 
-  const eventAssignmentsByPartShape =
-    eventInstances && eventAssignmentsRelationships && partShapeById
-      ? buildEventAssignmentsByPartShape(
-          nonZeroedPartsBeforeEnrich,
-          partShapeById,
+  const eventAssignmentsByPartInstanceId =
+    eventInstances && eventAssignmentsRelationships
+      ? buildEventAssignmentsByPartInstanceId(
+          nonZeroedBlockFinals,
           eventAssignmentsRelationships,
           eventInstances,
-          blockInstances
         )
       : {}
 
@@ -139,7 +144,7 @@ export function buildAppointmentShape(
 
   const slotShape = calculateSlotShape(
     nonZeroedBlockFinals,
-    eventAssignmentsByPartShape,
+    eventAssignmentsByPartInstanceId,
     resolvedEventShapes,
     settings ?? null,
     resolvedTimeRounding,
@@ -149,7 +154,7 @@ export function buildAppointmentShape(
     finalizedBlocks: nonZeroedBlockFinals,
     finalizedParts: nonZeroedParts,
     slotShape,
-    eventAssignmentsByPartShape,
+    eventAssignmentsByPartInstanceId,
   }
 }
 
@@ -182,50 +187,12 @@ export function applyShapeToTime(
   
   const timeRanges = createTimeRangesFromSlotShape(effectiveSlotShape, startTime)
 
-  const resolved = effectiveSlotShape.eventFinals.length > 0
-    ? resolveEventShapes(effectiveSlotShape.eventFinals)
-    : {
-        majorEventShape: null,
-        minorEventShape: null,
-        majorEventName: null,
-        minorEventName: null
-      }
-
-  const majorTimeRange =
-    resolved.majorEventName != null
-      ? timeRanges.eventTimeRanges[resolved.majorEventName] ?? null
-      : null
-  const minorTimeRange =
-    resolved.minorEventName != null
-      ? timeRanges.eventTimeRanges[resolved.minorEventName] ?? null
-      : null
-
-  const { adjustedEventTimeRanges, adjustedMinorTimeRange } = adjustMinorTimeRange(
-    startTime,
-    timeRanges.eventTimeRanges,
-    resolved.majorEventName,
-    resolved.minorEventName,
-    majorTimeRange,
-    minorTimeRange,
-    effectiveSlotShape.roundedDifferentialOffset
-  )
-
-  if (adjustedMinorTimeRange != null && majorTimeRange != null) {
-    if (adjustedMinorTimeRange.endTime !== majorTimeRange.endTime) {
-      throw new Error(
-        `AppointmentSlot validation failed: ` +
-          `minorTimeRange.endTime (${adjustedMinorTimeRange.endTime}) !== ` +
-          `majorTimeRange.endTime (${majorTimeRange.endTime})`
-      )
-    }
-  }
-
   return {
     buttonIndex,
     isAvailable,
     shape,
     startTime,
     totalTimeRange: timeRanges.totalTimeRange,
-    eventTimeRanges: adjustedEventTimeRanges
+    eventTimeRanges: timeRanges.eventTimeRanges
   }
 }

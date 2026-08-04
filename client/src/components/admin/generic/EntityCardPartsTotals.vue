@@ -16,12 +16,20 @@
         <span class="text-body-large ml-2">{{ formatDuration(totalBaseTime) }}</span>
       </div>
       <div>
-        <span class="text-body-medium text-medium-emphasis">Overage Rate ($/sq ft):</span>
-        <span class="text-body-large ml-2">{{ formatCurrency(totalRateOverBaseFee) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Fee per unit:</span>
+        <span class="text-body-large ml-2">{{ formatCurrency(totalFeePerUnit) }}</span>
       </div>
       <div>
-        <span class="text-body-medium text-medium-emphasis">Overage Rate (sq ft/hr):</span>
-        <span class="text-body-large ml-2">{{ formatRate(totalRateOverBaseTime) }}</span>
+        <span class="text-body-medium text-medium-emphasis">Time per unit:</span>
+        <span class="text-body-large ml-2">{{ formatRate(totalTimePerUnit) }}</span>
+      </div>
+      <div>
+        <span class="text-body-medium text-medium-emphasis">Base multiplier:</span>
+        <span class="text-body-large ml-2">{{ formatMultiplier(totalBaseMultiplier) }}</span>
+      </div>
+      <div>
+        <span class="text-body-medium text-medium-emphasis">Rate multiplier:</span>
+        <span class="text-body-large ml-2">{{ formatMultiplier(totalRateMultiplier) }}</span>
       </div>
     </div>
   </div>
@@ -44,8 +52,10 @@ const {
   canHaveParts,
   totalBaseFee,
   totalBaseTime,
-  totalRateOverBaseFee,
-  totalRateOverBaseTime
+  totalFeePerUnit,
+  totalTimePerUnit,
+  totalBaseMultiplier,
+  totalRateMultiplier
 } = usePartsTotals(props.entityKey, props.entityId)
 
 function formatCurrency(amount: number): string {
@@ -54,6 +64,10 @@ function formatCurrency(amount: number): string {
 
 function formatRate(rate: number): string {
   return rate.toFixed(2)
+}
+
+function formatMultiplier(multiplier: number): string {
+  return `${multiplier.toFixed(2)}x`
 }
 </script>
 

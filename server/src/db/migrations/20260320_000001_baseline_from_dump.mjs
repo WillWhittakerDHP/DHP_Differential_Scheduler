@@ -24,6 +24,14 @@ export default {
     const schemaSql = readFileSync(schemaPath, 'utf8');
     const dataSql = readFileSync(dataPath, 'utf8');
 
+    // WHY: Pre-baseline migrations (20260315_*) create partial settings tables on fresh
+    // installs. The squashed baseline schema recreates the full schema without IF NOT EXISTS.
+    console.log('[baseline] Dropping partial pre-baseline tables if present…');
+    await queryInterface.sequelize.query(`
+      DROP TABLE IF EXISTS public.calendar_settings CASCADE;
+      DROP TABLE IF EXISTS public.wizard_settings CASCADE;
+    `);
+
     console.log('[baseline] Applying schema…');
     await queryInterface.sequelize.query(schemaSql);
     console.log('[baseline] Schema applied');

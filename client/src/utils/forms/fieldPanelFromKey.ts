@@ -22,6 +22,10 @@ export function determinePanelFromFieldKey(fieldKey: string): 'none' | SubPanelK
     if (fieldKey === RELATIONSHIP_KEYS.validEventCascades.frontendKey) {
       return 'events'
     }
+    // Vertical same-shape packaging — Composite flag, not Orchestrator.
+    if (fieldKey === RELATIONSHIP_KEYS.instanceComponents.frontendKey) {
+      return 'composition'
+    }
     return 'relationships'
   }
 

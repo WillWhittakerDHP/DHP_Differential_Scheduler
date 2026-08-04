@@ -19,7 +19,6 @@ import {
   useDifferentialPerspectives,
 } from '@/composables/admin/businessControlsTabComposablesBundle'
 import { useAdminOrganizationDefaults } from '@/composables/admin/useAdminOrganizationDefaults'
-import { useAdminUserRoleBlockAlignment } from '@/composables/admin/useAdminUserRoleBlockAlignment'
 import type {
   UseBufferSettingsParams,
   UseDefaultLocationParams,
@@ -102,21 +101,15 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
   })
   const organization = useAdminOrganizationDefaults({ enabled: organizationDefaultsEnabled })
 
-  const roleAlignmentEnabled = computed(
-    () => isTabActive.value && currentMainTab.value === 'roleAlignment'
-  )
-  const userRoleBlockAlignment = useAdminUserRoleBlockAlignment({ enabled: roleAlignmentEnabled })
-
   const { loading, error, success, handleSave, clearAllErrors } = useBusinessControlsTabSaveAndStatus({
     currentMainTab,
     availability,
     calendar,
     wizard,
     organization,
-    userRoleBlockAlignment,
   })
 
-  const persistedSaveButtons = useBusinessControlsPersistedSaveButtons(organization, userRoleBlockAlignment)
+  const persistedSaveButtons = useBusinessControlsPersistedSaveButtons(organization)
 
   const maxBusinessHours = computed(() => {
     if (!availability.formData.value) {
@@ -166,7 +159,6 @@ export function useBusinessControlsTab(): UseBusinessControlsTabReturn {
       disabled: wizard.saving.value,
     })),
     organizationDefaults: organization,
-    userRoleBlockAlignment,
   })
 
   provide(BUSINESS_CONTROLS_STATE_KEY, businessControlsState)

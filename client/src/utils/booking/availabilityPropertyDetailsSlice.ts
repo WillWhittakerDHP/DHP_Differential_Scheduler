@@ -8,7 +8,14 @@ export function propertyDetailsSliceForAvailability(
   step: PropertyDetails | null | undefined
 ): Pick<
   PropertyDetails,
-  'squareFootage' | 'bedrooms' | 'bathrooms' | 'foundationAccess' | 'additionalUnits'
+  | 'squareFootage'
+  | 'bedrooms'
+  | 'bathrooms'
+  | 'foundationAccess'
+  | 'additionalUnits'
+  | 'hvacCount'
+  | 'waterHeaterCount'
+  | 'kitchenApplianceCount'
 > | null {
   if (!step) {
     return null
@@ -19,5 +26,8 @@ export function propertyDetailsSliceForAvailability(
     bathrooms: step.bathrooms,
     foundationAccess: step.foundationAccess,
     additionalUnits: step.additionalUnits,
+    hvacCount: step.hvacCount,
+    waterHeaterCount: step.waterHeaterCount,
+    kitchenApplianceCount: step.kitchenApplianceCount,
   }
 }

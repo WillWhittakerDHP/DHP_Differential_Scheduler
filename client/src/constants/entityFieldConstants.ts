@@ -1,8 +1,8 @@
 export const FIELD_NAMES = {
   ORDER_INDEX: 'orderIndex',
   ORCHESTRATOR: 'orchestrator',
-  WIZARD_VISIBLE: 'wizardVisible',
-  AGENT_PERMISSIONS: 'agentPermissions',
+  ACCUMULATOR: 'accumulator',
+  WIZARD_PLACEMENT: 'wizardPlacement',
   ID: 'id',
   ENTITY_KEY: 'entityKey',
   CREATED_AT: 'createdAt',
@@ -17,10 +17,10 @@ export const TEMPORARY_ID_PATTERNS = {
 } as const
 
 export const DEFAULT_VALUES = {
-  /** Default when API omits wizardVisible (main grid / non–add-on-only). */
-  WIZARD_VISIBLE: true as const,
   /** Default when API omits orchestrator. */
   ORCHESTRATOR: false as const,
+  /** Default when API omits accumulator. */
+  ACCUMULATOR: false as const,
 } as const
 
 /** Status labels for entity active/inactive (display and form defaults). */

@@ -1,9 +1,5 @@
 
-import {
-  USER_ROLE_AGENT,
-  USER_ROLE_CLIENT,
-  USER_ROLE_OWNER,
-} from '@/constants/attendeeRoles'
+import { USER_ROLE_AGENT, USER_ROLE_BUYER, USER_ROLE_OWNER } from '@/constants/attendeeRoles'
 import type { AppointmentRequest, AppointmentStatus } from '@/types/appointment'
 import { isValidTransition } from '@/constants/appointmentStatus'
 import type { AttendeeRequest } from '@shared/types/appointmentTypes'
@@ -21,12 +17,6 @@ import type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, Avai
 
 export type { AttendeeSpecInput, CreateUserMutate, WizardBlocksForBuilders, AvailabilityPayload, BlockQuantities } from '@/types/booking/appointmentDataBuilders'
 
-/** Attendee roles used in specs; centralize to satisfy hardcoding audit. */
-const APPOINTMENT_ATTENDEE_ROLES = {
-  transactionManager: 'transaction_manager' as const,
-  owner: USER_ROLE_OWNER,
-}
-
 export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyRequest {
   return {
     address: step.address,
@@ -43,6 +33,9 @@ export function buildPropertyRequest(step: PropertyDetailsStepData): PropertyReq
     bathrooms: step.bathrooms ?? null,
     foundationAccess: step.foundationAccess ?? null,
     additionalUnits: step.additionalUnits ?? null,
+    hvacCount: step.hvacCount ?? null,
+    waterHeaterCount: step.waterHeaterCount ?? null,
+    kitchenApplianceCount: step.kitchenApplianceCount ?? null,
     source: step.source ?? undefined,
   }
 }
@@ -62,6 +55,9 @@ export function buildPropertyDetailsForRequest(step: PropertyDetailsStepData): A
     bathrooms: step.bathrooms,
     foundationAccess: step.foundationAccess,
     additionalUnits: step.additionalUnits,
+    hvacCount: step.hvacCount,
+    waterHeaterCount: step.waterHeaterCount,
+    kitchenApplianceCount: step.kitchenApplianceCount,
   }
 }
 
@@ -86,11 +82,10 @@ async function createAttendeeFromSpec(
 
 function buildAttendeeSpecs(contacts: ContactsStepData): AttendeeSpecInput[] {
   return [
-    { info: contacts.clientInfo, role: USER_ROLE_CLIENT, shouldCreate: true },
+    { info: contacts.buyerInfo, role: USER_ROLE_BUYER, shouldCreate: true },
     { info: contacts.agentInfo, role: USER_ROLE_AGENT, shouldCreate: true },
-    { info: contacts.anotherClientInfo, role: USER_ROLE_CLIENT, shouldCreate: contacts.showAnotherClient },
-    { info: contacts.transactionManagerInfo, role: APPOINTMENT_ATTENDEE_ROLES.transactionManager, shouldCreate: contacts.showTransactionManager },
-    { info: contacts.ownerInfo, role: APPOINTMENT_ATTENDEE_ROLES.owner, shouldCreate: contacts.showOwner },
+    { info: contacts.anotherBuyerInfo, role: USER_ROLE_BUYER, shouldCreate: contacts.showAnotherBuyer },
+    { info: contacts.ownerInfo, role: USER_ROLE_OWNER, shouldCreate: contacts.showOwner },
   ]
 }
 
@@ -200,10 +195,10 @@ export function buildAppointmentRequest(params: {
     userTypeBlockId: wizard.selectedUserTypeBlock?.id ?? null,
     selectedServiceIds: wizard.selectedServiceTypeBlocks.map((s) => s.id),
     serviceQuantities: hasServiceQty ? quantities.serviceQuantities : null,
-    selectedPropertyIds: wizard.selectedPropertyTypeBlocks.length > 0 ? wizard.selectedPropertyTypeBlocks.map((d) => d.id) : null,
-    propertyQuantities: hasPropertyQty ? quantities.propertyQuantities : null,
-    selectedOptionIds: wizard.selectedOptionTypeBlocks.length > 0 ? wizard.selectedOptionTypeBlocks.map((opt) => opt.id) : null,
-    optionQuantities: hasOptionQty ? quantities.optionTypeBlockQuantities : null,
+    selectedTimeIds: wizard.selectedPropertyTypeBlocks.length > 0 ? wizard.selectedPropertyTypeBlocks.map((d) => d.id) : null,
+    timeQuantities: hasPropertyQty ? quantities.propertyQuantities : null,
+    selectedEventIds: wizard.selectedOptionTypeBlocks.length > 0 ? wizard.selectedOptionTypeBlocks.map((opt) => opt.id) : null,
+    eventQuantities: hasOptionQty ? quantities.optionTypeBlockQuantities : null,
     selectedDate: availability.selectedDate,
     selectedDateRangeEnd: availability.selectedDateRangeEnd,
     selectedTimeSlots: availability.selectedTimeSlots,

@@ -67,6 +67,9 @@ export function registerPropertyFormWizardRestoreWatch(
           bathrooms: d.bathrooms,
           foundationAccess: d.foundationAccess,
           additionalUnits: d.additionalUnits,
+          hvacCount: d.hvacCount,
+          waterHeaterCount: d.waterHeaterCount,
+          kitchenApplianceCount: d.kitchenApplianceCount,
         },
         isAddressExpanded
       )

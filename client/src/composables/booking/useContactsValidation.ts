@@ -4,17 +4,14 @@ import { useStepValidation } from './useStepValidation'
 import { CONTACTS_VALIDATION_STRINGS } from '@/configs/contactsValidationStrings'
 import type { UseContactsValidationParams, UseContactsValidationReturn } from '@/types/booking/contactsValidation'
 
-
 import type { ValidationRule } from '@/types/formValidation'
 export function useContactsValidation(params: UseContactsValidationParams): UseContactsValidationReturn {
   const {
-    clientInfo,
+    buyerInfo,
     agentInfo,
-    anotherClientInfo,
-    transactionManagerInfo,
+    anotherBuyerInfo,
     ownerInfo,
-    showAnotherClient,
-    showTransactionManager,
+    showAnotherBuyer,
     showOwner,
     requiresAgent
   } = params
@@ -22,18 +19,15 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
   const { required, email } = useFormValidation()
 
   const validationRules: Record<string, ValidationRule[]> = {
-    clientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
-    clientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
-    clientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    buyerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    buyerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    buyerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
     agentFirstName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.firstName.required)] : [],
     agentLastName: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.lastName.required)] : [],
     agentEmail: requiresAgent?.value ? [required(CONTACTS_VALIDATION_STRINGS.email.required), email()] : [email()],
-    anotherClientFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
-    anotherClientLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
-    anotherClientEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
-    transactionManagerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
-    transactionManagerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
-    transactionManagerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
+    anotherBuyerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
+    anotherBuyerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
+    anotherBuyerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()],
     ownerFirstName: [required(CONTACTS_VALIDATION_STRINGS.firstName.required)],
     ownerLastName: [required(CONTACTS_VALIDATION_STRINGS.lastName.required)],
     ownerEmail: [required(CONTACTS_VALIDATION_STRINGS.email.required), email()]
@@ -41,18 +35,15 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
 
 
   const formData: Record<string, Ref<unknown>> = {
-    clientFirstName: computed(() => clientInfo.value.firstName),
-    clientLastName: computed(() => clientInfo.value.lastName),
-    clientEmail: computed(() => clientInfo.value.email),
+    buyerFirstName: computed(() => buyerInfo.value.firstName),
+    buyerLastName: computed(() => buyerInfo.value.lastName),
+    buyerEmail: computed(() => buyerInfo.value.email),
     agentFirstName: computed(() => agentInfo.value.firstName),
     agentLastName: computed(() => agentInfo.value.lastName),
     agentEmail: computed(() => agentInfo.value.email),
-    anotherClientFirstName: computed(() => anotherClientInfo.value.firstName),
-    anotherClientLastName: computed(() => anotherClientInfo.value.lastName),
-    anotherClientEmail: computed(() => anotherClientInfo.value.email),
-    transactionManagerFirstName: computed(() => transactionManagerInfo.value.firstName),
-    transactionManagerLastName: computed(() => transactionManagerInfo.value.lastName),
-    transactionManagerEmail: computed(() => transactionManagerInfo.value.email),
+    anotherBuyerFirstName: computed(() => anotherBuyerInfo.value.firstName),
+    anotherBuyerLastName: computed(() => anotherBuyerInfo.value.lastName),
+    anotherBuyerEmail: computed(() => anotherBuyerInfo.value.email),
     ownerFirstName: computed(() => ownerInfo.value.firstName),
     ownerLastName: computed(() => ownerInfo.value.lastName),
     ownerEmail: computed(() => ownerInfo.value.email)
@@ -60,9 +51,9 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
 
   const reactiveRules = computed(() => {
     const rules: Record<string, ValidationRule[]> = {
-      clientFirstName: validationRules.clientFirstName,
-      clientLastName: validationRules.clientLastName,
-      clientEmail: validationRules.clientEmail
+      buyerFirstName: validationRules.buyerFirstName,
+      buyerLastName: validationRules.buyerLastName,
+      buyerEmail: validationRules.buyerEmail
     }
     
     if (requiresAgent?.value) {
@@ -71,16 +62,10 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
       rules.agentEmail = validationRules.agentEmail
     }
 
-    if (showAnotherClient.value) {
-      rules.anotherClientFirstName = validationRules.anotherClientFirstName
-      rules.anotherClientLastName = validationRules.anotherClientLastName
-      rules.anotherClientEmail = validationRules.anotherClientEmail
-    }
-
-    if (showTransactionManager.value) {
-      rules.transactionManagerFirstName = validationRules.transactionManagerFirstName
-      rules.transactionManagerLastName = validationRules.transactionManagerLastName
-      rules.transactionManagerEmail = validationRules.transactionManagerEmail
+    if (showAnotherBuyer.value) {
+      rules.anotherBuyerFirstName = validationRules.anotherBuyerFirstName
+      rules.anotherBuyerLastName = validationRules.anotherBuyerLastName
+      rules.anotherBuyerEmail = validationRules.anotherBuyerEmail
     }
 
     if (showOwner.value) {
@@ -97,5 +82,3 @@ export function useContactsValidation(params: UseContactsValidationParams): UseC
     validationRules: reactiveRules
   })
 }
-
-

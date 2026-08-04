@@ -24,6 +24,11 @@ export function restorePropertyFormFromDetails(
   formData.bedrooms.value = typeof details.bedrooms === 'number' ? details.bedrooms : null
   formData.bathrooms.value = typeof details.bathrooms === 'number' ? details.bathrooms : null
   formData.additionalUnits.value = typeof details.additionalUnits === 'number' ? details.additionalUnits : null
+  formData.hvacCount.value = typeof details.hvacCount === 'number' ? details.hvacCount : null
+  formData.waterHeaterCount.value =
+    typeof details.waterHeaterCount === 'number' ? details.waterHeaterCount : null
+  formData.kitchenApplianceCount.value =
+    typeof details.kitchenApplianceCount === 'number' ? details.kitchenApplianceCount : null
   formData.foundationAccess.value =
     typeof details.foundationAccess === 'string' &&
     (details.foundationAccess === 'basement' ||

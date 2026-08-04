@@ -1,5 +1,5 @@
 /**
- * PATTERN: Part-ledger rows for block instances whose blockShape.type is in an allowed set.
+ * PATTERN: Part-ledger rows for block instances whose blockShape.semanticType is in an allowed set.
  * Same partAssignments resolution lineage as usePartsTotals / useServiceAtomicPartRows.
  */
 import { computed, toValue, type MaybeRefOrGetter } from 'vue'
@@ -40,7 +40,7 @@ export function useAtomicPartLedgerRows(
     if (!blockShape) {
       return false
     }
-    const t = (blockShape as GlobalEntity<'blockShape'>).type
+    const t = (blockShape as GlobalEntity<'blockShape'>).semanticType
     return allowed.includes(t)
   })
 
@@ -81,8 +81,10 @@ export function useAtomicPartLedgerRows(
         name: partInstance.name,
         baseTime: partInstance.baseTime,
         baseFee: partInstance.baseFee,
-        rateOverBaseTime: partInstance.rateOverBaseTime,
-        rateOverBaseFee: partInstance.rateOverBaseFee,
+        timePerUnit: partInstance.timePerUnit,
+        baseMultiplier: partInstance.baseMultiplier,
+        rateMultiplier: partInstance.rateMultiplier,
+        feePerUnit: partInstance.feePerUnit,
         zeroOutPart: partInstance.zeroOutPart,
         partShapeName,
         partInstance,

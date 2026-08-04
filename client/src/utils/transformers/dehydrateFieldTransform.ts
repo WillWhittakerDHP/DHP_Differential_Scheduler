@@ -31,6 +31,12 @@ function transformNullValueForDehydrate(
   fieldSets: DehydrateFieldSets,
   fieldMetadata: FieldMetadataEntry | undefined
 ): [string, unknown] | null {
+  /**
+   * WHY: Server strict-boolean validation rejects `null`; omitted keys use Sequelize defaults (e.g. wizardPlacement → 'topLine').
+   */
+  if (fieldMetadata?.dataType === 'boolean' && !isReferenceField(frontendKey, fieldMetadata)) {
+    return null
+  }
   if (!isReferenceField(frontendKey, fieldMetadata)) return [frontendKey, value]
   return fieldSets.requiredFields.has(frontendKey) ? [frontendKey, null] : null
 }
@@ -45,8 +51,10 @@ function transformEmptyStringForDehydrate(
     fieldSets.nullableBooleanFields.has(frontendKey) ||
     fieldSets.nonNullableBooleanFields.has(frontendKey)
   ) {
-    const convertedValue = fieldSets.nullableBooleanFields.has(frontendKey) ? null : false
-    return [frontendKey, convertedValue]
+    if (fieldSets.nullableBooleanFields.has(frontendKey)) {
+      return null
+    }
+    return [frontendKey, false]
   }
   if (fieldSets.requiredNumberFields.has(frontendKey)) return [frontendKey, 0]
   if (isReferenceField(frontendKey, fieldMetadata)) return [frontendKey, null]

@@ -1,6 +1,8 @@
 
 import type { GlobalEntityKey } from '@/constants/entities'
+import { BLOCK_SHAPE_TYPES } from '@/constants/blockShapeTypes'
 import type { ValidAdminValue } from '@/constants/primitives'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import { useMetadataCache } from '@/composables/admin/useMetadataCache'
 import { getEntityTypeForMetadata } from '@/utils/entities/entityTypeMapping'
 import { createLogger } from '@/utils/logger'
@@ -13,7 +15,7 @@ const ENTITY_DISPLAY_NAMES: Record<GlobalEntityKey, string> = {
   blockShape: 'Block Shape',
   partInstance: 'Part Profile',
   partShape: 'Part Shape',
-  eventShape: 'Event Shape',
+  eventShape: 'Event Type',
   eventInstance: 'Event Profile',
   annotationShape: 'Annotation Shape',
   annotationInstance: 'Annotation Profile',
@@ -70,6 +72,31 @@ export function getDefaultEntityValues(entityKey: GlobalEntityKey): Record<strin
   // PATTERN: Explicit check with fallback to 0 (defensive check even though metadata should include it)
   if (result.orderIndex === null || result.orderIndex === undefined) {
     result.orderIndex = 0
+  }
+
+  // WHY: Metadata string defaults are '' for placeholders; API requires a canonical block shape type on create.
+  if (entityKey === 'blockShape') {
+    const t = result.semanticType
+    if (typeof t !== 'string' || t.trim() === '') {
+      result.semanticType = BLOCK_SHAPE_TYPES.USER
+    }
+  }
+
+  // New block instances must satisfy server validation even before the title-row chip renders.
+  if (entityKey === 'blockInstance') {
+    const placement = result.wizardPlacement
+    if (typeof placement !== 'string' || placement.trim() === '') {
+      result.wizardPlacement = WIZARD_PLACEMENT.TOP_LINE
+    }
+  }
+
+  if (entityKey === 'partInstance') {
+    for (const key of ['baseMultiplier', 'rateMultiplier'] as const) {
+      const multiplier = result[key]
+      if (typeof multiplier !== 'number' || !Number.isFinite(multiplier) || multiplier === 0) {
+        result[key] = 1
+      }
+    }
   }
 
   return result

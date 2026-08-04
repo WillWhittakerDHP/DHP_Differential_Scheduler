@@ -2,7 +2,6 @@
 WHY: Reduces main script file size, isolates pa...
  */
 import { createLogger } from '../../utils/logger.js'
-import { ATTENDEE_ROLE_CLIENT } from '../../constants/userRoles.js'
 import type { ContactInfoBase } from '@shared/types/contactTypes'
 import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
@@ -17,7 +16,7 @@ function withDefault(value: string | null | undefined, defaultVal: string, conte
 }
 
 const DEFAULT_FIRST_NAME = 'Unknown' as const
-const DEFAULT_LAST_NAME = ATTENDEE_ROLE_CLIENT
+const DEFAULT_LAST_NAME = 'Contact' as const
 
 export interface CalendarEvent {
   id?: string;

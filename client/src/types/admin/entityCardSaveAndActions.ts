@@ -1,4 +1,4 @@
-import type { Ref } from 'vue'
+import type { MaybeRefOrGetter, Ref } from 'vue'
 import type { FormContext } from 'vee-validate'
 import type { GlobalEntityKey } from '@/constants/entities'
 import type { GlobalEntity } from '@/types/entities'
@@ -8,7 +8,7 @@ import type { useAdmin } from '@/composables/admin/useAdmin'
 
 export interface UseEntityCardSaveAndActionsParams {
   entityKey: GlobalEntityKey
-  entity: GlobalEntity<GlobalEntityKey>
+  entity: MaybeRefOrGetter<GlobalEntity<GlobalEntityKey>>
   isNew: boolean
   form: Ref<FormContext | undefined>
   admin: ReturnType<typeof useAdmin>

@@ -1,9 +1,10 @@
-import { BlockInstance } from '../../../config/app.js'
+import { BlockInstance, PartInstance } from '../../../config/app.js'
 import { RELATIONSHIP_TYPES } from '../../../constants/relationshipTypes.js'
 import { type RelationshipKind } from './relationshipConstants.js'
 
 type MapRelationshipFieldOptions = {
   userTypeBlockInstanceId?: string | null
+  propertyFactKey?: string
 }
 
 function mapAnnotationAssignmentsFields(
@@ -40,7 +41,13 @@ async function mapEventAssignmentsFields(
   if (blockInstance) {
     return { parentId, parentKind: 'blockInstance', childId }
   }
-  throw new Error(`Parent ID ${parentId} is not a valid BlockInstance for eventAssignments`)
+  const partInstance = await PartInstance.findByPk(parentId)
+  if (partInstance) {
+    return { parentId, parentKind: 'partInstance', childId }
+  }
+  throw new Error(
+    `Parent ID ${parentId} is not a valid BlockInstance or PartInstance for eventAssignments`
+  )
 }
 
 export async function mapRelationshipFields(
@@ -56,6 +63,13 @@ export async function mapRelationshipFields(
       return mapAttendeeAssignmentsFields(parentId, childId)
     case RELATIONSHIP_TYPES.EVENT_ASSIGNMENTS:
       return mapEventAssignmentsFields(parentId, childId)
+    case RELATIONSHIP_TYPES.ACCUMULATION_LINKS:
+      return {
+        parentId,
+        childId,
+        propertyFactKey:
+          typeof options?.propertyFactKey === 'string' ? options.propertyFactKey : '',
+      }
     default:
       return { parentId, childId }
   }

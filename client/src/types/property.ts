@@ -1,11 +1,11 @@
-import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
+import { DEFAULT_PROPERTY_SOURCE } from '@shared/constants/propertyConstants'
 import type { PropertyAddressBase, PropertyDetailsBase } from '@shared/types/propertyTypes'
 
 export interface PropertyRequest extends PropertyAddressBase, PropertyDetailsBase {
   placeId?: string | null
   latitude?: number | null
   longitude?: number | null
-  source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT // Defaults to USER_ROLE_CLIENT if not provided
+  source?: 'api' | 'manual' | typeof DEFAULT_PROPERTY_SOURCE
 }
 
 export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBase {
@@ -15,7 +15,7 @@ export interface PropertyResponse extends PropertyAddressBase, PropertyDetailsBa
   placeId?: string | null
   latitude?: number | null
   longitude?: number | null
-  source?: 'api' | 'manual' | typeof USER_ROLE_CLIENT
+  source?: 'api' | 'manual' | typeof DEFAULT_PROPERTY_SOURCE
   createdAt: string
   updatedAt: string
   propertyTypes?: PropertyVersionType[]

@@ -10,6 +10,8 @@ import { templateFieldUnknownWarnings } from '@shared/utils/templateVariableWarn
 import { createLogger } from '@/utils/logger'
 import type { NewEventInstanceData } from '@/types/admin/instancesTabEventInstance'
 import type { UseBlockInstanceEventSegmentPanelsReturn } from '@/types/admin/blockInstanceEventSegments'
+import { useRelationshipCrud } from '@/composables/useRelationship'
+import { syncEventInstanceAttendeeAssignments } from '@/utils/admin/eventInstanceAttendeeAssignments'
 
 const logger = createLogger('useBlockInstanceEventSegmentPanels')
 
@@ -48,6 +50,7 @@ function defaultNewSegmentDraft(firstShapeId: string): NewEventInstanceData {
     colorId: null,
     status: 'confirmed',
     active: true,
+    attendees: [],
   }
 }
 
@@ -62,6 +65,10 @@ export function useBlockInstanceEventSegmentPanels(
   const isCreatingEventInstance = ref(false)
   const newEventInstanceData = ref<NewEventInstanceData | null>(null)
   const isCreatingEventInstanceLoading = ref(false)
+  const {
+    create: createAttendeeAssignment,
+    remove: removeAttendeeAssignment,
+  } = useRelationshipCrud('attendeeAssignments')
 
   const newSegmentPanelValue = computed((): string => `new-segment-${String(blockInstanceId.value)}`)
 
@@ -87,7 +94,7 @@ export function useBlockInstanceEventSegmentPanels(
   const openCreateEventInstanceForm = (): void => {
     const shapes = eventShapes.value
     if (shapes.length === 0) {
-      logger.warn('Cannot create segment: no event shapes configured')
+      logger.warn('Cannot create segment: no event types configured')
       return
     }
     const panelKey = newSegmentPanelValue.value
@@ -103,7 +110,7 @@ export function useBlockInstanceEventSegmentPanels(
     }
     isCreatingEventInstanceLoading.value = true
     try {
-      await createEventInstance({
+      const createdEventInstance = await createEventInstance({
         parentBlockInstanceId: String(blockInstanceId.value),
         eventShapeRef: data.eventShapeRef,
         name: data.name.trim(),
@@ -125,6 +132,13 @@ export function useBlockInstanceEventSegmentPanels(
         includeRescheduleLink: true,
         includeCancelLink: true,
         entityKey: 'eventInstance',
+      })
+      await syncEventInstanceAttendeeAssignments({
+        eventInstanceId: String(createdEventInstance.id),
+        oldAttendeeIds: [],
+        newAttendeeIds: data.attendees,
+        createAttendeeAssignment,
+        removeAttendeeAssignment,
       })
       success('Segment created')
       isCreatingEventInstance.value = false

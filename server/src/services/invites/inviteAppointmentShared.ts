@@ -36,8 +36,8 @@ export interface NormalizedAppointmentForInviteFlow {
   status: AppointmentType['status']
   propertyVersion?: InviteAppointmentData['propertyVersion']
   selectedServiceIds: string[]
-  selectedPropertyIds: string[]
-  selectedOptionIds: string[]
+  selectedTimeIds: string[]
+  selectedEventIds: string[]
   attendees: AppointmentAttendeeWithUser[]
 }
 
@@ -82,8 +82,8 @@ export function normalizeAppointmentForInviteFlow(
     status: j.status as NormalizedAppointmentForInviteFlow['status'],
     propertyVersion: raw.propertyVersion,
     selectedServiceIds: asArray(j.selectedServiceIds as string[] | null | undefined, id, 'selectedServiceIds', log),
-    selectedPropertyIds: asArray(j.selectedPropertyIds as string[] | null | undefined, id, 'selectedPropertyIds', log),
-    selectedOptionIds: asArray(j.selectedOptionIds as string[] | null | undefined, id, 'selectedOptionIds', log),
+    selectedTimeIds: asArray(j.selectedTimeIds as string[] | null | undefined, id, 'selectedTimeIds', log),
+    selectedEventIds: asArray(j.selectedEventIds as string[] | null | undefined, id, 'selectedEventIds', log),
     attendees: asArray(raw.attendees, id, 'attendees', log),
   }
 }
@@ -112,7 +112,7 @@ export function toInviteAppointmentData(appointment: NormalizedAppointmentForInv
 export function collectBlockInstanceIds(appointment: NormalizedAppointmentForInviteFlow): string[] {
   return [
     ...appointment.selectedServiceIds,
-    ...appointment.selectedPropertyIds,
-    ...appointment.selectedOptionIds,
+    ...appointment.selectedTimeIds,
+    ...appointment.selectedEventIds,
   ]
 }

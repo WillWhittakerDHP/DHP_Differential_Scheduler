@@ -71,6 +71,12 @@ function applyActiveFieldMappings(
       result.foundationAccess = mapped as 'basement' | 'crawlspace' | 'slab' | null
     } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.ADDITIONAL_UNITS) {
       result.additionalUnits = mapped != null ? Math.round(Number(mapped)) : null
+    } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.HVAC_COUNT) {
+      result.hvacCount = mapped != null ? Math.max(0, Math.round(Number(mapped))) : null
+    } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.WATER_HEATER_COUNT) {
+      result.waterHeaterCount = mapped != null ? Math.max(0, Math.round(Number(mapped))) : null
+    } else if (m.targetField === PATCH_PROPERTY_FIELD_KEY.KITCHEN_APPLIANCE_COUNT) {
+      result.kitchenApplianceCount = mapped != null ? Math.max(0, Math.round(Number(mapped))) : null
     }
   }
 }

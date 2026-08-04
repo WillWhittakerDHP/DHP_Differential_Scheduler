@@ -2,6 +2,7 @@
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { BlockInstanceEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 import {
   BLOCK_INSTANCE_GLOBAL_CONFIG_ID,
   type EntityMetadataType,
@@ -27,9 +28,8 @@ export function createBlockInstanceConfigSentinel(blockShapeId: string): BlockIn
     entityKey: 'blockInstance',
     name: 'Global Config',
     orderIndex: 0,
-    active: true,
+    wizardPlacement: WIZARD_PLACEMENT.TOP_LINE,
     blockShapeRef: blockShapeId,
-    baseSqFt: 0,
     icon: '',
     allowMultiple: false,
     isMultiFamily: false,

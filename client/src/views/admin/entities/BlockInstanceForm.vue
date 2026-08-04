@@ -41,11 +41,14 @@
                 class="mb-4"
               ></v-text-field>
               
-              <v-checkbox
-                v-model="formData.active"
-                label="Active"
+              <v-select
+                v-model="formData.wizardPlacement"
+                :items="wizardPlacementOptions"
+                item-title="label"
+                item-value="value"
+                label="Wizard placement"
                 class="mb-4"
-              ></v-checkbox>
+              ></v-select>
               
               <v-btn
                 type="submit"
@@ -72,6 +75,7 @@
 
 <script setup lang="ts">
 import { useBlockInstanceForm } from '@/composables/admin/useBlockInstanceForm'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 
 /**
  * WHY: Use block instance form composable for all form logic
@@ -86,5 +90,13 @@ const {
   handleSubmit,
   goBack
 } = useBlockInstanceForm()
+
+const wizardPlacementOptions = [
+  { label: 'Hidden', value: WIZARD_PLACEMENT.HIDDEN },
+  { label: 'Base', value: WIZARD_PLACEMENT.TOP_LINE },
+  { label: 'Additional', value: WIZARD_PLACEMENT.ADDITIONAL },
+  { label: 'Option only', value: WIZARD_PLACEMENT.SUB_OPTION },
+  { label: 'Base or additional', value: WIZARD_PLACEMENT.BOTH },
+]
 </script>
 

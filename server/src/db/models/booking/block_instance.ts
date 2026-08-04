@@ -9,6 +9,10 @@ import {
 } from 'sequelize';
 
 import { FIELD_NAMES } from '../../../routes/internal/entities/entityConstants.js';
+import {
+  DEFAULT_WIZARD_PLACEMENT,
+  type WizardPlacement,
+} from '@shared/constants/wizardPlacement.js';
 import { PartAssignment } from './part_assignment';
 import { BookingCascade } from './booking_cascade';
 
@@ -20,18 +24,23 @@ export class BlockInstance extends Model<
   declare orderIndex: CreationOptional<number>;
   declare blockShapeRef: ForeignKey<string>;
   declare name: string;
-  declare active: boolean;
-  declare agentPermissions: 'true' | 'false' | 'override';
   declare composite: boolean;
   declare orchestrator: boolean;
-  declare wizardVisible: boolean;
+  /** Lateral inclusion gates — when true, accumulation_links apply (shared/constants/accumulator.ts). */
+  declare accumulator: boolean;
+  /** Four-state wizard placement (replaces the old wizardVisible boolean); see shared/constants/wizardPlacement.ts. */
+  declare wizardPlacement: WizardPlacement;
   declare preClosing: boolean;
   declare icon: string | null;
-  declare baseSqFt: number | null;
-  declare allowMultiple: boolean;
   declare requiresUnitNumber: boolean;
   declare isMultiFamily: boolean;
   declare requiresAgent: boolean;
+  /** Default event instance for this block; event_assignments carries the option set. */
+  declare defaultEventInstanceId: string | null;
+  /** Canonical user role when parent block shape is user-semantic; null otherwise. */
+  declare semanticType: string | null;
+  /** Default inspected-property fact used when this time block is added as an accumulator link. */
+  declare propertyFactKey: string | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -64,16 +73,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
-      },
-      agentPermissions: {
-        type: DataTypes.ENUM('true', 'false', 'override'),
-        allowNull: false,
-        defaultValue: 'false',
-      },
       composite: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -84,11 +83,16 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         allowNull: false,
         defaultValue: false,
       },
-      wizardVisible: {
+      accumulator: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
-        field: 'wizard_visible',
+        defaultValue: false,
+      },
+      wizardPlacement: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        defaultValue: DEFAULT_WIZARD_PLACEMENT,
+        field: 'wizard_placement',
       },
       preClosing: {
         type: DataTypes.BOOLEAN,
@@ -98,15 +102,6 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
       icon: {
         type: DataTypes.STRING,
         allowNull: true,
-      },
-      baseSqFt: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      allowMultiple: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       requiresUnitNumber: {
         type: DataTypes.BOOLEAN,
@@ -122,6 +117,21 @@ export function BlockInstanceFactory(sequelize: Sequelize) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      defaultEventInstanceId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        field: 'default_event_instance_id',
+      },
+      semanticType: {
+        type: DataTypes.STRING(64),
+        allowNull: true,
+        field: 'semantic_type',
+      },
+      propertyFactKey: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        field: 'property_fact_key',
       },
       createdAt: {
         type: DataTypes.DATE,

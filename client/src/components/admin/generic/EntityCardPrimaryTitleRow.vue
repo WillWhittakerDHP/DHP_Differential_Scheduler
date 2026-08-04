@@ -30,6 +30,17 @@ const r = computed<EntityCardPrimaryTitleRowModel>(() => ({
   ...props.titleRow,
   fallbackWhenNotReady: props.titleRow.fallbackWhenNotReady ?? true,
 }))
+
+function renderFieldBesideTitle(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  return r.value.fieldTreatsAsStaticTitle(String(fieldKey)) ||
+    (String(fieldKey) === 'icon' && r.value.isExpanded)
+}
+
+function renderFieldAsTitleControl(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  return !renderFieldBesideTitle(fieldKey) &&
+    String(fieldKey) !== 'icon' &&
+    r.value.composedFieldMetadata[String(fieldKey)]?.visibility !== FIELD_VISIBILITY.STATIC_AS_TITLE
+}
 </script>
 
 <template>
@@ -48,7 +59,7 @@ const r = computed<EntityCardPrimaryTitleRowModel>(() => ({
         :key="fieldKey"
       >
         <div
-          v-if="r.fieldTreatsAsStaticTitle(String(fieldKey))"
+          v-if="renderFieldBesideTitle(fieldKey)"
           class="title-row-field"
           @click.stop
         >
@@ -67,10 +78,7 @@ const r = computed<EntityCardPrimaryTitleRowModel>(() => ({
         :key="fieldKey"
       >
         <div
-          v-if="
-            !r.fieldTreatsAsStaticTitle(String(fieldKey)) &&
-              r.composedFieldMetadata[String(fieldKey)]?.visibility !== FIELD_VISIBILITY.STATIC_AS_TITLE
-          "
+          v-if="renderFieldAsTitleControl(fieldKey)"
           @click.stop
         >
           <FieldRenderer

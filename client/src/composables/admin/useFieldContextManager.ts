@@ -31,7 +31,7 @@ export function useFieldContextManager<GE extends GlobalEntityKey = GlobalEntity
       fieldsNeedingContexts.value.includes(fieldKey)
 
     if (!context && !isPending && isMetadataReady.value) {
-      showWarning(`Field "${String(fieldKey)}" is missing configuration. Check /admin-metadata.`, 6000)
+      showWarning(`Field "${String(fieldKey)}" is missing configuration. Extend codeFirstMetadataCache.`, 6000)
     }
 
     return context

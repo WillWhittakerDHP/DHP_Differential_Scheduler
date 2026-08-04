@@ -26,6 +26,9 @@ export class PropertyDetails extends Model<
   declare bathrooms: number | null;
   declare foundationAccess: 'basement' | 'crawlspace' | 'slab' | null;
   declare additionalUnits: number | null;
+  declare hvacCount: number | null;
+  declare waterHeaterCount: number | null;
+  declare kitchenApplianceCount: number | null;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -80,6 +83,21 @@ export function PropertyDetailsFactory(sequelize: Sequelize) {
         type: DataTypes.INTEGER,
         allowNull: true,
         field: 'additional_units',
+      },
+      hvacCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'hvac_count',
+      },
+      waterHeaterCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'water_heater_count',
+      },
+      kitchenApplianceCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'kitchen_appliance_count',
       },
       createdAt: {
         type: DataTypes.DATE,

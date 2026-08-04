@@ -61,25 +61,25 @@ const {
 })
 
 // Same pattern as property type on step 2: selection in wizard state
-const selectedCouponBlockId = computed(() => wizard!.selectedCouponBlocks.value[0]?.id ?? null)
+const selectedCouponBlockId = computed(() => wizard!.selectedPriceBlocks.value[0]?.id ?? null)
 function onCouponSelect(id: string | null): void {
   if (!wizard) return
   if (id == null || id === '') {
-    const blocks = wizard.selectedCouponBlocks.value
+    const blocks = wizard.selectedPriceBlocks.value
     if (blocks.length > 0) {
-      wizard.toggleCouponBlock(blocks[0])
+      wizard.togglePriceBlock(blocks[0])
     }
     return
   }
-  const list = wizard.availableCouponBlocks.value
+  const list = wizard.availablePriceBlocks.value
   const block = list.find(b => b.id === id)
-  if (block) wizard.toggleCouponBlock(block)
+  if (block) wizard.togglePriceBlock(block)
 }
 
-// WHY: Vue does not unwrap nested refs in templates. Passing wizard.availableCouponBlocks (a
+// WHY: Vue does not unwrap nested refs in templates. Passing wizard.availablePriceBlocks (a
 // ComputedRef) to :items makes the child receive the Ref; Vuetify then iterates items and throws
 // "items is not iterable". Pass an array (computed that unwraps + ensureItemsArray) instead.
-const couponSelectItems = computed(() => ensureItemsArray(wizard?.availableCouponBlocks?.value))
+const couponSelectItems = computed(() => ensureItemsArray(wizard?.availablePriceBlocks?.value))
 
 // Show coupon row only when admin enables it and (coupons available or discount applied)
 const {

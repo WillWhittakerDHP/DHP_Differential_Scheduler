@@ -21,7 +21,7 @@ export interface InstancesPanelContext {
   appointmentShape: ComputedRef<AppointmentShape | null>
   finalizedParts: ComputedRef<PartFinal[]>
   eventShapes: ComputedRef<EventShape[]>
-  hasEventForPart: (partShapeName: string, eventShape: EventShape) => boolean
+  hasEventForPart: (partLineageKey: string, eventShape: EventShape) => boolean
   formatDuration: (ms: number) => string
   formatTime: (value: string | null) => string
   selectedServiceTypeId: ComputedRef<string | null>
@@ -38,7 +38,7 @@ export interface InstancesPanelContext {
 export interface ContactsFormContext extends ContactRefs {
   validationRules: ComputedRef<Record<string, ValidationRule[]>>
   fieldErrors: Ref<Record<string, string>>
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'owner', show: boolean) => void
+  toggleSection: (section: 'anotherBuyer' | 'owner', show: boolean) => void
 }
 
 /** Context for AvailabilitySubStepContent (orchestrator + handlers). Provider: AvailabilityStep. */

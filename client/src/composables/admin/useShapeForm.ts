@@ -13,7 +13,6 @@ type ShapeFormEntityKey = 'blockShape' | 'partShape'
 export interface BlockShapeFormData {
   name: string
   orderIndex: number
-  active: boolean
 }
 
 interface PartShapeFormData {
@@ -38,7 +37,7 @@ function useShapeFormBlock(): {
 
   const isEdit = computed(() => !!route.params.id)
   const entityId = computed(() => route.params.id as string | undefined)
-  const formData = ref<BlockShapeFormData>({ name: '', orderIndex: 0, active: true })
+  const formData = ref<BlockShapeFormData>({ name: '', orderIndex: 0 })
   const isSubmitting = ref(false)
   const error = ref<string | null>(null)
 
@@ -50,7 +49,6 @@ function useShapeFormBlock(): {
         formData.value = {
           name: rawName !== undefined && rawName !== null && rawName !== '' ? rawName : '',
           orderIndex: entity.orderIndex ?? 0,
-          active: entity.active ?? true,
         }
       }
     }

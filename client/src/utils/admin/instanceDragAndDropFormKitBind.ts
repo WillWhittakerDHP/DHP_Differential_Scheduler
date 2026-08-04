@@ -2,22 +2,13 @@
  * WHY: Isolates DOM/FormKit wiring from useInstanceDragAndDrop orchestration.
  * PLACEMENT: utils/admin — inner ref() is local to bind; living under composables/ triggered module-level-ref false positives.
  */
-import { nextTick, ref, isRef, type Ref, type ComponentPublicInstance } from 'vue'
-import {
-  animations,
-  handleEnd as formkitHandleEnd,
-  performTransfer as formkitPerformTransfer,
-  tearDown as formkitTearDown,
-} from '@formkit/drag-and-drop'
+import { nextTick, isRef, type Ref, type ComponentPublicInstance } from 'vue'
+import { tearDown as formkitTearDown } from '@formkit/drag-and-drop'
 import { dragAndDrop } from '@formkit/drag-and-drop/vue'
 import { createLogger } from '@/utils/logger'
 import type { GlobalEntity } from '@/types/entities'
-import {
-  getPanelsElement,
-  countDraggableNodes,
-  createMultiClassDraggableChecker,
-  createExpansionPanelDraggableChecker,
-} from '@/composables/admin/useDragAndDropHelpers'
+import { getPanelsElement, createMultiClassDraggableChecker } from '@/composables/admin/useDragAndDropHelpers'
+import { mountFormKitExpansionPanelsDrag } from '@/utils/admin/mountFormKitExpansionPanelsDrag'
 
 const logger = createLogger('instanceDragAndDropFormKitBind')
 
@@ -39,7 +30,7 @@ export type InstanceDragFormKitBinderDeps = {
   shapeDragBoundNonce: Ref<Map<string, number>>
 }
 
-function tearDownZoneDrag(dragKey: string, deps: InstanceDragFormKitBinderDeps): void {
+export function tearDownInstanceDragFormKitZone(dragKey: string, deps: InstanceDragFormKitBinderDeps): void {
   const el = deps.formKitParentElByZone.value.get(dragKey)
   if (el) {
     formkitTearDown(el)
@@ -47,6 +38,10 @@ function tearDownZoneDrag(dragKey: string, deps: InstanceDragFormKitBinderDeps):
   }
   deps.groupDragInstances.value.delete(dragKey)
   deps.shapeDragBoundNonce.value.delete(dragKey)
+}
+
+function tearDownZoneDrag(dragKey: string, deps: InstanceDragFormKitBinderDeps): void {
+  tearDownInstanceDragFormKitZone(dragKey, deps)
 }
 
 export function tryBindFormKitForZone(
@@ -94,8 +89,6 @@ export function tryBindFormKitForZone(
       const layoutNonce = deps.dragReinitNonce.value
       void layoutNonce
 
-      const panelsRefForDrag = ref(panelsEl)
-
       const instanceIdsArray = instanceIds.value
       if (!instanceIdsArray || instanceIdsArray.length === 0) {
         return
@@ -103,34 +96,26 @@ export function tryBindFormKitForZone(
 
       const draggableClasses = [`draggable-instance-${blockShapeIdForClass}`, 'draggable-instance-item']
       const isDraggableChecker = createMultiClassDraggableChecker(draggableClasses)
-      const enabledNodesCount = countDraggableNodes(panelsEl, isDraggableChecker)
-
-      if (enabledNodesCount !== instanceIdsArray.length) {
-        return
-      }
 
       deps.groupDragInstances.value.delete(dragKey)
 
       tearDownZoneDrag(dragKey, deps)
       deps.formKitParentElByZone.value.set(dragKey, panelsEl)
-      deps.groupDragInstances.value.set(
-        dragKey,
-        dragAndDrop({
-          parent: panelsRefForDrag,
-          values: instanceIds,
-          group: `blockInstances-${dragKey}`,
-          dragHandle: '.instance-drag-handle',
-          draggable: createExpansionPanelDraggableChecker(isDraggableChecker),
-          plugins: [animations()],
-          performTransfer: (arg) => {
-            formkitPerformTransfer(arg)
-          },
-          handleEnd: (state) => {
-            formkitHandleEnd(state)
-            void dragHandlers.handleDragEnd()
-          },
-        })
-      )
+      const instance = mountFormKitExpansionPanelsDrag({
+        panelsEl,
+        values: instanceIds,
+        group: `blockInstances-${dragKey}`,
+        dragHandle: '.instance-drag-handle',
+        isPanelDraggable: isDraggableChecker,
+        onDragEnd: () => {
+          void dragHandlers.handleDragEnd()
+        },
+        logContext: { dragKey, blockShapeIdForClass },
+      })
+      if (!instance) {
+        return
+      }
+      deps.groupDragInstances.value.set(dragKey, instance)
       deps.shapeDragBoundNonce.value.set(dragKey, layoutNonce)
     } catch (error) {
       logger.debug('Failed to initialize drag and drop for group', { error, dragKey })

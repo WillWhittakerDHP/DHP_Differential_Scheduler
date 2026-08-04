@@ -24,6 +24,11 @@ export interface FetchedRelationship<
   userTypeBlockInstanceId?: GlobalEntityId | null
   partShapeId?: string | null
   blockShapeId?: string | null
+  /**
+   * For `accumulationLinks` only: which property fact gates this edge
+   * (empty → never include). Omitted for other relationship kinds.
+   */
+  propertyFactKey?: string
 }
 
 /**
@@ -37,11 +42,14 @@ export type GlobalRelationship<
   relationshipKind: GlobalRelationshipKey
   parent: GlobalEntity<P>
   children: GlobalEntity<C>[]
+  /** Per-edge fact key when relationshipKind is accumulationLinks (one child per row). */
+  propertyFactKey?: string
 }
 
 export interface CreateRelationshipPayloadBase {
   parentId: GlobalEntityId
   childId: GlobalEntityId
+  propertyFactKey?: string
 }
 
 export type CreateRelationshipPayload = CreateRelationshipPayloadBase

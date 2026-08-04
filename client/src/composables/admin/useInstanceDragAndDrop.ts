@@ -21,6 +21,8 @@ export function useInstanceDragAndDrop(options: UseInstanceDragAndDropOptions): 
     groupedInstancesByShape,
     blockInstancesByShape,
     patchBlockInstanceOrderIndex,
+    activeTab,
+    orchestratorAtomicSubTab,
   } = options
 
   const state = useInstanceDragAndDropState()
@@ -47,6 +49,8 @@ export function useInstanceDragAndDrop(options: UseInstanceDragAndDropOptions): 
     groupPanelsContainers: state.layout.groupPanelsContainers,
     groupPanelsGroupedContainers: state.layout.groupPanelsGroupedContainers,
     formKitDeps: state.formKitDeps,
+    activeTab,
+    orchestratorAtomicSubTab,
   })
 
   onMounted(() => {

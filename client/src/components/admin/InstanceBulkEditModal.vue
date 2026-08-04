@@ -12,12 +12,12 @@
 import { computed } from 'vue'
 import { toGlobalEntityId } from '@/utils/globalEntity'
 import type { GlobalEntity } from '@/types/entities'
-import type { TernaryBoolean } from '@/types/ternary'
 import { createLogger } from '@/utils/logger'
-import { asEmptyObject, asEmptyString } from '@/utils/safeDefaults'
+import { asEmptyString } from '@/utils/safeDefaults'
 import { useEntityMetadata } from '@/composables/admin/useEntityMetadata'
 import { buildBulkEditDataFromForm } from '@/utils/admin/instanceBulkEdit'
 import BulkEditModal from '@/components/admin/BulkEditModal.vue'
+import { WIZARD_PLACEMENT } from '@shared/constants/wizardPlacement'
 
 const logger = createLogger('InstanceBulkEditModal')
 
@@ -25,13 +25,13 @@ interface Props {
   modelValue?: boolean
   blockShapeId: string
   blockShapeName: string
-  bulkEditData?: Record<string, number | null | undefined>
+  bulkEditData?: Record<string, unknown>
   instanceCount: number
 }
 
 interface Emits {
   (e: 'update:modelValue', value: boolean): void
-  (e: 'confirm', bulkEditData: Record<string, number | null | undefined>): void
+  (e: 'confirm', bulkEditData: Record<string, unknown>): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -42,22 +42,18 @@ const emit = defineEmits<Emits>()
 
 const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
   try {
-    const editData = asEmptyObject(props.bulkEditData)
     const base = {
       id: toGlobalEntityId('00000000-0000-0000-0000-000000000000'),
       entityKey: 'blockInstance' as const,
       name: '',
       blockShapeRef: asEmptyString(props.blockShapeId),
-      baseSqFt: editData.baseSqFt ?? 0,
-      active: true,
       composite: false,
       orderIndex: 0,
       icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
       orchestrator: undefined as boolean | undefined,
-      wizardVisible: undefined as boolean | undefined,
-      agentPermissions: undefined as TernaryBoolean | undefined,
+      wizardPlacement: WIZARD_PLACEMENT.TOP_LINE,
       isMultiFamily: false,
       requiresAgent: false
     }
@@ -72,16 +68,13 @@ const templateEntity = computed<GlobalEntity<'blockInstance'>>(() => {
       entityKey: 'blockInstance',
       name: '',
       blockShapeRef: asEmptyString(props.blockShapeId),
-      baseSqFt: 0,
-      active: true,
       composite: false,
       orderIndex: 0,
       icon: '',
       allowMultiple: false,
       requiresUnitNumber: false,
       orchestrator: undefined,
-      wizardVisible: undefined,
-      agentPermissions: undefined,
+      wizardPlacement: WIZARD_PLACEMENT.TOP_LINE,
       isMultiFamily: false,
       requiresAgent: false
     } satisfies GlobalEntity<'blockInstance'>

@@ -9,7 +9,7 @@ import {
 } from '../../../repositories/calendarSettingsRepository.js';
 import { handleRouteError } from '../../helpers/routerErrorHandler.js';
 import { sendSuccess } from '../../helpers/routerResponseHelpers.js';
-import { csrfProtection, checkOwnership } from '../../../middlewares/security.js';
+import { staffMutations } from '../../../middlewares/security.js';
 import { validateRequest } from '../../../middlewares/validateRequest.js';
 import { calendarSettingsPutBodySchema } from '../../schemas/calendarSettingsSchemas.js';
 
@@ -29,8 +29,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
 router.put(
   '/',
-  csrfProtection,
-  checkOwnership('calendarSetting', 'id'),
+  ...staffMutations('calendarSetting', 'id'),
   validateRequest(calendarSettingsPutBodySchema),
   async (req: Request, res: Response): Promise<void> => {
     try {

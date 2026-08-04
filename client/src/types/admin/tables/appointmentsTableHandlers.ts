@@ -5,9 +5,9 @@ import type { AppointmentRequest } from '@/types/appointment'
 /** Grouped return for composable-health (oversized-return repair). */
 export interface UseAppointmentsTableHandlersReturn {
   state: {
-    formClientId: Ref<string | null>
+    formBuyerId: Ref<string | null>
     formAgentId: Ref<string | null>
-    editingClientId: Ref<string | null>
+    editingBuyerId: Ref<string | null>
     editingAgentId: Ref<string | null>
     confirmingAppointment: Ref<AppointmentResponse | null>
     showConfirmDialog: Ref<boolean>
@@ -25,7 +25,7 @@ export interface UseAppointmentsTableHandlersReturn {
     applyCreatePatch: (patch: Partial<Record<string, unknown>>) => void
     navigateToProperties: () => void
     navigateToUsers: () => void
-    setFormClientId: (v: string | null) => void
+    setFormBuyerId: (v: string | null) => void
     setFormAgentId: (v: string | null) => void
   }
   formatTimestamp: (value: string | null | undefined) => string

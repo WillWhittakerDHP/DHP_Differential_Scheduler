@@ -3,13 +3,11 @@
   PATTERN: Child component that receives all necessary props for rendering form fields and actions
 -->
 <script setup lang="ts">
-import { computed, type ComputedRef } from 'vue'
+import { computed, ref, type ComputedRef } from 'vue'
 import type { FieldsByLocation } from '@/types/admin/conditionalFieldVisibility'
 import FieldRenderer from './fields/FieldRenderer.vue'
 import AnnotationContentEditor from './fields/AnnotationContentEditor.vue'
 import EventInstanceTemplateRef from './fields/EventInstanceTemplateRef.vue'
-import ServiceAtomicEditor from './ServiceAtomicEditor.vue'
-import TimePriceAtomicPartLedgerEditor from './TimePriceAtomicPartLedgerEditor.vue'
 import EventBlockInstanceSegmentsPanel from './EventBlockInstanceSegmentsPanel.vue'
 import EntityCardSubPanels from './EntityCardSubPanels.vue'
 import { useAdmin } from '@/composables/admin/useAdmin'
@@ -47,12 +45,32 @@ interface Props extends EntityCardSharedProps {
 const props = defineProps<Props>()
 
 const admin = useAdmin()
+const eventSegmentsPanelRef = ref<InstanceType<typeof EventBlockInstanceSegmentsPanel> | null>(null)
+
 const showEventSegments = computed((): boolean => {
   if (props.entityKey !== 'blockInstance' || props.isNew) {
     return false
   }
   return getBlockInstanceShapeProperties(admin, toGlobalEntityId(props.entityId)).isEventShape
 })
+
+async function handleSaveWithEventSegments(): Promise<void> {
+  await eventSegmentsPanelRef.value?.saveDirectSegment()
+  await props.handleSave()
+}
+
+function isBlockInstanceNameOrIcon(fieldKey: GlobalFieldKey<GlobalEntityKey>): boolean {
+  return props.entityKey === 'blockInstance' &&
+    (String(fieldKey) === 'name' || String(fieldKey) === 'icon')
+}
+
+const directInlineFields = computed(() =>
+  props.fieldsByLocation.directInline.filter((fieldKey) => !isBlockInstanceNameOrIcon(fieldKey))
+)
+
+const directStackedFields = computed(() =>
+  props.fieldsByLocation.directStacked.filter((fieldKey) => !isBlockInstanceNameOrIcon(fieldKey))
+)
 </script>
 
 <template>
@@ -71,15 +89,15 @@ const showEventSegments = computed((): boolean => {
       </li>
     </ul>
     <div class="text-body-small mt-2">
-      This usually means the field contexts are still being created. If this persists, check that the field is properly configured in /admin-metadata.
+      This usually means the field contexts are still being created. If this persists, ensure the field exists in codeFirstMetadataCache.
     </div>
   </VAlert>
 
   <!-- WHY: Fields without panel assignment render in main card area -->
   <!-- PATTERN: Organized by layout (inline vs stacked) from metadata -->
-  <VRow v-if="fieldsByLocation.directInline.length > 0" class="mb-4">
+  <VRow v-if="directInlineFields.length > 0" class="mb-4">
     <VCol
-      v-for="fieldKey in fieldsByLocation.directInline"
+      v-for="fieldKey in directInlineFields"
       :key="fieldKey"
       cols="12"
       sm="12"
@@ -104,22 +122,13 @@ const showEventSegments = computed((): boolean => {
 
   <EventInstanceTemplateRef v-if="entityKey === 'eventInstance'" />
 
-  <ServiceAtomicEditor
-    v-if="entityKey === 'blockInstance' && !isNew"
-    :block-instance-id="entityId"
-  />
-
-  <TimePriceAtomicPartLedgerEditor
-    v-if="entityKey === 'blockInstance' && !isNew"
-    :block-instance-id="entityId"
-  />
-
   <EventBlockInstanceSegmentsPanel
     v-if="showEventSegments"
+    ref="eventSegmentsPanelRef"
     :block-instance-id="entityId"
   />
 
-  <div v-for="fieldKey in fieldsByLocation.directStacked" :key="fieldKey" class="mb-4">
+  <div v-for="fieldKey in directStackedFields" :key="fieldKey" class="mb-4">
     <FieldRenderer
       v-if="getFieldContext(fieldKey)"
       :field-context="getFieldContext(fieldKey)!"
@@ -171,8 +180,8 @@ const showEventSegments = computed((): boolean => {
     <VBtn
       color="primary"
       prepend-icon="tabler-device-floppy"
-      :disabled="isNew ? false : !unifiedSaveState.canSave.value"
-      @click="handleSave"
+      :disabled="isNew || showEventSegments ? false : !unifiedSaveState.canSave.value"
+      @click="handleSaveWithEventSegments"
       class="mr-2"
     >
       Save

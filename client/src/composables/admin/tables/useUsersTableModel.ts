@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { USER_ROLE_CLIENT } from '@/constants/attendeeRoles'
+import { USER_ROLE_BUYER } from '@/constants/attendeeRoles'
 import { useUser } from '@/composables/useUser'
 import { useNotification } from '@/composables/useNotification'
 import type { UserRequest, UserResponse } from '@/types/user'
@@ -31,7 +31,7 @@ export function useUsersTableModel(): CrudDataTableModelWithFormatHelpers<
       lastName: '',
       email: '',
       phone: '',
-      userRole: USER_ROLE_CLIENT,
+      userRole: USER_ROLE_BUYER,
       loginId: undefined,
     }) as UserRequest,
     validateCreate: (payload) => {

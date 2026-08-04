@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import type { AppointmentResponse } from '@/types/appointment'
 import {
-  attendeesFromClientAndAgent,
-  getClientIdFromAttendees,
+  attendeesFromBuyerAndAgent,
+  getBuyerIdFromAttendees,
   getAgentIdFromAttendees,
 } from '@/utils/admin/appointmentAttendees'
 import { formatAppointmentTimestamp } from '@/utils/admin/appointmentHelpers'
@@ -26,9 +26,9 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
     emit,
   } = params
 
-  const formClientId = ref<string | null>(null)
+  const formBuyerId = ref<string | null>(null)
   const formAgentId = ref<string | null>(null)
-  const editingClientId = ref<string | null>(null)
+  const editingBuyerId = ref<string | null>(null)
   const editingAgentId = ref<string | null>(null)
   const confirmingAppointment = ref<AppointmentResponse | null>(null)
   const showConfirmDialog = ref(false)
@@ -51,42 +51,42 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
   }
 
   const handleSaveCreate = async (): Promise<void> => {
-    const attendees = attendeesFromClientAndAgent(formClientId.value, formAgentId.value)
+    const attendees = attendeesFromBuyerAndAgent(formBuyerId.value, formAgentId.value)
     newAppointment.value = { ...newAppointment.value, attendees }
-    formClientId.value = null
+    formBuyerId.value = null
     formAgentId.value = null
     await saveCreate()
   }
 
   const handleSaveEdit = async (): Promise<void> => {
-    const attendees = attendeesFromClientAndAgent(editingClientId.value, editingAgentId.value)
+    const attendees = attendeesFromBuyerAndAgent(editingBuyerId.value, editingAgentId.value)
     editedData.value = { ...editedData.value, attendees }
-    editingClientId.value = null
+    editingBuyerId.value = null
     editingAgentId.value = null
     await saveEdit()
   }
 
   const handleStartEdit = (item: AppointmentResponse): void => {
     startEdit(item)
-    editingClientId.value = getClientIdFromAttendees(item) ?? null
+    editingBuyerId.value = getBuyerIdFromAttendees(item) ?? null
     editingAgentId.value = getAgentIdFromAttendees(item) ?? null
   }
 
   const handleCancelEdit = (): void => {
     cancelEdit()
-    editingClientId.value = null
+    editingBuyerId.value = null
     editingAgentId.value = null
   }
 
   const handleStartCreate = (): void => {
     startCreate()
-    formClientId.value = null
+    formBuyerId.value = null
     formAgentId.value = null
   }
 
   const handleCancelCreate = (): void => {
     cancelCreate()
-    formClientId.value = null
+    formBuyerId.value = null
     formAgentId.value = null
   }
 
@@ -102,8 +102,8 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
     emit('navigate-to-tab', 'users')
   }
 
-  const setFormClientId = (v: string | null): void => {
-    formClientId.value = v
+  const setFormBuyerId = (v: string | null): void => {
+    formBuyerId.value = v
   }
 
   const setFormAgentId = (v: string | null): void => {
@@ -112,9 +112,9 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
 
   return {
     state: {
-      formClientId,
+      formBuyerId,
       formAgentId,
-      editingClientId,
+      editingBuyerId,
       editingAgentId,
       confirmingAppointment,
       showConfirmDialog,
@@ -132,7 +132,7 @@ export function useAppointmentsTableHandlers(params: UseAppointmentsTableHandler
       applyCreatePatch,
       navigateToProperties,
       navigateToUsers,
-      setFormClientId,
+      setFormBuyerId,
       setFormAgentId,
     },
     formatTimestamp: formatAppointmentTimestamp,

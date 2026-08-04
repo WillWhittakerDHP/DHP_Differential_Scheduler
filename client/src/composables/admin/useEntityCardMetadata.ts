@@ -15,10 +15,7 @@ export function useEntityCardMetadata<GE extends GlobalEntityKey>(
 
   // WHY: Single composable handles all entity types without special casing
   // PATTERN: Pass entityKey and entity, composable handles entity type mapping and inheritance
-  const fetchedMetadata = useEntityMetadata(
-    entityKey,
-    computed(() => entity)
-  )
+  const fetchedMetadata = useEntityMetadata(entityKey, entity)
 
   // PATTERN: Use fetchedMetadata directly - no additional merging needed
   const composedFieldMetadata = computed(() => {

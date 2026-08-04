@@ -13,7 +13,7 @@ import { sendSuccess } from '../../helpers/routerResponseHelpers.js'
 import { ERROR_MESSAGES } from './appointmentConstants.js'
 import { FIELD_NAMES, SORT_ORDERS } from '../entities/entityConstants.js'
 import type { AdminEntryAppointmentItem } from '../../../../../shared/types/appointmentTypes.js'
-import { USER_ROLE_CLIENT, USER_ROLE_AGENT } from '../../../../../shared/constants/roleConstants.js'
+import { USER_ROLE_BUYER, USER_ROLE_AGENT } from '../../../../../shared/constants/roleConstants.js'
 
 function formatAddress(addr: { address: string; unit: string | null; city: string; state: string; zipCode: string } | null | undefined): string {
   if (!addr) return ''
@@ -46,19 +46,19 @@ export async function listForAdminEntryHandler(req: Request, res: Response): Pro
 
       const rawAttendees = (apt as { attendees?: Array<{ userId: string; user?: { userRole: string } }> }).attendees
       const attendees = Array.isArray(rawAttendees) ? rawAttendees : []
-      let clientUserId: string | null = null
+      let buyerUserId: string | null = null
       let agentUserId: string | null = null
       for (const att of attendees) {
         const u = att.user
         const role = u?.userRole
-        if (role === USER_ROLE_CLIENT && !clientUserId) clientUserId = att.userId
+        if (role === USER_ROLE_BUYER && !buyerUserId) buyerUserId = att.userId
         if ((role === USER_ROLE_AGENT || role === 'inspector') && !agentUserId) agentUserId = att.userId
       }
 
       return {
         id: apt.id,
         address,
-        clientUserId,
+        buyerUserId,
         agentUserId,
       }
     })

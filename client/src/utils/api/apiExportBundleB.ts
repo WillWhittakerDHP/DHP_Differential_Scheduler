@@ -1,4 +1,3 @@
-export * from './adminMetadataApi'
 export * from './propertyApi'
 export * from './userApi'
 export * from './betaFeedbackApi'

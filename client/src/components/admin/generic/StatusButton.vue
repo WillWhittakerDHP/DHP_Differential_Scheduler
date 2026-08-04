@@ -3,8 +3,9 @@
     :color="chipColor"
     :variant="chipVariant"
     size="small"
+    class="status-button"
+    :class="{ 'status-button-override': isOverride, 'status-button--inactive': isInactive }"
     :style="chipStyle"
-    :class="{ 'status-button-override': isOverride }"
     :data-complementary-color="isOverride ? complementaryColor : undefined"
     :data-original-color="isOverride ? props.color : undefined"
     :disabled="disabled"
@@ -70,16 +71,22 @@ const complementaryColor = computed(() => {
   return getComplementaryColor(props.color)
 })
 
+const isInactive = computed(() => props.isActive === false || props.isActive === 'false')
+
 // WHY: Different states need different colors for visual distinction
 const chipColor = computed(() => {
-  return props.color
+  const c = props.color
+  if (c === 'default' || c === 'secondary' || c === 'grey' || c === '') {
+    return 'primary'
+  }
+  return c
 })
 
 const chipVariant = computed(() => {
-  if (props.isActive === false || props.isActive === 'false') {
+  if (isInactive.value) {
     return 'outlined'
   }
-  return 'flat'
+  return 'tonal'
 })
 
 /**

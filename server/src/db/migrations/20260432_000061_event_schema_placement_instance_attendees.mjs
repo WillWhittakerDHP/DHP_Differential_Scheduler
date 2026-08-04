@@ -10,6 +10,29 @@
  * Idempotent where practical. Attendee backfill: first event_instance per event_shape_ref (order_index, id).
  */
 
+async function tableExists(sequelize, tableName) {
+  const [rows] = await sequelize.query(
+    'SELECT to_regclass(:qualifiedName) AS table_name;',
+    { replacements: { qualifiedName: `public.${tableName}` } }
+  )
+  return Boolean(rows?.[0]?.table_name)
+}
+
+async function columnExists(sequelize, tableName, columnName) {
+  const [rows] = await sequelize.query(
+    `
+      SELECT 1
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name = :tableName
+        AND column_name = :columnName
+      LIMIT 1;
+    `,
+    { replacements: { tableName, columnName } }
+  )
+  return rows.length > 0
+}
+
 export default {
   async up(queryInterface) {
     const sequelize = queryInterface.sequelize
@@ -53,25 +76,27 @@ export default {
         ADD COLUMN IF NOT EXISTS anchor_edge VARCHAR(8);
     `)
 
-    await sequelize.query(`
-      UPDATE public.event_shapes
-      SET
-        placement_kind = CASE differential_role::text
-          WHEN 'major' THEN 'primary'
-          WHEN 'minor' THEN 'secondary'
-          WHEN 'minimizer' THEN 'floating'
-          WHEN 'margin' THEN 'marginal'
-          ELSE 'primary'
-        END,
-        anchor_edge = CASE differential_role::text
-          WHEN 'major' THEN NULL
-          WHEN 'minor' THEN 'start'
-          WHEN 'minimizer' THEN 'start'
-          WHEN 'margin' THEN 'start'
-          ELSE NULL
-        END
-      WHERE placement_kind IS NULL;
-    `)
+    if (await columnExists(sequelize, 'event_shapes', 'differential_role')) {
+      await sequelize.query(`
+        UPDATE public.event_shapes
+        SET
+          placement_kind = CASE differential_role::text
+            WHEN 'major' THEN 'primary'
+            WHEN 'minor' THEN 'secondary'
+            WHEN 'minimizer' THEN 'floating'
+            WHEN 'margin' THEN 'marginal'
+            ELSE 'primary'
+          END,
+          anchor_edge = CASE differential_role::text
+            WHEN 'major' THEN NULL
+            WHEN 'minor' THEN 'start'
+            WHEN 'minimizer' THEN 'start'
+            WHEN 'margin' THEN 'start'
+            ELSE NULL
+          END
+        WHERE placement_kind IS NULL;
+      `)
+    }
 
     await sequelize.query(`
       UPDATE public.event_shapes
@@ -98,39 +123,41 @@ export default {
         );
     `)
 
-    await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees
-        ADD COLUMN IF NOT EXISTS event_instance_id UUID REFERENCES public.event_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
-    `)
+    if (await tableExists(sequelize, 'event_shape_attendees')) {
+      await sequelize.query(`
+        ALTER TABLE public.event_shape_attendees
+          ADD COLUMN IF NOT EXISTS event_instance_id UUID REFERENCES public.event_instances(id) ON UPDATE CASCADE ON DELETE CASCADE;
+      `)
 
-    await sequelize.query(`
-      UPDATE public.event_shape_attendees esa
-      SET event_instance_id = pick.id
-      FROM (
-        SELECT DISTINCT ON (event_shape_ref) event_shape_ref AS shape_id, id
-        FROM public.event_instances
-        ORDER BY event_shape_ref, order_index ASC, id ASC
-      ) pick
-      WHERE pick.shape_id = esa.event_shape_id AND esa.event_instance_id IS NULL;
-    `)
+      await sequelize.query(`
+        UPDATE public.event_shape_attendees esa
+        SET event_instance_id = pick.id
+        FROM (
+          SELECT DISTINCT ON (event_shape_ref) event_shape_ref AS shape_id, id
+          FROM public.event_instances
+          ORDER BY event_shape_ref, order_index ASC, id ASC
+        ) pick
+        WHERE pick.shape_id = esa.event_shape_id AND esa.event_instance_id IS NULL;
+      `)
 
-    await sequelize.query(`
-      DELETE FROM public.event_shape_attendees WHERE event_instance_id IS NULL;
-    `)
+      await sequelize.query(`
+        DELETE FROM public.event_shape_attendees WHERE event_instance_id IS NULL;
+      `)
 
-    await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees DROP CONSTRAINT IF EXISTS event_shape_attendees_event_shape_id_fkey;
-    `)
-    await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees DROP COLUMN IF EXISTS event_shape_id;
-    `)
+      await sequelize.query(`
+        ALTER TABLE public.event_shape_attendees DROP CONSTRAINT IF EXISTS event_shape_attendees_event_shape_id_fkey;
+      `)
+      await sequelize.query(`
+        ALTER TABLE public.event_shape_attendees DROP COLUMN IF EXISTS event_shape_id;
+      `)
 
-    await sequelize.query(`
-      DROP INDEX IF EXISTS public.idx_event_shape_attendees_event_shape_id;
-    `)
-    await sequelize.query(`
-      ALTER TABLE public.event_shape_attendees RENAME TO event_instance_attendees;
-    `)
+      await sequelize.query(`
+        DROP INDEX IF EXISTS public.idx_event_shape_attendees_event_shape_id;
+      `)
+      await sequelize.query(`
+        ALTER TABLE public.event_shape_attendees RENAME TO event_instance_attendees;
+      `)
+    }
 
     await sequelize.query(`
       ALTER TABLE public.event_instance_attendees
@@ -142,8 +169,18 @@ export default {
         DROP CONSTRAINT IF EXISTS unique_event_shape_attendee;
     `)
     await sequelize.query(`
-      ALTER TABLE public.event_instance_attendees
-        ADD CONSTRAINT unique_event_instance_attendee UNIQUE (event_instance_id, user_type_block_instance_id);
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1
+          FROM pg_constraint
+          WHERE conname = 'unique_event_instance_attendee'
+            AND conrelid = 'public.event_instance_attendees'::regclass
+        ) THEN
+          ALTER TABLE public.event_instance_attendees
+            ADD CONSTRAINT unique_event_instance_attendee UNIQUE (event_instance_id, user_type_block_instance_id);
+        END IF;
+      END $$;
     `)
 
     await sequelize.query(`

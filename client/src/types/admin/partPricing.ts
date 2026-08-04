@@ -1,9 +1,11 @@
 /**
- * Shared part pricing fields (base + rate over base for time and fee).
+ * Shared part pricing fields (base + per-unit values for time and fee).
  */
 export interface PartPricingFields {
   baseFee?: number | null
   baseTime?: number | null
-  rateOverBaseFee?: number | null
-  rateOverBaseTime?: number | null
+  feePerUnit?: number | null
+  timePerUnit?: number | null
+  baseMultiplier?: number | null
+  rateMultiplier?: number | null
 }

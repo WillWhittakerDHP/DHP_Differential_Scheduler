@@ -18,6 +18,7 @@ const RELATIONSHIP_KEYS = [
   'validAnnotationAssignments',
   'validEventCascades',
   'bookingCascades',
+  'accumulationLinks',
   'pricingCascades',
   'validPricingCascades',
   'partAssignments',
@@ -37,6 +38,7 @@ function buildRelationshipDataForEntity<GE extends GlobalEntityKey>(
     validAnnotationAssignments: 'validAnnotationAssignments',
     validEventCascades: 'validEventCascades',
     bookingCascades: 'bookingCascades',
+    accumulationLinks: 'accumulationLinks',
     pricingCascades: 'pricingCascades',
     validPricingCascades: 'validPricingCascades',
     partAssignments: 'partAssignments',
@@ -145,7 +147,8 @@ export function transformGlobalToAdmin(globalData: GlobalData): AdminObjectMap {
     })
   )
 
-  return { ...adminObjectMap, ...transformed }
+  // WHY: `Object.fromEntries` erases per-key entity typing; merge is structurally AdminObjectMap.
+  return { ...adminObjectMap, ...transformed } as AdminObjectMap
 }
 
 /** Backward-compat singleton for call sites that use adminTransformer.transformGlobalToAdmin(...) */

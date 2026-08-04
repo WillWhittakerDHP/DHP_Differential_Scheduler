@@ -6,6 +6,7 @@ export const RELATIONSHIP_KEYS = {
   validPricingCascades: true,
   dependentInstances: true,
   bookingCascades: true,
+  accumulationLinks: true,
   pricingCascades: true,
   partAssignments: true,
   annotationAssignments: true,

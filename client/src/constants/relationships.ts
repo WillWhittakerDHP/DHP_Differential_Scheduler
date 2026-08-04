@@ -26,15 +26,15 @@ export const RELATIONSHIP_KEYS = {
     parentEntity: 'blockShape' as GlobalEntityKey,
     childEntity: 'eventShape' as GlobalEntityKey,
   },
-  dependentInstances: {
-    backendName: 'dependent_instances',
-    frontendKey: 'dependentInstances',
-    parentEntity: 'blockInstance' as GlobalEntityKey,
-    childEntity: 'blockInstance' as GlobalEntityKey,
-  },
   bookingCascades: {
     backendName: 'booking_cascades',
     frontendKey: 'bookingCascades',
+    parentEntity: 'blockInstance' as GlobalEntityKey,
+    childEntity: 'blockInstance' as GlobalEntityKey,
+  },
+  accumulationLinks: {
+    backendName: 'accumulation_links',
+    frontendKey: 'accumulationLinks',
     parentEntity: 'blockInstance' as GlobalEntityKey,
     childEntity: 'blockInstance' as GlobalEntityKey,
   },

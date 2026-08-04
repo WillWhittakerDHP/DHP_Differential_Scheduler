@@ -1,19 +1,15 @@
 /**
  * WHY: Keeps useInstanceDragAndDrop thin so composable-logic audit stays within thresholds.
+ * NOTE: Grouped-zone drag end + orderIndex persistence live in `blockInstanceDragOrderOrchestrator.ts`.
  */
-import type { ComputedRef, Ref } from 'vue'
 import type { BlockInstanceEntity } from '@/types/entities'
-import { createLogger } from '@/utils/logger'
-import type { GlobalEntityId } from '@shared/types/primitiveBrands'
 import type { GlobalEntity } from '@/types/entities'
-import type { PatchOrderIndex } from '@/types/admin/entityDragHandlers'
 import { groupedInstanceDragZoneKey as groupedInstanceDragZoneKeyUtil } from '@/utils/admin/instanceDragZoneKeys'
-
-const logger = createLogger('useInstanceDragAndDropGrouped')
+import { isWizardTopLine } from '@shared/constants/wizardPlacement'
 
 function isAdminStandaloneSectionCore(instance: GlobalEntity<'blockInstance'>): boolean {
   const b = instance as BlockInstanceEntity
-  return b.wizardVisible !== false
+  return isWizardTopLine(b.wizardPlacement)
 }
 
 export function isAdminStandaloneSection(instance: GlobalEntity<'blockInstance'>): boolean {
@@ -35,42 +31,4 @@ export function dragLayoutSignature(
   groupedMap: Map<string, GlobalEntity<'blockInstance'>[]>
 ): string {
   return `${listMembershipSignature(mainMap)}||${listMembershipSignature(groupedMap)}`
-}
-
-export function createGroupedZoneDragEndHandler(params: {
-  blockShapeId: string
-  groupedEntityIds: Ref<string[]>
-  groupedEntityList: Ref<GlobalEntity<'blockInstance'>[]>
-  blockInstancesByShape: ComputedRef<Map<string, GlobalEntity<'blockInstance'>[]>>
-  patchOrderIndex: PatchOrderIndex
-}): () => Promise<void> {
-  const { blockShapeId, groupedEntityIds, groupedEntityList, blockInstancesByShape, patchOrderIndex } = params
-
-  const syncGroupedFromSource = (): void => {
-    const grouped =
-      blockInstancesByShape.value.get(blockShapeId)?.filter((e) => !isAdminStandaloneSectionCore(e)) ?? []
-    groupedEntityList.value = [...grouped]
-    groupedEntityIds.value = grouped.map((e) => e.id)
-  }
-
-  return async (): Promise<void> => {
-    try {
-      const all = blockInstancesByShape.value.get(blockShapeId) ?? []
-      const idToEntity = new Map(all.map((e) => [e.id, e]))
-      const mainOrderedStable = all.filter((e) => isAdminStandaloneSectionCore(e))
-      const groupedOrdered = groupedEntityIds.value
-        .map((id) => idToEntity.get(id as GlobalEntityId))
-        .filter((e): e is GlobalEntity<'blockInstance'> => e !== undefined)
-      const merged = [...mainOrderedStable, ...groupedOrdered]
-      const updates = merged.map((entity, index) => ({
-        id: entity.id,
-        orderIndex: index
-      }))
-      groupedEntityList.value = groupedOrdered
-      await patchOrderIndex(updates)
-    } catch (_error) {
-      logger.error('Failed to patch order index after grouped-zone drag', { error: _error, blockShapeId })
-      syncGroupedFromSource()
-    }
-  }
 }

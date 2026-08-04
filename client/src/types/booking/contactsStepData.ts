@@ -7,12 +7,10 @@ export type ContactInfo = ContactInfoBase
 
 /** Ref bundle for contact step fields (composable internals + inject context base). */
 export interface ContactRefs {
-  clientInfo: Ref<ContactInfo>
+  buyerInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  showAnotherClient: Ref<boolean>
-  transactionManagerInfo: Ref<ContactInfo>
-  showTransactionManager: Ref<boolean>
+  anotherBuyerInfo: Ref<ContactInfo>
+  showAnotherBuyer: Ref<boolean>
   ownerInfo: Ref<ContactInfo>
   showOwner: Ref<boolean>
 }
@@ -24,23 +22,19 @@ export interface UseContactsStepDataOptions {
 }
 
 export interface UseContactsStepDataReturn {
-  clientInfo: Ref<ContactInfo>
+  buyerInfo: Ref<ContactInfo>
   agentInfo: Ref<ContactInfo>
-  anotherClientInfo: Ref<ContactInfo>
-  transactionManagerInfo: Ref<ContactInfo>
+  anotherBuyerInfo: Ref<ContactInfo>
   ownerInfo: Ref<ContactInfo>
-  showAnotherClient: Ref<boolean>
-  showTransactionManager: Ref<boolean>
+  showAnotherBuyer: Ref<boolean>
   showOwner: Ref<boolean>
   stepData: Ref<{
-    clientInfo: ContactInfo
+    buyerInfo: ContactInfo
     agentInfo: ContactInfo
-    anotherClientInfo: ContactInfo
-    transactionManagerInfo: ContactInfo
+    anotherBuyerInfo: ContactInfo
     ownerInfo: ContactInfo
-    showAnotherClient: boolean
-    showTransactionManager: boolean
+    showAnotherBuyer: boolean
     showOwner: boolean
   }>
-  toggleSection: (section: 'anotherClient' | 'transactionManager' | 'owner', show: boolean) => void
+  toggleSection: (section: 'anotherBuyer' | 'owner', show: boolean) => void
 }

@@ -16,7 +16,7 @@ const logger = createLogger('partFinalizerSlotShape')
 
 export function calculateSlotShape(
   blockFinals: BlockFinal[],
-  eventAssignmentsByPartShape: Record<string, EventInstance[]> = {},
+  eventAssignmentsByPartInstanceId: Record<string, EventInstance[]> = {},
   eventShapes: EventShape[] = [],
   roundingSettings?: AvailabilitySettings | null,
   resolvedTimeRounding?: ResolvedNumericPolicy['timeAndRounding'] | null,
@@ -25,7 +25,7 @@ export function calculateSlotShape(
 
   const { totalRawDuration, eventRawDurations } = accumulateRawDurationsFromBlockFinals(
     blockFinals,
-    eventAssignmentsByPartShape,
+    eventAssignmentsByPartInstanceId,
     eventShapeById,
     logger,
   )

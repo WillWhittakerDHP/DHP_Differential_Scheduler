@@ -2,12 +2,18 @@ import type { DifferentialRole, DifferentialRoleStorage } from '../types/differe
 import { parseDifferentialRole } from './differentialRoleUtils.js'
 
 /** Feature 20 / Principles §5.1 — placement category on event_shapes. */
-export type EventPlacementKind = 'primary' | 'secondary' | 'marginal' | 'floating'
+export type EventPlacementKind = 'primary' | 'secondary' | 'marginal' | 'floating' | 'none'
 
-/** Anchor edge for non-primary placement kinds; null for primary. */
+/** Anchor edge for timed non-primary kinds; null for primary and none. */
 export type EventAnchorEdge = 'start' | 'end'
 
-const PLACEMENT_KINDS = new Set<EventPlacementKind>(['primary', 'secondary', 'marginal', 'floating'])
+const PLACEMENT_KINDS = new Set<EventPlacementKind>([
+  'primary',
+  'secondary',
+  'marginal',
+  'floating',
+  'none',
+])
 const ANCHOR_EDGES = new Set<EventAnchorEdge>(['start', 'end'])
 
 export function isEventPlacementKind(value: unknown): value is EventPlacementKind {
@@ -54,13 +60,16 @@ export function differentialRoleFromPlacement(
       return 'margin'
     case 'floating':
       return 'minimizer'
+    case 'none':
+      // No timed calendar segment (e.g. no presentation).
+      return 'minor'
     case 'primary':
     default:
       return 'major'
   }
 }
 
-/** Maps stored placement fields to the scheduling role consumed with `effectiveDifferentialRole` overrides. */
+/** Maps stored placement fields to the scheduling role used by booking (placement is source of truth). */
 export function eventShapeDifferentialRoleFromPlacementFields(
   placementKind: unknown,
   anchorEdge: unknown
@@ -68,6 +77,11 @@ export function eventShapeDifferentialRoleFromPlacementFields(
   const k = sanitizeEventPlacementKindInput(placementKind) ?? 'primary'
   const e = sanitizeEventAnchorEdgeInput(anchorEdge)
   return parseDifferentialRole(differentialRoleFromPlacement(k, e))
+}
+
+/** True when this placement intentionally creates no timed calendar segment. */
+export function isNonScheduledEventPlacement(kind: EventPlacementKind | null | undefined): boolean {
+  return kind === 'none'
 }
 
 /** Minimal shape for ordering calendar invite creation by `event_shapes` placement (FEATURE_20 §5.1). */
@@ -89,6 +103,8 @@ function placementKindCalendarRank(kind: EventPlacementKind): number {
       return 2
     case 'floating':
       return 3
+    case 'none':
+      return 4
     default:
       return 0
   }

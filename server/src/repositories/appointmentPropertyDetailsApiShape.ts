@@ -50,6 +50,9 @@ function applyPropertyDetailSlice(out: Record<string, unknown>, det: Record<stri
   out.bathrooms = det.bathrooms ?? null
   out.foundationAccess = det.foundationAccess ?? null
   out.additionalUnits = det.additionalUnits ?? null
+  out.hvacCount = det.hvacCount ?? null
+  out.waterHeaterCount = det.waterHeaterCount ?? null
+  out.kitchenApplianceCount = det.kitchenApplianceCount ?? null
   out.propertySize = det.squareFootage ?? null
   out.numberOfUnits = det.additionalUnits ?? null
 }

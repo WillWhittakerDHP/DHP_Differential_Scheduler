@@ -23,11 +23,28 @@ export function createRelationshipCollectionFieldConfig<
   }
 }
 
-function resolveRelationshipOptionsFieldKey(
+/**
+ * Map instance relationship keys → shape-level validity fields.
+ * Renames like validPartCascades broke the naive `*Assignments` → `valid*s` heuristic.
+ */
+const OPTIONS_FIELD_BY_RELATIONSHIP: Record<string, string> = {
+  partAssignments: 'validPartCascades',
+  bookingCascades: 'validBookingCascades',
+  pricingCascades: 'validPricingCascades',
+  eventAssignments: 'validEventCascades',
+  annotationAssignments: 'validAnnotationAssignments',
+}
+
+/** Exported for unit tests — keeps Parts / cascade option lookups correct. */
+export function resolveRelationshipOptionsFieldKey(
   composableName: string,
   selectConfig: { selectedChildPath?: unknown[] },
   relationshipKey: string
 ): string {
+  const mapped = OPTIONS_FIELD_BY_RELATIONSHIP[relationshipKey]
+  if (mapped) {
+    return mapped
+  }
   if (relationshipKey.endsWith('Assignments')) {
     const withoutAssignments = relationshipKey.replace(/Assignments$/, '')
     const pluralized = `${withoutAssignments}s`

@@ -1,4 +1,4 @@
-import type { Ref, ComponentPublicInstance, ComputedRef } from 'vue'
+import type { Ref, ComponentPublicInstance, ComputedRef, MaybeRefOrGetter } from 'vue'
 import type { GlobalEntity } from '@/types/entities'
 import type { GlobalEntityKey } from '@/constants/entities'
 
@@ -15,6 +15,10 @@ export interface UseDragAndDropParams<EntityKey extends GlobalEntityKey = Global
   draggableClass: string
   /** When set, drag starts only from this selector (e.g. grip). Omit to allow dragging from the whole draggable panel. */
   dragHandle?: string
+  /** Extra reactive inputs so bind re-runs when tabs/visibility change (lazy VWindow). */
+  visibilityDeps?: MaybeRefOrGetter<readonly unknown[]>
+  /** When false, tear down FormKit for this group and skip mount (off-screen list). */
+  shouldBind?: MaybeRefOrGetter<boolean>
 }
 
 export interface UseDragAndDropReturn {

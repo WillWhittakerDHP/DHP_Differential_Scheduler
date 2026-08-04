@@ -7,7 +7,6 @@ import type { UseAdminAvailabilitySettingsReturn } from '@/types/admin/availabil
 import type { UseAdminCalendarSettingsReturn } from '@/types/admin/calendarSettings'
 import type { UseAdminWizardSettingsReturn } from '@/types/admin/wizardSettings'
 import type { UseAdminOrganizationDefaultsReturn } from '@/composables/admin/useAdminOrganizationDefaults'
-import type { UseAdminUserRoleBlockAlignmentReturn } from '@/composables/admin/useAdminUserRoleBlockAlignment'
 
 export interface UseBusinessControlsTabSaveAndStatusDeps {
   currentMainTab: Ref<string>
@@ -15,7 +14,6 @@ export interface UseBusinessControlsTabSaveAndStatusDeps {
   calendar: UseAdminCalendarSettingsReturn
   wizard: UseAdminWizardSettingsReturn
   organization: UseAdminOrganizationDefaultsReturn
-  userRoleBlockAlignment: UseAdminUserRoleBlockAlignmentReturn
 }
 
 export interface UseBusinessControlsTabSaveAndStatusReturn {
@@ -29,15 +27,14 @@ export interface UseBusinessControlsTabSaveAndStatusReturn {
 export function useBusinessControlsTabSaveAndStatus(
   deps: UseBusinessControlsTabSaveAndStatusDeps
 ): UseBusinessControlsTabSaveAndStatusReturn {
-  const { currentMainTab, availability, calendar, wizard, organization, userRoleBlockAlignment } = deps
+  const { currentMainTab, availability, calendar, wizard, organization } = deps
 
   const loading = computed(
     () =>
       availability.loading.value ||
       calendar.loading.value ||
       wizard.loading.value ||
-      organization.loading.value ||
-      userRoleBlockAlignment.loading.value
+      organization.loading.value
   )
 
   const error = computed(
@@ -45,8 +42,7 @@ export function useBusinessControlsTabSaveAndStatus(
       availability.error.value ??
       calendar.error.value ??
       wizard.error.value ??
-      organization.error.value ??
-      userRoleBlockAlignment.error.value
+      organization.error.value
   )
 
   const success = computed(
@@ -54,8 +50,7 @@ export function useBusinessControlsTabSaveAndStatus(
       availability.success.value ??
       calendar.success.value ??
       wizard.success.value ??
-      organization.success.value ??
-      userRoleBlockAlignment.success.value
+      organization.success.value
   )
 
   async function handleSave(): Promise<void> {
@@ -78,10 +73,6 @@ export function useBusinessControlsTabSaveAndStatus(
     }
     if (tab === 'organization') {
       await organization.saveSettings()
-      return
-    }
-    if (tab === 'roleAlignment') {
-      await userRoleBlockAlignment.saveSettings()
     }
   }
 
@@ -90,7 +81,6 @@ export function useBusinessControlsTabSaveAndStatus(
     calendar.error.value = null
     wizard.error.value = null
     organization.error.value = null
-    userRoleBlockAlignment.error.value = null
   }
 
   return {

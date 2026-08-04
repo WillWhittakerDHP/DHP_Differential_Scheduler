@@ -18,7 +18,7 @@
           <VRow density="comfortable" class="ma-0">
             <VCol
               v-for="(part, index) in finalizedParts"
-              :key="index"
+              :key="partFinalLineageKey(part) + String(index)"
               :cols="12 / finalizedParts.length"
             >
               <VCard variant="outlined" density="compact" class="pa-2">
@@ -38,9 +38,9 @@
                     >
                       <VIcon
                         size="x-small"
-                        :color="ctx.hasEventForPart(part.partShape, eventShape) ? 'success' : 'default'"
+                        :color="ctx.hasEventForPart(partFinalLineageKey(part), eventShape) ? 'success' : 'default'"
                       >
-                        {{ ctx.hasEventForPart(part.partShape, eventShape) ? 'tabler-check' : 'tabler-x' }}
+                        {{ ctx.hasEventForPart(partFinalLineageKey(part), eventShape) ? 'tabler-check' : 'tabler-x' }}
                       </VIcon>
                       <span class="text-body-small">{{ eventShape.name }}</span>
                     </div>
@@ -100,8 +100,7 @@
               <VListItemTitle class="text-body-medium">{{ service.name }}</VListItemTitle>
               <VListItemSubtitle class="text-body-small">
                 Orchestrator: {{ service.orchestrator ? 'Yes' : 'No' }} |
-                Wizard visible: {{ service.wizardVisible ? 'Yes' : 'No' }} |
-                Base SqFt: {{ service.baseSqFt }} |
+                Placement: {{ service.wizardPlacement }} |
                 Parts: {{ service.partCount }}
               </VListItemSubtitle>
             </VListItem>
@@ -137,7 +136,16 @@
 
 <script setup lang="ts">
 import { computed, inject } from 'vue'
+import type { PartFinal } from '@/types/booking/partFinal'
 import { instancesPanelContextKey } from '@/keys/bookingInjectionKeys'
+
+function partFinalLineageKey(part: PartFinal): string {
+  const id = part.sourcePartInstances[0]?.id
+  if (id !== undefined && id !== '') {
+    return id
+  }
+  return part.partShape
+}
 
 const injected = inject(instancesPanelContextKey)
 if (!injected) {

@@ -38,13 +38,13 @@ export interface AppointmentRequest {
   userTypeBlockId?: string | null
   selectedServiceIds?: string[] | null
   serviceQuantities?: Record<string, number> | null
-  selectedPropertyIds?: string[] | null
-  propertyQuantities?: Record<string, number> | null
-  selectedOptionIds?: string[] | null
-  optionQuantities?: Record<string, number> | null
+  selectedTimeIds?: string[] | null
+  timeQuantities?: Record<string, number> | null
+  selectedEventIds?: string[] | null
+  eventQuantities?: Record<string, number> | null
   serviceSnapshotIds?: string[] | null
-  propertySnapshotIds?: string[] | null
-  optionSnapshotIds?: string[] | null
+  timeSnapshotIds?: string[] | null
+  eventSnapshotIds?: string[] | null
   selectedDate?: ISO8601Date | null
   selectedDateRangeEnd?: ISO8601Date | null
   selectedTimeSlots?: AppointmentSelectedTimeSlotPayload[] | null
@@ -74,13 +74,13 @@ export interface AppointmentResponse {
   userTypeId?: string | null
   selectedServiceIds?: string[] | null
   serviceQuantities?: Record<string, number> | null
-  selectedPropertyIds?: string[] | null
-  propertyQuantities?: Record<string, number> | null
-  selectedOptionIds?: string[] | null
-  optionQuantities?: Record<string, number> | null
+  selectedTimeIds?: string[] | null
+  timeQuantities?: Record<string, number> | null
+  selectedEventIds?: string[] | null
+  eventQuantities?: Record<string, number> | null
   serviceSnapshotIds?: string[] | null
-  propertySnapshotIds?: string[] | null
-  optionSnapshotIds?: string[] | null
+  timeSnapshotIds?: string[] | null
+  eventSnapshotIds?: string[] | null
   selectedDate?: ISO8601Date | null
   selectedDateRangeEnd?: ISO8601Date | null
   selectedTimeSlots?: Array<Record<string, unknown>> | null

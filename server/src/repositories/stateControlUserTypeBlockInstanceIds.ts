@@ -11,7 +11,7 @@ export async function getStateControlUserTypeBlockInstanceIdSet(
 ): Promise<Set<string>> {
   const stateShapes = await BlockShape.findAll({
     attributes: ['id'],
-    where: { type: 'user' },
+    where: { semanticType: 'user' },
     transaction,
   })
   const shapeIds = stateShapes.map((s) => s.id)

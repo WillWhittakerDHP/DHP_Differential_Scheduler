@@ -1,5 +1,5 @@
 
-import { DISPLAY_LABELS, ENTITY_STATUS } from '@/constants/entityFieldConstants'
+import { DISPLAY_LABELS } from '@/constants/entityFieldConstants'
 import type { GlobalFieldKey } from '@/constants/primitives'
 import type { DisplayFieldType } from '../displayFieldTypes'
 import { baseEntityDisplays } from './baseEntityDisplays'
@@ -36,23 +36,15 @@ export const blockShapeDisplays = {
     style: { margin: "auto", resize: "none", width: "100%" },
   },
 
-  active: {
-    label: ENTITY_STATUS.ACTIVE,
-    placeholder: "",
-    inline: true,
-    stacked: false,
-    width: "auto",
-    align: "center",
-  },
-
-  type: {
-    label: "Type",
-    placeholder: "Select block shape type",
+  semanticType: {
+    label: "App-wide Semantic Type",
+    placeholder: "Select app-wide semantic type",
     inline: false,
     stacked: true,
     width: "20%",
     align: "left",
-    tooltip: "Semantic type identifier for this block shape. Used for stable filtering independent of display name.",
+    tooltip:
+      "App-wide semantic type for this block shape. Used for stable filtering and booking behavior independent of display name.",
   },
 } satisfies Partial<Record<GlobalFieldKey<"blockShape">, DisplayFieldType<"blockShape", GlobalFieldKey<"blockShape">>>>;
 

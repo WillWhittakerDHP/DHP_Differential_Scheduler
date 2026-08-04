@@ -8,6 +8,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
+
 export class PartInstanceVersion extends Model<
   InferAttributes<PartInstanceVersion>,
   InferCreationAttributes<PartInstanceVersion>
@@ -18,8 +19,10 @@ export class PartInstanceVersion extends Model<
   declare name: string | null;
   declare baseFee: number;
   declare baseTime: number;
-  declare rateOverBaseFee: number;
-  declare rateOverBaseTime: number;
+  declare feePerUnit: number;
+  declare timePerUnit: number;
+  declare baseMultiplier: number;
+  declare rateMultiplier: number;
   declare createdAt: CreationOptional<Date>;
   
   /** Associated block instance version (typed as Model | null to avoid circular type reference with BlockInstanceVersion) */
@@ -64,15 +67,27 @@ export function PartInstanceVersionFactory(sequelize: Sequelize) {
         allowNull: false,
         field: 'base_time',
       },
-      rateOverBaseFee: {
+      feePerUnit: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'rate_over_base_fee',
+        field: 'fee_per_unit',
       },
-      rateOverBaseTime: {
+      timePerUnit: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'rate_over_base_time',
+        field: 'time_per_unit',
+      },
+      baseMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
+        field: 'base_multiplier',
+      },
+      rateMultiplier: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 1,
+        field: 'rate_multiplier',
       },
       createdAt: {
         type: DataTypes.DATE,

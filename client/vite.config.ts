@@ -7,6 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
+  envDir: fileURLToPath(new URL('..', import.meta.url)),
   plugins: [
     vue(),
     vuetify({ autoImport: true }),

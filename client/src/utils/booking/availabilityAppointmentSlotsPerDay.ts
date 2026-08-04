@@ -33,8 +33,7 @@ export function buildAppointmentSlotsPerDayRows(
         undefined,
         undefined,
         undefined,
-        undefined,
-        settings
+        settings,
       )
       const normalized = normalizeAppointmentSlotsByOrderIndex(
         calculatedSlots.map((calculatedSlot) => ({

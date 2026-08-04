@@ -1,11 +1,12 @@
 import { timingSafeEqual } from 'crypto'
-import { Request, Response, NextFunction } from 'express'
+import { type RequestHandler, Request, Response, NextFunction } from 'express'
 import { AUTH_FAILURE_CODES } from '../auth/strategies/strategyTypes.js'
 import { resolveAuthenticatedUserForRequest } from '../auth/resolveAuthenticatedUser.js'
 import { getAuthSessionBySid } from '../auth/sessionManager.js'
 import { getSessionIdFromRequest } from '../auth/sessionCookie.js'
 import { createLogger } from '../utils/logger.js'
 import { CSRF_HEADER_NAME, readStoredCsrfToken } from './csrfIssuance.js'
+import type { OwnershipResourceName } from './ownershipRegistry.js'
 import { isInternalStaffRole, runOwnershipCheck } from './ownershipEnforcement.js'
 
 const authLogger = createLogger('middleware.requireAuth')
@@ -197,6 +198,18 @@ export function requireAuthThenStaffOrOwnership(
       next(error)
     }
   }
+}
+
+/**
+ * Canonical mutation middleware chain for internal routes that use `checkOwnership` / ownership registry.
+ * Order is fixed: CSRF (when a session cookie is present), `requireAuth` (sets `req.user`), then registry rules.
+ * Do not reorder — `checkOwnership` requires `req.user` from `requireAuth`.
+ */
+export function staffMutations(
+  resourceName: OwnershipResourceName,
+  paramKey: string = 'id'
+): RequestHandler[] {
+  return [csrfProtection, requireAuth, checkOwnership(resourceName, paramKey)]
 }
 
 /**
