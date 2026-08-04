@@ -74,6 +74,10 @@ function shouldShowDirectField<GE extends GlobalEntityKey>(
   fieldKey: GlobalFieldKey<GE>,
   options: UseConditionalFieldVisibilityOptions<GE>
 ): boolean {
+  // Defense: Components belong in the composition panel when Composite is on — never loose on the card.
+  if (String(fieldKey) === 'instanceComponents') {
+    return false
+  }
   const accumulatorGate = shouldShowAccumulatorScopedField(fieldKey, options)
   if (accumulatorGate !== null) {
     return accumulatorGate
@@ -130,6 +134,7 @@ export function useConditionalFieldVisibility<GE extends GlobalEntityKey = Globa
         ...base.subPanels,
         parts: filterFieldsForEntity(base.subPanels.parts, options),
         relationships: filterFieldsForEntity(base.subPanels.relationships, options),
+        annotations: filterFieldsForEntity(base.subPanels.annotations, options),
         events: filterFieldsForEntity(base.subPanels.events, options),
         composition: filteredComposition,
       },

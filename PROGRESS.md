@@ -356,6 +356,7 @@ Truth source: live Postgres schema + `server/src/db/models/` + grep for read/wri
   - Routing rows now include **service + time** parts (Source column); packages (`composite` or `orchestrator`) see full catalog; modifier-only atomics stay segment-gated (panel hidden without segments).
   - Migration `082`: **Minimize Time On Site** composite with Early Arrival / Primary / Formal Presentation / Off-Site; **Standard Event Schedule** (hidden) with Primary; Buyer's Inspection cascades + baseline → Standard Primary; report→Off-Site and presentation→Formal Presentation overrides; soft-hid competing segment-named wizard atomics.
   - Flagship `minimizeTimeOnSite.test.ts` + routing tests green. Manual wizard walkthrough still needed for §6.1 calendar invites.
+- **Add work items on block cards (2026-08-04):** Parts are where values live — service/time/fee cards can now **Add** a part shape on the ledger (create `partInstance` + `part_assignments`), not only edit existing rows. Fixed Parts-panel options key (`partAssignments` → `validPartCascades`). Migration `083` seeds time/price `valid_part_cascades` so Property Details / Fees can attach parts.
 
 **UI follow-up quality gates 2026-07-14:** client typecheck, full client Vitest (14 files / 42 tests), client lint, and client production build green.
 

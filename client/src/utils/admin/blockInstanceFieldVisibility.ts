@@ -63,8 +63,15 @@ export function shouldShowBlockInstanceField(
     return false
   }
 
-  // Event part modifiers use the dedicated atomic attach UI — hide the generic Parts panel.
-  if (semanticType === BLOCK_SHAPE_TYPES.EVENT && key === 'partAssignments') {
+  // Work-item ledger / event part-shape UI owns add/edit of parts — hide the
+  // duplicate RelationshipCollection placeholders (“Click to create part instance”).
+  if (
+    (semanticType === BLOCK_SHAPE_TYPES.SERVICE ||
+      semanticType === BLOCK_SHAPE_TYPES.TIME ||
+      semanticType === BLOCK_SHAPE_TYPES.PRICE ||
+      semanticType === BLOCK_SHAPE_TYPES.EVENT) &&
+    key === 'partAssignments'
+  ) {
     return false
   }
 

@@ -267,6 +267,7 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
     annotationAssignments: mk('annotationAssignments', 'Annotation assignments', 21, {
       dataType: 'array',
       renderAs: R.RELATIONSHIP_COLLECTION,
+      visibility: V.EXPANDED_PANEL,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.annotationAssignments },
       panel: FIELD_NAMES.ANNOTATIONS,
     }),
@@ -290,7 +291,9 @@ function globalBlockInstance(): Record<string, FieldMetadataEntry> {
     instanceComponents: mk('instanceComponents', 'Instance components', 24, {
       dataType: 'array',
       renderAs: R.MULTISELECT,
+      visibility: V.EXPANDED_PANEL,
       inputConfig: { ...codeFirstBlockInstanceSelectInputs.instanceComponents },
+      panel: P.COMPOSITION,
     }),
   }
 }

@@ -51,4 +51,10 @@ describe('blockInstanceFieldVisibility', () => {
     expect(shouldShowBlockInstanceField('instanceComponents', BLOCK_SHAPE_TYPES.EVENT)).toBe(true)
     expect(shouldShowBlockInstanceField('eventAssignments', BLOCK_SHAPE_TYPES.EVENT)).toBe(false)
   })
+
+  it('hides generic partAssignments on service/time/price — Work items ledger owns parts', () => {
+    expect(shouldShowBlockInstanceField('partAssignments', BLOCK_SHAPE_TYPES.SERVICE)).toBe(false)
+    expect(shouldShowBlockInstanceField('partAssignments', BLOCK_SHAPE_TYPES.TIME)).toBe(false)
+    expect(shouldShowBlockInstanceField('partAssignments', BLOCK_SHAPE_TYPES.PRICE)).toBe(false)
+  })
 })
